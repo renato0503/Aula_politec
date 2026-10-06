@@ -1,0 +1,792 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prova de Nivelamento — POLITEC/MT</title>
+<meta name="description" content="Prova de nivelamento do curso de Analise de Dados, BI e IA da POLITEC/MT">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  --paper:#faf9f6; --surface:#ffffff; --raised:#f3f1ec; --border:#e3e0d8;
+  --ink:#1a1d1e; --ink-soft:#4a4f52; --ink-faint:#82888c;
+  --accent:#12507f; --accent-soft:#e6eff7;
+  --verde:#1c8a5b; --ambar:#b4790a; --roxo:#6b3fa0; --red:#c0392b;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 26px -14px rgba(20,30,40,.25);
+}
+@media(prefers-color-scheme:dark){
+  :root{ --paper:#15171a; --surface:#1b1e22; --raised:#20242a; --border:#2c3036;
+    --ink:#eceeef; --ink-soft:#b6bcc2; --ink-faint:#7d858c;
+    --accent:#5fa8dd; --accent-soft:#16283a;
+    --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -16px rgba(0,0,0,.7); }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.6}
+h1,h2,h3,.kicker,.meta,.foot,.questao label,.bloco-titulo{font-family:'Archivo',system-ui,sans-serif}
+.wrap{max-width:860px;margin:0 auto;padding:0 24px}
+
+header{padding:48px 0 32px;border-bottom:1px solid var(--border);
+  background:linear-gradient(180deg,var(--surface),var(--paper))}
+.kicker{display:inline-block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:700;color:var(--accent);background:var(--accent-soft);padding:4px 12px;border-radius:20px}
+h1{font-size:clamp(24px,4vw,38px);line-height:1.1;letter-spacing:-.015em;margin:12px 0 8px}
+header p{color:var(--ink-soft);font-size:16px;max-width:680px;margin:0}
+.meta{font-size:13px;color:var(--ink-faint);margin-top:10px}
+
+main{padding:36px 0 60px}
+
+.bloco{margin-bottom:36px}
+.bloco-titulo{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.bloco-num{font-family:'Archivo',sans-serif;font-size:11px;font-weight:800;letter-spacing:.1em;
+  text-transform:uppercase;color:#fff;background:var(--accent);padding:3px 10px;border-radius:20px}
+.bloco-titulo h2{font-size:15px;font-weight:700;letter-spacing:.03em;margin:0;color:var(--ink)}
+.bloco-titulo.verde .bloco-num{background:var(--verde)}
+.bloco-titulo.ambar .bloco-num{background:var(--ambar)}
+.bloco-titulo.roxo .bloco-num{background:var(--roxo)}
+.bloco-titulo.red .bloco-num{background:var(--red)}
+
+.questao{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:18px 20px;margin-bottom:12px;box-shadow:var(--shadow)}
+.questao-header{display:flex;gap:10px;margin-bottom:12px;align-items:flex-start}
+.q-num{font-family:'Archivo',sans-serif;font-size:12px;font-weight:700;color:var(--ink-faint);
+  min-width:28px;padding-top:2px}
+.questao-header p{margin:0;font-size:15.5px;font-weight:600;color:var(--ink)}
+.opcoes{display:flex;flex-direction:column;gap:7px;padding-left:6px}
+.opcoes label{display:flex;align-items:flex-start;gap:10px;cursor:pointer;
+  font-size:14.5px;color:var(--ink-soft);padding:6px 10px;border-radius:8px;
+  border:1px solid transparent;transition:background .15s,border-color .15s}
+.opcoes label:hover{background:var(--raised);border-color:var(--border)}
+.opcoes input[type=radio]{margin-top:3px;accent-color:var(--accent);flex-shrink:0}
+.opcoes label:has(input:checked){background:var(--accent-soft);border-color:var(--accent);
+  color:var(--ink)}
+
+.dados{background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:22px;margin-bottom:32px;box-shadow:var(--shadow)}
+.dados h3{font-size:15px;margin:0 0 16px;color:var(--ink-faint);text-transform:uppercase;
+  letter-spacing:.08em}
+.campos{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:560px){.campos{grid-template-columns:1fr}}
+.campo{display:flex;flex-direction:column;gap:6px}
+.campo label{font-family:'Archivo',sans-serif;font-size:12px;font-weight:600;
+  color:var(--ink-soft);text-transform:uppercase;letter-spacing:.06em}
+.campo input{font-family:'Archivo',sans-serif;font-size:15px;padding:10px 14px;
+  border:1.5px solid var(--border);border-radius:8px;background:var(--paper);color:var(--ink);
+  outline:none;transition:border-color .15s}
+.campo input:focus{border-color:var(--accent)}
+
+.btn-wrap{display:flex;justify-content:center;padding:10px 0 30px}
+button.enviar{font-family:'Archivo',sans-serif;font-size:16px;font-weight:700;
+  background:var(--accent);color:#fff;border:none;border-radius:12px;
+  padding:15px 48px;cursor:pointer;transition:opacity .15s,transform .1s}
+button.enviar:hover{opacity:.88}
+button.enviar:active{transform:scale(.97)}
+button.enviar:disabled{opacity:.5;cursor:not-allowed}
+
+#msg{text-align:center;padding:24px;border-radius:12px;margin-top:16px;
+  font-family:'Archivo',sans-serif;font-size:15px;display:none}
+#msg.sucesso{background:#d4edda;color:#155724;border:1px solid #c3e6cb;display:block}
+#msg.erro{background:#f8d7da;color:#721c24;border:1px solid #f5c6cb;display:block}
+#msg.loading{display:block;background:var(--accent-soft);color:var(--accent)}
+
+footer{margin-top:20px;padding:20px 0 40px;border-top:1px solid var(--border);
+  text-align:center;color:var(--ink-faint);font-family:'Archivo',sans-serif;font-size:12.5px}
+
+.progreso{position:fixed;bottom:0;left:0;right:0;background:var(--surface);
+  border-top:1px solid var(--border);padding:10px 24px;display:flex;align-items:center;
+  gap:14px;font-family:'Archivo',sans-serif;font-size:13px;color:var(--ink-faint);
+  z-index:10}
+.prog-barra{flex:1;height:6px;background:var(--raised);border-radius:3px;overflow:hidden}
+.prog-fill{height:100%;background:var(--accent);border-radius:3px;transition:width .3s;width:0}
+.prog-num{font-weight:700;color:var(--ink);min-width:40px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="kicker">Capacitacao POLITEC/MT</span>
+    <h1>Prova de Nivelamento</h1>
+    <p>50 perguntas para avaliar seu nivel de informatica e conhecimentos antes do curso
+      de Analise de Dados, BI e IA aplicada a Pericia Criminal.</p>
+    <div class="meta">Responda com atencao. Ao final, clique em Enviar para registrar suas respostas.</div>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div class="dados">
+    <h3>Seus dados</h3>
+    <div class="campos">
+      <div class="campo">
+        <label for="nome">Nome completo</label>
+        <input type="text" id="nome" name="nome" placeholder="Seu nome" required>
+      </div>
+      <div class="campo">
+        <label for="email">E-mail institucional</label>
+        <input type="email" id="email" name="email" placeholder="seu.email@politec.mt.gov.br" required>
+      </div>
+    </div>
+  </div>
+
+  <form id="form" onsubmit="enviar(event)">
+
+    <div class="bloco">
+      <div class="bloco-titulo">
+        <span class="bloco-num">B1</span>
+        <h2>Bloco 1 — Informatica Basica</h2>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">1.</span><p>Qual a diferenca principal entre um HD (disco rigido) e um SSD?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p1" value="A" required> A) HD e mais rapido que SSD</label>
+          <label><input type="radio" name="p1" value="B"> B) SSD usa pecas moveis, HD nao</label>
+          <label><input type="radio" name="p1" value="C"> C) HD usa disco magnetico giratorio, SSD e memoria flash</label>
+          <label><input type="radio" name="p1" value="D"> D) Nao ha diferenca, sao a mesma coisa</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">2.</span><p>Para que serve compactar um arquivo em formato ZIP (zipar)?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p2" value="A" required> A) Para transformar o arquivo em programa executavel</label>
+          <label><input type="radio" name="p2" value="B"> B) Para reduzir o tamanho e agrupar varios arquivos em um so</label>
+          <label><input type="radio" name="p2" value="C"> C) Para apagar o arquivo de forma definitiva</label>
+          <label><input type="radio" name="p2" value="D"> D) Para enviar por e-mail apenas</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">3.</span><p>O que e um "driver" de dispositivo no computador?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p3" value="A" required> A) Um tipo de virus</label>
+          <label><input type="radio" name="p3" value="B"> B) Um software que comunica o sistema operacional com o hardware</label>
+          <label><input type="radio" name="p3" value="C"> C) Uma peca fisica do computador</label>
+          <label><input type="radio" name="p3" value="D"> D) Um programa de backups automatico</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">4.</span><p>Um arquivo com extensao ".exe" e:</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p4" value="A" required> A) Um documento de texto</label>
+          <label><input type="radio" name="p4" value="B"> B) Uma planilha</label>
+          <label><input type="radio" name="p4" value="C"> C) Um programa executavel (que roda ao clicar)</label>
+          <label><input type="radio" name="p4" value="D"> D) Uma imagem</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">5.</span><p>Para que serve uma porta USB?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p5" value="A" required> A) Apenas para carregar celular</label>
+          <label><input type="radio" name="p5" value="B"> B) Apenas para conectar mouse e teclado</label>
+          <label><input type="radio" name="p5" value="C"> C) Conectar perifericos e transferir dados (pen drive, HD externo, etc.)</label>
+          <label><input type="radio" name="p5" value="D"> D) Apenas para imprimir documentos</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">6.</span><p>Qual a diferenca entre memoria RAM e o armazenamento (HD/SSD)?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p6" value="A" required> A) Sao a mesma coisa</label>
+          <label><input type="radio" name="p6" value="B"> B) RAM e permanente, armazenamento e temporario</label>
+          <label><input type="radio" name="p6" value="C"> C) RAM e temporaria (volatil) para processamento, armazenamento e permanente</label>
+          <label><input type="radio" name="p6" value="D"> D) Armazenamento e mais rapido que RAM</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">7.</span><p>Quando voce "baixa" ou "faz download" de um arquivo, o que esta acontecendo?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p7" value="A" required> A) Enviando um arquivo para a internet</label>
+          <label><input type="radio" name="p7" value="B"> B) Copiando um arquivo da internet para seu computador</label>
+          <label><input type="radio" name="p7" value="C"> C) Apagando um arquivo</label>
+          <label><input type="radio" name="p7" value="D"> D) Compactando um arquivo</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">8.</span><p>O que significa "upload"?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p8" value="A" required> A) Baixar arquivo da internet</label>
+          <label><input type="radio" name="p8" value="B"> B) Abrir um arquivo</label>
+          <label><input type="radio" name="p8" value="C"> C) Enviar um arquivo de seu computador para a internet</label>
+          <label><input type="radio" name="p8" value="D"> D) Compactar um arquivo</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">9.</span><p>Um pen drive conecta-se ao computador principalmente por qual porta?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p9" value="A" required> A) HDMI</label>
+          <label><input type="radio" name="p9" value="B"> B) VGA</label>
+          <label><input type="radio" name="p9" value="C"> C) USB</label>
+          <label><input type="radio" name="p9" value="D"> D) Ethernet</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">10.</span><p>O que acontece quando voce "desfragmenta" um HD?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p10" value="A" required> A) Apaga todos os arquivos</label>
+          <label><input type="radio" name="p10" value="B"> B) Aumenta a capacidade de armazenamento</label>
+          <label><input type="radio" name="p10" value="C"> C) Organiza os fragmentos de arquivos espalhados para acesso mais rapido</label>
+          <label><input type="radio" name="p10" value="D"> D) Instala drivers</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-titulo verde">
+        <span class="bloco-num">B2</span>
+        <h2>Bloco 2 — Noções de Informatica e Dados</h2>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">11.</span><p>Qual e o nome do IDE com IA usado no curso para desenvolvimento de codigo?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p11" value="A" required> A) VS Code</label>
+          <label><input type="radio" name="p11" value="B"> B) Jupyter Notebook</label>
+          <label><input type="radio" name="p11" value="C"> C) Antigravity</label>
+          <label><input type="radio" name="p11" value="D"> D) PyCharm</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">12.</span><p>O que significa a sigla ETL no contexto de analise de dados?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p12" value="A" required> A) Excel, Tabela, Load</label>
+          <label><input type="radio" name="p12" value="B"> B) Extract, Transform, Load</label>
+          <label><input type="radio" name="p12" value="C"> C) Entrada, Titulo, Limpo</label>
+          <label><input type="radio" name="p12" value="D"> D) Exportar, Traduzir, Ler</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">13.</span><p>Qual principio determina que dados mal formatados geram analises incorretas?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p13" value="A" required> A) KPI - Key Process Indicator</label>
+          <label><input type="radio" name="p13" value="B"> B) GIGO - Garbage In, Garbage Out</label>
+          <label><input type="radio" name="p13" value="C"> C) MVP - Minimum Viable Product</label>
+          <label><input type="radio" name="p13" value="D"> D) ETL - Extract, Transform, Load</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">14.</span><p>No Power BI, qual e o primeiro passo do fluxo de trabalho em 5 etapas?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p14" value="A" required> A) Visualize</label>
+          <label><input type="radio" name="p14" value="B"> B) Model</label>
+          <label><input type="radio" name="p14" value="C"> C) Get Data</label>
+          <label><input type="radio" name="p14" value="D"> D) Publish</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">15.</span><p>No contexto de visualizacao, um grafico de barras verticais e melhor para:</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p15" value="A" required> A) Mostrar proporcoes de um todo</label>
+          <label><input type="radio" name="p15" value="B"> B) Comparar categorias ao longo do tempo</label>
+          <label><input type="radio" name="p15" value="C"> C) Mostrar dados geograficos</label>
+          <label><input type="radio" name="p15" value="D"> D) Exibir correlações lineares</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">16.</span><p>O que e um "dashboard" no contexto de analise de dados?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p16" value="A" required> A) Um tipo de planilha</label>
+          <label><input type="radio" name="p16" value="B"> B) Um banco de dados</label>
+          <label><input type="radio" name="p16" value="C"> C) Painel visual com multiplos indicadores em tempo real</label>
+          <label><input type="radio" name="p16" value="D"> D) Um programa de e-mail</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">17.</span><p>Qual e a funcao do Power Query no ecossistema Power BI/Excel?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p17" value="A" required> A) Criar visualizacoes graficas</label>
+          <label><input type="radio" name="p17" value="B"> B) Publicar relatorios online</label>
+          <label><input type="radio" name="p17" value="C"> C) Extrair, limpar e transformar dados antes da analise</label>
+          <label><input type="radio" name="p17" value="D"> D) Gerenciar permissoes de usuarios</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">18.</span><p>No Power BI, o que e um "Slicer"?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p18" value="A" required> A) Um tipo de grafico de pizza</label>
+          <label><input type="radio" name="p18" value="B"> B) Um indicador KPI</label>
+          <label><input type="radio" name="p18" value="C"> C) Filtro visual interativo para slice nos dados</label>
+          <label><input type="radio" name="p18" value="D"> D) Ferramenta de exportar PDF</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-titulo ambar">
+        <span class="bloco-num">B3</span>
+        <h2>Bloco 3 — Excel e Planilhas</h2>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">19.</span><p>Ao remover duplicadas em uma planilha Excel, o criterio "manter primeira ocorrencia" significa:</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p19" value="A" required> A) Remover a primeira e manter as demais</label>
+          <label><input type="radio" name="p19" value="B"> B) Manter a primeira linha de cada grupo duplicado</label>
+          <label><input type="radio" name="p19" value="C"> C) Remover todas as linhas</label>
+          <label><input type="radio" name="p19" value="D"> D) Apenas marcar duplicadas sem remover</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">20.</span><p>Qual problema e causado por encoding errado ao importar dados no Excel?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p20" value="A" required> A) Formulas param de funcionar</label>
+          <label><input type="radio" name="p20" value="B"> B) Caracteres especiais aparecem como simbolos estranhos</label>
+          <label><input type="radio" name="p20" value="C"> C) O arquivo fica muito grande</label>
+          <label><input type="radio" name="p20" value="D"> D) Nao e possivel salvar o arquivo</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">21.</span><p>Uma data impossivel como "31/02/2025" e um exemplo de:</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p21" value="A" required> A) Bug no Windows</label>
+          <label><input type="radio" name="p21" value="B"> B) Dado invalido que passa despercebido sem validacao</label>
+          <label><input type="radio" name="p21" value="C"> C) Formato de data brasileiro</label>
+          <label><input type="radio" name="p21" value="D"> D) Limite do Excel</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">22.</span><p>Listas de validacao no Excel (dropdown) servem para:</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p22" value="A" required> A) Colorir celulas automaticamente</label>
+          <label><input type="radio" name="p22" value="B"> B) Restringir a entrada a valores predefinidos</label>
+          <label><input type="radio" name="p22" value="C"> C) Converter texto em numero</label>
+          <label><input type="radio" name="p22" value="D"> D) Criar graficos automaticamente</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">23.</span><p>Qual recurso permite carregar multiplos arquivos CSV de uma pasta de uma vez?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p23" value="A" required> A) Copiar e colar</label>
+          <label><input type="radio" name="p23" value="B"> B) Power Query / Consulta de Pasta</label>
+          <label><input type="radio" name="p23" value="C"> C) Arquivo > Abrir</label>
+          <label><input type="radio" name="p23" value="D"> D) Formula PROCV</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">24.</span><p>Formulas de referencia estruturada no Excel (ex: =Tabela1[Coluna]) sao:</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p24" value="A" required> A) Referencias absolutas ($A$1)</label>
+          <label><input type="radio" name="p24" value="B"> B) Referencias que usam nomes de tabelas e colunas</label>
+          <label><input type="radio" name="p24" value="C"> C) Formulas de busca (PROCV)</label>
+          <label><input type="radio" name="p24" value="D"> D) Macros em VBA</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-titulo roxo">
+        <span class="bloco-num">B4</span>
+        <h2>Bloco 4 — Estatistica e Dados</h2>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">25.</span><p>O que e uma "tabela fato" em modelagem star schema?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p25" value="A" required> A) Tabela que contem apenas descricoes</label>
+          <label><input type="radio" name="p25" value="B"> B) Tabela de calendario</label>
+          <label><input type="radio" name="p25" value="C"> C) Tabela que armazena os eventos/transacoes metricas</label>
+          <label><input type="radio" name="p25" value="D"> D) Tabela de relacionamento many-to-many</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">26.</span><p>Qual tipo de variavel representa a cor dos olhos de uma pessoa?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p26" value="A" required> A) Quantitativa discreta</label>
+          <label><input type="radio" name="p26" value="B"> B) Qualitativa nominal</label>
+          <label><input type="radio" name="p26" value="C"> C) Quantitativa continua</label>
+          <label><input type="radio" name="p26" value="D"> D) Qualitativa ordinal</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">27.</span><p>A escolaridade (Fundamental, Medio, Superior, Pos) e um exemplo de variavel:</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p27" value="A" required> A) Qualitativa nominal</label>
+          <label><input type="radio" name="p27" value="B"> B) Qualitativa ordinal</label>
+          <label><input type="radio" name="p27" value="C"> C) Quantitativa discreta</label>
+          <label><input type="radio" name="p27" value="D"> D) Quantitativa continua</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">28.</span><p>O que e uma "tabela dimensao" em modelagem de dados?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p28" value="A" required> A) Tabela que armazena apenas numeros</label>
+          <label><input type="radio" name="p28" value="B"> B) Tabela temporaria de calculos</label>
+          <label><input type="radio" name="p28" value="C"> C) Tabela que descreve "quem, o que, quando, onde" dos fatos</label>
+          <label><input type="radio" name="p28" value="D"> D) Tabela de backup</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">29.</span><p>Qual e o modelo de dados ensinado como "padrao ouro" no curso?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p29" value="A" required> A) Flat Table (tabela plana)</label>
+          <label><input type="radio" name="p29" value="B"> B) Snowflake (floco de neve)</label>
+          <label><input type="radio" name="p29" value="C"> C) Star Schema (esquema em estrela)</label>
+          <label><input type="radio" name="p29" value="D"> D) Mesh (malha)</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">30.</span><p>A temperatura de uma cidade (ex: 23,5C) e um exemplo de variavel:</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p30" value="A" required> A) Qualitativa nominal</label>
+          <label><input type="radio" name="p30" value="B"> B) Qualitativa ordinal</label>
+          <label><input type="radio" name="p30" value="C"> C) Quantitativa discreta</label>
+          <label><input type="radio" name="p30" value="D"> D) Quantitativa continua</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-titulo verde">
+        <span class="bloco-num">B5</span>
+        <h2>Bloco 5 — Power BI e DAX</h2>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">31.</span><p>O que e Business Intelligence (BI)?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p31" value="A" required> A) Um tipo de inteligencia artificial</label>
+          <label><input type="radio" name="p31" value="B"> B) Um programa de computador especifico</label>
+          <label><input type="radio" name="p31" value="C"> C) Conjunto de tecnicas para transformar dados em conhecimento</label>
+          <label><input type="radio" name="p31" value="D"> D) Uma linguagem de programacao</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">32.</span><p>Qual funcao DAX e usada para agregar valores com contexto de filtro modificado?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p32" value="A" required> A) SUM</label>
+          <label><input type="radio" name="p32" value="B"> B) IF</label>
+          <label><input type="radio" name="p32" value="C"> C) CALCULATE</label>
+          <label><input type="radio" name="p32" value="D"> D) CONCATENATE</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">33.</span><p>Qual funcao DAX itera linha a linha e retorna um valor por linha?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p33" value="A" required> A) SUM</label>
+          <label><input type="radio" name="p33" value="B"> B) COUNT</label>
+          <label><input type="radio" name="p33" value="C"> C) SUMX</label>
+          <label><input type="radio" name="p33" value="D"> D) AVERAGE</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">34.</span><p>Qual funcao DAX retorna valores do ano anterior?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p34" value="A" required> A) SUM</label>
+          <label><input type="radio" name="p34" value="B"> B) SAMEPERIODLASTYEAR</label>
+          <label><input type="radio" name="p34" value="C"> C) CONCATENATE</label>
+          <label><input type="radio" name="p34" value="D"> D) UPPER</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">35.</span><p>O que e "time intelligence" em DAX?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p35" value="A" required> A) Relogio do sistema</label>
+          <label><input type="radio" name="p35" value="B"> B) Fuso horario</label>
+          <label><input type="radio" name="p35" value="C"> C) Funcoes que manipulam periodos de tempo (meses, anos)</label>
+          <label><input type="radio" name="p35" value="D"> D) Cronometro</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">36.</span><p>CALCULATE + FILTER em DAX e uma combinacao para:</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p36" value="A" required> A) Erro de sintaxe</label>
+          <label><input type="radio" name="p36" value="B"> B) Tipo de visual do Power BI</label>
+          <label><input type="radio" name="p36" value="C"> C) Filtrar e calcular em contexto complexo</label>
+          <label><input type="radio" name="p36" value="D"> D) Comando do Excel padrao</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">37.</span><p>Qual visual AI do Power BI mostra os principais influenciadores de uma metrica?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p37" value="A" required> A) Grafico de barras padrao</label>
+          <label><input type="radio" name="p37" value="B"> B) Mapa geografico</label>
+          <label><input type="radio" name="p37" value="C"> C) Tabela de dados</label>
+          <label><input type="radio" name="p37" value="D"> D) AI Visual - Key Influencers</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">38.</span><p>No Power BI, um "decomposition tree" serve para:</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p38" value="A" required> A) Grafico de arvore genealogica</label>
+          <label><input type="radio" name="p38" value="B"> B) Estrutura de pastas</label>
+          <label><input type="radio" name="p38" value="C"> C) Decompor uma metrica por fatores com IA</label>
+          <label><input type="radio" name="p38" value="D"> D) Tipo de backup</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-titulo red">
+        <span class="bloco-num">B6</span>
+        <h2>Bloco 6 — Git e GitHub</h2>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">39.</span><p>Qual comando Git e usado para enviar alteracoes do repositorio local para o remoto?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p39" value="A" required> A) git pull</label>
+          <label><input type="radio" name="p39" value="B"> B) git commit</label>
+          <label><input type="radio" name="p39" value="C"> C) git push</label>
+          <label><input type="radio" name="p39" value="D"> D) git merge</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">40.</span><p>O que e GitHub?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p40" value="A" required> A) Um programa de edicao de texto</label>
+          <label><input type="radio" name="p40" value="B"> B) Uma planilha eletronica</label>
+          <label><input type="radio" name="p40" value="C"> C) Plataforma de hospedagem de codigo com controle de versao</label>
+          <label><input type="radio" name="p40" value="D"> D) Uma linguagem de programacao</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">41.</span><p>Qual e a ordem correta do ciclo de trabalho Git diario?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p41" value="A" required> A) Push, Commit, Stage</label>
+          <label><input type="radio" name="p41" value="B"> B) Commit, Push, Stage</label>
+          <label><input type="radio" name="p41" value="C"> C) Pull, Push, Commit</label>
+          <label><input type="radio" name="p41" value="D"> D) Stage, Commit, Push</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">42.</span><p>O que e uma "branch" no Git?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p42" value="A" required> A) O arquivo principal do projeto</label>
+          <label><input type="radio" name="p42" value="B"> B) Um comando de exclusao</label>
+          <label><input type="radio" name="p42" value="C"> C) Uma linha paralela de desenvolvimento</label>
+          <label><input type="radio" name="p42" value="D"> D) Um tipo de commit especial</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">43.</span><p>O que e GitHub Actions?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p43" value="A" required> A) Um jogo de acoes</label>
+          <label><input type="radio" name="p43" value="B"> B) Um editor de texto avancado</label>
+          <label><input type="radio" name="p43" value="C"> C) Automacao de CI/CD para construir, testar e publicar codigo</label>
+          <label><input type="radio" name="p43" value="D"> D) Uma rede social para desenvolvedores</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">44.</span><p>"Clone" no contexto Git/GitHub significa:</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p44" value="A" required> A) Criar um novo repositorio do zero</label>
+          <label><input type="radio" name="p44" value="B"> B) Baixar uma copia de um repositorio remoto para local</label>
+          <label><input type="radio" name="p44" value="C"> C) Enviar codigo para o servidor</label>
+          <label><input type="radio" name="p44" value="D"> D) Unir duas branchs</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="bloco">
+      <div class="bloco-titulo">
+        <span class="bloco-num" style="background:var(--roxo)">B7</span>
+        <h2>Bloco 7 — Inteligencia Artificial</h2>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">45.</span><p>O que significa "antigravity" no contexto do curso?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p45" value="A" required> A) Um tipo de grafico especial</label>
+          <label><input type="radio" name="p45" value="B"> B) Uma formula de fisica quantica</label>
+          <label><input type="radio" name="p45" value="C"> C) IDE com IA que permite criar codigo flutuando sobre o trivial</label>
+          <label><input type="radio" name="p45" value="D"> D) Metodo de previsao de vendas</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">46.</span><p>O que sao "tokens" no contexto de IA generativa?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p46" value="A" required> A) Senhas de acesso ao sistema</label>
+          <label><input type="radio" name="p46" value="B"> B) Moeda virtual</label>
+          <label><input type="radio" name="p46" value="C"> C) Unidades de texto que a IA processa por vez</label>
+          <label><input type="radio" name="p46" value="D"> D) Codigos de cores</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">47.</span><p>No contexto de IA, o que e "prompt engineering"?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p47" value="A" required> A) Programacao de robos fisicos</label>
+          <label><input type="radio" name="p47" value="B"> B) Criacao de redes neurais</label>
+          <label><input type="radio" name="p47" value="C"> C) Arte de escrever instrucoes eficazes para IAs</label>
+          <label><input type="radio" name="p47" value="D"> D) Instalacao de compiladores</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">48.</span><p>O que e "PROJETO.md" no metodo ensinado no curso?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p48" value="A" required> A) Um arquivo de codigo Python</label>
+          <label><input type="radio" name="p48" value="B"> B) Um relatorio em PDF</label>
+          <label><input type="radio" name="p48" value="C"> C) Documento que resume o projeto para contexto da IA</label>
+          <label><input type="radio" name="p48" value="D"> D) Uma planilha de dados</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">49.</span><p>Qual e o principal beneficio de usar HTML "single-file" com IA?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p49" value="A" required> A) Performance superior</label>
+          <label><input type="radio" name="p49" value="B"> B) Melhor design visual</label>
+          <label><input type="radio" name="p49" value="C"> C) Token economy - menos contexto perdido entre sessoes</label>
+          <label><input type="radio" name="p49" value="D"> D) E mais seguro</label>
+        </div>
+      </div>
+
+      <div class="questao">
+        <div class="questao-header"><span class="q-num">50.</span><p>O que e "handoff" entre IAs no curso?</p></div>
+        <div class="opcoes">
+          <label><input type="radio" name="p50" value="A" required> A) Trocar de computador</label>
+          <label><input type="radio" name="p50" value="B"> B) Desligar o sistema</label>
+          <label><input type="radio" name="p50" value="C"> C) Passar contexto de um chatbot de IA para outro sem perder continuidade</label>
+          <label><input type="radio" name="p50" value="D"> D) Enviar email</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-wrap">
+      <button type="submit" class="enviar" id="btn-enviar">Enviar respostas</button>
+    </div>
+
+    <div id="msg"></div>
+
+  </form>
+</main>
+
+<footer>
+  <div class="wrap">
+    Capacitacao POLITEC/MT &middot; Professor Renato Rosa &middot; 2026
+  </div>
+</footer>
+
+<div class="progreso">
+  <span class="prog-num" id="prog-num">0/50</span>
+  <div class="prog-barra"><div class="prog-fill" id="prog-fill"></div></div>
+  <span>respondidas</span>
+</div>
+
+<script>
+var GScriptUrl = 'https://script.google.com/macros/s/AKfycbw5xXk2Z4fN0kR0z7Uq8Z1jXv9cK9Y8Q6T2M/exec';
+
+var gabarito = {
+  p1:'C',p2:'B',p3:'B',p4:'C',p5:'C',p6:'C',p7:'B',p8:'C',p9:'C',p10:'C',
+  p11:'C',p12:'B',p13:'B',p14:'C',p15:'B',p16:'C',p17:'C',p18:'C',
+  p19:'B',p20:'B',p21:'B',p22:'B',p23:'B',p24:'B',
+  p25:'C',p26:'B',p27:'B',p28:'C',p29:'C',p30:'D',
+  p31:'C',p32:'C',p33:'C',p34:'B',p35:'C',p36:'C',p37:'D',p38:'C',
+  p39:'C',p40:'C',p41:'D',p42:'C',p43:'C',p44:'B',
+  p45:'C',p46:'C',p47:'C',p48:'C',p49:'C',p50:'C'
+};
+
+function atualizarProgresso(){
+  var total=50,cont=0;
+  for(var i=1;i<=total;i++){
+    var n='p'+i;
+    var sel=document.querySelector('input[name="'+n+'"]:checked');
+    if(sel) cont++;
+  }
+  var pct=Math.round(cont/total*100);
+  document.getElementById('prog-fill').style.width=pct+'%';
+  document.getElementById('prog-num').textContent=cont+'/'+total;
+}
+document.querySelectorAll('input[type=radio]').forEach(function(el){
+  el.addEventListener('change',atualizarProgresso);
+});
+
+function enviar(e){
+  e.preventDefault();
+  var nome=document.getElementById('nome').value.trim();
+  var email=document.getElementById('email').value.trim();
+  if(!nome||!email){
+    alert('Preencha seu nome e e-mail antes de enviar.');
+    return;
+  }
+  var msg=document.getElementById('msg');
+  var btn=document.getElementById('btn-enviar');
+  msg.className='';
+  msg.textContent='Enviando...';
+  msg.classList.add('loading');
+  btn.disabled=true;
+
+  var respostas={};
+  var pontuacao=0;
+  for(var i=1;i<=50;i++){
+    var n='p'+i;
+    var sel=document.querySelector('input[name="'+n+'"]:checked');
+    respostas[n]=sel?sel.value:'-';
+    if(sel&&sel.value===gabarito[n]) pontuacao++;
+  }
+
+  var payload={
+    nome:nome,
+    email:email,
+    respostas:respostas,
+    pontuacao:pontuacao,
+    data:new Date().toLocaleString('pt-BR')
+  };
+
+  fetch(GScriptUrl,{
+    method:'POST',
+    mode:'no-cors',
+    headers:{'Content-Type':'application/json'},
+    body:JSON.stringify(payload)
+  }).then(function(){
+    msg.className='sucesso';
+    msg.innerHTML='<strong>Respostas enviadas com sucesso!</strong><br>Você acertou <strong>'+pontuacao+' de 50</strong> questões.<br><br>Seu nível: '+nivel(pontuacao)+'.';
+    btn.style.display='none';
+    window.scrollTo({top:0,behavior:'smooth'});
+  }).catch(function(err){
+    msg.className='erro';
+    msg.textContent='Erro ao enviar. Tente novamente. Detalhes: '+err;
+    btn.disabled=false;
+  });
+}
+
+function nivel(p){
+  if(p<=12) return 'INICIANTE - Informatica basica';
+  if(p<=18) return 'BASICO - Excel e planilhas';
+  if(p<=24) return 'INTERMEDIARIO - Estatistica e modelagem';
+  if(p<=38) return 'AVANCADO - Power BI e Git';
+  return 'EXPERT - IA e ferramentas avancadas';
+}
+</script>
+
+</body>
+</html>
