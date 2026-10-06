@@ -1,0 +1,12 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Paginas temporarias do exportador de PDF
+Aula */_paginas.json
+
+# Sistema
+Thumbs.db
+desktop.ini
+.DS_Store

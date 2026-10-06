@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Capacitacao POLITEC/MT — Analise de Dados aplicada a Pericia Criminal</title>
+<meta name="description" content="Cadernos de aprofundamento do curso de Capacitacao POLITEC/MT em Analise de Dados aplicada a Pericia Criminal - Professor Renato Rosa.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  --paper:#faf9f6; --surface:#ffffff; --raised:#f3f1ec; --border:#e3e0d8;
+  --ink:#1a1d1e; --ink-soft:#4a4f52; --ink-faint:#82888c;
+  --accent:#12507f; --accent-soft:#e6eff7;
+  --verde:#1c8a5b; --ambar:#b4790a; --roxo:#6b3fa0;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 26px -14px rgba(20,30,40,.25);
+}
+@media (prefers-color-scheme: dark){
+  :root{ --paper:#15171a; --surface:#1b1e22; --raised:#20242a; --border:#2c3036;
+    --ink:#eceeef; --ink-soft:#b6bcc2; --ink-faint:#7d858c;
+    --accent:#5fa8dd; --accent-soft:#16283a; --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -16px rgba(0,0,0,.7); }
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.6}
+h1,h2,h3,.kicker,.card a,.meta,.foot{font-family:'Archivo',system-ui,sans-serif}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+header{padding:64px 0 40px;border-bottom:1px solid var(--border);
+  background:linear-gradient(180deg,var(--surface),var(--paper))}
+.kicker{display:inline-block;font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:600;color:var(--accent);background:var(--accent-soft);padding:4px 12px;border-radius:20px}
+h1{font-size:clamp(28px,4.4vw,46px);line-height:1.08;letter-spacing:-.015em;margin:16px 0 10px}
+header p{color:var(--ink-soft);font-size:18px;max-width:720px;margin:0}
+.meta{margin-top:16px;font-size:13.5px;color:var(--ink-faint)}
+main{padding:40px 0 30px}
+h2{font-size:15px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);
+  font-weight:700;margin:0 0 18px}
+.grid{display:grid;grid-template-columns:1fr;gap:18px}
+@media(min-width:760px){.grid{grid-template-columns:1fr 1fr}}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;
+  padding:22px 24px;box-shadow:var(--shadow);display:flex;flex-direction:column;gap:10px;
+  border-top:4px solid var(--accent)}
+.card.c2{border-top-color:var(--verde)}
+.card.c3{border-top-color:var(--ambar)}
+.card.c4{border-top-color:var(--roxo)}
+.card .dia{font-family:'Archivo',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-faint)}
+.card h3{font-family:'Archivo',sans-serif;font-size:19px;margin:0;letter-spacing:-.01em}
+.card p{margin:0;color:var(--ink-soft);font-size:15.5px}
+.tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.tag{font-family:'Archivo',sans-serif;font-size:11.5px;font-weight:600;color:var(--ink-soft);
+  background:var(--raised);border:1px solid var(--border);border-radius:20px;padding:2px 10px}
+.card a.cad{margin-top:6px;align-self:flex-start;display:inline-flex;align-items:center;gap:8px;
+  font-family:'Archivo',sans-serif;font-weight:700;font-size:15px;text-decoration:none;
+  background:var(--accent);color:#fff;border-radius:10px;padding:10px 18px}
+.card.c2 a.cad{background:var(--verde)}
+.card.c3 a.cad{background:var(--ambar)}
+.card.c4 a.cad{background:var(--roxo)}
+.links{display:flex;flex-wrap:wrap;gap:14px;font-family:'Archivo',sans-serif;font-size:13px}
+.links a{color:var(--ink-soft);text-decoration:none;border-bottom:1px solid var(--border)}
+.links a:hover{color:var(--accent)}
+footer{margin-top:44px;padding:26px 0 60px;border-top:1px solid var(--border);
+  color:var(--ink-faint);font-family:'Archivo',sans-serif;font-size:13px}
+footer b{color:var(--ink-soft)}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <span class="kicker">Capacitacao POLITEC/MT</span>
+    <h1>Analise de Dados aplicada a Pericia Criminal</h1>
+    <p>Cadernos de aprofundamento do curso — de fundamentos estatisticos a dashboards de
+      Business Intelligence na gestao dos laboratorios e do IML. Complementam, sem substituir,
+      os slides de sala de aula.</p>
+    <div class="meta">Professor Renato Rosa · Pericia Oficial e Identificacao Tecnica de Mato Grosso</div>
+  </div>
+</header>
+<main class="wrap">
+  <h2>Cadernos por aula</h2>
+  <div class="grid">
+
+    <div class="card c1">
+      <span class="dia">Dia 1 · Modulos 1 e 2</span>
+      <h3>Fundamentos da Analise e Estatistica</h3>
+      <p>Ciclo de dados, piramide DIKW, principio de Locard, tipos e qualidade da
+        informacao, estatistica descritiva, dispersao, boxplot, correlacao x causalidade e outliers.</p>
+      <div class="tags"><span class="tag">61 secoes</span><span class="tag">7 labs</span><span class="tag">4 cenarios</span></div>
+      <div class="links"><a href="Aula 1/caderno-dia1.html">Caderno (HTML)</a> <a href="Aula 1/Caderno Dia 1 - POLITEC.pdf">PDF</a> <a href="Aula 1/Dia-1-Politec.pdf">Slides</a></div>
+      <a class="cad" href="Aula 1/caderno-dia1.html">Abrir caderno &rarr;</a>
+    </div>
+
+    <div class="card c2">
+      <span class="dia">Dia 2 · Modulo 3</span>
+      <h3>Planilhas, Excel e Google Sheets</h3>
+      <p>Funcoes e logica condicional, formatacao condicional (semaforo do TAT), referencias
+        absolutas (F4), tabelas estruturadas, filtros e ordenacao personalizada.</p>
+      <div class="tags"><span class="tag">68 secoes</span><span class="tag">7 labs + integrador</span><span class="tag">4 cenarios</span></div>
+      <div class="links"><a href="Aula 2/caderno-dia2.html">Caderno (HTML)</a> <a href="Aula 2/Caderno Dia 2 - POLITEC.pdf">PDF</a> <a href="Aula 2/Dia-2-Politec.pdf">Slides</a></div>
+      <a class="cad" href="Aula 2/caderno-dia2.html">Abrir caderno &rarr;</a>
+    </div>
+
+    <div class="card c3">
+      <span class="dia">Dia 3 · Modulos 4 e 5</span>
+      <h3>Organizacao, Visualizacao e ETL</h3>
+      <p>Validacao e limpeza de dados, visualizacao honesta (Cairo e Tufte), mini-painel de
+        gestao, Excel x Power BI, ETL e Power Query.</p>
+      <div class="tags"><span class="tag">63 secoes</span><span class="tag">6 labs</span><span class="tag">4 cenarios</span></div>
+      <div class="links"><a href="Aula 3/caderno-dia3.html">Caderno (HTML)</a> <a href="Aula 3/Caderno Dia 3 - POLITEC.pdf">PDF</a> <a href="Aula 3/Dia-3-Politec.pdf">Slides</a></div>
+      <a class="cad" href="Aula 3/caderno-dia3.html">Abrir caderno &rarr;</a>
+    </div>
+
+    <div class="card c4">
+      <span class="dia">Dia 4 · Modulo 6</span>
+      <h3>Business Intelligence / Power BI</h3>
+      <p>Interface do Power BI, conexao de dados, visuais essenciais, publicacao no Service,
+        workspaces com governanca, permissoes, atualizacao agendada e LGPD.</p>
+      <div class="tags"><span class="tag">71 secoes</span><span class="tag">7 labs</span><span class="tag">3 cenarios</span></div>
+      <div class="links"><a href="Aula 4/caderno-dia4.html">Caderno (HTML)</a> <a href="Aula 4/Caderno Dia 4 - POLITEC.pdf">PDF</a> <a href="Aula 4/Dia-4-Politec.pdf">Slides</a></div>
+      <a class="cad" href="Aula 4/caderno-dia4.html">Abrir caderno &rarr;</a>
+    </div>
+
+  </div>
+</main>
+<footer class="wrap">
+  <b>Curso de Capacitacao POLITEC/MT</b> · Analise de Dados aplicada a Pericia Criminal ·
+  Professor Renato Rosa. Cadernos com tema claro/escuro, indice com busca e botao Imprimir/PDF.
+</footer>
+</body>
+</html>
