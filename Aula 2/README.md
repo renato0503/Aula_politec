@@ -21,6 +21,20 @@ Curso de Capacitacao POLITEC/MT · Professor Renato Rosa · Dia 2.
 
 ---
 
+## Datasets (datasets/)
+
+Todos os exemplos, labs e cenarios do caderno usam dados reais simulados da POLITEC/MT.
+Importe os CSVs para acompanhar os passo a passo no Excel.
+
+| Arquivo | Descricao | Linhas | Colunas |
+|---|---|---|---|
+| `requisicoes_periciais.csv` | Base principal de requisicoes periciais | 120 | id_requisicao, data_recebimento, delegacia_origem, tipo_exame, setor, perito_responsavel, status, data_laudo, dias_uteis |
+| `movimentacao_reagentes.csv` | Entradas e saidas de reagentes por setor | 80 | id, data, reagente, tipo_movimentacao, quantidade, setor, fornecedor |
+| `produtividade_peritos.csv` | Laudos concluidos por perito, mes e tipo | 218 | mes, perito, tipo_exame, laudos_concluidos |
+| `orcamento_setores.csv` | Custo orcado x realizado por laboratorio | 36 | laboratorio, rubrica, orcado, realizado |
+
+---
+
 ## Laboratorios praticos (Parte 3)
 
 | Lab | Titulo | O que constroi |
@@ -52,7 +66,7 @@ Curso de Capacitacao POLITEC/MT · Professor Renato Rosa · Dia 2.
 | Arquivo | Tamanho |
 |---|---|
 | `Dia-2-Politec.pdf` (slides do professor) | 4,5 MB |
-| `caderno-dia2.html` (fonte viva, tema claro/escuro) | 174 KB |
+| `caderno-dia2.html` (fonte viva, tema claro/escuro) | 177 KB |
 | `Caderno Dia 2 - POLITEC.pdf` (caderno exportado, A4) | 3,8 MB · 60 paginas |
 | `gerar_caderno_aula2.py` (gerador de conteudo) | 111 KB |
 
@@ -72,7 +86,8 @@ Curso de Capacitacao POLITEC/MT · Professor Renato Rosa · Dia 2.
 
 1. **Navegacao interativa** — abra `caderno-dia2.html` no navegador.
 2. **Impressao/leitura offline** — abra `Caderno Dia 2 - POLITEC.pdf`.
-3. **Editar/regerar** — `python gerar_caderno_aula2.py` e
+3. **Praticar com os datasets** — importe os CSVs de `datasets/` no Excel e siga os labs.
+4. **Editar/regerar** — `python gerar_caderno_aula2.py` e
    `python ..\exportar_pdf.py 2`.
 
 ---

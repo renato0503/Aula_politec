@@ -187,6 +187,8 @@ POLITEC.
 | `caderno_lib.py` | Motor compartilhado: CSS, helpers e a classe `Caderno`. |
 | `exportar_pdf.py` | Exporta `caderno-diaN.html` -> `Caderno Dia N - POLITEC.pdf` (2 passadas, numero de pagina no sumario). Uso: `python exportar_pdf.py N`. |
 | `validar.py` | Checa secoes x links do TOC x `h2`, links orfaos, tema escuro e erros de console. Uso: `python validar.py N` (deve imprimir `OK`). |
+| `firebase.json` | Configuracao do Firebase Hosting (projeto `aulapolitec`, serve da raiz). |
+| `.firebaserc` | Aponta para o projeto `aulapolitec`. |
 
 Sequencia padrao ao mexer numa aula:
 
@@ -194,7 +196,12 @@ Sequencia padrao ao mexer numa aula:
 python "Aula N\gerar_caderno_aulaN.py"   # gera o HTML
 python validar.py N                       # precisa dar OK
 python exportar_pdf.py N                  # gera o PDF (opcional)
+firebase deploy                           # publica no Firebase Hosting
 ```
+
+> **Firebase Hosting**: o site esta em `https://aulapolitec.web.app`. Para fazer deploy,
+> basta rodar `firebase deploy` na raiz (requer `firebase-tools` instalado e login feito).
+> Arquivos Python, CSVs, MD e `analises/` estao excluidos do `firebase.json`.
 
 > Nota: o PDF usa o mesmo HTML, mas o layout de impressao A4 ainda nao e fiel ao
 > visual de tela. O HTML e a fonte de verdade; o PDF e um extra.
@@ -332,12 +339,16 @@ $edge = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 | Aulas 1 e 2 (v1) | Primeiros cadernos (32 e 37 secoes), extraidos dos slides. |
 | Aulas 3 e 4 | Cadernos novos (63 e 71 secoes) seguindo o mesmo motor e formato de 6 partes. |
 | Aulas 1 e 2 (v2) | Expandidos para 61 e 68 secoes: mais `step`, `aplicab`, labs e cenarios. |
+| Firebase Hosting | Configurado `firebase.json` e `.firebaserc` para hospedagem em `aulapolitec.web.app`. |
+| Aula 2 — Datasets | Criados 4 CSVs sinteticos em `Aula 2/datasets/`: `requisicoes_periciais.csv` (120 linhas), `movimentacao_reagentes.csv` (80), `produtividade_peritos.csv` (218), `orcamento_setores.csv` (36). Caderno atualizado com referencias aos datasets reais em todos os exemplos, labs e cenarios. |
+| Hub + GitHub | `index.html` publicado no Firebase Hosting e no GitHub Pages (`aulapolitec.web.app`). Link do Google Drive adicionado ao hub. |
 
 Melhorias pendentes:
 
 1. **PDF fiel ao HTML** — reescrever o `@media print` em `caderno_lib.py` (capa,
    quebras por parte, tipografia de impressao) para o PDF seguir o padrao da tela.
 2. **Aula 5** — quando houver slides, seguir a secao "Como criar uma nova aula".
+3. **Datasets para Aulas 1, 3 e 4** — gerar CSVs sinteticos analogos aos da Aula 2.
 
 ---
 
