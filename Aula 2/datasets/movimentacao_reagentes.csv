@@ -1,0 +1,81 @@
+﻿id;data;reagente;tipo_movimentacao;quantidade;setor;fornecedor
+7;2025-01-06;Kit ELISA;Entrada;50;Toxicologia;ChemLab Brasil
+1;2025-01-15;Tampao de Extracao;Saida;8;Genetica;
+5;2025-01-16;Esterco de Bario;Entrada;100;Quimica;Reagentes Nacionais
+11;2025-01-25;Kit ELISA;Saida;18;Toxicologia;
+66;2025-01-28;Kit PCR - DNA;Saida;17;Genetica;
+47;2025-02-02;Tampao de Extracao;Entrada;10;Genetica;Lab Diagnosticos Ltda
+61;2025-02-02;Hematoxilina;Entrada;50;Patologia;Hospitalar MS
+29;2025-02-04;Hematoxilina;Saida;13;Patologia;
+77;2025-02-07;Formol 10%;Entrada;30;Patologia;Hospitalar MS
+74;2025-02-09;Formol 10%;Entrada;50;Patologia;Hospitalar MS
+39;2025-02-12;Solucao Padrao - Toxicologia;Entrada;50;Toxicologia;ChemLab Brasil
+59;2025-02-19;Kit PCR - DNA;Entrada;20;Genetica;Lab Diagnosticos Ltda
+58;2025-02-22;Reagente de Luminol;Entrada;100;Balistica;Forense Store
+15;2025-02-23;Solucao Padrao - Toxicologia;Saida;9;Toxicologia;
+75;2025-02-23;Esterco de Bario;Entrada;100;Quimica;Reagentes Nacionais
+9;2025-02-24;Formol 10%;Entrada;50;Patologia;Hospitalar MS
+80;2025-02-25;Kit ELISA;Entrada;30;Toxicologia;ChemLab Brasil
+28;2025-02-28;Kit PCR - DNA;Entrada;20;Genetica;Lab Diagnosticos Ltda
+32;2025-03-01;Formol 10%;Saida;14;Patologia;
+31;2025-03-02;Kit PCR - DNA;Saida;25;Genetica;
+50;2025-03-11;Kit DNA Free;Saida;8;Genetica;
+73;2025-03-11;Hematoxilina;Saida;15;Patologia;
+27;2025-03-14;Solucao Padrao - Toxicologia;Saida;3;Toxicologia;
+2;2025-03-15;Solucao Padrao - Toxicologia;Entrada;100;Toxicologia;ChemLab Brasil
+56;2025-03-15;Reagente de Luminol;Saida;6;Balistica;
+67;2025-03-24;Kit DNA Free;Entrada;100;Genetica;Lab Diagnosticos Ltda
+78;2025-03-24;Kit ELISA;Saida;18;Toxicologia;
+41;2025-03-28;Reagente de Luminol;Saida;17;Balistica;
+18;2025-03-31;Tampao de Extracao;Entrada;20;Genetica;Lab Diagnosticos Ltda
+34;2025-04-04;Kit DNA Free;Entrada;30;Genetica;Lab Diagnosticos Ltda
+68;2025-04-08;Tampao de Extracao;Entrada;100;Genetica;Lab Diagnosticos Ltda
+55;2025-04-11;Solucao Padrao - Toxicologia;Entrada;100;Toxicologia;ChemLab Brasil
+35;2025-04-14;Kit DNA Free;Entrada;30;Genetica;Lab Diagnosticos Ltda
+17;2025-04-20;Formol 10%;Saida;23;Patologia;
+4;2025-04-24;Tampao de Extracao;Entrada;100;Genetica;Lab Diagnosticos Ltda
+6;2025-04-25;Hematoxilina;Saida;19;Patologia;
+20;2025-04-25;Kit DNA Free;Saida;25;Genetica;
+45;2025-04-28;Solucao Padrao - Toxicologia;Entrada;30;Toxicologia;ChemLab Brasil
+14;2025-04-29;Kit PCR - DNA;Saida;3;Genetica;
+21;2025-04-30;Kit PCR - DNA;Entrada;30;Genetica;Lab Diagnosticos Ltda
+46;2025-04-30;Kit PCR - DNA;Entrada;10;Genetica;Lab Diagnosticos Ltda
+69;2025-05-03;Tampao de Extracao;Saida;4;Genetica;
+25;2025-05-09;Reagente de Tincao BAAR;Saida;24;Balistica;
+70;2025-05-09;Esterco de Bario;Entrada;100;Quimica;Reagentes Nacionais
+22;2025-05-20;Hematoxilina;Entrada;20;Patologia;Hospitalar MS
+8;2025-05-25;Formol 10%;Entrada;20;Patologia;Hospitalar MS
+49;2025-05-25;Solucao Padrao - Toxicologia;Saida;7;Toxicologia;
+64;2025-06-03;Solucao Padrao - Toxicologia;Entrada;10;Toxicologia;ChemLab Brasil
+38;2025-06-09;Formol 10%;Entrada;10;Patologia;Hospitalar MS
+43;2025-06-11;Solucao Padrao - Toxicologia;Saida;22;Toxicologia;
+72;2025-06-12;Solucao Padrao - Toxicologia;Entrada;30;Toxicologia;ChemLab Brasil
+23;2025-06-13;Esterco de Bario;Entrada;50;Quimica;Reagentes Nacionais
+48;2025-06-21;Kit PCR - DNA;Entrada;100;Genetica;Lab Diagnosticos Ltda
+10;2025-07-05;Tampao de Extracao;Saida;20;Genetica;
+13;2025-07-07;Kit ELISA;Entrada;10;Toxicologia;ChemLab Brasil
+16;2025-07-08;Reagente de Luminol;Entrada;30;Balistica;Forense Store
+12;2025-07-15;Tampao de Extracao;Entrada;100;Genetica;Lab Diagnosticos Ltda
+19;2025-07-16;Reagente de Luminol;Saida;21;Balistica;
+62;2025-07-21;Kit PCR - DNA;Saida;15;Genetica;
+54;2025-07-28;Kit PCR - DNA;Saida;4;Genetica;
+51;2025-07-30;Reagente de Luminol;Entrada;10;Balistica;Forense Store
+71;2025-08-05;Tampao de Extracao;Saida;9;Genetica;
+3;2025-08-07;Tampao de Extracao;Entrada;10;Genetica;Lab Diagnosticos Ltda
+42;2025-08-07;Esterco de Bario;Entrada;100;Quimica;Reagentes Nacionais
+63;2025-08-07;Kit ELISA;Saida;5;Toxicologia;
+26;2025-08-10;Esterco de Bario;Saida;12;Quimica;
+52;2025-08-11;Tampao de Extracao;Saida;14;Genetica;
+44;2025-08-15;Formol 10%;Saida;4;Patologia;
+33;2025-08-23;Reagente de Tincao BAAR;Entrada;30;Balistica;Fornacoes Medicas
+24;2025-08-25;Hematoxilina;Entrada;30;Patologia;Hospitalar MS
+57;2025-08-27;Kit ELISA;Entrada;10;Toxicologia;ChemLab Brasil
+30;2025-08-30;Esterco de Bario;Saida;18;Quimica;
+53;2025-08-30;Hematoxilina;Entrada;10;Patologia;Hospitalar MS
+60;2025-09-08;Hematoxilina;Saida;7;Patologia;
+37;2025-09-10;Formol 10%;Entrada;10;Patologia;Hospitalar MS
+76;2025-09-19;Solucao Padrao - Toxicologia;Saida;5;Toxicologia;
+79;2025-09-30;Kit ELISA;Entrada;100;Toxicologia;ChemLab Brasil
+40;2025-10-02;Tampao de Extracao;Entrada;20;Genetica;Lab Diagnosticos Ltda
+36;2025-10-06;Reagente de Tincao BAAR;Entrada;100;Balistica;Fornacoes Medicas
+65;2025-10-07;Esterco de Bario;Entrada;30;Quimica;Reagentes Nacionais

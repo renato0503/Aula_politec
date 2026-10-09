@@ -48,6 +48,11 @@ cad.section("boas-vindas", "Bem-vindo ao caderno do Dia 2",
       "referencias, filtros e ordenacao) — com o passo a passo de cliques e atalhos. Ele foi "
       "ampliado: cada funcao ganhou um dicionario, uma aplicacao pratica na POLITEC e uma "
       "armadilha para evitar.") +
+    callout("note", "Datasets do dia",
+        "Os exemplos deste caderno usam dados reais simulados da POLITEC. Importe os arquivos "
+        "<code>datasets/requisicoes_periciais.csv</code>, <code>datasets/movimentacao_reagentes.csv</code>, "
+        "<code>datasets/produtividade_peritos.csv</code> e <code>datasets/orcamento_setores.csv</code> "
+        "para acompanhar todos os passo a passo.") +
     legenda([
         ("\u2600\ufe0f", "Parte 1 — Funcoes e logica", "SOMA, MEDIA, SE, SOMASE, CONT.SE, semaforo do TAT e o dicionario completo."),
         ("\U0001f527", "Parte 2 — Estrutura", "Referencias absolutas, F4, tabelas estruturadas, filtros e ordenacao."),
@@ -57,7 +62,7 @@ cad.section("boas-vindas", "Bem-vindo ao caderno do Dia 2",
     ]) +
     callout("note", "Ferramentas do dia",
         "Tudo funciona tanto no <b>Excel</b> quanto no <b>Google Sheets</b>. Onde houver diferenca de "
-        "sintaxe ou atalho, o caderno avisa. Tenha uma planilha em branco aberta para praticar.")
+        "sintaxe ou atalho, o caderno avisa. Tenha os datasets abertos no Excel para praticar.")
 )
 
 cad.section("mapa-do-dia", "Mapa do Dia 2: da manipulacao a analise estruturada",
@@ -198,19 +203,18 @@ cad.section("dicionario-funcoes", "Dicionario de funcoes do dia",
 )
 
 cad.section("soma-media", "SOMA() e MEDIA(): producao e desempenho",
-    p("Comece pelas duas funcoes mais usadas. Elas nao mudam o mundo, mas respondem as perguntas "
-      "mais frequentes do laboratorio.") +
+    p("Comece pelas duas funcoes mais usadas no dataset <code>requisicoes_periciais.csv</code>. "
+      "Elas nao mudam o mundo, mas respondem as perguntas mais frequentes do laboratorio.") +
     tbl(["Funcao", "O que faz", "Exemplo POLITEC"],
-        [["<b>SOMA()</b>", "Total de exames processados ou total de insumos gastos no periodo.",
-          "<code>=SOMA(D2:D100)</code> → quantidade total de exames de Toxicologia finalizados no mes."],
+        [["<b>SOMA()</b>", "Total de requisicoes ou total de insumos gastos no periodo.",
+          "<code>=SOMA(dias_uteis)</code> → soma dos dias uteis de todas as requisicoes."],
          ["<b>MEDIA()</b>", "Calcula o famoso <b>TAT</b> (Tempo Medio de Emissao de Laudo).",
-          "<code>=MEDIA(E2:E50)</code> → media de dias entre a requisicao pela Policia Civil e a "
-          "entrega do laudo."]],
+          "<code>=MEDIA(dias_uteis)</code> → media de dias entre data_recebimento e data_laudo."]],
         num_cols=[]) +
     aplicab(
         "Quando voce precisa de um unico numero que resuma um volume ou um tempo medio.",
         "Porque sao a base de qualquer indicador de producao e de prazo do laboratorio.",
-        "No fechamento do mes, <code>=SOMA</code> dos exames por setor e <code>=MEDIA</code> do TAT "
+        "No fechamento do mes, <code>=SOMA</code> das requisicoes por setor e <code>=MEDIA</code> do TAT "
         "por tipo de exame formam a primeira linha do relatorio gerencial.") +
     callout("err", "A media do TAT engana",
         "Lembre do Dia 1: um unico caso excepcional infla a media. Calcule tambem a <b>MEDIANA</b> "
@@ -218,17 +222,21 @@ cad.section("soma-media", "SOMA() e MEDIA(): producao e desempenho",
 )
 
 cad.section("primeira-funcao", "Passo a passo: digitando sua primeira funcao",
-    p("Vamos escrever, do zero, a formula que classifica o prazo de um laudo. O objetivo e ganhar "
-      "musculo de planilha: localizar, digitar, autocompletar, copiar e conferir.") +
+    p("Vamos escrever, do zero, a formula que classifica o prazo de um laudo usando o dataset "
+      "<code>requisicoes_periciais.csv</code>. O objetivo e ganhar musculo de planilha: localizar, "
+      "digitar, autocompletar, copiar e conferir.") +
     step([
-        ("Localize a celula", "Clique na celula onde o resultado deve aparecer (ex.: <code>H2</code>, "
-         "na coluna Situacao)."),
+        ("Importe o dataset", "Abra o arquivo <code>requisicoes_periciais.csv</code> no Excel. "
+         "Ele tem 120 requisicoes com as colunas: id_requisicao, data_recebimento, delegacia_origem, "
+         "tipo_exame, setor, perito_responsavel, status, data_laudo, dias_uteis."),
+        ("Localize a celula", "Clique na celula onde o resultado deve aparecer (ex.: <code>J2</code>, "
+         "nova coluna Situacao)."),
         ("Comece com o sinal de igual", "Toda formula comeca com <code>=</code>. Ao digitar, o Excel "
          "entra em <i>modo de edicao</i>."),
         ("Digite o nome da funcao", "Escreva <code>=SE</code>. Surgira a lista de sugestoes; pressione "
          "<kbd>Tab</kbd> para aceitar a funcao e abrir o parentese."),
-        ("Informe o teste logico", "Escreva <code>HOJE()-D2&gt;60</code>. O Excel avalia: o laudo "
-         "esta ha mais de 60 dias? (D2 = data de recebimento.)"),
+        ("Informe o teste logico", "Escreva <code>HOJE()-B2&gt;60</code>. O Excel avalia: a requisicao "
+         "esta ha mais de 60 dias? (B2 = data_recebimento.)"),
         ("Defina os dois resultados", "Separe com <code>;</code>: <b>ATRASO CRITICO</b> para "
          "verdadeiro e <b>No Prazo</b> para falso. Feche o parentese."),
         ("Confirme com Enter", "A celula mostra o rotulo. Se aparecer <code>#NOME?</code>, ha erro de "
@@ -239,12 +247,12 @@ cad.section("primeira-funcao", "Passo a passo: digitando sua primeira funcao",
          "Nunca confie sem conferir uma amostra."),
     ]) +
     code("""
-        =SE(HOJE()-D2>60; "ATRASO CRITICO"; "No Prazo")
+        =SE(HOJE()-B2>60; "ATRASO CRITICO"; "No Prazo")
 
         // Versao com a data do laudo preenchida (laudo ja emitido):
-        =SE(F2=""; "Em andamento"; F2-D2)
+        =SE(G2=""; "Em andamento"; G2-B2)
 
-        // Ao copiar para baixo, D2 vira D3, D4... (referencia relativa)
+        // Ao copiar para baixo, B2 vira B3, B4... (referencia relativa)
         """, "excel") +
     callout("tip", "Autocompletar e o melhor amigo",
         "Ao digitar <code>=SE</code>, o Excel sugere a funcao. Ao digitar <code>=SO</code>, mostra "
@@ -253,16 +261,16 @@ cad.section("primeira-funcao", "Passo a passo: digitando sua primeira funcao",
 
 cad.section("cont-max-min", "CONT.VALORES(), CONT.NUM(), MAXIMO() e MINIMO()",
     p("Depois de somar e tirar medias, voce precisa <b>contar</b> e encontrar <b>extremos</b>. "
-      "Cada funcao de contagem tem um proposito diferente — confundir e uma fonte classica de "
-      "numeros errados.") +
+      "No dataset <code>requisicoes_periciais.csv</code>, essas funcoes respondem: quantas requisicoes "
+      "foram recebidas? quantas tem TAT valido? qual o maior TAT?") +
     tbl(["Funcao", "Conta / encontra", "Exemplo POLITEC"],
         [["<b>CONT.VALORES()</b>", "Celulas com qualquer conteudo (texto ou numero).",
-          "<code>=CONT.VALORES(A2:A500)</code> → total de requisicoes periciais recebidas no ano."],
+          "<code>=CONT.VALORES(id_requisicao)</code> → total de requisicoes na base (120)."],
          ["<b>CONT.NUM()</b>", "Somente celulas com valores numericos.",
-          "<code>=CONT.NUM(E2:E500)</code> → quantos laudos ja tem TAT registrado (datas/numeros)."],
+          "<code>=CONT.NUM(dias_uteis)</code> → quantos laudos tem TAT numerico valido (apenas os Concluidos)."],
          ["<b>MAXIMO()</b>", "O maior valor.",
-          "<code>=MAXIMO(F2:F100)</code> → o maior tempo (em dias) que um exame de DNA ficou parado."],
-         ["<b>MINIMO()</b>", "O menor valor.", "<code>=MINIMO(F2:F100)</code> → os piores e melhores desempenhos."]],
+          "<code>=MAXIMO(dias_uteis)</code> → o maior TAT registrado na base."],
+         ["<b>MINIMO()</b>", "O menor valor.", "<code>=MINIMO(dias_uteis)</code> → o menor TAT."]],
         num_cols=[]) +
     antesdepois(
         "Usar CONT.VALORES() para contar laudos com TAT preenchido (conta texto vazio aparente e datas como texto).",
@@ -382,21 +390,26 @@ cad.section("funcoes-texto-data", "Funcoes de texto e data que todo perito dever
 
 cad.section("somase", "SOMASE(): isolando custos por setor",
     p("A funcao <b>SOMASE()</b> realiza uma soma condicional — soma apenas os valores que atendem a "
-      "um criterio. E o que permite prestar contas por setor em vez de olhar so o total geral.") +
+      "um criterio. No dataset <code>movimentacao_reagentes.csv</code>, ela responde: quanto gastamos "
+      "em reagentes por setor?") +
     grid2([
         ("Sintaxe",
          "<code>=SOMASE(intervalo_criterios; criterio; intervalo_soma)</code>"),
         ("Aplicacao POLITEC",
-         "<code>=SOMASE(C2:C100; \"Toxicologia\"; E2:E100)</code> → soma apenas o custo de reagentes "
-         "gastos pelo setor de Toxicologia, ignorando DNA ou Balistica."),
+         "<code>=SOMASE(setor; \"Toxicologia\"; quantidade)</code> → soma a quantidade de reagentes "
+         "movimentados pelo setor de Toxicologia (entradas menos saidas)."),
     ]) +
     code("""
-        =SOMASE(C2:C100; "Toxicologia"; E2:E100)
+        // No dataset movimentacao_reagentes.csv:
+        // Colunas: id, data, reagente, tipo_movimentacao, quantidade, setor, fornecedor
 
-        // Custo por setor, em uma tabela de indicadores:
-        Toxicologia =SOMASE(C2:C100; "Toxicologia"; E2:E100)
-        DNA         =SOMASE(C2:C100; "DNA";         E2:E100)
-        Balistica   =SOMASE(C2:C100; "Balistica";   E2:E100)
+        // Total de entradas de Toxicologia:
+        =SOMASE(tipo_movimentacao; "Entrada"; quantidade)
+
+        // Total de entradas POR SETOR:
+        Toxicologia =SOMASE(setor; "Toxicologia"; quantidade)
+        Genetica    =SOMASE(setor; "Genetica";    quantidade)
+        Balistica   =SOMASE(setor; "Balistica";   quantidade)
         """, "excel") +
     aplicab(
         "Quando o criterio e simples (uma coluna, uma condicao).",
@@ -426,25 +439,27 @@ cad.section("cont-se", "CONT.SE(), CONT.SES() e SOMASES(): contar e somar por cr
 )
 
 cad.section("aplic-estoque-reagentes", "Aplicacao pratica: controle de estoque de reagentes com SOMASE e SE",
-    p("Cenario: o laboratorio tem uma aba de <b>movimentacao de reagentes</b> (entradas e saidas) e "
-      "precisa saber, em tempo real, o saldo de cada item e alertar quando ele fica critico.") +
+    p("Cenario: o laboratorio tem o dataset <code>movimentacao_reagentes.csv</code> com 80 registros "
+      "de entradas e saidas de reagentes. Precisamos saber, em tempo real, o saldo de cada item e "
+      "alertar quando ele fica critico.") +
     code("""
-        // Estrutura da aba Mov_Reagentes:
-        // A: Data | B: Reagente | C: Tipo (Entrada/Saida) | D: Qtd | E: Setor
+        // Estrutura de movimentacao_reagentes.csv:
+        // Colunas: id, data, reagente, tipo_movimentacao, quantidade, setor, fornecedor
 
-        Entradas = SOMASE(C:C; "Entrada"; D:D)
-        Saidas   = SOMASE(C:C; "Saida";   D:D)
+        // Entradas por reagente:
+        Entradas = SOMASE(tipo_movimentacao; "Entrada"; quantidade)
+        Saidas   = SOMASE(tipo_movimentacao; "Saida";   quantidade)
         Saldo    = Entradas - Saidas
 
-        // Saldo de um reagente especifico (ex.: "Kit PCR") com SOMASES:
-        =SOMASES(D:D; B:B; "Kit PCR"; C:C; "Entrada")
-        -SOMASES(D:D; B:B; "Kit PCR"; C:C; "Saida")
+        // Saldo de um reagente especifico (ex.: "Kit PCR - DNA") com SOMASES:
+        =SOMASES(quantidade; reagente; "Kit PCR - DNA"; tipo_movimentacao; "Entrada")
+        -SOMASES(quantidade; reagente; "Kit PCR - DNA"; tipo_movimentacao; "Saida")
         """, "excel") +
     step([
-        ("Padronize o tipo", "A coluna Tipo so aceita Entrada ou Saida (use validacao de "
-         "dados do Dia 3 para garantir)."),
-        ("Calcule entradas e saidas", "Um <code>SOMASE</code> para cada tipo, com o criterio na "
-         "coluna Tipo e a soma na coluna Qtd."),
+        ("Importe o dataset", "Abra <code>movimentacao_reagentes.csv</code> no Excel e crie uma "
+         "Tabela Estruturada (Ctrl+T) chamada <code>TabelaMov</code>."),
+        ("Calcule entradas e saidas", "Um <code>SOMASE</code> para cada tipo, com criterio em "
+         "<code>tipo_movimentacao</code> e soma em <code>quantidade</code>."),
         ("Crie o saldo", "<code>=Entradas - Saidas</code>. Se o saldo puder ficar negativo, ha um "
          "erro de lancamento a investigar."),
         ("Monte o alerta", "<code>=SE(Saldo&lt;10;\"REPOR URGENTE\";SE(Saldo&lt;30;\"Atencao\";\"OK\"))</code>."),
@@ -461,33 +476,41 @@ cad.section("aplic-estoque-reagentes", "Aplicacao pratica: controle de estoque d
 )
 
 cad.section("aplic-produtividade-perito", "Aplicacao pratica: produtividade por perito com CONT.SES",
-    p("Cenario: medir quantos laudos cada perito concluiu por mes e por tipo de exame, para "
-      "distribuir a carga de trabalho de forma justa e identificar gargalos individuais.") +
+    p("Cenario: medir quantos laudos cada perito concluiu por mes e por tipo de exame, usando o "
+      "dataset <code>produtividade_peritos.csv</code> (218 linhas com dados de 9 meses e 8 peritos). "
+      "Os nomes reais dos peritos sao: Silva, A. P., Souza, M. F., Almeida, C. R., Costa, J. L., "
+      "Oliveira, R. S., Lima, P. H., Ferreira, T. A., Martins, K. B.") +
     code("""
-        // Estrutura: A: Perito | B: Mes | C: Tipo_Exame | D: Status
+        // Estrutura de produtividade_peritos.csv:
+        // Colunas: mes, perito, tipo_exame, laudos_concluidos
 
         // Laudos concluidos por um perito em um mes:
-        =CONT.SES(A:A; "Perito Silva"; B:B; "2025-06"; D:D; "Concluido")
+        =CONT.SES(perito; "Silva, A. P."; mes; "2025-06"; tipo_exame; "DNA")
 
-        // Produtividade em uma matriz (linhas = perito, coluna = mes):
-        =CONT.SES($A$2:$A$5000; [@Perito]; $B$2:$B$5000; "2025-06"; $D$2:$D$5000; "Concluido")
+        // Total de laudos por perito (soma da coluna laudos_concluidos):
+        =SOMASE(perito; "Silva, A. P."; laudos_concluidos)
+
+        // Matriz: peritos nas linhas, meses nas colunas (usando SUMPRODUCT):
+        =SUMPRODUCT((perito=$A2)*(mes=B$1)*laudos_concluidos)
         """, "excel") +
-    bar_chart(["Silva", "Souza", "Almeida", "Costa"], [48, 41, 35, 27],
-              title="Laudos concluidos por perito no mes",
-              subtitulo="Contagem com CONT.SES. Costa esta 44% abaixo do lider — possivel sobrecarga ou afastamento.",
+    bar_chart(["Silva, A. P.", "Souza, M. F.", "Almeida, C. R.", "Costa, J. L.",
+                "Oliveira, R. S.", "Lima, P. H.", "Ferreira, T. A.", "Martins, K. B."],
+              [156, 142, 128, 98, 167, 119, 134, 101],
+              title="Total de laudos concluidos por perito (2025)",
+              subtitulo="Dados de 9 meses. Meta mensal = 35 laudos. Costa e Lima estao abaixo da meta acumulada.",
               destaque=3) +
     step([
-        ("Defina os criterios", "Perito, mes e status. Sao tres condicoes simultaneas — por isso "
-         "<code>CONT.SES</code>."),
-        ("Monte a matriz", "Coloque os peritos nas linhas e os meses nas colunas, com o nome do "
-         "perito em uma celula unica (<code>[@Perito]</code>)."),
-        ("Trave as referencias", "Use <code>$A$2:$A$5000</code> etc., para que a formula copie "
-         "certa ao arrastar (guia do F4, Parte 2)."),
-        ("Compare com a meta", "Divida pela meta mensal para achar o <b>% de atingimento</b>."),
+        ("Importe o dataset", "Abra <code>produtividade_peritos.csv</code> e crie "
+         "<code>TabelaProdutividade</code> com Ctrl+T."),
+        ("Defina os criterios", "Perito, mes e tipo_exame. Sao ate tres condicoes simultaneas — "
+         "por isso <code>SOMASE</code> (por perito) ou <code>CONT.SES</code>."),
+        ("Some os laudos por perito", "<code>=SOMASE(perito; \"Silva, A. P.\"; laudos_concluidos)</code>."),
+        ("Calcule a meta acumulada", "Meta mensal = 35 laudos. Meta de 9 meses = 315. Compare cada "
+         "perito com a meta acumulada."),
     ]) +
-    callout("err", "Contar todos os status",
-        "Nao inclua Em andamento na produtividade. Produtividade e <b>entrega</b>, nao trabalho "
-        "em curso. Filtre sempre <code>Status = \"Concluido\"</code>.")
+    callout("err", "Contar todos os registros sem somar",
+        "Nao use CONT.SES para contar linhas — use SOMASE para somar a coluna laudos_concluidos. "
+        "CONT.SES conta quantas linhas tem o nome, nao quantos laudos foram concluidos.")
 )
 
 cad.section("aplic-prazos-hoje", "Aplicacao pratica: acompanhamento de prazos com SE + HOJE",
@@ -818,16 +841,16 @@ cad.section("referencias-abas-nomes", "Referencias entre abas e intervalos nomea
           "Funciona, mas o nome entre apostrofos e mais fragil. Prefira <code>Base</code>."],
          ["<b>Intervalo nomeado</b>", "<code>=Meta_TAT</code>",
           "Em vez de <code>Parametros!$B$1</code>, usa-se um nome. Muito mais legivel."],
-         ["<b>Nome de Tabela</b>", "<code>=TabelaLaudos[TAT_Dias]</code>",
+         ["<b>Nome de Tabela</b>", "<code>=TabelaLaudos[dias_uteis]</code>",
           "Aponte para a coluna inteira sem se preocupar com o tamanho."]],
         num_cols=[]) +
     step([
-        ("Crie a aba Parametros", "Uma aba so com metas, precos e taxas, separada da base."),
+        ("Crie a aba Parametros", "Uma aba so com metas (Meta_TAT = 30 dias), separada da base."),
         ("Selecione a celula", "Ex.: <code>Parametros!$B$1</code>, que contem a meta de TAT."),
         ("Abra o Gerenciador de Nomes", "<kbd>Formulas</kbd> \u2192 <kbd>Gerenciador de Nomes</kbd> "
          "no Excel; no Sheets, defina o nome na barra de endereco."),
         ("Defina o nome", "Chame de <code>Meta_TAT</code>. Nomes nao podem ter espacos nem acentos."),
-        ("Use na formula", "<code>=CONT.SE(TabelaLaudos[TAT_Dias];\"&lt;=\"&amp;Meta_TAT)</code> — "
+        ("Use na formula", "<code>=CONT.SE(TabelaLaudos[dias_uteis];\"&lt;=\"&amp;Meta_TAT)</code> — "
          "leitura imediata, sem cifroes."),
     ]) +
     callout("err", "Nome com espaco ou acento",
@@ -903,19 +926,21 @@ cad.section("aplic-orcamento-reagentes", "Aplicacao pratica: planilha de orcamen
 cad.section("tabelas-estruturadas", "Tabelas estruturadas: o fim das planilhas caoticas",
     p("Pressionar <b>Ctrl+T</b> (ou <i>Inserir \u203a Tabela</i>) transforma um intervalo comum em uma "
       "<b>Tabela Oficial</b> do Excel — com comportamento de banco de dados, expansao automatica e "
-      "formulas inteligentes.") +
+      "formulas inteligentes. No dataset <code>requisicoes_periciais.csv</code>, a TabelaLaudos tera "
+      "9 colunas.") +
     legenda([
         ("\u2795", "Expansao automatica", "Cole 50 novas requisicoes no fim da tabela: formulas e "
          "formatacao condicional se estendem sozinhas, sem arrastar a alca."),
-        ("\U0001f4d6", "Formulas legiveis", "Em vez de <code>=SOMASE(C2:C100;\"DNA\")</code>, voce "
-         "escreve <code>=SOMASE(TabelaLaudos[Tipo_Exame];\"DNA\")</code>."),
+        ("\U0001f4d6", "Formulas legiveis", "Em vez de <code>=SOMASE(G2:G121;\"Toxicologia\";I2:I121)</code>, "
+         "voce escreve <code>=SOMASE(TabelaLaudos[setor];\"Toxicologia\";TabelaLaudos[dias_uteis])</code>."),
         ("\U0001f53d", "Filtros automaticos", "As setas de filtro aparecem no cabecalho de cada "
          "coluna, sem configuracao adicional."),
     ]) +
     step([
-        ("Clique dentro da base", "Posicione o cursor em qualquer celula dos dados (com cabecalho)."),
+        ("Importe e posicione", "Apos importar <code>requisicoes_periciais.csv</code>, clique em "
+         "qualquer celula da base."),
         ("Ctrl+T", "Marque <b>Minha tabela tem cabecalho</b> e confirme."),
-        ("Nomeie a tabela", "Em <i>Design da Tabela</i>, renomeie de Tabela1 para algo como "
+        ("Nomeie a tabela", "Em <i>Design da Tabela</i>, renomeie para "
          "<code>TabelaLaudos</code>. Este nome sera usado nas formulas."),
         ("Solte as formulas", "Reescreva os indicadores usando nomes de coluna. Eles nao quebram "
          "quando a base cresce."),
@@ -927,26 +952,26 @@ cad.section("tabelas-estruturadas", "Tabelas estruturadas: o fim das planilhas c
 
 cad.section("tabela-estruturada-detalhe", "Tabela estruturada em detalhe: [@] e nomes de coluna",
     p("A grande vantagem da Tabela Estruturada e a <b>sintaxe por nome</b>. Voce para de contar "
-      "linhas e passa a falar em linguagem de dados: a coluna TAT da TabelaLaudos.") +
+      "linhas e passa a falar em linguagem de dados: a coluna setor da TabelaLaudos.") +
     tbl(["Notacao", "Significado", "Exemplo"],
-        [["<code>TabelaLaudos[TAT_Dias]</code>", "A <b>coluna inteira</b> TAT_Dias.",
+        [["<code>TabelaLaudos[setor]</code>", "A <b>coluna inteira</b> setor.",
           "Vai de A2 ate o fim, mesmo que a base dobre."],
-         ["<code>[@[TAT_Dias]]</code>", "O valor da <b>linha atual</b> dessa coluna.",
-          "Dentro da tabela: <code>=[@[Data_Laudo]]-[@[Data_Recebimento]]</code>."],
-         ["<code>TabelaLaudos[[#Totais];[TAT]]</code>", "Linha de totais da tabela (se ativa).",
+         ["<code>[@[status]]</code>", "O valor da <b>linha atual</b> dessa coluna.",
+          "Dentro da tabela: <code>=[@[data_laudo]]-[@[data_recebimento]]</code>."],
+         ["<code>TabelaLaudos[[#Totais];[dias_uteis]]</code>", "Linha de totais da tabela (se ativa).",
           "Total rapido sem formula separada."],
          ["<code>TabelaLaudos[@]</code>", "A linha inteira atual.",
           "Menos comum, mas util em algumas referencias."]],
         num_cols=[]) +
     code("""
         // NAO use referencias de celulas fixas dentro da tabela:
-        =SOMASE(C2:C100; "DNA"; E2:E100)      // quebra se a base crescer
+        =SOMASE(G2:G121; "Toxicologia"; I2:I121)    // quebra se a base crescer
 
         // USE nomes de coluna:
-        =SOMASE(TabelaLaudos[Tipo_Exame]; "DNA"; TabelaLaudos[Custo_Reagente])
+        =SOMASE(TabelaLaudos[setor]; "Toxicologia"; TabelaLaudos[dias_uteis])
 
         // Coluna calculada linha a linha:
-        =[@[Data_Laudo]] - [@[Data_Recebimento]]
+        =[@[data_laudo]] - [@[data_recebimento]]
         """, "excel") +
     callout("tip", "Digite [ e o Excel ajuda",
         "Dentro de uma tabela, ao digitar <code>[</code>, o Excel lista as colunas disponiveis. "
@@ -1179,17 +1204,17 @@ cad.section("colunas-medidas", "Colunas calculadas x medidas: preparando o vocab
       "no Power BI podem ser entendidas agora, na planilha: <b>coluna calculada</b> e <b>medida</b>.") +
     grid2([
         ("Coluna calculada (linha a linha)",
-         "Um valor por <b>linha</b>. Exemplo: <code>TAT_Dias = [@[Data_Laudo]]-"
-         "[@[Data_Recebimento]]</code>. E a coluna que ja usamos dentro da tabela."),
+         "Um valor por <b>linha</b>. Exemplo: <code>=[@[data_laudo]]-[@[data_recebimento]]</code>. "
+         "E a coluna dias_uteis que ja existe no dataset."),
         ("Medida (agregacao)",
-         "Um valor que resume <b>muitas linhas</b>. Exemplo: <code>TAT_Medio = MEDIA(TAT_Dias)</code>. "
+         "Um valor que resume <b>muitas linhas</b>. Exemplo: <code>=MEDIA(TabelaLaudos[dias_uteis])</code>. "
          "E o que a direcao quer ver no cartao do painel."),
     ]) +
     tbl(["Pergunta", "Resposta", "Tipo"],
-        [["Qual o TAT deste laudo?", "Uma coluna calculada.", "Por linha"],
-         ["Qual o TAT medio do laboratorio?", "Uma medida (MEDIA).", "Agregada"],
-         ["Quantos laudos deste setor?", "Uma medida (CONT.SE/SES).", "Agregada"],
-         ["Este laudo esta atrasado?", "Uma coluna calculada (SE).", "Por linha"]],
+        [["Qual o TAT desta requisicao?", "dias_uteis (ja existe na base).", "Por linha"],
+         ["Qual o TAT medio do laboratorio?", "MEDIA(dias_uteis).", "Agregada"],
+         ["Quantas requisicoes por setor?", "CONT.SE(setor; \"Toxicologia\").", "Agregada"],
+         ["Esta requisicao esta em atraso?", "SE(dias_uteis>60; \"Critico\"; \"OK\").", "Por linha"]],
         num_cols=[]) +
     callout("note", "Por que isso importa agora",
         "No Power BI, colunas calculadas e medidas se comportam de forma diferente e a escolha afeta "
@@ -1278,15 +1303,18 @@ cad.grp("Parte 3 · Pratica guiada",
         "Sete laboratorios que constroem, do zero, o painel de gestao de laudos.")
 
 cad.section("lab1", "Lab 1 — Estruturar a base (Ctrl+T)",
-    p("Objetivo: partir de uma lista solta e transformar em uma Tabela Estruturada pronta para "
-      "crescer.") +
+    p("Objetivo: a partir do dataset <code>requisicoes_periciais.csv</code>, criar a Tabela "
+      "Estruturada que sera a base de todos os calculos do painel de gestao.") +
     step([
-        ("Crie as colunas", "<code>Numero_Requisicao</code>, <code>Tipo_Exame</code>, "
-         "<code>Data_Recebimento</code>, <code>Data_Laudo</code>, <code>TAT_Dias</code>, "
-         "<code>Status</code>, <code>Setor</code>, <code>Custo_Reagente</code>."),
-        ("Confira o formato das datas", "As datas devem estar alinhadas a direita (numerico). Se "
-         "estiverem a esquerda, sao texto — corrija antes de continuar."),
-        ("Ctrl+T", "Selecione toda a base e pressione Ctrl+T; marque minha tabela tem cabecalho."),
+        ("Importe o CSV", "Abra o arquivo <code>requisicoes_periciais.csv</code> no Excel: "
+         "<kbd>Dados</kbd> \u2192 <kbd>De Text/CSV</kbd>. Selecione o arquivo, configure "
+         "ponto e virgula como delimitador e UTF-8. A coluna dias_uteis ja esta calculada."),
+        ("Verifique as colunas", "O dataset tem: id_requisicao, data_recebimento, delegacia_origem, "
+         "tipo_exame, setor, perito_responsavel, status, data_laudo, dias_uteis."),
+        ("Confira o formato das datas", "As colunas data_recebimento e data_laudo devem estar "
+         "alinhadas a direita (numerico). Se estiverem a esquerda, sao texto — corrija."),
+        ("Ctrl+T", "Selecione toda a base e pressione Ctrl+T; marque <i>Minha tabela tem "
+         "cabecalho</i>."),
         ("Nomeie a tabela", "Renomeie para <code>TabelaLaudos</code> no <i>Design da Tabela</i>."),
         ("Teste a expansao", "Cole duas linhas novas no fim e veja formulas/formatacao se estenderem."),
     ]) +
@@ -1295,64 +1323,77 @@ cad.section("lab1", "Lab 1 — Estruturar a base (Ctrl+T)",
         "falhar. Desmescle e preencha as lacunas primeiro.")
 )
 
-cad.section("lab2", "Lab 2 — Calcular o TAT automaticamente",
-    p("Objetivo: criar a coluna TAT que se calcula sozinha e trata o caso laudo em andamento.") +
+cad.section("lab2", "Lab 2 — Verificar o TAT com SE e HOJE",
+    p("Objetivo: no dataset <code>requisicoes_periciais.csv</code>, a coluna dias_uteis ja existe "
+      "para laudos concluidos. Vamos criar uma coluna de Status que diga se o laudo pendente ja "
+      "esta em atraso usando <code>=HOJE()</code>.") +
     code("""
-        // Na coluna TAT_Dias (dentro da tabela):
-        =SE([@[Data_Laudo]]=""; "Em andamento"; [@[Data_Laudo]] - [@[Data_Recebimento]])
+        // Coluna Status_Prazo (nova coluna na TabelaLaudos):
+        // Se data_laudo esta vazia (pendente), usa HOJE; senao usa a data do laudo
+        =SE(data_laudo=""; "Em andamento"; SE(HOJE()-data_recebimento>60; "ATRASO CRITICO";
+            SE(HOJE()-data_recebimento>30; "Atencao"; "No prazo")))
         """, "excel") +
     step([
-        ("Insira a formula", "Dentro da tabela, escreva a formula usando <b>[@[coluna]]</b> — ela se "
-         "aplica a linha inteira."),
-        ("Formate como numero", "A coluna TAT deve exibir um numero de dias, nao uma data."),
-        ("Trate o vazio", "O <code>SE(...=\"\";\"Em andamento\";...)</code> evita o erro 1900 em "
-         "laudos ainda nao emitidos."),
-        ("Confira", "Compare um TAT calculado manualmente com o da formula."),
+        ("Insira a nova coluna", "Clique em uma celula vazia a direita da ultima coluna da "
+         "TabelaLaudos, digite o cabecalho <code>Status_Prazo</code>."),
+        ("Escreva a formula", "Use os nomes de coluna da tabela: <code>=SE(data_laudo=\"\";...)</code>."),
+        ("Formate como texto", "A coluna exibira textos como Em andamento ou ATRASO CRITICO."),
+        ("Trate o vazio", "O <code>SE(...=\"\";\"Em andamento\";...)</code> evita erros em "
+         "laudos pendentes."),
+        ("Confira", "Compare uma linha pendente: dias desde data_recebimento vs. resultado da formula."),
     ]) +
-    callout("tip", "Datas como texto retornam erro",
-        "Se o TAT aparecer como erro, verifique se <code>Data_Laudo</code> e "
-        "<code>Data_Recebimento</code> sao <b>datas numericas</b>. Use <code>=DATA.VALOR()</code> ou "
-        "a conversao de texto para data.")
+    callout("tip", "HOJE() atualiza a cada abertura",
+        "<code>=HOJE()</code> se atualiza a cada vez que o arquivo e aberto. A coluna de "
+        "espera cresce sozinha — sem ninguem precisar reescrever nada.")
 )
 
 cad.section("lab3", "Lab 3 — Aplicar o semaforo do TAT",
-    p("Objetivo: pintar a coluna TAT em verde, amarelo e vermelho com regras em cascata.") +
+    p("Objetivo: pintar a coluna Status_Prazo (ou dias_uteis) da TabelaLaudos em verde, amarelo "
+      "e vermelho com regras em cascata.") +
     step([
-        ("Selecione a coluna TAT", "Sem incluir o cabecalho."),
+        ("Selecione a coluna Status_Prazo", "Toda a coluna, sem incluir o cabecalho."),
         ("Regra 1 (vermelho)", "Formatacao Condicional \u2192 Nova Regra \u2192 "
-         "<i>Formatar somente celulas que contenham</i> \u2192 maior que 60 \u2192 preenchimento vermelho."),
-        ("Regra 2 (amarelo)", "Nova Regra \u2192 entre 31 e 60 \u2192 preenchimento amarelo."),
-        ("Regra 3 (verde)", "Nova Regra \u2192 menor ou igual a 30 \u2192 preenchimento verde."),
-        ("Marque Parar se verdadeiro", "Nas regras de cima, garanta que apenas a primeira "
-         "condicao verdadeira pinte a celula."),
+         "<i>Formatar somente celulas que contenham</i> \u2192 texto contem \"CRITICO\" \u2192 "
+         "preenchimento vermelho."),
+        ("Regra 2 (amarelo)", "Nova Regra \u2192 texto contem \"Atencao\" \u2192 "
+         "preenchimento amarelo."),
+        ("Regra 3 (verde)", "Nova Regra \u2192 texto contem \"No prazo\" \u2192 "
+         "preenchimento verde."),
+        ("Marque Parar se verdadeiro", "Em cada regra, marque <i>Parar se verdadeiro</i> para "
+         "que apenas uma cor se aplique por celula."),
     ]) +
     checklist([
-        "Valores &lt;= 30 ficam verdes.",
-        "Valores entre 31 e 60 ficam amarelos.",
-        "Valores &gt; 60 ficam vermelhos.",
+        "Status contendo \"CRITICO\" ficam vermelhos.",
+        "Status contendo \"Atencao\" ficam amarelos.",
+        "Status contendo \"No prazo\" ficam verdes.",
         "O filtro por cor mostra apenas os vermelhos.",
     ])
 )
 
 cad.section("lab4", "Lab 4 — Criar os indicadores com referencias absolutas",
-    p("Objetivo: montar a aba de indicadores, travando os parametros com F4.") +
+    p("Objetivo: montar a aba de indicadores sobre a TabelaLaudos (dataset "
+      "<code>requisicoes_periciais.csv</code>), usando referencias absolutas para os parametros.") +
     code("""
         // Aba "Parametros" (celulas travadas nas formulas):
-        Meta_TAT        = 30
-        Custo_Reagente  = R$ 12,50
+        Meta_TAT        = 30    (celula $B$1)
+        Meta_Diaria     = 5     (celula $B$2)
 
-        // Aba "Painel":
-        Backlog pendente  = CONT.SE(TabelaLaudos[Status]; "Pendente")
-        TAT medio geral   = MEDIA(TabelaLaudos[TAT_Dias])
-        Custo por setor   = SOMASE(TabelaLaudos[Setor]; "Toxicologia"; TabelaLaudos[Custo_Reagente])
-        % dentro da meta  = CONT.SE(TabelaLaudos[TAT_Dias]; "<="&$Meta_TAT) / CONT.NUM(TabelaLaudos[TAT_Dias])
+        // Aba "Painel" (sobre TabelaLaudos):
+        Total requisicoes  = CONT.VALORES(TabelaLaudos[id_requisicao])
+        Backlog pendente   = CONT.SE(TabelaLaudos[status]; "Pendente")
+        TAT medio geral   = MEDIA(TabelaLaudos[dias_uteis])
+        TAT mediano        = MED(TabelaLaudos[dias_uteis])
+        Requisicoes por setor = SOMASE(TabelaLaudos[setor]; "Toxicologia"; TabelaLaudos[dias_uteis])
+        % dentro da meta   = CONT.SE(TabelaLaudos[dias_uteis]; "<="&$B$1) / CONT.NUM(TabelaLaudos[dias_uteis])
         """, "excel") +
     step([
-        ("Separe a aba Parametros", "Crie uma aba so com metas, precos e taxas."),
-        ("Trave as referencias", "Em toda formula que usa um parametro, pressione F4 para fixar "
-         "(ex.: <code>$B$1</code>)."),
-        ("Valide com amostra", "Confira CONT.SE e SOMASE contra uma filtragem manual de uma amostra."),
-        ("Formate", "Porcentagem com 1 casa; moeda em R$; TAT em dias."),
+        ("Separe a aba Parametros", "Crie uma aba chamada <code>Parametros</code> com Meta_TAT = 30 e "
+         "outras constantes do laboratorio."),
+        ("Trave as referencias", "Em toda formula que usa um parametro, posicione o cursor sobre a "
+         "celula e pressione F4 ate aparecer <code>$B$1</code>."),
+        ("Valide com amostra", "Filtre a TabelaLaudos manualmente por status = Pendente e compare "
+         "com <code>=CONT.SE(status;\"Pendente\")</code>."),
+        ("Formate", "TAT em dias (0 decimal); porcentagem com 1 casa."),
     ]) +
     callout("err", "Parametro na mesma aba dos dados",
         "Nao misture parametros com a base de dados. Se a base crescer e a tabela se expandir, a "
@@ -1360,69 +1401,72 @@ cad.section("lab4", "Lab 4 — Criar os indicadores com referencias absolutas",
 )
 
 cad.section("lab5", "Lab 5 — Filtros e ordenacao personalizada (painel do diretor)",
-    p("Objetivo: reproduzir, em 10 segundos, a lista de laudos criticos para a reuniao das 8h.") +
+    p("Objetivo: reproduzir, em 10 segundos, a lista de laudos criticos para a reuniao das 8h "
+      "usando a TabelaLaudos (dataset <code>requisicoes_periciais.csv</code>).") +
     step([
-        ("Ative os filtros", "Ctrl+Shift+L na TabelaLaudos."),
-        ("Filtre por cor vermelha", "Na coluna Status/TAT, Filtrar por Cor \u2192 Vermelho."),
-        ("Ordene por prioridade", "Na coluna gravidade/tipo de crime, use a lista personalizada "
-         "(Homicidio primeiro)."),
-        ("Seque a ordem por data", "Dentro da prioridade, ordene por Data_Recebimento crescente."),
-        ("Exporte/cole a lista", "Leve a lista para a reuniao — sao os casos a cobrar primeiro."),
+        ("Ative os filtros", "Ctrl+Shift+L na TabelaLaudos. As setas aparecem nos cabecalhos."),
+        ("Filtre ATRASO CRITICO", "Na coluna Status_Prazo, filtre apenas \"ATRASO CRITICO\"."),
+        ("Ordene por antiguidade", "Ordene por data_recebimento crescente — os mais antigos primeiro."),
+        ("Leve a lista", "Selecione as linhas filtradas, copie e cole na pauta da reuniao — "
+         "sao os casos a cobrar primeiro."),
     ]) +
     ficha("g", "Resultado esperado",
-        "Uma lista curta, priorizada por gravidade e antiguidade, contendo apenas os casos em atraso "
-        "critico. Sem macro, sem codigo: so tres cliques e a inteligencia da planilha.")
+        "Uma lista curta, priorizada por antiguidade, contendo apenas os casos em atraso "
+        "critico. Sem macro, sem codigo: tres cliques e a inteligencia da planilha.")
 )
 
 cad.section("painel-backlog", "Lab integrador — o painel de backlog completo",
     p("Ao final do Dia 2, cada participante deve ser capaz de construir o painel basico de gestao de "
-      "laudos da POLITEC/MT em uma planilha estruturada, combinando tudo o que vimos.") +
+      "laudos da POLITEC/MT em uma planilha estruturada, combinando tudo o que vimos — usando "
+      "o dataset <code>requisicoes_periciais.csv</code> como fonte.") +
     step([
-        ("Estruturar a base", "Criar uma Tabela (Ctrl+T) com: Numero da Requisicao, Tipo de Exame, "
-         "Data de Recebimento, Data do Laudo, TAT (dias), Status, Setor, Custo do Reagente."),
-        ("Calcular o TAT automaticamente",
-         "<code>=SE([@[Data do Laudo]]=\"\";\"Em andamento\";[@[Data do Laudo]]-[@[Data de Recebimento]])</code>"),
-        ("Aplicar o semaforo", "Formatacao condicional na coluna TAT: verde &lt;=30 / amarelo 31-60 / "
-         "vermelho &gt;60, com regras em cascata."),
+        ("Estruturar a base", "Importe <code>requisicoes_periciais.csv</code> e crie TabelaLaudos "
+         "com Ctrl+T. Colunas: id_requisicao, data_recebimento, delegacia_origem, tipo_exame, "
+         "setor, perito_responsavel, status, data_laudo, dias_uteis."),
+        ("Criar Status_Prazo",
+         "<code>=SE(data_laudo=\"\";\"Em andamento\";SE(HOJE()-data_recebimento>60;\"ATRASO CRITICO\";"
+         "SE(HOJE()-data_recebimento>30;\"Atencao\";\"No prazo\")))</code>"),
+        ("Aplicar o semaforo", "Formatacao condicional na coluna Status_Prazo: No prazo (verde) / "
+         "Atencao (amarelo) / ATRASO CRITICO (vermelho), com regras em cascata."),
         ("Criar os indicadores", "Em aba separada: CONT.SE para backlog pendente, MEDIA para TAT medio, "
-         "SOMASE para custo por setor. Usar referencias absolutas nos parametros."),
-        ("Montar o painel visual", "KPIs no topo (backlog, TAT medio, % no prazo, custo total) e a "
-         "tabela filtravel logo abaixo."),
-        ("Filtrar e ordenar", "Aplicar filtro por cor e ordenacao personalizada para gerar a fila de "
-         "prioridades."),
+         "SOMASE para requisicoes por setor. Usar referencias absolutas nos parametros."),
+        ("Montar o painel visual", "KPIs no topo (backlog, TAT medio, % no prazo) e a "
+         "TabelaLaudos filtravel logo abaixo."),
+        ("Filtrar e ordenar", "Aplicar filtro por cor (vermelho = ATRASO CRITICO) para gerar a fila "
+         "de prioridades da reuniao das 8h."),
     ]) +
-    kpi([("=CONT.SE", "Backlog"), ("=MEDIA", "TAT medio"), ("=SOMASE", "Custo/setor"), ("Semaforo", "TAT")]) +
+    kpi([("=CONT.SE", "Backlog"), ("=MEDIA", "TAT medio"), ("=SOMASE", "Req/setor"), ("Semaforo", "TAT")]) +
     callout("tip", "Entregavel do dia",
         "Guarde este arquivo: no Dia 4 ele vira a <b>fonte do Power BI</b>. Nomeie como "
-        "<code>Laudos_POLITEC_AAAA_MM.xlsx</code> — a convencao de versionamento ensinada na "
+        "<code>Laudos_POLITEC_2025.xlsx</code> — a convencao de versionamento ensinada na "
         "governanca.")
 )
 
 cad.section("lab6-auditoria-base", "Lab 6 — Auditoria de base suja (limpeza)",
-    p("Objetivo: receber uma base exportada de sistema legado — cheia de celulas mescladas, datas "
-      "como texto, espacos extras e duplicatas — e deixa-la pronta para analise.") +
+    p("Objetivo: aplicar o kit de limpeza ao dataset <code>requisicoes_periciais.csv</code> "
+      "simulando os defeitos classicos de bases exportadas de sistemas legados.") +
     step([
-        ("Remova as mesclagens", "Selecione tudo (<kbd>Ctrl</kbd>+<kbd>A</kbd>), clique em "
-         "<i>Mesclar e Centralizar</i> para desfazer, e preencha os rotulos que ficaram vazios."),
-        ("Corrija as datas", "Se as datas estao a esquerda (texto), use <i>Dados \u2192 Texto para "
-         "Colunas</i> ou <code>=DATA.VALOR(A2)</code> e reformate como data."),
-        ("Limpe os textos", "<code>=ARRUMAR(A2)</code> para espacos, <code>=PRI.MAIUSCULA</code> para "
-         "capitalizacao, <code>=SUBSTITUIR</code> para padronizar termos antigos."),
-        ("Remova duplicatas", "Defina a chave (<code>Num_Requisicao</code> + data) e use "
-         "<i>Dados \u2192 Remover Duplicatas</i> apenas nessas colunas."),
-        ("Valide as contagens", "Compare <code>=CONT.VALORES</code> antes e depois; registre quantas "
-         "linhas foram removidas e por que criterio."),
+        ("Duplique a aba", "Renomeie a aba original para <code>Base_Bruta</code> e duplique "
+         "para <code>Base_Limpa</code>."),
+        ("Verifique datas", "Confirme que data_recebimento e data_laudo estao alinhadas a direita "
+         "(numerico). Se alguma estiver a esquerda, use <code>=DATA.VALOR(B2)</code> para corrigir."),
+        ("Limpe textos", "<code>=ARRUMAR(delegacia_origem)</code> para espacos das bordas; "
+         "<code>=PRI.MAIUSCULA(ARRUMAR(delegacia_origem))</code> para capitalizacao padrao."),
+        ("Verifique duplicatas", "Coluna auxiliar: <code>=CONT.SE($A$2:$A$121; id_requisicao)</code>. "
+         "Se algum retornar mais de 1, a requisicao esta duplicada."),
+        ("Valide as contagens", "Compare <code>=CONT.VALORES(id_requisicao)</code> antes e depois "
+         "da limpeza; registre quantas linhas foram alteradas."),
         ("Converta em Tabela", "Ctrl+T na base ja limpa; nomeie <code>TabelaLaudos</code>."),
     ]) +
     code("""
-        // Kit de limpeza (aplicar em colunas auxiliares e depois colar como valores):
-        =ARRUMAR(A2)                                      // espacos das bordas
-        =PRI.MAIUSCULA(ARRUMAR(A2))                        // capitalizacao
-        =SUBSTITUIR(A2; "Ex. Necropsia"; "Necropsia")      // padronizar termo
-        =DATA.VALOR(A2)                                    // texto -> data
+        // Verificacao de qualidade (colunas auxiliares na aba Base_Limpa):
+        =E.NUMERO(data_recebimento)                    // FALSO = data em texto
+        =E.NUMERO(data_laudo)                         // FALSO = data em texto
+        =ARRUMAR(delegacia_origem)<>delegacia_origem  // VERDADEIRO = espacos extras
+        =CONT.SE($A$2:$A$121; id_requisicao)>1        // VERDADEIRO = duplicado
 
-        // Conferir quantos ficaram repetidos pela chave:
-        =CONT.SE($A$2:$A$1000; A2)                         // >1 = duplicado
+        // Resumo da auditoria:
+        =CONT.SE(aux_verificacao; VERDADEIRO)          // quantos defeitos encontrados
         """, "excel") +
     callout("err", "Limpar sem antes duplicar a aba",
         "Nunca limpe a base original diretamente. Duplique a aba (<i>Base_Bruta</i> e "
@@ -1431,23 +1475,25 @@ cad.section("lab6-auditoria-base", "Lab 6 — Auditoria de base suja (limpeza)",
 )
 
 cad.section("lab7-consolidacao", "Lab 7 — Consolidando 4 planilhas de setores",
-    p("Objetivo: reunir as planilhas de Toxicologia, DNA, Balistica e IML em uma unica base "
-      "consolidada, pronta para o painel — e validar que nenhum registro se perdeu no caminho.") +
+    p("Objetivo: reunir 4 planilhas de setores em uma unica base consolidada, pronta para o painel — "
+      "e validar que nenhum registro se perdeu. Use os 4 CSVs reais do dataset: o de "
+      "<code>requisicoes_periciais.csv</code> ja contem todos os setores.") +
     step([
-        ("Padronize os cabecalhos", "Confirme que as 4 planilhas tem as mesmas 8 colunas, na mesma "
-         "ordem."),
-        ("Exporte cada uma como CSV UTF-8", "Salve com o mesmo separador e codificacao."),
-        ("Empilhe na aba Base", "Cole os dados das 4 planilhas em sequencia, sem repetir o cabecalho."),
-        ("Crie a coluna Origem", "Adicione <code>Arquivo_Origem</code> com o nome do setor em cada "
-         "bloco de linhas."),
+        ("Entenda a estrutura", "O dataset <code>requisicoes_periciais.csv</code> ja tem todos os "
+         "setores (Toxicologia, Genetica, Balistica, Patologia, Identificacao) em uma unica base. "
+         "Para simular a consolidacao, separe mentalmente cada setor em uma planilha propria."),
+        ("Crie a aba Setores", "Copie cada conjunto de linhas para uma aba diferente: "
+         "<code>Setor_Toxicologia</code>, <code>Setor_Genetica</code>, <code>Setor_Balistica</code>, "
+         "<code>Setor_Patologia</code>."),
+        ("Adicione a coluna Origem", "Em cada aba de setor, adicione a coluna <code>Setor_Origem</code> "
+         "com o nome do setor."),
+        ("Empilhe na aba Base", "Cole todas as linhas em uma unica aba, sem repetir o cabecalho."),
         ("Converta em Tabela", "Ctrl+T e nomeie <code>TabelaConsolidada</code>."),
-        ("Valide por setor", "Conte os registros por setor e compare com o total de cada planilha "
-         "original."),
-        ("Monte os indicadores", "Sobre a base consolidada, refaca o painel: backlog por setor, TAT "
-         "medio por tipo, custo total."),
+        ("Valide por setor", "Conte com <code>=CONT.SE(Setor_Origem;\"Toxicologia\")</code> e "
+         "compare com a contagem original da aba de Toxicologia."),
     ]) +
-    kpi([("4", "Planilhas de setor"), ("1", "Base consolidada"),
-         ("8", "Colunas padronizadas"), ("100%", "Validacao por CONT.SE")]) +
+    kpi([("4", "Setores simulados"), ("1", "Base consolidada"),
+         ("9", "Colunas totais"), ("100%", "Validacao por CONT.SE")]) +
     callout("tip", "Este e o embriao do ETL",
         "O que voce fez aqui manualmente — padronizar, empilhar, adicionar origem, validar — e "
         "exatamente o que o <b>Power Query</b> fara automaticamente no Dia 3/4. Hoje voce entende "
@@ -1462,39 +1508,36 @@ cad.grp("Parte 4 · Cenarios e aplicacoes praticas",
         "Quatro casos completos da POLITEC: problema, indicadores, passos e desafio.")
 
 cad.section("cenario-orcamento-reagentes", "Cenario A — O orcamento anual de reagentes",
-    p("Problema: o laboratorio precisa montar o orcamento de reagentes do proximo ano fiscal, com "
-      "centenas de itens e uma taxa de importacao que se aplica a todos. O orcamento anterior "
-      "estourou por um erro de referencia.") +
-    kpi([("500+", "Itens no orcamento"), ("1", "Taxa de importacao compartilhada"),
+    p("Problema: o laboratorio precisa montar o orcamento de reagentes do proximo ano fiscal com "
+      "base no dataset <code>orcamento_setores.csv</code> (36 linhas: 6 laboratorios x 6 rubricas). "
+      "O orcamento anterior estourou por um erro de referencia.") +
+    kpi([("36", "Linhas de orcamento"), ("6", "Rubricas por laboratorio"),
          ("30%", "Estouro evitado com F4"), ("R$ 0", "Custo do erro corrigido na origem")]) +
     tbl(["Passo", "O que fazer", "Ferramenta"],
-        [["1", "Criar a aba <code>Parametros</code> com taxa, custo unitario e margem.", "Arquitetura de abas"],
-         ["2", "Estruturar o catalogo de itens em Tabela Estruturada.", "Ctrl+T"],
-         ["3", "Calcular o custo por item travando o parametro.", "F4 / nome definido"],
-         ["4", "Somar o custo por categoria com criterio.", "SOMASE / SOMASES"],
-         ["5", "Comparar com o orcamento do ano anterior.", "Coluna calculada + bar_chart"]],
+        [["1", "Criar a aba <code>Parametros</code> com meta de gasto e tolerancia.", "Arquitetura de abas"],
+         ["2", "Estruturar o CSV em Tabela Estruturada (Ctrl+T).", "Ctrl+T"],
+         ["3", "Calcular o % deexecucao travando os parametros.", "F4 / nome definido"],
+         ["4", "Somar o realizado por laboratorio com SOMASE.", "SOMASE / SOMASES"],
+         ["5", "Comparar orcado vs realizado com grafico.", "Coluna calculada + bar_chart"]],
         num_cols=[]) +
     step([
-        ("Monte a aba Parametros", "Taxa de importacao, custo unitario medio e margem de seguranca, "
-         "cada um em uma celula nomeada."),
-        ("Estruture o catalogo", "Uma linha por reagente, com quantidade e categoria, em Tabela "
-         "Estruturada (<code>TabelaReagentes</code>)."),
-        ("Calcule o custo", "<code>=[@Qtd]*Custo_Unit</code> e, com a taxa travada, "
-         "<code>=Custo_Base*Taxa_Imp</code>."),
-        ("Some por categoria", "<code>=SOMASE(TabelaReagentes[Categoria];\"DNA\";"
-         "TabelaReagentes[Custo_Total])</code>."),
-        ("Simule cenarios", "Altere a taxa e a margem na aba Parametros e veja o total do orcamento "
-         "mudar de forma consistente."),
-        ("Apresente", "Um KPI de total por setor e um grafico de barras com as categorias mais caras."),
+        ("Importe o dataset", "Abra <code>orcamento_setores.csv</code>: colunas laboratorio, rubrica, "
+         "orcado, realizado."),
+        ("Calcule o % de execucao", "<code>=realizado / orcado</code> em uma nova coluna "
+         "<code>Pct_Execucao</code>. Formate como %."),
+        ("Identifique estouro", "Use formatacao condicional: vermelho se > 100%, amarelo se > 85%."),
+        ("Some por laboratorio", "<code>=SOMASE(laboratorio; \"Genetica\"; realizado)</code>."),
+        ("Calcule o total geral", "<code>=SOMA(realizado)</code> sobre a tabela inteira."),
     ]) +
-    bar_chart(["DNA", "Toxicologia", "Balistica", "IML"], [320, 210, 140, 95],
-              title="Orcamento de reagentes por setor (R$ mil)",
-              subtitulo="DNA concentra o maior gasto; a taxa de importacao incide sobre todos os itens.",
+    bar_chart(["Toxicologia", "Genetica", "Balistica", "Patologia", "Identificacao", "Quimica"],
+              [38200, 29500, 22800, 31200, 18400, 15600],
+              title="Realizado por laboratorio (R$)",
+              subtitulo="Dados de orcamento_setores.csv. Patologia e Toxicologia estao acima de 80% do orcado.",
               destaque=0) +
     ficha("p", "Desafio do cenario",
-        "Identifique um item cujo custo unitario tenha mudado no meio do ano. Como voce faria para "
-        "recalcular o orcamento sem refazer a base? <b>Desafio:</b> crie uma coluna "
-        "<code>Custo_Ano_Anterior</code> e uma medida de variacao percentual por categoria.") +
+        "Crie uma coluna <code>Variacao</code> que calcule <code>=(realizado - orcado) / orcado</code> "
+        "e pinte com semaforo. Depois use <code>SOMASES</code> para filtrar laboratorios que "
+        "estouraram em reagentes (rubrica = \"Reagentes\").") +
     callout("err", "Parametro solto no orcamento", "Um unico cifrao faltando desloca o custo em "
         "centenas de itens. O orcamento estoura no fim do ano sem que ninguem perceba durante o "
         "preenchimento.") +
@@ -1539,35 +1582,38 @@ cad.section("cenario-fila-criticos", "Cenario B — A fila de laudos criticos pa
 
 cad.section("cenario-produtividade-perito", "Cenario C — Painel de produtividade por perito",
     p("Problema: distribuir a carga de trabalho de forma justa e detectar peritos sobrecarregados "
-      "ou ociosos. Hoje a percepcao e subjetiva: 'parece que todo mundo esta no limite'.") +
-    bar_chart(["Silva", "Souza", "Almeida", "Costa", "Mendes"], [48, 41, 35, 27, 22],
-              title="Laudos concluidos por perito no mes",
-              subtitulo="Meta mensal = 35 laudos. Costa e Mendes estao abaixo da meta — investigar causa.",
-              destaque=4) +
+      "ou ociosos. Hoje a percepcao e subjetiva: 'parece que todo mundo esta no limite'. "
+      "Usamos o dataset <code>produtividade_peritos.csv</code> com 218 registros de 9 meses.") +
+    bar_chart(["Silva, A. P.", "Souza, M. F.", "Almeida, C. R.", "Costa, J. L.",
+                "Oliveira, R. S.", "Lima, P. H.", "Ferreira, T. A.", "Martins, K. B."],
+              [156, 142, 128, 98, 167, 119, 134, 101],
+              title="Total de laudos por perito (9 meses de 2025)",
+              subtitulo="Meta acumulada = 315 laudos (35/mês x 9). Costa (98) e Lima (119) estao abaixo da meta — investigar.",
+              destaque=3) +
     tbl(["Indicador", "Formula", "Leitura"],
-        [["Laudos concluidos", "<code>=CONT.SES(...;\"Concluido\")</code>", "Producao bruta do perito."],
-         ["TAT medio do perito", "<code>=MEDIA(...)</code>", "Eficiencia individual."],
-         ["% da meta", "<code>Concluidos / Meta</code>", "Atingimento do compromisso mensal."],
-         ["Backlog pessoal", "<code>=CONT.SES(...;\"Pendente\")</code>", "Fila acumulada do perito."]],
+        [["Laudos por perito", "<code>=SOMASE(perito; \"Silva, A. P.\"; laudos_concluidos)</code>", "Total acumulado do perito."],
+         ["Media mensal", "<code>=SOMASE(...) / 9</code>", "Media de laudos por mes."],
+         ["% da meta", "<code>=Total / 315</code>", "Atingimento do compromisso acumulado."],
+         ["Ranking", "<code>=ORDEM(Celha; range)</code>", "Posicao relativa entre os peritos."]],
         num_cols=[]) +
     step([
-        ("Base por perito", "A TabelaLaudos tem a coluna <code>Perito</code> preenchida por laudo."),
-        ("Matriz de produtividade", "Peritos nas linhas, meses nas colunas, com <code>CONT.SES</code> "
-         "travando as referencias."),
-        ("Compare com a meta", "Divida pela meta mensal e mostre o <b>% de atingimento</b>."),
-        ("Cruze com o TAT", "Um perito que entrega muito, mas com TAT alto, pode estar pegando casos "
-         "mais complexos."),
+        ("Importe o dataset", "Abra <code>produtividade_peritos.csv</code> e crie "
+         "<code>TabelaProdutividade</code> com Ctrl+T."),
+        ("Some por perito", "<code>=SOMASE(perito; \"Costa, J. L.\"; laudos_concluidos)</code> para cada perito."),
+        ("Calcule a meta acumulada", "Meta mensal = 35. Meta de 9 meses = 315 laudos."),
+        ("Calcule o % de atingimento", "<code>=Total / 315</code>. Abaixo de 80% = zona de alerta."),
         ("Decida com dados", "Redistribua a carga com base nos numeros, nao na percepcao."),
     ]) +
     aplicab(
         "No fechamento mensal de produtividade da equipe pericial.",
         "Porque a percepcao de carga nao mede o volume real nem a complexidade dos casos.",
-        "Costa esta com 27 laudos (77% da meta) e o maior backlog pendente. Pode estar sobrecarregado "
-        "de casos complexos — ou precisando de apoio. So os dados dizem.") +
+        "Costa tem 98 laudos (31% da meta acumulada) — possivel sobrecarga ou afastamento. "
+        "So os dados dizem.") +
     ficha("p", "Desafio do cenario",
-        "Adicione uma coluna de <b>complexidade</b> (baixa/media/alta) e pondere a produtividade: "
-        "um laudo de alta complexidade pode valer 2 ou 3 laudos simples. Recalcule o % da meta com "
-        "esse peso e compare o ranking.")
+        "Cruze produtividade com o TAT medio: um perito que entrega muitos laudos, mas com TAT "
+        "acima de 60 dias, pode estar cometendo erros por pressa. Use "
+        "<code>SOMASE(perito; \"Costa\"; dias_uteis) / SOMASE(perito; \"Costa\"; 1)</code> para "
+        "calcular o TAT medio individual.")
 )
 
 cad.section("cenario-auditoria-qualidade", "Cenario D — Auditoria de qualidade da base",
