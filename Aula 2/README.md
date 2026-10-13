@@ -1,10 +1,17 @@
 # Aula 2 — Planilhas e Manipulacao de Dados na Pericia
 
-**Modulo 3** — Excel e Google Sheets aplicados a gestao de laboratorios e IML:
+**Modulo 3** — **Google Sheets** (pt-BR) aplicado a gestao de laboratorios e IML:
 funcoes, logica condicional, formatacao condicional, referencias absolutas,
-tabelas estruturadas, filtros e ordenacao personalizada.
+tabelas, filtros e ordenacao por prioridade.
 
 Curso de Capacitacao POLITEC/MT · Professor Renato Rosa · Dia 2.
+
+> O caderno (a partir de "SE aninhado x SES") foi adaptado para o **Google Sheets**:
+> todos os passo a passo usam os menus em portugues (`Formatar > Formatação
+> condicional`, `Formatar > Converter em tabela`, `Dados > Criar um filtro`, etc.),
+> a sintaxe com separador `;` e os nomes localizados das funcoes (`SES`, `SEERRO`,
+> `ÉNÚM`, `MÉDIA`, `CONT.NÚM`, `DATA.VALOR`). Cada exemplo referencia um dos quatro
+> datasets de `datasets/`.
 
 ---
 
@@ -24,7 +31,7 @@ Curso de Capacitacao POLITEC/MT · Professor Renato Rosa · Dia 2.
 ## Datasets (datasets/)
 
 Todos os exemplos, labs e cenarios do caderno usam dados reais simulados da POLITEC/MT.
-Importe os CSVs para acompanhar os passo a passo no Excel.
+Importe os CSVs para acompanhar os passo a passo no Google Sheets (`Arquivo > Importar`).
 
 | Arquivo | Descricao | Linhas | Colunas |
 |---|---|---|---|
@@ -39,13 +46,13 @@ Importe os CSVs para acompanhar os passo a passo no Excel.
 
 | Lab | Titulo | O que constroi |
 |---|---|---|
-| 1 | Estruturar a base (Ctrl+T) | Tabela estruturada pronta para crescer |
-| 2 | Calcular o TAT automaticamente | Coluna TAT com tratamento de "Em andamento" |
+| 1 | Estruturar a base no Google Sheets | Tabela pronta para crescer (Converter em tabela) |
+| 2 | Calcular o TAT automaticamente | Coluna Status_Prazo com SE + HOJE |
 | 3 | Aplicar o semaforo do TAT | Regras condicionais verde/amarelo/vermelho |
-| 4 | Criar os indicadores | CONT.SE, MEDIA, SOMASE com referencias absolutas |
-| 5 | Filtros + ordenacao personalizada | A lista do diretor para a reuniao das 8h |
+| 4 | Criar os indicadores | CONT.SE, MÉDIA, SOMASE com referencias absolutas |
+| 5 | Filtros + ordenacao por prioridade | A lista do diretor para a reuniao das 8h |
 | 6 | Auditoria de base suja (limpeza) | Mesclagens, datas texto, espacos e duplicatas corrigidos |
-| 7 | Consolidando 4 planilhas de setores | Base unificada validada por CONT.SE |
+| 7 | Consolidando as planilhas dos setores | Base unificada validada por CONT.SE |
 | — | Painel de backlog (integrador) | Tudo junto: base + TAT + semaforo + indicadores |
 
 ---
@@ -65,10 +72,10 @@ Importe os CSVs para acompanhar os passo a passo no Excel.
 
 | Arquivo | Tamanho |
 |---|---|
-| `Dia-2-Politec.pdf` (slides do professor) | 4,5 MB |
-| `caderno-dia2.html` (fonte viva, tema claro/escuro) | 177 KB |
-| `Caderno Dia 2 - POLITEC.pdf` (caderno exportado, A4) | 3,8 MB · 60 paginas |
-| `gerar_caderno_aula2.py` (gerador de conteudo) | 111 KB |
+| `Dia-2-Politec.pdf` (slides do professor) | 4,4 MB |
+| `caderno-dia2.html` (fonte viva, tema claro/escuro) | 203 KB |
+| `Caderno Dia 2 - POLITEC.pdf` (caderno exportado, A4) | 4,5 MB · 70 paginas |
+| `gerar_caderno_aula2.py` (gerador de conteudo) | 138 KB |
 
 | Metrica | Valor |
 |---|---|

@@ -15,7 +15,7 @@ materiais de pratica.
 | Aula | Tema | Seções | Slides | Caderno HTML | PDF |
 |---|---|---|---|---|---|
 | [1](Aula%201/) | Fundamentos da Analise + Estatistica | 61 | 5,2 MB | [161 KB](Aula%201/caderno-dia1.html) | 53 pág · 4,9 MB |
-| [2](Aula%202/) | Planilhas / Excel e Google Sheets | 68 | 4,5 MB | [174 KB](Aula%202/caderno-dia2.html) | 60 pág · 3,8 MB |
+| [2](Aula%202/) | Planilhas / Excel e Google Sheets | 68 | 4,4 MB | [203 KB](Aula%202/caderno-dia2.html) | 70 pág · 4,5 MB |
 | [3](Aula%203/) | Organizacao, Visualizacao e ETL | 63 | 4,0 MB | [138 KB](Aula%203/caderno-dia3.html) | 47 pág · 4,2 MB |
 | [4](Aula%204/) | Business Intelligence / Power BI | 71 | 6,3 MB | [155 KB](Aula%204/caderno-dia4.html) | 55 pág · 4,9 MB |
 

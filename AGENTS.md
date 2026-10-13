@@ -19,6 +19,7 @@ mesmo formato de 6 partes (ver secao 3.5).
 |---|---|---|---|---|---|---|---|
 | 1 | Fundamentos da Analise + Estatistica | 61 | 161 KB | 53 pág · 4,9 MB | 7 | 4 | 102 KB |
 | 2 | Planilhas / Excel e Google Sheets | 68 | 174 KB | 60 pág · 3,8 MB | 7 + integrador | 4 | 111 KB |
+| 2 | Planilhas / Google Sheets (adaptado) | 68 | 203 KB | 70 pág · 4,5 MB | 7 + integrador | 4 | 138 KB |
 | 3 | Organizacao, Visualizacao e ETL | 63 | 138 KB | 47 pág · 4,2 MB | 6 | 4 | 81 KB |
 | 4 | Business Intelligence / Power BI | 71 | 155 KB | 55 pág · 4,9 MB | 7 | 3 + 4 casos | 93 KB |
 
