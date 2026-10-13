@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - Prova de Nivelamento POLITEC/MT</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0f1117;
+  --surface: #1a1d27;
+  --surface2: #22263a;
+  --border: #2e3350;
+  --accent: #6c63ff;
+  --accent2: #00d4aa;
+  --text: #e8eaf0;
+  --text2: #8b90a8;
+  --red: #ff6b6b;
+  --orange: #ffa94d;
+  --yellow: #ffd43b;
+  --green: #69db7c;
+  --blue: #74c0fc;
+  --purple: #da77f2;
+  --pink: #f783ac;
+  --level-b: #ff6b6b;
+  --level-i: #ffa94d;
+  --level-a: #69db7c;
+  --level-e: #6c63ff;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; padding:24px; }
+.header { max-width:1400px; margin:0 auto 32px; }
+.header h1 { font-family:'Archivo Black',sans-serif; font-size:1.8rem; color:var(--text); margin-bottom:4px; }
+.header p { color:var(--text2); font-size:0.9rem; }
+.kpi-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:16px; max-width:1400px; margin:0 auto 32px; }
+.kpi { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px 24px; }
+.kpi .label { font-size:0.75rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--text2); margin-bottom:8px; }
+.kpi .value { font-family:'Archivo Black',sans-serif; font-size:2.2rem; line-height:1; }
+.kpi .sub { font-size:0.78rem; color:var(--text2); margin-top:4px; }
+.kpi.green .value { color:var(--green); }
+.kpi.yellow .value { color:var(--yellow); }
+.kpi.orange .value { color:var(--orange); }
+.kpi.blue .value { color:var(--blue); }
+.kpi.purple .value { color:var(--purple); }
+.kpi.red .value { color:var(--red); }
+.charts { display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:1400px; margin:0 auto 24px; }
+.chart-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:24px; }
+.chart-card h2 { font-size:0.85rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--text2); margin-bottom:16px; font-weight:600; }
+.chart-card canvas { width:100% !important; }
+.full { grid-column:1/-1; }
+.insights-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(320px,1fr)); gap:16px; max-width:1400px; margin:0 auto 24px; }
+.insight-card { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px 24px; }
+.insight-card h3 { font-size:0.9rem; font-weight:600; margin-bottom:10px; color:var(--accent2); }
+.insight-card ul { list-style:none; padding:0; }
+.insight-card li { font-size:0.85rem; color:var(--text2); padding:5px 0; border-bottom:1px solid var(--border); line-height:1.5; }
+.insight-card li:last-child { border-bottom:none; }
+.insight-card li strong { color:var(--text); }
+.level-tag { display:inline-block; padding:2px 8px; border-radius:4px; font-size:0.7rem; font-weight:700; text-transform:uppercase; margin-right:4px; }
+.level-tag.BASICO { background:rgba(255,107,107,0.2); color:var(--level-b); }
+.level-tag.INTERMEDIARIO { background:rgba(255,169,77,0.2); color:var(--level-i); }
+.level-tag.AVANCADO { background:rgba(105,219,124,0.2); color:var(--level-a); }
+.level-tag.EXPERT { background:rgba(108,99,255,0.2); color:var(--level-e); }
+.table-wrap { max-width:1400px; margin:0 auto; overflow-x:auto; }
+table { width:100%; border-collapse:collapse; font-size:0.82rem; }
+th { text-align:left; padding:10px 14px; background:var(--surface2); color:var(--text2); font-weight:600; text-transform:uppercase; font-size:0.72rem; letter-spacing:0.05em; border-bottom:1px solid var(--border); white-space:nowrap; }
+td { padding:9px 14px; border-bottom:1px solid var(--border); color:var(--text); }
+tr:last-child td { border-bottom:none; }
+tr:hover td { background:var(--surface2); }
+.q-num { font-family:'JetBrains Mono',monospace; color:var(--text2); width:50px; }
+.q-correct { text-align:center; }
+.bar-cell { width:120px; }
+.bar-inner { height:6px; background:var(--accent); border-radius:3px; }
+.q-hard .bar-inner { background:var(--red); }
+.q-ok .bar-inner { background:var(--orange); }
+.q-good .bar-inner { background:var(--green); }
+.q-best .bar-inner { background:var(--accent2); }
+.diff-badge { font-size:0.7rem; padding:1px 6px; border-radius:3px; font-weight:600; }
+.diff-hard { background:rgba(255,107,107,0.2); color:var(--red); }
+.diff-ok { background:rgba(255,169,77,0.2); color:var(--orange); }
+.diff-good { background:rgba(105,219,124,0.2); color:var(--green); }
+.answer-chip { font-family:'JetBrains Mono',monospace; font-size:0.72rem; padding:2px 7px; border-radius:4px; background:var(--surface2); color:var(--text2); }
+th.sortable { cursor:pointer; user-select:none; }
+th.sortable:hover { color:var(--accent); }
+.sort-icon { font-size:0.65rem; margin-left:4px; opacity:0.5; }
+</style>
+</head>
+<body>
+<div class="header">
+  <h1>Prova de Nivelamento - POLITEC/MT</h1>
+  <p>Curso de Analise de Dados, BI e IA &nbsp;|&nbsp; 50 perguntas &nbsp;|&nbsp; 31 respondentes &nbsp;|&nbsp; 7 blocos tematicos</p>
+</div>
+
+<div class="kpi-row">
+  <div class="kpi green">
+    <div class="label">Nota Media Geral</div>
+    <div class="value">31,5</div>
+    <div class="sub">de 50 pontos possiveis (63%)</div>
+  </div>
+  <div class="kpi blue">
+    <div class="label">Total de Respondentes</div>
+    <div class="value">31</div>
+    <div class="sub">2 Basico &middot; 3 Intermediario &middot; 21 Avancado &middot; 5 Expert</div>
+  </div>
+  <div class="kpi yellow">
+    <div class="label">Bloco Mais Forte</div>
+    <div class="value">79,7%</div>
+    <div class="sub">Bloco 1 - Informatica Basica (P1-P10)</div>
+  </div>
+  <div class="kpi orange">
+    <div class="label">Bloco Mais Fraco</div>
+    <div class="value">54,8%</div>
+    <div class="sub">Bloco 6 - Git e GitHub (P39-P44)</div>
+  </div>
+  <div class="kpi purple">
+    <div class="label">Pergunta Mais Dificil</div>
+    <div class="value">P13</div>
+    <div class="sub">GIGO - apenas 19% de acerto (6/31)</div>
+  </div>
+</div>
+
+<div class="charts">
+  <div class="chart-card">
+    <h2>Desempenho por Bloco (Media Geral)</h2>
+    <canvas id="blockChart" height="220"></canvas>
+  </div>
+  <div class="chart-card">
+    <h2>Distribuicao por Nivel</h2>
+    <canvas id="levelChart" height="220"></canvas>
+  </div>
+  <div class="chart-card full">
+    <h2>Desempenho Medio por Bloco e Nivel (%)</h2>
+    <canvas id="levelBlockChart" height="160"></canvas>
+  </div>
+  <div class="chart-card full">
+    <h2>Dificuldade das 50 Perguntas (% de Acerto)</h2>
+    <canvas id="qChart" height="100"></canvas>
+  </div>
+</div>
+
+<div class="insights-grid">
+  <div class="insight-card">
+    <h3>Insights Gerais</h3>
+    <ul>
+      <li><strong>Bloco 1 (Informatica Basica)</strong> e o mais dominado: media de <strong>79,7%</strong>. Os conceitos fundamentais de hardware e software estao bem consolidados na turma.</li>
+      <li><strong>Bloco 6 (Git/GitHub)</strong> e o mais desafiador: apenas <strong>54,8%</strong>. A turma precisa de reforco em controle de versao e fluxo de trabalho diario.</li>
+      <li><strong>P13 (GIGO)</strong> foi a questo mais difcil: apenas 6 acertos (19%). Conceito avancado de qualidade de dados que exige mais atencao.</li>
+      <li><strong>P33 (SUMX)</strong> teve apenas 5 acertos (16%) — a segunda mais difcil. Funcao iteradora DAX e um ponto cego importante.</li>
+      <li>Media geral de <strong>31,5/50 (63%)</strong> indica uma turma com base solida mas com espaco para crescer em ferramentas analiticas.</li>
+    </ul>
+  </div>
+  <div class="insight-card">
+    <h3>Gap por Nivel</h3>
+    <ul>
+      <li><span class="level-tag BASICO">Basico</span> Media <strong>17,5/50</strong> (35%). Defasagem critica em Excel/Planilhas (8%) e Estatistica (17%).Recommendacao: comecar pelo modulo de fundamentos.</li>
+      <li><span class="level-tag INTERMEDIARIO">Intermediario</span> Media <strong>23,3/50</strong> (47%). Bom em Excel (56%) mas fraco em Git/GitHub (22%) e IA (39%).</li>
+      <li><span class="level-tag AVANCADO">Avancado</span> Media <strong>31,7/50</strong> (63%). Forca em todos os blocos, mas ainda ha espaco em Git/GitHub (56%) e Power BI/DAX (59%).</li>
+      <li><span class="level-tag EXPERT">Expert</span> Media <strong>41,4/50</strong> (83%). Excelente em Informatica (94%) e Estatistica (93%). Atencao: Bloco 5 (Power BI/DAX) em 67% e menor forca relativa.</li>
+    </ul>
+  </div>
+  <div class="insight-card">
+    <h3>Recomendacoes Pedagogicas</h3>
+    <ul>
+      <li><strong>Revisar GIGO e SUMX</strong> como prioridade — estas questoes Separaram claramente Experts do restante. Recomenda-se exercicios praticos focados.</li>
+      <li><strong>Bloco 6 (Git/GitHub)</strong> precisa de mais horas/aula. A diferenca entre Expert (77%) e Intermediario (22%) e de 55 pontos percentuais.</li>
+      <li><strong>Bloco 2 (Noes de Informatica)</strong> — o segundo mais fraco (55%). Pergunta P11 (Antigravity) teve apenas 26% de acerto. Recomenda-se reforco no IDE com IA.</li>
+      <li>A trajetoria Avancado para Expert passa por <strong>Power BI/DAX e Git/GitHub</strong> — sao os blocos com maior variancia entre os dois grupos.</li>
+      <li>Grupos de estudo tematicos: separar a turma por nivel para abordar lacunas especificas em vez de aula unica para todos.</li>
+    </ul>
+  </div>
+  <div class="insight-card">
+    <h3>Perguntas Mais Dificeis (Top 10)</h3>
+    <ul>
+      <li><strong>P33</strong> (SUMX/DAX) — 16% acerto (5/31) <span class="level-tag BASICO">muito hard</span></li>
+      <li><strong>P13</strong> (GIGO) — 19% acerto (6/31) <span class="level-tag BASICO">muito hard</span></li>
+      <li><strong>P46</strong> (Tokens IA) — 32% acerto (10/31)</li>
+      <li><strong>P11</strong> (Antigravity IDE) — 26% acerto (8/31)</li>
+      <li><strong>P41</strong> (Git Stage-Commit-Push) — 35% acerto (11/31)</li>
+      <li><strong>P44</strong> (Git Clone) — 29% acerto (9/31)</li>
+      <li><strong>P22</strong> (Validacao Excel) — 32% acerto (10/31)</li>
+      <li><strong>P30</strong> (Variavel Continua) — 52% acerto (16/31) — apenas 50%</li>
+      <li><strong>P20</strong> (Encoding) — 42% acerto (13/31)</li>
+      <li><strong>P25</strong> (Tabela Fato) — 35% acerto (11/31)</li>
+    </ul>
+  </div>
+</div>
+
+<div class="table-wrap">
+  <table id="qTable">
+    <thead>
+      <tr>
+        <th class="sortable" onclick="sortTable(0)">Pergunta <span class="sort-icon">↕</span></th>
+        <th class="sortable" onclick="sortTable(1)">Gabarito <span class="sort-icon">↕</span></th>
+        <th class="sortable" onclick="sortTable(2)">Acertos <span class="sort-icon">↕</span></th>
+        <th class="sortable" onclick="sortTable(3)">% Acerto <span class="sort-icon">↕</span></th>
+        <th>Desempenho</th>
+        <th>Bloco</th>
+        <th class="sortable" onclick="sortTable(6)">Dificuldade <span class="sort-icon">↕</span></th>
+      </tr>
+    </thead>
+    <tbody id="qTableBody"></tbody>
+  </table>
+</div>
+
+<script>
+const blockLabels = ['Bloco 1\nInformatica Basica\n(P1-P10)', 'Bloco 2\nNoes Info\n(P11-P18)', 'Bloco 3\nExcel\n(P19-P24)', 'Bloco 4\nEstatistica\n(P25-P30)', 'Bloco 5\nPower BI\n(P31-P38)', 'Bloco 6\nGitHub\n(P39-P44)', 'Bloco 7\nIA\n(P45-P50)'];
+const blockShort = ['Info Basica', 'Noes Info', 'Excel', 'Estatistica', 'Power BI', 'GitHub', 'IA'];
+const blockAvg = [79.7, 55.2, 61.3, 63.4, 58.1, 54.8, 62.4];
+const levelDist = {BASICO:2, INTERMEDIARIO:3, AVANCADO:21, EXPERT:5};
+const qCorrect = [23,31,17,23,31,18,30,23,30,21,8,24,6,14,21,28,15,21,28,13,19,21,15,18,20,22,20,25,15,16,24,16,5,19,23,23,15,19,16,21,11,12,20,22,18,10,29,20,13,26];
+const totalResp = 31;
+const gabarito = ['C','B','B','C','C','C','B','C','C','C','C','B','B','C','B','C','C','C','B','B','B','B','B','B','C','B','B','C','C','D','C','C','C','B','C','C','D','C','C','C','D','C','C','B','C','C','C','C','C','C'];
+const blockOfQ = [1,1,1,1,1,1,1,1,1,1,2,2,2,2,2,2,2,2,3,3,3,3,3,3,4,4,4,4,4,4,5,5,5,5,5,5,5,5,6,6,6,6,6,6,7,7,7,7,7,7];
+const levelBlock = {
+  'BASICO':       [60.0,31.2,8.3,16.7,31.2,41.7,41.7],
+  'INTERMEDIARIO':[60.0,41.7,55.6,44.4,54.2,22.2,38.9],
+  'AVANCADO':     [81.0,54.2,61.9,63.5,58.9,55.6,61.9],
+  'EXPERT':       [94.0,77.5,83.3,93.3,67.5,76.7,86.7],
+};
+
+const levelColors = {BASICO:'#ff6b6b', INTERMEDIARIO:'#ffa94d', AVANCADO:'#69db7c', EXPERT:'#6c63ff'};
+
+// Block bar chart
+new Chart(document.getElementById('blockChart'), {
+  type:'bar',
+  data:{
+    labels:blockShort,
+    datasets:[{
+      label:'% Acerto',
+      data:blockAvg,
+      backgroundColor: blockAvg.map(v=>v>=70?'#69db7c':v>=55?'#ffa94d':'#ff6b6b'),
+      borderRadius:6,
+      borderSkipped:false,
+    }]
+  },
+  options:{
+    responsive:true,
+    plugins:{legend:{display:false}, tooltip:{callbacks:{label:c=>`${c.raw}%`}}},
+    scales:{
+      x:{grid:{color:'#2e3350'},ticks:{color:'#8b90a8',font:{size:11}}},
+      y:{min:0,max:100,grid:{color:'#2e3350'},ticks:{color:'#8b90a8',callback:v=>v+'%'},title:{display:true,text:'% Acerto',color:'#8b90a8'}}
+    }
+  }
+});
+
+// Level donut
+new Chart(document.getElementById('levelChart'), {
+  type:'doughnut',
+  data:{
+    labels:Object.keys(levelDist),
+    datasets:[{
+      data:Object.values(levelDist),
+      backgroundColor:Object.keys(levelDist).map(k=>levelColors[k]),
+      borderWidth:0, hoverOffset:8
+    }]
+  },
+  options:{
+    responsive:true,
+    plugins:{
+      legend:{position:'right',labels:{color:'#e8eaf0',padding:14,font:{size:12}}},
+      tooltip:{callbacks:{label:c=>` ${c.label}: ${c.raw} (${(c.raw/31*100).toFixed(0)}%)`}}
+    },
+    cutout:'60%'
+  }
+});
+
+// Level x Block grouped bar
+new Chart(document.getElementById('levelBlockChart'), {
+  type:'bar',
+  data:{
+    labels:blockShort,
+    datasets:[
+      {label:'Basico',data:levelBlock['BASICO'],backgroundColor:'rgba(255,107,107,0.7)',borderRadius:4,borderSkipped:false},
+      {label:'Intermediario',data:levelBlock['INTERMEDIARIO'],backgroundColor:'rgba(255,169,77,0.7)',borderRadius:4,borderSkipped:false},
+      {label:'Avancado',data:levelBlock['AVANCADO'],backgroundColor:'rgba(105,219,124,0.7)',borderRadius:4,borderSkipped:false},
+      {label:'Expert',data:levelBlock['EXPERT'],backgroundColor:'rgba(108,99,255,0.85)',borderRadius:4,borderSkipped:false},
+    ]
+  },
+  options:{
+    responsive:true,
+    plugins:{legend:{position:'top',labels:{color:'#e8eaf0',padding:12,font:{size:11}}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: ${c.raw}%`}}},
+    scales:{
+      x:{grid:{color:'#2e3350'},ticks:{color:'#8b90a8',font:{size:11}}},
+      y:{min:0,max:100,grid:{color:'#2e3350'},ticks:{color:'#8b90a8',callback:v=>v+'%'}}
+    }
+  }
+});
+
+// Question difficulty chart (dot style)
+const qCtx = document.getElementById('qChart').getContext('2d');
+const qPct = qCorrect.map(v=>v/totalResp*100);
+const qColors = qPct.map(v=>v>=70?'#69db7c':v>=50?'#ffd43b':v>=30?'#ffa94d':'#ff6b6b');
+new Chart(qCtx, {
+  type:'bar',
+  data:{
+    labels:qCorrect.map((_,i)=>`P${i+1}`),
+    datasets:[{
+      data:qPct,
+      backgroundColor:qColors,
+      borderRadius:3,
+      borderSkipped:false,
+    }]
+  },
+  options:{
+    responsive:true,
+    plugins:{legend:{display:false},tooltip:{callbacks:{label:c=>`P${c.dataIndex+1}: ${c.raw.toFixed(0)}% (${qCorrect[c.dataIndex]}/${totalResp})`}}},
+    scales:{
+      x:{grid:{color:'#2e3350'},ticks:{color:'#8b90a8',font:{family:'JetBrains Mono',size:9},maxRotation:0,maxTicksLimit:25}},
+      y:{min:0,max:100,grid:{color:'#2e3350'},ticks:{color:'#8b90a8',callback:v=>v+'%'}}
+    }
+  }
+});
+
+// Table
+const blockNames = ['Info Basica','Noes Info','Excel','Estatistica','Power BI','GitHub','IA'];
+const tbody = document.getElementById('qTableBody');
+for(let i=0;i<50;i++){
+  const pct = qCorrect[i]/totalResp*100;
+  const diff = pct>=70?'good':pct>=50?'ok':'hard';
+  const blockIdx = blockOfQ[i]-1;
+  tbody.innerHTML += `<tr>
+    <td class="q-num">P${i+1}</td>
+    <td><span class="answer-chip">${gabarito[i]}</span></td>
+    <td class="q-correct">${qCorrect[i]}/${totalResp}</td>
+    <td>${pct.toFixed(0)}%</td>
+    <td class="bar-cell q-${diff}"><div class="bar-inner" style="width:${pct}%"></div></td>
+    <td>${blockNames[blockIdx]}</td>
+    <td><span class="diff-badge diff-${diff}">${diff==='good'?'Bom':diff==='ok'?'Medio':'Dificil'}</span></td>
+  </tr>`;
+}
+
+let sortDir = 1;
+function sortTable(col){
+  sortDir *= -1;
+  const rows = Array.from(tbody.querySelectorAll('tr'));
+  rows.sort((a,b)=>{
+    const va = a.children[col].textContent.trim();
+    const vb = b.children[col].textContent.trim();
+    const na = parseFloat(va), nb = parseFloat(vb);
+    if(!isNaN(na)&&!isNaN(nb)) return (na-nb)*sortDir;
+    return va.localeCompare(vb)*sortDir;
+  });
+  rows.forEach(r=>tbody.appendChild(r));
+}
+</script>
+</body>
+</html>

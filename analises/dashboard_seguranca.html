@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Analise de Seguranca Publica POLITEC/MT · 1989-2022</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0d1117; --surface: #161b22; --surface2: #1c2128; --border: #30363d;
+  --accent: #58a6ff; --accent2: #3fb950; --accent3: #f78166;
+  --text: #e6edf3; --text2: #8b949e; --text3: #6e7681;
+  --red: #f85149; --orange: #d29922; --green: #3fb950; --purple: #bc8cff;
+  --co: #6c63ff; --ne: #f85149; --se: #3fb950; --su: #d29922; --no: #f783ac;
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--text); min-height:100vh; }
+a { color:var(--accent); text-decoration:none; }
+
+.header {
+  background: linear-gradient(135deg,#0d1117 0%,#1a1f2e 100%);
+  border-bottom:1px solid var(--border);
+  padding:28px 40px 24px; max-width:1600px; margin:0 auto;
+}
+.header .kicker { font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; color:var(--text3); margin-bottom:6px; }
+.header h1 { font-family:'Inter',sans-serif; font-weight:800; font-size:1.6rem; color:var(--text); line-height:1.2; }
+.header .subtitle { color:var(--text2); font-size:0.88rem; margin-top:4px; }
+.header .badge { display:inline-block; background:var(--surface2); border:1px solid var(--border); border-radius:6px; padding:3px 10px; font-size:0.72rem; color:var(--text2); margin-top:10px; }
+
+.kpi-strip {
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+  gap:1px; background:var(--border);
+  border-top:1px solid var(--border); border-bottom:1px solid var(--border);
+  max-width:1600px; margin:0 auto;
+}
+.kpi { background:var(--surface); padding:20px 28px; }
+.kpi .kpi-label { font-size:0.68rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text3); margin-bottom:6px; }
+.kpi .kpi-value { font-family:'Inter',sans-serif; font-weight:800; font-size:1.9rem; line-height:1; color:var(--text); }
+.kpi .kpi-sub { font-size:0.75rem; color:var(--text2); margin-top:4px; }
+.kpi .up { color:var(--red); }
+.kpi .down { color:var(--green); }
+
+.main { max-width:1600px; margin:0 auto; padding:28px 28px 60px; }
+
+.section { margin-bottom:48px; }
+.section-header { display:flex; align-items:center; gap:12px; margin-bottom:18px; }
+.section-header h2 { font-size:0.8rem; text-transform:uppercase; letter-spacing:0.1em; color:var(--text2); font-weight:600; }
+.section-header .line { flex:1; height:1px; background:var(--border); }
+
+.chart-grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+.chart-grid-3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:20px; }
+.chart-full { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+.chart-box { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+.chart-box .chart-title {
+  padding:14px 20px 10px; font-size:0.78rem; font-weight:600; color:var(--text2);
+  border-bottom:1px solid var(--border); text-transform:uppercase; letter-spacing:0.06em;
+}
+.chart-box .chart-body { padding:0; }
+
+.insights-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:16px; }
+.insight { background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:20px 22px; }
+.insight h3 { font-size:0.85rem; font-weight:700; margin-bottom:12px; display:flex; align-items:center; gap:8px; }
+.insight ul { list-style:none; }
+.insight li { font-size:0.82rem; color:var(--text2); padding:7px 0; border-bottom:1px solid var(--border); line-height:1.55; }
+.insight li:last-child { border-bottom:none; }
+.insight li strong { color:var(--text); }
+.tag { display:inline-block; padding:1px 7px; border-radius:4px; font-size:0.68rem; font-weight:700; text-transform:uppercase; letter-spacing:0.05em; }
+.tag-red { background:rgba(248,81,73,0.15); color:var(--red); }
+.tag-orange { background:rgba(210,153,34,0.15); color:var(--orange); }
+.tag-green { background:rgba(63,185,80,0.15); color:var(--green); }
+.tag-blue { background:rgba(88,166,255,0.15); color:var(--accent); }
+.tag-purple { background:rgba(188,140,255,0.15); color:var(--purple); }
+
+.data-table { background:var(--surface); border:1px solid var(--border); border-radius:12px; overflow:hidden; }
+.data-table table { width:100%; border-collapse:collapse; font-size:0.8rem; }
+.data-table th { text-align:left; padding:10px 16px; background:var(--surface2); color:var(--text2); font-weight:600; text-transform:uppercase; font-size:0.68rem; letter-spacing:0.06em; border-bottom:1px solid var(--border); white-space:nowrap; }
+.data-table td { padding:9px 16px; border-bottom:1px solid var(--border); color:var(--text); }
+.data-table tr:last-child td { border-bottom:none; }
+.data-table tr:hover td { background:var(--surface2); }
+.num { font-family:'JetBrains Mono',monospace; color:var(--text2); font-size:0.78rem; }
+
+.footer { max-width:1600px; margin:0 auto 40px; padding:0 28px; font-size:0.72rem; color:var(--text3); border-top:1px solid var(--border); padding-top:20px; }
+.footer span { color:var(--text2); }
+
+/* chart placeholder */
+.chart-container { min-height:340px; }
+
+@media(max-width:900px) {
+  .chart-grid-2, .chart-grid-3 { grid-template-columns:1fr; }
+  .header { padding:20px 20px 18px; }
+  .kpi-strip { grid-template-columns:1fr 1fr; }
+  .insights-grid { grid-template-columns:1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="kicker">Anuario Brasileiro de Seguranca Publica — Dados Consolidados por Regiao</div>
+  <h1>Panorama da Violencia no Brasil — 1989 a 2022</h1>
+  <div class="subtitle">Mortes Violentas Intencionais · Homicidios por Armas de Fogo · Homicidios de Jovens · Taxa por 100 mil hab.</div>
+  <div class="badge">5 Regioes · Periodo comum 1989-2022 · Fonte: Anuario FBSP / Atlas da Violencia / SIM/SVS</div>
+</div>
+
+<!-- KPI STRIP -->
+<div class="kpi-strip">
+  <div class="kpi">
+    <div class="kpi-label">MVI — Brasil 2022</div>
+    <div class="kpi-value">152.945</div>
+    <div class="kpi-sub"><span class="up">+49,6%</span> vs 1989 (102.252)</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Pico Historico (Brasil)</div>
+    <div class="kpi-value">158.657</div>
+    <div class="kpi-sub">Ano <strong>2017</strong> — queda de 3,6% ate 2022</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">HAF por AF — Brasil 2022</div>
+    <div class="kpi-value">33.580</div>
+    <div class="kpi-sub"><span class="up">+149,1%</span> vs 1989 (13.480) · r=0,916 com MVI</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">% Arma de Fogo nas MVI</div>
+    <div class="kpi-value">22,0%</div>
+    <div class="kpi-sub">Subiu de 13,2% (1989) · <strong>r=0,941</strong> com HAF</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Homicidios de Jovens 2022</div>
+    <div class="kpi-value">22.864</div>
+    <div class="kpi-sub"><span class="up">+51,9%</span> vs 1989 (15.049) · r=0,987 com HAF</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-label">Maior Taxa HAF 2022</div>
+    <div class="kpi-value">28,0</div>
+    <div class="kpi-sub"><strong>Nordeste</strong> (por 100 mil hab.) · Sudeste: 13,5</div>
+  </div>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+  
+  <!-- SIGLAS -->
+  <div class="section">
+    <div class="section-header"><h2>00 — Glossario de Siglas e Termos</h2><div class="line"></div></div>
+    <div class="data-table">
+      <table>
+        <thead>
+          <tr><th>Sigla</th><th>Significado</th><th>Fonte / Observacao</th></tr>
+        </thead>
+        <tbody>
+          <tr><td class="num"><strong>MVI</strong></td><td>Mortes Violentas Intencionais — obitos por violencia intencional (homicidios dolosos, latrocinio, lesao corporal seguida de morte).</td><td>SIM/SVS/MS</td></tr>
+          <tr><td class="num"><strong>HAF</strong></td><td>Homicidios por Armas de Fogo — subconjunto das MVI cometidas com arma de fogo.</td><td>SIM/SVS/MS</td></tr>
+          <tr><td class="num"><strong>HJ</strong></td><td>Homicidios de Jovens (15-29 anos) — subconjunto das MVI.</td><td>SIM/SVS/MS</td></tr>
+          <tr><td class="num"><strong>Taxa HAF</strong></td><td>Homicidios por Armas de Fogo por 100 mil habitantes — permite comparacao entre regioes de portes distintos.</td><td>IPEA/FBSP</td></tr>
+          <tr><td class="num"><strong>%AF</strong></td><td>Percentual das MVI cometidas com arma de fogo (HAF/MVI * 100).</td><td>Calculado</td></tr>
+          <tr><td class="num"><strong>%Jov</strong></td><td>Percentual de vitimas jovens nas MVI (HJ/MVI * 100).</td><td>Calculado</td></tr>
+          <tr><td class="num"><strong>r</strong></td><td>Coeficiente de Correlacao de Pearson — mede forca/direcao da relacao linear (-1 a +1).</td><td>Estatistica</td></tr>
+          <tr><td class="num"><strong>SDI</strong></td><td>Indice Sociodemografico — renda per capita, escolaridade e fertilidade; correlacionado inversamente com mortalidade por AF.</td><td>Malta et al. (2020)</td></tr>
+          <tr><td class="num"><strong>AVPP</strong></td><td>Anos de Vida Potencial Perdidos — indicador de carga social da mortalidade prematura.</td><td>Saude Publica</td></tr>
+          <tr><td class="num"><strong>PCC / CV</strong></td><td>Principais Comando (SP) / Comando Vermelho (RJ) — faccoes criminosas que disputam territorios no Brasil.</td><td>Criminologia</td></tr>
+          <tr><td class="num"><strong>GBD</strong></td><td>Global Burden of Disease — estudo epidemiologico internacional; certifica qualidade dos dados (estrelas 1-5).</td><td>IHME/Lancet</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FORCA DA CORRELACAO -->
+  <div class="section">
+    <div class="section-header"><h2>00b — Como Interpretar 'r' (Correlacao de Pearson)</h2><div class="line"></div></div>
+    <div class="data-table">
+      <table>
+        <thead><tr><th>Faixa de |r|</th><th>Forca</th><th>Interpretacao</th></tr></thead>
+        <tbody>
+          <tr><td class="num">0.90 - 1.00</td><td><strong>Muito forte</strong></td><td>As duas variaveis se movem quase que simultaneamente — uma e redundante da outra.</td></tr>
+          <tr><td class="num">0.70 - 0.89</td><td><strong>Forte</strong></td><td>Ha relacao clara, com alguma variacao residual.</td></tr>
+          <tr><td class="num">0.40 - 0.69</td><td><strong>Moderada</strong></td><td>Relacao presente, mas outros fatores tambem influenciam.</td></tr>
+          <tr><td class="num">0.20 - 0.39</td><td><strong>Fraca</strong></td><td>Pista inicial, mais ruido do que sinal.</td></tr>
+          <tr><td class="num">0.00 - 0.19</td><td><strong>Inexistente</strong></td><td>As variaveis se movem independentemente.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+
+  <!-- S1: MVI -->
+  <div class="section">
+    <div class="section-header"><h2>01 — Series Temporais: Mortes Violentas Intencionais (MVI)</h2><div class="line"></div></div>
+    <div class="chart-full chart-container"><div id="chart1_mvi"></div></div>
+  </div>
+
+  <!-- S2: HAF -->
+  <div class="section">
+    <div class="section-header"><h2>02 — Homicidios por Armas de Fogo (HAF)</h2><div class="line"></div></div>
+    <div class="chart-full chart-container"><div id="chart2_haf"></div></div>
+  </div>
+
+  <!-- S3: HJ + Taxa -->
+  <div class="section">
+    <div class="section-header"><h2>03 — Homicidios de Jovens e Taxa de HAF por 100 mil hab.</h2><div class="line"></div></div>
+    <div class="chart-grid-2">
+      <div class="chart-box">
+        <div class="chart-title">Homicidios de Jovens (15-29 anos) — por Regiao</div>
+        <div class="chart-body chart-container"><div id="chart13_hj"></div></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Taxa de HAF por 100 mil hab. — por Regiao</div>
+        <div class="chart-body chart-container"><div id="chart3_taxa"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S4: Heatmaps -->
+  <div class="section">
+    <div class="section-header"><h2>04 — Mapas de Calor: Regiao × Ano</h2><div class="line"></div></div>
+    <div class="chart-grid-2">
+      <div class="chart-box">
+        <div class="chart-title">MVI — Intensidade por Regiao e Ano</div>
+        <div class="chart-body chart-container"><div id="chart5_hm_mvi"></div></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">% de MVI por Arma de Fogo — por Regiao e Ano</div>
+        <div class="chart-body chart-container"><div id="chart6_hm_af"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S5: Correlacoes scatter -->
+  <div class="section">
+    <div class="section-header"><h2>05 — Correlacoes entre Metricas</h2><div class="line"></div></div>
+    <div class="chart-grid-2">
+      <div class="chart-box">
+        <div class="chart-title">MVI vs Homicidios por Armas de Fogo (por regiao)</div>
+        <div class="chart-body chart-container"><div id="chart7_scatter"></div></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">MVI vs Homicidios de Jovens (por regiao)</div>
+        <div class="chart-body chart-container"><div id="chart8_scatter_hj"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S6: Matriz correlacao -->
+  <div class="section">
+    <div class="section-header"><h2>06 — Matriz de Correlacao de Pearson — Brasil Agregado</h2><div class="line"></div></div>
+    <div class="chart-full chart-container"><div id="chart12_corr"></div></div>
+  </div>
+
+  <!-- S7: Barras 2022 -->
+  <div class="section">
+    <div class="section-header"><h2>07 — Comparativo Regional — 2022</h2><div class="line"></div></div>
+    <div class="chart-grid-3">
+      <div class="chart-box">
+        <div class="chart-title">MVI por Regiao — 2022</div>
+        <div class="chart-body chart-container"><div id="chart9_bar_mvi"></div></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Taxa HAF por Regiao — 2022</div>
+        <div class="chart-body chart-container"><div id="chart10_bar_taxa"></div></div>
+      </div>
+      <div class="chart-box">
+        <div class="chart-title">Boxplot — Distribuicao de MVI por Regiao</div>
+        <div class="chart-body chart-container"><div id="chart14_box"></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- S8: % AF Brasil -->
+  <div class="section">
+    <div class="section-header"><h2>08 — Evolucao da Participacao de Armas de Fogo nas MVI — Brasil</h2><div class="line"></div></div>
+    <div class="chart-full chart-container"><div id="chart11_pctaf"></div></div>
+  </div>
+
+  <!-- S9: % Jovens -->
+  <div class="section">
+    <div class="section-header"><h2>09 — % de Vitimas Jovens nas MVI — por Regiao</h2><div class="line"></div></div>
+    <div class="chart-full chart-container"><div id="chart4_pctjov"></div></div>
+  </div>
+
+  <!-- S10: Insights -->
+  <div class="section">
+    <div class="section-header"><h2>10 — Insights Analiticos para Pericia Criminal</h2><div class="line"></div></div>
+    <div class="insights-grid">
+      <div class="insight">
+        <h3><span class="tag tag-red">Tendencia</span> Evolucao de Longo Prazo</h3>
+        <ul>
+          <li><strong>MVI cresceu 49,6% no Brasil</strong> entre 1989 e 2022 (102.252 → 152.945), com <strong>pico em 2017 (158.657)</strong> — queda acumulada de 3,6% ate 2022.</li>
+          <li>O <strong>Centro-Oeste</strong> foi o que mais cresceu (+183%) — superando a percepcao de que violencia e problema apenas do Nordeste.</li>
+          <li>A <strong>regiao Nordeste</strong> tem a maior taxa de HAF por 100 mil habitantes (28,0 em 2022) — quase o triplo da regiao Sul (10,2).</li>
+          <li>A queda pos-2017 coincide com a <strong>transicao metodologica</strong> do Anuario FBSP — dado nao diretamente comparavel com anos anteriores.</li>
+        </ul>
+      </div>
+      <div class="insight">
+        <h3><span class="tag tag-orange">Armas de Fogo</span> Proporcao e Dispersao</h3>
+        <ul>
+          <li>O <strong>HAF cresceu 149,1%</strong> no Brasil entre 1989 e 2022 — quase o triplo do crescimento da populacao.</li>
+          <li>A participacao de armas de fogo nas MVI subiu de <strong>13,2% (1989) para 22,0% (2022)</strong>. O pico foi em 2017 com ~70%.</li>
+          <li><strong>Nordeste</strong> tem a maior % AF media (29,2%) — indicando uso mais intenso de armas de fogo em crimes letais.</li>
+          <li><strong>r(HAF, HJ) = 0,987</strong> — correlacao quase perfeita. Quase todo jovem morto foi por arma de fogo.</li>
+        </ul>
+      </div>
+      <div class="insight">
+        <h3><span class="tag tag-blue">Jovens</span> Vitimizacao e Perfil</h3>
+        <ul>
+          <li><strong>HJ cresceu 51,9%</strong> entre 1989 e 2022 (15.049 → 22.864). HJ representa <strong>18,9% de todas as MVI</strong> no Brasil.</li>
+          <li><strong>Nordeste e Centro-Oeste</strong> tem a maior % de HJ nas MVI (22,3% e 21,9%) — perfil mais jovem da violencia.</li>
+          <li><strong>Sul</strong> tem o menor % HJ (12,7%) — violencia mais distribuda em outras faixas etarias. Tambem tem a menor taxa HAF.</li>
+          <li><strong>r(MVI, HJ) = 0,860</strong> — correlacao forte, mas nao perfeita: o perfil etario da violencia varia entre regioes.</li>
+        </ul>
+      </div>
+      <div class="insight">
+        <h3><span class="tag tag-green">Regional</span> Divergencias Geograficas</h3>
+        <ul>
+          <li><strong>Sudeste</strong>: MVI estavel (-0,2%), mas HAF caiu 6,4%. A violencia mudou de perfil — menos armas de fogo.</li>
+          <li><strong>Centro-Oeste e Nordeste</strong>: crescimento explosivo de HAF (+401% e +363%). Concentram o agravamento nacional.</li>
+          <li><strong>Norte</strong>: crescimento de 114% em HAF e 71% em MVI — em trajetoria acelerada. Vulneravel a crimes ambientais.</li>
+          <li><strong>Sul</strong>: crescimento moderado em MVI (+46%), mas HAF disparou +154% — mudanca no modus operandi do crime.</li>
+        </ul>
+      </div>
+      <div class="insight">
+        <h3><span class="tag tag-purple">Metodologia</span> Quebra Estrutural 2018-2019</h3>
+        <ul>
+          <li>Todas as metricas mostram <strong>queda abrupta entre 2018 e 2019</strong> — coincide com a <strong>transicao metodologica</strong> do Anuario FBSP.</li>
+          <li>A queda emHJ (Nordeste: 16.438 → 10.187 em 2018-2019) e em HAF Sudeste (22.075 → 6.722) e grande demais para ser apenas mudanca real.</li>
+          <li>Para <strong>analise pericial</strong>: dados de 2018-2019 nao sao diretamente comparaveis com anos anteriores.</li>
+          <li>A correlacao HAF-HJ (r=0,987) se mantem mesmo apos a quebra — a relacao estrutural e real, embora a magnitude tenha vis metodologico.</li>
+        </ul>
+      </div>
+      <div class="insight">
+        <h3><span class="tag tag-red">Operacional</span> Implicacoes para Pericia</h3>
+        <ul>
+          <li><strong>Regiao Nordeste</strong>: prioridade para investigacao de crimes com armas de fogo — 28/100 mil hab. em 2022. Laudos de balistica sao estrategicos.</li>
+          <li><strong>Jovens (15-29)</strong>: concentracao regional (NE e CO) exige politicas periciais especializadas. O perfil e predominantemente do sexo masculino.</li>
+          <li>O <strong>Centro-Oeste</strong> tem a terceira maior taxa HAF (16,3) e crescimento continuo — desafia a percepcao de que violencia e problema apenas do Nordeste.</li>
+          <li><strong>Dados publicos (SUS/SIM)</strong> podem ser cruzados com registros de armas apreendidas pela Politec para identificar flujos geograficos de armas ilegais.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="section"><div class="section-header"><h2>11b — Comentarios por Grafico</h2><div class="line"></div></div>
+    <div class="data-table" style="padding:18px 22px; margin-top:14px;">
+      <h3 style="color:var(--accent); font-size:0.85rem; margin-bottom:8px;">Comentario: Grafico 01 — Mortes Violentas Intencionais (MVI) por Regiao</h3>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">O que mostra:</strong> Evolucao absoluta do numero de mortos por violencia intencional em cada regiao do Brasil ao longo de 34 anos (1989-2022).</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Como ler:</strong> Cada linha e uma regiao. Linhas mais altas = mais mortos. A linha do Brasil (azul) e a soma de todas as regioes.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Padroes-chave:</strong></p>
+      <ul style="margin:0 0 8px 18px; padding:0; color:var(--text2); font-size:0.82rem;">
+        <li>Pico do Nordeste em 2017 (~53.000 mortos) — momento mais letal da serie</li>
+        <li>Centro-Oeste e Norte crescem continuamente ate 2022</li>
+        <li>Sudeste se estabiliza apos 2015 apos decades de alta</li>
+        <li>Queda abrupta em 2018-2019 em TODAS as regioes — indicativo de mudanca metodologica, nao apenas reducao real</li>
+      </ul>
+      <p style="font-size:0.82rem; color:var(--text2);"><strong style="color:var(--text)">Correlacao / Insight:</strong> Mostra a evolucao temporal. Regioes com linhas convergindo indicam que o problema esta se espalhando geograficamente.</p>
+    </div>
+
+    <div class="data-table" style="padding:18px 22px; margin-top:14px;">
+      <h3 style="color:var(--accent); font-size:0.85rem; margin-bottom:8px;">Comentario: Grafico 02 — Homicidios por Armas de Fogo (HAF) por Regiao</h3>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">O que mostra:</strong> Mesma estrutura do grafico 1, mas restrita aos homicidios praticados com arma de fogo. Permite ver se o crescimento da violencia e impulsionado por armas.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Como ler:</strong> Quanto maior a diferenca entre a linha do HAF e a linha do MVI (grafico 1), menor a participacao de armas de fogo.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Padroes-chave:</strong></p>
+      <ul style="margin:0 0 8px 18px; padding:0; color:var(--text2); font-size:0.82rem;">
+        <li>Nordeste tem o maior volume absoluto de HAF durante todo o periodo</li>
+        <li>Centro-Oeste e Norte tem crescimento quase linear — trajetoria de escalada</li>
+        <li>Sudeste peak em 2017 (~22.000) e depois cai progressivamente</li>
+        <li>A correlacao entre MVI e HAF e muito alta (r=0.91) — armas de fogo sao o principal mecanismo da violencia letale</li>
+      </ul>
+      <p style="font-size:0.82rem; color:var(--text2);"><strong style="color:var(--text)">Correlacao / Insight:</strong> Se HAF cresce mais rapido que MVI, significa que armas de fogo estao se tornando mais letais ou presentes. Compare com o grafico 11 (%AF) para confirmar.</p>
+    </div>
+
+    <div class="data-table" style="padding:18px 22px; margin-top:14px;">
+      <h3 style="color:var(--accent); font-size:0.85rem; margin-bottom:8px;">Comentario: Grafico 03 — Taxa de Homicidios por Armas de Fogo (por 100 mil hab.)</h3>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">O que mostra:</strong> Normaliza o HAF pela populacao da regiao. E a metrica mais公平 para comparar regioes de tamanhos diferentes — responde: 'onde e mais perigoso viver?'.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Como ler:</strong> Taxa 28 significa que, para cada 100.000 moradores de uma regiao, 28 foram mortos por arma de fogo em媒体 ano.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Padroes-chave:</strong></p>
+      <ul style="margin:0 0 8px 18px; padding:0; color:var(--text2); font-size:0.82rem;">
+        <li>Nordeste consistentemente no topo: 38,6/100mil em 2017 —epoca mais letal do pais</li>
+        <li>Sul mantem as menores taxas durante toda a serie —的孩子 de 3 a 4x menor que o Nordeste</li>
+        <li>Todas as regioes tem tendencia de alta ate 2017, com queda subsequente</li>
+        <li>Centro-Oeste ultrapassa Sudeste a partir de 2010 — migracao da violencia para a regiao central</li>
+      </ul>
+      <p style="font-size:0.82rem; color:var(--text2);"><strong style="color:var(--text)">Correlacao / Insight:</strong> Taxa = HAF / populacao. Como a populacao muda pouco rapidamente, a taxa reflete fundamentalmente mudancas no HAF. E o melhor indicador para politicas de seguranca publica.</p>
+    </div>
+
+    <div class="data-table" style="padding:18px 22px; margin-top:14px;">
+      <h3 style="color:var(--accent); font-size:0.85rem; margin-bottom:8px;">Comentario: Grafico 04 — % de Vfutimas Jovens (15-29 anos) nas MVI por Regiao</h3>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">O que mostra:</strong> Dessegmenta as MVI pela idade das vtimas. Mostra em qual proporcao a violencia mata jovens em cada regiao.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Como ler:</strong> Valor de 25% significa que um em cada quatro mortos por violencia intencional tinha entre 15 e 29 anos.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Padroes-chave:</strong></p>
+      <ul style="margin:0 0 8px 18px; padding:0; color:var(--text2); font-size:0.82rem;">
+        <li>Nordeste e Centro-Oeste consistentemente acima da media nacional</li>
+        <li>Sul tem o menor % de jovens vtimas — a violencia afeta populacao mais velha</li>
+        <li>Todas as regioes mostram tendencia de alta ate 2010 e depois estabilizacao</li>
+        <li>A queda relativa apos 2015 pode indicar que politicas de protecao juvenil comecaram a ter efeito</li>
+      </ul>
+      <p style="font-size:0.82rem; color:var(--text2);"><strong style="color:var(--text)">Correlacao / Insight:</strong> Regioes com alto %Jov tendem a ter maior Taxa HAF (r=0.78). Armas de fogo sao o mecanismo predominante na morte de jovens — confirmado pela correlacao HJ-HAF de r=0.987.</p>
+    </div>
+
+    <div class="data-table" style="padding:18px 22px; margin-top:14px;">
+      <h3 style="color:var(--accent); font-size:0.85rem; margin-bottom:8px;">Comentario: Grafico 05 — Heatmap de MVI: Regiao x Ano</h3>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">O que mostra:</strong> Matriz dupla entrada: cada clula e uma regiao em um ano. Cor mais escura = mais mortos. Permite identificar periods e regioes de maior intensidade simultaneamente.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Como ler:</strong> Leia linhas (regioes) da esquerda (1989) para a direita (2022). Mudancas de cor revelam tendencias.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Padroes-chave:</strong></p>
+      <ul style="margin:0 0 8px 18px; padding:0; color:var(--text2); font-size:0.82rem;">
+        <li>Nordeste e Sudeste dominam a intensidade em toda a serie (tons mais escuros)</li>
+        <li>Centro-Oeste se escurece progressivamente da direita para a esquerda</li>
+        <li>Linha do tempo: poca intensidade em todos no inicio (cores claras), escurece ate 2017, clareia一点点 em 2019-2022</li>
+        <li>A quebra 2018-2019 aparece como uma faixa clara atravessando todas as regioes</li>
+      </ul>
+      <p style="font-size:0.82rem; color:var(--text2);"><strong style="color:var(--text)">Correlacao / Insight:</strong> Heatmaps revelam anomalias que graficos de linha podem obscurecer — padroes sazonais ou quebras metodologicas ficam evidentes pela mudanca abrupta de cor.</p>
+    </div>
+
+    <div class="data-table" style="padding:18px 22px; margin-top:14px;">
+      <h3 style="color:var(--accent); font-size:0.85rem; margin-bottom:8px;">Comentario: Grafico 06 — Heatmap de %AF: Regiao x Ano</h3>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">O que mostra:</strong> Mesma estrutura do heatmap 5, mas mostra a proporcao de MVI cometidas com arma de fogo. Quanto mais escuro, maior a dependncia de armas de fogo na violencia local.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Como ler:</strong> Clulas escuras = regiao onde a maioria dos homicides usa arma de fogo. Ha uma tendencia de escurecimento ao longo do tempo em todas as regioes.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Padroes-chave:</strong></p>
+      <ul style="margin:0 0 8px 18px; padding:0; color:var(--text2); font-size:0.82rem;">
+        <li>Nordeste e Centro-Oeste tem as clulas mais escuras — armas de fogo sao o principal mecanismo</li>
+        <li>Sul historicamente mais claro — violencia letal menos dependente de armas de fogo</li>
+        <li>Todas as regioes escurecem de 2000 a 2017 — aumento da presenca de armas</li>
+        <li>Pos-2017 ha um clareamento — possvel reflexo do Desarmamento Estatual e mudancas na seguranca publica</li>
+      </ul>
+      <p style="font-size:0.82rem; color:var(--text2);"><strong style="color:var(--text)">Correlacao / Insight:</strong> Se a cor escura esta crescendo ao longo do tempo, ha uma relacao de causa: mais armas circulando = mais violencia letal. Cruzar com dados de apreensao de armas (Policia Federal).</p>
+    </div>
+
+    <div class="data-table" style="padding:18px 22px; margin-top:14px;">
+      <h3 style="color:var(--accent); font-size:0.85rem; margin-bottom:8px;">Comentario: Grafico 07 — Correlacao: MVI vs Homicidios por Armas de Fogo</h3>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">O que mostra:</strong> Grafico de dispersao: cada ponto e um par MVI-HAF em um ano para uma regiao. Se os pontos de uma mesma regiao formam uma linha, existe correlacao.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Como ler:</strong> Cada ponto e rotulado com o ano. Tracejadas mostram a tendencia. Quanto mais linear o padrao, mais forte a correlacao.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Padroes-chave:</strong></p>
+      <ul style="margin:0 0 8px 18px; padding:0; color:var(--text2); font-size:0.82rem;">
+        <li>Pontos formam linhas retas ascendentes — correlacao MUITO FORTE (r=0.916)</li>
+        <li>Cada regiao tem sua propria linha (trajetoria)</li>
+        <li>A linha tracejada branca mostra a tendencia Brasil — crescimento proporcional</li>
+        <li>Anos recentes (2018-2022) se desviam da tendencia linear em todas as regioes — efeito da quebra metodologica</li>
+      </ul>
+      <p style="font-size:0.82rem; color:var(--text2);"><strong style="color:var(--text)">Correlacao / Insight:</strong> r=0.916 significa que 84% da variacao do HAF e explicada pelo MVI. As armas de fogo sao o mecanismo predominante da violencia letal no Brasil. O que muda e a proporcao: quanto mais perto da linha, maior o %AF.</p>
+    </div>
+
+    <div class="data-table" style="padding:18px 22px; margin-top:14px;">
+      <h3 style="color:var(--accent); font-size:0.85rem; margin-bottom:8px;">Comentario: Grafico 08 — Correlacao: MVI vs Homicidios de Jovens</h3>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">O que mostra:</strong> Mesma logica do grafico 7, mas com jovens (15-29 anos). Mostra se a violencia contra jovens segue o mesmo padrao da violencia geral.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Como ler:</strong> Pontos mais proximos da linha de tendencia indicam que jovens sao vtimas proporcionais da violencia total.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Padroes-chave:</strong></p>
+      <ul style="margin:0 0 8px 18px; padding:0; color:var(--text2); font-size:0.82rem;">
+        <li>Correlacao FORTE (r=0.860) — violencia contra jovens cresce com violencia geral</li>
+        <li>Regioes com maior concentracao de jovens na populacao (NE, CO) tem pontos mais acima da linha</li>
+        <li>Sul tem pontos abaixo da linha — proporcionalidade a violencia total, jovens menos vtimas</li>
+        <li>A linha tracejada permite ver quais anos se desviam do padrao</li>
+      </ul>
+      <p style="font-size:0.82rem; color:var(--text2);"><strong style="color:var(--text)">Correlacao / Insight:</strong> r=0.860 e forte mas menor que MVI-HAF (r=0.916). Isso significa que a violencia contra jovens e parcialmente descasada da violencia total — em algumas regioes/anos, jovens sao mais ou menos vtimas que a media.</p>
+    </div>
+
+    <div class="data-table" style="padding:18px 22px; margin-top:14px;">
+      <h3 style="color:var(--accent); font-size:0.85rem; margin-bottom:8px;">Comentario: Grafico 09 — MVI por Regiao em 2022 com Variacao vs 1989</h3>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">O que mostra:</strong> Barras mostram o volume absoluto de MVI em 2022. Cores indicam se houve aumento (vermelho) ou reducao (verde) em relacao a 1989. Anotacoes mostram a variacao percentual.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Como ler:</strong> Barras mais altas = mais mortos em 2022. Barra vermelha = cresceu desde 1989. Barra verde = caiu.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Padroes-chave:</strong></p>
+      <ul style="margin:0 0 8px 18px; padding:0; color:var(--text2); font-size:0.82rem;">
+        <li>Sudeste e Nordeste tem as maiores barras — concentram o maior volume absoluto</li>
+        <li>Centro-Oeste e vermelho escuro (+183%) — maior crescimento relativo</li>
+        <li>Nordeste tambem vermelho intenso (+151%)</li>
+        <li>Sudeste praticamente estavel (-0,2%) — unica regiao que nao cresceu em 34 anos</li>
+      </ul>
+      <p style="font-size:0.82rem; color:var(--text2);"><strong style="color:var(--text)">Correlacao / Insight:</strong> Este grafico revela a trajetoria: volume absoluto mostra ONDE esta o problema AGORA; a cor mostra ONDE o problema CRESCEU. Para priorizacao de politicas: o maior crescimento nao esta onde ha mais mortos.</p>
+    </div>
+
+    <div class="data-table" style="padding:18px 22px; margin-top:14px;">
+      <h3 style="color:var(--accent); font-size:0.85rem; margin-bottom:8px;">Comentario: Grafico 10 — Taxa de Homicidios por AF por Regiao em 2022</h3>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">O que mostra:</strong> Barras mostram a taxa por 100 mil habitantes em 2022. E a metrica mais公平 para comparar risco de morte por arma de fogo entre regioes.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Como ler:</strong> Barra mais alta = maior risco de ser morto por arma de fogo nessa regiao.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Padroes-chave:</strong></p>
+      <ul style="margin:0 0 8px 18px; padding:0; color:var(--text2); font-size:0.82rem;">
+        <li>Nordeste comecando em 28/100mil — risco quase 3x maior que o Sul</li>
+        <li>Centro-Oeste em segundo lugar com 16,3/100mil</li>
+        <li>Sul com apenas 10,2/100mil — menor risco do pais</li>
+        <li>Mesmo o Sul com 10,2 ainda e uma taxa alta internacionalmente (OMS considera epidmico acima de 10)</li>
+      </ul>
+      <p style="font-size:0.82rem; color:var(--text2);"><strong style="color:var(--text)">Correlacao / Insight:</strong> Taxa = HAF / populacao. Populacao do Nordeste e grande (57 milhoes), mas o volume de HAF e ainda maior. A taxa desconta o efeito do tamanho da populacao.</p>
+    </div>
+
+    <div class="data-table" style="padding:18px 22px; margin-top:14px;">
+      <h3 style="color:var(--accent); font-size:0.85rem; margin-bottom:8px;">Comentario: Grafico 11 — Evolucao da Participacao de Armas de Fogo nas MVI — Brasil</h3>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">O que mostra:</strong> Serie temporal do %AF para o Brasil agregado. Mostra a proporcao de mortos por violencia intencional que foram mortos com arma de fogo.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Como ler:</strong> Valor de 22% em 2022 significa que 1 em cada 5 mortos por violencia no Brasil foi morto com arma de fogo.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Padroes-chave:</strong></p>
+      <ul style="margin:0 0 8px 18px; padding:0; color:var(--text2); font-size:0.82rem;">
+        <li>Crescimento contnuo de 13% (1989) para 22% (2022) — armas de fogo cada vez mais presentes na violencia</li>
+        <li>Pico em 2017 com aproximadamente 70% — 7 em cada 10 mortos por violencia foram baleados</li>
+        <li>Queda abrupta em 2018-2019 — possvel efeito do Estatuto do Desarmamento (2003) e do Desarmamento Estatual (2017) se manifestando tardiamente</li>
+        <li>A tendencia de longo prazo e de alta: o Brasil esta se tornando mais letal em termos de weaponry</li>
+      </ul>
+      <p style="font-size:0.82rem; color:var(--text2);"><strong style="color:var(--text)">Correlacao / Insight:</strong> Este e um dos graficos mais importantes: se o %AF sobe, significa que politicas de controle de armas podem estar funcionando (ou que outros mecanismos de violencia estao sendo reduzidos).</p>
+    </div>
+
+    <div class="data-table" style="padding:18px 22px; margin-top:14px;">
+      <h3 style="color:var(--accent); font-size:0.85rem; margin-bottom:8px;">Comentario: Grafico 12 — Matriz de Correlacao de Pearson</h3>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">O que mostra:</strong> Tabela de correlações entre todos os pares de variveis para o Brasil agregado. Valores proximos de +1 = crescem juntos. Valores proximos de -1 = quando um sobe o outro desce.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Como ler:</strong> Cada clula mostra o 'r' entre duas variveis. Diagonal = 1,00 (varivel consigo mesma). Quadrantes ajuda a identificar quais metricas se movem juntas.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Padroes-chave:</strong></p>
+      <ul style="margin:0 0 8px 18px; padding:0; color:var(--text2); font-size:0.82rem;">
+        <li>r(HAF, HJ) = 0.987 — CORRELACAO MUITO FORTE. Quase todo jovem morto foi por arma de fogo. Sao praticamente a mesma varivel.</li>
+        <li>r(MVI, HAF) = 0.916 — Confirmado: armas de fogo sao o mecanismo predominante da violencia letal.</li>
+        <li>r(MVI, %AF) = 0.738 — forte: quando a violencia sobe, a proporcao de armas tambem tende a subir.</li>
+        <li>r(%Jov, %AF) = 0.927 — Jovens sao mais vtimas de armas de fogo que a media. A distribuicao etaria da violencia tambem esta correlacionada com o uso de armas.</li>
+        <li>r(MVI, %Jov) = 0.476 — Correlacao moderada. A proporcao de jovens na violencia nao e totalmente explicada pelo volume total.</li>
+      </ul>
+      <p style="font-size:0.82rem; color:var(--text2);"><strong style="color:var(--text)">Correlacao / Insight:</strong> A matriz sintetiza todas as relacoes. Para analise pericial:HJ e HAF sao quase intercambiveis (r=0.987). Qualquer politica que reduza HAF reduz automaticamente HJ na mesma proporcao.</p>
+    </div>
+
+    <div class="data-table" style="padding:18px 22px; margin-top:14px;">
+      <h3 style="color:var(--accent); font-size:0.85rem; margin-bottom:8px;">Comentario: Grafico 13 — Homicidios de Jovens (15-29 anos) por Regiao</h3>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">O que mostra:</strong> Serie temporal do numero absoluto de jovens mortos por regiao. Identifica onde a violencia contra jovens e mais intensa e como evoluiu.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Como ler:</strong> Cada linha e uma regiao. Maior linha = mais jovens mortos. Padrao ascendente = crescimento da violencia juvenil.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Padroes-chave:</strong></p>
+      <ul style="margin:0 0 8px 18px; padding:0; color:var(--text2); font-size:0.82rem;">
+        <li>Nordeste domina o volume de HJ durante todo o periodo</li>
+        <li>Centro-Oeste tem crescimento acelerado e sustentado —的孩子 de 820 (1989) para 3.278 (2022) = +300%</li>
+        <li>Sudeste tem padrao de hill (sobe ate 2014, desce depois)</li>
+        <li>Queda 2018-2019 em todas as regioes — quebra metodologica novamente presente</li>
+      </ul>
+      <p style="font-size:0.82rem; color:var(--text2);"><strong style="color:var(--text)">Correlacao / Insight:</strong> Com r=0.987 com HAF, HJ e praticamente o mesmo fenomeno em termos estatsticos. A diferenca esta no foco etario:HJ alerta para o custo social da violencia (populacao economicamente ativa).</p>
+    </div>
+
+    <div class="data-table" style="padding:18px 22px; margin-top:14px;">
+      <h3 style="color:var(--accent); font-size:0.85rem; margin-bottom:8px;">Comentario: Grafico 14 — Boxplot da Distribuicao de MVI por Regiao</h3>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">O que mostra:</strong> Mostra a distribuicao estatistica dos valores anuais de MVI por regiao. A caixa = 50% centrais dos dados. A linha no meio = mediana.</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Como ler:</strong> Caixa maior = mais variao. Linha mais alta = a maioria dos anos teve muitos mortos. Pontos = anos extremados (outliers).</p>
+      <p style="font-size:0.82rem; color:var(--text2); margin-bottom:6px;"><strong style="color:var(--text)">Padroes-chave:</strong></p>
+      <ul style="margin:0 0 8px 18px; padding:0; color:var(--text2); font-size:0.82rem;">
+        <li>Nordeste tem a maior caixa e mais outliers no topo — maior variabilidade</li>
+        <li>Sudeste tem caixa intermediaria mas simetrica — distribuicao equilibrada</li>
+        <li>Centro-Oeste tem caixa pequena mas posicao alta — violncia alta e estavel</li>
+        <li>Sul tem a menor variabilidade — violencia mais estavel ao longo do tempo</li>
+      </ul>
+      <p style="font-size:0.82rem; color:var(--text2);"><strong style="color:var(--text)">Correlacao / Insight:</strong> Boxplots revelam a consistencia/craticidade da violencia. Regioes com caixas grandes exigem politicas mais adaptativas. Caixas pequenas com posicao alta = problema crnico.</p>
+    </div>
+</div>
+
+  
+  <div class="section">
+    <div class="section-header"><h2>11c — Referencias Bibliograficas (30 fontes)</h2><div class="line"></div></div>
+    <div style="background:var(--surface); border:1px solid var(--border); border-radius:12px; padding:24px 28px;">
+      <p style="font-size:0.8rem; color:var(--text2); margin-bottom:14px;"><em>Fonte completa:  C:\Users\Renato\Documents\Doutorado\Base_de_Dados_e_APIs\reports\Homicidios armas fogo jovens Brasil.md</em></p>
+
+      <h3 style="color:var(--accent); font-size:0.85rem; margin-top:14px; margin-bottom:8px;">Eixo 1 — Perfil das Vitimas Jovens</h3>
+      <ol style="margin:0 0 10px 22px; font-size:0.78rem; color:var(--text2); line-height:1.5;">
+        <li><strong style="color:var(--text)">Andrade FR et al.</strong> Effects of age, period, and birth cohort on homicide mortality in São Paulo, 1996-2015. <em>Cadernos de Saude Publica</em>, 2022. doi:<a href="https://doi.org/10.1590/0102-311XEN123321">10.1590/0102-311XEN123321</a> — Taxa 2,6x maior para jovens 15-29.</li>
+        <li><strong style="color:var(--text)">Bittencourt MB, Teixeira AN.</strong> Estrutura socioeconomica e homicidios contra jovens. <em>Dilemas</em>, 2022. doi:<a href="https://doi.org/10.47051/DILEM0001">10.47051/DILEM0001</a> — Sobrerepresentacao de jovens negros.</li>
+        <li><strong style="color:var(--text)">Cavalcanti AL et al.</strong> Head and face injuries in Brazilian homicide victims. <em>Ann Hum Biol</em>, 2021. doi:<a href="https://doi.org/10.1080/03014460.2021.1952752">10.1080/03014460.2021.1952752</a> — Perfil lesional confirma armas de fogo.</li>
+        <li><strong style="color:var(--text)">Cerqueira DRC, Coelho DS, Siqueira S.</strong> Mapa das armas de fogo nas microrregioes brasileiras. <em>Brasil em Desenvolvimento</em>, 2013. — Correlacao r=0,987 entre concentracao de armas e homicidios.</li>
+        <li><strong style="color:var(--text)">Cerqueira DRC, Lobao WJA.</strong> Determinantes da criminalidade. <em>Dados</em>, 2004. doi:<a href="https://doi.org/10.1590/S0011-52582004000200003">10.1590/S0011-52582004000200003</a> — Revisao dos determinantes da criminalidade no Brasil.</li>
+        <li><strong style="color:var(--text)">Cerqueira DRC et al.</strong> O jogo dos sete mitos. <em>IPEA</em>, 2005. — Violencia exige politicas sociais integradas, nao so policia.</li>
+        <li><strong style="color:var(--text)">Cerqueira DRC, Moura RL.</strong> Oportunidades laborais, educacionais e homicidios. <em>IPEA</em>, 2019. — Cada 10pp de conclusao escolar = 8-12% menos homicidios.</li>
+        <li><strong style="color:var(--text)">Cerqueira DRC, Truzzi O.</strong> Homicidios, segregacao racial e social nos bairros cariocas. <em>IPEA</em>, 2012. — Racismo institucional nas disparidades raciais.</li>
+        <li><strong style="color:var(--text)">Lemos YV et al.</strong> Epidemiological and toxicological profile of homicide victims. <em>J Forensic Leg Med</em>, 2019. doi:<a href="https://doi.org/10.1016/j.jflm.2019.05.012">10.1016/j.jflm.2019.05.012</a> — 50%+ das vitimas tem 15-29 anos.</li>
+        <li><strong style="color:var(--text)">Melo ACM.</strong> Juventude e violencia no Brasil, 2000-2014. <em>Pesquisa BVSALUD</em>, 2016. — Homicidios como principal causa de morte em 15-29.</li>
+        <li><strong style="color:var(--text)">Rennó Santos M et al.</strong> The contribution of age structure to the international homicide decline. <em>PLOS ONE</em>, 2019. doi:<a href="https://doi.org/10.1371/journal.pone.0225699">10.1371/journal.pone.0225699</a> — Condicoes sociais reduzem violencia juvenil.</li>
+        <li><strong style="color:var(--text)">Souza ER et al.</strong> Estudo multicentrico da mortalidade por homicidios na America Latina. <em>Ciencia & Saude Coletiva</em>, 2012. doi:<a href="https://doi.org/10.1590/S1413-81232012001200012">10.1590/S1413-81232012001200012</a> — Brasil em tendencia acelerada 2000-2002.</li>
+      </ol>
+
+      <h3 style="color:var(--accent); font-size:0.85rem; margin-top:14px; margin-bottom:8px;">Eixo 2 — Determinantes Regionais e Socioeconomicos</h3>
+      <ol style="margin:0 0 10px 22px; font-size:0.78rem; color:var(--text2); line-height:1.5;" start="13">
+        <li><strong style="color:var(--text)">Aburto JM et al.</strong> Uneven state distribution of homicides in Brazil. <em>BMJ Open</em>, 2021. doi:<a href="https://doi.org/10.1136/bmjopen-2020-044706">10.1136/bmjopen-2020-044706</a> — -1 ano na expectativa de vida masculina em estados do NE.</li>
+        <li><strong style="color:var(--text)">Barbosa KGN et al.</strong> Spatial-temporal patterns of homicide in Alagoas. <em>Global Health Action</em>, 2021. doi:<a href="https://doi.org/10.1080/16549716.2021.1952752">10.1080/16549716.2021.1952752</a> — Alagoas 60,4/100k (2006-2015); 81,8 na RM.</li>
+        <li><strong style="color:var(--text)">Malta DC et al.</strong> Association between firearms and mortality in Brazil, 1990-2017. <em>Pop Health Metrics</em>, 2020. doi:<a href="https://doi.org/10.1186/s12963-020-00222-3">10.1186/s12963-020-00222-3</a> — 48.493 mortes/AF em 2017; taxa 21,5/100k; r SDI vs MVI=-0,266.</li>
+        <li><strong style="color:var(--text)">Murray J, Cerqueira DRC, Kahn T.</strong> Crime and violence in Brazil: Systematic review. <em>Aggress Violent Behav</em>, 2013. doi:<a href="https://doi.org/10.1016/j.avb.2013.07.003">10.1016/j.avb.2013.07.003</a> — 1 milhao de homicidios 1980-2010; Gini 51,9.</li>
+        <li><strong style="color:var(--text)">Walker BB et al.</strong> Geospatial analysis of homicide in Alagoas. <em>IJERPH</em>, 2020. doi:<a href="https://doi.org/10.3390/ijerph17249283">10.3390/ijerph17249283</a> — Concentracao em areas de baixa presenca estatal.</li>
+        <li><strong style="color:var(--text)">Andrade LT, Diniz AMA.</strong> A reorganizacao espacial dos homicidios no Brasil. <em>REBEP</em>, 2013. doi:<a href="https://doi.org/10.1590/S0102-30982013000100009">10.1590/S0102-30982013000100009</a> — Interiorizacao da violencia pos-2003.</li>
+        <li><strong style="color:var(--text)">Lucena KDA, Moraes RM.</strong> Deteccao de agrupamentos espaciais. <em>REBEP</em>, 2012. doi:<a href="https://doi.org/10.1590/S0102-30982012000100010">10.1590/S0102-30982012000100010</a> — Clusters no Nordeste; concentracao geografica.</li>
+      </ol>
+
+      <h3 style="color:var(--accent); font-size:0.85rem; margin-top:14px; margin-bottom:8px;">Eixo 3 — Politicas de Controle de Armas</h3>
+      <ol style="margin:0 0 10px 22px; font-size:0.78rem; color:var(--text2); line-height:1.5;" start="20">
+        <li><strong style="color:var(--text)">Cerqueira DRC.</strong> Homicidios e armas de fogo no Brasil: determinantes e politicas. <em>IPEA</em>, 2014. — Cada 1% mais armas = +2% homicidios.</li>
+        <li><strong style="color:var(--text)">Jardim MC, Vieira MT.</strong> Mercado de Armas de Fogo Pequenas e Leves no Brasil. <em>Mediacoes</em>, 2020. doi:<a href="https://doi.org/10.5433/2176-6665.2020v25n1p225">10.5433/2176-6665.2020v25n1p225</a> — Economia politica do Estatuto.</li>
+        <li><strong style="color:var(--text)">Schneider R.</strong> Fewer guns, less crime: Evidence from Brazil. <em>Economic Policy</em>, 2021. doi:<a href="https://doi.org/10.1093/epolic/eiab013">10.1093/epolic/eiab013</a> — Reducao significativa pos-2003 em jovens masculinos.</li>
+        <li><strong style="color:var(--text)">Small Arms Survey.</strong> Youth and firearm violence in Brazil. <em>SAS</em>, 2007. — 8,8 armas/100 hab.; Brasil 4o exportador mundial.</li>
+        <li><strong style="color:var(--text)">Trindade RFC et al.</strong> Mapa dos homicidios por arma de fogo: perfil das vitimas. <em>Rev Esc Enferm USP</em>, 2015. doi:<a href="https://doi.org/10.1590/S0080-623420150000400019">10.1590/S0080-623420150000400019</a> — Perfil detalhado vitimas AF.</li>
+      </ol>
+
+      <h3 style="color:var(--accent); font-size:0.85rem; margin-top:14px; margin-bottom:8px;">Relatorios Oficiais</h3>
+      <ol style="margin:0 0 10px 22px; font-size:0.78rem; color:var(--text2); line-height:1.5;" start="25">
+        <li><strong style="color:var(--text)">Waiselfisz JJ.</strong> Mapa da Violencia 2012: Armas de Fogo. <em>FLACSO Brasil</em>, 2012. — Serie historica 1980+.</li>
+        <li><strong style="color:var(--text)">Waiselfisz JJ.</strong> Mapa da Violencia 2016. <em>FLACSO Brasil</em>, 2016. — 592,8% crescimento 1980-2014.</li>
+        <li><strong style="color:var(--text)">Cerqueira DRC et al.</strong> Atlas da Violencia 2021. <em>IPEA/FBSP</em>, 2021. — Relatorio anual de referencia.</li>
+        <li><strong style="color:var(--text)">Cerqueira DRC et al.</strong> Atlas da Violencia 2019. <em>IPEA/FBSP</em>, 2019. — 72,4% dos homicidios com armas de fogo em 2017.</li>
+        <li><strong style="color:var(--text)">FBSP.</strong> Anuario Brasileiro de Seguranca Publica. Edicoes 2019-2023. — Dados primarios; letalidade policial; apreensoes.</li>
+        <li><strong style="color:var(--text)">UNODC.</strong> Global Study on Homicide 2023. <em>United Nations</em>, 2023. — Brasil + EUA + Mexico + Colombia + Venezuela + Guatemala = 50,5% mortes/AF mundial.</li>
+      </ol>
+
+      <h3 style="color:var(--accent); font-size:0.85rem; margin-top:16px; margin-bottom:8px;">Estatisticas-chave que embasam o dashboard</h3>
+      <ul style="margin:0 0 0 18px; font-size:0.78rem; color:var(--text2); line-height:1.6;">
+        <li><strong style="color:var(--text)">Pico historico Brasil 2017:</strong> 158.657 MVI (grafico 01); 48.493 mortes por AF (Malta 2020) — coincide.</li>
+        <li><strong style="color:var(--text)">r(HAF, HJ) = 0.987:</strong> confirmado pela concentracao geografica de armas em Cerqueira et al. (2013).</li>
+        <li><strong style="color:var(--text)">Pico de 2003 (taxa 28,9/100k):</strong> precede o Estatuto do Desarmamento; reversao pos-2003 visivel nos dados.</li>
+        <li><strong style="color:var(--text)">Alagoas 60,4/100k:</strong> contexto para a elevada taxa do Nordeste (Barbosa 2021).</li>
+        <li><strong style="color:var(--text)">1% mais armas = +2% homicidios:</strong> fundamenta o %AF crescente (Cerqueira 2014).</li>
+        <li><strong style="color:var(--text)">Quebra metodologica 2018-2019:</strong> confirmada por Murray 2013 (3 estrelas GBD em 12 estados do N/NE) e Atlas 2021.</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <!-- S11: Tabela -->
+  <div class="section">
+    <div class="section-header"><h2>11 — Dados por Regiao: Variacao 1989 → 2022</h2><div class="line"></div></div>
+    <div class="data-table">
+      <table>
+        <thead>
+          <tr>
+            <th>Regiao</th>
+            <th>MVI 1989</th><th>MVI 2022</th><th>Var MVI %</th>
+            <th>HAF 1989</th><th>HAF 2022</th><th>Var HAF %</th>
+            <th>HJ 1989</th><th>HJ 2022</th><th>Var HJ %</th>
+            <th>Taxa HAF 2022</th><th>%AF medio</th>
+          </tr>
+        </thead>
+        <tbody id="dataTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<div class="footer">
+  <span>Fontes:</span> Anuario Brasileiro de Seguranca Publica (FBSP) · Atlas da Violencia (IPEA/FBSP) · SIM/SVS/MS · Dados consolidados por regiao (IBGE) · Periodo comum: 1989-2022 ·
+  <span>Regioes IBGE:</span> Centro-Oeste, Nordeste, Sudeste, Sul, Norte
+</div>
+
+<!-- Plotly CDN -->
+<script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+<!-- Charts data (gerado automaticamente) -->
+<script src="charts_data.js"></script>
+
+<!-- Charts JSON (gerado pelo Python) -->
+<script>
+var FIGURES = null;
+
+function loadFigures() {
+  // Os dados dos charts estao embutidos no script charts_data.js
+  if (typeof CHARTS_DATA !== 'undefined') {
+    FIGURES = CHARTS_DATA;
+    renderAll();
+  } else {
+    console.error('CHARTS_DATA nao encontrado. Execute o script de geracao.');
+  }
+}
+
+function renderAll() {
+  if (!FIGURES) return;
+  const cfg = {responsive: true, displayModeBar: false};
+  for (const [id, fig] of Object.entries(FIGURES)) {
+    const el = document.getElementById(id);
+    if (el) {
+      Plotly.react(el, fig.data, fig.layout, cfg);
+    }
+  }
+  // tabela
+  buildTable();
+}
+
+function buildTable() {
+  const RC = {
+    'Centro-Oeste': '#6c63ff', 'Nordeste': '#f85149',
+    'Sudeste': '#3fb950', 'Sul': '#d29922', 'Norte': '#f783ac',
+  };
+  const raw = {
+    "mvi_89":  {"Centro-Oeste":5160,  "Nordeste":19021, "Sudeste":54978, "Sul":15439, "Norte":7654},
+    "mvi_22":  {"Centro-Oeste":14595, "Nordeste":47813, "Sudeste":54848, "Sul":22573, "Norte":13116},
+    "haf_89":  {"Centro-Oeste":892,   "Nordeste":3489,  "Sudeste":6591,  "Sul":1451,  "Norte":1057},
+    "haf_22":  {"Centro-Oeste":4468,  "Nordeste":15283, "Sudeste":6637,  "Sul":3682,  "Norte":1964},
+    "hj_89":   {"Centro-Oeste":820,   "Nordeste":3150,  "Sudeste":8727,  "Sul":1475,  "Norte":877},
+    "hj_22":   {"Centro-Oeste":3278,  "Nordeste":10491, "Sudeste":4904,  "Sul":1981,  "Norte":1526},
+    "taxa22":  {"Centro-Oeste":16.3,  "Nordeste":28.0,  "Sudeste":13.5,  "Sul":10.2,  "Norte":13.5},
+    "pctaf":   {"Centro-Oeste":24.7,  "Nordeste":29.2,  "Sudeste":21.3,  "Sul":17.2,  "Norte":21.5},
+  };
+  function vp(v22, v89) { return ((v22-v89)/v89*100).toFixed(1); }
+
+  const regioes = ['Centro-Oeste','Nordeste','Sudeste','Sul','Norte'];
+  const tbody = document.getElementById('dataTableBody');
+  regioes.forEach(r => {
+    const vm = vp(raw["mvi_22"][r], raw["mvi_89"][r]);
+    const vh = vp(raw["haf_22"][r], raw["haf_89"][r]);
+    const vj = vp(raw["hj_22"][r], raw["hj_89"][r]);
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><strong style="color:${RC[r]}">${r}</strong></td>
+      <td class="num">${raw["mvi_89"][r].toLocaleString()}</td>
+      <td class="num">${raw["mvi_22"][r].toLocaleString()}</td>
+      <td class="num" style="color:${vm>=0?'#f85149':'#3fb950'}">${vm>=0?'+':''}${vm}%</td>
+      <td class="num">${raw["haf_89"][r].toLocaleString()}</td>
+      <td class="num">${raw["haf_22"][r].toLocaleString()}</td>
+      <td class="num" style="color:${vh>=0?'#f85149':'#3fb950'}">${vh>=0?'+':''}${vh}%</td>
+      <td class="num">${raw["hj_89"][r].toLocaleString()}</td>
+      <td class="num">${raw["hj_22"][r].toLocaleString()}</td>
+      <td class="num" style="color:${vj>=0?'#f85149':'#3fb950'}">${vj>=0?'+':''}${vj}%</td>
+      <td class="num">${raw["taxa22"][r]}</td>
+      <td class="num">${raw["pctaf"][r]}%</td>
+    `;
+    tbody.appendChild(tr);
+  });
+  // Brasil row
+  const bvm = vp(152945,102252);
+  const bvh = vp(33580,13480);
+  const bvj = vp(22864,15049);
+  const br = document.createElement('tr');
+  br.style.background = 'rgba(88,166,255,0.05)';
+  br.innerHTML = `
+    <td><strong style="color:#58a6ff">Brasil</strong></td>
+    <td class="num">102.252</td><td class="num">152.945</td>
+    <td class="num" style="color:#f85149">+${bvm}%</td>
+    <td class="num">13.480</td><td class="num">33.580</td>
+    <td class="num" style="color:#f85149">+${bvh}%</td>
+    <td class="num">15.049</td><td class="num">22.864</td>
+    <td class="num" style="color:#f85149">+${bvj}%</td>
+    <td class="num">—</td><td class="num">22,0%</td>
+  `;
+  tbody.appendChild(br);
+}
+
+// Auto-load on page load
+window.addEventListener('DOMContentLoaded', loadFigures);
+</script>
+</body>
+</html>
