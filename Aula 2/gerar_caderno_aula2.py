@@ -49,10 +49,12 @@ cad.section("boas-vindas", "Bem-vindo ao caderno do Dia 2",
       "ampliado: cada funcao ganhou um dicionario, uma aplicacao pratica na POLITEC e uma "
       "armadilha para evitar.") +
     callout("note", "Datasets do dia",
-        "Os exemplos deste caderno usam dados reais simulados da POLITEC. Importe os arquivos "
-        "<code>datasets/requisicoes_periciais.csv</code>, <code>datasets/movimentacao_reagentes.csv</code>, "
-        "<code>datasets/produtividade_peritos.csv</code> e <code>datasets/orcamento_setores.csv</code> "
-        "para acompanhar todos os passo a passo.") +
+        "Os exemplos deste caderno usam dados reais simulados da POLITEC. Em "
+        "<code>datasets/</code> ha as quatro bases planas "
+        "(<code>requisicoes_periciais.csv</code>, <code>movimentacao_reagentes.csv</code>, "
+        "<code>produtividade_peritos.csv</code> e <code>orcamento_setores.csv</code>) e o modelo "
+        "estrela derivado delas (<code>fato_*.csv</code> e <code>dim_*.csv</code>). Importe o "
+        "conjunto conforme o exercicio.") +
     legenda([
         ("\u2600\ufe0f", "Parte 1 — Funcoes e logica", "SOMA, MEDIA, SE, SOMASE, CONT.SE, semaforo do TAT e o dicionario completo."),
         ("\U0001f527", "Parte 2 — Estrutura", "Referencias absolutas, F4, tabelas estruturadas, filtros e ordenacao."),
@@ -1197,6 +1199,62 @@ cad.section("tabela-bi", "A tabela como ponte para o BI",
         "Se a base estiver em Tabela, com colunas nomeadas e sem células mescladas, a importação no "
         "Power BI é quase automática (o <code>requisicoes_periciais.csv</code> já vem limpo). O "
         "trabalho de hoje é o modelo de amanhã.")
+)
+
+cad.section("fato-dimensao", "Do dado bruto ao modelo: tabelas fato e dimensões",
+    p("As quatro bases planas de <code>datasets/</code> descrevem o laboratório, mas repetem texto em "
+      "cada linha (setor, tipo de exame, perito). O <b>modelo estrela</b> separa o que se repete em "
+      "<b>dimensões</b> (<code>dim_*.csv</code>) e mantém apenas as chaves e as medidas nas "
+      "<b>tabelas fato</b> (<code>fato_*.csv</code>). É o formato que o Power BI espera no Dia 4.") +
+    tbl(["Camada", "Arquivos", "O que guarda"],
+        [["<b>Fato</b>", "<code>fato_requisicoes.csv</code>, <code>fato_movimentacao.csv</code>, "
+          "<code>fato_produtividade.csv</code>, <code>fato_orcamento.csv</code>",
+          "Um registro por evento (requisição, movimento, perito x mês x exame, laboratório x rubrica), "
+          "com as chaves e as medidas."],
+         ["<b>Dimensão</b>", "<code>dim_setor.csv</code>, <code>dim_tipo_exame.csv</code>, "
+          "<code>dim_perito.csv</code>, <code>dim_delegacia.csv</code>, <code>dim_status.csv</code>, "
+          "<code>dim_reagente.csv</code>, <code>dim_fornecedor.csv</code>, "
+          "<code>dim_tipo_movimentacao.csv</code> e <code>dim_rubrica.csv</code>",
+          "Um registro por elemento, com chave e descrição (o texto antes repetido na base plana)."],
+         ["<b>Calendário</b>", "<code>dim_calendario.csv</code>",
+          "Um registro por dia, com ano, mês, trimestre e dia da semana."]],
+        num_cols=[]) +
+    p("A <code>dim_setor.csv</code> é uma <b>dimensão conformada</b>: atende requisições, movimentação "
+      "e orçamento ao mesmo tempo (o campo <code>laboratorio</code> aponta para ela). A seguir, usamos "
+      "uma dimensão para traduzir a chave de uma tabela fato.") +
+    code("""
+        // GOOGLE SHEETS — traduzir a chave de tipo de exame pela dimensão.
+        // Importe: datasets/fato_requisicoes.csv e datasets/dim_tipo_exame.csv.
+
+        // Na aba FatoRequisicoes, coluna E = tipo_exame_key.
+        // PROCV busca o texto correspondente na dimensão:
+        =PROCV(E2; DimTipoExame!$A$2:$B$6; 2; FALSO)
+
+        // Alternativa com ÍNDICE + CORRESP (não depende da ordem das colunas):
+        =ÍNDICE(DimTipoExame!$B$2:$B$6; CORRESP(E2; DimTipoExame!$A$2:$A$6; 0))
+        """, "sheets") +
+    step([
+        ("Importe a dimensão", "<kbd>Arquivo</kbd> \u2192 <kbd>Importar</kbd> e carregue "
+         "<code>datasets/dim_tipo_exame.csv</code> na aba <code>DimTipoExame</code>."),
+        ("Importe a fato", "Importe <code>datasets/fato_requisicoes.csv</code> na aba "
+         "<code>FatoRequisicoes</code>."),
+        ("Traduza a chave", "Na coluna J da fato, escreva "
+         "<code>=PROCV(E2; DimTipoExame!$A$2:$B$6; 2; FALSO)</code> para exibir o tipo de exame em texto."),
+        ("Arraste para baixo", "Copie a fórmula até a linha 121, cobrindo as 120 requisições."),
+        ("Confira uma linha", "A requisição REQ-2025-0001 tem <code>tipo_exame_key = 5</code>; a fórmula "
+         "deve retornar <b>Toxicologia</b>."),
+        ("Valide por contagem", "Filtre a coluna traduzida e confira: Necropsia 32, Balística 30, "
+         "Toxicologia 28, DNA 19 e Papiloscopia 11."),
+    ]) +
+    aplicab(
+        "Ao montar relatórios que precisam do rótulo em texto, e não da chave numérica.",
+        "A chave é o elo entre as tabelas; o texto legível vem da dimensão, sem repetir a descrição em "
+        "cada linha da fato.",
+        "No painel de laudos, o gráfico mostra 'Toxicologia' (texto), mas o modelo guarda apenas "
+        "<code>tipo_exame_key = 5</code> na fato.") +
+    callout("tip", "Por que separar agora",
+        "O modelo estrela reduz a repetição e serve de base para os relacionamentos do Power BI no Dia "
+        "4. A mesma estrutura será criada no Dia 3 com o Power Query.")
 )
 
 cad.section("filtros", "Filtros: selecionando linhas por critério",

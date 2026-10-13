@@ -10,3 +10,6 @@ Aula */_paginas.json
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# Firebase (cache de deploy)
+.firebase/

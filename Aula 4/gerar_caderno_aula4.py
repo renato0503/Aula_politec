@@ -57,7 +57,8 @@ cad.section("boas-vindas", "Bem-vindo ao caderno do Dia 4",
     callout("note", "Ferramentas do dia",
         "O <b>Power BI Desktop</b> e gratuito e roda no PC do perito. O compartilhamento privado na "
         "nuvem exige conta corporativa <code>@politec.mt.gov.br</code> com licenca <b>Pro</b> ou "
-        "<b>Premium</b>. Tenha o arquivo <code>Requisicoes_POLITEC.xlsx</code> a mao para praticar.")
+        "<b>Premium</b>. Tenha a pasta <code>datasets/</code> (as tabelas <code>fato_*</code> e "
+        "<code>dim_*</code>) a mao para praticar.")
 )
 
 cad.section("mapa-do-dia", "Mapa do Dia 4: dois blocos, um dashboard institucional",
@@ -215,8 +216,8 @@ cad.section("modos-do-desktop", "Os 3 modos da area central: Relatorio, Tabela e
     aplicab(
         "Ao alternar entre construir o visual, conferir o dado e ajustar relacionamentos.",
         "Porque entender o dado <b>antes</b> de desenhar evita graficos errados por campo equivocado.",
-        "Ao importar <code>Requisicoes_POLITEC.xlsx</code>, vale abrir o modo <b>Tabela</b> e conferir "
-        "se as datas chegaram como data e os setores sem duplicidade.") +
+        "Ao importar as tabelas de <code>datasets/</code>, vale abrir o modo <b>Tabela</b> e conferir "
+        "se as datas chegaram como data e as chaves como numero inteiro.") +
     callout("err", "Grafico 'bonito' com dado errado",
         "Muita gente so usa o modo Relatorio. Resultado: descobre tarde que a coluna escolhida estava "
         "com tipo de dados errado. Confira sempre no modo <b>Tabela</b> antes de confiar no visual.")
@@ -332,10 +333,10 @@ cad.section("fluxo-dashboard", "Construindo o primeiro dashboard: o fluxo da POL
         ("\u2601", "Publicar"),
     ]) +
     step([
-        ("Obter Dados", "Arquivo \u2192 Obter Dados \u2192 Excel \u2192 selecionar "
-         "<code>Requisicoes_POLITEC.xlsx</code>."),
-        ("Transformar", "No Power Query, limpar a base: remover 'Total Geral', corrigir tipos e padronizar setores."),
-        ("Carregar", "Fechar e Aplicar para trazer os dados tratados ao modelo."),
+        ("Obter Dados", "Obter Dados \u2192 Texto/CSV (ou Pasta) \u2192 selecionar os "
+         "<code>fato_*</code> e <code>dim_*</code> de <code>datasets/</code>."),
+        ("Transformar", "No Power Query, ajustar tipos: datas como data, chaves como numero inteiro."),
+        ("Carregar", "Fechar e Aplicar para trazer as tabelas ao modelo e criar os relacionamentos."),
         ("Criar Visuais", "Arrastar campos para os eixos e montar os graficos."),
         ("Formatar", "Cores, titulos e layout para leitura em 5 segundos."),
         ("Publicar", "Enviar o relatorio ao Power BI Service, no workspace correto."),
@@ -345,47 +346,59 @@ cad.section("fluxo-dashboard", "Construindo o primeiro dashboard: o fluxo da POL
         "Pular a transformacao contamina todo o painel.")
 )
 
-cad.section("obter-dados", "Passo 1: Obter Dados do Excel",
-    p("A primeira acao concreta do dia. Aqui o Power BI 'le' a planilha e mostra uma pre-visualizacao "
-      "antes de importar.") +
+cad.section("obter-dados", "Passo 1: Obter Dados das tabelas do modelo",
+    p("A primeira acao concreta do dia. O Power BI le os arquivos de <code>datasets/</code> e mostra "
+      "uma pre-visualizacao antes de importar. Agora sao varias tabelas: as quatro <code>fato_*</code> "
+      "e as dez <code>dim_*</code>.") +
     step([
         ("Abra o Desktop", "Power BI Desktop \u2192 <kbd>Pagina Inicial</kbd> \u2192 "
-         "<kbd>Obter Dados</kbd> \u2192 <kbd>Excel</kbd>."),
-        ("Selecione o arquivo", "Navegue ate <code>Requisicoes_POLITEC.xlsx</code> e clique em Abrir."),
-        ("Escolha a tabela", "No Navegador, marque a planilha <code>Laudos</code> (ou "
-         "<code>Tabela_Laudos</code>) e confira a pre-visualizacao."),
-        ("Transformar ou Carregar", "Se o dado ja esta limpo, clique em <b>Carregar</b>. Caso "
-         "contrario, clique em <b>Transformar Dados</b> para abrir o Power Query."),
+         "<kbd>Obter Dados</kbd> \u2192 <kbd>Texto/CSV</kbd> (ou <i>Pasta</i>, para carregar todas de uma vez)."),
+        ("Aponte para a pasta", "Selecione a pasta <code>datasets/</code> da aula. O Power BI lista os "
+         "arquivos <code>.csv</code>."),
+        ("Confira o delimitador", "Ponto e virgula como separador e codificacao UTF-8. Verifique a "
+         "pre-visualizacao das colunas antes de combinar."),
+        ("Fato ou dimensao", "O prefixo indica o papel: <code>fato_*</code> guarda os eventos; "
+         "<code>dim_*</code> guarda os rotulos (setor, tipo de exame, perito)."),
+        ("Transformar ou Carregar", "Se o dado ja esta limpo (os CSVs sao padronizados), clique em "
+         "<b>Carregar</b>. Se precisar ajustar tipos, clique em <b>Transformar Dados</b>."),
     ]) +
     code("""
-        Pagina Inicial > Obter Dados > Excel
-        Arquivo: Requisicoes_POLITEC.xlsx
-        Navegador: marque a tabela "Laudos"
+        Pagina Inicial > Obter Dados > Texto/CSV (ou Pasta)
+        Pasta: datasets/
+        Fato : fato_requisicoes.csv, fato_movimentacao.csv,
+               fato_produtividade.csv, fato_orcamento.csv
+        Dim  : dim_calendario.csv, dim_setor.csv, dim_tipo_exame.csv,
+               dim_perito.csv, dim_delegacia.csv, dim_status.csv,
+               dim_reagente.csv, dim_fornecedor.csv,
+               dim_tipo_movimentacao.csv, dim_rubrica.csv
         Botoes: Transformar Dados  |  Carregar
         """, "powerbi") +
-    callout("err", "A planilha tem varias abas",
-        "O Power BI mostra cada aba e cada Tabela Estruturada. Marque apenas a tabela certa — nao "
-        "importe abas de titulo, graficos ou rascunhos.")
+    callout("err", "Nao importe as fontes planas junto",
+        "As bases <code>requisicoes_periciais.csv</code> e demais ja estao representadas no modelo. "
+        "Carregar as duas versoes gera tabelas duplicadas e confunde os relacionamentos.")
 )
 
 cad.section("power-query-limpeza", "Passo 2: Transformar no Power Query",
-    p("O <b>Power Query</b> e o motor de limpeza e transformacao do Power BI. Toda impureza da base "
-      "precisa morrer aqui: linha de total, tipo de dado errado e nome de setor despadronizado.") +
+    p("O <b>Power Query</b> e o motor de limpeza e transformacao do Power BI. Nos CSVs do modelo o "
+      "dado ja vem padronizado; aqui o trabalho e <b>conferir tipos</b> e corrigir o que o sistema "
+      "legado costuma exportar errado.") +
     tbl(["Problema na base", "Acao no Power Query", "Resultado"],
-        [["Linha 'Total Geral' no fim", "<i>Remover Linhas</i> \u2192 <i>Remover Linhas Filtradas</i>.",
-          "A base deixa de somar o total como se fosse um setor."],
-         ["Datas como texto", "<i>Transformar</i> \u2192 tipo <b>Data</b>.",
+        [["Datas como texto", "<i>Transformar</i> \u2192 tipo <b>Data</b>.",
           "O calculo de DATEDIFF/DAX passa a funcionar."],
-         ["Setores escritos de formas diferentes", "Substituir valores / agrupar (ex.: 'Tox' \u2192 'Toxicologia').",
-          "A contagem por setor fica correta."]],
+         ["Chaves como texto", "<i>Transformar</i> \u2192 tipo <b>Numero Inteiro</b>.",
+          "O relacionamento fato x dimensao liga corretamente."],
+         ["Linha 'Total Geral' no fim", "<i>Remover Linhas</i> \u2192 <i>Remover Linhas Filtradas</i>.",
+          "A base deixa de somar o total como se fosse um setor."]],
         num_cols=[]) +
     code("""
         let
-            Origem = Excel.Workbook(File.Contents("Requisicoes_POLITEC.xlsx"), null, true),
-            Laudos = Origem{[Item="Laudos", Kind="Table"]}[Data],
-            SemTotal = Table.SelectRows(Laudos, each [Setor] <> "Total Geral"),
-            TiposOk = Table.TransformColumnTypes(SemTotal,
-                        {{"Data_Requisicao", type date}, {"Data_Emissao", type date}})
+            Origem   = Csv.Document(File.Contents("datasets\\fato_requisicoes.csv"),
+                           [Delimiter=";", Encoding=65001]),
+            Cabecalho = Table.PromoteHeaders(Origem, [PromoteAllScalars=true]),
+            TiposOk  = Table.TransformColumnTypes(Cabecalho,
+                           {{"data_recebimento_key", Int64.Type},
+                            {"data_laudo_key", Int64.Type},
+                            {"dias_uteis", Int64.Type}, {"em_atraso", Int64.Type}})
         in
             TiposOk
         """, "powerquery") +
@@ -394,26 +407,41 @@ cad.section("power-query-limpeza", "Passo 2: Transformar no Power Query",
         "transformacoes sao gravadas como uma <b>receita</b>: na proxima atualizacao, rodam sozinhas.")
 )
 
-cad.section("carregar-modelo", "Passo 3: Carregar e conferir o modelo",
-    p("Depois do <i>Fechar e Aplicar</i>, o dado tratado vira uma tabela no painel direito. Antes de "
-      "desenhar, confira o dado e, se houver, os relacionamentos.") +
+cad.section("carregar-modelo", "Passo 3: Carregar e relacionar o modelo",
+    p("Depois do <i>Fechar e Aplicar</i>, cada arquivo vira uma tabela no painel direito. Antes de "
+      "desenhar, confira o dado e monte os <b>relacionamentos</b> no modo Modelo. Toda relacao e "
+      "<b>fato \u2192 dimensao</b>, de muitos para um.") +
+    tbl(["Tabela fato", "Liga a dimensao por", "Cardinalidade"],
+        [["<code>fato_requisicoes</code>", "dim_calendario (data_recebimento e data_laudo), dim_setor, "
+          "dim_tipo_exame, dim_perito, dim_delegacia, dim_status", "N:1"],
+         ["<code>fato_movimentacao</code>", "dim_calendario, dim_reagente, dim_setor, "
+          "dim_tipo_movimentacao, dim_fornecedor", "N:1"],
+         ["<code>fato_produtividade</code>", "dim_calendario, dim_perito, dim_tipo_exame", "N:1"],
+         ["<code>fato_orcamento</code>", "dim_setor, dim_rubrica", "N:1"]],
+        num_cols=[]) +
     step([
-        ("Modo Tabela", "Abra a vista <b>Tabela</b> (icone a esquerda) e confira algumas linhas: "
-         "as datas aparecem como data? os setores estao padronizados?"),
-        ("Modo Modelo", "Se houver mais de uma tabela (ex.: dimensao de peritos), abra <b>Modelo</b> "
-         "e confira se o <b>ID do Perito</b> liga as duas."),
-        ("Renomeie", "Renomeie a tabela para algo legivel, como <code>Tabela_Laudos</code>."),
-        ("Confira o cartao", "Se a base veio de uma Tabela Estruturada, o nome ja vem correto e o "
-         "carregamento e mais previsivel."),
+        ("Modo Tabela", "Abra a vista <b>Tabela</b> e confira algumas linhas: as datas do "
+         "<code>dim_calendario</code> estao como data? as chaves estao como numero inteiro?"),
+        ("Modo Modelo", "Abra <b>Modelo</b>. As tabelas aparecem soltas; os relacionamentos serao "
+         "criados agora."),
+        ("Ligue fato e dimensao", "Arraste a chave da dimensao para a chave estrangeira da fato. "
+         "Exemplo: <code>dim_tipo_exame[tipo_exame_key]</code> \u2192 "
+         "<code>fato_requisicoes[tipo_exame_key]</code>."),
+        ("Repita para as demais", "Use a tabela acima como lista. O <code>fato_requisicoes</code> liga "
+         "a <code>dim_calendario</code> duas vezes (data de recebimento e data de laudo)."),
+        ("Confira a cardinalidade", "Abre a relacao e confirme <b>Muitos para Um</b> com direcao de "
+         "filtro <b>Unica</b>."),
+        ("Valide pelo modelo", "Crie uma matriz simples (setor x tipo_exame) e confira se os numeros "
+         "batem com as contagens dos CSVs (Necropsia 32, Balistica 30)."),
     ]) +
     aplicab(
         "Sempre depois de carregar, antes de criar o primeiro visual.",
-        "Porque um modelo mal conferido gera graficos que 'mentem' sem avisar.",
-        "No modo Tabela, uma data que aparece alinhada a esquerda e sinal de que continua sendo "
-        "<b>texto</b> — volte ao Power Query e corrija o tipo.") +
+        "Um modelo sem relacionamento gera graficos que somam valores errados sem avisar.",
+        "No modo Tabela, uma chave aparecendo a esquerda e sinal de que continua sendo <b>texto</b>; "
+        "volte ao Power Query e corrija o tipo.") +
     callout("err", "Modelo sem relacionamento",
-        "Duas tabelas soltas geram resultados errados ao cruzar campos. Sempre defina os "
-        "relacionamentos no modo <b>Modelo</b> antes de usar campos das duas.")
+        "Duas tabelas soltas geram resultados errados ao cruzar campos. Defina os relacionamentos no "
+        "modo <b>Modelo</b> antes de usar campos de fato e dimensao juntos.")
 )
 
 cad.section("primeiro-visual", "Passo 4: criar o primeiro visual (arrastar e soltar)",
@@ -919,20 +947,22 @@ cad.section("boas-praticas-governanca", "Boas praticas de governanca na POLITEC"
 cad.grp("Parte 3 · Pratica guiada",
         "Sete laboratorios que constroem, do zero, o dashboard de backlog da POLITEC.")
 
-cad.section("lab1-obter-dados", "Lab 1 - Obter Dados e conferir a base",
-    p("Objetivo: importar <code>Requisicoes_POLITEC.xlsx</code> e conferir o que chegou antes de "
-      "qualquer visual.") +
+cad.section("lab1-obter-dados", "Lab 1 - Obter Dados e conferir o modelo",
+    p("Objetivo: importar as tabelas <code>fato_*</code> e <code>dim_*</code> de "
+      "<code>datasets/</code> e conferir o que chegou antes de qualquer visual.") +
     step([
-        ("Obter Dados", "<kbd>Pagina Inicial</kbd> \u2192 <kbd>Obter Dados</kbd> \u2192 <kbd>Excel</kbd> "
-         "\u2192 selecione <code>Requisicoes_POLITEC.xlsx</code>."),
-        ("Escolher a tabela", "Marque <code>Laudos</code> e observe a pre-visualizacao."),
+        ("Obter Dados", "<kbd>Pagina Inicial</kbd> \u2192 <kbd>Obter Dados</kbd> \u2192 "
+         "<kbd>Texto/CSV</kbd> (ou <kbd>Pasta</kbd>) \u2192 selecione a pasta <code>datasets/</code>."),
+        ("Escolher os arquivos", "Marque os quatro <code>fato_*</code> e as dez <code>dim_*</code>; "
+         "observe a pre-visualizacao."),
         ("Transformar", "Clique em <b>Transformar Dados</b> para abrir o Power Query."),
-        ("Conferir tipos", "Confirme <code>Data_Requisicao</code> e <code>Data_Emissao</code> como Data."),
-        ("Fechar e Aplicar", "Traga o dado tratado para o modelo."),
+        ("Conferir tipos", "Confirme <code>data_key</code> e as chaves <code>*_key</code> como numero "
+         "inteiro e <code>data</code> como Data."),
+        ("Fechar e Aplicar", "Traga as tabelas tratadas para o modelo e siga para os relacionamentos."),
     ]) +
-    callout("err", "Importar a aba errada",
-        "Se o arquivo tem abas de titulo e de graficos, marcar 'todas' polui o modelo. Importe "
-        "apenas a <b>Tabela Estruturada</b> com os dados.")
+    callout("err", "Importar a fonte plana junto",
+        "Nao marque tambem as bases planas (<code>requisicoes_periciais.csv</code> etc.). Elas ja estao "
+        "representadas no modelo e criariam tabelas duplicadas.")
 )
 
 cad.section("lab2-power-query", "Lab 2 - Limpar a base no Power Query",
@@ -1396,12 +1426,12 @@ cad.section("recursos-aprendizado", "Recursos de aprendizado recomendados",
         "Comece pelo <b>Microsoft Learn</b> para a tecnica, leia <b>Storytelling</b> para a "
         "comunicacao e use a <b>Comunidade</b> para resolver duvidas concretas.") +
     callout("tip", "Estude com dado real (anonimizado)",
-        "Nada substitui praticar com a base <code>Requisicoes_POLITEC.xlsx</code>. Reconstrua o "
+        "Nada substitui praticar com as tabelas de <code>datasets/</code>. Reconstrua o "
         "painel do zero sempre que puder.")
 )
 
 cad.section("exercicio-final", "Exercicio final do Dia 4",
-    p("Usando a base <code>Requisicoes_POLITEC.xlsx</code>, cada participante entrega tres etapas ao "
+    p("Usando o modelo de <code>datasets/</code>, cada participante entrega tres etapas ao "
       "final do dia.") +
     step([
         ("1. Dashboard de Backlog", "Painel com <b>Cartao</b> de total de pendencias, <b>grafico de "

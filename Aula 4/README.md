@@ -13,7 +13,7 @@ Curso de Capacitacao POLITEC/MT · Professor Renato Rosa · Dia 4.
 | Parte | Conteudo |
 |---|---|
 | Abertura | Boas-vindas, mapa do Dia 4, da planilha ao BI |
-| **1 — Modulo 6 Parte 1: Interface e Primeiros Relatorios** | O que e BI (Dresner/Gartner 1989), Excel x Power BI, os 3 pilares, Ben Brumfield, interface/cockpit, os 3 modos, conexao de dados, fontes da POLITEC, Importacao x DirectQuery, caso de integracao forense (SP/CE), Cole Nussbaumer Knaflic e os 5 segundos, fluxo do dashboard, Obter Dados, Power Query, modelo, primeiro visual, visuais essenciais, mapas com Bing, slicers, caso do IML, fechamento da manha |
+| **1 — Modulo 6 Parte 1: Interface e Primeiros Relatorios** | O que e BI (Dresner/Gartner 1989), Excel x Power BI, os 3 pilares, Ben Brumfield, interface/cockpit, os 3 modos, conexao de dados, fontes da POLITEC, Importacao x DirectQuery, caso de integracao forense (SP/CE), Cole Nussbaumer Knaflic e os 5 segundos, fluxo do dashboard, Obter Dados (modelo estrela de `datasets/`), Power Query, relacionamentos fato x dimensao, primeiro visual, visuais essenciais, mapas com Bing, slicers, caso do IML, fechamento da manha |
 | **2 — Modulo 6 Parte 2: Publicacao e Governanca** | Power BI Service, Desktop x Service (licenca/Azure/LGPD), publicacao, Jorge Camoes, workspaces, segregacao, caso de reducao de 40% de incidentes, formas de compartilhamento, niveis de permissao, Apps, App "Painel do Perito", atualizacao agendada, frequencia recomendada, On-premises Data Gateway, caso em policias civis, simulacao de workspace, membros/permissoes, boas praticas de governanca |
 | **3 — Pratica guiada** | 7 laboratorios: Obter Dados, Power Query, primeiro visual, cartao/linha/matriz, mapa de calor, slicers, publicar e compartilhar |
 | **4 — Cenarios e Aplicacoes** | Dashboard estrategico da Diretoria, dashboard tatico do Chefe de Setor, KPIs (TAT/SLA/QL), alertas visuais, integracao com o SINESP, mapa de calor de crimes, 3 cenarios (backlog, produtividade, orcamento) |
@@ -25,7 +25,7 @@ Curso de Capacitacao POLITEC/MT · Professor Renato Rosa · Dia 4.
 
 | Lab | Titulo | O que constroi |
 |---|---|---|
-| 1 | Obter Dados e conferir a base | Importacao do Requisicoes_POLITEC.xlsx e conferencia de tipos |
+| 1 | Obter Dados e conferir o modelo | Importacao das tabelas `fato_*` e `dim_*` de `datasets/` e conferencia de tipos |
 | 2 | Limpar a base no Power Query | Remocao de "Total Geral", correcao de tipos e padronizacao de setores |
 | 3 | O primeiro visual | Grafico de colunas "Backlog Atual por Setor" |
 | 4 | Cartao, linha e matriz | KPIs de contexto + tendencia + detalhe cruzado |
@@ -46,14 +46,45 @@ Curso de Capacitacao POLITEC/MT · Professor Renato Rosa · Dia 4.
 
 ---
 
+## Datasets (`datasets/`)
+
+Modelo estrela gerado a partir das quatro fontes planas da Aula 2
+(`../gerar_datasets_estrela.py`). As tabelas `fato_*` guardam os eventos com as
+chaves; as `dim_*`, os rotulos. Colunas detalhadas em `datasets/README.md`.
+
+| Fato | Grao | Linhas |
+|---|---|---|
+| `fato_requisicoes.csv` | 1 requisicao | 120 |
+| `fato_movimentacao.csv` | 1 movimento de reagente | 80 |
+| `fato_produtividade.csv` | 1 perito x mes x exame | 218 |
+| `fato_orcamento.csv` | 1 laboratorio x rubrica | 36 |
+
+| Dimensao | Linhas |
+|---|---|
+| `dim_calendario.csv` | 396 |
+| `dim_setor.csv` | 6 |
+| `dim_tipo_exame.csv` | 5 |
+| `dim_perito.csv` | 8 |
+| `dim_delegacia.csv` | 13 |
+| `dim_status.csv` | 3 |
+| `dim_reagente.csv` | 10 |
+| `dim_fornecedor.csv` | 6 |
+| `dim_tipo_movimentacao.csv` | 2 |
+| `dim_rubrica.csv` | 6 |
+
+As quatro fontes planas (`requisicoes_periciais.csv` etc.) tambem ficam na pasta,
+para conferencia e para o ETL do Dia 3.
+
+---
+
 ## Estatisticas
 
 | Arquivo | Tamanho |
 |---|---|
 | `Dia-4-Politec.pdf` (slides do professor) | 6,14 MB |
-| `caderno-dia4.html` (fonte viva, tema claro/escuro) | 155 KB |
-| `Caderno Dia 4 - POLITEC.pdf` (caderno exportado, A4) | 4,9 MB · 55 paginas |
-| `gerar_caderno_aula4.py` (gerador de conteudo) | 93 KB |
+| `caderno-dia4.html` (fonte viva, tema claro/escuro) | 158 KB |
+| `Caderno Dia 4 - POLITEC.pdf` (caderno exportado, A4) | 4,8 MB · 54 paginas |
+| `gerar_caderno_aula4.py` (gerador de conteudo) | 96 KB |
 
 | Metrica | Valor |
 |---|---|

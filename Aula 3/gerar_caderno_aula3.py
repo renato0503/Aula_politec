@@ -1185,6 +1185,77 @@ cad.section("lab6-powerquery", "Lab 6 — Automatizar a limpeza com Power Query"
         "processo fica deterministico, auditavel e repetivel.")
 )
 
+cad.section("lab7-modelo-estrela", "Lab 7 — Construir o modelo estrela (da base plana ao fato e dimensoes)",
+    p("Objetivo: transformar as quatro bases planas de <code>datasets/</code> no modelo estrela "
+      "(<code>fato_*</code> e <code>dim_*</code>) com o Power Query, e validar o resultado contra os "
+      "arquivos ja gerados na pasta. E o mesmo desenho que o Power BI vai consumir no Dia 4.") +
+    tbl(["Origem (plana)", "Vira", "Grao da fato", "Linhas"],
+        [["<code>requisicoes_periciais.csv</code>", "<code>fato_requisicoes.csv</code>",
+          "1 requisicao", "120"],
+         ["<code>movimentacao_reagentes.csv</code>", "<code>fato_movimentacao.csv</code>",
+          "1 movimento", "80"],
+         ["<code>produtividade_peritos.csv</code>", "<code>fato_produtividade.csv</code>",
+          "1 perito x mes x exame", "218"],
+         ["<code>orcamento_setores.csv</code>", "<code>fato_orcamento.csv</code>",
+          "1 laboratorio x rubrica", "36"]],
+        num_cols=[]) +
+    tbl(["Dimensao", "Chave", "Linhas"],
+        [["<code>dim_calendario.csv</code>", "data_key (AAAAMMDD)", "396"],
+         ["<code>dim_setor.csv</code>", "setor_key", "6"],
+         ["<code>dim_tipo_exame.csv</code>", "tipo_exame_key", "5"],
+         ["<code>dim_perito.csv</code>", "perito_key", "8"],
+         ["<code>dim_delegacia.csv</code>", "delegacia_key", "13"],
+         ["<code>dim_status.csv</code>", "status_key", "3"],
+         ["<code>dim_reagente.csv</code>", "reagente_key", "10"],
+         ["<code>dim_fornecedor.csv</code>", "fornecedor_key", "6"],
+         ["<code>dim_tipo_movimentacao.csv</code>", "tipo_movimentacao_key", "2"],
+         ["<code>dim_rubrica.csv</code>", "rubrica_key", "6"]],
+        num_cols=[]) +
+    step([
+        ("Importe as fontes planas", "No Excel/Power BI: <kbd>Dados</kbd> \u2192 <kbd>Obter Dados</kbd> "
+         "\u2192 <i>De Texto/CSV</i>. Carregue os quatro arquivos de <code>datasets/</code> sem "
+         "carregar para a planilha (apenas conexao)."),
+        ("Crie cada dimensao", "Para cada coluna textual (setor, tipo_exame, perito, delegacia, "
+         "status, reagente, fornecedor, tipo_movimentacao, rubrica): <i>Referencia</i>, "
+         "<i>Remover Duplicatas</i>, <i>Adicionar Coluna de Indice</i> (a chave) e manter a coluna "
+         "textual. Renomeie para <code>dim_*</code>."),
+        ("Crie o calendario", "<i>Nova Consulta</i> \u2192 <i>Lista</i> de datas do menor ao maior dia "
+         "do periodo (01/01/2025 a 31/01/2026). Converta em tabela e adicione as colunas Ano, Mes, "
+         "Trimestre e Dia da Semana. Nomeie <code>dim_calendario</code>."),
+        ("Mescle a fato com as dimensoes", "Na consulta <code>requisicoes_periciais</code>, use "
+         "<i>Mesclar Consultas</i> com cada dimensao pela coluna de texto. Expanda apenas a coluna de "
+         "chave (ex.: <code>setor_key</code>)."),
+        ("Renomeie e remova o texto", "Substitua a coluna de texto pela chave (ex.: "
+         "<code>setor</code> \u2192 <code>setor_key</code>) e remova as colunas textuais da fato. "
+         "Adicione <code>dias_uteis</code> e a coluna <code>em_atraso</code> "
+         "(<code>1</code> quando dias_uteis &gt; 60)."),
+        ("Carregue o modelo", "<i>Fechar e Carregar em</i> \u2192 <i>Modelo de Dados</i>. No Power "
+         "Pivot/Power BI, crie os relacionamentos de cada fato com suas dimensoes."),
+        ("Valide contra o gabarito", "Compare as contagens com os arquivos de <code>datasets/</code>: "
+         "fatos 120/80/218/36 e dimensoes 6/5/8/13/3/10/6/2/6. Os numeros devem coincidir."),
+    ]) +
+    code("""
+        // Sequencia de passos gravados no Power Query (M), resumida:
+        // 1. OrigemTexto = Csv.Document(File.Contents("datasets\\requisicoes_periciais.csv"), ...)
+        // 2. Cabecalho   = Table.PromoteHeaders(OrigemTexto)
+        // 3. DimSetor    = Table.Distinct(Cabecalho[[setor]]) + indice
+        // 4. Fato        = Table.NestedJoin(Cabecalho, {"setor"}, DimSetor, {"setor"}, "D", JoinKind.LeftOuter)
+        // 5. Resultado   = Table.RemoveColumns(Table.ExpandTableColumn(Fato, "D", {"setor_key"}), {"setor"})
+
+        // Validacao na planilha (contagens esperadas):
+        =CONT.VALORES(fato_requisicoes[id_requisicao])   // 120
+        =CONT.VALORES(dim_tipo_exame[tipo_exame])        // 5
+        """, "texto") +
+    aplicab(
+        "Ao padronizar bases de varios setores em uma unica estrutura.",
+        "A separacao em fato e dimensao reduz a repeticao e prepara o modelo para o BI sem retrabalho.",
+        "O relatorio mensal de laudos passa a sair do modelo estrela: as fatos trazem os eventos e as "
+        "dimensoes, os rotulos legiveis.") +
+    callout("err", "Mesclar sem remover o texto",
+        "Se a fato guardar a chave e tambem a descricao, o modelo volta a repetir texto e perde a "
+        "vantagem da normalizacao. Mantenha na fato apenas as chaves e as medidas.")
+)
+
 # =================================================================
 # PARTE 4 - CENARIOS
 # =================================================================

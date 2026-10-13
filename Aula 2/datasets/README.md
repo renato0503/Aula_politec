@@ -1,64 +1,94 @@
-# Datasets da Aula 2 — Planilhas e Manipulacao de Dados
+# Datasets da Capacitacao POLITEC/MT (Aulas 2, 3 e 4)
 
-## Arquivos disponiveis
+Dados **sinteticos** de um laboratorio pericial da POLITEC/MT. O conjunto e
+**autocontido** e replicado nas pastas `datasets/` das Aulas 2, 3 e 4, para que
+cada aula funcione isolada. Ha dois niveis de dados:
 
-| Arquivo | Descricao | Linhas |
-|---|---|---|
-| `requisicoes_periciais.csv` | Base principal de requisicoes periciais (laudos) | 120 |
-| `movimentacao_reagentes.csv` | Entradas e saidas de reagentes por setor | 80 |
-| `produtividade_peritos.csv` | Laudos concluidos por perito, mes e tipo | 96 |
-| `orcamento_setores.csv` | Custo orcado x realizado por laboratorio | 24 |
+1. **Fontes planas** — as bases como saem do sistema de origem (uma tabela por
+   assunto). Usadas na Aula 2 (planilhas) e como entrada do ETL na Aula 3.
+2. **Modelo estrela** — as mesmas bases organizadas em tabelas `fato_*` e `dim_*`
+   com chaves substitutas. Usadas para modelagem e BI na Aula 3 (ETL) e na Aula 4
+   (Power BI).
 
-## Estrutura
-
-### 1. `requisicoes_periciais.csv`
-Base de 120 requisicoes periciais com dados reais simulados de um laboratorio pericial.
-
-| Coluna | Descricao | Exemplo |
-|---|---|---|
-| `id_requisicao` | Codigo unico da requisicao | `REQ-2025-0001` |
-| `data_recebimento` | Data de entrada no laboratorio (AAAA-MM-DD) | `2025-03-15` |
-| `delegacia_origem` | Nome da delegacia que requisitou | `1a DP - Cuiaba` |
-| `tipo_exame` | Tipo de exame pericial | `Toxicologia` |
-| `setor` | Laboratorio/setor responsavel | `Toxicologia` |
-| `perito_responsavel` | Nome do perito | `Silva, A. P.` |
-| `status` | Situacao atual | `Concluido`, `Em andamento`, `Pendente` |
-| `data_laudo` | Data de emissao do laudo (vazio se pendente) | `2025-04-10` |
-| `dias_uteis` | Dias uteis entre recebimento e laudo | `18` |
-
-### 2. `movimentacao_reagentes.csv`
-Controle de estoque de reagentes com entradas e saidas.
-
-| Coluna | Descricao | Exemplo |
-|---|---|---|
-| `id` | Identificador unico | `1` |
-| `data` | Data da movimentacao | `2025-01-10` |
-| `reagente` | Nome do reagente | `Kit PCR - DNA` |
-| `tipo_movimentacao` | `Entrada` ou `Saida` | `Entrada` |
-| `quantidade` | Qtd em unidades | `50` |
-| `setor` | Setor que entrou/saiu | `Genetica` |
-| `fornecedor` | Origem da entrada (vazio em saida) | `Lab Diagnosticos Ltda` |
-
-### 3. `produtividade_peritos.csv`
-Laudos concluidos por perito, mes e tipo de exame.
-
-| Coluna | Descricao | Exemplo |
-|---|---|---|
-| `mes` | Ano-Mes (AAAA-MM) | `2025-01` |
-| `perito` | Nome do perito | `Silva, A. P.` |
-| `tipo_exame` | Tipo de exame | `DNA` |
-| `laudos_concluidos` | Quantidade de laudos | `12` |
-
-### 4. `orcamento_setores.csv`
-Execucao orcamentaria por laboratorio/setor.
-
-| Coluna | Descricao | Exemplo |
-|---|---|---|
-| `laboratorio` | Nome do laboratorio | `Toxicologia` |
-| `rubrica` | Categoria de gasto | `Reagentes` |
-| `orcado` | Valor orcado (R$) | `45000` |
-| `realizado` | Valor realizado (R$) | `38200` |
+Gerado por `../../gerar_datasets_estrela.py` a partir das fontes planas.
 
 ---
 
-*Dados sinteticos/anonimizados gerados para fins educacionais. Qualquer semelhanca com dados reais e coincidencia.*
+## 1. Fontes planas
+
+| Arquivo | Linhas | Colunas |
+|---|---|---|
+| `requisicoes_periciais.csv` | 120 | id_requisicao, data_recebimento, delegacia_origem, tipo_exame, setor, perito_responsavel, status, data_laudo, dias_uteis |
+| `movimentacao_reagentes.csv` | 80 | id, data, reagente, tipo_movimentacao, quantidade, setor, fornecedor |
+| `produtividade_peritos.csv` | 218 | mes, perito, tipo_exame, laudos_concluidos |
+| `orcamento_setores.csv` | 36 | laboratorio, rubrica, orcado, realizado |
+
+---
+
+## 2. Modelo estrela
+
+### Tabelas fato
+
+| Arquivo | Grao (1 linha =) | Linhas | Chaves estrangeiras | Medidas |
+|---|---|---|---|---|
+| `fato_requisicoes.csv` | 1 requisicao pericial | 120 | data_recebimento_key, data_laudo_key, setor_key, tipo_exame_key, perito_key, delegacia_key, status_key | dias_uteis, em_atraso |
+| `fato_movimentacao.csv` | 1 movimento de reagente | 80 | data_key, reagente_key, setor_key, tipo_movimentacao_key, fornecedor_key | quantidade |
+| `fato_produtividade.csv` | 1 perito x mes x tipo de exame | 218 | perito_key, data_key, tipo_exame_key | laudos_concluidos |
+| `fato_orcamento.csv` | 1 laboratorio x rubrica | 36 | setor_key, rubrica_key | orcado, realizado |
+
+### Dimensoes
+
+| Arquivo | Linhas | Chave | Atributo |
+|---|---|---|---|
+| `dim_calendario.csv` | 396 | data_key (AAAAMMDD) | data, ano, mes, nome_mes, ano_mes, trimestre, dia, dia_semana, nome_dia_semana |
+| `dim_setor.csv` | 6 | setor_key | setor |
+| `dim_tipo_exame.csv` | 5 | tipo_exame_key | tipo_exame |
+| `dim_perito.csv` | 8 | perito_key | perito |
+| `dim_delegacia.csv` | 13 | delegacia_key | delegacia |
+| `dim_status.csv` | 3 | status_key | status |
+| `dim_reagente.csv` | 10 | reagente_key | reagente |
+| `dim_fornecedor.csv` | 6 | fornecedor_key | fornecedor |
+| `dim_tipo_movimentacao.csv` | 2 | tipo_movimentacao_key | tipo_movimentacao |
+| `dim_rubrica.csv` | 6 | rubrica_key | rubrica |
+
+`dim_setor` e uma **dimensao conformada**: atende requisicoes, movimentacao e
+orcamento (o campo `laboratorio` do orcamento aponta para a mesma dimensao).
+
+### Relacionamentos (1 fato -> N dimensoes)
+
+```
+fato_requisicoes -> dim_calendario (data_recebimento_key, data_laudo_key)
+                 -> dim_setor, dim_tipo_exame, dim_perito, dim_delegacia, dim_status
+fato_movimentacao -> dim_calendario (data_key), dim_reagente, dim_setor,
+                     dim_tipo_movimentacao, dim_fornecedor
+fato_produtividade -> dim_calendario (data_key = 1o dia do mes), dim_perito, dim_tipo_exame
+fato_orcamento     -> dim_setor, dim_rubrica
+```
+
+---
+
+## 3. Como usar em cada aula
+
+- **Aula 2 (Google Sheets):** as fontes planas para formulas e filtros; o modelo
+  estrela para praticar `PROCV`/`XPROCV` (traduzir a chave pelo atributo da
+  dimensao) e para entender fato x dimensao antes do BI.
+- **Aula 3 (ETL / Power Query):** transformar as fontes planas no modelo estrela
+  (mesclar com as dimensoes, gerar chaves) e validar as contagens.
+- **Aula 4 (Power BI):** carregar as tabelas `fato_*` e `dim_*`, criar os
+  relacionamentos e as medidas do painel.
+
+---
+
+## 4. Convencoes
+
+- **CSV UTF-8 com BOM**, separador `;`, quebra de linha CRLF.
+- **Datas** em ISO `AAAA-MM-DD`; `data_key` no formato inteiro `AAAAMMDD`.
+- **Chaves substitutas** inteiras, atribuidas em ordem alfabetica do atributo.
+- **Valores categoricos** sem acento, como no sistema de origem
+  (`Concluido`, `Identificacao`, `Genetica`). Os rotulos do calendario
+  (`nome_mes`, `nome_dia_semana`) seguem o portugues com acento.
+- **Chave vazia** significa "sem valor" (ex.: `data_laudo_key` de laudo pendente
+  e `fornecedor_key` de uma saida de estoque).
+
+*Dados sinteticos/anonimizados para fins educacionais. Qualquer semelhanca com
+dados reais e coincidencia.*
