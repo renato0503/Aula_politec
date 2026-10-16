@@ -1,0 +1,9 @@
+﻿rubrica_key;codigo;rubrica;grupo
+1;339014;Diarias;Custeio
+2;339030;Material de Consumo;Custeio
+3;339033;Passagens e Despesas com Locomocao;Custeio
+4;339035;Servicos de Consultoria;Custeio
+5;339039;Outros Servicos de Terceiros - PJ;Custeio
+6;339047;Obrigacoes Tributarias e Contributivas;Custeio
+7;449052;Equipamentos e Material Permanente;Investimento
+8;449051;Obras e Instalacoes;Investimento

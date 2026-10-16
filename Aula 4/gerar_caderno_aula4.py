@@ -109,6 +109,815 @@ cad.section("da-planilha-ao-bi", "Da planilha ao BI: a ponte construida nos Dias
 )
 
 # =================================================================
+# PARTE 0 - PREPARACAO: POWER BI DESKTOP DO ZERO
+# =================================================================
+cad.grp("Parte 0 · Preparação - Power BI Desktop do zero",
+        "O manual do iniciante: instalar, entender a tela, obter e limpar dados, modelar, "
+        "criar visuais e montar as 3 abas do painel de orçamento e contratos.")
+
+cad.section("p0-antes-de-comecar", "Antes de começar: o que você vai construir",
+    p("Esta parte é o <b>guia de preparação</b> do Dia 4. Ela existe para que você nunca tenha "
+      "aberto o Power BI antes e, mesmo assim, saia dela capaz de montar o primeiro dashboard. "
+      "Vamos construir, do zero, um painel de <b>orçamento e contratos</b> de um órgão de perícia, "
+      "com <b>três abas</b> independentes e interligadas.") +
+    p("O material usa um conjunto de dados sintético em <b>modelo estrela</b> (uma tabela de "
+      "empenhos com mais de 600 linhas cercada por dimensões de setor, rubrica, fornecedor, "
+      "contrato, modalidade e fonte). Ele vem em <b>dois arquivos</b>: um com defeitos de propósito "
+      "(para você treinar a limpeza) e um gabarito já limpo.") +
+    legenda([
+        ("1", "Aba 1 - Visão Orçamentária",
+         "Dotação x empenhado x pago, com cartões de KPI e evolução no tempo."),
+        ("2", "Aba 2 - Execução por Setor e Rubrica",
+         "Quem gasta, em quê e quanto ainda há para executar."),
+        ("3", "Aba 3 - Contratos e Fornecedores",
+         "Contratos vigentes, maiores fornecedores e distribuição por modalidade."),
+    ]) +
+    callout("note", "Pré-requisitos",
+        "Tenha o <b>Power BI Desktop</b> instalado (Windows 10 ou superior, 64 bits) e a pasta "
+        "<code>datasets/orcamento/</code> desta aula em mãos, com os arquivos "
+        "<code>Orcamento_Contratos_SUJO.xlsx</code> e <code>Orcamento_Contratos_LIMPO.xlsx</code>.") +
+    p("<i>Nota de leitura:</i> esta parte reapresenta, de forma guiada e do zero, a interface que a "
+      "<b>Parte 1</b> discute conceitualmente e que a <b>Parte 3</b> pratica em laboratórios. "
+      "Use-a como degrau de entrada.")
+)
+
+cad.section("p0-instalar", "Instalando o Power BI Desktop",
+    p("O <b>Power BI Desktop</b> é o programa gratuito que roda no seu computador. É nele que você "
+      "conecta os dados, limpa, modela e desenha o relatório. Tudo começa com a instalação.") +
+    step([
+        ("Requisitos", "Windows 10 ou 11, 64 bits, com pelo menos 4 GB de RAM "
+         "(8 GB recomendado) e o Microsoft Edge WebView2 instalado (o instalador resolve)."),
+        ("Duas formas de instalar", "Pelo site oficial <b>powerbi.microsoft.com</b> (botão "
+         "<i>Baixar o Power BI Desktop</i>) ou pela <b>Microsoft Store</b> (atualiza sozinho)."),
+        ("Abra o programa", "Ao abrir pela primeira vez, aparece uma tela de boas-vindas. "
+         "Feche-a: é aqui que começamos do zero."),
+        ("Idioma", "Confira em <b>Arquivo &rarr; Opções e configurações &rarr; Opções &rarr; "
+         "Configurações regionais</b> que o idioma e a localidade estão em <b>Português (Brasil)</b>."),
+    ]) +
+    callout("err", "Não confunda Desktop com Service",
+        "O <b>Desktop</b> é o programa que você instala e onde o painel é <i>construído</i>. O "
+        "<b>Service</b> (powerbi.com) é o site na nuvem, onde o painel é <i>compartilhado</i>. "
+        "Nesta parte trabalhamos só no <b>Desktop</b>.") +
+    aplicab(
+        "Sempre que a gestão precisar de um painel novo, o primeiro passo é abrir o Desktop.",
+        "Porque o Desktop é gratuito e funciona offline: você monta e testa antes de publicar.",
+        "Um servidor da POLITEC monta o painel de contratos no Desktop do seu próprio computador, "
+        "sem depender de licença paga, e só depois decide o que publicar.")
+)
+
+cad.section("p0-tour-interface", "Tour pela tela: a interface do Power BI Desktop",
+    p("Antes de clicar, reconheça o terreno. A tela se divide em cinco áreas. Se você localiza cada "
+      "uma, o resto fica fácil.") +
+    tbl(["Área", "Onde fica", "Para que serve"],
+        [["<b>Faixa de opções</b>", "Topo da janela",
+          "Menus: Página Inicial, Inserir, Modelagem, Exibir, Otimizar, Ajuda."],
+         ["<b>Canvas</b> (tela)", "Centro",
+          "A folha onde os visuais são desenhados — o relatório em si."],
+         ["<b>Painel Visualizações</b>", "Direita, aba <i>Visualizações</i>",
+          "Lista de visuais (colunas, linha, cartão, matriz, mapa...)."],
+         ["<b>Painel Dados / Campos</b>", "Direita, aba <i>Dados</i>",
+          "As tabelas importadas e seus campos, prontos para arrastar."],
+         ["<b>Painel Filtros</b>", "Direita, aba <i>Filtros</i>",
+          "Filtros de nível visual, de página e de relatório."]],
+        num_cols=[]) +
+    legenda([
+        ("🗺", "Faixa de opções", "Tudo se inicia em Página Inicial: Obter Dados, Formatar, Publicar."),
+        ("📄", "Canvas", "A folha em branco onde o painel ganha forma, visual por visual."),
+        ("🧰", "Painéis laterais", "Visualizações, Dados e Filtros: seu canivete suíço."),
+    ]) +
+    callout("tip", "Reduza a bagunça visual",
+        "Se a lista de campos estiver poluída, use o ícone de busca no painel Dados e o botão "
+        "<b>Expandir/Recolher</b> para trabalhar só com a tabela que importa no momento.")
+)
+
+cad.section("p0-tres-visoes", "As três visões: Relatório, Dados e Modelo",
+    p("No canto inferior esquerdo existem três ícones que trocam o modo de trabalho. Cada visão tem "
+      "uma função específica e você alterna entre elas o tempo todo.") +
+    tbl(["Visão", "Ícone", "O que você faz nela"],
+        [["<b>Relatório</b>", "Gráfico de barras",
+          "Cria e organiza os <i>visuais</i>: é a visão principal do painel."],
+         ["<b>Dados</b>", "Tabela",
+          "Confere as linhas importadas, ajusta formatos, tipos e cria colunas calculadas."],
+         ["<b>Modelo</b>", "Diagrama de caixas",
+          "Cria e inspeciona os <i>relacionamentos</i> entre fato e dimensão."]],
+        num_cols=[]) +
+    step([
+        ("Vá para Dados", "Clique no ícone do meio, à esquerda. Veja as tabelas importadas e "
+         "as primeiras linhas."),
+        ("Vá para Modelo", "Clique no ícone do diagrama. As tabelas aparecem como caixas ligadas "
+         "por linhas (os relacionamentos)."),
+        ("Volte para Relatório", "Clique no ícone do gráfico. É aqui que passamos a maior parte do tempo."),
+    ]) +
+    callout("note", "Regra de ouro",
+        "Dado se <b>confere</b> na visão Dados, relação se <b>cria</b> na visão Modelo e história se "
+        "<b>conta</b> na visão Relatório. Cada coisa no seu lugar.")
+)
+
+cad.section("p0-obter-dados", "Obter Dados: conectando o Excel pela primeira vez",
+    p("Aqui começa a mágica. Vamos abrir o arquivo <b>sujo</b> de propósito: a ideia é justamente "
+      "sentir o problema para aprender a resolver. O Power BI lê o arquivo e mostra uma prévia antes "
+      "de importar qualquer coisa.") +
+    step([
+        ("Obter Dados", "Na faixa <b>Página Inicial</b>, clique em <b>Obter Dados</b> e escolha "
+         "<b>Pasta de Trabalho do Excel</b>."),
+        ("Escolha o arquivo", "Navegue até <code>datasets/orcamento/</code> e abra "
+         "<code>Orcamento_Contratos_SUJO.xlsx</code>."),
+        ("Navegador", "Aparece a janela <b>Navegador</b> com as abas do arquivo. Clique em uma aba "
+         "para ver a prévia dos dados."),
+        ("Selecione as abas", "Marque <b>fato_empenhos</b>, <b>fato_dotacao</b> e todas as "
+         "<b>dim_*</b>. Use a caixa da aba para marcar várias de uma vez."),
+        ("Transformar, não Carregar", "Clique em <b>Transformar Dados</b>. Vamos limpar antes de "
+         "trazer para o modelo."),
+    ]) +
+    code("""
+        Página Inicial > Obter Dados > Pasta de Trabalho do Excel
+        Arquivo : datasets/orcamento/Orcamento_Contratos_SUJO.xlsx
+        Abas    : fato_empenhos, fato_dotacao,
+                  dim_calendario, dim_setor, dim_rubrica, dim_modalidade,
+                  dim_fonte, dim_status_empenho, dim_fornecedor, dim_contrato
+        Botão   : Transformar Dados
+        """, "powerbi") +
+    callout("tip", "Por que não o arquivo LIMPO?",
+        "Use o <b>SUJO</b> para praticar a limpeza de verdade (é o que acontece na vida real). "
+        "O <b>LIMPO</b> fica como gabarito, para conferir se o seu resultado bateu.")
+)
+
+cad.section("p0-navegador", "O Navegador: Carregar x Transformar Dados",
+    p("Depois de escolher as abas, os botões <b>Carregar</b> e <b>Transformar Dados</b> parecem "
+      "iguais, mas levam a caminhos diferentes. Entenda a diferença antes de clicar.") +
+    tbl(["Botão", "Quando usar", "O que acontece"],
+        [["<b>Carregar</b>", "Base já limpa e no formato certo.",
+          "Traz a tabela direto para o modelo, sem passar pela oficina."],
+         ["<b>Transformar Dados</b>", "Base com defeito (nosso caso).",
+          "Abre o <b>Power Query</b>, onde você limpa antes de carregar."]],
+        num_cols=[]) +
+    step([
+        ("Seleção múltipla", "Marque a caixa <b>Selecionar vários itens</b> (ou clique na "
+         "primeira, segure <kbd>Shift</kbd> e clique na última)."),
+        ("Escolha a ação", "Como a base tem defeitos, clique em <b>Transformar Dados</b>."),
+        ("Confira a chegada", "Um editor novo abre com cada aba do Excel como uma <i>consulta</i> "
+         "na coluna esquerda."),
+    ]) +
+    callout("err", "Carregar duas versões da mesma tabela",
+        "Nunca carregue o arquivo SUJO <i>e</i> o LIMPO juntos: você cria tabelas duplicadas e "
+        "confunde os relacionamentos. Escolha um caminho.")
+)
+
+cad.section("p0-power-query", "Power Query: a oficina de limpeza",
+    p("O <b>Power Query</b> é a oficina onde o dado bruto vira dado confiável. Cada passo que você "
+      "dá fica registrado como uma <b>receita</b>: na próxima vez que o arquivo mudar, os mesmos "
+      "ajustes rodam sozinhos.") +
+    flow_h([
+        ("📥", "Obter"),
+        ("🧽", "Limpar"),
+        ("🔤", "Tipar"),
+        ("✅", "Fechar & Aplicar"),
+    ]) +
+    tbl(["Aba / ferramenta", "Para que serve"],
+        [["<b>Página Inicial</b>", "Remover linhas/colunas, usar primeira linha como cabeçalho, "
+          "substituir valores, mesclar consultas."],
+         ["<b>Transformar</b>", "Dividir/mesclar colunas, formatar texto, extrair, agrupar."],
+         ["<b>Adicionar Coluna</b>", "Coluna personalizada, condicional, de exemplo, índice."],
+         ["<b>Painel Etapas Aplicadas</b>", "A lista, à direita, de tudo que você fez — dá para "
+          "voltar, renomear ou apagar uma etapa."]],
+        num_cols=[]) +
+    callout("note", "Tudo é reversível",
+        "Errou uma etapa? Clique no <b>X</b> ao lado dela no painel <b>Etapas Aplicadas</b>. "
+        "A limpeza é não destrutiva: o arquivo original nunca é alterado.")
+)
+
+cad.section("p0-limpeza-estrutura", "Limpeza 1: cabeçalho, linhas inúteis e duplicatas",
+    p("O primeiro grupo de defeitos é o mais comum em relatórios exportados de sistemas: a planilha "
+      "não começa pelo cabeçalho, tem linhas vazias no meio, uma linha de <b>TOTAL GERAL</b> no fim "
+      "e até linhas repetidas.") +
+    tbl(["Defeito", "Onde está", "Ação no Power Query"],
+        [["Linha de título na linha 1", "todas as abas",
+          "<b>Página Inicial &rarr; Usar Primeira Linha como Cabeçalho</b>"],
+         ["Linhas em branco no meio", "fato_empenhos, dim_calendario",
+          "<b>Página Inicial &rarr; Remover Linhas &rarr; Remover Linhas Vazias</b>"],
+         ["Linha TOTAL GERAL no fim", "fato_empenhos",
+          "Filtrar <code>id_empenho</code> diferente de TOTAL GERAL (Remover Linhas Filtradas)"],
+         ["Linhas duplicadas", "fato_empenhos, dim_fornecedor",
+          "<b>Página Inicial &rarr; Remover Linhas &rarr; Remover Duplicatas</b>"]],
+        num_cols=[]) +
+    step([
+        ("Promova o cabeçalho", "Com a consulta selecionada, clique em <b>Usar Primeira Linha "
+         "como Cabeçalho</b>. O título sai e os nomes das colunas sobem."),
+        ("Remova as linhas vazias", "<b>Remover Linhas &rarr; Remover Linhas Vazias</b>."),
+        ("Tire o TOTAL GERAL", "Clique na seta da coluna <code>id_empenho</code>, desmarque "
+         "<b>TOTAL GERAL</b>. Nunca deixe um total dentro da base de fatos."),
+        ("Remova duplicatas", "Selecione a coluna-chave (<code>id_empenho</code>) e use "
+         "<b>Remover Duplicatas</b>."),
+    ]) +
+    antesdepois(
+        "Base com título, brancos e o TOTAL GERAL misturado às linhas: a soma dobra e o gráfico mente.",
+        "Base com cabeçalho correto, sem brancos e sem total: cada linha é um empenho de verdade.") +
+    callout("err", "O erro clássico do TOTAL GERAL",
+        "Se você deixar a linha <b>TOTAL GERAL</b>, o Power BI vai somá-la junto com os empenhos. "
+        "É a causa número um de dashboards com número errado.")
+)
+
+cad.section("p0-limpeza-datas", "Limpeza 2: datas que chegam como texto",
+    p("No arquivo sujo, as datas vêm como <b>texto</b>, em cinco formatos diferentes "
+      "(<code>03/01/2024</code>, <code>2024-01-05</code>, <code>05-01-2024</code>, "
+      "<code>05/01/24</code>, <code>01/05/2024</code>). Enquanto forem texto, não existe cálculo de "
+      "tempo, ordenação nem eixo cronológico.") +
+    step([
+        ("Altere o tipo", "Selecione a coluna <code>data</code> (ou <code>data_empenho_key</code>) e, "
+         "em <b>Transformar &rarr; Tipo de Dados</b>, escolha <b>Data</b>."),
+        ("Use a localidade certa", "Se o Power Query reclamar, vá em <b>Tipo de Dados &rarr; Usando "
+         "Localidade</b> e escolha <b>Português (Brasil)</b>. Assim <code>05/01</code> é lido como "
+         "5 de janeiro, e não maio."),
+        ("Limpe a hora", "Em <code>dim_calendario</code> algumas datas vêm como "
+         "<code>01/01/2024 00:00:00</code>. Divida a coluna por espaço ou apenas altere o tipo para "
+         "<b>Data</b>, descartando a hora."),
+        ("Confira", "Abra a visão <b>Dados</b>: as datas devem aparecer alinhadas à esquerda como "
+         "texto ou, melhor, com o ícone de calendário."),
+    ]) +
+    code("""
+        // Formato M aplicado por baixo dos panos:
+        Table.TransformColumnTypes(Fonte,
+            {{"data", type date}}, "pt-BR")
+        """, "powerquery") +
+    callout("err", "O dia 05/01/2024 virar maio",
+        "Sem a localidade <b>pt-BR</b>, o Power BI interpreta <code>mm/dd</code> (padrão americano) "
+        "e troca dia por mês. Datas erradas deslocam todo o eixo temporal do painel.")
+)
+
+cad.section("p0-limpeza-moeda", "Limpeza 3: valores em texto (R$, espaços e parênteses)",
+    p("Os valores monetários também vieram como texto: <code>R$ 95.824,77</code>, "
+      "<code>461.642,99</code>, <code>R$ 193417.89</code> e até <code> 571.672,34 </code> com espaços. "
+      "Enquanto forem texto, o Power BI conta linhas em vez de somar dinheiro.") +
+    step([
+        ("Remova o R$", "Selecione a coluna e use <b>Substituir Valores</b>: substitua <code>R$</code> "
+         "por vazio."),
+        ("Remova os espaços", "Ainda em <b>Substituir Valores</b>, substitua o espaço por vazio. "
+         "Ou use <b>Transformar &rarr; Formatar &rarr; Cortar (Trim)</b> e <b>Limpar</b>."),
+        ("Trate os negativos", "Estornos vêm entre parênteses, como <code>(1.500,00)</code>. "
+         "Substitua <code>(</code> por <code>-</code> e depois remova o <code>)</code>."),
+        ("Converta para decimal", "<b>Tipo de Dados &rarr; Número Decimal &rarr; Usando Localidade "
+         "&rarr; Português (Brasil)</b>, para que a vírgula seja o separador decimal."),
+    ]) +
+    antesdepois(
+        "Coluna de texto: <code>R$ 95.824,77</code> — o resumo mostra Contagem, não Soma.",
+        "Coluna decimal: <code>95.824,77</code> — o resumo mostra Soma e o KPI funciona.") +
+    aplicab(
+        "Sempre que o relatório do sistema vier com símbolos e pontos no número.",
+        "Porque o visual só soma o que é número; texto com R$ é apenas enfeite.",
+        "O total de empenhos do ano passa de R$ 185 milhões quando os valores são números — e é "
+        "zero se você tentar somar a coluna ainda em texto.")
+)
+
+cad.section("p0-limpeza-texto", "Limpeza 4: textos, espaços e categorias padronizadas",
+    p("As dimensões vêm com o mesmo rótulo escrito de várias formas — <code>LAB. TOXICOLOGIA</code>, "
+      "<code>Laboratorio de Toxicologia</code>, <code> laboratorio de toxicologia </code>. Sem "
+      "padronizar, o mesmo setor aparece três vezes no gráfico.") +
+    step([
+        ("Cortar e limpar", "<b>Transformar &rarr; Formatar &rarr; Cortar (Trim)</b> remove espaços "
+         "das pontas; <b>Limpar</b> remove caracteres invisíveis."),
+        ("Padronize a caixa", "<b>Formatar &rarr; Caixa da Palavra (Capitalizar Cada Palavra)</b> "
+         "deixa os rótulos consistentes."),
+        ("Remova as duplicatas", "Depois de padronizar, selecione a coluna-chave "
+         "(<code>setor_key</code>) e use <b>Remover Duplicatas</b>. As três grafias viram uma só."),
+        ("Separe código e texto", "Em <code>dim_rubrica</code>, a coluna traz "
+         "<code>339014 - Diarias</code> junta. Use <b>Dividir Coluna &rarr; Por Delimitador</b> com "
+         "o separador <code> - </code> (hífen entre espaços)."),
+    ]) +
+    grid2([
+        ("Antes de padronizar",
+         ul(["LAB. TOXICOLOGIA", "Laboratorio de Toxicologia", " lab toxicologia "])),
+        ("Depois de padronizar",
+         ul(["Laboratorio de Toxicologia", "(uma linha só, sem duplicata)"])),
+    ]) +
+    callout("err", "Formatar texto antes de remover duplicatas",
+        "Ordem errada: se remover duplicatas <i>antes</i> de padronizar, as grafias diferentes "
+        "sobrevivem. Padronize <b>primeiro</b>, deduplique <b>depois</b>.")
+)
+
+cad.section("p0-limpeza-colunas", "Limpeza 5: dividir, mesclar e colunas de exemplo",
+    p("Nem sempre o dado chega no formato que precisamos. As três ferramentas abaixo resolvem quase "
+      "todo caso: dividir uma coluna em duas, juntar duas colunas em uma, ou criar uma coluna nova a "
+      "partir de um exemplo.") +
+    tbl(["Ferramenta", "Onde", "Exemplo na base"],
+        [["<b>Dividir Coluna</b>", "Transformar",
+          "Separar <code>339014 - Diarias</code> em código e descrição."],
+         ["<b>Mesclar Colunas</b>", "Transformar",
+          "Juntar <code>municipio</code> + <code>uf</code> em <code>Municipio/UF</code>."],
+         ["<b>Coluna de Exemplo</b>", "Adicionar Coluna",
+          "Criar <code>Faixa de valor</code> (Baixo / Médio / Alto) digitando um exemplo."],
+         ["<b>Coluna Condicional</b>", "Adicionar Coluna",
+          "Marcar <code>Em atraso</code> quando o contrato já venceu."]],
+        num_cols=[]) +
+    step([
+        ("Divida", "Em <code>dim_rubrica</code>: <b>Dividir Coluna &rarr; Por Delimitador &rarr; "
+         "Personalizado &rarr; <code> - </code></b>. Renomeie para <code>codigo</code> e "
+         "<code>rubrica</code>."),
+        ("Mescle", "Em <code>dim_fornecedor</code>: selecione <code>municipio</code> e "
+         "<code>uf</code> e use <b>Mesclar Colunas</b> com separador <code>/</code>."),
+        ("Crie por exemplo", "<b>Adicionar Coluna &rarr; Coluna de Exemplo</b>: digite "
+         "<code>Baixo</code> para um caso e o Power BI aprende a regra."),
+    ]) +
+    aplicab(
+        "Quando a coluna certa para o visual simplesmente não existe na base.",
+        "Porque criar colunas no Power Query é mais rápido (e mais seguro) que fazer isso na mão.",
+        "Uma coluna <b>Faixa de valor</b> transforma 600 empenhos em três blocos (Baixo, Médio, "
+        "Alto) e deixa o gráfico de distribuição legível.")
+)
+
+cad.section("p0-editor-avancado", "O Editor Avançado e o Fechar & Aplicar",
+    p("Todo clique no Power Query escreve código na linguagem <b>M</b>. Você não precisa programar, "
+      "mas espiar o <b>Editor Avançado</b> ajuda a entender e a reaproveitar a limpeza.") +
+    code("""
+        let
+            Origem      = Excel.Workbook(File.Contents("...Orcamento_Contratos_SUJO.xlsx"), null, true),
+            Aba         = Origem{[Item="fato_empenhos", Kind="Sheet"]}[Data],
+            Cabecalho   = Table.PromoteHeaders(Aba, [PromoteAllScalars=true]),
+            SemVazios   = Table.SelectRows(Cabecalho, each not List.IsEmpty(
+                              List.RemoveMatchingItems(Record.FieldValues(_), {null, ""}))),
+            Tipos       = Table.TransformColumnTypes(SemVazios,
+                              {{"valor_empenhado", type number}, {"status_key", Int64.Type}}, "pt-BR")
+        in
+            Tipos
+        """, "powerquery") +
+    step([
+        ("Veja o M", "<b>Página Inicial &rarr; Editor Avançado</b> mostra os passos que você criou."),
+        ("Feche a oficina", "Quando terminar, clique em <b>Página Inicial &rarr; Fechar e Aplicar</b>."),
+        ("Observe as etapas", "No painel <b>Etapas Aplicadas</b>, cada passo tem um nome. Clicar "
+         "volta a versão da tabela naquele momento."),
+    ]) +
+    callout("tip", "Fechar & Aplicar é a assinatura do Power Query",
+        "Ao clicar em <b>Fechar e Aplicar</b>, o Power BI executa a receita inteira e carrega o "
+        "resultado no modelo. Na próxima atualização, ela roda sozinha — é a automação do Dia 4.")
+)
+
+cad.section("p0-modelo-relacionamentos", "O modelo: criando relacionamentos",
+    p("Cada aba virou uma tabela no painel Dados. Mas elas estão <b>soltas</b>: por enquanto o Power "
+      "BI não sabe que <code>fato_empenhos[setor_key]</code> conversa com "
+      "<code>dim_setor[setor_key]</code>. O relacionamento é o que amarra tudo.") +
+    step([
+        ("Vá para Modelo", "Clique na visão <b>Modelo</b> (ícone do diagrama)."),
+        ("Arraste a chave", "Arraste <code>dim_setor[setor_key]</code> até "
+         "<code>fato_empenhos[setor_key]</code>. Aparece uma linha ligando as duas."),
+        ("Confirme a direção", "A relação é <b>Muitos para Um (N:1)</b>: muitos empenhos para um "
+         "setor, direção de filtro <b>Única</b>."),
+        ("Ligue o resto", "Repita para todas as dimensões da lista abaixo."),
+        ("Valide", "Crie uma matriz setor x valor empenhado e confira se as somas fazem sentido."),
+    ]) +
+    tbl(["Tabela fato", "Liga às dimensões por"],
+        [["<code>fato_empenhos</code>", "dim_calendario, dim_contrato, dim_fornecedor, dim_setor, "
+          "dim_rubrica, dim_modalidade, dim_fonte, dim_status_empenho"],
+         ["<code>fato_dotacao</code>", "dim_setor, dim_rubrica (e o ano via dim_calendario)"]],
+        num_cols=[]) +
+    callout("err", "Tabela solta = número errado",
+        "Sem relacionamento, o Power BI soma valores sem cruzar contexto. Você vê um total que não "
+        "bate com nenhum filtro. Sempre confira a visão Modelo antes de confiar no painel.")
+)
+
+cad.section("p0-cardinalidade", "Cardinalidade e direção do filtro",
+    p("Dentro de cada relacionamento há dois ajustes que decidem o comportamento do filtro. Duplo "
+      "clique na linha do relacionamento para vê-los.") +
+    tbl(["Ajuste", "Opções", "O que significa"],
+        [["<b>Cardinalidade</b>", "Muitos para um (N:1)",
+          "O caso normal: muitos fatos apontam para uma dimensão."],
+         ["", "Um para um (1:1)", "Raro; evite — geralmente indica modelagem inadequada."],
+         ["", "Muitos para muitos (N:N)", "Existe, mas exige cuidado; pode dar resultado ambíguo."],
+         ["<b>Direção do filtro</b>", "Única",
+          "O filtro corre da dimensão para a fato (o padrão correto)."],
+         ["", "Cruzada (ambas)", "Permite filtro nos dois sentidos; use só quando necessário."]],
+        num_cols=[]) +
+    aplicab(
+        "Ao revisar o modelo, antes de publicar.",
+        "Porque uma direção cruzada indevida cria caminhos ambíguos e números inconsistentes.",
+        "No painel de orçamento, todas as relações são N:1 com direção única: o filtro do setor "
+        "desce para os empenhos, e a hierarquia de datas desce para a dotação.")
+)
+
+cad.section("p0-tabela-datas", "Criando e marcando a tabela de datas",
+    p("Para usar funções de tempo (ano a ano, mês a mês, acumulado), o ideal é ter uma "
+      "<b>tabela de datas</b> dedicada e contínua. Nosso <code>dim_calendario</code> já é isso: tem "
+      "uma linha por dia, de 2024 a 2026, com ano, mês, trimestre e dia da semana.") +
+    step([
+        ("Abra a tabela", "Na visão Dados ou Modelo, clique com o botão direito em "
+         "<code>dim_calendario</code>."),
+        ("Marque como data", "Escolha <b>Marcar como Tabela de Data</b> e aponte a coluna "
+         "<code>data</code>."),
+        ("Use a hierarquia", "Nos visuais, use os campos <code>ano</code>, <code>trimestre</code>, "
+         "<code>nome_mes</code> para construir eixos e matrizes temporais."),
+        ("Ordene nome_mes", "Na visão Dados, selecione <code>nome_mes</code> &rarr; <b>Classificar "
+         "por Coluna</b> &rarr; <code>mes</code>, para janeiro vir antes de fevereiro."),
+    ]) +
+    callout("tip", "Tabela de datas = tempo confiável",
+        "Com a tabela marcada, o Power BI reconhece <i>tempo</i> de verdade e você evita erros de "
+        "ano/mês que aparecem quando a única data é um field de fato.")
+)
+
+cad.section("p0-formatacao-campos", "Formatando campos: tipo, formato, resumo e ordenação",
+    p("Antes de arrastar campos para os visuais, ajuste cada um na visão <b>Dados</b>. É aqui que o "
+      "valor vira moeda, o número ganha casas decimais e o mês ordena corretamente.") +
+    step([
+        ("Escolha o campo", "Visão Dados, selecione uma coluna, por exemplo "
+         "<code>valor_empenhado</code>."),
+        ("Defina o formato", "Na faixa <b>Ferramentas de Coluna</b>, escolha <b>Moeda</b>, "
+         "<b>R$ Português (Brasil)</b> e <b>2 casas decimais</b>."),
+        ("Escolha o resumo", "No painel direito, em <b>Resumir por</b>, deixe <b>Soma</b> para "
+         "valores e <b>Contagem</b> para chaves como <code>id_empenho</code>."),
+        ("Ordene", "Para <code>nome_mes</code>, use <b>Classificar por Coluna &rarr; mes</b>."),
+    ]) +
+    callout("err", "Resumir a coluna errada",
+        "Se <code>id_empenho</code> (que é texto) entrar como Soma, ou uma chave numérica como "
+        "Soma, o visual mostra um número sem significado. Chave se <b>conta</b>; valor se <b>soma</b>.")
+)
+
+cad.section("p0-medidas-dax", "Medidas DAX essenciais",
+    p("<b>Medidas</b> são cálculos que reagem ao contexto do visual (o filtro do setor, o mês "
+      "selecionado). São o coração da inteligência do painel. Comece com sete medidas simples.") +
+    code("""
+        Total Empenhado      = SUM ( fato_empenhos[valor_empenhado] )
+        Total Liquidado      = SUM ( fato_empenhos[valor_liquidado] )
+        Total Pago           = SUM ( fato_empenhos[valor_pago] )
+        Dotacao Atualizada   = SUM ( fato_dotacao[valor_atualizado] )
+        % Execucao           = DIVIDE ( [Total Empenhado], [Dotacao Atualizada] )
+        Saldo a Pagar        = [Total Liquidado] - [Total Pago]
+        N. de Empenhos       = COUNTROWS ( fato_empenhos )
+        """, "dax") +
+    step([
+        ("Nova medida", "Botão direito em <code>fato_empenhos</code> &rarr; <b>Nova medida</b>."),
+        ("Escreva a fórmula", "Digite <code>Total Empenhado = SUM(fato_empenhos[valor_empenhado])</code>."),
+        ("Formate", "Com a medida selecionada, aplique o formato de Moeda, R$ e 2 casas."),
+        ("Repita", "Crie as demais medidas da lista."),
+    ]) +
+    callout("tip", "DIVIDE em vez de /",
+        "Use sempre <b>DIVIDE(a, b)</b> em vez de <code>a/b</code>: ele já trata a divisão por zero "
+        "sem estourar erro quando o filtro deixa o denominador vazio.")
+)
+
+cad.section("p0-colunas-calculadas", "Colunas calculadas e medidas: o que calcular",
+    p("Enquanto a medida é recalculada <b>a cada visual</b>, a <b>coluna calculada</b> é materializada "
+      "na tabela. Use coluna calculada quando o valor for por linha e não mudar de acordo com o filtro.") +
+    code("""
+        // Coluna calculada: classifica cada empenho por faixa de valor
+        Faixa de Valor =
+        SWITCH ( TRUE(),
+            fato_empenhos[valor_empenhado] >= 300000, "Alto",
+            fato_empenhos[valor_empenhado] >= 50000,  "Medio",
+            "Baixo" )
+        """, "dax") +
+    grid2([
+        ("Coluna calculada",
+         "Uma linha da tabela, um resultado. Ex.: <i>Faixa de Valor</i>, <i>Ano do empenho</i>."),
+        ("Medida",
+         "Um agregado que responde ao filtro. Ex.: <i>Total Empenhado</i>, <i>% Execução</i>."),
+    ]) +
+    callout("note", "Qual usar?",
+        "Precisa aparecer no eixo de um gráfico (categoria)? <b>Coluna calculada</b>. Precisa "
+        "somar/contar dentro do visual? <b>Medida</b>.")
+)
+
+cad.section("p0-hierarquias", "Hierarquias e grupos (bins)",
+    p("<b>Hierarquias</b> deixam você navegar do geral ao detalhe em um clique "
+      "(Ano &rarr; Trimestre &rarr; Mês). <b>Grupos (bins)</b> transformam um número contínuo em "
+      "faixas, como valores de R$ 0 a 50 mil, de 50 a 100 mil, etc.") +
+    step([
+        ("Crie a hierarquia", "Na visão Dados, arraste <code>ano</code> sobre "
+         "<code>nome_mes</code> na tabela <code>dim_calendario</code> para criar "
+         "<b>Calendário</b>."),
+        ("Use nos visuais", "No gráfico de linha, use a hierarquia no eixo e clique na seta de "
+         "expansão para <i>drill</i> de ano para mês."),
+        ("Crie um grupo", "Botão direito em <code>valor_empenhado</code> &rarr; <b>Agrupar</b> &rarr; "
+         "<b>Agrupar em faixas</b> &rarr; tamanho 50.000."),
+    ]) +
+    aplicab(
+        "Quando o gestor quer 'ver por ano' e, se precisar, 'abrir por mês'.",
+        "Porque a hierarquia entrega os dois níveis no mesmo visual, sem telas separadas.",
+        "A evolução do empenhado no tempo abre de 2024 para os doze meses, mostrando em quais meses "
+        "a execução acelerou.")
+)
+
+cad.section("p0-visuais-catalogo", "Catálogo de visuais: os 12 que resolvem quase tudo",
+    p("O painel de <b>Visualizações</b> tem dezenas de opções, mas uma dúzia resolve praticamente "
+      "todos os painéis de gestão. Conheça cada um com um exemplo na POLITEC.") +
+    tbl(["Visual", "Pergunta que responde", "Exemplo no orçamento"],
+        [["<b>Cartão</b>", "Qual o número agora?", "Total empenhado: R$ 185,6 mi."],
+         ["<b>KPI</b>", "Atingiu a meta?", "% execução contra o esperado."],
+         ["<b>Colunas</b>", "Compara categorias?", "Empenhado por setor."],
+         ["<b>Barras</b>", "Ranking?", "Top 10 fornecedores."],
+         ["<b>Linhas</b>", "Tendência?", "Empenhado mês a mês."],
+         ["<b>Linhas e colunas</b>", "Duas escalas?", "Empenhado (coluna) x nº empenhos (linha)."],
+         ["<b>Rosca / Pizza</b>", "Composição?", "Distribuição por modalidade."],
+         ["<b>Treemap</b>", "Composição com área?", "Rubricas por volume gasto."],
+         ["<b>Tabela</b>", "Detalhe em lista?", "Contratos com vigência e valor."],
+         ["<b>Matriz</b>", "Cruzamento com totais?", "Setor x rubrica."],
+         ["<b>Segmentação (Slicer)</b>", "Permite filtrar?", "Ano, setor, fonte."],
+         ["<b>Mapa preenchido</b>", "Onde está?", "Fornecedores por município."]],
+        num_cols=[]) +
+    callout("tip", "Comece pelos cinco grandes",
+        "Cartão, colunas, linhas, matriz e segmentação cobrem 80% de qualquer painel. Só adicione "
+        "os demais quando houver uma pergunta que eles não respondem.")
+)
+
+cad.section("p0-visual-formatacao", "Formatando um visual e aplicando um tema",
+    p("Um visual só comunica quando está legível. A formatação é o que separa um relatório amador de "
+      "um profissional: título claro, cores com significado, rótulos de dados e eixos limpos.") +
+    step([
+        ("Selecione o visual", "Clique nele e vá ao painel <b>Formatar visual</b> (ícone do pincel)."),
+        ("Dê um título", "Em <b>Título</b>, escreva a pergunta que o visual responde, por exemplo "
+         "<b>Empenhado por setor (2024-2026)</b>."),
+        ("Ligue os rótulos", "Em <b>Rótulos de dados</b>, ative para mostrar os valores sobre as barras."),
+        ("Ajuste as cores", "Em <b>Barras</b>, escolha uma cor única ou defina cor por categoria."),
+        ("Aplique um tema", "Em <b>Exibir &rarr; Temas</b>, escolha um tema; ou importe um tema "
+         "institucional (JSON) com as cores da POLITEC."),
+    ]) +
+    callout("err", "Arco-íris de cores sem sentido",
+        "Cor é informação, não decoração. Use uma cor única para comparação e reserve o vermelho "
+        "para o que está fora do prazo ou acima do limite.")
+)
+
+cad.section("p0-interacoes", "Interações entre visuais, filtros e segmentações",
+    p("No Power BI, os visuais já conversam entre si: clicar em um setor filtra os demais visuais "
+      "da página. Você pode controlar <b>como</b> essa interação acontece.") +
+    step([
+        ("Adicione uma segmentação", "<b>Visualizações &rarr; Segmentação</b> e arraste o campo "
+         "<code>ano</code>."),
+        ("Teste", "Clique em 2024 e observe os outros visuais reagirem."),
+        ("Edite as interações", "Selecione um visual e use <b>Formatar &rarr; Editar interações</b>. "
+         "Você escolhe se o clique <i>filtra</i>, <i>destaca</i> ou <i>não faz nada</i>."),
+        ("Use os filtros de nível", "No painel <b>Filtros</b>, aplique filtros no nível "
+         "<b>visual</b>, <b>página</b> ou <b>relatório</b> inteiro."),
+    ]) +
+    callout("note", "Filtro x Segmentação",
+        "A <b>segmentação</b> é um filtro <i>visível</i> para quem usa o painel. O painel de "
+        "<b>Filtros</b> é um filtro fixo que você define e deixa 'escondido' no comportamento do visual.")
+)
+
+cad.section("p0-drill", "Drill down, drill through e a página de detalhes",
+    p("<b>Drill</b> é descer do resumo para o detalhe. Há duas formas: expandir a hierarquia no "
+      "próprio visual (<b>drill down</b>) e pular para uma página de detalhe mantendo o contexto "
+      "(<b>drill through</b>).") +
+    step([
+        ("Drill down", "No gráfico com hierarquia Ano &rarr; Mês, clique na <b>seta para baixo</b> e "
+         "depois em uma coluna para abrir aquele ano em meses."),
+        ("Drill through", "Crie uma página, arraste <code>setor</code> para o campo "
+         "<b>Drill through</b> no painel Filtros."),
+        ("Volte", "No detalhe, o botão de <b>voltar</b> aparece no canto; ele restaura o contexto."),
+    ]) +
+    aplicab(
+        "Quando o gestor vê um total alto e quer saber 'de que é feito esse número'.",
+        "Porque o detalhe fica a um clique, sem poluir a visão geral.",
+        "Do total empenhado do setor, o gestor desce para o mês, depois para o contrato e o "
+        "fornecedor que puxaram o valor.")
+)
+
+cad.section("p0-formatacao-condicional", "Formatação condicional: cores, ícones e barras",
+    p("A <b>formatação condicional</b> pinta a célula ou o valor conforme uma regra. É o que faz o "
+      "dashboard 'gritar' quando um indicador sai do esperado — sem ninguém precisar ler os números.") +
+    step([
+        ("Abra o menu", "Em uma <b>Tabela</b> ou <b>Matriz</b>, vá em <b>Formatar &rarr; Células com "
+         "formatação condicional</b>."),
+        ("Escolha o tipo", "<b>Cor da tela de fundo</b>, <b>Cor da fonte</b>, <b>Ícones</b> ou "
+         "<b>Barras de dados</b>."),
+        ("Defina a regra", "Ex.: pintar de vermelho a <b>% de execução</b> abaixo de 50%."),
+        ("Aplique", "Aplique ao campo de valor e veja as células reagirem."),
+    ]) +
+    callout("tip", "Semáforo de gestão",
+        "Verde (dentro da meta), amarelo (atenção) e vermelho (crítico) transformam a matriz em um "
+        "painel de alerta que o gestor entende em segundos.")
+)
+
+cad.section("p0-botoes-bookmarks", "Botões, formas, marcadores e navegação entre abas",
+    p("Um dashboard com três abas precisa de <b>navegação</b>. Com botões e <b>marcadores "
+      "(bookmarks)</b> você cria um menu que leva de uma aba a outra, com visual de aplicativo.") +
+    step([
+        ("Crie os botões", "<b>Inserir &rarr; Botões</b> e escolha <b>Navegador de página</b>."),
+        ("Aponte o destino", "Selecione o botão e, em <b>Ação</b>, escolha <b>Navegação de página</b> "
+         "e a aba de destino."),
+        ("Formate", "Dê ao botão a cor institucional e o texto da aba: Visão Orçamentária, Setores, Contratos."),
+        ("Use marcadores", "Em <b>Exibir &rarr; Marcadores</b>, salve estados (com ou sem filtro) e "
+         "acione-os por botões."),
+    ]) +
+    code("""
+        Inserir > Botões > Navegador de página
+          Rótulo : Visão Orçamentária | Setores | Contratos
+          Ação   : Navegação de página > <destino>
+          Exibir : Marcadores (salvar estado da página)
+        """, "powerbi") +
+    callout("note", "Bookmark = foto da tela",
+        "Um marcador guarda o estado de filtros e visibilidade de uma página. É a base de menus, "
+        "de abas e de relatórios que se comportam como um aplicativo.")
+)
+
+cad.section("p0-analise-extras", "Análise extras: linhas de referência, previsão e tooltips",
+    p("No painel <b>Analisar</b> (ao lado de Formatar) há recursos que enriquecem o visual sem "
+      "escrever uma linha de DAX.") +
+    ul([
+        "<b>Linha de referência</b> — uma meta ou limite desenhado no gráfico (ex.: limite de R$ 1 mi).",
+        "<b>Linha de tendência</b> — mostra se a série está subindo ou caindo.",
+        "<b>Previsão</b> — projeta os próximos períodos com base no histórico.",
+        "<b>Dicas de ferramenta (tooltips)</b> — o balão que aparece ao passar o mouse; pode receber "
+        "um <i>página de dica</i> com um mini-relatório.",
+        "<b>Obter mais visuais</b> — botão que abre o <b>AppSource</b>, a loja de visuais extras.",
+    ]) +
+    callout("tip", "Um mini-relatório no hover",
+        "Uma <b>página de dica de ferramenta</b> transforma o passar do mouse sobre uma barra em um "
+        "raio-x daquele item: contrato, fornecedor, valores. Impressiona pela profundidade.")
+)
+
+cad.section("p0-atalhos", "Atalhos e produtividade no Desktop",
+    p("Quem monta painel com frequência ganha horas com alguns atalhos. Estes são os que mais usamos.") +
+    tbl(["Atalho", "O que faz"],
+        [["<kbd>Ctrl</kbd> + <kbd>Z</kbd>", "Desfazer a última ação no canvas."],
+         ["<kbd>Ctrl</kbd> + <kbd>S</kbd>", "Salvar o arquivo <code>.pbix</code>."],
+         ["<kbd>Ctrl</kbd> + <kbd>C</kbd> / <kbd>V</kbd>", "Copiar e colar um visual inteiro."],
+         ["<kbd>Ctrl</kbd> + <kbd>clique</kbd>", "Selecionar vários visuais de uma vez."],
+         ["<kbd>Alt</kbd> + arrastar", "Alinhar/copiar formatação entre visuais."],
+         ["<kbd>Enter</kbd> (na fórmula)", "Quebra de linha para deixar o DAX legível."],
+         ["<kbd>F4</kbd>", "Renomear a seleção (visual, página ou medida)."]],
+        num_cols=[]) +
+    callout("tip", "Nomeie as medidas em português",
+        "Medidas como <b>Total Empenhado</b> (com espaço e acento) aparecem bonitas nos cartões. "
+        "O nome técnico fica na fórmula; o rótulo, para o gestor.")
+)
+
+cad.section("p0-tres-abas", "Mão na massa: o plano das 3 abas",
+    p("Chegou a hora de montar o painel. São três páginas, cada uma respondendo a um bloco de "
+      "perguntas de gestão. Use as medidas DAX já criadas e o modelo relacionado.") +
+    flow_h([
+        ("📊", "Aba 1 · Orçamentária"),
+        ("🏢", "Aba 2 · Setores e rubricas"),
+        ("📄", "Aba 3 · Contratos"),
+    ]) +
+    tbl(["Aba", "Pergunta central", "Visuais principais"],
+        [["<b>1 · Visão Orçamentária</b>", "Quanto foi orçado, empenhado, liquidado e pago?",
+          "5 cartões de KPI, colunas por ano, linha mensal, segmentações de ano e fonte."],
+         ["<b>2 · Setores e Rubricas</b>", "Quem executa mais e em quê? Onde há saldo?",
+          "Barras por setor, matriz setor x rubrica, treemap de rubricas, KPI de % execução."],
+         ["<b>3 · Contratos e Fornecedores</b>", "Quais contratos e fornecedores concentram gasto?",
+          "Top 10 fornecedores, tabela de contratos, rosca por modalidade, mapa por município."]],
+        num_cols=[]) +
+    callout("note", "Uma página por bloco mental",
+        "Cada aba responde perguntas de um mesmo 'dono': a Diretoria olha a aba 1, o chefe de setor "
+        "olha a aba 2, a área de contratos olha a aba 3.")
+)
+
+cad.section("p0-aba1", "Aba 1 - Visão Orçamentária (Orçado x Empenhado x Pago)",
+    p("A primeira aba responde, em cinco segundos, 'como está o orçamento'. Comece pelos cartões de "
+      "KPI no topo e desça para as tendências.") +
+    step([
+        ("Cinco cartões", "<b>Cartão</b> para <i>Dotação Atualizada</i>, <i>Total Empenhado</i>, "
+         "<i>Total Liquidado</i>, <i>Total Pago</i> e <i>% Execução</i>."),
+        ("Colunas por ano", "<b>Colunas Clusterizadas</b> com <code>ano</code> no eixo e as medidas "
+         "<i>Empenhado</i>, <i>Liquidado</i> e <i>Pago</i> nos valores."),
+        ("Linha mensal", "<b>Gráfico de Linhas</b> com <code>nome_mes</code> no eixo e "
+         "<i>Total Empenhado</i> nos valores, drill de ano para mês."),
+        ("Segmentações", "Duas <b>Segmentações</b>: <code>ano</code> e <code>fonte</code>."),
+        ("Título e tema", "Título da página <b>Visão Orçamentária - POLITEC</b> e tema institucional."),
+    ]) +
+    kpi([
+        ("R$ 257,0 mi", "Dotação atualizada"),
+        ("R$ 185,6 mi", "Empenhado"),
+        ("R$ 119,8 mi", "Liquidado"),
+        ("R$ 91,5 mi", "Pago"),
+        ("72,2%", "% Execução"),
+    ]) +
+    callout("err", "Confundir empenhado com pago",
+        "Empenhar é reservar; pagar é desembolsar. Um empenho de R$ 500 mil pode ter R$ 0 pago. "
+        "Deixe as três colunas lado a lado para a diferença ficar óbvia.")
+)
+
+cad.section("p0-aba2", "Aba 2 - Execução por Setor e Rubrica",
+    p("A segunda aba mostra <b>quem</b> gasta e <b>em quê</b>. É a página que responde 'onde está o "
+      "dinheiro' e 'onde ainda há saldo para executar'.") +
+    step([
+        ("Barras por setor", "<b>Barras Clusterizadas</b> com <code>setor</code> no eixo e "
+         "<i>Total Empenhado</i> nos valores, ordenado do maior para o menor."),
+        ("Matriz de detalhe", "<b>Matriz</b> com <code>setor</code> nas linhas, <code>rubrica</code> "
+         "nas colunas e <i>Total Empenhado</i> nos valores."),
+        ("Treemap", "<b>Treemap</b> com <code>rubrica</code> na categoria e <i>Total Empenhado</i>."),
+        ("KPI de execução", "<b>Cartão</b> com a medida <i>% Execução</i> e <b>formatação "
+         "condicional</b> (vermelho abaixo de 50%)."),
+        ("Segmentação", "<b>Segmentação</b> de <code>setor</code> e <code>grupo</code> "
+         "(Custeio x Investimento)."),
+    ]) +
+    aplicab(
+        "Na reunião de planejamento, para priorizar o remanejamento de recursos.",
+        "Porque mostra em um só lugar o setor que executa e a rubrica com saldo sobrando.",
+        "A matriz revela que um laboratório tem saldo alto em 'Equipamentos' e baixo em 'Material de "
+        "Consumo' — insumo direto para remanejar verba dentro do exercício.")
+)
+
+cad.section("p0-aba3", "Aba 3 - Contratos e Fornecedores",
+    p("A terceira aba dá visibilidade à <b>rede de contratos</b>: com quem a instituição gasta, por "
+      "qual modalidade e por qual preço. É a página de governança e transparência.") +
+    step([
+        ("Top fornecedores", "<b>Barras</b> com <code>razao_social</code> no eixo e "
+         "<i>Total Empenhado</i>, mostrando o <b>Top 10</b>."),
+        ("Tabela de contratos", "<b>Tabela</b> com <code>numero</code>, <code>objeto</code>, "
+         "<code>data_inicio</code>, <code>data_fim</code>, <code>valor_contrato</code> e o total "
+         "empenhado do contrato."),
+        ("Rosca por modalidade", "<b>Gráfico de Rosca</b> com <code>modalidade</code> e a contagem "
+         "de empenhos ou o valor."),
+        ("Mapa de fornecedores", "<b>Mapa Preenchido</b> com <code>municipio</code> e "
+         "<i>Nº de Empenhos</i>."),
+        ("Segmentações", "<b>Segmentação</b> de <code>porte</code> e <code>modalidade</code>."),
+    ]) +
+    callout("tip", "Contratos a vencer",
+        "Adicione um cartão com a contagem de contratos cujo <code>data_fim</code> cai nos próximos "
+        "90 dias. É um alerta de gestão que evita interrupção de serviço.")
+)
+
+cad.section("p0-erros", "Erros de iniciante e como evitá-los",
+    p("Quase todo primeiro painel tropeça nos mesmos pontos. Conhecer a lista evita retrabalho.") +
+    antesdepois(
+        "Importar tudo, modelar depois, corrigir no visual: modelo sujo e número errado.",
+        "Limpar no Power Query, relacionar no Modelo e só então desenhar o visual.") +
+    tbl(["Erro", "Consequência", "Como evitar"],
+        [["Somar chaves em vez de contar", "Número sem sentido", "Chave se <b>conta</b>"],
+         ["Deixar linha TOTAL GERAL", "Soma dobrada", "Filtrar/remover antes de carregar"],
+         ["Tabelas sem relacionamento", "Filtros não cruzam", "Criar as relações N:1 no Modelo"],
+         ["Datas como texto", "Eixo temporal quebrado", "Tipo Data + localidade pt-BR"],
+         ["Valor como texto", "Cartões mostram contagem", "Converta para decimal"],
+         ["Cores aleatórias", "Leitura difícil", "Cor única ou com significado"]],
+        num_cols=[]) +
+    callout("err", "Publicar sem conferir",
+        "Antes de publicar, valide os totais contra uma fonte conhecida (aqui, o gabarito "
+        "<code>Orcamento_Contratos_LIMPO.xlsx</code>) e verifique se não há dado sensível na tela.")
+)
+
+cad.section("p0-salvar", "Salvando o .pbix e indo para a publicação",
+    p("Seu painel existe só na sua tela até você salvar. O arquivo <b>.pbix</b> guarda o modelo, os "
+      "dados importados, os visuais e as medidas — é o projeto inteiro do relatório.") +
+    step([
+        ("Salve", "<b>Arquivo &rarr; Salvar como</b> e grave como "
+         "<code>Painel_Orcamento_Contratos.pbix</code>."),
+        ("Confira", "Reabra o arquivo: os dados, as relações e as 3 abas devem continuar lá."),
+        ("Prepare a publicação", "Só publique depois de revisar a aba <b>1</b>, <b>2</b> e <b>3</b> e "
+         "checar se há dado pessoal ou sensível à mostra."),
+        ("Publique", "<b>Página Inicial &rarr; Publicar</b> e escolha o workspace "
+         "(a Parte 2 deste caderno detalha o Service)."),
+    ]) +
+    checklist([
+        "As 10 tabelas foram limpas e as chaves são números inteiros.",
+        "Todos os relacionamentos N:1 estão criados no Modelo.",
+        "As medidas DAX estão formatadas como moeda e porcentagem.",
+        "As 3 abas estão construídas, com títulos e segmentações.",
+        "Os totais batem com o gabarito LIMPO (empenhado ~ R$ 185,6 mi).",
+        "Não há coluna de dado pessoal visível no painel.",
+        "O arquivo <code>.pbix</code> foi salvo.",
+    ]) +
+    callout("note", "Daqui em diante",
+        "Com o painel salvo, siga para a <b>Parte 1</b> (conceitos e interface), a <b>Parte 2</b> "
+        "(publicação e governança) e a <b>Parte 3</b> (laboratórios) para aprofundar.")
+)
+
+cad.section("p0-quiz", "Quiz do iniciante em Power BI Desktop",
+    p("Responda e confira o gabarito. São os conceitos que você mais vai usar no dia a dia.") +
+    q("Qual botão abre a oficina de limpeza antes de carregar os dados?",
+      ["Carregar", "Transformar Dados", "Publicar", "Atualizar"], 1,
+      "Transformar Dados abre o Power Query, onde o dado é limpo antes de entrar no modelo.") +
+    q("Uma coluna de valores aparece como 'R$ 95.824,77'. O que fazer para poder somá-la?",
+      ["Nada, o Power BI soma texto", "Formatar como moeda na visão Dados",
+       "Substituir R$ e espaços, tratar parênteses e converter para Número Decimal (pt-BR)",
+       "Criar um relacionamento"], 2,
+      "Texto não soma. Remova os símbolos, trate negativos e converta o tipo com localidade pt-BR.") +
+    q("Na visão Modelo, qual é a cardinalidade típica entre fato e dimensão?",
+      ["Um para um", "Muitos para muitos", "Muitos para um (N:1)", "Nenhuma"], 2,
+      "Muitos fatos apontam para uma dimensão: Muitos para Um, direção de filtro única.") +
+    q("O que acontece se você publicar com uma linha 'TOTAL GERAL' na base?",
+      ["Nada muda", "O total é somado junto, dobrando o valor",
+       "O Power BI remove sozinho", "A publicação falha"], 1,
+      "A linha de total entra como se fosse um registro e dobrando a soma. Remova-a no Power Query.") +
+    q("Para criar um cálculo que responde ao filtro (por setor, por mês), o que usar?",
+      ["Uma coluna calculada", "Uma medida DAX", "Um relacionamento", "Um tema"], 1,
+      "A medida é recalculada no contexto do visual. A coluna calculada é fixa por linha.") +
+    q("Um contrato tem data_inicio como '01/05/2024'. Sem localidade pt-BR, o que pode acontecer?",
+      ["Nada", "O Power BI lê como 5 de janeiro (mm/dd)",
+       "A data vira texto", "O arquivo corrompe"], 1,
+      "Sem pt-BR, o padrão é mm/dd e o dia 05/01 vira maio. Sempre configure a localidade.") +
+    q("Qual recurso guarda uma 'foto' do estado de filtros de uma página para menus e abas?",
+      ["Segmentação", "Marcador (bookmark)", "Drill through", "Filtro de relatório"], 1,
+      "Marcadores salvam o estado da página e alimentam menus e navegação entre abas.") +
+    q("Qual é o formato nativo do projeto do relatório, que guarda modelo, dados e visuais?",
+      [".xlsx", ".csv", ".pbix", ".json"], 2,
+      "O .pbix é o arquivo do projeto do Power BI Desktop.")
+)
+
+cad.section("p0-referencias", "Referências para continuar",
+    p("Se quiser aprofundar cada recurso apresentado, estas são as fontes oficiais que valem o tempo.") +
+    glossary([
+        ("Documentação Power BI", "learn.microsoft.com/power-bi — guias oficiais de Desktop, Power "
+         "Query e DAX."),
+        ("Power Query (linguagem M)", "Referência oficial das transformações usadas na limpeza."),
+        ("DAX", "learn.microsoft.com/dax — funções SUM, DIVIDE, CALCULATE e boas práticas."),
+        ("Comunidade Power BI", "community.powerbi.com — fóruns com respostas da comunidade e da Microsoft."),
+        ("AppSource", "Loja de visuais personalizados acessível por Obter mais visuais."),
+        ("Gabarito do exercício", "<code>datasets/orcamento/Orcamento_Contratos_LIMPO.xlsx</code> — "
+         "conferência do resultado esperado."),
+    ]) +
+    callout("tip", "Pratique com o gabarito",
+        "Repita o exercício partindo do arquivo <b>LIMPO</b> e compare com o que você obteve limpando "
+        "o <b>SUJO</b>. A diferença entre os dois é exatamente o que você aprendeu nesta parte.")
+)
+
+# =================================================================
 # PARTE 1 - MODULO 6 PARTE 1
 # =================================================================
 cad.grp("Parte 1 · Modulo 6 - Interface e Primeiros Relatorios",

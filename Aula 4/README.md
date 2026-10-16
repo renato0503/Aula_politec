@@ -8,11 +8,12 @@ Curso de Capacitacao POLITEC/MT · Professor Renato Rosa · Dia 4.
 
 ---
 
-## Conteudo do caderno (71 secoes em 6 partes)
+## Conteudo do caderno (107 secoes em 7 partes)
 
 | Parte | Conteudo |
 |---|---|
 | Abertura | Boas-vindas, mapa do Dia 4, da planilha ao BI |
+| **0 — Preparacao: Power BI Desktop do zero** | Guia do iniciante: instalacao, tour da interface, as 3 visoes, Obter Dados no Excel, Power Query (limpeza de cabecalho/brancos/TOTAL GERAL/duplicatas/datas em texto/moeda em texto/categorias), Editor Avancado (M) e Fechar & Aplicar, relacionamentos, cardinalidade, tabela de datas, formatacao de campos, medidas DAX, colunas calculadas, hierarquias, catalogo de 12 visuais, formatacao e temas, interacoes/slicers, drill down/through, formatacao condicional, botoes e bookmarks, recursos de analise, atalhos, o plano das **3 abas** do painel de orcamento e contratos (aba 1 Orcamentaria, aba 2 Setores/Rubricas, aba 3 Contratos/Fornecedores), salvamento do .pbix, checklist inicial, quiz do iniciante e referencias |
 | **1 — Modulo 6 Parte 1: Interface e Primeiros Relatorios** | O que e BI (Dresner/Gartner 1989), Excel x Power BI, os 3 pilares, Ben Brumfield, interface/cockpit, os 3 modos, conexao de dados, fontes da POLITEC, Importacao x DirectQuery, caso de integracao forense (SP/CE), Cole Nussbaumer Knaflic e os 5 segundos, fluxo do dashboard, Obter Dados (modelo estrela de `datasets/`), Power Query, relacionamentos fato x dimensao, primeiro visual, visuais essenciais, mapas com Bing, slicers, caso do IML, fechamento da manha |
 | **2 — Modulo 6 Parte 2: Publicacao e Governanca** | Power BI Service, Desktop x Service (licenca/Azure/LGPD), publicacao, Jorge Camoes, workspaces, segregacao, caso de reducao de 40% de incidentes, formas de compartilhamento, niveis de permissao, Apps, App "Painel do Perito", atualizacao agendada, frequencia recomendada, On-premises Data Gateway, caso em policias civis, simulacao de workspace, membros/permissoes, boas praticas de governanca |
 | **3 — Pratica guiada** | 7 laboratorios: Obter Dados, Power Query, primeiro visual, cartao/linha/matriz, mapa de calor, slicers, publicar e compartilhar |
@@ -75,6 +76,22 @@ chaves; as `dim_*`, os rotulos. Colunas detalhadas em `datasets/README.md`.
 As quatro fontes planas (`requisicoes_periciais.csv` etc.) tambem ficam na pasta,
 para conferencia e para o ETL do Dia 3.
 
+### Datasets de orcamento e contratos (Parte 0)
+
+Alem do modelo de pericia, a pasta `datasets/orcamento/` guarda o conjunto
+dedicado ao guia do iniciante (Parte 0), no tema **orcamento e contratos**:
+
+| Arquivo | O que e |
+|---|---|
+| `Orcamento_Contratos_SUJO.xlsx` | Arquivo do aluno: modelo estrela com **14 defeitos plantados** (datas/moeda em texto, TOTAL GERAL, duplicatas, brancos, categorias inconsistentes). |
+| `Orcamento_Contratos_LIMPO.xlsx` | Gabarito do professor: as 10 tabelas limpas e tipadas. |
+| `fato_*.csv`, `dim_*.csv` | Modelo estrela limpo em CSV, para conferencia. |
+
+Modelo: `fato_empenhos` (**620 linhas**) + `fato_dotacao` (192) + 8 dimensoes
+(`dim_calendario` 1.096 dias, `dim_fornecedor` 40, `dim_contrato` 60, entre
+outras). Gerado por `gerar_datasets_orcamento.py`. Defeitos e dicionario de
+dados detalhados em `datasets/orcamento/README.md`.
+
 ---
 
 ## Estatisticas
@@ -82,14 +99,14 @@ para conferencia e para o ETL do Dia 3.
 | Arquivo | Tamanho |
 |---|---|
 | `Dia-4-Politec.pdf` (slides do professor) | 6,14 MB |
-| `caderno-dia4.html` (fonte viva, tema claro/escuro) | 158 KB |
-| `Caderno Dia 4 - POLITEC.pdf` (caderno exportado, A4) | 4,8 MB · 54 paginas |
-| `gerar_caderno_aula4.py` (gerador de conteudo) | 96 KB |
+| `caderno-dia4.html` (fonte viva, tema claro/escuro) | 227 KB |
+| `Caderno Dia 4 - POLITEC.pdf` (caderno exportado, A4) | PDF a regerar (Parte 0 adicionada) |
+| `gerar_caderno_aula4.py` (gerador de conteudo) | 146 KB |
 
 | Metrica | Valor |
 |---|---|
-| Secoes no caderno | 71 |
-| Partes (grupos) | 6 |
+| Secoes no caderno | 107 |
+| Partes (grupos) | 7 |
 | Laboratorios | 7 |
 | Cenarios reais | 3 (+ 4 casos aplicados) |
 | Perguntas de quiz | 14 |

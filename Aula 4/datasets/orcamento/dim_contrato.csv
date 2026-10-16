@@ -1,0 +1,61 @@
+﻿contrato_key;numero;tipo;objeto;data_inicio;data_fim;valor_contrato;fornecedor_key;setor_key;licitacao_numero
+1;10/2024-001;Contrato;Fornecimento de armamento e municao;2024-08-17;2026-07-31;1909150.97;22;7;PE-2024/034
+2;10/2024-002;Ata de Registro de Precos;Servico de transporte de amostras biologicas;2024-10-01;2025-12-23;1676986.17;38;8;PE-2024/033
+3;20/2025-003;Ata de Registro de Precos;Servicos de tecnologia da informacao e suporte;2025-06-04;2026-08-13;1960440.64;2;3;IL-2025/076
+4;40/2026-004;Contrato;Fornecimento de vidrarias e insumos de laboratorio;2026-09-26;2027-12-27;1123012.49;35;3;IL-2026/077
+5;70/2025-005;Contrato;Fornecimento de kits de coleta de DNA;2025-02-01;2027-01-07;477498.74;7;2;IL-2025/056
+6;30/2025-006;Contrato;Servicos de tecnologia da informacao e suporte;2025-05-09;2026-03-21;2259232.45;27;5;PE-2025/014
+7;40/2024-007;Contrato;Contratacao de seguro patrimonial;2024-05-21;2025-04-30;1527812.61;18;5;PE-2024/040
+8;50/2026-008;Contrato;Contratacao de seguro patrimonial;2026-02-09;2027-07-20;520716.35;36;2;DI-2026/078
+9;50/2026-009;Contrato;Fornecimento de kits de coleta de DNA;2026-02-19;2028-01-04;2376616.31;23;1;DI-2026/035
+10;50/2026-010;Ata de Registro de Precos;Fornecimento de armamento e municao;2026-08-26;2027-05-13;2131906.36;30;2;CC-2026/050
+11;70/2026-011;Contrato;Fornecimento de vidrarias e insumos de laboratorio;2026-10-16;2027-06-22;292261.69;8;4;IL-2026/002
+12;60/2024-012;Contrato;Fornecimento de kits de coleta de DNA;2024-05-22;2025-09-18;2484300.23;23;3;IL-2024/031
+13;50/2026-013;Ata de Registro de Precos;Fornecimento de vidrarias e insumos de laboratorio;2026-03-05;2027-09-29;1065925.30;7;4;DI-2026/026
+14;60/2024-014;Ata de Registro de Precos;Contratacao de seguro patrimonial;2024-01-22;2026-01-21;2259393.57;39;8;DI-2024/048
+15;70/2026-015;Contrato;Fornecimento de armamento e municao;2026-10-13;2027-07-18;505401.33;29;1;DI-2026/068
+16;70/2026-016;Ata de Registro de Precos;Locacao de veiculos sem motorista;2026-01-08;2027-01-04;1760161.57;30;1;IL-2026/076
+17;10/2025-017;Ata de Registro de Precos;Fornecimento de material de escritorio;2025-04-26;2027-01-28;1698938.71;23;8;PE-2025/009
+18;40/2026-018;Contrato;Servicos de vigilancia patrimonial;2026-05-22;2027-12-08;1934647.77;18;1;PE-2026/020
+19;10/2026-019;Convenio;Locacao de veiculos sem motorista;2026-06-11;2027-06-01;1398739.08;35;6;IL-2026/016
+20;50/2025-020;Ata de Registro de Precos;Fornecimento de kits de coleta de DNA;2025-10-27;2026-09-03;623752.56;34;6;DI-2025/040
+21;60/2024-021;Contrato;Contratacao de seguro patrimonial;2024-04-08;2025-01-27;1016897.63;34;8;CC-2024/028
+22;40/2024-022;Contrato;Servicos de vigilancia patrimonial;2024-06-25;2025-06-25;700594.90;32;6;PE-2024/088
+23;60/2026-023;Contrato;Fornecimento de material de escritorio;2026-05-28;2027-11-25;878106.12;34;6;CC-2026/045
+24;10/2025-024;Ata de Registro de Precos;Fornecimento de reagentes analiticos;2025-05-11;2026-02-25;1539525.28;7;3;DI-2025/010
+25;60/2024-025;Contrato;Fornecimento de mobiliario de escritorio;2024-03-02;2025-04-12;286812.94;26;8;CC-2024/077
+26;50/2025-026;Contrato;Manutencao predial preventiva e corretiva;2025-04-25;2025-12-10;2297358.96;2;8;DI-2025/005
+27;50/2025-027;Ata de Registro de Precos;Fornecimento de vidrarias e insumos de laboratorio;2025-10-14;2026-06-10;2194415.50;22;5;DI-2025/078
+28;30/2024-028;Contrato;Fornecimento de vidrarias e insumos de laboratorio;2024-04-09;2024-11-19;1786810.99;5;3;IL-2024/055
+29;40/2026-029;Contrato;Fornecimento de mobiliario de escritorio;2026-07-03;2028-01-10;1666005.37;1;1;PE-2026/028
+30;50/2024-030;Contrato;Servicos de vigilancia patrimonial;2024-01-09;2024-11-29;2316556.60;26;4;DI-2024/064
+31;70/2024-031;Contrato;Fornecimento de armamento e municao;2024-10-06;2026-08-26;495421.77;23;3;PE-2024/015
+32;20/2024-032;Ata de Registro de Precos;Locacao de veiculos sem motorista;2024-10-07;2025-12-15;1257483.20;39;8;IL-2024/011
+33;70/2024-033;Contrato;Servico de impressao corporativa;2024-01-03;2024-09-24;182933.68;29;5;DI-2024/071
+34;70/2025-034;Contrato;Fornecimento de material de escritorio;2025-03-12;2025-12-01;1342745.33;14;8;CC-2025/058
+35;40/2024-035;Ata de Registro de Precos;Contratacao de seguro patrimonial;2024-01-06;2024-12-24;196333.49;26;8;IL-2024/078
+36;40/2025-036;Convenio;Fornecimento de material de escritorio;2025-02-18;2026-01-30;1549640.90;16;4;PE-2025/016
+37;40/2025-037;Contrato;Locacao de veiculos sem motorista;2025-02-15;2026-11-06;2156399.62;34;2;DI-2025/084
+38;10/2025-038;Contrato;Servico de impressao corporativa;2025-01-23;2026-10-29;1303667.32;24;8;DI-2025/062
+39;20/2025-039;Contrato;Servicos de vigilancia patrimonial;2025-02-24;2025-10-10;436744.39;28;4;IL-2025/047
+40;40/2024-040;Contrato;Fornecimento de equipamentos de protecao individual;2024-08-23;2025-07-25;789008.21;38;3;PE-2024/059
+41;50/2024-041;Contrato;Contratacao de seguro patrimonial;2024-01-09;2024-07-07;1122806.13;16;2;CC-2024/048
+42;60/2024-042;Ata de Registro de Precos;Fornecimento de material de escritorio;2024-01-28;2025-06-12;143539.31;6;1;DI-2024/043
+43;60/2024-043;Contrato;Locacao de veiculos sem motorista;2024-06-02;2025-12-30;1572691.89;17;5;CC-2024/070
+44;20/2024-044;Contrato;Fornecimento de equipamentos de protecao individual;2024-07-10;2026-03-14;348864.95;34;8;DI-2024/050
+45;30/2026-045;Contrato;Fornecimento de vidrarias e insumos de laboratorio;2026-07-24;2027-04-23;2479805.53;25;4;PE-2026/085
+46;30/2025-046;Contrato;Fornecimento de material de escritorio;2025-02-10;2026-12-07;1267017.12;25;3;DI-2025/064
+47;40/2025-047;Contrato;Contratacao de seguro patrimonial;2025-09-07;2026-04-13;199667.37;12;6;CC-2025/015
+48;20/2025-048;Ata de Registro de Precos;Fornecimento de vidrarias e insumos de laboratorio;2025-06-21;2027-05-23;2414367.70;16;6;IL-2025/052
+49;20/2025-049;Contrato;Fornecimento de material de escritorio;2025-04-21;2026-05-24;75731.06;27;7;PE-2025/005
+50;50/2026-050;Contrato;Fornecimento de mobiliario de escritorio;2026-07-13;2027-12-07;1955767.10;8;3;DI-2026/007
+51;10/2025-051;Contrato;Servico de transporte de amostras biologicas;2025-02-03;2026-12-02;374471.34;19;4;PE-2025/079
+52;40/2026-052;Contrato;Fornecimento de equipamentos de protecao individual;2026-01-10;2026-11-01;2113908.89;40;3;PE-2026/007
+53;40/2026-053;Contrato;Servicos de vigilancia patrimonial;2026-07-28;2027-04-20;1259603.22;5;3;IL-2026/075
+54;60/2024-054;Ata de Registro de Precos;Fornecimento de armamento e municao;2024-09-13;2025-06-20;1316708.46;3;4;DI-2024/090
+55;70/2026-055;Contrato;Locacao de veiculos sem motorista;2026-01-06;2027-08-29;380323.78;21;4;PE-2026/057
+56;60/2026-056;Contrato;Servicos de tecnologia da informacao e suporte;2026-06-07;2028-03-13;1681545.54;33;5;CC-2026/027
+57;50/2026-057;Ata de Registro de Precos;Contratacao de seguro patrimonial;2026-09-22;2027-05-12;2015417.84;13;3;PE-2026/012
+58;10/2026-058;Contrato;Locacao de veiculos sem motorista;2026-08-03;2028-01-09;1795281.47;1;5;CC-2026/055
+59;60/2025-059;Ata de Registro de Precos;Fornecimento de armamento e municao;2025-10-15;2026-12-03;2136301.77;9;7;CC-2025/090
+60;20/2026-060;Contrato;Fornecimento de kits de coleta de DNA;2026-07-19;2028-04-11;165078.73;13;1;IL-2026/057

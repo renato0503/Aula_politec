@@ -21,7 +21,7 @@ mesmo formato de 6 partes (ver secao 3.5).
 | 2 | Planilhas / Excel e Google Sheets | 68 | 174 KB | 60 pág · 3,8 MB | 7 + integrador | 4 | 111 KB |
 | 2 | Planilhas / Google Sheets (adaptado) | 69 | 207 KB | 71 pág · 4,6 MB | 7 + integrador | 4 | 142 KB |
 | 3 | Organizacao, Visualizacao e ETL | 64 | 144 KB | 48 pág · 4,2 MB | 7 | 4 | 86 KB |
-| 4 | Business Intelligence / Power BI | 71 | 158 KB | 54 pág · 4,8 MB | 7 | 3 + 4 casos | 96 KB |
+| 4 | Business Intelligence / Power BI | 107 | 227 KB | PDF a regerar | 7 (+ guia Parte 0) | 3 + 4 casos | 146 KB |
 
 Ferramentas de apoio na raiz: `caderno_lib.py` (motor), `exportar_pdf.py` (PDF em 2
 passadas) e `validar.py` (checagem automatica). Slides de origem em cada `Aula N/`.
@@ -189,6 +189,7 @@ POLITEC.
 | `exportar_pdf.py` | Exporta `caderno-diaN.html` -> `Caderno Dia N - POLITEC.pdf` (2 passadas, numero de pagina no sumario). Uso: `python exportar_pdf.py N`. |
 | `validar.py` | Checa secoes x links do TOC x `h2`, links orfaos, tema escuro e erros de console. Uso: `python validar.py N` (deve imprimir `OK`). |
 | `gerar_datasets_estrela.py` | Le as fontes planas de `Aula 2/datasets/` e monta o modelo estrela (`fato_*` + `dim_*` + `dim_calendario`) nas pastas `datasets/` das Aulas 2, 3 e 4. Uso: `python gerar_datasets_estrela.py`. |
+| `Aula 4/gerar_datasets_orcamento.py` | Gera o conjunto de **orcamento e contratos** da Parte 0 do Dia 4 (star schema, `fato_empenhos` 620 linhas): `Orcamento_Contratos_SUJO.xlsx` (14 defeitos plantados), `Orcamento_Contratos_LIMPO.xlsx` (gabarito) e os CSV em `Aula 4/datasets/orcamento/`. Uso: `python "Aula 4/gerar_datasets_orcamento.py"`. |
 | `firebase.json` | Configuracao do Firebase Hosting (projeto `aulapolitec`, serve da raiz). |
 | `.firebaserc` | Aponta para o projeto `aulapolitec`. |
 
@@ -346,6 +347,7 @@ $edge = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 | Aula 2 — Google Sheets | Caderno reescrito a partir de "SE aninhado x SES": passo a passo no Google Sheets (pt-BR, com acentos), tom sem adjetivacoes e exemplos ancorados nos datasets. 69 secoes. |
 | Modelo estrela | Criado `gerar_datasets_estrela.py`, que monta 4 tabelas fato + 10 dimensoes (+ `dim_calendario`) nas pastas `datasets/` das Aulas 2, 3 e 4. Cadernos atualizados: Aula 2 (secao fato x dimensao), Aula 3 (Lab 7 de ETL) e Aula 4 (Obter Dados, relacionamentos e Power Query sobre o modelo). |
 | Hub + GitHub | `index.html` publicado no Firebase Hosting e no GitHub Pages (`aulapolitec.web.app`). Link do Google Drive adicionado ao hub. |
+| Aula 4 — Parte 0 (guia do iniciante) | Adicionada a **Parte 0** ao caderno do Dia 4 (30 secoes, 77 -> 107): passo a passo completo do Power BI Desktop para iniciantes, da instalacao as 3 abas do painel. Novo dataset de **orcamento e contratos** (star schema, `fato_empenhos` com 620 linhas) em `Aula 4/datasets/orcamento/`: `Orcamento_Contratos_SUJO.xlsx` (14 defeitos plantados) + `Orcamento_Contratos_LIMPO.xlsx` (gabarito) + CSVs, gerado por `Aula 4/gerar_datasets_orcamento.py`. |
 
 Melhorias pendentes:
 

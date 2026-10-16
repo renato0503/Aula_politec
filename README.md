@@ -17,7 +17,7 @@ materiais de pratica.
 | [1](Aula%201/) | Fundamentos da Analise + Estatistica | 61 | 5,2 MB | [161 KB](Aula%201/caderno-dia1.html) | 53 pág · 4,9 MB |
 | [2](Aula%202/) | Planilhas / Excel e Google Sheets | 69 | 4,4 MB | [207 KB](Aula%202/caderno-dia2.html) | 71 pág · 4,6 MB |
 | [3](Aula%203/) | Organizacao, Visualizacao e ETL | 64 | 4,0 MB | [144 KB](Aula%203/caderno-dia3.html) | 48 pág · 4,2 MB |
-| [4](Aula%204/) | Business Intelligence / Power BI | 71 | 6,3 MB | [158 KB](Aula%204/caderno-dia4.html) | 54 pág · 4,8 MB |
+| [4](Aula%204/) | Business Intelligence / Power BI | 107 | 6,3 MB | [227 KB](Aula%204/caderno-dia4.html) | PDF a regerar |
 
 Cada pasta `Aula N/` contem: `README.md` (indice da aula), `caderno-diaN.html`
 (fonte viva), `Caderno Dia N - POLITEC.pdf`, `Dia-N-Politec.pdf` (slides) e

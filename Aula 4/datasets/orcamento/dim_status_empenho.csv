@@ -1,0 +1,6 @@
+﻿status_key;status
+1;Empenhado
+2;Em processo de liquidacao
+3;Liquidado
+4;Pago
+5;Cancelado
