@@ -1,0 +1,7 @@
+﻿tipo_atividade_key;tipo_atividade
+1;Aprovacao
+2;Decisao
+3;Espera
+4;Tarefa automatizada
+5;Tarefa manual
+6;Transferencia

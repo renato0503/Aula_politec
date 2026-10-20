@@ -1,0 +1,9 @@
+﻿etapa_key;etapa;sequencia;unidade_padrao;ativada_no_tobe
+1;Entrada;1;4;0
+2;Triagem;2;8;0
+3;Distribuicao;3;10;0
+4;Fila perito;4;34;0
+5;Analise;5;6;0
+6;Revisao;6;9;0
+7;Assinatura;7;7;0
+8;Arquivamento;8;4;0

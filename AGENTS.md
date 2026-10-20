@@ -23,12 +23,13 @@ mesmo formato de 6 partes (ver secao 3.5).
 | 3 | Organizacao, Visualizacao e ETL | 64 | 144 KB | 48 pág · 4,2 MB | 7 | 4 | 86 KB |
 | 4 | Business Intelligence / Power BI | 107 | 227 KB | PDF a regerar | 7 (+ guia Parte 0) | 3 + 4 casos | 146 KB |
 | 5 | Dashboards de BI - 5 cenarios com datasets proprios | 80 | 140 KB | PDF opcional | 7 + integrador | 5 (cada um com dataset proprio) | 85 KB |
+| 6 | Gestao de Projetos com BPMN e Mermaid | 67 | 159 KB | PDF opcional | 7 | 3 (AS-IS + gargalo + TO-BE) | 76 KB |
 
 Ferramentas de apoio na raiz: `caderno_lib.py` (motor), `exportar_pdf.py` (PDF em 2
 passadas) e `validar.py` (checagem automatica). Slides de origem em cada `Aula N/`.
 
-Aula 5 nao tem slides (e o salto final — projeto integrador com 5 cenarios tematicos,
-cada um com seu dataset sintetico >=1000 linhas em modelo estrela).
+Aulas 5 e 6 nao tem slides (e o salto final — A5 e projeto integrador de dashboards
+com 5 datasets; A6 e gestao de projetos/melhoria de processos com 3 datasets de processo).
 
 ---
 
@@ -138,6 +139,57 @@ Componentes disponiveis (ver secao 5):
 | `glossary(items)` | lista de definicoes |
 | `bar_chart(labels, values, ...)` | grafico de barras (histograma / comparacao) |
 
+### 3.7 Biblioteca de SVG (`caderno_svg.py`)
+
+Para quando o caderno precisa de **diagrama**, nao so de texto. Sem dependencia
+externa, sem CDN: sao `<svg>` inline que herdam as variaveis de cor do tema
+(`var(--ink)`, `var(--accent)`, `var(--verde)`, `var(--vermelho)`,
+`var(--ambar)`, `var(--roxo)`) e por isso funcionam no tema claro, no escuro e
+na impressao.
+
+```python
+import pathlib, sys
+sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
+from caderno_svg import (icon, icon_row, gallery, swimlane_anatomy,
+                         gates_anatomy, wait_vs_touch, automation_anatomy,
+                         method_chain, Dia,
+                         build_process_asis, build_process_tobe)
+```
+
+**O que a biblioteca oferece**
+
+| Chamada | Devolve |
+|---|---|
+| `icon("gateway-exclusive")` | um simbolo BPMN 2.0 isolado (inline svg) |
+| `icon_row([("start", "Inicio"), ...])` | linha de icones com legenda |
+| `gallery()` | galeria com **todos** os simbolos BPMN (eventos, atividades, gateways, fluxos, objetos) |
+| `swimlane_anatomy()` | anatomia de pool + lanes |
+| `gates_anatomy()` | comparacao dos 3 gateways (X, +, O) |
+| `wait_vs_touch(92)` | barra espera x execucao |
+| `automation_anatomy()` | AS-IS x TO-BE com o ponto de intervencao |
+| `method_chain()` | cadeia de passos do metodo |
+| `build_process_asis()` / `build_process_tobe()` / `build_process_orcamento()` / `build_process_custodia()` | diagramas de processo completos |
+
+**Construtor de diagramas (classe `Dia`)** — para desenhar processos novos:
+
+```python
+d = Dia(980, 540, "Titulo do diagrama")
+d.lane(0, 44, 980, 110, "DELEGACIA", "orgao requisitante")   # swimlane
+d.start(178, 102); d.end(925, 480)                            # eventos
+d.task(300, 102, "Registrar|no SIGT", w=148, sub="manual", glyph="human")
+d.gw_x(438, 202, "Dados completos?", size=46)                 # gateway X
+d.flow([(376, 202), (411, 202)], label="Sim", lx=500, ly=250) # fluxo rotulado
+d.timer(560, 150)                                            # evento de fronteira
+d.note(150, 300, 330, "texto da anotacao", tone="r")
+return d.render("legenda", "subtitulo")
+```
+
+Paletas: `tone="n" | "a" (accent) | "g" (verde) | "w" (ambar) | "r" (vermelho) | "p" (roxo)`.
+Glifos de atividade: `glyph="human"` (pessoa) ou `glyph="bot"` (robo = automatizada).
+
+> **Regra**: ao acrescentar uma figura SVG, confira que nada sai do `viewBox`
+> (texto cortado) e que nenhum rotulo colide. Renderize com Playwright e olhe.
+
 ### 3.4 Estado do documento
 
 ```python
@@ -188,11 +240,13 @@ POLITEC.
 | Arquivo | O que faz |
 |---|---|
 | `caderno_lib.py` | Motor compartilhado: CSS, helpers e a classe `Caderno`. |
+| `caderno_svg.py` | Biblioteca de **SVG**: icones da **notacao BPMN 2.0** (geometria oficial OMG) + construtores de diagramas. SVG inline puro, herda `var(--ink)`, `var(--accent)`, `var(--verde)`... e por isso acompanha o tema claro/escuro e a impressao sem CSS extra. Ver secao 3.7. |
 | `exportar_pdf.py` | Exporta `caderno-diaN.html` -> `Caderno Dia N - POLITEC.pdf` (2 passadas, numero de pagina no sumario). Uso: `python exportar_pdf.py N`. |
 | `validar.py` | Checa secoes x links do TOC x `h2`, links orfaos, tema escuro e erros de console. Uso: `python validar.py N` (deve imprimir `OK`). |
 | `gerar_datasets_estrela.py` | Le as fontes planas de `Aula 2/datasets/` e monta o modelo estrela (`fato_*` + `dim_*` + `dim_calendario`) nas pastas `datasets/` das Aulas 2, 3 e 4. Uso: `python gerar_datasets_estrela.py`. |
 | `Aula 4/gerar_datasets_orcamento.py` | Gera o conjunto de **orcamento e contratos** da Parte 0 do Dia 4 (star schema, `fato_empenhos` 620 linhas): `Orcamento_Contratos_SUJO.xlsx` (14 defeitos plantados), `Orcamento_Contratos_LIMPO.xlsx` (gabarito) e os CSV em `Aula 4/datasets/orcamento/`. Uso: `python "Aula 4/gerar_datasets_orcamento.py"`. |
 | `Aula 5/gerar_datasets_aula5.py` | Gera os **5 datasets sinteticos** da Aula 5 (um por cenario), cada um com `fato_*` >= 1000 linhas, dimensoes proprias + `dim_calendario` 1096 dias (2023-01-01 a 2025-12-31). Semente fixa = 20260120. Grava em `Aula 5/datasets/cenarioN_*/` + um `README.md` por cenario com esquema e visuais sugeridos. Uso: `python "Aula 5/gerar_datasets_aula5.py"`. |
+| `Aula 6/gerar_datasets_aula6.py` | Gera os **3 datasets de processo** da Aula 6 (requisicao pericial, empenho e contrato, cadeia de custodia). Mesmo schema nos 3: `fato_execucao` (1 linha por execucao de etapa, com `tempo_espera_min` e `tempo_execucao_min` separados) + `dim_etapa`, `dim_unidade`, `dim_sistema`, `dim_tipo_atividade`, `dim_status_execucao`, `dim_projeto`, `dim_calendario` 1096 dias. Semente fixa = 20260610. Tempos de espera lognormal (cauda longa realista), calibrados para que 88-92% do processo seja espera — assim o gargalo emerge do dado, nao e plantado. Grava em `Aula 6/datasets/cenarioN_*/` + README por cenario com a tabela de tempos medidos. Uso: `python "Aula 6/gerar_datasets_aula6.py"`. |
 | `firebase.json` | Configuracao do Firebase Hosting (projeto `aulapolitec`, serve da raiz). |
 | `.firebaserc` | Aponta para o projeto `aulapolitec`. |
 
@@ -366,6 +420,9 @@ Melhorias pendentes:
 | Etapa | O que foi feito |
 |---|---|
 | Aula 5 — Dashboards de BI | Criados **5 datasets sinteticos** (um por cenario, cada um com `fato_*` >= 1000 linhas e modelo estrela) em `Aula 5/datasets/cenarioN_*/`: (1) Backlog de Pericias (1200), (2) TAT do Laboratorio de DNA (1100), (3) Mapa da Criminalidade em MT (1500), (4) Orcamento e Contratos (1300 + 240 dotacao), (5) Cadeia de Custodia (1300). Gerador: `Aula 5/gerar_datasets_aula5.py` (semente fixa 20260120). Caderno `Aula 5/gerar_caderno_aula5.py` com **80 secoes** em 7 partes: Abertura, DAX avancado, Service/Seguranca/Governanca, 7 labs, 5 cenarios com datasets proprios, projeto integrador (>=3 abas) e fechamento. |
+| Aula 6 — Gestao de Projetos (BPMN/Mermaid) | Criados **3 datasets de processo** em `Aula 6/datasets/cenarioN_*/`, todos com o mesmo schema (`fato_execucao` = 1 execucao de etapa, com `tempo_espera_min` e `tempo_execucao_min` separados) e **30.733 execucoes no total**: (1) Requisicao Pericial (10.352, gargalo = fila do perito, 41,5% da espera), (2) Empenho e Contrato (9.541, gargalo = parecer + autorizacao, 51,2%), (3) Cadeia de Custodia (10.840, gargalo = guarda, 35,3%). Gerador: `Aula 6/gerar_datasets_aula6.py` (semente fixa 20260610). Caderno `Aula 6/gerar_caderno_aula6.py` com **67 secoes** em 8 partes: Abertura, fundamentos de projeto, BPMN + Mermaid (14 blocos mermaid prontos), metodo das 7 perguntas (texto → diagrama), gargalos com dados (Pareto, Little's Law, retrabalho), TO-BE + intervencao digital, 7 labs, 3 cenarios modelados ponta a ponta (AS-IS → gargalo → TO-BE → ganho) e fechamento. |
+
+| Refinaria visual (Aula 6) | Criada `caderno_svg.py` (na raiz): biblioteca SVG com **34 icones** da notacao BPMN 2.0 (geometria oficial OMG — eventos inicio/intermediario/fim, atividades, 3 gateways, swimlanes, objetos, mensagens), ilustrações pre-prontas (galeria de simbolos, anatomia de swimlane, comparacao dos 3 gateways, espera x execucao, anatomia da automacao, cadeia do metodo) e **diagramas de processo completos** (build_process_asis/_tobe/_orcamento/_custodia). CSS em `caderno_lib.py` adicionado para `.svgfig`. Os diagramas usam `var(--ink)`, `var(--accent)`, `var(--verde)` etc., entao adaptam ao tema claro, escuro e a impressao sem CSS extra.
 
 ---
 

@@ -225,6 +225,24 @@ ul.f .cpy:hover{background:rgba(255,255,255,.16)}
 @media(min-width:760px){.legenda{grid-template-columns:1fr 1fr}}
 .legenda > div{display:flex; gap:12px; align-items:flex-start; border:1px solid var(--border); border-radius:12px; padding:12px 14px; background:var(--raised)}
 .legenda .ic{font-size:22px; line-height:1}
+.legenda .ic .ic-svg{width:26px; height:26px; stroke:var(--accent); fill:none}
+svg .ic-svg{overflow:visible}
+.svgfig{margin:20px 0; padding:16px 18px; border:1px solid var(--border); border-radius:14px;
+  background:var(--surface)}
+.svgfig > div:first-child{font-family:'Archivo',sans-serif}
+.svgfig-box{background:var(--paper); border:1px solid var(--border); border-radius:10px;
+  padding:12px 10px; overflow-x:auto}
+.svgfig svg{display:block; margin:0 auto; max-width:100%; height:auto}
+.svgfig figcaption{font-family:'Archivo',sans-serif; font-size:13px; color:var(--ink-soft);
+  margin-top:11px; padding-top:10px; border-top:1px solid var(--border); line-height:1.45}
+.svgfig h3{font-size:14px; margin:14px 0 2px; color:var(--ink-faint);
+  text-transform:uppercase; letter-spacing:.06em; font-family:'Archivo',sans-serif}
+.svgfig h3:first-child{margin-top:0}
+.bpmn-key{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; margin:16px 0}
+.bpmn-key > div{display:flex; gap:10px; align-items:center; border:1px solid var(--border);
+  border-radius:10px; padding:10px 12px; background:var(--raised)}
+.bpmn-key b{display:block; font-family:'Archivo',sans-serif; font-size:13.4px}
+.bpmn-key span{font-size:12.6px; color:var(--ink-faint); line-height:1.35}
 .legenda > div > div > b{font-family:'Archivo',sans-serif; display:block; font-size:14.5px}
 .legenda span.d{font-size:14px; color:var(--ink-soft)}
 .sumario{display:none}
