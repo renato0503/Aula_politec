@@ -1,0 +1,81 @@
+﻿contrato_key;numero;tipo;objeto;data_inicio;data_fim;valor_contrato;fornecedor_key;setor_key;licitacao_numero
+1;CTR-2024-0001;Fornecimento;Kits de coleta de DNA;2024-06-17;2025-04-05;2427512;29;5;PE 2024/56
+2;CTR-2023-0002;Locacao;Cafe e generos alimenticios;2023-05-18;2024-03-28;2432310;3;4;PE 2023/70
+3;CTR-2023-0003;Locacao;Equipamentos de protecao;2023-01-24;2024-06-01;1363870;42;1;PE 2023/93
+4;CTR-2025-0004;Fornecimento;Impressao corporativa;2025-06-05;2026-07-04;254737;19;7;PE 2025/50
+5;CTR-2023-0005;Fornecimento;Servicos de TI;2023-09-17;2025-01-06;1710087;26;8;PE 2023/21
+6;CTR-2024-0006;Prestacao de Servicos;Kits de coleta de DNA;2024-05-05;2026-01-24;906602;3;6;PE 2024/04
+7;CTR-2024-0007;Fornecimento;Servicos de TI;2024-02-26;2025-03-02;1738651;23;2;PE 2024/37
+8;CTR-2025-0008;Fornecimento;Equipamentos de protecao;2025-11-04;2026-06-28;64655;40;4;PE 2025/33
+9;CTR-2024-0009;Aquisicao;Kits de coleta de DNA;2024-01-19;2025-03-05;2426885;39;2;PE 2024/62
+10;CTR-2024-0010;Prestacao de Servicos;Impressao corporativa;2024-11-13;2025-07-22;1097908;17;5;PE 2024/71
+11;CTR-2023-0011;Fornecimento;Kits de coleta de DNA;2023-07-11;2025-01-14;993994;25;3;PE 2023/02
+12;CTR-2025-0012;Fornecimento;Cafe e generos alimenticios;2025-04-30;2025-10-03;1394713;25;7;PE 2025/49
+13;CTR-2025-0013;Prestacao de Servicos;Veiculos sem motorista;2025-12-18;2027-09-14;839317;40;4;PE 2025/55
+14;CTR-2024-0014;Locacao;Kits de coleta de DNA;2024-06-02;2025-03-24;1904302;12;2;PE 2024/23
+15;CTR-2023-0015;Prestacao de Servicos;Equipamentos de protecao;2023-06-08;2024-03-28;180628;20;1;PE 2023/39
+16;CTR-2025-0016;Prestacao de Servicos;Limpeza e conservacao;2025-04-07;2027-02-10;2091753;23;5;PE 2025/39
+17;CTR-2023-0017;Locacao;Limpeza e conservacao;2023-11-05;2025-03-14;2336545;42;7;PE 2023/74
+18;CTR-2024-0018;Locacao;Armamento e municao;2024-02-24;2025-12-16;1615682;6;8;PE 2024/51
+19;CTR-2025-0019;Locacao;Impressao corporativa;2025-02-15;2025-07-28;2219402;3;6;PE 2025/97
+20;CTR-2025-0020;Locacao;Cafe e generos alimenticios;2025-12-08;2026-12-29;2475017;14;2;PE 2025/64
+21;CTR-2023-0021;Locacao;Cafe e generos alimenticios;2023-05-28;2024-11-23;2320281;9;7;PE 2023/51
+22;CTR-2025-0022;Locacao;Manutencao predial;2025-07-11;2026-06-30;1864954;26;2;PE 2025/99
+23;CTR-2025-0023;Fornecimento;Limpeza e conservacao;2025-10-19;2026-05-12;352691;22;3;PE 2025/08
+24;CTR-2025-0024;Aquisicao;Servicos de TI;2025-03-25;2025-12-10;1042393;11;2;PE 2025/45
+25;CTR-2023-0025;Fornecimento;Manutencao predial;2023-05-27;2024-05-02;2139974;3;7;PE 2023/08
+26;CTR-2025-0026;Locacao;Limpeza e conservacao;2025-02-12;2025-12-27;1847425;45;2;PE 2025/36
+27;CTR-2023-0027;Prestacao de Servicos;Armamento e municao;2023-04-04;2025-02-17;1274744;1;6;PE 2023/82
+28;CTR-2025-0028;Fornecimento;Limpeza e conservacao;2025-12-20;2026-11-08;2310467;29;3;PE 2025/39
+29;CTR-2023-0029;Aquisicao;Veiculos sem motorista;2023-03-17;2023-10-13;2000525;33;4;PE 2023/97
+30;CTR-2025-0030;Prestacao de Servicos;Equipamentos de protecao;2025-07-15;2026-02-11;1455723;13;6;PE 2025/09
+31;CTR-2025-0031;Prestacao de Servicos;Equipamentos de protecao;2025-12-08;2027-04-08;1373613;10;4;PE 2025/85
+32;CTR-2023-0032;Prestacao de Servicos;Vigilancia patrimonial;2023-04-16;2024-08-10;431700;7;8;PE 2023/13
+33;CTR-2025-0033;Prestacao de Servicos;Kits de coleta de DNA;2025-07-02;2026-04-22;2120443;3;6;PE 2025/12
+34;CTR-2023-0034;Prestacao de Servicos;Reagentes analiticos;2023-11-01;2025-10-12;568107;23;5;PE 2023/25
+35;CTR-2025-0035;Aquisicao;Impressao corporativa;2025-11-23;2026-06-06;1597524;25;5;PE 2025/73
+36;CTR-2023-0036;Aquisicao;Armamento e municao;2023-10-06;2024-08-05;2454493;41;5;PE 2023/63
+37;CTR-2023-0037;Locacao;Limpeza e conservacao;2023-03-20;2023-08-29;2337315;21;2;PE 2023/78
+38;CTR-2023-0038;Locacao;Vigilancia patrimonial;2023-11-09;2025-08-20;202624;7;1;PE 2023/93
+39;CTR-2025-0039;Fornecimento;Vigilancia patrimonial;2025-03-30;2026-11-21;1029166;13;3;PE 2025/45
+40;CTR-2024-0040;Prestacao de Servicos;Impressao corporativa;2024-02-26;2025-03-17;1039254;7;8;PE 2024/46
+41;CTR-2025-0041;Aquisicao;Vigilancia patrimonial;2025-05-01;2026-12-12;1034302;45;6;PE 2025/64
+42;CTR-2024-0042;Locacao;Veiculos sem motorista;2024-06-04;2026-02-07;237451;37;2;PE 2024/53
+43;CTR-2023-0043;Locacao;Material de escritorio;2023-01-19;2023-09-21;2495843;4;4;PE 2023/48
+44;CTR-2024-0044;Locacao;Limpeza e conservacao;2024-11-24;2026-09-15;1310035;24;5;PE 2024/75
+45;CTR-2024-0045;Locacao;Equipamentos laboratoriais;2024-05-13;2026-01-28;859364;12;2;PE 2024/98
+46;CTR-2024-0046;Fornecimento;Limpeza e conservacao;2024-10-30;2026-07-22;315876;45;4;PE 2024/21
+47;CTR-2025-0047;Prestacao de Servicos;Vigilancia patrimonial;2025-04-12;2025-10-18;705176;48;6;PE 2025/84
+48;CTR-2025-0048;Fornecimento;Material de escritorio;2025-06-21;2026-02-19;887047;28;5;PE 2025/94
+49;CTR-2025-0049;Locacao;Reagentes analiticos;2025-01-01;2025-05-18;2067879;7;8;PE 2025/63
+50;CTR-2025-0050;Fornecimento;Veiculos sem motorista;2025-10-30;2027-03-14;1589885;28;6;PE 2025/35
+51;CTR-2024-0051;Prestacao de Servicos;Cafe e generos alimenticios;2024-07-10;2026-01-29;1344026;31;1;PE 2024/20
+52;CTR-2023-0052;Aquisicao;Material de escritorio;2023-10-17;2025-06-02;1476228;17;8;PE 2023/94
+53;CTR-2025-0053;Prestacao de Servicos;Manutencao predial;2025-08-25;2027-02-23;1631474;8;6;PE 2025/98
+54;CTR-2025-0054;Aquisicao;Kits de coleta de DNA;2025-10-12;2026-10-07;1828537;11;7;PE 2025/30
+55;CTR-2024-0055;Locacao;Manutencao predial;2024-07-22;2025-06-09;1062418;25;8;PE 2024/83
+56;CTR-2024-0056;Fornecimento;Reagentes analiticos;2024-10-04;2025-10-03;660614;30;4;PE 2024/02
+57;CTR-2023-0057;Aquisicao;Equipamentos de protecao;2023-12-23;2025-06-15;2371618;6;7;PE 2023/80
+58;CTR-2024-0058;Aquisicao;Armamento e municao;2024-01-09;2025-11-11;2273843;25;5;PE 2024/19
+59;CTR-2024-0059;Aquisicao;Cafe e generos alimenticios;2024-06-16;2024-11-19;2261407;3;1;PE 2024/25
+60;CTR-2024-0060;Aquisicao;Material de escritorio;2024-05-23;2024-11-29;1361957;46;3;PE 2024/78
+61;CTR-2025-0061;Aquisicao;Vigilancia patrimonial;2025-10-23;2027-08-06;1565062;25;3;PE 2025/41
+62;CTR-2025-0062;Prestacao de Servicos;Servicos de TI;2025-05-08;2026-01-18;780614;33;5;PE 2025/27
+63;CTR-2023-0063;Aquisicao;Vigilancia patrimonial;2023-07-15;2025-06-25;1974657;26;4;PE 2023/81
+64;CTR-2024-0064;Aquisicao;Limpeza e conservacao;2024-01-07;2025-06-12;25784;47;2;PE 2024/68
+65;CTR-2024-0065;Locacao;Veiculos sem motorista;2024-04-11;2024-08-25;584713;20;8;PE 2024/32
+66;CTR-2024-0066;Fornecimento;Servicos de TI;2024-10-06;2025-09-28;1811175;29;6;PE 2024/23
+67;CTR-2025-0067;Prestacao de Servicos;Reagentes analiticos;2025-04-03;2026-11-09;396768;27;8;PE 2025/84
+68;CTR-2023-0068;Locacao;Veiculos sem motorista;2023-03-01;2024-06-28;360382;28;7;PE 2023/39
+69;CTR-2025-0069;Fornecimento;Cafe e generos alimenticios;2025-01-05;2026-12-11;640382;49;2;PE 2025/58
+70;CTR-2023-0070;Prestacao de Servicos;Equipamentos laboratoriais;2023-01-28;2024-06-30;642361;40;7;PE 2023/47
+71;CTR-2023-0071;Aquisicao;Reagentes analiticos;2023-10-29;2025-05-30;1998454;24;7;PE 2023/84
+72;CTR-2023-0072;Aquisicao;Equipamentos laboratoriais;2023-04-18;2024-11-02;1051822;21;4;PE 2023/79
+73;CTR-2024-0073;Fornecimento;Servicos de TI;2024-01-01;2024-11-08;911521;43;8;PE 2024/72
+74;CTR-2024-0074;Fornecimento;Servicos de TI;2024-09-02;2025-10-17;386555;3;6;PE 2024/29
+75;CTR-2023-0075;Aquisicao;Vigilancia patrimonial;2023-07-16;2025-06-08;1508631;17;1;PE 2023/54
+76;CTR-2023-0076;Aquisicao;Veiculos sem motorista;2023-01-27;2024-06-07;2043644;3;1;PE 2023/98
+77;CTR-2024-0077;Fornecimento;Material de escritorio;2024-06-15;2026-01-22;2047347;47;5;PE 2024/59
+78;CTR-2023-0078;Aquisicao;Cafe e generos alimenticios;2023-05-17;2024-10-18;1081687;4;5;PE 2023/98
+79;CTR-2024-0079;Fornecimento;Equipamentos laboratoriais;2024-07-20;2025-07-10;2164170;48;8;PE 2024/56
+80;CTR-2025-0080;Locacao;Equipamentos laboratoriais;2025-05-18;2027-02-14;2105177;31;4;PE 2025/52

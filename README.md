@@ -18,6 +18,7 @@ materiais de pratica.
 | [2](Aula%202/) | Planilhas / Excel e Google Sheets | 69 | 4,4 MB | [207 KB](Aula%202/caderno-dia2.html) | 71 pág · 4,6 MB |
 | [3](Aula%203/) | Organizacao, Visualizacao e ETL | 64 | 4,0 MB | [144 KB](Aula%203/caderno-dia3.html) | 48 pág · 4,2 MB |
 | [4](Aula%204/) | Business Intelligence / Power BI | 107 | 6,3 MB | [227 KB](Aula%204/caderno-dia4.html) | PDF a regerar |
+| [5](Aula%205/) | Dashboards de BI - 5 cenarios com datasets proprios | 80 | — | [140 KB](Aula%205/caderno-dia5.html) | PDF opcional |
 
 Cada pasta `Aula N/` contem: `README.md` (indice da aula), `caderno-diaN.html`
 (fonte viva), `Caderno Dia N - POLITEC.pdf`, `Dia-N-Politec.pdf` (slides) e
@@ -90,8 +91,8 @@ Requisitos das ferramentas: `pip install playwright pymupdf` e
 
 1. **PDF fiel ao HTML** — o `@media print` atual comprime as secoes; falta um
    layout de impressao dedicado (capa, quebras por parte). O HTML e a fonte de verdade.
-2. **Aula 5** — DAX, publicacao e projeto final (quando houver slides).
-3. **Datasets** — arquivos sinteticos (`datasets/`) para os labs de Excel/Power BI.
+2. **Datasets** — arquivos sinteticos (`datasets/`) para os labs de Excel/Power BI.
+3. **Aulas 6+** — proximas turmas ou modulos avancados (DAX 2, Fabric).
 
 ---
 

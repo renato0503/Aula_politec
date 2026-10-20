@@ -22,11 +22,13 @@ mesmo formato de 6 partes (ver secao 3.5).
 | 2 | Planilhas / Google Sheets (adaptado) | 69 | 207 KB | 71 pág · 4,6 MB | 7 + integrador | 4 | 142 KB |
 | 3 | Organizacao, Visualizacao e ETL | 64 | 144 KB | 48 pág · 4,2 MB | 7 | 4 | 86 KB |
 | 4 | Business Intelligence / Power BI | 107 | 227 KB | PDF a regerar | 7 (+ guia Parte 0) | 3 + 4 casos | 146 KB |
+| 5 | Dashboards de BI - 5 cenarios com datasets proprios | 80 | 140 KB | PDF opcional | 7 + integrador | 5 (cada um com dataset proprio) | 85 KB |
 
 Ferramentas de apoio na raiz: `caderno_lib.py` (motor), `exportar_pdf.py` (PDF em 2
 passadas) e `validar.py` (checagem automatica). Slides de origem em cada `Aula N/`.
 
-Aulas 5+ ainda nao possuem slides nem caderno neste repositorio.
+Aula 5 nao tem slides (e o salto final — projeto integrador com 5 cenarios tematicos,
+cada um com seu dataset sintetico >=1000 linhas em modelo estrela).
 
 ---
 
@@ -190,6 +192,7 @@ POLITEC.
 | `validar.py` | Checa secoes x links do TOC x `h2`, links orfaos, tema escuro e erros de console. Uso: `python validar.py N` (deve imprimir `OK`). |
 | `gerar_datasets_estrela.py` | Le as fontes planas de `Aula 2/datasets/` e monta o modelo estrela (`fato_*` + `dim_*` + `dim_calendario`) nas pastas `datasets/` das Aulas 2, 3 e 4. Uso: `python gerar_datasets_estrela.py`. |
 | `Aula 4/gerar_datasets_orcamento.py` | Gera o conjunto de **orcamento e contratos** da Parte 0 do Dia 4 (star schema, `fato_empenhos` 620 linhas): `Orcamento_Contratos_SUJO.xlsx` (14 defeitos plantados), `Orcamento_Contratos_LIMPO.xlsx` (gabarito) e os CSV em `Aula 4/datasets/orcamento/`. Uso: `python "Aula 4/gerar_datasets_orcamento.py"`. |
+| `Aula 5/gerar_datasets_aula5.py` | Gera os **5 datasets sinteticos** da Aula 5 (um por cenario), cada um com `fato_*` >= 1000 linhas, dimensoes proprias + `dim_calendario` 1096 dias (2023-01-01 a 2025-12-31). Semente fixa = 20260120. Grava em `Aula 5/datasets/cenarioN_*/` + um `README.md` por cenario com esquema e visuais sugeridos. Uso: `python "Aula 5/gerar_datasets_aula5.py"`. |
 | `firebase.json` | Configuracao do Firebase Hosting (projeto `aulapolitec`, serve da raiz). |
 | `.firebaserc` | Aponta para o projeto `aulapolitec`. |
 
@@ -355,6 +358,14 @@ Melhorias pendentes:
    quebras por parte, tipografia de impressao) para o PDF seguir o padrao da tela.
 2. **Aula 5** — quando houver slides, seguir a secao "Como criar uma nova aula".
 3. **Datasets para a Aula 1** — gerar CSVs sinteticos analogos aos da Aula 2.
+
+---
+
+## Historico de producao — continuacao
+
+| Etapa | O que foi feito |
+|---|---|
+| Aula 5 — Dashboards de BI | Criados **5 datasets sinteticos** (um por cenario, cada um com `fato_*` >= 1000 linhas e modelo estrela) em `Aula 5/datasets/cenarioN_*/`: (1) Backlog de Pericias (1200), (2) TAT do Laboratorio de DNA (1100), (3) Mapa da Criminalidade em MT (1500), (4) Orcamento e Contratos (1300 + 240 dotacao), (5) Cadeia de Custodia (1300). Gerador: `Aula 5/gerar_datasets_aula5.py` (semente fixa 20260120). Caderno `Aula 5/gerar_caderno_aula5.py` com **80 secoes** em 7 partes: Abertura, DAX avancado, Service/Seguranca/Governanca, 7 labs, 5 cenarios com datasets proprios, projeto integrador (>=3 abas) e fechamento. |
 
 ---
 

@@ -1,0 +1,6 @@
+﻿status_empenho_key;status_empenho
+1;Cancelado
+2;Em Liquidacao
+3;Empenhado
+4;Liquidado
+5;Pago
