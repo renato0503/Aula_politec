@@ -1,9 +1,11 @@
-# -*- coding: utf-8 -*-
+﻿# -*- coding: utf-8 -*-
 """Gerador do caderno da Aula 6 - POLITEC/MT.
 
-Tema: Gestao de Projetos do zero ao avancado aplicada a processos da POLITEC/MT.
-Conteudo: fundamentos de projeto, BPMN, Mermaid, AS-IS/TO-BE, identificacao de
-gargalos com dados e automatizacao como intervencao digital.
+Novo formato do curso: a manha e de paineis, BI e analise de dados; a tarde e
+de hands-on em gestao de projetos (BPMN/Mermaid, AS-IS/TO-BE) e nocoes de mini
+app. Conteudo: painel de processo no Power BI (modelo, medidas DAX, layout e
+leitura), analise de gargalos (espera x execucao, Pareto, Little's Law),
+fundamentos de projeto, BPMN 2.0, Mermaid, AS-IS/TO-BE e canvas do mini app.
 
 Rode:  python gerar_caderno_aula6.py
 PDF:   python ..\\exportar_pdf.py 6
@@ -15,6 +17,7 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent.parent))
 from caderno_lib import (Caderno, p, h3, ul, checklist, ficha, callout, tbl, code,
                          step, q, aplicab, grid2, flow_h, kpi, antesdepois,
                          legenda, glossary, bar_chart)
+import ptbr
 from caderno_svg import (icon, gallery, swimlane_anatomy, gates_anatomy,
                          wait_vs_touch, automation_anatomy, method_chain,
                          build_process_asis, build_process_tobe,
@@ -23,179 +26,1312 @@ from caderno_svg import (icon, gallery, swimlane_anatomy, gates_anatomy,
 cad = Caderno(
     out=str(pathlib.Path(__file__).resolve().parent / "caderno-dia6.html"),
     dia=6,
-    kicker="Aula 6 · Gestao de Projetos",
-    headline="Gestao de Projetos: do zero ao avancado com BPMN e Mermaid",
-    sub="Aprenda a modelar processos como a POLITEC/MT realmente trabalha: "
-        "descreva o AS-IS em texto, converta em diagrama BPMN com Mermaid, "
-        "meca onde esta o gargalo, redesenhe o TO-BE e resolva o gargalo com "
-        "automacao. Tres datasets de processo com mais de 9.000 execucoes de "
-        "etapa para voce medir, em vez de chutar.",
+    kicker="Aula 6 · Manha de BI, tarde de projeto",
+    headline="Do painel de processo ao projeto de melhoria",
+    sub="Novo formato: a manha e de paineis, BI e analise de dados; a tarde e de "
+        "hands-on em gestao de projetos e nocoes de mini app. Monte o painel que "
+        "mostra onde o caso espera, leia o gargalo com numero e transforme a "
+        "leitura em AS-IS, TO-BE e um canvas de mini app. Cinco datasets de "
+        "processo com 57.293 execucoes de etapa para medir, em vez de chutar.",
     meta="Curso de Capacitacao POLITEC/MT · Professor Renato Rosa · Dia 6 · "
-         "Modulo 8 (Gestao de Projetos e Melhoria de Processos)",
-    descricao="Caderno do Dia 6 do Curso de Capacitacao POLITEC/MT: Gestao de Projetos "
-              "do zero ao avancado. Fundamentos (escopo, prazo, custo, risco, "
-              "stakeholders), BPMN 2.0 (notacao, swimlanes, gateways, eventos), Mermaid "
-              "(flowchart, sequenceDiagram, stateDiagram, gantt, journey, mindmap), "
-              "conversao automatica de texto em diagrama, AS-IS e TO-BE, identificacao "
-              "de gargalos com dados (tempo de espera vs execucao, Pareto, Little's Law), "
-              "e intervencao digital (Power Automate, Power Apps, scripts). 3 datasets "
-              "de processo com 9.500+ execucoes de etapa em modelo estrela."
+         "Modulo 8 (Painel de Processo + Gestao de Projetos)",
+    descricao="Caderno do Dia 6 do Curso de Capacitacao POLITEC/MT no novo formato: "
+              "manha de paineis, BI e analise de dados; tarde de hands-on em gestao "
+              "de projetos e nocoes de mini app. Painel de processo no Power BI "
+              "(modelo estrela, 8 medidas DAX, 5 visuais, leitura em 60 segundos), "
+              "analise de gargalos (espera x execucao, Pareto, retrabalho, Little's Law, "
+              "custo da espera), fundamentos de projeto (escopo, prazo, custo, risco, "
+              "stakeholders), BPMN 2.0 (swimlanes, gateways, eventos), Mermaid, AS-IS, "
+              "TO-BE, intervencao digital e canvas do mini app. 5 datasets de processo "
+              "com 57.293 execucoes de etapa em modelo estrela."
 )
 
 # =================================================================
 # ABERTURA
 # =================================================================
-cad.grp("Abertura", "O salto do dado para a acao: medir o processo, corrigi-lo e automatizar.")
+cad.grp("Abertura", "O curso passa a operar em dois turnos: a manhã com painéis e análise, a tarde com gestão de projetos.")
 
 cad.section("boas-vindas", "Bem-vindo ao caderno do Dia 6",
-    p("Nos cinco primeiros dias voce aprendeu a <b>medir</b>: estatistica, "
-      "planilha, qualidade dos dados, dashboards. Hoje voce vai aprender a "
-      "<b>mudar</b>. Gestao de projetos, no nosso contexto, e a arte de "
-      "<b>medir um processo, encontrar o gargalo, redesenha-lo e automatizar "
-      "a solucao</b>.") +
-    p("O dia inteiro gira em torno de uma cadeia de seis passos que voce vai "
-      "praticar do inicio ao fim, com dados reais (sinteticos, mas medidos) "
-      "dos processos da POLITEC/MT.") +
-    method_chain() +
+    p("O Dia 6 inaugura o formato de dois turnos da capacitação. A manhã é "
+      "dedicada a painéis, BI e análise de dados. A tarde é dedicada a "
+      "atividades práticas de gestão de projetos e, nas aulas seguintes, à "
+      "ideação e à prototipação de mini apps com apoio de IA agêntica.") +
+    p("Neste dia, a manhã parte dos dados de processo e chega a um painel que "
+      "mostra onde o caso espera. A tarde usa esse painel como evidência para "
+      "ensinar o mínimo de gestão de projetos e a notação BPMN/Mermaid. Com "
+      "isso, a turma sai com o painel, o diagnóstico do gargalo e o desenho do "
+      "processo que precisa mudar.") +
+    ficha("a", "A regra dos dois turnos",
+        "A manhã responde à pergunta <b>&quot;o que o dado mostra?&quot;</b>. "
+        "A tarde responde à pergunta <b>&quot;o que faremos com essa "
+        "informação?&quot;</b>. Dessa forma, um turno alimenta o outro: sem o "
+        "painel, a tarde fica sem evidência; sem a tarde, o painel fica sem "
+        "decisão.") +
     legenda([
-        (icon("project", 26), "Parte 1 - Fundamentos de projeto",
-         "Escopo, prazo, custo, risco, stakeholders: o que todo projeto precisa."),
-        (icon("book", 26), "Parte 2 - BPMN e Mermaid",
-         "A notacao BPMN 2.0 em SVG e o Mermaid para desenhar diagramas como codigo."),
-        (icon("search", 26), "Parte 3 - Do texto ao diagrama",
-         "Descreva o processo e converta automaticamente em diagrama."),
-        (icon("chart", 26), "Parte 4 - Gargalos com dados",
-         "Onde o processo perde tempo: espera, execucao, retrabalho, variabilidade."),
-        (icon("rocket", 26), "Parte 5 - TO-BE e automacao",
-         "Redesenhe o processo e resolva o gargalo com intervencao digital."),
-        (icon("check", 26), "Partes 6-7 - Labs e cenarios",
-         "Sete labs guiados e tres processos reais modelados ponta a ponta."),
+        (icon("chart", 26), "Manhã: painéis e análise",
+         "Modelo de dados, medidas DAX, layout e leitura do painel de processo."),
+        (icon("search", 26), "Manhã: gargalo medido",
+         "Espera e execução, Pareto, retrabalho e Little's Law sobre os datasets."),
+        (icon("project", 26), "Tarde: fundamentos de projeto",
+         "Escopo, prazo, custo, risco e partes interessadas."),
+        (icon("map", 26), "Tarde: BPMN e Mermaid",
+         "Do texto ao diagrama AS-IS, sem desenhar à mão."),
+        (icon("rocket", 26), "Tarde: TO-BE e mini app",
+         "Redesenho do processo, intervenção digital e as primeiras noções de mini app."),
     ])
 )
 
-cad.section("mapa-do-dia", "Mapa do Dia 6: da descricao ao processo automatizado",
-    p("A manha e a tardeDividem-se em tres blocos. O terceiro - o mais "
-      "importante - e a <b>gralha de verdade</b>: voce aplica o metodo "
-      "completo em um processo real da POLITEC, medindo o gargalo nos dados.") +
+cad.section("mapa-do-dia", "Mapa do Dia 6: manhã de painel, tarde de projeto",
+    p("O dia tem dois turnos com entregáveis próprios e ligados entre si. O "
+      "painel da manhã é a evidência que a tarde usa para decidir o que mudar. "
+      "Por isso, a leitura do painel aparece antes de qualquer proposta de "
+      "intervenção.") +
     grid2([
-        ("\U0001f305 Manha (08h-12h) - Fundamentos, BPMN e Mermaid",
-         ul(["<b>Modulo 1</b> - O que e projeto: escopo, prazo, custo, qualidade, risco",
-             "Ciclo de vida, partes interessadas e a matriz poder/interesse",
-             "<b>Modulo 2</b> - BPMN 2.0: elementos, swimlanes, gateways, eventos",
-             "<b>Mermaid</b>: transformar descricoes em diagramas (flowchart, sequence, state)"])),
-        ("\U0001f306 Tarde (13h-17h) - Gargalos, TO-BE e automacao",
-         ul(["<b>Modulo 3</b> - Do texto ao diagrama: o metodo das 7 perguntas",
-             "<b>Modulo 4</b> - Medir gargalos: espera x execucao, Pareto, Little's Law",
-             "<b>Modulo 5</b> - TO-BE e intervencao digital (Power Automate, Power Apps, script)"]))
-    ])
+        ("\U0001f305 Manhã (08h-12h): painéis, BI e análise de dados",
+         ul(["<b>Parte 1</b>: fundamentos do painel, com modelo, medidas e layout",
+             "<b>Parte 2</b>: cinco receitas, uma para cada dataset",
+             "<b>Parte 3</b>: análise do processo, com espera, Pareto, retrabalho e Little's Law",
+             "<b>Labs 1 a 4</b>: montagem do painel no Power BI e escrita da hipótese de gargalo"])),
+        ("\U0001f306 Tarde (13h-17h): gestão de projetos",
+         ul(["<b>Parte 4</b>: fundamentos de projeto, com escopo, prazo, custo, risco e partes interessadas",
+             "<b>Partes 5 e 6</b>: BPMN e Mermaid, do texto ao diagrama AS-IS",
+             "<b>Parte 7</b>: TO-BE, intervenção digital e noções de mini app",
+             "<b>Labs 5 a 8</b>: AS-IS, TO-BE, cálculo do ganho e pitch"]))
+    ]) +
+    callout("note", "Escopo desta primeira aula do novo formato",
+        "A tarde fica nos fundamentos e nas noções de gestão de projetos. A "
+        "prototipação do mini app com IA agêntica começa nas aulas seguintes. "
+        "Neste dia, o objetivo é sair com o vocabulário, o diagrama e o "
+        "critério para construir o app na etapa seguinte.")
 )
 
 cad.section("recap-do-curso", "Recap dos cinco dias anteriores",
-    p("Onde estamos no percurso da capacitacao. Em seis dias a turma "
-      "percorreu o ciclo completo do dado <b>ate agir sobre ele</b>:") +
-    tbl(["Dia", "Foco", "Entregavel"],
-        [["<b>D1</b>", "Estatistica, qualidade, indicadores", "Raciocínio sobre dado"],
-         ["<b>D2</b>", "Planilha, formulas, validacao", "Planilha limpa e tipada"],
-         ["<b>D3</b>", "Organizacao, visualizacao, ETL", "Base consolidada"],
-         ["<b>D4</b>", "Power BI Desktop + Service", "Relatorio e dashboard"],
-         ["<b>D5</b>", "Dashboards de BI (5 cenarios)", "Painel institucional"],
-         ["<b>D6</b>", "Gestao de projetos + melhoria", "<b>Processo redesenhado e automatizado</b>"]],
+    p("Até aqui, a turma percorreu o ciclo que vai do dado à decisão. Cada dia "
+      "acrescentou uma camada ao trabalho de análise. Por isso, o Dia 6 "
+      "começa com o painel e termina com a proposta de mudança.") +
+    tbl(["Dia", "Foco", "Entregável"],
+        [["<b>D1</b>", "Estatística, qualidade e indicadores", "Raciocínio sobre o dado"],
+         ["<b>D2</b>", "Planilha, fórmulas e validação", "Planilha limpa e tipada"],
+         ["<b>D3</b>", "Organização, visualização e ETL", "Base consolidada"],
+         ["<b>D4</b>", "Power BI Desktop e Service", "Relatório e dashboard"],
+         ["<b>D5</b>", "Dashboards de BI em cinco cenários", "Painel institucional"],
+         ["<b>D6 manhã</b>", "Painel de processo e análise", "<b>Painel do gargalo</b>"],
+         ["<b>D6 tarde</b>", "Gestão de projetos e BPMN", "<b>AS-IS e TO-BE</b>"]],
         num_cols=[]) +
-    callout("note", "A virada do curso",
-        "Ate D5 o trabalho era <b>descrever</b> o que ja existe. A partir de "
-        "hoje, o trabalho e <b>mudar</b> o que existe - e mudar com prova, "
-        "nao com opiniao.")
+    callout("note", "A mudança de foco",
+        "Até o D5, o trabalho era descrever o que já existe. A partir do D6, o "
+        "trabalho é decidir o que mudar. Nesse sentido, a decisão começa no "
+        "painel e não na opinião.")
 )
 
-cad.section("objetivo-do-dia", "Objetivo do Dia 6: um processo medido, corrigido e automatizado",
-    p("Ao fim do dia, voce entrega um <b>processo redesenhado com prova de ganho</b>:") +
+cad.section("objetivo-do-dia", "Objetivo do Dia 6: um painel que aponta o gargalo",
+    p("Ao fim da manhã, a turma tem um painel. Ao fim da tarde, tem a leitura "
+      "do processo e o desenho do que muda. Por isso, os entregáveis do dia "
+      "seguem esta ordem:") +
     checklist([
-        "Um diagrama <b>AS-IS</b> em BPMN/Mermaid do processo escolhido.",
-        "Uma <b>analise de gargalo</b> com os dados do dataset (nao com palpite).",
-        "Um diagrama <b>TO-BE</b> que elimina ou automatiza o gargalo.",
-        "Uma <b>proposta de automacao</b> concreta (ferramenta, regra, ganho estimado).",
-        "O <b>calculo do ganho</b> em tempo e em recurso (antes x depois).",
+        "Um <b>painel de processo</b> no Power BI, com 8 medidas e 5 visuais.",
+        "A <b>leitura do gargalo</b> em uma frase, com número.",
+        "O <b>AS-IS</b> do processo em BPMN/Mermaid.",
+        "O <b>TO-BE</b> ligado ao gargalo medido.",
+        "O <b>canvas do mini app</b> e um pitch de 3 minutos.",
     ]) +
     kpi([
-        ("6", "passos do metodo"),
-        ("3", "datasets de processo"),
-        ("9.500+", "execucoes medidas"),
-        ("7", "labs guiados"),
+        ("8", "medidas DAX"),
+        ("5", "visuais no painel"),
+        ("5", "datasets de processo"),
+        ("8", "labs no dia"),
     ]) +
-    ficha("g", "O principio que governa o dia",
-        "Nao se melhora um processo que nao se mede. Hoje voce vai aprender a "
-        "<b>medir antes de mudar</b> - e medir com dado, com o mesmo rigor que "
-        "aprendeu a aplicar a planilha e ao dashboard.")
+    method_chain() +
+    ficha("g", "O princípio que organiza o dia",
+        "Não se melhora um processo que não se mede. A manhã mede e a tarde "
+        "decide. Se a tarde não conseguir apontar o número que justifica a "
+        "mudança, o trabalho volta ao painel.")
 )
 
 # =================================================================
-# PARTE 1 - FUNDAMENTOS DE GESTAO DE PROJETOS
+# PARTE 1 - MANHA: O PAINEL DE PROCESSO
 # =================================================================
-cad.grp("Parte 1 - Fundamentos de Gestao de Projetos",
-        "O minimo que todo projeto precisa ter: escopo, prazo, custo, qualidade e risco.")
+cad.grp("Parte 1 - Manhã: o painel de processo",
+        "Do arquivo Excel ao painel que mostra, em 60 segundos, onde o processo perde tempo.")
 
-cad.section("o-que-e-projeto", "O que e um projeto (e o que nao e)",
-    p("Um <b>projeto</b> e um esforco <b>temporario</b> para criar um "
-      "<b>produto, servico ou resultado unico</b>. O triangulo de "
-      "<b>escopo, prazo, custo e qualidade</b> define o projeto; voce sempre "
-      "pode cortar um dos quatro, mas precisa saber qual esta cortando.") +
-    tbl(["Projeto TEM...", "Operacao NAO tem..."],
-        [["Inicio e fim definidos", "Fim (e o dia a dia)"],
-         ["Objetivo unico", "Objetivo recorrente"],
-         ["Recursos proprios", "Recursos rotineiros"],
+cad.section("painel-de-processo", "Por que um painel de processo, e não mais um relatório",
+    p("Um relatório descreve o que aconteceu. Um painel de processo responde, "
+      "toda semana, à mesma pergunta: onde o caso está parando? Por isso, ele "
+      "não é um catálogo de gráficos. É um instrumento de decisão.") +
+    tbl(["Relatório tradicional", "Painel de processo"],
+        [["Mostra o total do mês", "Mostra a <b>etapa</b> que concentra a espera"],
+         ["Responde &quot;quanto foi?&quot;", "Responde &quot;onde trava?&quot;"],
+         ["Atualiza quando alguém pede", "Atualiza com o mesmo modelo de dados"],
+         ["Serve para prestar contas", "Serve para <b>decidir a intervenção</b>"]],
+        num_cols=[]) +
+    ficha("a", "A pergunta que o painel responde",
+        "&quot;Se eu puder melhorar apenas uma etapa deste processo neste "
+        "trimestre, qual devo escolher?&quot; O painel existe para responder a "
+        "essa pergunta com número. Por isso, a primeira leitura é sempre a "
+        "espera por etapa.") +
+    aplicab(
+        "Na reunião mensal da unidade, antes de decidir contratação ou compra.",
+        "A decisão de capacidade precisa olhar a fila, e não apenas o volume total.",
+        "No Cenário 1, o painel mostra a Fila perito com 41,5% da espera. "
+        "Nesse caso, a reunião começa por essa etapa, e não pela etapa que mais "
+        "executa.") +
+    callout("err", "Painel sem pergunta",
+        "Um painel com 30 gráficos que ninguém abre para decidir não é "
+        "instrumento de gestão. Se o visual não muda uma decisão, ele não "
+        "deveria estar no painel.")
+)
+
+cad.section("modelo-dados-processo", "O modelo de dados do painel: a estrela do processo",
+    p("O painel nasce de uma tabela fato e de suas dimensões. Neste caso, o "
+      "grão é uma execução de etapa. Cada linha representa um caso passando "
+      "por uma etapa, com o tempo de espera e o tempo de execução separados.") +
+    tbl(["Tabela", "Grão e papel", "Uso no painel"],
+        [["<code>fato_execucao</code>", "1 linha = 1 execução de etapa", "Tempos, flags e custo"],
+         ["<code>dim_etapa</code>", "1 linha = 1 etapa", "Nome e ordem da etapa, que vira o eixo do Pareto"],
+         ["<code>dim_unidade</code>", "1 linha = 1 unidade", "Swimlane, filtro e matriz de responsabilidade"],
+         ["<code>dim_sistema</code>", "1 linha = 1 sistema", "Mostra quanto do processo ainda é manual"],
+         ["<code>dim_calendario</code>", "1 linha = 1 dia", "Permite TAT e evolução no tempo"]],
+        num_cols=[]) +
+    code(
+        "fato_execucao\n"
+        "  id_execucao (PK)\n"
+        "  id_ciclo      -> agrupa as etapas de um caso\n"
+        "  etapa_key     -> dim_etapa\n"
+        "  unidade_key   -> dim_unidade\n"
+        "  sistema_key   -> dim_sistema\n"
+        "  data_inicio_key -> dim_calendario\n"
+        "  tempo_espera_min    (fila)\n"
+        "  tempo_execucao_min  (trabalho)\n"
+        "  flag_retrabalho\n"
+        "  custo_execucao_rs",
+        "modelo"
+    ) +
+    step([
+        ("Importe as 8 abas do workbook",
+         "No Power BI, use <b>Obter dados &rarr; Pasta de trabalho do Excel</b>. "
+         "Selecione o <code>.xlsx</code> do cenário e marque a "
+         "<code>fato_execucao</code> e as 7 dimensões."),
+        ("Confirme o cabeçalho e os tipos",
+         "No Power Query, use <b>Usar Primeira Linha como Cabeçalho</b>. "
+         "Tempos como <b>Número Decimal</b>, chaves como <b>Número Inteiro</b> e "
+         "datas como <b>Data</b>."),
+        ("Crie os relacionamentos",
+         "Arraste <code>etapa_key</code> da fato para <code>dim_etapa</code>. "
+         "Repita o procedimento para unidade, sistema, tipo, status e projeto. "
+         "Mantenha a direção única, da dimensão para a fato."),
+        ("Marque a tabela de datas",
+         "Selecione <code>dim_calendario</code> &rarr; <b>Marcar como tabela de "
+         "datas</b> &rarr; coluna <code>data</code>."),
+    ]) +
+    callout("err", "O erro de grão que altera o resultado",
+        "Se a fato for unida à dimensão antes da soma, as linhas podem ser "
+        "duplicadas e a espera fica maior do que é. Por isso, some sempre pela "
+        "fato e filtre pela dimensão.")
+)
+
+cad.section("medidas-painel", "As 8 medidas do painel em DAX",
+    p("Uma medida não é uma coluna. A coluna guarda o dado, e a medida "
+      "responde à pergunta. As oito medidas abaixo cobrem o que o painel "
+      "precisa informar.") +
+    code(
+        "Tempo Espera (h) = SUM(fato_execucao[tempo_espera_min]) / 60\n"
+        "\n"
+        "Tempo Execucao (h) = SUM(fato_execucao[tempo_execucao_min]) / 60\n"
+        "\n"
+        "Tempo Total (h) = [Tempo Espera (h)] + [Tempo Execucao (h)]\n"
+        "\n"
+        "% Espera = DIVIDE([Tempo Espera (h)], [Tempo Total (h)])\n"
+        "\n"
+        "Casos = DISTINCTCOUNT(fato_execucao[id_ciclo])\n"
+        "\n"
+        "TAT Medio (h) = DIVIDE([Tempo Total (h)], [Casos])\n"
+        "\n"
+        "Espera Media (h) = AVERAGE(fato_execucao[tempo_espera_min]) / 60\n"
+        "\n"
+        "Taxa Retrabalho =\n"
+        "    DIVIDE(\n"
+        "        CALCULATE(COUNTROWS(fato_execucao), fato_execucao[flag_retrabalho] = 1),\n"
+        "        COUNTROWS(fato_execucao)\n"
+        "    )",
+        "dax"
+    ) +
+    tbl(["Medida", "Pergunta que responde", "Onde usar"],
+        [["<b>Tempo Espera (h)</b>", "Quanto tempo o caso fica parado", "Cartão e barras"],
+         ["<b>Tempo Execucao (h)</b>", "Quanto tempo alguém trabalha", "Barras empilhadas"],
+         ["<b>Tempo Total (h)</b>", "Quanto dura o processo", "Cartão de TAT"],
+         ["<b>% Espera</b>", "Quanto do processo é fila", "Cartão e meta"],
+         ["<b>Casos</b>", "Quantos casos únicos existem", "Cartão e denominador"],
+         ["<b>TAT Medio (h)</b>", "Tempo médio por caso", "Linha do tempo"],
+         ["<b>Espera Media (h)</b>", "Espera média por execução", "Pareto por etapa"],
+         ["<b>Taxa Retrabalho</b>", "Quanto se refaz", "Matriz por unidade"]],
+        num_cols=[]) +
+    callout("tip", "Nomeie a medida como o gestor fala",
+        "&quot;TAT Medio (h)&quot; é mais claro do que &quot;avg_total&quot;. "
+        "Além disso, o nome da medida é a primeira camada de documentação do "
+        "painel. Quem abre o relatório precisa entender o indicador sem "
+        "perguntar.") +
+    aplicab(
+        "Sempre que o painel for compartilhado com a direção.",
+        "A medida é a parte do painel que carrega a regra de negócio.",
+        "Se a direção pergunta quanto do tempo é espera, a resposta é "
+        "<code>% Espera</code>, e não uma conta feita à mão no slide.")
+)
+
+cad.section("layout-painel", "O layout: 5 visuais que contam a história",
+    p("O painel não precisa de 20 visuais. Precisa de cinco, e cada um "
+      "responde a uma pergunta diferente. A leitura começa no topo, com os "
+      "números, e desce para o detalhe, com a etapa que concentra o problema.") +
+    kpi([
+        ("92,4%", "do tempo é espera"),
+        ("44 h", "espera média na fila"),
+        ("41,5%", "da espera na Fila perito"),
+        ("11,6%", "de retrabalho"),
+    ]) +
+    tbl(["#", "Visual", "Campos", "Pergunta que responde"],
+        [["<b>1</b>", "Cartões (KPI)", "TAT Medio, % Espera, Casos, Taxa Retrabalho", "Como está o processo hoje?"],
+         ["<b>2</b>", "Barras empilhadas", "Etapa no eixo; Espera e Execução nos valores", "Onde o caso espera mais?"],
+         ["<b>3</b>", "Pareto (barras e linha)", "Etapa, Espera e % acumulado", "Quais poucas etapas explicam a maior parte?"],
+         ["<b>4</b>", "Linha do tempo", "Mês e TAT Medio", "O processo está melhorando ou piorando?"],
+         ["<b>5</b>", "Matriz", "Unidade nas linhas, etapa nas colunas e retrabalho nos valores", "Quem concentra o retrabalho?"]],
+        num_cols=[]) +
+    step([
+        ("Comece pelos cartões",
+         "Coloque quatro cartões no topo, com <b>TAT Medio</b>, <b>% Espera</b>, "
+         "<b>Casos</b> e <b>Taxa Retrabalho</b>. Eles formam a manchete do painel."),
+        ("Coloque o Pareto no centro",
+         "Use barras de espera por etapa, em ordem decrescente, e uma linha de "
+         "percentual acumulado. Esse é o visual que aponta o gargalo."),
+        ("Use a linha do tempo para a tendência",
+         "No eixo de meses, coloque o TAT Medio. Assim, o painel mostra se a "
+         "intervenção mudou o resultado ao longo do tempo."),
+        ("Deixe a matriz para o detalhe",
+         "Use unidade nas linhas, etapa nas colunas e retrabalho nos valores. "
+         "Com isso, o gestor identifica quem precisa de apoio, e não apenas onde "
+         "está o problema."),
+    ]) +
+    callout("err", "O painel que responde a tudo e a nada",
+        "Se cada visual tem uma pergunta própria, o painel se lê em 60 "
+        "segundos. Se todos mostram a mesma coisa com filtros diferentes, o "
+        "painel não ajuda a decidir. Por isso, antes de inserir um visual, "
+        "escreva a pergunta que ele responde.")
+)
+
+cad.section("passo-a-passo-painel", "Passo a passo: montar o painel no Power BI",
+    p("A sequência abaixo assume que o Power BI Desktop já está instalado, "
+      "conforme o Dia 4. O caminho é o mesmo para os cinco datasets. O que "
+      "muda é o nome do arquivo e o gargalo de cada processo.") +
+    step([
+        ("1. Obtenha os dados",
+         "<b>Página Inicial &rarr; Obter dados &rarr; Pasta de trabalho do "
+         "Excel</b>. Selecione o workbook do cenário, como "
+         "<code>Cenario1_Requisicao_Pericial.xlsx</code>."),
+        ("2. Ajuste no Power Query",
+         "Marque as 8 abas de dados, sem a aba <code>LEIA-ME</code>. Em cada "
+         "tabela, confirme o cabeçalho, ajuste os tipos e renomeie a consulta. "
+         "Ao final, clique em <b>Fechar e Aplicar</b>."),
+        ("3. Modele",
+         "No modo <b>Modelo</b>, crie os relacionamentos de 1:N das dimensões "
+         "para a fato. Confira se a direção do filtro está correta."),
+        ("4. Crie as medidas",
+         "Em <b>Modelagem &rarr; Nova medida</b>, insira as oito medidas da "
+         "seção anterior. Organize todas em uma tabela de medidas chamada "
+         "<code>_Medidas</code>."),
+        ("5. Monte os visuais",
+         "Arraste os campos para os cinco visuais do layout. Formate títulos, "
+         "cores e casas decimais."),
+        ("6. Adicione filtros",
+         "Inclua segmentações de <b>etapa</b>, <b>unidade</b> e <b>ano</b>. "
+         "Depois, teste o painel com um filtro aplicado."),
+        ("7. Publique, se necessário",
+         "No Power BI Service, publique em um workspace da unidade e configure "
+         "a atualização agendada da origem."),
+        ("8. Salve o .pbix",
+         "Guarde o arquivo com o nome do processo. O <code>.pbix</code> é a "
+         "fonte do painel, e o caderno é o guia de montagem."),
+    ]) +
+    callout("err", "Não marque abas de outro cenário",
+        "Cada workbook tem a sua própria contagem de linhas. Se o Power Query "
+        "mostrar mais do que o esperado, você marcou uma aba de outro arquivo "
+        "ou combinou workbooks. Confira os totais: <b>10.352</b> (C1), "
+        "<b>9.541</b> (C2), <b>10.840</b> (C3), <b>12.664</b> (C4) e "
+        "<b>13.896</b> (C5).")
+)
+
+cad.section("ler-painel", "Como ler o painel em 60 segundos",
+    p("Abrir o painel e decorar números não é ler. Ler é seguir uma ordem fixa "
+      "de perguntas, sempre a mesma. Dessa forma, a reunião começa no problema, "
+      "e não no gráfico que chama mais atenção.") +
+    step([
+        ("Olhe o TAT e o % Espera",
+         "Se a espera passa de 80% do tempo, o problema está na fila, e não no "
+         "trabalho. Essa leitura muda o rumo da conversa."),
+        ("Ordene a espera por etapa",
+         "A primeira barra do Pareto é o gargalo. Se ela concentra mais de 30% "
+         "da espera, você já sabe onde intervir."),
+        ("Compare com o volume de casos",
+         "Espera alta em uma etapa com poucos casos pode ser um caso isolado. "
+         "Espera alta com volume alto indica problema sistêmico."),
+        ("Cheque o retrabalho",
+         "Retrabalho alto na mesma unidade do gargalo sugere causa comum, como "
+         "checklist, formulário ou critério de aceitação."),
+        ("Escreva a hipótese em uma frase",
+         "&quot;O caso espera X horas na etapa Y, que concentra Z% da espera; a "
+         "causa provável é W.&quot; Se a frase não sai, o painel ainda não foi "
+         "lido."),
+    ]) +
+    tbl(["O que você vê", "O que significa", "O que fazer"],
+        [["Espera alta e execução baixa", "Fila: falta capacidade ou prioridade", "Redesenhar a fila no TO-BE"],
+         ["Execução alta e espera baixa", "Trabalho manual intenso", "Automatizar ou simplificar a tarefa"],
+         ["Retrabalho alto", "Erro ou critério ausente", "Checklist e validação na entrada"],
+         ["TAT estável e alto", "Processo crônico", "Meta e intervenção estrutural"],
+         ["TAT caindo no tempo", "A intervenção funcionou", "Documentar e replicar"]],
+        num_cols=[]) +
+    callout("tip", "O painel é o começo da conversa",
+        "O painel não entrega a causa raiz. Ele entrega o onde. A causa raiz "
+        "vem da conversa com quem executa, nos Labs 4 e 5. Por isso, use o "
+        "painel para fazer a pergunta certa, e não para encerrar o assunto.")
+)
+
+# =================================================================
+# PARTE 2 - MANHA: AS 5 RECEITAS DE PAINEL
+# =================================================================
+cad.grp("Parte 2 - Manhã: as 5 receitas de painel",
+        "Cinco workbooks, um mesmo esquema e cinco painéis: do Excel ao dashboard, com o passo a passo completo.")
+
+cad.section("receitas-intro", "As 5 receitas: escolha o seu dataset",
+    p("Cada receita abaixo é autossuficiente. Ela abre o workbook, importa as "
+      "abas, modela os dados, cria as medidas e monta o painel. As cinco usam "
+      "o mesmo esquema, com a fato e as 7 dimensões. Por isso, o que você "
+      "aprende em uma receita serve para as outras; mudam o nome das etapas e "
+      "o gargalo.") +
+    tbl(["#", "Dataset", "Workbook", "Execuções", "Gargalo medido"],
+        [["<b>1</b>", "Requisição pericial", "<a href='datasets/cenario1_processo_pericial/Cenario1_Requisicao_Pericial.xlsx'><code>Cenario1_Requisicao_Pericial.xlsx</code></a>", "10.352", "Fila perito (41,5%)"],
+         ["<b>2</b>", "Empenho e contrato", "<a href='datasets/cenario2_processo_orcamento/Cenario2_Empenho_Contrato.xlsx'><code>Cenario2_Empenho_Contrato.xlsx</code></a>", "9.541", "Parecer + Autorização (51,2%)"],
+         ["<b>3</b>", "Cadeia de custódia", "<a href='datasets/cenario3_processo_custodia/Cenario3_Cadeia_Custodia.xlsx'><code>Cenario3_Cadeia_Custodia.xlsx</code></a>", "10.840", "Guarda (35,3%)"],
+         ["<b>4</b>", "Local de crime", "<a href='datasets/cenario4_local_crime/Cenario4_Local_Crime.xlsx'><code>Cenario4_Local_Crime.xlsx</code></a>", "12.664", "Deslocamento (35,2%)"],
+         ["<b>5</b>", "Análise laboratorial", "<a href='datasets/cenario5_analise_laboratorial/Cenario5_Analise_Laboratorial.xlsx'><code>Cenario5_Analise_Laboratorial.xlsx</code></a>", "13.896", "Equipamento (47,1%)"]],
+        num_cols=[]) +
+    callout("tip", "Como usar em sala",
+        "O professor conduz a <b>Receita 1</b> na tela, e as equipes repetem "
+        "as <b>Receitas 2 a 5</b> no próprio ritmo. Quem termina antes ajuda o "
+        "vizinho. Dessa forma, o objetivo é que todos saiam com um painel em "
+        "funcionamento, e não com uma captura de tela.") +
+    checklist([
+        "Um workbook por equipe, ou um cenário por pessoa.",
+        "Power BI Desktop instalado, conforme o Dia 4.",
+        "A Parte 1 deste caderno aberta como referência das 8 medidas base.",
+        "A tabela de resultado esperado de cada receita para conferir o painel.",
+    ]) +
+    aplicab(
+        "Em qualquer unidade que receba o dataset e queira reproduzir o painel sozinha.",
+        "A receita é um roteiro repetível, com o mesmo modelo, as mesmas medidas e os mesmos visuais.",
+        "A equipe do IML usa a Receita 1; a equipe de compras usa a Receita 2; "
+        "a custódia usa a 3; a equipe de campo usa a 4; os laboratórios usam a 5.")
+)
+
+
+DAX_PARETO = (
+    "Rank da Etapa (espera) =\n"
+    "RANKX(\n"
+    "    ALL(dim_etapa[etapa]),\n"
+    "    CALCULATE([Tempo Espera (h)]),\n"
+    "    ,\n"
+    "    DESC\n"
+    ")\n"
+    "\n"
+    "% Acumulado da Espera =\n"
+    "VAR RankAtual =\n"
+    "    RANKX(\n"
+    "        ALL(dim_etapa[etapa]),\n"
+    "        CALCULATE([Tempo Espera (h)]),\n"
+    "        ,\n"
+    "        DESC\n"
+    "    )\n"
+    "VAR EsperaAcumulada =\n"
+    "    CALCULATE(\n"
+    "        [Tempo Espera (h)],\n"
+    "        FILTER(\n"
+    "            ALL(dim_etapa),\n"
+    "            RANKX(\n"
+    "                ALL(dim_etapa[etapa]),\n"
+    "                CALCULATE([Tempo Espera (h)]),\n"
+    "                ,\n"
+    "                DESC\n"
+    "            ) <= RankAtual\n"
+    "        )\n"
+    "    )\n"
+    "RETURN\n"
+    "    DIVIDE(\n"
+    "        EsperaAcumulada,\n"
+    "        CALCULATE([Tempo Espera (h)], ALL(dim_etapa))\n"
+    "    )\n"
+    "\n"
+    "Espera por Etapa (h) =\n"
+    "CALCULATE([Tempo Espera (h)], ALL(dim_etapa))"
+)
+
+
+def receita(anchor, titulo, contexto, prova, abas, medidas, resultado, armadilha,
+            foco, workbook, linhas, entrega):
+    cad.section(anchor, titulo,
+        p(contexto) +
+        ficha("a", "O que o painel precisa provar", prova) +
+        tbl(["Aba", "Grão", "Uso no painel"], abas, num_cols=[]) +
+        callout("note", "Como usar esta receita",
+            "Os 8 blocos abaixo formam o roteiro completo, do arquivo do Excel "
+            "ao painel publicado. Cada bloco traz o caminho do menu e o que "
+            "esperar na tela. Sugestão de tempo: 3 horas no total, em uma "
+            "turma de 4 horas. Se um bloco travar, pule para o próximo e volte "
+            "depois: o painel só fecha no fim.") +
+
+        h3("Bloco 1 - Prepare o arquivo no Excel (10 min)") +
+        step([
+            ("1.1. Abra o workbook e localize a pasta",
+             "Abra <code>" + workbook + "</code>. Ele fica em "
+             "<code>Aula 6/datasets/</code>, dentro da pasta do cenário. Se "
+             "preferir, use o link do arquivo na tabela da Parte 2."),
+            ("1.2. Leia a aba LEIA-ME",
+             "A aba <code>LEIA-ME</code> tem o dicionário das tabelas, a "
+             "contagem de linhas de cada uma e a tabela-resumo com os tempos "
+             "medidos por etapa. Essa tabela é o gabarito do seu painel: use "
+             "ela para conferir o resultado no final."),
+            ("1.3. Confira as 9 abas",
+             "Você verá <code>LEIA-ME</code>, <code>fato_execucao</code> e as 7 "
+             "dimensões. Expanda a <code>fato_execucao</code> e confirme que a "
+             "linha de cabeçalho tem 16 colunas e que a contagem bate com a "
+             "aba <code>LEIA-ME</code>: " + linhas + " linhas."),
+            ("1.4. Confira a coluna etapa_key",
+             "Abra a aba <code>dim_etapa</code> e veja que a coluna "
+             "<code>etapa_key</code> vai de 1 a 8 e que a coluna "
+             "<code>sequencia</code> dá a ordem do processo. É pela "
+             "<code>sequencia</code> que o Pareto será ordenado."),
+            ("1.5. Feche o Excel",
+             "Não é preciso alterar nada no arquivo. Ele é a fonte, e o "
+             "Power BI vai ler direto dele. Se você fechar o Excel com o "
+             "arquivo aberto, o Power BI continua lendo; apenas o desempenho "
+             "cai um pouco."),
+        ]) +
+
+        h3("Bloco 2 - Importe os dados no Power BI (20 min)") +
+        step([
+            ("2.1. Crie o arquivo e salve antes de importar",
+             "<b>Arquivo &rarr; Novo</b> e, logo depois, <b>Arquivo &rarr; Salvar "
+             "como</b>. Nomeie <code>Painel_" + foco.replace(" ", "_") +
+             ".pbix</code> e escolha uma pasta do seu computador. Salvar no "
+             "início evita perder trabalho se o Power BI travar."),
+            ("2.2. Abra o conector de pasta de trabalho do Excel",
+             "<b>Pagina Inicial &rarr; Obter dados &rarr; Mais</b> e procure por "
+             "<b>Pasta de trabalho do Excel</b>. Essa opção abre o navegador de "
+             "arquivos e mostra as abas de todos os workbooks da pasta."),
+            ("2.3. Aponte para o arquivo",
+             "Navegue até a pasta do cenário, selecione <code>" + workbook +
+             "</code> e clique em <b>Abrir</b>. Não selecione a pasta inteira: "
+             "se o conector apontar para a pasta, ele trará o LEIA-ME e "
+             "misturará cenários."),
+            ("2.4. Escolha as abas no navegador",
+             "Aparecerá uma lista com as 9 abas. Marque <b>fato_execucao</b> e as "
+             "7 <code>dim_*</code>. Use <b>Ctrl</b> (ou <b>Shift</b>) para marcar "
+             "várias de uma vez. <b>Desmarque <code>LEIA-ME></code></b>: essa aba "
+             "é documentação e, se entrar, cria uma tabela vazia no modelo."),
+            ("2.5. Confira a pré-visualização",
+             "Cada aba marcada mostra a primeira linha de dados. Confirme que a "
+             "fato tem 16 colunas e que as dimensões têm 2 a 10 colunas. Se "
+             "alguma aba vier vazia, o problema é o arquivo, não a importação."),
+            ("2.6. Carregue e espere",
+             "Clique em <b>Carregar</b>. O Power BI abre o Power Query com 8 "
+             "consultas, uma por aba. Aguarde o carregamento terminar antes de "
+             "qualquer edição."),
+            ("2.7. Renomeie as consultas",
+             "No painel de <b>Consultas</b> (à esquerda), clique com o botão "
+             "direito em cada consulta e escolha <b>Renomear</b>. Use "
+             "<code>fato</code> para a fato e o nome curto da dimensão nas "
+             "demais: <code>etapa</code>, <code>unidade</code>, <code>sistema</code>, "
+             "<code>tipo</code>, <code>status</code>, <code>projeto</code> e "
+             "<code>calendario</code>. O nome aparece no modelo e nos gráficos."),
+            ("2.8. Confira a contagem de cada consulta",
+             "No rodapé do Power Query, a consulta <code>fato</code> deve "
+             "mostrar " + linhas + " linhas. Se mostrar mais, alguma aba foi "
+             "marcada duas vezes ou a tabela veio de outro cenário."),
+        ]) +
+
+        h3("Bloco 3 - Trate os dados no Power Query (20 min)") +
+        step([
+            ("3.1. Use a primeira linha como cabeçalho",
+             "Com a consulta <code>fato</code> selecionada, vá em <b>Início &rarr; "
+             "Usar Primeira Linha como Cabeçalho</b>. O mesmo para as 7 "
+             "dimensões. Sem isso, os nomes das colunas viram V1, V2, V3."),
+            ("3.2. Confira os tipos de dado",
+             "Selecione uma coluna e olhe o tipo no topo da faixa de opções. "
+             "Tempos e custo devem ser <b>Número Decimal</b>; chaves, "
+             "<b>Número Inteiro</b>; <code>data</code> em <code>dim_calendario</code>, "
+             "<b>Data</b>; flags, <b>Número Inteiro</b>."),
+            ("3.3. Corrija o tipo da coluna data",
+             "Em <code>dim_calendario</code>, clique com o botão direito no "
+             "cabeçalho de <code>data</code> e escolha <b>Alterar tipo &rarr; Data</b>. "
+             "O formato do Brasil é <b>dd/mm/aaaa</b>. Depois, em <b>Colunas "
+             "Especiais &rarr; Ano e Mês</b>, extraia também <b>Ano</b> e "
+             "<b>Nome do Mês</b>."),
+            ("3.4. Remova colunas que não serão usadas",
+             "Em cada dimensão, clique com o botão direito no cabeçalho e "
+             "desmarque as colunas que o painel não usa. Menos colunas significam "
+             "modelo mais leve e leitura mais rápida."),
+            ("3.5. Remova linhas em branco",
+             "Em <b>Início &rarr; Remover Linhas &rarr; Remover Linhas em Branco</b>. "
+             "O arquivo vem limpo, mas essa verificação evita erro de contagem."),
+            ("3.6. Marque a tabela de datas",
+             "Isso é feito no Power BI, e não no Power Query: selecione a "
+             "consulta <code>calendario</code> e use <b>Ferramenta de Tabela "
+             "de Datas</b> na guia <b>Modelagem</b>. Escolha a coluna "
+             "<code>data</code> e confirme. O aviso some e a segmentação de ano "
+             "passa a funcionar."),
+            ("3.7. Feche e aplique",
+             "<b>Início &rarr; Fechar e Aplicar</b>. O modelo aparece com 8 "
+             "tabelas. Se o Power BI mostrar aviso de tipo misto, volte ao "
+             "Power Query e corrija a coluna indicada."),
+            ("3.8. Use o botão de Editar consultas quando precisar",
+             "Se algo mudar no arquivo do Excel, você não precisa reimportar. "
+             "Clique com o botão direito na consulta e escolha <b>Editar "
+             "consultas</b>. O histórico de etapas fica registrado no botão "
+             "<b>Etapas aplicadas</b>."),
+        ]) +
+
+        h3("Bloco 4 - Monte o modelo (15 min)") +
+        step([
+            ("4.1. Vá para o modo Modelo",
+             "No canto inferior esquerdo, use <b>Modelo</b>. As tabelas aparecem "
+             "como caixas."),
+            ("4.2. Crie a relação da etapa",
+             "Arraste o campo <code>etapa_key</code> da tabela <code>fato</code> "
+             "até o campo <code>etapa_key</code> da tabela <code>etapa</code>. "
+             "Surgem três caixas de configuração: <b>1:1</b>, <b>1:* (muitos para "
+             "um)</b> e <b>*:1</b>. Escolha <b>1:*</b>, que é o padrão correto "
+             "para dimensão e fato."),
+            ("4.3. Crie as outras seis relações do mesmo jeito",
+             "Repita o arraste para <code>unidade_key</code>, "
+             "<code>sistema_key</code>, <code>tipo_atividade_key</code>, "
+             "<code>status_execucao_key</code> e <code>projeto_key</code>. "
+             "Ao final, a fato tem 6 relações de 1 para muitos."),
+            ("4.4. Crie a relação com o calendário",
+             "Arraste <code>data_inicio_key</code> da fato até <code>data_key</code> "
+             "do <code>calendario</code>. Deixe a cardinalidade em 1:* e a "
+             "direção de filtro única, com a tabela dimensional filtrando a "
+             "fato."),
+            ("4.5. Confira o sentido do filtro",
+             "Com a relação selecionada, veja a seta na linha. Ela deve apontar "
+             "da dimensão para a fato. Se inverter, a segmentação de ano "
+             "deixará de filtrar o gráfico."),
+            ("4.6. Marque o calendário como tabela de datas",
+             "Selecione a tabela <code>calendario</code> e use <b>Modelagem "
+             "&rarr; Marcar como tabela de datas</b>. Escolha a coluna "
+             "<code>data</code>."),
+            ("4.7. Esconda as chaves",
+             "No painel de campos, clique na seta de contexto ao lado de "
+             "<code>etapa_key</code>, <code>unidade_key</code> e das outras "
+             "chaves, e escolha <b>Ocultar no relatório</b>. As chaves "
+             "permanecem no modelo, mas saem dos campos visíveis."),
+            ("4.8. Renomeie a tabela de medidas",
+             "Ainda não existe tabela de medidas. Crie uma agora, como no Bloco "
+             "5, e dê o nome <code>_Medidas</code>. O nome com underscore "
+             "sinaliza que é tabela auxiliar."),
+            ("4.9. Verifique a integridade do modelo",
+             "Use <b>Modelagem &rarr; Verificar o modelo</b> ou passe o mouse "
+             "pelo relationships. O aviso de cardinalidade many-to-many não deve "
+             "aparecer. Se aparecer, é porque a direção do filtro ficou "
+             "duplicada."),
+            ("4.10. Salve",
+             "<b>Arquivo &rarr; Salvar</b> (Ctrl+S). A partir daqui, qualquer "
+             "erro de modelo aparece como número errado no painel, e o lugar "
+             "mais provável é a relação."),
+        ]) +
+
+        h3("Bloco 5 - Crie as medidas (25 min)") +
+        step([
+            ("5.1. Crie a tabela de medidas",
+             "<b>Modelagem &rarr; Inserir tabela de cálculo</b> e nomeie "
+             "<code>_Medidas</code>. Todas as medidas criadas a seguir vão "
+             "para essa tabela."),
+            ("5.2. Crie as três medidas de tempo",
+             "Com <b>Nova medida</b>, cole uma medida por vez. <b>Tempo Espera "
+             "(h)</b> e <b>Tempo Execução (h)</b> convertem minutos em horas, e "
+             "<b>Tempo Total (h)</b> soma as duas. O código está na Parte 1."),
+            ("5.3. Crie as cinco medidas de leitura",
+             "<b>% Espera</b>, <b>Casos</b>, <b>TAT Médio (h)</b>, <b>Espera "
+             "Média (h)</b> e <b>Taxa Retrabalho</b>. Use o <code>DIVIDE</code> "
+             "em todas as razões, para não aparecer erro de divisão por zero."),
+            ("5.4. Formate as medidas",
+             "Selecione a medida e use <b>Ferramenta de Medida &rarr; Formatar</b>. "
+             "Horas e percentuais com uma casa decimal, e a contagem de casos "
+             "com separador de milhar. Sem formatação, o cartão mostra 44,1768."),
+            ("5.5. Organize as medidas em pastas",
+             "Na barra de fórmulas, use <b>Criar pasta</b> para separar por "
+             "tema: <code>Tempo</code>, <code>Leitura</code> e <code>Pareto</code>. "
+             "Com 10+ medidas, a pasta economiza muito tempo de quem vai "
+             "montar o painel depois."),
+            ("5.6. Teste cada medida em uma tabela",
+             "Insira um visual de tabela vazio, arraste <code>etapa</code> e a "
+             "medida, e confira o valor contra a tabela-resumo da aba "
+             "<code>LEIA-ME</code>. É o teste mais rápido para achar erro de "
+             "medida ou de filtro."),
+            ("5.7. Crie as medidas do Pareto",
+             "Cole as três medidas do gráfico de Pareto que estão na próxima "
+             "seção: <b>Rank da Etapa</b>, <b>% Acumulado da Espera</b> e "
+             "<b>Espera por Etapa</b>."),
+            ("5.8. Crie as medidas específicas do cenário",
+             "Cole as medidas específicas deste dataset, que estão na seção "
+             "seguinte. Elas respondem à pergunta que só este processo faz."),
+            ("5.9. Escreva um comentário em cada medida",
+             "No botão de comentário ao lado do nome da medida, escreva uma "
+             "frase com o que ela responde. Quem abrir o painel depois entende "
+             "a regra sem ler o código."),
+        ]) +
+
+        h3("Bloco 6 - Monte o painel (60 min)") +
+        step([
+            ("6.1. Configure a página antes de inserir visuais",
+             "<b>Modelagem &rarr; Tamanho da página</b> ou, no modo Exibir, "
+             "<b>Página &rarr; Tamanho da página</b>. Use <b>16:9</b> ou o "
+             "<b>Toolbox do telefone</b> se o painel for para celular."),
+            ("6.2. Insira os quatro cartões",
+             "<b>Exibir &rarr; Cartão</b>. Em cada um, arraste uma medida para "
+             "<b>Valores</b>. Deixe o nome do cartão com a medida para não "
+             "duplicar o rótulo. Formate o número em <b>Ferramenta de cartão "
+             "&rarr; Formatar</b>."),
+            ("6.3. Posicione os cartões em linha",
+             "Arraste os cartões para o topo da página, alinhados. Use "
+             "<b>Exibir &rarr; Alinhar</b> e <b>Distribuir horizontalmente</b> "
+             "para dar espaçamento igual."),
+            ("6.4. Monte as barras empilhadas",
+             "<b>Exibir &rarr; Gráfico de barras empilhadas</b>. Arraste "
+             "<code>etapa</code> para <b>Eixo Y</b> e as duas medidas de tempo "
+             "para <b>Valores</b>. O Power BI empilha espera sobre execução, e "
+             "a etapa mais alta é a que mais espera."),
+            ("6.5. Ordene as etapas pela sequência do processo",
+             "Clique com o botão direito em <code>etapa</code> no painel de "
+             "campos e escolha <b>Classificar por coluna &rarr; sequencia</b>. "
+             "Assim, as etapas aparecem na ordem do fluxo, e não em ordem "
+             "alfabética."),
+            ("6.6. Destaque a etapa do gargalo",
+             "No visual de barras, selecione a barra da etapa " + foco + " e "
+             "use <b>Formatar &rarr; Barra &rarr; Cores</b>. Escolha uma cor de "
+             "destaque e deixe as demais na cor padrão."),
+            ("6.7. Monte o Pareto",
+             "<b>Exibir &rarr; Gráfico de barras e colunas</b>. No visual, use "
+             "<b>Adicionar valor ao eixo secundário</b> no botão de Analyze do "
+             "canto superior direito. Arraste <b>Espera por Etapa (h)</b> para "
+             "o eixo Y primário e <b>% Acumulado da Espera</b> para o eixo Y "
+             "secundário."),
+            ("6.8. Ajuste a escala do eixo secundário",
+             "Com o eixo secundário selecionado, use <b>Formatar &rarr; Eixo "
+             "Y &rarr; Escala</b> e fixe o mínimo em 0% e o máximo em 100%. "
+             "Com isso, a linha de acumulado sai de 0 a 100 e passa pelo topo "
+             "do gráfico."),
+            ("6.9. Ordene o Pareto pelo volume, não pelo eixo",
+             "Clique com o botão direito em <b>Espera por Etapa (h)</b> e "
+             "escolha <b>Classificar por valor &rarr; Descendente</b>. A ordem "
+             "passa a ser pela espera, que é a ordem do Pareto."),
+            ("6.10. Monte a linha do tempo",
+             "<b>Exibir &rarr; Gráfico de linhas</b>. Arraste "
+             "<code>ano_mes</code> do <code>calendario</code> para o eixo X e "
+             "<b>TAT Médio (h)</b> para os valores."),
+            ("6.11. Adicione a linha de meta",
+             "Com o visual selecionado, use <b>Analisar &rarr; Linha de análise "
+             "&rarr; Linha de referência constante</b> e informe o valor da meta. "
+             "Ou, se preferir uma meta por mês, crie a medida "
+             "<b>Meta de TAT (h)</b> e arraste-a para o eixo Y."),
+            ("6.12. Monte a matriz de retrabalho",
+             "<b>Exibir &rarr; Matriz</b>. Arraste <code>unidade</code> para "
+             "<b>Linhas</b>, <code>etapa</code> para <b>Colunas</b> e "
+             "<b>Taxa Retrabalho</b> para <b>Valores</b>."),
+            ("6.13. Aplique a escala de cor na matriz",
+             "No visual, use <b>Ferramenta de matriz &rarr; Formatar &rarr; "
+             "Células &rarr; Escala de cores</b>. Escolha uma escala de duas "
+             "cores, em que o claro é o mínimo e o escuro é o máximo. A célula "
+             "mais escara aponta a unidade com mais retrabalho."),
+            ("6.14. Escreva o título e o subtítulo da página",
+             "Use <b>Exibir &rarr; Cartões de texto</b> acima dos cartões. O "
+             "título diz o que o painel mede, e o subtítulo diz o recorte: "
+             "período, unidade e o que a página responde."),
+        ]) +
+
+        h3("Bloco 7 - Filtros, segmentações e tabela resumo (20 min)") +
+        step([
+            ("7.1. Insira as segmentações",
+             "<b>Exibir &rarr; Segmentação de dados</b>, uma para cada campo: "
+             "<code>etapa</code>, <code>unidade</code> e <code>ano</code>. "
+             "Arraste o campo para o visual e o visual para a área da "
+             "segmentação."),
+            ("7.2. Formate as segmentações",
+             "Em <b>Ferramenta de segmentação &rarr; Formatar &rarr; "
+             "Segmentação</b>, escolha o estilo <b>Antes e depois</b> ou "
+             "<b>Lista suspensa</b>, com borda e texto na cor da marca."),
+            ("7.3. Sincronize as segmentações entre as páginas",
+             "No painel de segmentações, use o botão <b>Sincronizar segmentações "
+             "de dados</b> (ícone de elos) na parte superior. As páginas de "
+             "detalhe passam a respeitar o filtro das páginas de resumo."),
+            ("7.4. Defina os filtros de relatório e de página",
+             "Abra <b>Painel de filtros</b> (Exibir &rarr; Filtros). No nível "
+             "<b>Todos os relatórios</b>, mantenha só o que vale para o painel "
+             "inteiro. No nível da página, defina o recorte padrão."),
+            ("7.5. Configure as interações entre visuais",
+             "Clique com o botão direito em um visual e escolha <b>Editar "
+             "interações</b>. A janela lista os visuais da página, e cada "
+             "checkbox liga ou desliga o filtro. Por padrão, clicar no cartão "
+             "de TAT filtra todos os gráficos, o que é o comportamento "
+             "desejado neste painel."),
+            ("7.6. Monte a tabela resumo",
+             "<b>Exibir &rarr; Tabela</b>. Arraste <code>etapa</code> para as "
+             "colunas e, para cada medida, <b>Valores &rarr; Mais valores</b>. "
+             "A ordem final é: etapa, espera, execução, "
+             "% espera e taxa de retrabalho."),
+            ("7.7. Ordene a tabela pela espera",
+             "Clique com o botão direito no cabeçalho da coluna de espera e "
+             "escolha <b>Classificar por valor &rarr; Descendente</b>. A "
+             "primeira linha passa a ser o gargalo, e a tabela vira o resumo "
+             "executivo do painel."),
+            ("7.8. Formate a tabela",
+             "Em <b>Ferramenta de tabela &rarr; Formatar</b>, ative "
+             "<b>Linhas de cabeçalho</b>, desative as bordas e use "
+             "<b>Formatação condicional &rarr; Barras de dados</b> na coluna "
+             "de espera. O resultado é uma tabela que mostra o ranking sem "
+             "precisar de gráfico."),
+            ("7.9. Teste a tabela contra a aba LEIA-ME",
+             "Compare a tabela resumo com a tabela da aba <code>LEIA-ME</code> "
+             "do workbook. Os números da espera, da execução e do retrabalho "
+             "têm de ser iguais. Se não forem, o problema está no modelo, e "
+             "não no visual."),
+        ]) +
+
+        h3("Bloco 8 - Formate, salve e publique (20 min)") +
+        step([
+            ("8.1. Crie uma segunda página para o detalhe",
+             "Duplique a página com <b>Exibir &rarr; Página &rarr; Duplicar "
+             "página</b> e mantenha apenas a matriz e a tabela resumo. A "
+             "primeira página fica com o resumo, e a segunda com o detalhe."),
+            ("8.2. Esconda a página de detalhe do menu",
+             "Com a página de detalhe selecionada, desmarque <b>Permitir "
+             "alterações de layout</b> e, em <b>Configurações da página "
+             "&rarr; Ocultar página</b>, marque a opção de ocultar. O menu de "
+             "páginas mostra só a visão de resumo."),
+            ("8.3. Aplique um tema ao painel",
+             "Em <b>Exibir &rarr; Temas</b>, escolha um tema ou crie um com a "
+             "cor da instituição. O tema formata cores, fontes e o plano de "
+             "fundo de uma vez."),
+            ("8.4. Revise a acessibilidade",
+             "Em <b>Exibir &rarr; Painel de acessibilidade</b>, confira os "
+             "itens marcados. O mais comum é a ordem dos objetos, que se ajusta "
+             "com <b>Painel de seleção</b>."),
+            ("8.5. Salve o arquivo do Power BI",
+             "<b>Arquivo &rarr; Salvar</b>. O <code>.pbix</code> guarda o "
+             "modelo, as medidas e o layout, e é o arquivo que se entrega."),
+            ("8.6. Publique no Power BI Service, se necessário",
+             "<b>Arquivo &rarr; Publicar</b> e escolha o workspace da unidade. "
+             "Na primeira publicação, o Power BI pergunta se o gateway é "
+             "local ou em nuvem, e se os dados serão atualizados "
+             "automaticamente."),
+            ("8.7. Agende a atualização, se a origem mudar",
+             "No workspace, abra a configuração do conjunto de dados e agende a "
+             "atualização. Para arquivos em rede, é preciso instalar o Gateway "
+             "na máquina que tem a pasta."),
+            ("8.8. Verifique no celular",
+             "No Service, use <b>Painel &rarr; Exibir &rarr; Dispositivo "
+             "móvel</b> para conferir o layout em tela pequena. Se a página "
+             "não couber, reduza a quantidade de visuais ou use a página de "
+             "detalhe."),
+            ("8.9. Registre o resultado",
+             "Anote no caderno, na coluna de resultado esperado, o número que "
+             "você mediu. Esse número é a linha de base do TO-BE, e é com ele "
+             "que o ganho da tarde será calculado."),
+        ]) +
+
+        h3("As medidas do gráfico de Pareto") +
+        code(DAX_PARETO, "dax") +
+        h3("As medidas específicas deste cenário") +
+        code(medidas, "dax") +
+        h3("Os 5 visuais e a tabela resumo") +
+        tbl(["Visual", "Campos", "Pergunta"],
+            [["Cartões", "TAT Médio, % Espera, Casos, Taxa Retrabalho", "Como está o processo?"],
+             ["Barras empilhadas", "Etapa, Espera e Execução", "Onde o caso espera?"],
+             ["Pareto", "Etapa, Espera por Etapa e % Acumulado", "Quais poucas etapas importam?"],
+             ["Linha do tempo", "Ano e mês, TAT Médio", "Melhorou ou piorou?"],
+             ["Matriz", "Unidade, Etapa e Taxa Retrabalho", "Quem concentra o retrabalho?"],
+             ["Tabela resumo", "Etapa, Espera, Execução, % Espera e Retrabalho", "Qual é o retrato final?"]],
+            num_cols=[]) +
+        h3("Resultado esperado (confira o seu painel)") +
+        tbl(["Indicador", "Valor medido", "Leitura"], resultado, num_cols=[1]) +
+        callout("err", "A armadilha deste dataset", armadilha) +
+        checklist(entrega)
+    )
+
+
+receita(
+    "receita-1-pericial",
+    "Receita 1: Requisição pericial (10.352 execuções)",
+    "Este é o fluxo mais conhecido da POLITEC, que vai da delegacia até a "
+    "assinatura do laudo. O painel precisa mostrar que o problema está na "
+    "fila, e não no trabalho do perito.",
+    "A Fila perito concentra 41,5% de toda a espera, enquanto a Análise tem o "
+    "maior tempo de execução. Por isso, o painel precisa deixar essa diferença "
+    "visível em uma única leitura.",
+    [["<code>fato_execucao</code>", "1 execução de etapa", "Tempos, retrabalho e custo"],
+     ["<code>dim_etapa</code>", "1 etapa (8)", "Nome, sequência e unidade padrão"],
+     ["<code>dim_unidade</code>", "1 unidade (7)", "Laboratórios, ATO, IML e campo"],
+     ["<code>dim_sistema</code>", "1 sistema (6)", "Quanto ainda passa por papel e Excel"],
+     ["<code>dim_calendario</code>", "1 dia (1.096)", "TAT por mês e sazonalidade"]],
+    "Espera Fila Perito (h) =\n"
+    "    CALCULATE([Tempo Espera (h)], dim_etapa[etapa] = \"Fila perito\")\n"
+    "\n"
+    "Peso Fila Perito =\n"
+    "    DIVIDE([Espera Fila Perito (h)], [Tempo Espera (h)])\n"
+    "\n"
+    "Fila vs Analise =\n"
+    "    DIVIDE(\n"
+    "        [Espera Fila Perito (h)],\n"
+    "        CALCULATE([Tempo Execucao (h)], dim_etapa[etapa] = \"Analise\")\n"
+    "    )",
+    [["Execuções", "10.352", "Contagem da fato, que você confere no Power Query"],
+     ["% espera", "92,4%", "Quase todo o tempo é fila"],
+     ["Fila perito", "44,2 h e 41,5%", "Maior espera média e maior participação"],
+     ["Revisão", "13,1 h e 12,3%", "Segundo maior bloco de espera"],
+     ["Análise", "4,8 h de execução", "Maior trabalho manual, mas não é o gargalo"],
+     ["TAT médio por caso", "497,2 h", "Espera mais execução, dividido por 300 casos"],
+     ["Retrabalho", "11,6%", "Sistêmico, com taxa parecida em todas as etapas"]],
+    "Não confunda a etapa que mais executa, a Análise, com a etapa que mais "
+    "espera, a Fila perito. Se o seu Pareto mostrar a Análise em primeiro "
+    "lugar, você provavelmente somou execução em vez de espera.",
+    "Fila perito",
+    "Cenario1_Requisicao_Pericial.xlsx",
+    "10.352",
+    ["Workbook importado com 8 abas e 10.352 linhas na fato.",
+     "Relacionamentos criados e dim_calendario marcada como tabela de datas.",
+     "8 medidas base e 3 medidas do cenário.",
+     "4 cartões, barras empilhadas, Pareto, linha do tempo e matriz.",
+     "Tabela resumo e 3 segmentações: etapa, unidade e ano.",
+     "Números conferem com a tabela de resultado esperado."]
+)
+
+receita(
+    "receita-2-orcamento",
+    "Receita 2: Empenho e contrato (9.541 execuções)",
+    "Este é o caminho do dinheiro público, que passa por pedido, cotação, "
+    "mapa, parecer, autorização, empenho e publicação. O painel precisa "
+    "mostrar que o problema está nas aprovações encadeadas, e não no mapa "
+    "comparativo.",
+    "Parecer e autorização, juntos, concentram 51,2% da espera. Por isso, o "
+    "painel precisa somar as duas etapas em uma medida própria, porque no "
+    "Pareto elas aparecem separadas.",
+    [["<code>fato_execucao</code>", "1 execução de etapa", "Tempos, retrabalho e custo"],
+     ["<code>dim_etapa</code>", "1 etapa (7)", "Pedido, cotação, mapa, parecer, autorização e outras"],
+     ["<code>dim_unidade</code>", "1 unidade (5)", "Compras, Diretoria, Jurídico e Controle"],
+     ["<code>dim_sistema</code>", "1 sistema (6)", "Excel e e-mail concentram a espera"],
+     ["<code>dim_calendario</code>", "1 dia (1.096)", "Evolução do TAT no tempo"]],
+    "Espera Aprovacoes (h) =\n"
+    "    CALCULATE(\n"
+    "        [Tempo Espera (h)],\n"
+    "        dim_etapa[etapa] IN {\"Parecer\", \"Autorizacao\"}\n"
+    "    )\n"
+    "\n"
+    "Peso Aprovacoes =\n"
+    "    DIVIDE([Espera Aprovacoes (h)], [Tempo Espera (h)])\n"
+    "\n"
+    "Mapa vs Parecer =\n"
+    "    DIVIDE(\n"
+    "        CALCULATE([Tempo Execucao (h)], dim_etapa[etapa] = \"Mapa\"),\n"
+    "        CALCULATE([Tempo Execucao (h)], dim_etapa[etapa] = \"Parecer\")\n"
+    "    )",
+    [["Execuções", "9.541", "Contagem da fato"],
+     ["% espera", "88,1%", "O processo é dominado por fila"],
+     ["Parecer", "35,9 h e 29,3%", "Maior espera isolada"],
+     ["Autorização", "26,8 h e 21,9%", "Segunda maior espera"],
+     ["Parecer e autorização", "51,2%", "A medida de aprovações revela o conjunto"],
+     ["Mapa", "6,1 h de execução", "Maior trabalho manual do processo"],
+     ["TAT médio por caso", "757,4 h", "Espera mais execução, dividido por 250 casos"],
+     ["Retrabalho", "16,6%", "A maior taxa entre os cinco datasets"]],
+    "O Pareto mostra Parecer e Autorização como duas barras. Se você olhar "
+    "apenas a primeira, perde metade do problema. Por isso, crie a medida "
+    "<code>Espera Aprovacoes</code> para ver as duas etapas juntas.",
+    "Parecer + Autorização",
+    "Cenario2_Empenho_Contrato.xlsx",
+    "9.541",
+    ["Workbook importado com 8 abas e 9.541 linhas na fato.",
+     "Relacionamentos criados e dim_calendario marcada como tabela de datas.",
+     "8 medidas base e 3 medidas do cenário.",
+     "4 cartões, barras empilhadas, Pareto, linha do tempo e matriz.",
+     "Tabela resumo e 3 segmentações: etapa, unidade e ano.",
+     "Números conferem com a tabela de resultado esperado."]
+)
+
+receita(
+    "receita-3-custodia",
+    "Receita 3: Cadeia de custódia (10.840 execuções)",
+    "Este processo vai da coleta no local até a baixa da evidência. O painel "
+    "mede tempo e rastreabilidade. A guarda é a etapa que mais retém a "
+    "evidência, e a divergência de lacre é um status que precisa de medida "
+    "própria.",
+    "A Guarda concentra 35,3% da espera. A divergência de lacre aparece em "
+    "poucas execuções, mas tem impacto sobre a prova. Por isso, o painel "
+    "precisa mostrar as duas informações.",
+    [["<code>fato_execucao</code>", "1 execução de etapa", "Tempos, retrabalho e custo"],
+     ["<code>dim_etapa</code>", "1 etapa (8)", "Coleta, lacre, transporte, guarda, perícia e outras"],
+     ["<code>dim_unidade</code>", "1 unidade (6)", "Campo, transporte, laboratórios e custódia"],
+     ["<code>dim_status_execucao</code>", "1 status (4)", "Inclui <b>Divergência de lacre</b>"],
+     ["<code>dim_calendario</code>", "1 dia (1.096)", "Tempo parado por mês"]],
+    "Espera Guarda (h) =\n"
+    "    CALCULATE([Tempo Espera (h)], dim_etapa[etapa] = \"Guarda\")\n"
+    "\n"
+    "Peso Guarda =\n"
+    "    DIVIDE([Espera Guarda (h)], [Tempo Espera (h)])\n"
+    "\n"
+    "Divergencia de Lacre =\n"
+    "    DIVIDE(\n"
+    "        CALCULATE(\n"
+    "            COUNTROWS(fato_execucao),\n"
+    "            dim_status_execucao[status_execucao] = \"Divergencia de lacre\"\n"
+    "        ),\n"
+    "        COUNTROWS(fato_execucao)\n"
+    "    )",
+    [["Execuções", "10.840", "Contagem da fato"],
+     ["% espera", "92,5%", "Quase todo o tempo é fila"],
+     ["Guarda", "54,5 h e 35,3%", "Maior espera média e maior participação"],
+     ["Baixa", "25,3 h e 16,4%", "Segundo maior bloco de espera"],
+     ["Perícia", "5,9 h de execução", "Maior trabalho manual"],
+     ["TAT médio por caso", "1.027,5 h", "O maior TAT entre os cinco datasets"],
+     ["Retrabalho", "4,7%", "A menor taxa entre os cinco; o problema é tempo, não erro"]],
+    "A divergência de lacre é um status, e não uma etapa. Se você filtrar o "
+    "painel por etapa, ela desaparece. Por isso, crie a medida própria e "
+    "coloque um cartão separado, fora do filtro de etapa.",
+    "Guarda",
+    "Cenario3_Cadeia_Custodia.xlsx",
+    "10.840",
+    ["Workbook importado com 8 abas e 10.840 linhas na fato.",
+     "Relacionamentos criados e dim_calendario marcada como tabela de datas.",
+     "8 medidas base e 3 medidas do cenário, incluindo a divergência de lacre.",
+     "4 cartões, barras empilhadas, Pareto, linha do tempo e matriz.",
+     "Tabela resumo e 3 segmentações: etapa, unidade e ano.",
+     "Números conferem com a tabela de resultado esperado."]
+)
+
+receita(
+    "receita-4-local-crime",
+    "Receita 4: Atendimento de local de crime (12.664 execuções)",
+    "Este processo vai do acionamento da equipe ao relatório de atendimento. O "
+    "painel precisa separar deslocamento, coleta e liberação, porque o tempo "
+    "perdido não está onde o trabalho aparece.",
+    "O Deslocamento concentra 35,2% da espera, embora a Coleta tenha o maior "
+    "tempo de execução. Por isso, o painel precisa mostrar espera e execução "
+    "lado a lado.",
+    [["<code>fato_execucao</code>", "1 execução de etapa", "Tempos, retrabalho e custo"],
+     ["<code>dim_etapa</code>", "1 etapa (8)", "Acionamento, deslocamento, coleta, lacre e outras"],
+     ["<code>dim_unidade</code>", "1 unidade (5)", "ATO, ATV, IML, LAB e plantão"],
+     ["<code>dim_sistema</code>", "1 sistema (6)", "Excel e e-mail na operação de campo"],
+     ["<code>dim_calendario</code>", "1 dia (1.096)", "Atendimentos por mês"]],
+    "Espera Deslocamento (h) =\n"
+    "    CALCULATE([Tempo Espera (h)], dim_etapa[etapa] = \"Deslocamento\")\n"
+    "\n"
+    "Peso Deslocamento =\n"
+    "    DIVIDE([Espera Deslocamento (h)], [Tempo Espera (h)])\n"
+    "\n"
+    "Coleta vs Deslocamento =\n"
+    "    DIVIDE(\n"
+    "        CALCULATE([Tempo Execucao (h)], dim_etapa[etapa] = \"Coleta\"),\n"
+    "        CALCULATE([Tempo Execucao (h)], dim_etapa[etapa] = \"Deslocamento\")\n"
+    "    )",
+    [["Execuções", "12.664", "Contagem da fato"],
+     ["% espera", "86,5%", "O menor percentual entre os cinco, mas ainda é fila"],
+     ["Deslocamento", "22,9 h e 35,2%", "Maior espera média e maior participação"],
+     ["Liberação", "10,8 h e 16,6%", "Gargalo que aparece depois da coleta"],
+     ["Coleta", "3,7 h de execução", "Maior trabalho manual"],
+     ["TAT médio por caso", "497,0 h", "Espera mais execução, dividido por 240 casos"],
+     ["Retrabalho", "8,4%", "Uniforme entre as etapas, o que indica problema de checklist"]],
+    "O Deslocamento tem execução e espera. Quem olha apenas o tempo de "
+    "execução conclui que o problema está na coleta. Por isso, o painel "
+    "precisa empilhar espera e execução na mesma barra.",
+    "Deslocamento",
+    "Cenario4_Local_Crime.xlsx",
+    "12.664",
+    ["Workbook importado com 8 abas e 12.664 linhas na fato.",
+     "Relacionamentos criados e dim_calendario marcada como tabela de datas.",
+     "8 medidas base e 3 medidas do cenário.",
+     "4 cartões, barras empilhadas, Pareto, linha do tempo e matriz.",
+     "Tabela resumo e 3 segmentações: etapa, unidade e ano.",
+     "Números conferem com a tabela de resultado esperado."]
+)
+
+receita(
+    "receita-5-laboratorio",
+    "Receita 5: Análise laboratorial (13.896 execuções)",
+    "Este processo vai do recebimento da amostra ao laudo assinado. O painel "
+    "precisa mostrar que a fila está no equipamento, na amplificação e na "
+    "eletroforese, e não na interpretação do perfil.",
+    "Eletroforese e Amplificação somam 47,1% da espera. A Interpretação tem o "
+    "maior trabalho manual. Por isso, o painel precisa separar capacidade de "
+    "equipamento de esforço humano.",
+    [["<code>fato_execucao</code>", "1 execução de etapa", "Tempos, retrabalho e custo"],
+     ["<code>dim_etapa</code>", "1 etapa (8)", "Recebimento, extração, PCR, eletroforese e outras"],
+     ["<code>dim_unidade</code>", "1 unidade (5)", "Biologia, Toxicologia, Física, IML e Qualidade"],
+     ["<code>dim_tipo_atividade</code>", "1 tipo (6)", "Manual, automatizada, aprovação e outras"],
+     ["<code>dim_calendario</code>", "1 dia (1.096)", "Prazo de laudo por mês"]],
+    "Espera Equipamento (h) =\n"
+    "    CALCULATE(\n"
+    "        [Tempo Espera (h)],\n"
+    "        dim_etapa[etapa] IN {\"Amplificacao\", \"Eletroforese\"}\n"
+    "    )\n"
+    "\n"
+    "Peso Equipamento =\n"
+    "    DIVIDE([Espera Equipamento (h)], [Tempo Espera (h)])\n"
+    "\n"
+    "Interpretacao vs Equipamento =\n"
+    "    DIVIDE(\n"
+    "        CALCULATE([Tempo Execucao (h)], dim_etapa[etapa] = \"Interpretacao\"),\n"
+    "        CALCULATE([Tempo Execucao (h)], dim_etapa[etapa] IN {\"Amplificacao\", \"Eletroforese\"})\n"
+    "    )",
+    [["Execuções", "13.896", "Contagem da fato"],
+     ["% espera", "88,6%", "Processo dominado por fila"],
+     ["Eletroforese", "27,5 h e 24,9%", "Maior espera isolada"],
+     ["Amplificação", "24,6 h e 22,2%", "Segunda maior espera"],
+     ["Equipamento", "47,1%", "As duas etapas juntas concentram quase metade da espera"],
+     ["Interpretação", "3,2 h de execução", "Maior trabalho manual"],
+     ["TAT médio por caso", "834,2 h", "Espera mais execução, dividido por 260 casos"],
+     ["Retrabalho", "6,8%", "Baixo e uniforme; o problema é capacidade"]],
+    "A Interpretação tem o maior tempo de execução, mas a fila está no "
+    "equipamento. Se o seu painel destacar a interpretação como gargalo, você "
+    "olhou o trabalho em vez do tempo parado.",
+    "Amplificação + Eletroforese",
+    "Cenario5_Analise_Laboratorial.xlsx",
+    "13.896",
+    ["Workbook importado com 8 abas e 13.896 linhas na fato.",
+     "Relacionamentos criados e dim_calendario marcada como tabela de datas.",
+     "8 medidas base e 3 medidas do cenário.",
+     "4 cartões, barras empilhadas, Pareto, linha do tempo e matriz.",
+     "Tabela resumo e 3 segmentações: etapa, unidade e ano.",
+     "Números conferem com a tabela de resultado esperado."]
+)
+
+# =================================================================
+# PARTE 3 - MANHA: ANALISE DO PROCESSO COM DADOS
+# =================================================================
+cad.grp("Parte 3 - Manhã: análise do processo com dados",
+        "Onde o processo perde tempo e dinheiro, com medição e não com suposição.")
+
+cad.section("espera-vs-execucao", "A diferença que muda a leitura: espera e execução",
+    p("Todo processo tem dois tipos de tempo. O primeiro é o tempo em que "
+      "alguém trabalha. O segundo é o tempo em que o caso fica parado, "
+      "esperando. Na maior parte dos processos, a espera ocupa mais tempo do "
+      "que o trabalho.") +
+    tbl(["Tipo de tempo", "O que é", "Exemplo"],
+        [["<b>Tempo de execução</b> (touch time)", "Minutos em que alguém trabalha", "O perito analisa a amostra"],
+         ["<b>Tempo de espera</b> (wait time)", "Tempo em que o caso fica parado na fila", "O exame espera o perito"]],
+        num_cols=[]) +
+    callout("g", "O achado dos 5 datasets da aula",
+        "Nos cinco processos da POLITEC, a espera representa de 86% a 93% do "
+        "tempo total. Por isso, o problema não está na velocidade com que as "
+        "pessoas trabalham. Está no tempo em que os casos ficam parados na "
+        "fila.") +
+    wait_vs_touch(92)
+)
+
+cad.section("diagrama-espera", "O funil de espera por etapa",
+    p("O diagrama que mais revela um processo é o de esperas por etapa. Cada "
+      "etapa aparece com o tempo em que o caso ficou parado nela. Dessa forma, "
+      "a etapa com a maior barra é o gargalo.") +
+    bar_chart(
+        ["Fila perito", "Revisão", "Distribuição", "Triagem", "Assinatura", "Análise", "Arquivamento"],
+        [57175, 16888, 16360, 13480, 13380, 12860, 7000],
+        "Cenário 1: tempo de espera por etapa (horas, soma de todo o período)",
+        "A etapa Fila perito concentra 41,5% de toda a espera do processo. "
+        "Esse é o gargalo medido no dataset cenario1_processo_pericial.",
+        destaque=0
+    ) +
+    tbl(["Etapa", "Espera (h)", "% da espera", "Leitura"],
+        [["<b>Fila perito</b>", "57.175", "<b>41,5%</b>", "<b>GARGALO</b>: o caso fica parado até ser atendido"],
+         ["Revisão", "16.888", "12,3%", "Fila do revisor"],
+         ["Distribuição", "16.360", "11,9%", "Passagem entre setores"],
+         ["Triagem", "13.480", "9,8%", "Fila do ATO"],
+         ["Assinatura", "13.380", "9,7%", "Assinatura e liberação"],
+         ["Análise", "12.860", "9,3%", "Fila do perito antes de começar"],
+         ["Arquivamento", "7.000", "5,1%", "Envio e arquivo"]],
+        num_cols=[1, 2]) +
+    callout("purple", "Leia o gargalo correto",
+        "A etapa Análise tem o maior tempo de execução, que é o trabalho do "
+        "perito. A etapa Fila perito tem o maior tempo de espera. Por isso, o "
+        "gargalo a atacar é a fila. Mesmo que o perito trabalhe mais rápido, o "
+        "caso continua parado enquanto espera.")
+)
+
+cad.section("pareto-gargalos", "Pareto dos gargalos: a regra 20/80 do processo",
+    p("A análise de Pareto ordena as etapas por tempo e mostra que poucas "
+      "etapas concentram a maior parte do desperdício. Esse é o princípio de "
+      "Pareto aplicado a processos.") +
+    bar_chart(
+        ["Fila perito", "Revisão", "Distribuição", "Triagem", "Assinatura"],
+        [41.5, 12.3, 11.9, 9.8, 9.7],
+        "Pareto da espera: percentual do tempo de espera por etapa",
+        "As duas primeiras etapas, Fila perito e Revisão, somam 53,8% de toda "
+        "a espera. Atacar essas duas etapas resolve mais da metade do problema.",
+        fmt="{:.1f}%",
+        destaque=0
+    ) +
+    tbl(["Conceito", "Aplicação no processo"],
+        [["Princípio de Pareto (80/20)", "20% das etapas concentram 80% do tempo"],
+         ["Pareto de espera", "Onde o processo mais para"],
+         ["Pareto de retrabalho", "Onde mais se erra"],
+         ["Pareto de custo", "Onde o dinheiro mais se perde"]],
+        num_cols=[]) +
+    callout("tip", "Comece pelo topo",
+        "Se você puder atacar apenas uma etapa, ataque a primeira do Pareto. "
+        "Se puder atacar duas, ataque as duas primeiras. Com isso, o ganho por "
+        "unidade de esforço fica maior.")
+)
+
+cad.section("retrabalho", "Retrabalho: o desperdício que não aparece",
+    p("Retrabalho é refazer uma etapa já feita, por erro ou por devolução. Ele "
+      "não aparece no tempo de espera e, por isso, passa despercebido. Neste "
+      "caso, um exame que volta da revisão para nova análise refaz todo o "
+      "trabalho do perito.") +
+    bar_chart(
+        ["Pericial", "Orçamento", "Custódia", "Local de crime", "Laboratório"],
+        [11.6, 16.6, 4.7, 8.4, 6.8],
+        "Taxa média de retrabalho por dataset",
+        "O processo orçamentário tem a maior taxa, com 16,6%. Nele, o mapa e o "
+        "parecer são refeitos com frequência. Os dados vêm dos cinco datasets "
+        "da Aula 6.",
+        fmt="{:.1f}%",
+        destaque=1
+    ) +
+    step([
+        ("Mapeie o caminho de retorno no diagrama",
+         "Toda seta de volta, por correção ou devolução, precisa aparecer no AS-IS."),
+        ("Meça o retrabalho nos dados",
+         "Use a coluna <code>flag_retrabalho</code> da <code>fato_execucao</code> "
+         "e calcule o percentual por etapa."),
+        ("Ordene por taxa, e não por volume",
+         "Um processo com 5% de retrabalho em 15.000 casos custa mais do que "
+         "15% de retrabalho em 200 casos."),
+        ("Ataca a causa, e não o sintoma",
+         "Retrabalho alto na etapa 3, que é o mapa, indica problema no "
+         "checklist ou na planilha, e não no mapeamento em si."),
+    ]) +
+    tbl(["Retrabalho típico", "Causa raiz", "Intervenção"],
+        [["Exame volta da revisão", "Falta de checklist do perito", "Checklist padronizado no TO-BE"],
+         ["Mapa comparativo refeito", "Falta de critério de aceitação", "Alerta de dotação e regra clara"],
+         ["Pedido devolvido", "Formulário incompleto", "Formulário digital com validação"],
+         ["Evidência com divergência", "Lacre em papel", "QR Code digital"]],
+        num_cols=[]) +
+    callout("err", "Retrabalho invisível no diagrama",
+        "Se o AS-IS não mostra o caminho de volta, o tempo real fica "
+        "subestimado. Por isso, inclua o fluxo de retorno no diagrama e meça o "
+        "retrabalho nos dados.")
+)
+
+cad.section("littles-law", "Little's Law: quanto de fila o processo suporta",
+    p("Little's Law é a relação entre o número de itens no sistema, a taxa de "
+      "chegada e o tempo de permanência. A fórmula é <b><code>L = λ × W</code></b>, "
+      "em que L é o número de itens no sistema, λ é a taxa de chegada e W é o "
+      "tempo de permanência. Com ela, é possível calcular o tamanho da fila a "
+      "partir da demanda e do tempo.") +
+    code(
+        "L = λ × W\n"
+        "\n"
+        "λ (chegadas/periodo) = 1.200 requisicoes / ano\n"
+        "W (tempo no processo) = 92 dias (o TAT medio)\n"
+        "L = (1200/365) × 92 ≈ 302 requisicoes em transito\n"
+        "\n"
+        "Se W cair para 30 dias:\n"
+        "L = (1200/365) × 30 ≈ 99 requisicoes em transito",
+        "formula"
+    ) +
+    tbl(["Se você quer...", "Você precisa..."],
+        [["Reduzir a fila (L)", "Reduzir W, que é o tempo, ou λ, que é a chegada"],
+         ["Absorver mais demanda", "Aumentar a capacidade, o que eleva W"],
+         ["Reduzir o backlog", "Reduzir W ou aumentar a capacidade"]],
+        num_cols=[]) +
+    callout("purple", "Little's Law no seu TO-BE",
+        "Use Little's Law para prever o efeito da automação. Se o TO-BE reduz "
+        "a espera da fila de 44 h para 8 h, W cai e L cai na mesma proporção. "
+        "Com isso, o investimento fica justificado por número, e não por "
+        "opinião.")
+)
+
+cad.section("custo-espera", "Custo da espera: quando tempo vira dinheiro",
+    p("O custo do processo é a soma do custo de execução, que é o tempo de "
+      "trabalho multiplicado pelo custo por hora, com o custo da espera, que "
+      "inclui atraso, multa, retrabalho e insatisfação. Nos datasets, a coluna "
+      "<code>custo_execucao_rs</code> permite calcular o custo direto da "
+      "execução de cada etapa.") +
+    tbl(["Componente de custo", "Como aparece no processo da POLITEC"],
+        [["Mão de obra", "Horas do perito ou do técnico na execução"],
+         ["Atraso (TAT)", "Caso urgente que vence o prazo"],
+         ["Retrabalho", "Refazer etapa por erro"],
+         ["Perda de validade", "Amostra que se degrada na fila"],
+         ["Insatisfação", "Cidadão que demora para receber o laudo"]],
+        num_cols=[]) +
+    callout("tip", "Transforme espera em reais",
+        "Ao apresentar o TO-BE, converta a espera economizada em dinheiro. "
+        "Use a conta <b>(espera_antes menos espera_depois) × volume anual × "
+        "custo unitário</b>. Esse é o número que sustenta a decisão de "
+        "orçamento.")
+)
+
+# =================================================================
+# PARTE 4 - TARDE: FUNDAMENTOS DE GESTAO DE PROJETOS
+# =================================================================
+cad.grp("Parte 4 - Tarde: fundamentos de gestão de projetos",
+        "O mínimo que um projeto precisa ter: escopo, prazo, custo, qualidade e risco.")
+
+cad.section("o-que-e-projeto", "O que é um projeto e o que não é",
+    p("Um projeto é um esforço temporário para criar um produto, serviço ou "
+      "resultado único. O triângulo de escopo, prazo, custo e qualidade define "
+      "o projeto. Você pode cortar um dos quatro, mas precisa saber qual está "
+      "cortando.") +
+    tbl(["Projeto tem...", "Operação não tem..."],
+        [["Início e fim definidos", "Fim definido, porque é o dia a dia"],
+         ["Objetivo único", "Objetivo recorrente"],
+         ["Recursos próprios", "Recursos rotineiros"],
          ["Riscos de incerteza", "Riscos de rotina"],
-         ["Equipe temporaria", "Equipe permanente"]],
+         ["Equipe temporária", "Equipe permanente"]],
         num_cols=[]) +
     aplicab(
-        "<b>Quando</b> a POLITEC quer_speed_up o fluxo de requisicao pericial.",
-        "<b>Por que</b> isso e um <b>projeto</b> (tem inicio, fim e objetivo "
-        "de reduzir o TAT), e nao uma <b>operacao</b> (que seria &quot;todo "
-        "dia o laboratorio atende requisicoes&quot;).",
-        "<b>Exemplo</b>: &quot;implantar uma fila priorizada por prazo legal no "
-        "SIGT em 90 dias&quot; e um projeto. &quot;Atender requisicoes todos os "
-        "dias&quot; e a operacao."
-    ) +
-    callout("err", "A confusao mais comum",
-        "Chamar toda mudanca de &quot;projeto&quot;. Se nao tem inicio, fim e "
-        "resultado unico, e uma tarefa da operacao - e nao se gerencia com as "
+        "Quando a POLITEC decide acelerar o fluxo de requisição pericial.",
+        "Esse trabalho é um projeto, porque tem início, fim e objetivo de reduzir o TAT. Não é operação, porque a operação seria atender requisições todos os dias.",
+        "Implantar uma fila priorizada por prazo legal no SIGT em 90 dias é um projeto. Atender requisições todos os dias é a operação.") +
+    callout("err", "A confusão mais comum",
+        "Chamar toda mudança de projeto. Se não há início, fim e resultado "
+        "único, a atividade é da operação e não deve ser gerenciada com as "
         "ferramentas de projeto.")
 )
 
-cad.section("triangulo-projeto", "O triangulo de projeto: o que voce pode cortar",
-    p("Escopo, prazo, custo e qualidade estao ligados. Mude um, e os outros "
-      "reagem. Saber qual voce esta cortando e o que o sponsor precisa saber.") +
-    tbl(["Voce quer...", "Entao aceite que..."],
-        [["Reduzir o prazo", "Aumenta o custo OU reduz o escopo (ou aceita mais risco)"],
-         ["Reduzir o custo", "Estica o prazo OU corta escopo"],
-         ["Aumentar o escopo", "Estica o prazo OU custa mais"],
-         ["Aumentar a qualidade", "Custa mais OU demora mais"],
-         ["Cortar escopo", "<b>Primeira alavanca</b> de um projeto em aperto"]],
+cad.section("triangulo-projeto", "O triângulo de projeto: o que você pode cortar",
+    p("Escopo, prazo, custo e qualidade estão ligados. Quando um deles muda, "
+      "os outros reagem. Por isso, o sponsor precisa saber qual restrição será "
+      "alterada.") +
+    tbl(["Você quer...", "Então aceite que..."],
+        [["Reduzir o prazo", "O custo aumenta, o escopo diminui ou o risco cresce"],
+         ["Reduzir o custo", "O prazo aumenta ou o escopo diminui"],
+         ["Aumentar o escopo", "O prazo aumenta ou o custo cresce"],
+         ["Aumentar a qualidade", "O custo aumenta ou o prazo cresce"],
+         ["Cortar escopo", "Essa é a primeira alavanca em um projeto com restrição de recurso"]],
         num_cols=[]) +
     antesdepois(
-        "O sponsor pede &quot;segue o prazo, sem aumentar custo e com mais "
-        "funcionalidades&quot;. O projeto responde &quot;ok&quot; e decobre no "
-        "meio que vai cortar qualidade (ou engenharia).",
-        "O projeto responde: &quot;consigo prazo e custo se o escopo for "
-        "priorizado em fases; ou prazo e escopo se houver +20% de orcamento&quot;.",
-        errado="Promessa cega",
+        "O sponsor pede prazo curto, sem aumento de custo e com mais funcionalidades. O projeto aceita a promessa e descobre, no meio do caminho, que vai cortar qualidade.",
+        "O projeto responde que consegue prazo e custo se o escopo for priorizado em fases, ou que consegue prazo e escopo se houver aumento de orçamento.",
+        errado="Promessa sem análise",
         certo="Trade-off explícito"
     ) +
-    callout("tip", "A pergunta do sponsorship",
-        "Quando o escopo cresce, pergunte sempre: <b>&quot;Qual dos quatro "
-        "nosso vai ceder: prazo, custo ou escopo?&quot;</b> Isso transforma uma "
-        "conversa emotiva numa decisao de projeto.")
+    callout("tip", "A pergunta para o sponsor",
+        "Quando o escopo cresce, pergunte qual restrição será alterada: prazo, "
+        "custo ou escopo. Com isso, a conversa deixa de ser emocional e passa a "
+        "ser uma decisão de projeto.")
 )
 
 cad.section("ciclo-de-vida", "O ciclo de vida de um projeto: os 5 grupos de processos",
-    p("Todo projeto passa por <b>cinco grupos de processos</b> (o modelo "
-      "clássico, alinhado ao PMBOK). Cada grupo tem perguntas e entregáveis "
-      "próprios.") +
-    tbl(["Grupo", "Quando", "Pergunta-chave", "Entregavel tipico"],
-        [["<b>Iniciar</b>", "Inicio", "Vale a pena? Quem apoia?", "Termo de abertura, sponsor"],
-         ["<b>Planejar</b>", "Inicio", "Como, quando, com quem?", "Plano, cronograma, escopo"],
-         ["<b>Executar</b>", "Meio", "Fazendo o plano", "Produtos parciais"],
-         ["<b>Monitorar</b>", "Contínuo", "Estamos no plano?", "Relatórios, mudancas"],
-         ["<b>Encerrar</b>", "Fim", "Aprendemos algo?", "Termo de aceite, lições"]],
+    p("Todo projeto passa por cinco grupos de processos, conforme o modelo do "
+      "PMBOK. Cada grupo tem perguntas e entregáveis próprios. Por isso, o "
+      "ciclo ajuda a evitar dois erros: executar sem medir e nunca encerrar.") +
+    tbl(["Grupo", "Quando", "Pergunta-chave", "Entregável típico"],
+        [["<b>Iniciar</b>", "Início", "Vale a pena? Quem apoia?", "Termo de abertura e sponsor"],
+         ["<b>Planejar</b>", "Início", "Como, quando e com quem?", "Plano, cronograma e escopo"],
+         ["<b>Executar</b>", "Meio", "Estamos fazendo o plano?", "Produtos parciais"],
+         ["<b>Monitorar</b>", "Contínuo", "Estamos dentro do plano?", "Relatórios e mudanças"],
+         ["<b>Encerrar</b>", "Fim", "O que aprendemos?", "Termo de aceite e lições"]],
         num_cols=[]) +
     flow_h([
         ("INI", "Iniciar"),
@@ -205,289 +1341,266 @@ cad.section("ciclo-de-vida", "O ciclo de vida de um projeto: os 5 grupos de proc
         ("ENC", "Encerrar"),
     ]) +
     step([
-        ("Fase 1 - Iniciar (semanas 1-2)",
-         "Reunir o problema, identificar o sponsor, definir objetivo e "
-         "critérios de sucesso. Saída: um parágrafo dizendo o que vai mudar e como."),
-        ("Fase 2 - Planejar (semanas 2-6)",
-         "Mapear o AS-IS, medir o gargalo, desenhar o TO-BE, estimar esforço "
-         "e prazo. Saída: AS-IS, TO-BE e o plano de ondas."),
-        ("Fase 3 - Executar (semanas 6-26)",
-         "Implantar onda a onda, medindo o ganho de cada. Saída: o processo "
-         "rodando com a primeira onda."),
-        ("Fase 4 - Monitorar (contínuo)",
-         "Comparar TAT planejado x realizado a cada sprint. Saída: painel de "
-         "acompanhamento e decisoes de re-priorizacao."),
-        ("Fase 5 - Encerrar (ao fim)",
-         "Medir o ganho final, documentar o que funcionou, archive o processo "
-         "para o proximo projeto."),
+        ("Fase 1: iniciar (semanas 1 e 2)",
+         "Reúna o problema, identifique o sponsor, defina o objetivo e os "
+         "critérios de sucesso. Ao final, escreva um parágrafo com o que vai "
+         "mudar e como será medido."),
+        ("Fase 2: planejar (semanas 2 a 6)",
+         "Mapeie o AS-IS, meça o gargalo, desenhe o TO-BE e estime esforço e "
+         "prazo. Ao final, você tem o AS-IS, o TO-BE e o plano de ondas."),
+        ("Fase 3: executar (semanas 6 a 26)",
+         "Implante uma onda por vez e meça o ganho de cada uma. Ao final, o "
+         "processo opera com a primeira onda."),
+        ("Fase 4: monitorar (contínuo)",
+         "Compare o TAT planejado com o realizado a cada ciclo. Ao final, você "
+         "tem o painel de acompanhamento e as decisões de repriorização."),
+        ("Fase 5: encerrar (ao fim)",
+         "Meça o ganho final, documente o que funcionou e arquive o histórico "
+         "do processo para o próximo projeto."),
     ]) +
     aplicab(
-        "<b>Quando</b> a chiefs decide automatizar a cadeia de custodia.",
-        "<b>Por que</b> o ciclo de vida evita dois erros: comecar a executar "
-        "sem medir (Onda 1 sem plano) e nunca encerrar (sem lições "
-        "aprendidas).",
-        "<b>Exemplo</b> na POLITEC: <i>o projeto do QR Code na custodia "
-        "levou 26 semanas: 6 de mapeamento e medicao, 8 de piloto com duas "
-        "unidades, 12 de implantacao - e 3 de medicao de ganho.</i>"
-    ) +
-    callout("purple", "Monitorar nao e so no fim",
-        "A maior parte das falhas de projeto vem de <b>descobrir tarde</b> que "
-        "o escopo cresceu ou o prazo slipou. Monitorar e comparar "
-        "<b>continuamente</b> o planejado x realizado e corrigir cedo.")
+        "Quando a direção decide automatizar a cadeia de custódia.",
+        "O ciclo de vida evita começar a executar sem medir e evita também nunca encerrar o projeto sem registrar as lições aprendidas.",
+        "Na POLITEC, o projeto do QR Code na custódia levou 26 semanas: 6 de mapeamento e medição, 8 de piloto em duas unidades, 12 de implantação e 3 de medição do ganho.") +
+    callout("purple", "Monitorar não é só no fim",
+        "A maior parte das falhas de projeto vem de descobrir tarde que o "
+        "escopo cresceu ou que o prazo atrasou. Por isso, compare o planejado "
+        "com o realizado de forma contínua e corrija cedo.")
 )
 
-cad.section("stakeholders", "Partes interessadas e a matriz poder/interesse",
-    p("Stakeholder (ou parte interessada) e <b>qualquer pessoa ou grupo "
-      "afetado pelo projeto ou que possa afetá-lo</b>. Voce mapeia quem tem "
-      "<b>poder</b> (decide) e <b>interesse</b> (se importa) para saber como "
-      "comunicar com cada um.") +
-    tbl(["Quadrante", "Perfil", "Como voce gerencia"],
-        [["Alto poder / Alto interesse", "Parceiro próximo", "Gerencie de perto, envolvido"],
-         ["<b>Alto poder / Baixo interesse</b>", "Sponsor / chefe", "<b>Mantenha satisfeito</b> (com relato curto)"],
-         ["<b>Baixo poder / Alto interesse</b>", "Quem executa / usa", "<b>Mantenha informado</b> (formacao, demos)"],
-         ["Baixo poder / Baixo interesse", "Marginal", "Monitore com atencao minima"]],
+cad.section("stakeholders", "Partes interessadas e a matriz poder e interesse",
+    p("Parte interessada é qualquer pessoa ou grupo afetado pelo projeto ou "
+      "que possa afetá-lo. Você mapeia quem tem poder, que é a capacidade de "
+      "decidir, e interesse, que é o grau de envolvimento. Com isso, define "
+      "como comunicar com cada grupo.") +
+    tbl(["Quadrante", "Perfil", "Como gerenciar"],
+        [["Alto poder e alto interesse", "Parceiro próximo", "Gerencie de perto e mantenha o envolvimento"],
+         ["<b>Alto poder e baixo interesse</b>", "Sponsor ou chefe", "<b>Mantenha satisfeito</b>, com relato curto"],
+         ["<b>Baixo poder e alto interesse</b>", "Quem executa ou usa", "<b>Mantenha informado</b>, com formação e demonstrações"],
+         ["Baixo poder e baixo interesse", "Grupo marginal", "Monitore com atenção mínima"]],
         num_cols=[]) +
     aplicab(
-        "<b>Quando</b> voce propor automatizar a etapa de triagem.",
-        "<b>Por que</b> o chefe do intermedio (alto poder, interesse eventual) "
-        "precisa de um relato curto de impacto; os triadores (baixo poder, alto "
-        "interesse) precisam de treinamento e de Participate da desenho.",
-        "<b>Exemplo</b> na POLITEC: sponsor = Diretor Tecnico (satisfacao com "
-        "numero de TAT); equipe = triadores do ATO (formacao no novo sistema)."
-    ) +
-    callout("err", "Stakeholder esquecido",
-        "O stakeholder mais facilmente esquecido e o <b>usuario final</b> - "
-        "aquele que vai usar o processo todos os dias. Um processo redesenhado "
-        "sem o usuario no desenho e rejeitado na operacao.")
+        "Quando você propõe automatizar a etapa de triagem.",
+        "O chefe do intermediário, com alto poder e interesse eventual, precisa de um relato curto de impacto. Os triadores, com baixo poder e alto interesse, precisam de treinamento e de participação no desenho.",
+        "Na POLITEC, o sponsor é o Diretor Técnico, que acompanha o TAT. A equipe é formada pelos triadores do ATO, que precisam de formação no novo sistema.") +
+    callout("err", "Parte interessada esquecida",
+        "A parte interessada esquecida com mais frequência é o usuário final, "
+        "que vai usar o processo todos os dias. Um processo redesenhado sem a "
+        "participação do usuário é rejeitado na operação.")
 )
 
-cad.section("gestao-de-risco", "Risco de projeto: identificar, medir, tratar",
-    p("Risco e um <b>evento incerto</b> que, se ocorrer, afeta o projeto. O "
-      "gestor de projeto <b>identifica</b>, <b>avalia</b> (probabilidade x "
-      "impacto) e <b>trata</b> (evitar, reduzir, transferir ou aceitar).") +
-    tbl(["Probabilidade x Impacto", "Zona", "Acao"],
-        [["Alta x Alto", "<b>Vermelho (crítico)</b>", "Mitigar agora, plano de contingencia"],
-         ["Alta x Baixo", "Amarelo", "Reduzir, monitorar"],
-         ["Baixa x Alto", "Amarelo", "Plano de resposta pronto"],
-         ["Baixa x Baixo", "Verde", "Aceitar e monitorar"]],
+cad.section("gestao-de-risco", "Risco de projeto: identificar, medir e tratar",
+    p("Risco é um evento incerto que, se ocorrer, afeta o projeto. O gestor "
+      "identifica o risco, avalia a probabilidade e o impacto e define o "
+      "tratamento: evitar, reduzir, transferir ou aceitar.") +
+    tbl(["Probabilidade e impacto", "Zona", "Ação"],
+        [["Alta e alto", "<b>Vermelha (crítica)</b>", "Mitigar agora e preparar plano de contingência"],
+         ["Alta e baixo", "Amarela", "Reduzir e monitorar"],
+         ["Baixa e alto", "Amarela", "Preparar plano de resposta"],
+         ["Baixa e baixo", "Verde", "Aceitar e monitorar"]],
         num_cols=[]) +
     aplicab(
-        "<b>Quando</b> o projeto de automacao da triagem comeca.",
-        "<b>Por que</b> dois riscos dominam esta etapa: (1) o SIGT nao tem API para "
-        "integrar (Alto x Alto); (2) os triadores resistem a mudanca (Media x Alto).",
-        "<b>Exemplo</b> na POLITEC: mitigacao do risco 1 = come�ar com "
-        "exportacao CSV (workaround) e integrar depois; risco 2 = envolver os "
-        "triadores no desenho e treinar."
-    ) +
-    callout("purple", "Risco nao e o mesmo que problema",
-        "<b>Risco</b> e algo que <b>pode</b> acontecer (futuro, incerto). "
-        "<b>Problema</b> ja aconteceu (presente). Um risco alto vira um "
-        "problema se voce nao o trata.")
+        "Quando o projeto de automação da triagem começa.",
+        "Dois riscos dominam a etapa. O primeiro é a ausência de API no SIGT, com alta probabilidade e alto impacto. O segundo é a resistência dos triadores, com probabilidade média e alto impacto.",
+        "Na POLITEC, a mitigação do primeiro risco é começar com exportação CSV e integrar depois. A mitigação do segundo é envolver os triadores no desenho e oferecer treinamento.") +
+    callout("purple", "Risco não é problema",
+        "Risco é algo que pode acontecer. Problema é algo que já aconteceu. Um "
+        "risco alto se transforma em problema quando não é tratado.")
 )
 
-cad.section("indicadores-projeto", "Como saber se o projeto esta saudavel (indicadores)",
-    p("Um projeto sem indicador e um projeto as cegas. Os indicadores mais "
-      "usados na gestao publica sao os da <b>Prazo e Custo</b> "
-      "(EVM, Earned Value Management), mas na POLITEC vale tambem o "
-      "<b>TAT do processo</b> que voce vai medir hoje.") +
-    tbl(["Indicador", "Formula", "O que diz"],
-        [["SPI (Indice de Performance de Prazo)", "Valor ganho / Valor planejado", "Estou atrasando?"],
-         ["CPI (Indice de Performance de Custo)", "Custo real / Valor ganho", "Estou gastando mais?"],
-         ["Atraso medio", "Prazo real - prazo planejado", "Quanto tempo perdemos"],
-         ["TAT do processo", "Soma de espera + execucao", "Quanto tempo leva o fluxo"]],
+cad.section("indicadores-projeto", "Como saber se o projeto está saudável",
+    p("Um projeto sem indicador é um projeto sem direção. Na gestão pública, "
+      "os indicadores de prazo e custo vêm do Earned Value Management. Na "
+      "POLITEC, o TAT do processo também funciona como indicador de resultado.") +
+    tbl(["Indicador", "Fórmula", "O que informa"],
+        [["SPI (Índice de Performance de Prazo)", "Valor ganho dividido pelo valor planejado", "Se o projeto está atrasado"],
+         ["CPI (Índice de Performance de Custo)", "Custo real dividido pelo valor ganho", "Se o projeto está gastando mais"],
+         ["Atraso médio", "Prazo real menos prazo planejado", "Quanto tempo foi perdido"],
+         ["TAT do processo", "Soma de espera e execução", "Quanto tempo o fluxo leva"]],
         num_cols=[]) +
     callout("note", "SPI e CPI juntos",
-        "SPI &lt; 1 = atrasado; CPI &gt; 1 = gastando mais que o previsto "
-        "(planejando folga). Na pratica da POLITEC, um <b>TAT com tendencia de "
-        "alta</b> e o sinal mais claro de que o projeto precisa de atuacao.")
+        "Quando o SPI é menor que 1, o projeto está atrasado. Quando o CPI é "
+        "maior que 1, o custo está acima do previsto. Na prática da POLITEC, um "
+        "TAT com tendência de alta é o sinal de que o projeto precisa de "
+        "atuação.")
 )
 
 # =================================================================
-# PARTE 2 - BPMN E MERMAID
+# PARTE 5 - TARDE: BPMN E MERMAID
 # =================================================================
-cad.grp("Parte 2 - BPMN e Mermaid",
-        "A linguagem padrao para modelar processos (BPMN 2.0) e a ferramenta para desenhar diagramas como codigo (Mermaid).")
+cad.grp("Parte 5 - Tarde: BPMN e Mermaid",
+        "A notação padrão para modelar processos e a ferramenta para desenhar diagramas como código.")
 
 cad.section("por-que-modelar", "Por que modelar um processo antes de mudar",
-    p("Modelar (desenhar) um processo nao e burocracia: e o unico jeito de "
-      "<b>ver o processo inteiro</b>, <b>encontrar o gargalo</b> e <b>comunicar "
-      "a mudanca</b> sem ambiguidade. O desenho e o <b>contrato</b> entre as "
-      "pessoas que vao mudar o processo.") +
+    p("Modelar um processo não é burocracia. É a forma de ver o processo "
+      "inteiro, encontrar o gargalo e comunicar a mudança sem ambiguidade. "
+      "Além disso, o desenho funciona como contrato entre as pessoas que vão "
+      "mudar o processo.") +
     ul([
-        "<b>Evidencia o desperdicio</b>: quando voce desenha, ve as etapas que nao agregam valor.",
-        "<b>Revela gargalos</b>: o no de espera salta aos olhos no desenho.",
-        "<b>Facilita a conversa</b>: um desenho vale mais que dez paginas de texto.",
-        "<b>Versiona</b>: da para comparar AS-IS e TO-BE lado a lado e medir o ganho.",
+        "<b>Evidencia o desperdício</b>: ao desenhar, você vê as etapas que não agregam valor.",
+        "<b>Revela gargalos</b>: o ponto de espera fica visível no desenho.",
+        "<b>Facilita a conversa</b>: um desenho substitui páginas de texto.",
+        "<b>Permite comparar</b>: AS-IS e TO-BE podem ser vistos lado a lado.",
     ]) +
     antesdepois(
-        "&quot;O processo do laboratorio demora demais, alguem tem que "
-        "acelerar.&quot; - opiniao, sem dado, sem solucao.",
-        "Um desenho com o no de espera destacado e o tempo ao lado: "
-        "&quot;a espera na fila do perito e 44 h; se ela cair para 8 h, o TAT cai 30%&quot;.",
+        "&quot;O processo do laboratório demora demais, alguém tem que acelerar.&quot; Essa é uma opinião, sem dado e sem solução.",
+        "Um desenho com o ponto de espera destacado e o tempo ao lado: &quot;a espera na fila do perito é de 44 h; se ela cair para 8 h, o TAT cai 30%&quot;.",
         errado="Opinião",
         certo="Evidência"
     ) +
     callout("tip", "Regra de ouro",
-        "<b>Se nao esta desenhado, nao esta gerenciado.</b> O desenho AS-IS e "
-        "a linha de base (baseline) contra a qual voce mede o TO-BE.")
+        "Se o processo não está desenhado, ele não está gerenciado. O AS-IS é "
+        "a linha de base contra a qual o TO-BE será medido.")
 )
 
-cad.section("o-que-e-bpmn", "O que e BPMN (Business Process Modeling Notation)",
-    p("<b>BPMN 2.0</b> e a <b>notacao padrao internacional</b> para modelar "
-      "processos de negocio. Nascida da OMG, e lida por ferramentas de automacao "
-      "(Camunda, Bizagi, Power Automate) e usada em todo o mundo. O diferencial "
-      "do BPMN e que ele descreve <b>o que</b> acontece <b>e quem</b> faz, "
-      "com notacao grafica padronizada.") +
-    tbl(["Caracteristica", "BPMN 2.0"],
-        [["Padrao", "OMG (Object Management Group), ISO 19510"],
-         ["Foco", "Processos de negocio (o que e como)"],
-         ["Granularidade", "Fluxo (nao so o organograma)"],
-         ["Elementos", "Eventos, atividades, gateways, swimlanes"],
-         ["Uso", "Modelagem + alimentacao de ferramentas de automacao"]],
+cad.section("o-que-e-bpmn", "O que é BPMN (Business Process Modeling Notation)",
+    p("BPMN 2.0 é a notação padrão internacional para modelar processos de "
+      "negócio. Ela nasceu na OMG, é lida por ferramentas de automação, como "
+      "Camunda, Bizagi e Power Automate, e é usada em todo o mundo. O "
+      "diferencial do BPMN é descrever o que acontece e quem faz, com notação "
+      "gráfica padronizada.") +
+    tbl(["Característica", "BPMN 2.0"],
+        [["Padrão", "OMG (Object Management Group), ISO 19510"],
+         ["Foco", "Processos de negócio"],
+         ["Granularidade", "Fluxo, e não apenas o organograma"],
+         ["Elementos", "Eventos, atividades, gateways e swimlanes"],
+         ["Uso", "Modelagem e alimentação de ferramentas de automação"]],
         num_cols=[]) +
-    callout("purple", "BPMN e nao a linguagem do Mermaid",
-        "<b>BPMN</b> e a <b>notacao</b> (o conjunto de simbolos e regras). "
-        "<b>Mermaid</b> e uma <b>ferramenta</b> (voce escreve codigo e ele "
-        "desenha). Os dois sao complementares: o Mermaid desenha bem o fluxo, "
-        "mas nao substitui o rigor do BPMN. Nesta aula, vamos usar o Mermaid "
-        "como forma rapida de <b>materializar</b> o desenho BPMN.")
+    callout("purple", "BPMN não é a linguagem do Mermaid",
+        "BPMN é a notação, com o conjunto de símbolos e regras. Mermaid é uma "
+        "ferramenta, em que você escreve código e ela desenha. Os dois são "
+        "complementares: o Mermaid desenha o fluxo, mas não substitui o rigor "
+        "do BPMN. Nesta aula, o Mermaid é a forma rápida de materializar o "
+        "desenho BPMN.")
 )
 
 cad.section("elementos-bpmn", "Os elementos do BPMN: eventos, atividades e gateways",
-    p("Todo diagrama BPMN se combina com <b>tres familias</b> de elementos. "
-      "E com eles que voce descreve qualquer processo. A galeria abaixo mostra "
-      "os simbolos <b>na geometria oficial da OMG</b> - copie e use como "
-      "referencia no seu processo.") +
+    p("Todo diagrama BPMN combina três famílias de elementos. Com eles, você "
+      "descreve qualquer processo. A galeria abaixo mostra os símbolos na "
+      "geometria oficial da OMG. Use-a como referência no seu processo.") +
     gallery() +
-    tbl(["Elemento", "Simbolo", "Quando usar"],
-        [["Inicio", "Circulo vazio", "O primeiro passo do processo"],
-         ["Fim", "Circulo cheio", "Ultimo passo do processo"],
-         ["Tarefa", "Retangulo", "Acao manual ou automatica"],
-         ["Gateway exclusivo", "Losango com X", "Se A entao X senao Y (uma escolha)"],
-         ["Gateway paralelo", "Losango com +", "Faz X e Y ao mesmo tempo (divergente)"],
+    tbl(["Elemento", "Símbolo", "Quando usar"],
+        [["Início", "Círculo vazio", "O primeiro passo do processo"],
+         ["Fim", "Círculo cheio", "O último passo do processo"],
+         ["Tarefa", "Retângulo", "Ação manual ou automática"],
+         ["Gateway exclusivo", "Losango com X", "Se A, então X; senão, Y"],
+         ["Gateway paralelo", "Losango com +", "Faz X e Y ao mesmo tempo"],
          ["Gateway inclusivo", "Losango com O", "Pode fazer um, outro ou os dois"],
          ["Mensagem", "Seta tracejada", "Um ator passa algo para outro"],
-         ["Timer", "Relogio", "Acontece em data/programado"],
-         ["Fila (pool)", "Retangulo grande", "Um sistema / unidade separada"],
-         ["Objeto de dados", "Retangulo com canto", "Documento que entra/sai"]],
+         ["Timer", "Relógio", "Acontece em data programada"],
+         ["Fila (pool)", "Retângulo", "Um sistema ou unidade separada"],
+         ["Objeto de dados", "Retângulo com canto", "Documento que entra ou sai"]],
         num_cols=[]) +
-    callout("purple", "Leia o codigo do desenho",
-        "Os simbolos estao desenhados com a geometria padronizada. Notacao "
-        "importa: quando duas pessoas leem o mesmo diagrama, elas veem as "
-        "mesmas coisas - e isso e o que permite automatizar depois.")
+    callout("purple", "Leia o código do desenho",
+        "Os símbolos seguem a geometria padronizada. A notação importa: quando "
+        "duas pessoas leem o mesmo diagrama, elas veem as mesmas coisas. É "
+        "isso que permite automatizar o processo depois.")
 )
 
-cad.section("gateways-detalhe", "Gateways: as tres portas de decisao",
-    p("O <b>gateway</b> (losango) e onde o processo <b>decide</b>. Escolher o "
-      "gateway certo e essencial para o diagrama nao mentir sobre o processo.") +
+cad.section("gateways-detalhe", "Gateways: as três portas de decisão",
+    p("O gateway, representado pelo losango, é o ponto em que o processo "
+      "decide. Escolher o gateway correto evita que o diagrama minta sobre o "
+      "processo.") +
     gates_anatomy() +
     grid2([
         ("\u2715 Gateway exclusivo (X)",
-         "<b>Exatamente uma</b> das rotas e escolhida. E o mais comum. "
-         "Ex.: <i>&quot;O material biologico esta integro? Se sim, segue para "
-         "a analise; se nao, segue para a guarda.&quot;</i>"),
+         "<b>Exatamente uma</b> das rotas é escolhida. É o mais comum. "
+         "Exemplo: <i>&quot;O material biológico está íntegro? Se sim, segue "
+         "para a análise; se não, segue para a guarda.&quot;</i>"),
         ("\u2715 Gateway paralelo (+)",
-         "<b>Todas</b> as rotas saem juntas. Use para <b>dividir</b> trabalho "
-         "em paralelo. Ex.: <i>&quot;envia ao laboratorio E notifica o "
-         "delegado simultaneamente&quot;.</i>"),
+         "<b>Todas</b> as rotas saem juntas. Use para dividir trabalho em "
+         "paralelo. Exemplo: <i>&quot;envia ao laboratório e notifica o "
+         "delegado ao mesmo tempo&quot;.</i>"),
         ("\u25ef Gateway inclusivo (O)",
-         "<b>Uma, varias ou nenhuma</b> rota pode ser escolhida, conforme uma "
-         "condicao mais complexa. E o mais flexivel (e o mais dificil de ler)."),
+         "<b>Uma, várias ou nenhuma</b> rota pode ser escolhida, conforme uma "
+         "condição mais complexa. É o mais flexível e o mais difícil de ler."),
     ]) +
     callout("err", "Gateway mal usado",
-        "Usar um gateway paralelo quando so um caminho ocorre <b>inventa uma "
-        "paralelismo que nao existe</b> no processo real - e faz o TO-BE parecer "
-        "melhor do que e. Se so uma rota ocorre, use o exclusivo.")
-) 
+        "Usar um gateway paralelo quando apenas um caminho ocorre cria um "
+        "paralelismo que não existe no processo real. Com isso, o TO-BE parece "
+        "melhor do que é. Se apenas uma rota ocorre, use o exclusivo.")
+)
 
-cad.section("swimlanes", "Pools e swimlanes: quem faz o que",
-    p("As <b>swimlanes</b> (faixas horizontais) separam o processo por <b>ator "
-      "(quem executa)</b>: uma unidade, um cargo, um sistema. O fluxo do "
-      "processo cruza as faixas, deixando visivel <b>onde o processo muda de "
-      "mãos</b> - e isso e praticamente sempre onde esta o gargalo.") +
-    tbl(["Elemento", "O que representa", "Exemplo POLITEC"],
-        [["<b>Pool</b>", "Um sistema / organizacao separada", "SIGT (sistema), Papel (mundo fisico)"],
-         ["<b>Lane</b>", "Um papel dentro do pool", "Triador, Perito, Chefe, Sistema"]],
+cad.section("swimlanes", "Pools e swimlanes: quem faz o quê",
+    p("As swimlanes separam o processo por ator, que pode ser uma unidade, um "
+      "cargo ou um sistema. O fluxo cruza as faixas e deixa visível onde o "
+      "processo muda de mãos. Esse ponto costuma ser onde está o gargalo.") +
+    tbl(["Elemento", "O que representa", "Exemplo na POLITEC"],
+        [["<b>Pool</b>", "Um sistema ou organização separada", "SIGT e papel"],
+         ["<b>Lane</b>", "Um papel dentro do pool", "Triador, perito, chefe e sistema"]],
         num_cols=[]) +
     swimlane_anatomy() +
     step([
         ("Liste os atores do processo",
          "Quem executa alguma coisa? No fluxo pericial: <b>Delegacia</b>, "
-         "<b>ATO</b>, <b>Laboratorio</b>, <b>Sistema</b>."),
+         "<b>ATO</b>, <b>Laboratório</b> e <b>Sistema</b>."),
         ("Crie uma swimlane por ator",
          "Uma faixa horizontal por ator, na ordem em que o caso passa."),
         ("Coloque cada atividade na faixa de quem a executa",
-         "A triagem vai na faixa do ATO; a analise, na do Laboratorio."),
+         "A triagem vai na faixa do ATO, e a análise vai na faixa do laboratório."),
         ("Marque as fronteiras",
-         "Onde o fluxo <b>atravessa</b> duas faixas, existe uma espera "
-         "potencial - sinalize com um comentario ou cor."),
+         "Onde o fluxo atravessa duas faixas, existe uma espera potencial. "
+         "Sinalize esse ponto com um comentário ou uma cor."),
     ]) +
     aplicab(
-        "<b>Quando</b> voce quer prever onde o processo vai travar.",
-        "<b>Por que</b> cada <b>transicao entre swimlanes</b> (uma mao passa "
-        "o objeto para outra) e um ponto de espera potencial.",
-        "<b>Exemplo</b> na POLITEC: <i>o fluxo do requisicao pericial cruza 4 "
-        "swimlanes (Delegacia &rarr; ATO &rarr; Laboratorio &rarr; Sistema). "
-        "Medindo a espera em cada fronteira, a fila do perito aparece como "
-        "51% do tempo.</i>"
-    ) +
+        "Quando você quer prever onde o processo vai travar.",
+        "Cada transição entre swimlanes é um ponto de espera potencial, porque uma mão passa o objeto para outra.",
+        "No fluxo da requisição pericial, o caso cruza quatro swimlanes: Delegacia, ATO, Laboratório e Sistema. Medindo a espera em cada fronteira, a Fila perito aparece com 41,5% do tempo.") +
     callout("purple", "Onde nasce o gargalo",
-        "Cada <b>transicao entre swimlanes</b> (uma mao passa o objeto para "
-        "outra) e um ponto de espera potencial. O gargalo quase sempre esta "
-        "nessas fronteiras - por isso que medir <b>espera por etapa</b> (e nao "
-        "so execucao) muda o diagnostico.")
+        "Cada transição entre swimlanes é um ponto de espera potencial. O "
+        "gargalo quase sempre está nessas fronteiras. Por isso, medir a espera "
+        "por etapa, e não apenas a execução, muda o diagnóstico.")
 )
 
 cad.section("eventos-bpmn", "Eventos: o que dispara, espera ou detecta",
-    p("Eventos BPMN sao os gatilhos e respostas do processo. Eles dao "
-      "profundidade e sao essenciais para automatizacao.") +
+    p("Eventos BPMN são os gatilhos e as respostas do processo. Eles dão "
+      "profundidade ao desenho e são necessários para a automação.") +
     ul([
-        "<b>Evento de inicio</b>: o que dispara o processo? (mensagem, timer, erro, sinal).",
-        "<b>Evento intermediario</b>: o que acontece no meio e reage (ex.: <i>prazo legal vence</i>).",
-        "<b>Evento de fim</b>: como o processo termina (normal, erro, cancelamento).",
-        "<b>Evento de fronteira</b>: anexo a uma atividade - <i>se der erro na etapa, ...</i>.",
+        "<b>Evento de início</b>: o que dispara o processo, como mensagem, timer, erro ou sinal.",
+        "<b>Evento intermediário</b>: o que acontece no meio e exige reação, como o vencimento do prazo legal.",
+        "<b>Evento de fim</b>: como o processo termina, de forma normal, com erro ou com cancelamento.",
+        "<b>Evento de fronteira</b>: fica anexo a uma atividade e reage a um erro ou a um prazo.",
     ]) +
-    callout("tip", "O evento de fronteira e o coracao da automacao",
-        "&quot;Se o prazo vencer, <b>dispara alerta</b>&quot; e um evento de "
-        "fronteira com timer. E assim que se constroi um alarme automatico no "
-        "TO-BE.")
+    callout("tip", "O evento de fronteira e a automação",
+        "&quot;Se o prazo vencer, dispara alerta&quot; é um evento de fronteira "
+        "com timer. É assim que se constrói um alarme automático no TO-BE.")
 )
 
-cad.section("mermaid-intro", "Mermaid: diagramas como codigo",
-    p("<b>Mermaid</b> e uma linguagem de <b>texto para diagramas</b>. Voce "
-      "escreve um diagrama em texto simples, dentro de qualquer bloco de "
-      "texto (Markdown, este caderno, IDE, wiki) e o Mermaid renderiza o "
-      "desenho. Como o diagrama <b>e texto</b>, ele entra no Git, versiona, "
-      "revisa e <b>reaparece sozinho</b>.") +
-    tbl(["Vantagem", "Explicacao"],
-        [["Versionavel", "O diagrama esta no Git: muda, compara, volta atras"],
-         ["Colaborativo", "Dois pessoas editam o mesmo texto do diagrama"],
-         ["Barato de mudar", "Mover uma etapa = editar uma linha de texto"],
-         ["Renderiza em qualquer lugar", "GitHub, GitLab, VS Code, Notion, este caderno"]],
+cad.section("mermaid-intro", "Mermaid: diagramas como código",
+    p("Mermaid é uma linguagem de texto para diagramas. Você escreve o "
+      "diagrama em texto, dentro de um bloco de Markdown, deste caderno, de "
+      "uma IDE ou de uma wiki, e o Mermaid renderiza o desenho. Como o "
+      "diagrama é texto, ele entra no Git, é versionado, revisado e "
+      "reaparece sozinho.") +
+    tbl(["Vantagem", "Explicação"],
+        [["Versionável", "O diagrama fica no Git e pode ser comparado ou revertido"],
+         ["Colaborativo", "Duas pessoas editam o mesmo texto do diagrama"],
+         ["Barato de mudar", "Mover uma etapa exige editar uma linha de texto"],
+         ["Renderiza em qualquer lugar", "GitHub, GitLab, VS Code, Notion e este caderno"]],
         num_cols=[]) +
     step([
         ("Escreva o diagrama como texto",
          "Comece com <code>flowchart TD</code> e uma seta: <code>A[Req.] --&gt; B[Triagem]</code>."),
         ("Renderize no navegador",
-         "Cole em <b>mermaid.live</b> (gratis, sem instalar nada) e veja o "
-         "desenho aparecer."),
+         "Cole em <b>mermaid.live</b>, que é gratuito e não exige instalação, e "
+         "veja o desenho aparecer."),
         ("Itere e limpe",
-         "Adicione etapas, gateways e swimlanes. O texto cresce; o desenho "
+         "Adicione etapas, gateways e swimlanes. O texto cresce e o desenho "
          "acompanha."),
-        ("Versione no repositorio",
-         "Salve como <code>processo.mmd</code> no Git. O diagrama passa a ter "
-         "historico."),
+        ("Versione no repositório",
+         "Salve como <code>processo.mmd</code> no Git. Com isso, o diagrama "
+         "passa a ter histórico."),
     ]) +
-    callout("note", "Quando usar BPMN formal x Mermaid rapido",
-        "<b>Mermaid</b> e perfeito para rascunho rapido, documentacao e "
-        "diagramas que vivem junto do codigo. Para um projeto formal com "
-        "ferramenta de BPMN, use uma ferramenta dedicada. Nesta aula, o Mermaid "
-        "e o cavalete para desenhar o BPMN com velocidade.")
+    callout("note", "BPMN formal e Mermaid rápido",
+        "Mermaid é adequado para rascunho, documentação e diagramas que vivem "
+        "junto do código. Para um projeto formal com ferramenta de BPMN, use "
+        "uma ferramenta dedicada. Nesta aula, o Mermaid é o apoio para "
+        "desenhar o BPMN com velocidade.")
 )
 
-cad.section("mermaid-flowchart", "Mermaid 1: flowchart - o diagrama de fluxo",
-    p("O <code>flowchart</code> e o tipo mais usado e o mais proximo do BPMN. "
-      "Com ele voce desenha o fluxo completo de um processo.") +
+cad.section("mermaid-flowchart", "Mermaid 1: flowchart, o diagrama de fluxo",
+    p("O <code>flowchart</code> é o tipo mais usado e o mais próximo do BPMN. "
+      "Com ele, você desenha o fluxo completo de um processo.") +
     code(
         "flowchart TD\n"
         "    A([Inicio: requisicao recebida]) --> B[Triagem]\n"
@@ -499,26 +1612,26 @@ cad.section("mermaid-flowchart", "Mermaid 1: flowchart - o diagrama de fluxo",
         "    F --> G([Fim: laudo emitido])",
         "mermaid"
     ) +
-    tbl(["Elemento", "Sintaxe", "Significado BPMN"],
-        [["Nos", "`A[Retangulo]`", "Atividade (tarefa)"],
-         ["Nos com borda dupla", "`A[[Subprocesso]]`", "Subprocesso"],
-         ["Retangulo arredondado", "`A([Inicio])`", "Evento de inicio/fim"],
+    tbl(["Elemento", "Sintaxe", "Significado no BPMN"],
+        [["Nós", "`A[Retangulo]`", "Atividade (tarefa)"],
+         ["Nós com borda dupla", "`A[[Subprocesso]]`", "Subprocesso"],
+         ["Retângulo arredondado", "`A([Inicio])`", "Evento de início ou fim"],
          ["Losango", "`C{Decisao?}`", "Gateway"],
          ["Seta simples", "`A --> B`", "Fluxo"],
-         ["Seta rotulada", "`A -->|Sim| B`", "Fluxo com mensagem/condicao"],
+         ["Seta rotulada", "`A -->|Sim| B`", "Fluxo com condição"],
          ["Caixa dupla", "`A[[Sub]]`", "Subprocesso"]],
         num_cols=[]) +
-    callout("tip", "Direcao do fluxo",
-        "<code>TD</code> = top-down (vertical, classico em BPMN); "
-        "<code>LR</code> = left-right (horizontal, melhor para processos "
-        "longos). Comece com <code>TD</code>, mude para <code>LR</code> se o "
-        "diagrama ficar comprido demais.")
+    callout("tip", "Direção do fluxo",
+        "<code>TD</code> significa top-down, na vertical, que é o padrão do "
+        "BPMN. <code>LR</code> significa left-right, na horizontal, e é melhor "
+        "para processos longos. Comece com <code>TD</code> e mude para "
+        "<code>LR</code> se o diagrama ficar comprido demais.")
 )
 
-cad.section("mermaid-subgraphs", "Mermaid 2: subgraph - as swimlanes",
-    p("O <code>subgraph</code> do Mermaid reproduz as <b>swimlanes</b> do "
-      "BPMN: cada bloco e um ator (unidade, papel ou sistema), e o fluxo cruza "
-      "os blocos.") +
+cad.section("mermaid-subgraphs", "Mermaid 2: subgraph, as swimlanes",
+    p("O <code>subgraph</code> do Mermaid reproduz as swimlanes do BPMN. Cada "
+      "bloco é um ator, que pode ser uma unidade, um papel ou um sistema, e o "
+      "fluxo cruza os blocos.") +
     code(
         "flowchart LR\n"
         "    subgraph DELEG[\"Delegacia\"]\n"
@@ -537,16 +1650,16 @@ cad.section("mermaid-subgraphs", "Mermaid 2: subgraph - as swimlanes",
         "    G --> H([Laudo])",
         "mermaid"
     ) +
-    callout("purple", "A regra de ouro do subgraph",
-        "Um processo so e bem modelado quando <b>cada atividade esta dentro de "
-        "uma swimlane</b>. Se uma tarefa esta &quot;na swimlane errada&quot;, o "
-        "diagrama esta errado. E a mesma disciplina do BPMN formal.")
+    callout("purple", "A regra do subgraph",
+        "Um processo só está bem modelado quando cada atividade está dentro de "
+        "uma swimlane. Se uma tarefa está na swimlane errada, o diagrama está "
+        "errado. Essa é a mesma disciplina do BPMN formal.")
 )
 
-cad.section("mermaid-sequence", "Mermaid 3: sequenceDiagram - quem fala com quem",
-    p("O <code>sequenceDiagram</code> mostra o fluxo <b>no tempo</b>, com os "
-      "atores trocando mensagens. E ideal para processos com <b>integracao "
-      "entre sistemas</b> ou <b>comunicacao com terceiros</b>.") +
+cad.section("mermaid-sequence", "Mermaid 3: sequenceDiagram, quem fala com quem",
+    p("O <code>sequenceDiagram</code> mostra o fluxo no tempo, com os atores "
+      "trocando mensagens. Ele é adequado para processos com integração entre "
+      "sistemas ou com comunicação com terceiros.") +
     code(
         "sequenceDiagram\n"
         "    participant D as Delegacia\n"
@@ -563,22 +1676,22 @@ cad.section("mermaid-sequence", "Mermaid 3: sequenceDiagram - quem fala com quem
         "mermaid"
     ) +
     tbl(["Seta", "Significado"],
-        [["`->>`", "Mensagem sincrona (chamada)"],
+        [["`->>`", "Mensagem síncrona (chamada)"],
          ["`-->>`", "Retorno (resposta)"],
-         ["`-)`", "Mensagem assincrona (fire-and-forget)"],
-         ["`->>`", "Fluxo de dados / evento"]],
+         ["`-) `", "Mensagem assíncrona (sem espera)"],
+         ["`->>`", "Fluxo de dados ou evento"]],
         num_cols=[]) +
-    callout("tip", "flowchart x sequenceDiagram",
-        "<b>flowchart</b> mostra <b>os passos</b> (o que acontece). "
-        "<b>sequenceDiagram</b> mostra <b>as mensagens</b> (quem fala com quem "
-        "e quando). Para automatizacao (integrar sistemas), o sequenceDiagram "
-        "e mais util.")
+    callout("tip", "flowchart e sequenceDiagram",
+        "O <b>flowchart</b> mostra os passos, ou seja, o que acontece. O "
+        "<b>sequenceDiagram</b> mostra as mensagens, ou seja, quem fala com "
+        "quem e quando. Para automação e integração entre sistemas, o "
+        "sequenceDiagram é mais útil.")
 )
 
-cad.section("mermaid-state", "Mermaid 4: stateDiagram - o ciclo de vida",
-    p("O <code>stateDiagram-v2</code> mostra os <b>estados</b> que um objeto "
-      "(uma requisicao, uma evidencia, um projeto) assume ao longo do tempo. "
-      "E a visao natural para o aluno que ja estudou o ciclo de vida no Dia 1.") +
+cad.section("mermaid-state", "Mermaid 4: stateDiagram, o ciclo de vida",
+    p("O <code>stateDiagram-v2</code> mostra os estados que um objeto, como "
+      "uma requisição, uma evidência ou um projeto, assume ao longo do tempo. "
+      "É a visão natural para quem já estudou o ciclo de vida no Dia 1.") +
     code(
         "stateDiagram-v2\n"
         "    [*] --> AguardandoTriagem\n"
@@ -590,16 +1703,17 @@ cad.section("mermaid-state", "Mermaid 4: stateDiagram - o ciclo de vida",
         "    LaudoEmitido --> [*]",
         "mermaid"
     ) +
-    callout("note", "Estado x etapa",
-        "Um <b>estado</b> e uma condicao duradoura (a requisicao esta "
-        "&quot;em analise&quot;); uma <b>etapa</b> e um passo (o perito "
-        "&quot;recolheu a amostra&quot;). O stateDiagram foca no <b>primeiro</b>, "
-        "o flowchart no <b>segundo</b>. Nos dois, o gargalo e o estado mais "
-        "longo em que o objeto fica parado.")
+    callout("note", "Estado e etapa",
+        "Um estado é uma condição duradoura, como a requisição que está em "
+        "análise. Uma etapa é um passo, como o perito que recolheu a amostra. "
+        "O stateDiagram foca no estado, e o flowchart foca na etapa. Nos dois, "
+        "o gargalo é o estado em que o objeto fica parado por mais tempo.")
 )
 
 cad.section("mermaid-outros", "Mermaid 5: gantt, journey, mindmap e C4",
-    p("O Mermaid tem outros tipos uteis para um gestor de projeto:") +
+    p("O Mermaid tem outros tipos úteis para a gestão de projeto. Cada um "
+      "responde a uma pergunta diferente, e todos podem ser versionados como "
+      "texto.") +
     code(
         "gantt\n"
         "    title Projeto - automacao da triagem\n"
@@ -612,72 +1726,72 @@ cad.section("mermaid-outros", "Mermaid 5: gantt, journey, mindmap e C4",
         "    Validacao com uso   :b2, after b1, 15d",
         "mermaid"
     ) +
-    tbl(["Tipo", "Para que serve", "Exemplo POLITEC"],
-        [["<code>gantt</code>", "Cronograma do projeto", "Prazo das fases de uma automacao"],
-         ["<code>journey</code>", "Experiencia do usuario", "Como a vitrine e a delegacia vivenciam o processo"],
-         ["<code>mindmap</code>", "Decomposicao do escopo", "Arvore do escopo (WBS)"],
+    tbl(["Tipo", "Para que serve", "Exemplo na POLITEC"],
+        [["<code>gantt</code>", "Cronograma do projeto", "Prazo das fases de uma automação"],
+         ["<code>journey</code>", "Experiência do usuário", "Como a delegacia vivencia o processo"],
+         ["<code>mindmap</code>", "Decomposição do escopo", "Árvore do escopo (WBS)"],
          ["<code>C4</code>", "Arquitetura de software", "Como o app conversa com o SIGT"],
-         ["<code>erDiagram</code>", "Modelo de dados", "Entidades do processo (requisicao, exame)"]],
+         ["<code>erDiagram</code>", "Modelo de dados", "Entidades do processo, como requisição e exame"]],
         num_cols=[]) +
     callout("purple", "O diagrama de viagem (journey)",
-        "O <code>journey</code> mapeia a <b>experiencia</b> do cidadao ou do "
-        "servidor ao longo do processo. Ele revela o momento de <b>espera</b> "
-        "na perspectiva de quem sofre a espera - o argumento mais forte para a "
-        "automatizacao.")
+        "O <code>journey</code> mapeia a experiência do cidadão ou do servidor "
+        "ao longo do processo. Ele revela o momento de espera na perspectiva de "
+        "quem passa pelo processo. Esse é o argumento para a automação.")
 )
 
 # =================================================================
-# PARTE 3 - DO TEXTO AO DIAGRAMA (METODO DAS 7 PERGUNTAS)
+# PARTE 6 - TARDE: DO TEXTO AO DIAGRAMA
 # =================================================================
-cad.grp("Parte 3 - Do Texto ao Diagrama",
-        "O metodo que converte uma descricao em linguagem natural em um diagrama BPMN, automaticamente.")
+cad.grp("Parte 6 - Tarde: do texto ao diagrama",
+        "O método que converte uma descrição em linguagem natural em um diagrama BPMN.")
 
-cad.section("por-que-automatizar-o-desenho", "Por que nao desenhar a mao",
-    p("Desenhar um diagrama de processo a mao e lento, dificil de manter e "
-      "impossivel de versionar. O desenho <b>como texto</b> (Mermaid) muda a "
-      "equacao: voce escreve o processo em <b>minutos</b>, versiona no Git, e "
+cad.section("por-que-automatizar-o-desenho", "Por que não desenhar à mão",
+    p("Desenhar um diagrama de processo à mão é lento, difícil de manter e "
+      "difícil de versionar. O desenho como texto, com Mermaid, muda essa "
+      "situação. Você escreve o processo em minutos, versiona no Git e "
       "qualquer pessoa com o texto consegue gerar o diagrama.") +
     grid2([
-        ("\u2717 Desenho manual (Visio / Lucidchart)",
-         ul(["Lento para montar e lento para mudar",
-             "Varias pessoas nao editam o mesmo arquivo",
-             "Sem historico de mudancas",
-             "Se perde em PDF ou PNG solto"])),
+        ("\u2717 Desenho manual (Visio ou Lucidchart)",
+         ul(["Lento para montar e para mudar",
+             "Várias pessoas não editam o mesmo arquivo",
+             "Sem histórico de mudanças",
+             "O arquivo se perde em PDF ou PNG"])),
         ("\u2713 Diagrama como texto (Mermaid)",
-         ul(["Minutos para escrever, segundos para gerar",
-             "Editavel por qualquer pessoa com texto",
-             "Versionado no Git, com diff claro",
-             "Renderiza em GitHub, wiki, IDE e aqui"]))
+         ul(["Minutos para escrever e segundos para gerar",
+             "Editável por qualquer pessoa com o texto",
+             "Versionado no Git, com diff legível",
+             "Renderiza no GitHub, na wiki, na IDE e neste caderno"]))
     ]) +
-    callout("tip", "O desenho deixa de ser documento e vira codigo",
-        "Um diagrama Mermaid <b>é um arquivo de texto</b>. Ele entra no mesmo "
-        "controle de versao do codigo: quem mudou o processo mudou o diagrama, "
-        "e o historico conta a historia da mudanca.")
+    callout("tip", "O desenho deixa de ser documento e passa a ser código",
+        "Um diagrama Mermaid é um arquivo de texto. Ele entra no mesmo controle "
+        "de versão do código. Assim, quem mudou o processo mudou o diagrama, e "
+        "o histórico mostra a mudança.")
 )
 
-cad.section("metodo-7-perguntas", "O metodo das 7 perguntas: de texto para diagrama",
-    p("Para transformar qualquer descricao em processo num diagrama, faca "
-      "estas <b>7 perguntas</b>, sempre na mesma ordem. A ordem importa: cada "
-      "pergunta so faz sentido depois da anterior.") +
+cad.section("metodo-7-perguntas", "O método das 7 perguntas: de texto para diagrama",
+    p("Para transformar uma descrição em diagrama, faça sete perguntas, sempre "
+      "na mesma ordem. A ordem importa, porque cada pergunta depende da "
+      "anterior.") +
     tbl(["#", "Pergunta", "Vira no diagrama..."],
-        [["<b>1</b>", "<b>Quem/que dispara?</b> O que inicia o processo?", "Evento de inicio"],
-         ["<b>2</b>", "<b>Onde comeca?</b> Qual a primeira atividade?", "Primeira tarefa"],
-         ["<b>3</b>", "<b>O que acontece em seguida?</b> (repita)", "Cadeia de tarefas"],
-         ["<b>4</b>", "<b>Ha decisao?</b> (condicao se/senao)", "Gateway"],
-         ["<b>5</b>", "<b>Quem faz cada etapa?</b> (unidade/papel)", "Swimlanes"],
-         ["<b>6</b>", "<b>O que entra e sai?</b> (documentos)", "Objetos de dados / mensagens"],
-         ["<b>7</b>", "<b>Como termina?</b> (sucesso? erro? cancela?)", "Evento(s) de fim"]],
+        [["<b>1</b>", "<b>Quem ou o que dispara?</b> O que inicia o processo?", "Evento de início"],
+         ["<b>2</b>", "<b>Onde começa?</b> Qual é a primeira atividade?", "Primeira tarefa"],
+         ["<b>3</b>", "<b>O que acontece em seguida?</b> Repita a pergunta.", "Cadeia de tarefas"],
+         ["<b>4</b>", "<b>Há decisão?</b> Existe condição do tipo se e senão?", "Gateway"],
+         ["<b>5</b>", "<b>Quem faz cada etapa?</b> Qual é a unidade ou o papel?", "Swimlanes"],
+         ["<b>6</b>", "<b>O que entra e sai?</b> Quais documentos circulam?", "Objetos de dados e mensagens"],
+         ["<b>7</b>", "<b>Como termina?</b> Com sucesso, erro ou cancelamento?", "Eventos de fim"]],
         num_cols=[]) +
     callout("g", "Por que a ordem importa",
-        "A pergunta 5 (quem faz) so faz sentido depois de saber <b>quais</b> "
-        "atividades existem (perguntas 2-4). E a 7 (fim) so depois de mapear o "
-        "caminho. Pular direto para o desenho leva a diagramas errados - com tarefa "
-        "na swimlane errada ou sem o fim.")
+        "A pergunta 5, que trata de quem faz, só faz sentido depois de saber "
+        "quais atividades existem, o que é respondido nas perguntas 2 a 4. A "
+        "pergunta 7, que trata do fim, só faz sentido depois de mapear o "
+        "caminho. Pular direto para o desenho leva a diagramas com tarefa na "
+        "swimlane errada ou sem fim.")
 )
 
-cad.section("exemplo-pratico", "Exemplo pratico: do texto ao diagrama",
-    p("Voce ouve de um perito a descricao do fluxo. Ela vira o diagrama "
-      "seguinte usando so as 7 perguntas:") +
+cad.section("exemplo-pratico", "Exemplo prático: do texto ao diagrama",
+    p("Um perito descreve o fluxo, e a descrição vira o diagrama abaixo. O "
+      "roteiro são as sete perguntas, aplicadas na ordem.") +
     code(
         "flowchart TD\n"
         "    subgraph DELEG[\"Delegacia\"]\n"
@@ -696,259 +1810,94 @@ cad.section("exemplo-pratico", "Exemplo pratico: do texto ao diagrama",
         "    end",
         "mermaid"
     ) +
-    tbl(["Pergunta", "Resposta", "Onde esta no diagrama"],
-        [["1. Quem dispara?", "A delegacia recebe a requisicao", "Evento de inicio A"],
-         ["2. Onde comeca?", "Registrar no SIGT", "Tarefa B"],
-         ["3. O que depois?", "Triagem, fila, analise", "C, E, F"],
-         ["4. Ha decisao?", "Dados completos? Passa a revisao?", "Gateways D e G"],
-         ["5. Quem faz?", "Delegacia, ATO, Laboratorio", "3 swimlanes"],
-         ["6. O que entra/sai?", "Protocolo, laudo", "Nos de borda"],
+    tbl(["Pergunta", "Resposta", "Onde está no diagrama"],
+        [["1. Quem dispara?", "A delegacia recebe a requisição", "Evento de início A"],
+         ["2. Onde começa?", "Registrar no SIGT", "Tarefa B"],
+         ["3. O que acontece depois?", "Triagem, fila e análise", "C, E e F"],
+         ["4. Há decisão?", "Dados completos e passa à revisão", "Gateways D e G"],
+         ["5. Quem faz?", "Delegacia, ATO e Laboratório", "Três swimlanes"],
+         ["6. O que entra e sai?", "Protocolo e laudo", "Nós de borda"],
          ["7. Como termina?", "Laudo emitido", "Evento de fim J"]],
         num_cols=[])
 )
 
-cad.section("heuristicas-diagrama", "Heuristicas: como fazer um diagrama legivel",
-    p("Um diagrama bom se lê em segundos. Estas heuristicas seguem a boa "
-      "pratica de BPMN e melhoram a leitura do seu processo.") +
+cad.section("heuristicas-diagrama", "Heurísticas: como fazer um diagrama legível",
+    p("Um diagrama bom se lê em segundos. As heurísticas abaixo seguem a boa "
+      "prática de BPMN e melhoram a leitura do processo.") +
     ul([
-        "<b>Fluxo de cima para baixo (TD)</b>, exceto processos longos (use LR).",
-        "<b>Um swimlane por ator</b>, sem atividades fora de nenhuma.",
-        "<b>Poucos elementos por pagina</b> - se nao cabe, quebre em sub-processos.",
-        "<b>Rotule as setas com a condicao</b> (&quot;Sim&quot;/&quot;Nao&quot;).",
-        "<b>Evite linhas cruzadas</b> - se cruzam, reveja o layout ou quebre.",
-        "<b>Nomeie as atividades com verbo</b> (&quot;Registrar&quot;, nao &quot;Registro&quot;).",
-        "<b>Destaque o gargalo</b> com cor ou nota (voce vera isso na Parte 4).",
+        "<b>Fluxo de cima para baixo</b>, exceto em processos longos, que podem usar a horizontal.",
+        "<b>Uma swimlane por ator</b>, sem atividades fora de uma faixa.",
+        "<b>Poucos elementos por página</b>. Se não couber, quebre em subprocessos.",
+        "<b>Rotule as setas com a condição</b>, como Sim e Não.",
+        "<b>Evite linhas cruzadas</b>. Se elas se cruzam, reveja o layout ou quebre o diagrama.",
+        "<b>Nomeie as atividades com verbo</b>, como Registrar, e não Registro.",
+        "<b>Destaque o gargalo</b> com cor ou nota, conforme a Parte 3.",
     ]) +
-    callout("err", "O diagrama spaghetti",
-        "Um diagrama com 40 caixas e 60 setas cruzadas nao comunica - "
-        "assustar. Se o processo nao cabe, ele tem <b>sub-processos</b>: "
-        "quebre em caixas duplas ([[ ]]) e detalhe cada uma.")
+    callout("err", "O diagrama emaranhado",
+        "Um diagrama com 40 caixas e 60 setas cruzadas não comunica. Se o "
+        "processo não cabe, ele tem subprocessos. Quebre em caixas duplas e "
+        "detalhe cada uma.")
 )
 
-cad.section("versionar-processo", "Versionar o processo: o diagrama como historico",
-    p("Como o diagrama e texto, ele entra no <b>Git</b> como qualquer codigo. "
-      "Isso cria um <b>historico do processo</b>: da para ver quando e como o "
-      "fluxo mudou - e voltar atras se a mudacao foi ruim.") +
+cad.section("versionar-processo", "Versionar o processo: o diagrama como histórico",
+    p("Como o diagrama é texto, ele entra no Git como qualquer código. Isso "
+      "cria um histórico do processo. Assim, é possível ver quando e como o "
+      "fluxo mudou e voltar atrás se a mudança não funcionou.") +
     ul([
-        "<code>processos/requisicao-pericial.mmd</code> - o diagrama AS-IS versionado.",
-        "<code>processos/requisicao-pericial-tobe.mmd</code> - a versao proposta.",
-        "Commits descrevem mudancas: &quot;prioriza fila por prazo legal&quot;.",
-        "Code review: o sponsor aprova a <b>mudanca do processo</b> via PR, igual a codigo.",
+        "<code>processos/requisicao-pericial.mmd</code>: o diagrama AS-IS versionado.",
+        "<code>processos/requisicao-pericial-tobe.mmd</code>: a versão proposta.",
+        "Os commits descrevem as mudanças, como &quot;prioriza fila por prazo legal&quot;.",
+        "A revisão do código aprova a mudança do processo, como ocorre com o código.",
     ]) +
-    callout("purple", "Da para medir o processo no tempo",
-        "Se o diagrama AS-IS esta versionado, voce tem a <b>linha de base</b>. "
-        "A cada trimestre, redesenhe o diagrama do processo real e compare com "
-        "o TO-BE planejado: o processo real e o planejado, com prova.")
+    callout("purple", "É possível medir o processo no tempo",
+        "Se o AS-IS está versionado, você tem a linha de base. A cada "
+        "trimestre, redesenhe o processo real e compare com o TO-BE planejado. "
+        "Assim, o processo real e o planejado ficam documentados com prova.")
 )
 
 # =================================================================
-# PARTE 4 - GARGALOS (COM DADOS)
+# PARTE 7 - TARDE: TO-BE E INTERVENCAO DIGITAL
 # =================================================================
-cad.grp("Parte 4 - Gargalos com Dados",
-        "Onde o processo perde tempo e dinheiro - medindo, nao adivinhando.")
+cad.grp("Parte 7 - Tarde: TO-BE e intervenção digital",
+        "Redesenhe o processo sobre o gargalo medido e trate o gargalo com automação.")
 
-cad.section("espera-vs-execucao", "A descoberta que muda tudo: espera x execucao",
-    p("Todo processo tem dois tipos de tempo: o tempo em que alguem "
-      "<b>trabalha</b> e o tempo em que o caso fica <b>parado esperando</b>. "
-      "Quase sempre, o processo e dominado pela <b>espera</b> - e o gargalo "
-      "quase sempre esta na espera, nao no trabalho.") +
-    tbl(["Tipo de tempo", "O que e", "Exemplo"],
-        [["<b>Tempo de execucao</b> (touch time)", "Minutos que alguem <b>trabalha</b>", "O perito analisa a amostra"],
-         ["<b>Tempo de espera</b> (wait time)", "Tempo <b>parado</b> na fila", "O exame espera o perito"]],
-        num_cols=[]) +
-    callout("g", "O achado dos 3 datasets da aula",
-        "Nos tres processos da POLITEC, a <b>espera e 88-92% do tempo total</b>. "
-        "Ou seja: quase todo o problema nao e as pessoas trabalharem devagar - e "
-        "os casos ficarem <b>parados na fila</b>. Medir execucao sem medir "
-        "espera e olhar a coisa errada.") +
-    wait_vs_touch(92)
-) 
-
-cad.section("diagrama-espera", "Diagrama: onde o processo vira um funil de espera",
-    p("O diagrama mais revelador de um processo e o <b>diagrama de esperas por "
-      "etapa</b>: cada etapa com o tempo parado nela. A etapa mais alta e o "
-      "gargalo.") +
-    bar_chart(
-        ["Fila perito", "Revisao", "Distribuicao", "Triagem", "Assinatura", "Analise", "Arquivamento"],
-        [57175, 16888, 16360, 13480, 13380, 12860, 7000],
-        "Cenario 1 - Tempo de espera por etapa (horas, soma de todo o periodo)",
-        "A etapa 'Fila perito' concentra 41,5% de toda a espera do processo. "
-        "Gargalo medido no dataset cenario1_processo_pericial.",
-        destaque=0
-    ) +
-    tbl(["Etapa", "Espera (h)", "% da espera", "Leitura"],
-        [["<b>Fila perito</b>", "57.175", "<b>41,5%</b>", "<b>GARGALO</b> - caso parado ate ser atendido"],
-         ["Revisao", "16.888", "12,3%", "Fila do revisor"],
-         ["Distribuicao", "16.360", "11,9%", "Handoff entre setores"],
-         ["Triagem", "13.480", "9,8%", "Fila do ATO"],
-         ["Assinatura", "13.380", "9,7%", "Assinatura e release"],
-         ["Analise", "12.860", "9,3%", "Fila do perito antes de comecar"],
-         ["Arquivamento", "7.000", "5,1%", "Envio e arquivo"]],
-        num_cols=[1, 2]) +
-    callout("purple", "Leia o gargalo certo",
-        "A etapa 5 &quot;Analise&quot; tem o MAIOR tempo de <b>execucao</b> (o "
-        "trabalho do perito), mas a etapa 4 &quot;Fila perito&quot; tem o maior "
-        "tempo de <b>espera</b>. O gargalo a atacar e a <b>fila</b>: por mais "
-        "rapido o perito trabalhe, o caso continua parado esperando.")
-)
-
-cad.section("pareto-gargalos", "Pareto dos gargalos: a regra dos 20/80 do processo",
-    p("A analise de Pareto ordena as etapas por tempo e mostra que poucas "
-      "etapas concentram a maior parte do desperdicio. E o <b>principio de "
-      "Pareto</b> aplicado a processos.") +
-    bar_chart(
-        ["Fila perito", "Revisao", "Distribuicao", "Triagem", "Assinatura"],
-        [41.5, 12.3, 11.9, 9.8, 9.7],
-        "Pareto da espera - % do tempo de espera por etapa",
-        "As 2 primeiras etapas (Fila + Revisao) somam 53,8% de toda a espera. "
-        "Atacar so essas duas ja resolve mais da metade do problema.",
-        fmt="{:.1f}%",
-        destaque=0
-    ) +
-    tbl(["Conceito", "Aplicacao em processo"],
-        [["Princípio de Pareto (80/20)", "20% das etapas = 80% do tempo"],
-         ["Pareto de espera", "Onde o processo mais para"],
-         ["Pareto de retrabalho", "Onde mais se erra"],
-         ["Pareto de custo", "Onde o dinheiro mais se perde"]],
-        num_cols=[]) +
-    callout("tip", "Comece pelo topo",
-        "Se voce so puder atacar <b>uma</b> etapa, ataque a primeira do Pareto. "
-        "Se puder duas, ataque as duas primeiras. Isso maximiza o ganho por "
-        "unidade de esforco.")
-)
-
-cad.section("retrabalho", "Retrabalho: o desperdicio invisivel",
-    p("<b>Retrabalho</b> e refazer uma etapa ja feita, por erro ou devolucao. "
-      "Nao aparece no tempo de espera - e por isso passa despercebido. No "
-      "nosso caso, um exame que volta da revisao para nova analise refaz todo "
-      "o trabalho do perito.") +
-    bar_chart(
-        ["Pericial", "Orcamento", "Custodia"],
-        [11.6, 16.6, 4.7],
-        "Taxa media de retrabalho por cenario",
-        "O processo orcamentario tem o maior retrabalho (~16,6%) - mapeamento e "
-        "parecer sao refeitos com frequencia. Medido nos datasets da Aula 6.",
-        fmt="{:.1f}%",
-        destaque=1
-    ) +
-    step([
-        ("Mapeie o caminho de retorno no diagrama",
-         "Toda seta de volta (correcao, devolucao) precisa estar no AS-IS."),
-        ("Meça o retrabalho nos dados",
-         "Controle a coluna <code>flag_retrabalho</code> no <code>fato_execucao</code> "
-         "e calcule o percentual por etapa."),
-        ("Ordene por taxa, nao por volume",
-         "Um processo com 5% de retrabalho em 15.000 casos custa mais que "
-         "15% em 200 casos."),
-        ("Ataca a causa, nao o sintoma",
-         "Retrabalho alto na etapa 3 (mapa) = problema no checklist ou na "
-         "planilha, nao noesse mapeamento."),
-    ]) +
-    tbl(["Retrabalho tipico", "Causa raiz", "Intervencao"],
-        [["Exame volta da revisao", "Falta de checklist do perito", "Checklist padronizado (TO-BE)"],
-         ["Mapa comparativo refeito", "Falta de criterio de aceitacao", "Alerta de dotacao + regra clara"],
-         ["Pedido devolvido", "Formulario incompleto", "Formulario digital com validacao"],
-         ["Evidencia com divergencia", "Lacre em papel", "QR Code digital"]],
-        num_cols=[]) +
-    callout("err", "Retrabalho invisivel no diagrama",
-        "Se o diagrama AS-IS nao mostra o caminho de volta (a <b>correcao</b>), "
-        "voce subestima o tempo real. Sempre inclua o fluxo de retorno/correcao "
-        "no diagrama - e meca o retrabalho nos dados.")
-)
-
-cad.section("littles-law", "Little's Law: quanto de fila o processo suporta",
-    p("<b>Little's Law</b> (John Little) e a relacao mais util de operacoes: "
-      "<b><code>L = λ × W</code></b> — o numero de itens no sistema (L) e a "
-      "taxa de chegada (λ) vezes o tempo de permanencia (W). Ela permite "
-      "calcular o tamanho da fila a partir da demanda e do tempo.") +
-    code(
-        "L = λ × W\n"
-        "\n"
-        "λ (chegadas/periodo) = 1.200 requisicoes / ano\n"
-        "W (tempo no processo) = 92 dias (o TAT medio)\n"
-        "L = (1200/365) × 92 ≈ 302 requisicoes em transito\n"
-        "\n"
-        "Se W cair para 30 dias:\n"
-        "L = (1200/365) × 30 ≈ 99 requisicoes em transito",
-        "formula"
-    ) +
-    tbl(["Se voce quer...", "Voce precisa..."],
-        [["Reduzir a fila (L)", "Reduzir W (tempo) ou λ (chegada)"],
-         ["Absorver mais demanda", "Aumentar a capacidade (W sobe)"],
-         ["Reduzir o backlog", "Reduzir W <b>ou</b> aumentar λ (capacidade)"]],
-        num_cols=[]) +
-    callout("purple", "Little's Law no seu TO-BE",
-        "Use Little's Law para <b>prever</b> o efeito da automacao: se o TO-BE "
-        "corta a espera da fila de 44 h para 8 h, o W cai e o L (fila) cai "
-        "proporcionalmente. Voce justifica o investimento com numero, nao com "
-        "opinião.")
-)
-
-cad.section("custo-espera", "Custo da espera: quando tempo vira dinheiro",
-    p("O custo do processo e o <b>custo da execucao</b> (tempo de trabalho x "
-      "custo/hora) mais o <b>custo da espera</b> (atraso, multa, retrabalho, "
-      "insatisfacao). Nos datasets, a coluna <code>custo_minuto</code> permite "
-      "calcular o custo direto da execucao.") +
-    tbl(["Componente de custo", "Como aparece no processo POLITEC"],
-        [["Mao de obra", "Horas do perito/tecnico na execucao"],
-         ["Atraso (TAT)", "Caso urgente que vence o prazo"],
-         ["Retrabalho", "Refazer etapa por erro"],
-         ["Perda de validade", "Amostra que se degrada na fila"],
-         ["Insatisfacao", "Cidadao que demora laudo"]],
-        num_cols=[]) +
-    callout("tip", "Transforme espera em R$",
-        "Ao apresentar o TO-BE, converta a espera economizada em dinheiro: "
-        "<b>(espera_antes - espera_depois) × volume anual × custo/unit</b>. "
-        "E o numero que convence o orcamento.")
-)
-
-# =================================================================
-# PARTE 5 - TO-BE E INTERVENCAO DIGITAL
-# =================================================================
-cad.grp("Parte 5 - TO-BE e Intervencao Digital",
-        "Redesenhe o processo sobre o gargalo medido e resolva com automacao.")
-
-cad.section("o-que-e-tobe", "TO-BE: o processo futuro (e como nao ser utopico)",
-    p("O <b>TO-BE</b> (to be, &quot;como sera&quot;) e o desenho do processo "
-      "depois da intervencao. O erro classico e fazer um TO-BE <b>utopico</b> "
-      "— um mundo sem fila, sem espera, tudo automatico — que ninguem acredita "
-      "e ninguem implementa.") +
+cad.section("o-que-e-tobe", "TO-BE: o processo futuro sem utopia",
+    p("O TO-BE é o desenho do processo depois da intervenção. O erro comum é "
+      "criar um TO-BE utópico, com fila zero, espera zero e tudo automático. "
+      "Esse desenho não convence e não se implanta.") +
     antesdepois(
-        "TO-BE utopico: &quot;um app resolve tudo, fila zero, laudo em 2 "
-        "horas&quot; — sem dado, sem viabilidade, sem plano.",
-        "TO-BE realista: &quot;reduzir a espera da fila de 44 h para 8 h com "
-        "fila priorizada por prazo e painel de carga; meta: -82% na espera, "
-        "validado nos dados&quot;.",
+        "TO-BE utópico: &quot;um app resolve tudo, fila zero e laudo em 2 horas&quot;, sem dado, sem viabilidade e sem plano.",
+        "TO-BE viável: &quot;reduzir a espera da fila de 44 h para 8 h com fila priorizada por prazo e painel de carga; meta de 82% de redução, validada nos dados&quot;.",
         errado="Utopia",
         certo="Viável"
     ) +
     callout("g", "A regra do TO-BE",
-        "Cada mudanca no TO-BE precisa estar <b>ligada a um gargalo medido</b>. "
-        "Se voce redesenha algo que nao era gargalo, esta gastando esforco sem "
-        "retorno. E se nao consegue medir o ganho, provavelmente escolheu a "
-        "mudar a coisa errada.")
+        "Cada mudança no TO-BE precisa estar ligada a um gargalo medido. Se "
+        "você redesenha algo que não era gargalo, gasta esforço sem retorno. "
+        "Além disso, se não consegue medir o ganho, provavelmente escolheu a "
+        "mudança errada.")
 )
 
-cad.section("principios-tobe", "Os 5 principios de redesenho do processo",
-    p("Reorganizar um processo nao e so automatizar. Os <b>5 principios</b> "
-      "guiam o redesenho, nesta ordem de impacto.") +
-    tbl(["#", "Principio", "O que faz", "Exemplo no backlog pericial"],
-        [["1", "<b>Eliminar</b>", "Remover etapa que nao agrega valor", "Eliminar o dupla conferencia manual"],
-         ["2", "<b>Simplificar</b>", "Reduzir passos, formulários, handoffs", "Um formulario em vez de 3"],
-         ["3", "<b>Integrar</b>", "Unir etapas separadas por sistemas", "SIGT integrado ao laboratorio"],
-         ["4", "<b>Automatizar</b>", "Maquina faz o que o humano faz", "Fila priorizada por prazo"],
-         ["5", "<b>Padronizar</b>", "Uniformizar para facilitar", "Checklist identico em todas as delegacias"]],
+cad.section("principios-tobe", "Os 5 princípios de redesenho do processo",
+    p("Reorganizar um processo não é apenas automatizar. Os cinco princípios "
+      "abaixo orientam o redesenho, nesta ordem de impacto.") +
+    tbl(["#", "Princípio", "O que faz", "Exemplo no processo pericial"],
+        [["1", "<b>Eliminar</b>", "Remover etapa que não agrega valor", "Eliminar a dupla conferência manual"],
+         ["2", "<b>Simplificar</b>", "Reduzir passos, formulários e passagens", "Um formulário em vez de três"],
+         ["3", "<b>Integrar</b>", "Unir etapas separadas por sistemas", "SIGT integrado ao laboratório"],
+         ["4", "<b>Automatizar</b>", "Máquina faz o que o humano faz", "Fila priorizada por prazo"],
+         ["5", "<b>Padronizar</b>", "Uniformizar para facilitar", "Checklist igual em todas as delegacias"]],
         num_cols=[]) +
-    callout("err", "Automatizar primeiro (o erro comum)",
-        "Automatizar um processo ruim (AS-IS ruim automatizado) cria um "
-        "processo ruim e <b>mais rapido</b> — voce gastou para tornar mais "
-        "eficiente algo que deveria ter sido eliminado ou simplificado antes.")
+    callout("err", "Automatizar primeiro",
+        "Automatizar um processo ruim cria um processo ruim e mais rápido. Você "
+        "gasta para acelerar algo que deveria ter sido eliminado ou "
+        "simplificado antes.")
 )
 
 cad.section("tobe-fila-priorizada", "Exemplo de TO-BE: a fila priorizada",
-    p("O gargalo medido do Cenario 1 e a <b>fila do perito</b> (44 h de espera "
-      "media, 41,5% de toda a espera). A intervencao preenche a fileira do "
-      "gargalo: uma <b>fila priorizada por prazo legal</b>.") +
+    p("O gargalo medido do Cenário 1 é a fila do perito, com 44 h de espera "
+      "média e 41,5% de toda a espera. A intervenção atua nesse ponto, com uma "
+      "fila priorizada por prazo legal.") +
     code(
         "flowchart TD\n"
         "    subgraph DELEG[\"Delegacia\"]\n"
@@ -974,72 +1923,72 @@ cad.section("tobe-fila-priorizada", "Exemplo de TO-BE: a fila priorizada",
         "    D -->|Nao| C",
         "mermaid"
     ) +
-    tbl(["Mudanca no TO-BE", "Foco", "Efeito esperado"],
-        [["Fila por ordem de chegada", "AS-IS", "Urgente espera junto de rotina"],
+    tbl(["Mudança no TO-BE", "Foco", "Efeito esperado"],
+        [["Fila por ordem de chegada", "AS-IS", "Urgente espera junto com a rotina"],
          ["<b>Fila por prazo legal</b>", "<b>TO-BE</b>", "<b>Urgente atendido primeiro</b>"],
-         ["Triagem por tipo automatica", "TO-BE", "Menos espera na triagem"],
+         ["Triagem automática por tipo", "TO-BE", "Menos espera na triagem"],
          ["Painel de carga em tempo real", "TO-BE", "Redistribui antes de acumular"],
-         ["Sem dupla digitao", "TO-BE", "Menos retrabalho"]],
+         ["Sem dupla digitação", "TO-BE", "Menos retrabalho"]],
         num_cols=[])
 )
 
-cad.section("intervencao-digital", "Intervencao digital: o catalogo de ferramentas",
-    p("A intervencao no processo pode ser de qualquer natureza digital. "
-      "Ferramentas da Microsoft (que voce ja conhece desde o Dia 4) resolvem "
-      "a maior parte.") +
+cad.section("intervencao-digital", "Intervenção digital: o catálogo de ferramentas",
+    p("A intervenção no processo pode usar diferentes recursos digitais. As "
+      "ferramentas da Microsoft, apresentadas desde o Dia 4, resolvem a maior "
+      "parte dos casos.") +
     grid2([
         ("\U0001f504 Automatizar a regra",
-         "<b>Power Automate</b>: se o prazo vencer, dispara alerta; se completo, "
-         "avanca etapa; se urgente, sobe na fila."),
+         "<b>Power Automate</b>: se o prazo vencer, dispara alerta; se o "
+         "processo estiver completo, avança a etapa; se for urgente, sobe na fila."),
         ("\U0001f4f1 Digitalizar o registro",
-         "<b>Power Apps / formulario</b>: substitui papel por registro digital "
-         "com validacao e carimbo de tempo."),
+         "<b>Power Apps ou formulário</b>: substitui o papel por registro "
+         "digital, com validação e carimbo de tempo."),
         ("\U0001f517 Integrar sistemas",
-         "<b>Conector / API</b>: SIGT &harr; laboratorio, sem redigitacao "
-         "(elimina retrabalho)."),
+         "<b>Conector ou API</b>: liga o SIGT ao laboratório sem redigitação e "
+         "reduz o retrabalho."),
         ("\U0001f4ca Visualizar para decidir",
-         "<b>Power BI</b>: painel de carga e WIP, para decidir redistribuicao "
-         "(Dia 5)."),
-        ("\U0001f9ea Automatizar o calculo",
-         "<b>Script / formula</b>: calculo automatico de SLA, prioridade, "
-         "prioridade por prazo."),
+         "<b>Power BI</b>: painel de carga e WIP para decidir a redistribuição."),
+        ("\U0001f9ea Automatizar o cálculo",
+         "<b>Script ou fórmula</b>: cálculo automático de SLA e de prioridade "
+         "por prazo."),
         ("\U0001f4e1 Notificar",
-         "<b>E-mail / Teams</b>: push de alerta em vez de &quot;esperar alguem "
-         "notar&quot;.")
+         "<b>E-mail ou Teams</b>: alerta enviado ao responsável, em vez de "
+         "esperar que alguém perceba.")
     ]) +
     step([
-        ("1. Liste as intervencoes possiveis",
-         "Para cada etapa do TO-BE: dá para <b>eliminar</b>, <b>automatizar</b>, "
-         "<b>integrar</b> ou <b>visualizar</b>?"),
-        ("2. Priorize por impacto no gargalo",
-         "A intervencao que mais mexe no gargalo vai primeiro. Uma automacao "
-         "de etapa que nao e gargalo e desperdicio."),
+        ("1. Liste as intervenções possíveis",
+         "Para cada etapa do TO-BE, verifique se é possível eliminar, "
+         "automatizar, integrar ou visualizar."),
+        ("2. Priorize pelo impacto no gargalo",
+         "A intervenção que mais altera o gargalo vem primeiro. Automatizar "
+         "uma etapa que não é gargalo é desperdício."),
         ("3. Escolha a ferramenta",
-         "Regra simples &rarr; Power Automate. Formulario &rarr; Power Apps. "
-         "Indicador &rarr; Power BI. Regra complexa &rarr; script."),
+         "Regra de uma condição vai para o Power Automate. Formulário vai para "
+         "o Power Apps. Indicador vai para o Power BI. Regra complexa vai para "
+         "script."),
         ("4. Defina o medidor de sucesso",
-         "Qual numero do AS-IS vai mudar? (ex.: espera da fila 44 h &rarr; 8 h). "
-         "Sem medidor, nao ha como provar o ganho."),
+         "Qual número do AS-IS vai mudar? Por exemplo, a espera da fila de 44 h "
+         "para 8 h. Sem medidor, não há como provar o ganho."),
     ]) +
-    tbl(["Intervencao", "Custo", "Prazo", "Risco"],
-        [["Alerta automatico", "Baixo", "1-2 semanas", "Baixo"],
-         ["Painel de carga (BI)", "Baixo", "2-4 semanas", "Baixo"],
-         ["Formulario digital", "Medio", "4-8 semanas", "Medio (adocao)"],
-         ["Fila priorizada (regra)", "Medio", "4-6 semanas", "Medio"],
-         ["Integracao entre sistemas", "Alto", "3-6 meses", "Alto (dependencia)"],
-         ["App com QR Code", "Alto", "3-6 meses", "Alto (campo)"]],
+    tbl(["Intervenção", "Custo", "Prazo", "Risco"],
+        [["Alerta automático", "Baixo", "1 a 2 semanas", "Baixo"],
+         ["Painel de carga em BI", "Baixo", "2 a 4 semanas", "Baixo"],
+         ["Formulário digital", "Médio", "4 a 8 semanas", "Médio, por causa da adoção"],
+         ["Fila priorizada por regra", "Médio", "4 a 6 semanas", "Médio"],
+         ["Integração entre sistemas", "Alto", "3 a 6 meses", "Alto, por causa da dependência"],
+         ["Aplicativo com QR Code", "Alto", "3 a 6 meses", "Alto, por causa do campo"]],
         num_cols=[]) +
     callout("tip", "Comece pelo alerta",
-        "A primeira automacao de um processo quase sempre e um <b>alerta</b> "
-        "(&quot;se prazo vencer, notificar&quot;). E barato de fazer, "
-        "imediato de sentir e prepara o terreno para automacoes maiores.") +
+        "A primeira automação de um processo quase sempre é um alerta, como "
+        "notificar quando o prazo vencer. Ela custa pouco, produz efeito "
+        "imediato e prepara o terreno para automações maiores.") +
     automation_anatomy()
 )
 
 cad.section("script-automacao", "Automatizar com script: um exemplo real",
-    p("Nem toda automacao precisa de Power Automate. Para uma regra simples, "
-      "um <b>script</b> (Python, Excel ou planilha) resolve. Exemplo: "
-      "priorizar a fila por prazo legal.") +
+    p("Nem toda automação exige Power Automate. Para uma regra de uma "
+      "condição, um script em Python, Excel ou planilha resolve. O exemplo "
+      "abaixo prioriza a fila por prazo legal.") +
     code(
         "# Prioriza a fila de exames por prazo legal restante\n"
         "import csv, datetime as dt\n"
@@ -1061,321 +2010,426 @@ cad.section("script-automacao", "Automatizar com script: um exemplo real",
         "    print(f'  {dias:>4}d  {id_:12s} {exame}')",
         "python"
     ) +
-    callout("note", "Regra antes do codigo",
-        "Antes de automatizar, escreva a regra em <b>linguagem clara</b>: "
-        "&quot;o exame com menor prazo legal vai primeiro&quot;. Se voce nao "
-        "consegue escrever a regra, nao consegue automatizar. O codigo e so a "
-        "traducao da regra.")
+    callout("note", "Regra antes do código",
+        "Antes de automatizar, escreva a regra em linguagem clara. No exemplo, "
+        "a regra é que o exame com menor prazo legal vai primeiro. Se você não "
+        "consegue escrever a regra, não consegue automatizar. O código é apenas "
+        "a tradução da regra.")
 )
 
-cad.section("calcular-o-ganho", "O calculo do ganho: como provar que valeu",
-    p("Todo TO-BE precisa de uma conta que mostre o retorno. O ganho se mede "
-      "comparando o <b>AS-IS medido</b> com o <b>TO-BE projetado</b>, usando os "
-      "mesmos dados.") +
-    tbl(["Ganho", "Formula", "Exemplo (Cenario 1)"],
-        [["Espera reduzida", "espera_ASIS - espera_TOBE", "44 h &rarr; 8 h"],
-         ["TAT reduzido", "TAT_ASIS - TAT_TOBE", "92 d &rarr; 70 d (-24%)"],
-         ["Custo poupado", "minutos_poupados × custo/min", "R$ X/ano"],
-         ["Capacidade liberada", "casos_atendidos a mais no mesmo tempo", "+N exames/ano"]],
+cad.section("calcular-o-ganho", "O cálculo do ganho: como provar que valeu",
+    p("Todo TO-BE precisa de uma conta que mostre o retorno. O ganho é medido "
+      "pela comparação entre o AS-IS e o TO-BE projetado, usando os mesmos "
+      "dados.") +
+    tbl(["Ganho", "Fórmula", "Exemplo no Cenário 1"],
+        [["Espera reduzida", "espera_ASIS menos espera_TOBE", "44 h &rarr; 8 h"],
+         ["TAT reduzido", "TAT_ASIS menos TAT_TOBE", "92 d &rarr; 70 d, com redução de 24%"],
+         ["Custo poupado", "minutos_poupados vezes custo por minuto", "R$ X por ano"],
+         ["Capacidade liberada", "casos atendidos a mais no mesmo tempo", "+N exames por ano"]],
         num_cols=[]) +
-    callout("g", "A conta do ganho no Cenario 1",
-        "Fila do perito: espera cai de 44 h para 8 h (-36 h por caso). Com "
-        "1.200 casos/ano, sao ~43.200 h/ano de espera poupadas. A 78,40 por "
-        "hora de producao util, isso equivale a <b>1 perito-equivalente</b> "
-        "liberado para trabalho tecnico - sem contratar ninguem.")
+    callout("g", "A conta do ganho no Cenário 1",
+        "A fila do perito cai de 44 h para 8 h, o que representa 36 h por caso. "
+        "Com 1.200 casos por ano, são cerca de 43.200 h por ano de espera "
+        "poupadas. A R$ 78,40 por hora de produção útil, isso equivale a um "
+        "perito-equivalente liberado para trabalho técnico, sem contratar "
+        "ninguém.")
 )
 
-cad.section("roadmap-tobe", "Como levar o TO-BE a vida (roadmap de implantacao)",
-    p("Nao se implanta um TO-BE inteiro de uma vez. Use um <b>roadmap</b> em "
-      "ondas, medindo o ganho de cada uma.") +
-    tbl(["Onda", "Intervencao", "Ganho esperado", "Esforco"],
-        [["<b>Onda 1 (0-3m)</b>", "Alertas de prazo + painel de carga (BI)", "Visibilidade, -10% espera", "Baixo"],
-         ["<b>Onda 2 (3-6m)</b>", "Fila priorizada por prazo legal", "-30% na espera da fila", "Medio"],
-         ["<b>Onda 3 (6-12m)</b>", "Triagem automatica + integracao SIGT", "-20% espera, -retrabalho", "Alto"],
-         ["<b>Onda 4 (12m+)</b>", "Integracao ponta a ponta", "Redesenho completo", "Alto"]],
+cad.section("roadmap-tobe", "Como levar o TO-BE à prática: roadmap de implantação",
+    p("Um TO-BE não é implantado de uma vez. Use um roadmap em ondas e meça o "
+      "ganho de cada uma. Assim, o risco fica distribuído e o aprendizado de "
+      "uma onda serve para a seguinte.") +
+    tbl(["Onda", "Intervenção", "Ganho esperado", "Esforço"],
+        [["<b>Onda 1 (0 a 3 meses)</b>", "Alertas de prazo e painel de carga em BI", "Visibilidade e 10% de redução na espera", "Baixo"],
+         ["<b>Onda 2 (3 a 6 meses)</b>", "Fila priorizada por prazo legal", "30% de redução na espera da fila", "Médio"],
+         ["<b>Onda 3 (6 a 12 meses)</b>", "Triagem automática e integração com o SIGT", "20% de redução na espera e menos retrabalho", "Alto"],
+         ["<b>Onda 4 (12 meses ou mais)</b>", "Integração ponta a ponta", "Redesenho completo", "Alto"]],
         num_cols=[]) +
-    callout("purple", "Onda 1 e a mais barata e a de maior efeito",
-        "Comece pelo alerta e pelo painel de carga: sao as intervencoes que "
-        "custam pouco, implantam rapido e <b>mostram o problema em tempo real</b> "
-        "- preparando o terreno (e o argumento) para as ondas seguintes.")
+    callout("purple", "A Onda 1 custa menos e produz efeito rápido",
+        "Comece pelo alerta e pelo painel de carga. Essas intervenções custam "
+        "pouco, são implantadas em pouco tempo e mostram o problema em tempo "
+        "real. Com isso, preparam o argumento para as ondas seguintes.")
 )
 
 # =================================================================
-# PARTE 6 - PRATICA GUIADA (7 LABS)
+# PARTE 8 - PRATICA GUIADA (8 LABS: 4 MANHA + 4 TARDE)
 # =================================================================
-cad.grp("Parte 6 - Pratica Guiada",
-        "Sete labs do zero ao diagrama publicado, com os datasets de processo medidos.")
+cad.grp("Parte 8 - Prática guiada",
+        "Oito labs: quatro de painel pela manhã e quatro de processo e mini app pela tarde.")
 
-cad.section("labs-intro", "Os 7 labs desta aula",
-    p("Cada lab aplica uma etapa do metodo. Ao final do Lab 6 voce tem um "
-      "<b>processo redesenhado com prova de ganho</b> - o entregavel da aula.") +
-    tbl(["Lab", "O que voce faz", "Ferramenta", "Tempo"],
-        [["<b>1</b>", "Descrever o processo em texto (7 perguntas)", "Papel e caneta", "20 min"],
-         ["<b>2</b>", "Converter o texto em diagrama AS-IS", "Mermaid", "30 min"],
-         ["<b>3</b>", "Medir o gargalo nos dados", "CSV + Excel/Power BI", "40 min"],
-         ["<b>4</b>", "Validar o gargalo com quem trabalha no processo", "Entrevista", "30 min"],
-         ["<b>5</b>", "Desenhar o TO-BE com intervencao", "Mermaid", "40 min"],
-         ["<b>6</b>", "Calcular o ganho (antes x depois)", "Planilha", "30 min"],
-         ["<b>7</b>", "Apresentar e coletar feedback", "Apresentacao", "20 min"]],
+cad.section("labs-intro", "Os 8 labs desta aula",
+    p("Cada lab entrega uma parte do resultado final. Os quatro primeiros "
+      "acontecem na manhã, em torno do painel. Os quatro últimos acontecem na "
+      "tarde, em torno do processo e da ideia do mini app.") +
+    tbl(["Turno", "Lab", "O que você faz", "Ferramenta", "Tempo"],
+        [["Manhã", "<b>1</b>", "Conectar o workbook e montar o modelo estrela", "Power BI e Power Query", "30 min"],
+         ["Manhã", "<b>2</b>", "Criar as 8 medidas DAX", "Power BI", "30 min"],
+         ["Manhã", "<b>3</b>", "Montar os 5 visuais do painel", "Power BI", "40 min"],
+         ["Manhã", "<b>4</b>", "Ler o painel e escrever a hipótese de gargalo", "Painel e caderno", "20 min"],
+         ["Tarde", "<b>5</b>", "Descrever o processo em texto, com as 7 perguntas", "Papel e caneta", "30 min"],
+         ["Tarde", "<b>6</b>", "Converter o texto em diagrama AS-IS", "Mermaid", "40 min"],
+         ["Tarde", "<b>7</b>", "Desenhar o TO-BE e calcular o ganho", "Mermaid e planilha", "50 min"],
+         ["Tarde", "<b>8</b>", "Fazer o pitch de 3 minutos e o canvas do mini app", "Apresentação", "30 min"]],
         num_cols=[]) +
     callout("tip", "Qual processo usar",
-        "Escolha um processo em que voce <b>trabalha ou conhece</b>. Os tres "
-        "datasets servem como treino, mas o projeto final fica melhor se for "
-        "de uma area real - voce tem acesso as pessoas e aos dados.")
+        "Escolha um processo em que você trabalha ou conhece. Os cinco datasets "
+        "servem como treino, mas o projeto final fica melhor se for de uma área "
+        "real, porque você tem acesso às pessoas e aos dados.")
 )
 
-cad.section("lab1-descrever", "Lab 1 - Descrever o processo em texto",
-    p("O primeiro passo e <b>escrever</b> - antes de qualquer desenho. Use as "
-      "7 perguntas como roteiro de entrevista.") +
+cad.section("lab1-modelo", "Lab 1: conectar o workbook e montar o modelo",
+    p("O primeiro lab trata da preparação dos dados. A tarefa é trazer o "
+      "workbook do cenário e deixar o modelo pronto para as medidas. Um modelo "
+      "errado contamina todo o painel.") +
     step([
-        ("Defina o escopo do processo",
-         "<b>Onde começa e onde termina?</b> &quot;Do recebimento da requisicao "
-         "na delegacia ate a assinatura do laudo&quot;. Delimite bem: se "
-         "incluir demais, o diagrama fica gigante."),
-        ("Aplique as 7 perguntas",
-         "Quem dispara? Onde comeca? O que depois? Ha decisao? Quem faz? O que "
-         "entra/sai? Como termina?"),
-        ("Anote os tempos, se souber",
-         "Quanto tempo cada etapa leva? Quanto tempo o caso <b>fica parado</b> "
-         "em cada etapa? Pergunte: &quot;meio dia? uma semana?&quot;"),
-        ("Identifique as dorpos",
-         "Onde as pessoas reclamam? Onde atrasa? O queEveryone repete? Anote "
-         "com as palavras delas."),
-        ("Escreva um paragrafo",
-         "Todo o AS-IS num texto corrido de 10-15 linhas. Esse texto e a "
-         "<b>fonte</b> do diagrama.")
-    ]) +
-    ficha("g", "Dica de ouro",
-        "Grave a entrevista. Quem sofre o processo tem detalhes que ninguem "
-        "sabe - e sao eles que revelam o gargalo real.")
-)
-
-cad.section("lab2-diagrama-asis", "Lab 2 - Converter o texto em diagrama AS-IS (Mermaid)",
-    p("Agora transformamos o paragrafo em diagrama. O objetivo nao e "
-      "perfeito: e <b>completo e honesto</b>.") +
-    step([
-        ("Defina as swimlanes",
-         "Quantos atores existem? No fluxo pericial: <b>Delegacia</b>, <b>ATO</b> "
-         "(triagem), <b>Laboratorio</b> (perito/revisao), <b>Sistema</b> (SIGT)."),
-        ("Coloque cada atividade na swimlane certa",
-         "Se uma atividade nao cabe em nenhuma, crie a swimlane que falta "
-         "(revelador: processo mal definido)."),
-        ("Insira os gateways de decisao",
-         "Cada &quot;se / senao&quot; do texto vira um losango. Rotule as setas "
-         "com a condicao (<code>|Sim|</code>, <code>|Nao|</code>)."),
-        ("Feche o diagrama",
-         "Todo fluxo precisa de <b>inicio</b> e <b>fim</b> explicitos. Se sobrar "
-         "caminho sem fim, ha etapa faltando."),
-        ("Renderize e revise",
-         "Cole o texto em <b>mermaid.live</b> (gratis, no navegador) ou no "
-         "GitHub. Leia de cima para baixo: a historia faz sentido?"),
-    ]) +
-    callout("err", "O diagrama que ninguem le",
-        "Se o diagrama tem 40 caixas, ele e um desenho de parede. Quebre em "
-        "sub-processos (caixas duplas <code>[[ ]]</code>) e detalhe cada um. "
-        "Um diagrama legivel cabe em uma tela.")
-)
-
-cad.section("lab3-medir-gargalo", "Lab 3 - Medir o gargalo nos dados",
-    p("Aqui o processo deixa de ser opiniao. Va para a pasta "
-      "<code>datasets/</code>, escolha um cenario e meca.") +
-    step([
-        ("Abra o <code>fato_execucao.csv</code> do cenario",
-         "Ele tem uma linha por execucao de etapa, com <code>tempo_espera_min</code> "
-         "e <code>tempo_execucao_min</code> separados."),
-        ("Faca uma tabela dinamica",
-         "Linhas: <code>etapa_key</code>. Valores: <b>SOMA de "
-         "tempo_espera_min</b>. Ordene do maior para o menor."),
-        ("Calcule o share de cada etapa",
-         "<code>share = espera_da_etapa / espera_total</code>. A primeira "
-         "etapa do ranking e o gargalo."),
-        ("Compare espera x execucao",
-         "Monte duas colunas: soma de espera e soma de execucao, por etapa. "
-         "A etapa que domina a espera e o gargalo - mesmo que tenha pouca execucao."),
-        ("Mapeie de volta ao diagrama",
-         "Volte ao AS-IS e <b>destaque visualmente</b> a etapa medida como "
-         "gargalo. O diagrama agora tem um alvo."),
+        ("Crie um arquivo novo",
+         "No Power BI Desktop, use <b>Arquivo &rarr; Novo</b>. Salve como "
+         "<code>Painel_CenarioN.pbix</code> antes de importar."),
+        ("Escolha o workbook",
+         "Use um dos cinco: <code>Cenario1_Requisicao_Pericial.xlsx</code>, "
+         "<code>Cenario2_Empenho_Contrato.xlsx</code>, "
+         "<code>Cenario3_Cadeia_Custodia.xlsx</code>, "
+         "<code>Cenario4_Local_Crime.xlsx</code> ou "
+         "<code>Cenario5_Analise_Laboratorial.xlsx</code>."),
+        ("Obtenha os dados",
+         "Use <b>Obter dados &rarr; Pasta de trabalho do Excel</b> e selecione "
+         "o arquivo. O Power BI mostra a lista de abas do workbook."),
+        ("Marque as 8 abas de dados",
+         "Selecione <code>fato_execucao</code> e as 7 <code>dim_*</code>. "
+         "Desmarque <code>LEIA-ME</code>, porque ela é documentação e não tabela."),
+        ("Ajuste os tipos",
+         "No Power Query, use Número Decimal para tempos e custo, Número "
+         "Inteiro para chaves e flags, e Data para a coluna <code>data</code>."),
+        ("Relacione",
+         "No modo Modelo, ligue cada <code>*_key</code> da fato à sua dimensão. "
+         "Confirme a cardinalidade muitos para um."),
+        ("Valide a contagem",
+         "A fato precisa ter 10.352 linhas no C1, 9.541 no C2, 10.840 no C3, "
+         "12.664 no C4 ou 13.896 no C5. Se tiver mais, você marcou abas de outro "
+         "cenário."),
     ]) +
     code(
-        "-- Media de espera e execucao por etapa (SQL)\n"
-        "SELECT e.etapa,\n"
-        "       SUM(x.tempo_espera_min)/60    AS espera_h,\n"
-        "       SUM(x.tempo_execucao_min)/60   AS execucao_h,\n"
-        "       SUM(x.tempo_espera_min)\n"
-        "         / SUM(SUM(x.tempo_espera_min)) OVER () AS share_espera\n"
-        "FROM fato_execucao x\n"
-        "JOIN dim_etapa e ON x.etapa_key = e.etapa_key\n"
-        "GROUP BY e.etapa\n"
-        "ORDER BY espera_h DESC;",
-        "sql"
+        "// Power Query: ler a aba fato do workbook\n"
+        "let\n"
+        "    Origem = Excel.Workbook(\n"
+        "        File.Contents(\"Cenario1_Requisicao_Pericial.xlsx\"),\n"
+        "        null, true\n"
+        "    ),\n"
+        "    Fato = Origem{[Item = \"fato_execucao\", Kind = \"Sheet\"]}[Data],\n"
+        "    Cabecalho = Table.PromoteHeaders(Fato, [PromoteAllScalars = true]),\n"
+        "    Tipos = Table.TransformColumnTypes(Cabecalho, {\n"
+        "        {\"tempo_espera_min\", type number},\n"
+        "        {\"tempo_execucao_min\", type number},\n"
+        "        {\"etapa_key\", Int64.Type}\n"
+        "    })\n"
+        "in\n"
+        "    Tipos",
+        "m"
     ) +
-    callout("g", "O resultado do Lab 3",
-        "No Cenario 1, a etapa <b>Fila perito</b> tem 44 h de espera media e "
-        "concentra <b>41,5%</b> de toda a espera do processo. A analise tem "
-        "mais execucao, mas so 9,3% da espera. O gargalo e a fila, e voce "
-        "acabou de provar com numero.")
+    callout("err", "Não marque LEIA-ME nem abas de outro cenário",
+        "A aba <code>LEIA-ME</code> não é tabela. Se você a importar, o modelo "
+        "ganha uma tabela vazia. Além disso, não combine workbooks de cenários "
+        "diferentes, porque cada um tem a sua própria contagem de linhas.")
 )
 
-cad.section("lab4-validar", "Lab 4 - Validar o gargalo com quem trabalha no processo",
-    p("Dados mostram <b>onde</b>; as pessoas explicam <b>por que</b>. Esta "
-      "etapa evita o erro classico de otimizar o lugar errado.") +
+cad.section("lab2-medidas", "Lab 2: criar as 8 medidas DAX",
+    p("Com o modelo pronto, as medidas transformam colunas em respostas. Crie "
+      "todas na mesma tabela de medidas para manter o painel organizado.") +
     step([
-        ("Liste as hipoteses",
-         "&quot;Se a fila do perito e o gargalo, por que o caso espera ali?&quot;"),
-        ("Converse com quem atua na etapa",
-         "Pergunte: &quot;quando o caso chega, o que trava? falta equipamento? "
-         "falta perito habilitado?&quot;"),
-        ("Cheque as causas raiz",
-         "Sao as 5 porquês: por que espera? por que nao há perito? por que nao "
-         "treinam mais peritos? etc."),
-        ("Confirme o gargalo",
-         "Se as pessoas confirmam a espera, seu TO-BE esta no caminho "
-         "certo. Se nao, volte ao diagrama e reavalie."),
+        ("Crie a tabela de medidas",
+         "Em Modelagem, use <b>Inserir tabela de cálculo</b> e nomeie a tabela "
+         "como <code>_Medidas</code>. Todas as medidas vão para ela."),
+        ("Crie as medidas de tempo",
+         "Crie Tempo Espera (h), Tempo Execução (h) e Tempo Total (h). Formate "
+         "com uma casa decimal."),
+        ("Crie as medidas de leitura",
+         "Crie % Espera, Casos, TAT Médio (h), Espera Média (h) e Taxa "
+         "Retrabalho."),
+        ("Teste cada medida",
+         "Coloque um cartão na tela e arraste a medida. Confira o número contra "
+         "o caderno. No Cenário 1, a espera é de 92,4% e a fila tem 44 h."),
+        ("Formate",
+         "Use uma casa decimal para percentuais e horas, e separador de milhar "
+         "para a contagem de casos."),
     ]) +
-    tbl(["Pergunta para quem executa", "O que voce aprende"],
-        [["&quot;Onde o caso mais para?&quot;", "Confirma ou refuta o gargalo medido"],
-         ["&quot;O que trava mais?&quot;", "Causa raiz (falta recurso, processo, sistema)"],
-         ["&quot;Se pudesse mudar UMA coisa?&quot;", "Prioridade real do time"],
-         ["&quot;Ja tentaram resolver? Por que nao deu?&quot;", "Solucoes anteriores eporque falharam"]],
-        num_cols=[]) +
-    callout("purple", "Escute o &quot;ja tentaram&quot;",
-        "Se o processo ja foi tentado e fracassou, pergunte <b>por que</b>. "
-        "Normalmente a causa e cultural (ninguem muda o habito) ou de sistema "
-        "(a ferramenta nao suporta) - e isso muda a solucao: nem sempre e "
-        "automacao, as vezes e treinamento ou mudanca de regra.")
+    code(
+        "% Espera =\n"
+        "DIVIDE(\n"
+        "    SUM(fato_execucao[tempo_espera_min]),\n"
+        "    SUM(fato_execucao[tempo_espera_min])\n"
+        "        + SUM(fato_execucao[tempo_execucao_min])\n"
+        ")",
+        "dax"
+    ) +
+    callout("tip", "Teste a medida com um filtro",
+        "Se <code>% Espera</code> muda quando você filtra por unidade, o "
+        "relacionamento está funcionando. Se o valor fica igual, a medida está "
+        "ignorando o filtro. Nesse caso, volte ao modelo.")
 )
 
-cad.section("lab5-tobe", "Lab 5 - Desenhar o TO-BE com intervencao digital",
-    p("Com o gargalo medido e validado, redesenhe o processo. Cada mudanca "
-      "precisa estar ligada ao gargalo.") +
+cad.section("lab3-visuais", "Lab 3: montar os 5 visuais do painel",
+    p("Neste lab, o painel ganha forma. A regra é um visual para cada pergunta. "
+      "Se você não sabe qual pergunta o visual responde, ele não entra.") +
     step([
-        ("Copie o AS-IS e mude o nome",
-         "<code>processo-asis.mmd</code> &rarr; <code>processo-tobe.mmd</code>. "
-         "O TO-BE nasce do AS-IS."),
-        ("Aplique os 5 principios na ordem",
-         "<b>Eliminar</b> o que nao agrega valor &rarr; <b>Simplificar</b> "
-         "(menos passos) &rarr; <b>Integrar</b> (menos handoffs) &rarr; "
-         "<b>Automatizar</b> a regra &rarr; <b>Padronizar</b>."),
-        ("Marque a intervencao no diagrama",
-         "Use um estilo diferente para o que e automatico, e rotule a regra "
-         "(<code>classDef auto</code> no Mermaid)."),
-        ("Nao se perca no detalhe",
-         "O TO-BE e um <b>direcional</b>, nao um contrato. Deixe os detalhes "
-         "para a especificacao."),
+        ("Coloque os cartões no topo",
+         "Use quatro cartões: TAT Médio (h), % Espera, Casos e Taxa Retrabalho."),
+        ("Monte as barras empilhadas",
+         "No eixo, use <code>etapa</code>. Nos valores, use Tempo Espera (h) e "
+         "Tempo Execução (h). Ordene pela espera."),
+        ("Monte o Pareto",
+         "Use barras de espera por etapa e uma linha de percentual acumulado. "
+         "O visual pode ser o de barras e colunas ou um gráfico combinado."),
+        ("Monte a linha do tempo",
+         "No eixo, use <code>ano_mes</code> da <code>dim_calendario</code>. No "
+         "valor, use TAT Médio (h). Adicione uma linha de meta."),
+        ("Monte a matriz de retrabalho",
+         "Use <code>unidade</code> nas linhas, <code>etapa</code> nas colunas e "
+         "Taxa Retrabalho nos valores. Formate com escala de cor."),
+        ("Adicione filtros e título",
+         "Inclua segmentações de etapa, unidade e ano. Use o título "
+         "&quot;Processo de Requisição Pericial: onde o caso espera&quot;."),
+    ]) +
+    tbl(["Visual", "Pergunta", "Sinal de alerta"],
+        [["Cartões", "Como está o processo?", "TAT alto e espera acima de 85%"],
+         ["Barras empilhadas", "Onde se espera mais?", "Uma etapa domina as barras"],
+         ["Pareto", "Quais poucas etapas importam?", "Primeira barra acima de 30%"],
+         ["Linha do tempo", "Melhorou ou piorou?", "Tendência de alta por três meses"],
+         ["Matriz", "Quem concentra o retrabalho?", "Célula muito acima da média"]],
+        num_cols=[]) +
+    callout("err", "Cinco visuais e cinco filtros diferentes",
+        "Se cada visual tem um filtro próprio, o leitor compara coisas "
+        "diferentes sem perceber. Use as mesmas segmentações no painel inteiro e "
+        "deixe o filtro explícito no título.")
+)
+
+cad.section("lab4-hipotese", "Lab 4: ler o painel e escrever a hipótese",
+    p("A manhã termina com a interpretação. O painel não decide por você. Ele "
+      "reduz a dúvida a uma frase testável.") +
+    step([
+        ("Selecione o Cenário 1",
+         "Filtre o painel para <code>cenario1_processo_pericial</code> e "
+         "confirme os números: 92,4% de espera e 44 h na fila."),
+        ("Ordene a espera",
+         "No Pareto, a Fila perito aparece em primeiro. Anote o percentual de "
+         "41,5%."),
+        ("Verifique o retrabalho",
+         "O retrabalho é parecido entre as etapas, com cerca de 11,6%. Isso "
+         "sugere um problema sistêmico, e não de uma pessoa."),
+        ("Escreva a hipótese",
+         "&quot;O caso espera 44 h na Fila perito, que concentra 41,5% da "
+         "espera. A causa provável é a fila por ordem de chegada.&quot;"),
+        ("Marque o que falta saber",
+         "O painel não diz por que a fila se forma. Anote as perguntas para o "
+         "Lab 5: falta perito, falta prioridade ou falta dado na entrada?"),
+    ]) +
+    kpi([
+        ("44 h", "espera na Fila perito"),
+        ("41,5%", "da espera total"),
+        ("92,4%", "do tempo é espera"),
+        ("11,6%", "de retrabalho sistêmico"),
+    ]) +
+    callout("g", "A ligação entre a manhã e a tarde",
+        "A hipótese é o entregável da manhã. A tarde não começa do zero, porque "
+        "parte dessa frase. Quem chega à tarde sem a hipótese volta ao painel "
+        "antes de desenhar qualquer processo.")
+)
+
+cad.section("lab5-descrever", "Lab 5: descrever o processo em texto, com as 7 perguntas",
+    p("A tarde começa com texto, e não com desenho. O parágrafo do AS-IS é a "
+      "fonte do diagrama e o ponto em que as pessoas reconhecem o próprio "
+      "trabalho.") +
+    step([
+        ("Defina o escopo",
+         "Determine onde o processo começa e onde termina. Por exemplo: do "
+         "recebimento da requisição na delegacia até a assinatura do laudo."),
+        ("Aplique as 7 perguntas",
+         "Pergunte quem dispara, onde começa, o que vem depois, se há decisão, "
+         "quem faz, o que entra e sai e como termina."),
+        ("Anote os tempos",
+         "Registre quanto tempo cada etapa leva e quanto tempo o caso fica "
+         "parado. Pergunte em dias ou semanas, e não em minutos."),
+        ("Registre as dificuldades",
+         "Anote onde as pessoas reclamam, o que se repete e com quais palavras "
+         "elas descrevem o problema."),
+        ("Escreva de 10 a 15 linhas",
+         "Produza um parágrafo corrido, sem diagrama. Esse texto é o AS-IS na "
+         "linguagem de quem executa."),
+    ]) +
+    ficha("g", "Dica",
+        "Grave a entrevista. Quem passa pelo processo conhece detalhes que "
+        "ninguém mais conhece. Esses detalhes explicam a fila que o painel "
+        "mostrou.") +
+    aplicab(
+        "Ao entrevistar quem executa, antes de abrir o Power BI.",
+        "O dado mostra onde o problema está; a entrevista mostra por que ele acontece.",
+        "No Cenário 1, o painel mostra a fila. A entrevista revela que a fila é por ordem de chegada, e não por prazo legal.")
+)
+
+cad.section("lab6-asis", "Lab 6: converter o texto em diagrama AS-IS",
+    p("Agora o parágrafo vira diagrama. O objetivo não é a estética. É a "
+      "completude e a honestidade, inclusive com o caminho de retorno.") +
+    step([
+        ("Defina as swimlanes",
+         "Quantos atores existem? No fluxo pericial: Delegacia, ATO, "
+         "Laboratório e Sistema."),
+        ("Coloque cada atividade na faixa certa",
+         "Se uma atividade não cabe em nenhuma faixa, crie a faixa que falta. "
+         "Isso indica que o processo está mal definido."),
+        ("Insira os gateways",
+         "Cada condição do tipo se e senão vira um losango. Rotule as setas com "
+         "a condição, como Sim e Não."),
+        ("Inclua o retorno",
+         "Toda devolução ou correção precisa de uma seta de volta. Sem isso, o "
+         "diagrama não representa o tempo real."),
+        ("Renderize e revise",
+         "Cole o texto em <b>mermaid.live</b> ou no GitHub. Leia de cima para "
+         "baixo e verifique se a história faz sentido para quem executa."),
+    ]) +
+    code(
+        "flowchart TD\n"
+        "    subgraph DELEG[\"Delegacia\"]\n"
+        "        A([Requisicao recebida]) --> B[Registrar no SIGT]\n"
+        "    end\n"
+        "    subgraph ATO[\"ATO - Gabinete\"]\n"
+        "        C[Triagem e classificacao] --> D[Dados completos?]\n"
+        "        D -->|Nao| C\n"
+        "    end\n"
+        "    subgraph LAB[\"Laboratorio\"]\n"
+        "        E[Fila do perito] --> F[Analise do exame]\n"
+        "        F --> G[Revisao tecnica]\n"
+        "        G -->|Devolvido| F\n"
+        "        G --> H[Assinatura e release]\n"
+        "    end\n"
+        "    B --> C\n"
+        "    D -->|Sim| E\n"
+        "    H --> I([Laudo e arquivamento])",
+        "mermaid"
+    ) +
+    callout("err", "O diagrama que ninguém lê",
+        "Um diagrama com 40 caixas não comunica. Quebre o processo em "
+        "subprocessos e detalhe cada um. Um diagrama legível cabe em uma tela.")
+)
+
+cad.section("lab7-tobe-ganho", "Lab 7: desenhar o TO-BE e calcular o ganho",
+    p("Com o AS-IS validado e o gargalo medido, o TO-BE nasce do AS-IS. Cada "
+      "mudança precisa estar ligada a uma etapa do Pareto.") +
+    step([
+        ("Copie o AS-IS",
+         "Salve <code>processo-asis.mmd</code> como <code>processo-tobe.mmd</code>. "
+         "Não desenhe do zero, porque o TO-BE é uma edição do AS-IS."),
+        ("Aplique os 5 princípios",
+         "Siga a ordem: eliminar, simplificar, integrar, automatizar e padronizar."),
+        ("Marque a intervenção",
+         "Use <code>style</code> no Mermaid para destacar o que mudou. Assim, "
+         "quem lê vê onde a automação atua."),
+        ("Defina a meta por etapa",
+         "Por exemplo: fila de 44 h para 8 h e triagem de 10 h para 2 h. Meta "
+         "sem número não é meta."),
+        ("Calcule o ganho",
+         "Compare AS-IS e TO-BE nos mesmos dados: espera poupada, TAT, custo e "
+         "capacidade liberada."),
+        ("Escreva a frase de impacto",
+         "&quot;Com a fila priorizada, a espera cai de 44 h para 8 h e libera "
+         "43.200 h por ano.&quot; Use número, e não adjetivo."),
     ]) +
     code(
         "flowchart TD\n"
         "    A([Req. recebida]) --> B[SIGT registra com prazo legal]\n"
         "    B --> C[Triagem automatica por tipo]\n"
         "    C --> D{Dados completos?}\n"
-        "    D -->|Nao| E[Notificar digitar dados faltantes]\n"
+        "    D -->|Nao| E[Notificar dados faltantes]\n"
         "    E --> B\n"
         "    D -->|Sim| F[Fila priorizada por prazo]\n"
         "    F --> G[Analise]\n"
         "    G --> H[Revisao]\n"
         "    H --> I([Laudo])\n"
         "    style F fill:#d4edda,stroke:#28a745\n"
-        "    style C fill:#d4edda,stroke:#28a745\n"
-        "    %% verde = intervencao digital do TO-BE",
+        "    style C fill:#d4edda,stroke:#28a745",
         "mermaid"
     ) +
-    callout("tip", "Destaque a intervencao no diagrama",
-        "No Mermaid, use <code>style NO fill:#d4edda</code> para pintar de "
-        "verde o que mudou. Quem le o TO-BE ve <b>onde</b> a automacao "
-        "atua sem precisar comparar dois arquivos.")
-)
-
-cad.section("lab6-calcular-ganho", "Lab 6 - Calcular o ganho (antes x depois)",
-    p("A parte que transforma o projeto em proposta: quanto tempo, quanto "
-      "dinheiro, quantos casos.") +
-    step([
-        ("Pegue os tempos do AS-IS medido",
-         "Do Lab 3: espera media e execucao media por etapa, em horas."),
-        ("Defina o TO-BE alvo",
-         "Quanto cada etapa vai custar depois? Ex.: fila 44 h &rarr; 8 h; "
-         "triagem 10 h &rarr; 2 h (automatica)."),
-        ("Calcule o TAT novo",
-         "Some as novas esperas + execucoes. Compare com o TAT antigo."),
-        ("Transforme tempo em dinheiro",
-         "<code>minutos_poupados × custo/hora × volume_ano</code>. Use a coluna "
-         "<code>custo_minuto</code> do dataset."),
-        ("Verifique se o ganho e crivel",
-         "Se o ganho prometido for 95%, desconfie. Ganho de 20-40% em processo "
-         "real e otimo; 90% costuma ser promessa, nao previsao."),
-    ]) +
     kpi([
-        ("44 h", "espera na fila (AS-IS)"),
-        ("8 h", "espera alvo (TO-BE)"),
-        ("-82%", "reducao da etapa"),
-        ("-24%", "TAT total"),
+        ("44 h &rarr; 8 h", "espera na fila"),
+        ("-82%", "redução na etapa"),
+        ("-24%", "redução no TAT"),
+        ("43.200 h", "poupadas por ano"),
     ]) +
-    callout("g", "Escreva a frase de impacto",
-        "Ao final do Lab 6, voce deve ser capaz de dizer: "
-        "&quot;Com a fila priorizada, o tempo de espera do perito cai de 44 h "
-        "para 8 h, liberando 43.200 horas por ano - o equivalente a um "
-        "perito-equivalente em trabalho tecnico.&quot; Numero, nao adjetivo.")
+    callout("g", "O ganho precisa ser plausível",
+        "Um ganho de 20% a 40% em processo real já é relevante. Se a conta der "
+        "90%, reveja a premissa, porque provavelmente você assumiu que a fila "
+        "zera. Fila não zera.")
 )
 
-cad.section("lab7-apresentar", "Lab 7 - Apresentar e coletar feedback",
-    p("Um processo redesenhado so existe se for <b>adotado</b>. O ultimo lab "
-      "e de comunicacao e validacao.") +
+cad.section("lab8-pitch-canvas", "Lab 8: pitch de 3 minutos e canvas do mini app",
+    p("O dia termina com comunicação e com a primeira ideia de mini app. Nesta "
+      "aula, a ideia fica no canvas. A construção com IA agêntica vem nas "
+      "próximas aulas.") +
     step([
-        ("Monte a apresentacao em 4 blocos",
-         "<b>1)</b> O processo hoje (AS-IS + gargalo medido). <b>2)</b> O que "
-         "proponho (TO-BE). <b>3)</b> O ganho (numeros). <b>4)</b> O que preciso "
-         "(apoio, recursos, decisao)."),
+        ("Monte o pitch em quatro blocos",
+         "Apresente o processo hoje e o gargalo medido, a proposta, o ganho em "
+         "número e o que você precisa: decisão, pessoa ou recurso."),
         ("Mostre os dois diagramas lado a lado",
-         "AS-IS e TO-BE na mesma tela. A diferenca visual e o argumento."),
-        ("Camine pelo AS-IS com quem conhece",
-         "Se ninguem questionar o AS-IS, o TO-BE nao sera aceito. Fixe o AS-IS "
-         "com quem executa antes de pedir mudanca."),
-        ("Colete o feedback do time",
-         "&quot;O que falta? O que nao vai funcionar? Onde isso trava?&quot; "
-         "Anote e ajuste o TO-BE."),
-        ("Feche com o pedido de decisao",
-         "Termine com o que voce precisa do sponsor (pessoa, recurso, "
-         "autorizacao). Sem pedido, e apenas uma ideia."),
+         "Coloque AS-IS e TO-BE na mesma tela. A diferença visual é o argumento."),
+        ("Peça feedback ao time",
+         "Pergunte o que falta, o que não vai funcionar e onde o processo "
+         "trava. Anote e ajuste antes de pedir a decisão."),
+        ("Preencha o canvas do mini app",
+         "Use cinco blocos: problema, usuário, dado, ação e medida. Escreva uma "
+         "frase por bloco, sem definir a tecnologia."),
+        ("Escolha o candidato da equipe",
+         "Qual etapa do TO-BE pede um app, como formulário, fila, checklist ou "
+         "rastreio? Esse é o candidato para a próxima aula."),
     ]) +
+    tbl(["Bloco do canvas", "Pergunta", "Exemplo no Cenário 1"],
+        [["<b>Problema</b>", "Que dor o app resolve?", "Fila do perito por ordem de chegada"],
+         ["<b>Usuário</b>", "Quem usa, onde e quando?", "Triagem do ATO, no desktop"],
+         ["<b>Dado</b>", "Que dado entra e sai?", "Requisição, prazo legal e tipo de exame"],
+         ["<b>Ação</b>", "O que o app faz?", "Ordena a fila por prazo e alerta o perito"],
+         ["<b>Medida</b>", "Como saber se funcionou?", "Espera média na fila, de 44 h para 8 h"]],
+        num_cols=[]) +
     checklist([
         "AS-IS validado com quem executa.",
-        "Gargalo medido com numero nos dados.",
-        "TO-BE ligado ao gargalo (cada mudanca justificada).",
+        "Gargalo medido com número no painel.",
+        "TO-BE ligado ao gargalo, com cada mudança justificada.",
         "Ganho calculado em tempo e recurso.",
-        "Pedido de decisao claro.",
+        "Canvas do mini app preenchido com os cinco blocos.",
+        "Pedido de decisão explícito.",
     ]) +
-    callout("err", "Apresentar o TO-BE sem o AS-IS",
-        "Se voce mostra so o futuro, ninguem acredita (parece utopico). "
-        "Sempre comece pelo <b>AS-IS validado</b>: quando todos veem que o "
-        "processo real e esse, o TO-BE comeca a parecer possivel.")
+    callout("note", "O que vem depois",
+        "Na próxima aula, o canvas vira protótipo com IA agêntica. Você "
+        "descreve o app em linguagem natural, e a ferramenta constrói a tela. "
+        "Nesta primeira aula, o objetivo é sair com o problema bem definido, "
+        "porque a IA acelera a construção, mas não decide o que construir.")
 )
 
 # =================================================================
-# PARTE 7 - CENARIOS POLITEC (3 PROCESSOS REAIS)
+# PARTE 9 - CENARIOS POLITEC
 # =================================================================
-cad.grp("Parte 7 - Cenarios POLITEC",
-        "Tres processos reais modelados ponta a ponta: AS-IS medido, gargalo, TO-BE com automacao.")
+cad.grp("Parte 9 - Cenários POLITEC",
+        "Três dos cinco processos, modelados ponta a ponta: AS-IS medido, gargalo e TO-BE.")
 
-cad.section("cenarios-intro", "Os 3 cenarios: qual processo voce vai modelar?",
-    p("Cada cenario vem com um <b>dataset medido</b> (9.500+ execucoes de "
-      "etapa em modelo estrela) e um caso completo de AS-IS &rarr; gargalo "
-      "&rarr; TO-BE.") +
+cad.section("cenarios-intro", "Os 3 cenários modelados entre os 5 datasets",
+    p("Cada cenário abaixo vem com um dataset medido, com 30.733 execuções de "
+      "etapa nos três, e um caso completo de AS-IS, gargalo e TO-BE. Os "
+      "Cenários 4 e 5 têm a receita de painel na Parte 2. O método AS-IS e "
+      "TO-BE desta parte se aplica a eles da mesma forma.") +
     grid2([
-        ("\U0001f5fa Cenario 1 - Requisicao Pericial",
-         "Do registro na delegacia ao laudo assinado. Gargalo: <b>fila do "
-         "perito</b> (41,5% da espera). 10.352 execucoes."),
-        ("\U0001f4b0 Cenario 2 - Empenho e Contrato",
-         "Do pedido do setor a publicacao do ato. Gargalo: <b>parecer juridico "
-         "+ autorizacao</b> (51,2%). Maior retrabalho. 9.541 execucoes."),
-        ("\U0001f52c Cenario 3 - Cadeia de Custodia",
-         "Da coleta no local a baixa da evidencia. Gargalo: <b>guarda</b> "
-         "(35,3%) + risco de lacre. 10.840 execucoes.")
+        ("\U0001f5fa Cenário 1: requisição pericial",
+         "Do registro na delegacia ao laudo assinado. O gargalo é a <b>fila do "
+         "perito</b>, com 41,5% da espera e 10.352 execuções."),
+        ("\U0001f4b0 Cenário 2: empenho e contrato",
+         "Do pedido do setor à publicação do ato. O gargalo é o <b>parecer "
+         "jurídico e a autorização</b>, com 51,2% da espera, 9.541 execuções e "
+         "a maior taxa de retrabalho."),
+        ("\U0001f52c Cenário 3: cadeia de custódia",
+         "Da coleta no local à baixa da evidência. O gargalo é a <b>guarda</b>, "
+         "com 35,3% da espera, além do risco de lacre, em 10.840 execuções."),
     ])
 )
 
 # --- Cenario 1 completo ---
-cad.section("cen1-asis", "Cenario 1 - O AS-IS da requisicao pericial",
-    p("O processo mais iconico da POLITEC. Sao 8 etapas, 4 atores, e "
-      "o processo inteiro e <b>92,4% espera</b>.") +
+cad.section("cen1-asis", "Cenário 1: o AS-IS da requisição pericial",
+    p("Este é o processo mais conhecido da POLITEC. São 8 etapas, 4 atores e "
+      "um processo em que <b>92,4% do tempo é espera</b>.") +
     build_process_asis() +
     code(
         "flowchart TD\n"
@@ -1401,52 +2455,50 @@ cad.section("cen1-asis", "Cenario 1 - O AS-IS da requisicao pericial",
         "    S2 --> I([Laudo entregue])",
         "mermaid"
     ) +
-    tbl(["Etapa", "Espera", "Execucao", "Retrabalho"],
+    tbl(["Etapa", "Espera", "Execução", "Retrabalho"],
         [["1. Entrada", "0 h", "0 h", "11,2%"],
          ["2. Triagem", "10 h", "1 h", "12,7%"],
-         ["3. Distribuicao", "13 h", "1 h", "11,4%"],
+         ["3. Distribuição", "13 h", "1 h", "11,4%"],
          ["<b>4. Fila perito</b>", "<b>44 h</b>", "0 h", "12,1%"],
-         ["5. Analise", "9 h", "5 h", "11,5%"],
-         ["6. Revisao", "13 h", "2 h", "10,4%"],
+         ["5. Análise", "9 h", "5 h", "11,5%"],
+         ["6. Revisão", "13 h", "2 h", "10,4%"],
          ["7. Assinatura", "10 h", "0 h", "11,7%"],
          ["8. Arquivamento", "7 h", "0 h", "11,7%"]],
         num_cols=[1, 2, 3]) +
     callout("err", "O que o diagrama revela",
-        "Repare nas swimlanes: o caso <b>atravessa 4 sistemas</b> (papel, SIGT, "
-        "e-mail, planilha) e muda de mao <b>4 vezes</b>. Cada fronteira de "
-        "swimlane e um ponto de espera - e e ai que esta o gargalo.")
+        "O caso atravessa quatro sistemas, que são papel, SIGT, e-mail e "
+        "planilha, e muda de mãos quatro vezes. Cada fronteira de swimlane é um "
+        "ponto de espera, e é nesse ponto que está o gargalo.")
 )
 
-cad.section("cen1-gargalo", "Cenario 1 - O gargalo medido: a fila do perito",
-    p("Rodando a tabela dinamica do Lab 3 nos dados do Cenario 1, a etapa "
-      "<b>&quot;Fila perito&quot;</b> concentra <b>41,5% de toda a espera</b> do "
-      "processo.") +
+cad.section("cen1-gargalo", "Cenário 1: o gargalo medido na fila do perito",
+    p("Ao rodar a tabela dinâmica do Lab 3 nos dados do Cenário 1, a etapa "
+      "Fila perito concentra <b>41,5% de toda a espera</b> do processo.") +
     bar_chart(
-        ["Fila perito", "Revisao", "Distribuicao", "Triagem", "Assinatura", "Analise"],
+        ["Fila perito", "Revisão", "Distribuição", "Triagem", "Assinatura", "Análise"],
         [41.5, 12.3, 11.9, 9.8, 9.7, 9.3],
-        "Cenario 1 - Share da espera por etapa",
-        "41,5% da espera do processo esta numa unica etapa. E uma fila que "
-        "nao precisa de mais perito para encurtar: precisa de <b>ordem certa</b>.",
+        "Cenário 1: participação da espera por etapa",
+        "41,5% da espera do processo está em uma única etapa. Essa fila não "
+        "exige mais peritos para encurtar. Exige a ordem correta de atendimento.",
         fmt="{:.1f}%",
         destaque=0
     ) +
-    tbl(["Achado", "Numero", "Implicacao"],
-        [["Processo e espera", "92,4%", "O trabalho e minimo; a parada e o problema"],
-         ["Gargalo", "Fila perito - 41,5%", "Atacar a fila, nao a analise"],
-         ["Execucao maior", "Analise - 5 h", "Mais trabalho, mas so 9,3% da espera"],
-         ["Menor espera da analise", "9 h (vs 44 h)", "O perito trabalha; o caso espera"]],
+    tbl(["Achado", "Número", "Implicação"],
+        [["Processo é espera", "92,4%", "O trabalho é mínimo; a parada é o problema"],
+         ["Gargalo", "Fila perito, 41,5%", "Atacar a fila, e não a análise"],
+         ["Maior execução", "Análise, 5 h", "Há mais trabalho, mas apenas 9,3% da espera"],
+         ["Menor espera da análise", "9 h, contra 44 h", "O perito trabalha; o caso espera"]],
         num_cols=[]) +
     ficha("r", "A leitura contraintuitiva",
-        "O intuicao diz &quot;o gargalo e a analise, que demora 5 h&quot;. O "
-        "dado diz o contrario: a analise e <b>rapida</b>; o problema e o caso "
-        "<b>esperar 44 h</b> na fila antes de comecar. Sem medir, a equipe "
-        "contrataria mais peritos para resolver um problema de fila.")
+        "A intuição diz que o gargalo é a análise, que demora 5 h. O dado diz o "
+        "contrário: a análise é rápida, e o problema é o caso esperar 44 h na "
+        "fila antes de começar. Sem medir, a equipe contrataria mais peritos "
+        "para resolver um problema de fila.")
 )
 
-cad.section("cen1-tobe", "Cenario 1 - O TO-BE: fila priorizada por prazo legal",
-    p("A intervencao preenche a fileira do gargalo: em vez de atender por "
-      "ordem de chegada, <b>prioriza por prazo legal</b> e monitora a carga "
-      "em tempo real.") +
+cad.section("cen1-tobe", "Cenário 1: o TO-BE com fila priorizada por prazo legal",
+    p("A intervenção atua no gargalo. Em vez de atender por ordem de chegada, o "
+      "processo prioriza por prazo legal e monitora a carga em tempo real.") +
     build_process_tobe() +
     code(
         "flowchart TD\n"
@@ -1481,23 +2533,24 @@ cad.section("cen1-tobe", "Cenario 1 - O TO-BE: fila priorizada por prazo legal",
         "    %% verde = automatizado | azul = observabilidade",
         "mermaid"
     ) +
-    tbl(["Mudanca", "Tipo", "Foco no gargalo"],
-        [["Fila por prazo legal", "Integrar + automatizar", "<b>Sim</b> - reordena a fila"],
-         ["Triagem assistida por tipo", "Automatizar", "Indireto - reduz entrada na fila"],
-         ["Notificar dados faltantes", "Automatizar", "Indireto - evita ciclo de devolucao"],
-         ["Painel WIP por perito", "Visualizar (BI)", "<b>Sim</b> - rebalanceia antes de acumular"],
-         ["Alerta se fila > 24h", "Notificar", "<b>Sim</b> - aciona antes de virar gargalo"]],
+    tbl(["Mudança", "Tipo", "Foco no gargalo"],
+        [["Fila por prazo legal", "Integrar e automatizar", "<b>Sim</b>, porque reordena a fila"],
+         ["Triagem assistida por tipo", "Automatizar", "Indireto, porque reduz a entrada na fila"],
+         ["Notificação de dados faltantes", "Automatizar", "Indireto, porque evita o ciclo de devolução"],
+         ["Painel de WIP por perito", "Visualizar em BI", "<b>Sim</b>, porque rebalanceia antes de acumular"],
+         ["Alerta de fila acima de 24 h", "Notificar", "<b>Sim</b>, porque aciona antes de virar gargalo"]],
         num_cols=[])
 )
 
-cad.section("cen1-ganho", "Cenario 1 - O ganho calculado",
-    p("Do AS-IS medido ao TO-BE proposto, a conta fecha.") +
-    tbl(["Metrica", "AS-IS", "TO-BE", "Ganho"],
+cad.section("cen1-ganho", "Cenário 1: o ganho calculado",
+    p("A comparação entre o AS-IS medido e o TO-BE proposto mostra o ganho. A "
+      "conta usa os mesmos dados e o volume anual do processo.") +
+    tbl(["Métrica", "AS-IS", "TO-BE", "Ganho"],
         [["<b>Espera na fila</b>", "44 h", "8 h", "<b>-82%</b>"],
-         ["TAT total (aprox.)", "92 dias", "70 dias", "<b>-24%</b>"],
-         ["Fila de casos (Little's Law)", "~302 casos", "~230 casos", "-72 casos"],
-         ["<b>Horas/ano poupadas</b>", "-", "-", "<b>43.200 h</b>"],
-         ["Equivalente em pessoa", "-", "-", "<b>~1 perito-equivalente</b>"]],
+         ["TAT total aproximado", "92 dias", "70 dias", "<b>-24%</b>"],
+         ["Fila de casos, por Little's Law", "cerca de 302 casos", "cerca de 230 casos", "menos 72 casos"],
+         ["<b>Horas por ano poupadas</b>", "-", "-", "<b>43.200 h</b>"],
+         ["Equivalente em pessoa", "-", "-", "<b>cerca de 1 perito-equivalente</b>"]],
         num_cols=[1, 2, 3]) +
     code(
         "Horas poupadas/ano = (44h - 8h) × 1.200 casos/ano\n"
@@ -1508,16 +2561,17 @@ cad.section("cen1-ganho", "Cenario 1 - O ganho calculado",
         "43.200 h ÷ (220 dias × 8 h) ≈ 1 perito",
         "formula"
     ) +
-    callout("g", "A frase para o diretor",
-        "&quot;Hoje 36% do TAT do laudo e o tempo que o caso fica parado na "
-        "fila. Se a fila for priorizada por prazo legal, tiramos 43 mil horas "
-        "de espera por ano - sem contratar ninguem, so tocando o processo.&quot;")
+    callout("g", "A frase para a direção",
+        "Hoje, 36% do TAT do laudo corresponde ao tempo em que o caso fica "
+        "parado na fila. Se a fila for priorizada por prazo legal, o processo "
+        "elimina 43 mil horas de espera por ano, sem contratar ninguém e apenas "
+        "ajustando a ordem de atendimento.")
 )
 
 # --- Cenario 2 completo ---
-cad.section("cen2-asis", "Cenario 2 - O AS-IS do empenho e contrato",
-    p("O caminho do dinheiro publico: 7 etapas, 5 unidades e o maior "
-      "<b>retrabalho</b> dos tres cenarios (~16,6%).") +
+cad.section("cen2-asis", "Cenário 2: o AS-IS do empenho e contrato",
+    p("Este é o caminho do dinheiro público, com 7 etapas, 5 unidades e a maior "
+      "taxa de retrabalho entre os cinco datasets, de cerca de 16,6%.") +
     build_process_orcamento() +
     code(
         "flowchart TD\n"
@@ -1545,45 +2599,44 @@ cad.section("cen2-asis", "Cenario 2 - O AS-IS do empenho e contrato",
         "    I --> J([Contrato assinado])",
         "mermaid"
     ) +
-    tbl(["Etapa", "Espera", "Execucao", "Retrabalho"],
+    tbl(["Etapa", "Espera", "Execução", "Retrabalho"],
         [["1. Pedido", "0 h", "4 h", "15,9%"],
-         ["2. Cotacao", "10 h", "0 h", "16,4%"],
+         ["2. Cotação", "10 h", "0 h", "16,4%"],
          ["3. Mapa comparativo", "21 h", "6 h", "17,0%"],
-         ["<b>4. Parecer juridico</b>", "<b>36 h</b>", "5 h", "17,0%"],
-         ["<b>5. Autorizacao</b>", "<b>27 h</b>", "1 h", "16,3%"],
+         ["<b>4. Parecer jurídico</b>", "<b>36 h</b>", "5 h", "17,0%"],
+         ["<b>5. Autorização</b>", "<b>27 h</b>", "1 h", "16,3%"],
          ["6. Empenho", "11 h", "0 h", "16,6%"],
-         ["7. Publicacao", "18 h", "0 h", "16,9%"]],
+         ["7. Publicação", "18 h", "0 h", "16,9%"]],
         num_cols=[1, 2, 3]) +
-    callout("err", "Onde o processo sangra",
-        "As <b>duas aprovacoes</b> (parecer + autorizacao) somam <b>51,2% da "
-        "espera</b>. E o retrabalho de ~16,6% significa que 1 em cada 6 "
-        "documentos volta para refacao - quase sempre no mapa e no parecer.")
+    callout("err", "Onde o processo perde tempo",
+        "As duas aprovações, parecer e autorização, somam 51,2% da espera. Além "
+        "disso, o retrabalho de cerca de 16,6% indica que um em cada seis "
+        "documentos volta para refação, quase sempre no mapa e no parecer.")
 )
 
-cad.section("cen2-gargalo", "Cenario 2 - O gargalo: aprovacoes encadeadas",
-    p("Diferente do Cenario 1, aqui o gargalo e um <b>conjunto de etapas</b>: "
-      "duas aprovacoes em sequencia.") +
+cad.section("cen2-gargalo", "Cenário 2: o gargalo das aprovações encadeadas",
+    p("Diferente do Cenário 1, o gargalo aqui é um conjunto de etapas. São duas "
+      "aprovações em sequência, e nenhuma delas é medida com frequência.") +
     bar_chart(
-        ["Parecer juridico", "Autorizacao", "Mapa comparativo", "Publicacao", "Empenho", "Cotacao"],
+        ["Parecer jurídico", "Autorização", "Mapa comparativo", "Publicação", "Empenho", "Cotação"],
         [29.3, 21.9, 17.0, 14.7, 10.9, 6.2],
-        "Cenario 2 - Share da espera por etapa",
-        "Parecer + Autorizacao = 51,2% da espera. Sao as duas unicas "
-        "aprovações do processo - e ninguem mede o tempo delas.",
+        "Cenário 2: participação da espera por etapa",
+        "Parecer e autorização somam 51,2% da espera. São as duas únicas "
+        "aprovações do processo.",
         fmt="{:.1f}%",
         destaque=0
     ) +
-    tbl(["Causa raiz", "Como confirmar", "Evidencia no processo"],
-        [["Fila unica no juridico", "Contar quantos ficam na fila", "36 h de espera media"],
-         ["Autorizador com muitas pendencias", "Pedir a pauta do ordenador", "27 h de espera"],
-         ["Parecer devolvido com frequencia", "Contar devolucoes", "16,6% de retrabalho"],
-         ["Expediente lento (chega tarde)", "Registrar hora de chegada", "Fila cresce no fim do dia"]],
+    tbl(["Causa raiz", "Como confirmar", "Evidência no processo"],
+        [["Fila única no jurídico", "Contar quantos processos ficam na fila", "36 h de espera média"],
+         ["Autorizador com muitas pendências", "Pedir a pauta do ordenador", "27 h de espera"],
+         ["Parecer devolvido com frequência", "Contar devoluções", "16,6% de retrabalho"],
+         ["Expediente que chega tarde", "Registrar a hora de chegada", "A fila cresce no fim do dia"]],
         num_cols=[])
 )
 
-cad.section("cen2-tobe", "Cenario 2 - O TO-BE: pauta automatica e alerta de dotacao",
-    p("A intervencao nao e &quot;aprovar mais rapido&quot;, e sim <b>ordenar e "
-      "avisar</b>: uma pauta automatica que monta o que vence e alerta quando "
-      "algo travar.") +
+cad.section("cen2-tobe", "Cenário 2: o TO-BE com pauta automática e alerta de dotação",
+    p("A intervenção não é aprovar mais rápido. É ordenar e avisar, com uma "
+      "pauta automática que monta o que vence e alerta quando algo trava.") +
     code(
         "flowchart TD\n"
         "    subgraph SETOR[\"Setor\"]\n"
@@ -1613,35 +2666,38 @@ cad.section("cen2-tobe", "Cenario 2 - O TO-BE: pauta automatica e alerta de dota
         "    style P fill:#cce5ff,stroke:#004085",
         "mermaid"
     ) +
-    tbl(["Intervencao", "Tipo", "Resolve"],
-        [["Pauta automatica por prazo", "Automatizar", "Fila do juridico (29,3%)"],
-         ["Alerta de dotacao insuficiente", "Automatizar + notificar", "Retrabalho do mapa"],
+    tbl(["Intervenção", "Tipo", "Resolve"],
+        [["Pauta automática por prazo", "Automatizar", "Fila do jurídico, com 29,3% da espera"],
+         ["Alerta de dotação insuficiente", "Automatizar e notificar", "Retrabalho do mapa"],
          ["Checklist de parecer", "Padronizar", "16,6% de retrabalho"],
-         ["Painel de expedientes parados", "Visualizar (BI)", "Fila do ordenador (21,9%)"],
-         ["Formulario digital de pedido", "Digitalizar", "Papel e redigitacao"]],
+         ["Painel de expedientes parados", "Visualizar em BI", "Fila do ordenador, com 21,9% da espera"],
+         ["Formulário digital de pedido", "Digitalizar", "Papel e redigitação"]],
         num_cols=[])
 )
 
-cad.section("cen2-ganho", "Cenario 2 - O ganho",
-    tbl(["Metrica", "AS-IS", "TO-BE", "Ganho"],
-        [["<b>Parecer juridico (espera)</b>", "36 h", "14 h", "<b>-61%</b>"],
-         ["<b>Autorizacao (espera)</b>", "27 h", "10 h", "<b>-63%</b>"],
+cad.section("cen2-ganho", "Cenário 2: o ganho",
+    p("O ganho aparece nas duas aprovações e no retrabalho. Além disso, a "
+      "redução de uma etapa afeta as etapas seguintes, porque o processo é "
+      "encadeado.") +
+    tbl(["Métrica", "AS-IS", "TO-BE", "Ganho"],
+        [["<b>Parecer jurídico, espera</b>", "36 h", "14 h", "<b>-61%</b>"],
+         ["<b>Autorização, espera</b>", "27 h", "10 h", "<b>-63%</b>"],
          ["<b>Retrabalho</b>", "16,6%", "6,0%", "<b>-64%</b>"],
-         ["TAT do empenho (aprox.)", "38 dias", "26 dias", "<b>-32%</b>"],
-         ["Horas/ano poupadas", "-", "-", "<b>52.800 h</b>"]],
+         ["TAT do empenho, aproximado", "38 dias", "26 dias", "<b>-32%</b>"],
+         ["Horas por ano poupadas", "-", "-", "<b>52.800 h</b>"]],
         num_cols=[1, 2, 3]) +
-    callout("g", "O efeito dominó",
-        "Quando o mapa comparativo volta corrigido, ele volta <b>antes</b> e o "
-        "parecer espera menos. O ganho nao e so na etapa que voce otimizou - e "
-        "nas etapas seguintes. E por isso que se mede o processo <b>inteiro</b>, "
-        "nao etapa por etapa.")
+    callout("g", "O efeito em cadeia",
+        "Quando o mapa comparativo volta corrigido, ele volta antes e o parecer "
+        "espera menos. O ganho não está apenas na etapa otimizada, mas também "
+        "nas etapas seguintes. Por isso, o processo é medido inteiro, e não "
+        "etapa por etapa.")
 )
 
 # --- Cenario 3 completo ---
-cad.section("cen3-asis", "Cenario 3 - O AS-IS da cadeia de custodia",
-    p("O processo mais critico quanto a rastreabilidade. Alem do tempo, aqui o "
-      "problema e <b>risco de prova</b>: lacre aberto pode inviabilizar o "
-      "laudo.") +
+cad.section("cen3-asis", "Cenário 3: o AS-IS da cadeia de custódia",
+    p("Este é o processo mais crítico quanto à rastreabilidade. Além do tempo, "
+      "o problema é o risco de prova, porque um lacre aberto pode inviabilizar "
+      "o laudo.") +
     build_process_custodia() +
     code(
         "flowchart TD\n"
@@ -1664,53 +2720,52 @@ cad.section("cen3-asis", "Cenario 3 - O AS-IS da cadeia de custodia",
         "    I --> J([Destino final registrado])",
         "mermaid"
     ) +
-    tbl(["Etapa", "Espera", "Execucao", "Divergencia de lacre"],
+    tbl(["Etapa", "Espera", "Execução", "Divergência de lacre"],
         [["1. Coleta", "0 h", "2 h", "4,9%"],
          ["2. Lacre", "11 h", "1 h", "5,5%"],
          ["3. Registro", "12 h", "0 h", "3,9%"],
          ["4. Transporte", "16 h", "3 h", "4,2%"],
          ["5. Recebimento", "14 h", "1 h", "5,5%"],
          ["<b>6. Guarda</b>", "<b>55 h</b>", "0 h", "4,0%"],
-         ["7. Pericia", "21 h", "6 h", "5,2%"],
+         ["7. Perícia", "21 h", "6 h", "5,2%"],
          ["8. Baixa", "25 h", "0 h", "4,6%"]],
         num_cols=[1, 2, 3]) +
     callout("err", "O gargalo duplo",
-        "A etapa 6 (guarda) concentra <b>35,3% da espera</b>. Mas o gargalo "
-        "real deste processo e duplo: o <b>tempo de guarda</b> e a "
-        "<b>fragilidade do lacre em papel</b> (4,8% de divergencia). O TO-BE "
-        "precisa atacar os dois.")
+        "A etapa 6, a guarda, concentra 35,3% da espera. O gargalo real, porém, "
+        "é duplo: o tempo de guarda e a fragilidade do lacre em papel, com 4,8% "
+        "de divergência. O TO-BE precisa atacar os dois.")
 )
 
-cad.section("cen3-gargalo", "Cenario 3 - O gargalo: guarda e rastreabilidade",
-    p("Aqui a leitura muda: o gargalo nao e so de tempo, e de "
-      "<b>confiabilidade do processo</b>. Uma evidencia parada 55 h em guarda e "
-      "um lacre em papel sao riscos diferentes.") +
+cad.section("cen3-gargalo", "Cenário 3: o gargalo da guarda e da rastreabilidade",
+    p("Neste cenário, a leitura muda. O gargalo não é apenas de tempo, mas de "
+      "confiabilidade do processo. Uma evidência parada 55 h na guarda e um "
+      "lacre em papel são riscos diferentes.") +
     bar_chart(
-        ["Guarda", "Baixa", "Pericia", "Transporte", "Recebimento", "Registro", "Lacre"],
+        ["Guarda", "Baixa", "Perícia", "Transporte", "Recebimento", "Registro", "Lacre"],
         [35.3, 16.4, 13.8, 10.6, 6.7, 5.7, 5.3],
-        "Cenario 3 - Share da espera por etapa",
-        "A guarda responde por 35,3% da espera. Mas o custo maior deste "
-        "processo nao esta em nenhum destes numeros.",
+        "Cenário 3: participação da espera por etapa",
+        "A guarda responde por 35,3% da espera. O custo maior deste processo, "
+        "porém, não está em nenhum desses números.",
         fmt="{:.1f}%",
         destaque=0
     ) +
     tbl(["Risco", "Probabilidade", "Impacto", "Zona"],
-        [["Lacre aberto no transporte", "4,2%", "Alto (inviabiliza a prova)", "<b>Vermelho</b>"],
-         ["Divergencia no recebimento", "5,5%", "Alto", "<b>Vermelho</b>"],
-         ["Amostra degrada na guarda", "Media", "Alto", "<b>Vermelho</b>"],
-         ["Perda de rastreio do responsavel", "Media", "Médio", "Amarelo"]],
+        [["Lacre aberto no transporte", "4,2%", "Alto, porque inviabiliza a prova", "<b>Vermelha</b>"],
+         ["Divergência no recebimento", "5,5%", "Alto", "<b>Vermelha</b>"],
+         ["Amostra que se degrada na guarda", "Média", "Alto", "<b>Vermelha</b>"],
+         ["Perda de rastreio do responsável", "Média", "Médio", "Amarela"]],
         num_cols=[]) +
-    ficha("r", "A diferenca deste cenario",
-        "Nos cenarios 1 e 2, o gargalo e <b>economico</b> (tempo = dinheiro). "
-        "Aqui o gargalo e <b>juridico</b> (rastreabilidade = validade da prova). "
-        "Um TO-BE que so reduz tempo e insuficiente: ele precisa <b>garantir "
-        "rastreio</b>.")
+    ficha("r", "A diferença deste cenário",
+        "Nos Cenários 1 e 2, o gargalo é econômico, porque tempo é dinheiro. "
+        "Aqui, o gargalo é jurídico, porque rastreabilidade é validade da prova. "
+        "Um TO-BE que apenas reduz tempo é insuficiente. Ele precisa garantir o "
+        "rastreio.")
 )
 
-cad.section("cen3-tobe", "Cenario 3 - O TO-BE: custodia com QR Code",
-    p("A intervencao aqui troca o <b>lacre em papel</b> por <b>rastreio "
-      "digital</b>: cada transferencia vira um evento com responsavel, hora e "
-      "QR - e um alerta dispara se a evidencia ficar parada alem do prazo.") +
+cad.section("cen3-tobe", "Cenário 3: o TO-BE com custódia e QR Code",
+    p("A intervenção troca o lacre em papel por rastreio digital. Cada "
+      "transferência vira um evento com responsável, hora e QR Code. Além "
+      "disso, um alerta dispara se a evidência ficar parada além do prazo.") +
     code(
         "flowchart TD\n"
         "    subgraph CAMPO[\"App de custodia (campo)\"]\n"
@@ -1746,201 +2801,222 @@ cad.section("cen3-tobe", "Cenario 3 - O TO-BE: custodia com QR Code",
         "    style L2 fill:#cce5ff,stroke:#004085",
         "mermaid"
     ) +
-    tbl(["Intervencao", "Tipo", "Resolve"],
-        [["QR Code por evidencia", "Digitalizar + rastrear", "Lacre em papel, 5,5% de divergencia"],
-         ["Leitor QR no recebimento", "Automatizar", "Conferencia manual (etapa 5)"],
-         ["Bloqueio + alerta em divergencia", "Automatizar + notificar", "4,8% de divergencia total"],
-         ["Alerta de guarda > 24h", "Automatizar", "35,3% da espera"],
+    tbl(["Intervenção", "Tipo", "Resolve"],
+        [["QR Code por evidência", "Digitalizar e rastrear", "Lacre em papel e 5,5% de divergência"],
+         ["Leitor de QR no recebimento", "Automatizar", "Conferência manual da etapa 5"],
+         ["Bloqueio e alerta em divergência", "Automatizar e notificar", "4,8% de divergência total"],
+         ["Alerta de guarda acima de 24 h", "Automatizar", "35,3% da espera"],
          ["Assinatura digital na baixa", "Digitalizar", "Rastreabilidade do destino"]],
         num_cols=[])
 )
 
-cad.section("cen3-ganho", "Cenario 3 - O ganho",
-    tbl(["Metrica", "AS-IS", "TO-BE", "Ganho"],
+cad.section("cen3-ganho", "Cenário 3: o ganho",
+    p("O ganho aparece no tempo de guarda, na divergência de lacre e na "
+      "rastreabilidade. Neste cenário, a redução de tempo é importante, mas a "
+      "garantia de rastreio tem peso maior.") +
+    tbl(["Métrica", "AS-IS", "TO-BE", "Ganho"],
         [["<b>Espera na guarda</b>", "55 h", "18 h", "<b>-67%</b>"],
-         ["<b>Divergencia de lacre</b>", "4,8%", "< 0,5%", "<b>-90%</b>"],
-         ["Rastreio do responsavel", "Manual (pouco confiavel)", "Digital e automatico", "<b>Total</b>"],
-         ["TAT custodia (aprox.)", "210 dias", "180 dias", "<b>-14%</b>"],
-         ["Horas/ano poupadas", "-", "-", "<b>46.000 h</b>"]],
+         ["<b>Divergência de lacre</b>", "4,8%", "menos de 0,5%", "<b>-90%</b>"],
+         ["Rastreio do responsável", "Manual e pouco confiável", "Digital e automático", "<b>Total</b>"],
+         ["TAT da custódia, aproximado", "210 dias", "180 dias", "<b>-14%</b>"],
+         ["Horas por ano poupadas", "-", "-", "<b>46.000 h</b>"]],
         num_cols=[1, 2, 3]) +
-    callout("g", "O ganho que nao cabe em numero",
-        "Neste cenario, o ganho maior nao e tempo: e <b>validade da prova</b>. "
-        "Um lacre com rastreio digital nao so evita 4,8% de divergencia - ele "
-        "sustenta a cadeia de custodia perante o Ministerio Publico. Esse "
-        "argumento vale mais que a hora poupada.")
+    callout("g", "O ganho que não cabe em número",
+        "Neste cenário, o ganho maior não é tempo, e sim validade da prova. Um "
+        "lacre com rastreio digital evita 4,8% de divergência e sustenta a "
+        "cadeia de custódia perante o Ministério Público. Esse argumento vale "
+        "mais do que a hora poupada.")
 )
 
 # =================================================================
-# PARTE 8 - FECHAMENTO
+# PARTE 10 - FECHAMENTO
 # =================================================================
-cad.grp("Parte 8 - Fechamento",
-        "O metodo resumido, erros comuns, quiz, glossario e referencias.")
+cad.grp("Parte 10 - Fechamento",
+        "O método resumido, os erros comuns, o quiz, o glossário e as referências.")
 
-cad.section("metodo-resumido", "O metodo resumido (leve isso para o seu processo)",
-    p("Toda a aula, em seis passos. Use como checklist.") +
+cad.section("metodo-resumido", "O método resumido para levar ao seu processo",
+    p("O dia tem dois métodos que se encaixam. A manhã sai do dado para a "
+      "hipótese, e a tarde sai da hipótese para o processo redesenhado. Por "
+      "isso, o método da manhã e o da tarde aparecem juntos.") +
+    flow_h([("\U0001f4c4", "Workbook"), ("\U0001f517", "Modelo"),
+            ("\U0001f4d0", "Medidas"), ("\U0001f4ca", "Painel"),
+            ("\U0001f4a1", "Hipótese")]) +
+    p("Na tarde, siga os seis passos abaixo como checklist:") +
     step([
-        ("1. Delimite", "Onde começa e termina o processo? Escolha um processo real."),
-        ("2. Descreva", "Aplique as 7 perguntas. Escreva o paragrafo do AS-IS."),
-        ("3. Diagrame", "Converta o texto em Mermaid/BPMN, com swimlanes por ator."),
-        ("4. Meça", "Esperas x execucao por etapa. Encontre o gargalo (Pareto)."),
-        ("5. Redesenhe (TO-BE)", "Elimine, simplifique, integre, automatize - no gargalo."),
-        ("6. Automatize e prove", "Intervencao digital + calculo de ganho + apresentacao."),
+        ("1. Delimite", "Onde começa e onde termina o processo? Escolha um processo real."),
+        ("2. Descreva", "Aplique as 7 perguntas e escreva o parágrafo do AS-IS."),
+        ("3. Diagrame", "Converta o texto em Mermaid ou BPMN, com swimlanes por ator."),
+        ("4. Meça", "Compare espera e execução por etapa e encontre o gargalo no Pareto."),
+        ("5. Redesenhe o TO-BE", "Elimine, simplifique, integre e automatize a etapa que é o gargalo."),
+        ("6. Automatize e prove", "Faça a intervenção digital, calcule o ganho e apresente o resultado."),
     ]) +
     ficha("g", "A frase final",
-        "<b>Desenhe, meca, mude, prove.</b> Quatro verbos que resumem a aula "
-        "e o metodo de melhoria de processo com dado.")
+        "Desenhe, meça, mude e prove. Quatro verbos que resumem a aula e o "
+        "método de melhoria de processo com dado.")
 )
 
-cad.section("erros-comuns", "Erros comuns: o que nao fazer",
+cad.section("erros-comuns", "Erros comuns: o que não fazer",
     ul([
-        "<b>Automatizar antes de medir</b>: invoca dinheiro em processo que talvez nem seja o gargalo.",
-        "<b>TO-BE utopico</b>: fila zero e laudo em 2 h nao convencem ninguem.",
-        "<b>Medir execucao sem esperar</b>: o gargalo quase sempre esta na fila, nao no trabalho.",
-        "<b>Desenhar sem quem executa</b>: processo desenhado longe da realidade nao e adotado.",
-        "<b>Confundir projeto com operacao</b>: &quot;todo dia Faster&quot; nao e projeto, e operacao.",
-        "<b>Esquecer o caminho de retorno</b>: sem o fluxo de correcao, o diagrama mente sobre o tempo.",
-        "<b>Prometer 90% de ganho</b>: ganho de 20-40% em processo real ja e excelente.",
-        "<b>Ignorar a fronteira do sistema</b>: automatizar o que depende de outro orgao sem|align.",
+        "<b>Painel sem pergunta</b>: 30 visuais que não mudam uma decisão são custo, não instrumento.",
+        "<b>Somar a fato depois de juntar com a dimensão</b>: duplica linhas e aumenta a espera.",
+        "<b>Usar medida implícita no lugar de explícita</b>: o número aparece, mas ninguém sabe de onde veio.",
+        "<b>Automatizar antes de medir</b>: gasta recurso em um processo que talvez não seja o gargalo.",
+        "<b>Criar um TO-BE utópico</b>: fila zero e laudo em 2 h não convencem ninguém.",
+        "<b>Medir execução sem medir espera</b>: o gargalo quase sempre está na fila, e não no trabalho.",
+        "<b>Desenhar sem quem executa</b>: processo desenhado longe da realidade não é adotado.",
+        "<b>Confundir projeto com operação</b>: atendimento diário é operação, e não projeto.",
+        "<b>Esquecer o caminho de retorno</b>: sem o fluxo de correção, o diagrama não representa o tempo.",
+        "<b>Prometer 90% de ganho</b>: um ganho de 20% a 40% em processo real já é relevante.",
+        "<b>Ignorar a fronteira do sistema</b>: automatizar o que depende de outro órgão sem acordo.",
     ]) +
-    callout("err", "O erro que mais custa",
-        "Automatizar o processo errado. Voce entrega no prazo, e o "
-        "gargalo continua la - so que agora com um sistema caro rodando por "
-        "cima. <b>Meça primeiro.</b>")
+    callout("err", "O erro que custa mais",
+        "Automatizar o processo errado. Você entrega no prazo, e o gargalo "
+        "continua no mesmo lugar, agora com um sistema caro rodando por cima. "
+        "Por isso, meça primeiro.")
 )
 
-cad.section("quiz", "Quiz final - 15 perguntas",
-    p("15 perguntas sobre BPMN, Mermaid, gargalos e TO-BE.") +
+cad.section("quiz", "Quiz final: 15 perguntas",
+    p("As 15 perguntas cobrem painel, DAX, BPMN, Mermaid, gargalos e TO-BE.") +
     q("Em BPMN, o losango (gateway) representa...",
-      ["a) Uma atividade", "b) Uma decisao ou divisao de fluxo",
-       "c) Um evento de inicio", "d) Uma swimlane"], 1) +
-    q("O que e Little's Law (L = λ × W)?",
-      ["a) Relacao entre fila, chegada e tempo",
-       "b) Formula de custo de projeto",
-       "c) Metodo de priorizacao de risco",
-       "d) Tipo de grafico de Pareto"], 0,
-      "Numero de itens no sistema = taxa de chegada × tempo de permanencia.") +
-    q("No Mermaid, subgraph serve para...",
-      ["a) Sublinhar texto", "b) Representar swimlanes (grupar por ator)",
-       "c) Importar dados", "d) Gerar relatorio"], 1) +
-    q("Na sequencia das 7 perguntas, a pergunta 'quem faz cada etapa'...",
+      ["a) Uma atividade", "b) Uma decisão ou divisão de fluxo",
+       "c) Um evento de início", "d) Uma swimlane"], 1) +
+    q("O que é Little's Law (L = λ × W)?",
+      ["a) Relação entre fila, chegada e tempo",
+       "b) Fórmula de custo de projeto",
+       "c) Método de priorização de risco",
+       "d) Tipo de gráfico de Pareto"], 0,
+      "Número de itens no sistema = taxa de chegada × tempo de permanência.") +
+    q("No Mermaid, o subgraph serve para...",
+      ["a) Sublinhar texto", "b) Representar swimlanes, agrupando por ator",
+       "c) Importar dados", "d) Gerar relatório"], 1) +
+    q("Na sequência das 7 perguntas, a pergunta 'quem faz cada etapa'...",
       ["a) Vem primeiro", "b) Vem depois de mapear as atividades",
-       "c) E opcional", "d) Vem so no final"], 1,
-      "So faz sentido saber o que existe antes de saber quem faz.") +
-    q("O que diferencia uma medida de espera (wait time) de execucao (touch time)?",
-      ["a) Sao a mesma coisa", "b) Espera e o tempo parado; execucao e o trabalho",
-       "c) Espera e o trabalho; execucao e a parada",
+       "c) É opcional", "d) Vem só no final"], 1,
+      "Só faz sentido saber o que existe antes de saber quem faz.") +
+    q("O que diferencia o tempo de espera do tempo de execução?",
+      ["a) São a mesma coisa", "b) Espera é o tempo parado; execução é o trabalho",
+       "c) Espera é o trabalho; execução é a parada",
        "d) Depende do projeto"], 1) +
-    q("Onde o gargalo de um processo geralmente esta?",
-      ["a) Na etapa com mais tempo de execucao",
-       "b) Na etapa com mais tempo de espera (na fila)",
+    q("Onde o gargalo de um processo geralmente está?",
+      ["a) Na etapa com mais tempo de execução",
+       "b) Na etapa com mais tempo de espera, na fila",
        "c) Sempre na primeira etapa", "d) Na etapa mais barata"], 1,
-      "Em media, 88-92% do tempo de processo e espera.") +
-    q("O principio de Pareto aplicado a processos diz...",
-      ["a) Metade do processo e prazo",
-       "b) Poucas etapas concentram a maior parte do desperdicio",
+      "Em média, de 86% a 93% do tempo de processo é espera.") +
+    q("O princípio de Pareto aplicado a processos diz que...",
+      ["a) Metade do processo é prazo",
+       "b) Poucas etapas concentram a maior parte do desperdício",
        "c) Todo processo deve ter 20 etapas",
        "d) O processo ideal tem 80 etapas"], 1) +
-    q("Na ordem dos 5 principios de redesenho, o que vem ANTES de automatizar?",
+    q("Na ordem dos 5 princípios de redesenho, o que vem antes de automatizar?",
       ["a) Padronizar", "b) Eliminar, simplificar e integrar",
        "c) Visualizar", "d) Medir"], 1,
-      "Automatizar um processo ruim cria um processo ruim e mais rapido.") +
-    q("Um gateway paralelo (+), diferentemente do exclusivo (X)...",
-      ["a) Escolhe so um caminho", "b) Faz todos os caminhos em paralelo",
-       "c) Nao existe em BPMN", "d) E so para mensagens"], 1) +
-    q("O que o sequenceDiagram do Mermaid mostra, que o flowchart nao mostra bem?",
+      "Automatizar um processo ruim cria um processo ruim e mais rápido.") +
+    q("Um gateway paralelo (+), diferente do exclusivo (X)...",
+      ["a) Escolhe só um caminho", "b) Faz todos os caminhos em paralelo",
+       "c) Não existe em BPMN", "d) É só para mensagens"], 1) +
+    q("O que o sequenceDiagram do Mermaid mostra que o flowchart não mostra bem?",
       ["a) O fluxo de mensagens entre atores no tempo",
-       "b) O custo do processo", "c) O grafico de espera", "d) O organograma"], 0) +
-    q("stateDiagram-v2 do Mermaid e usado para mostrar...",
-      ["a) O cronograma", "b) Os estados que um objeto assume ao longo do tempo",
-       "c) O custo", "d) A swimlane"], 1) +
-    q("Para provar o ganho de um TO-BE, voce compara...",
+       "b) O custo do processo", "c) O gráfico de espera", "d) O organograma"], 0) +
+    q("No Power BI, o grão da tabela fato_execucao é...",
+      ["a) 1 caso completo", "b) 1 execução de etapa",
+       "c) 1 unidade", "d) 1 dia"], 1,
+      "Cada linha é uma etapa de um caso. Por isso, a soma de espera por etapa é válida.") +
+    q("Para provar o ganho de um TO-BE, você compara...",
       ["a) O TO-BE com o AS-IS medido, nos mesmos dados",
-       "b) O TO-BE com a opiniao do sponsor",
-       "c) O AS-IS com o orcamento",
+       "b) O TO-BE com a opinião do sponsor",
+       "c) O AS-IS com o orçamento",
        "d) O TO-BE com outro projeto"], 0) +
-    q("Qual a primeira automacao (<b>Onda 1</b>) mais barata e de maior efeito em um processo?",
-      ["a) Trocar todo o sistema", "b) Alertas de prazo + painel de carga (BI)",
+    q("Qual é a primeira automação, na Onda 1, com menor custo e efeito rápido?",
+      ["a) Trocar todo o sistema", "b) Alertas de prazo e painel de carga em BI",
        "c) Contratar mais gente", "d) Refazer o banco de dados"], 1) +
-    q("No Cenario 1 (requisicao pericial), o gargalo medido e...",
-      ["a) A analise do exame", "b) A fila do perito",
+    q("No Cenário 1, da requisição pericial, o gargalo medido é...",
+      ["a) A análise do exame", "b) A fila do perito",
        "c) A assinatura", "d) O arquivamento"], 1,
-      "41,5% de toda a espera do processo esta na fila do perito.") +
-    q("Por que versionar o diagrama do processo (AS-IS) no Git?",
-      ["a) Para ficar mais bonito",
-       "b) Para ter linha de base e historico do processo",
-       "c) Para o GitHub exigir",
-       "d) Para impressionar o diretor"], 1)
+      "41,5% de toda a espera do processo está na fila do perito.") +
+    q("Por que versionar o diagrama do processo AS-IS no Git?",
+      ["a) Para ficar mais apresentável",
+       "b) Para ter linha de base e histórico do processo",
+       "c) Porque o GitHub exige",
+       "d) Para impressionar a direção"], 1)
 )
 
-cad.section("glossario", "Glossario rapido da Aula 6",
+cad.section("glossario", "Glossário rápido da Aula 6",
     glossary([
-        ("AS-IS", "Diagrama do processo como ele e hoje."),
-        ("TO-BE", "Diagrama do processo como ele sera depois da intervencao."),
-        ("BPMN 2.0", "Notacao padrao internacional para modelar processos (OMG/ISO 19510)."),
-        ("Mermaid", "Linguagem de texto que gera diagramas (flowchart, sequence, state, gantt...)."),
-        ("Evento (BPMN)", "Ponto que dispara, espera ou detecta: inicio, intermediario, fim."),
-        ("Atividade (BPMN)", "O que e feito: tarefa, subprocesso."),
-        ("Gateway (BPMN)", "Losango que decide/divide o fluxo (exclusivo, paralelo, inclusivo)."),
-        ("Swimlane / Lane", "Faixa que indica quem executa a atividade."),
-        ("Subgraph (Mermaid)", "Bloco que agrupa atividades - equivale a swimlane."),
-        ("Gargalo", "Etapa que mais restringe o fluxo, medido por espera ou por acao."),
-        ("Espera (wait time)", "Tempo que o caso fica parado na fila."),
-        ("Execucao (touch time)", "Tempo que alguem efetivamente trabalha no caso."),
-        ("TAT", "Tempo de ciclo total do processo (soma de esperas + execucoes)."),
-        ("Little's Law", "L = λ × W - fila = chegada × tempo."),
-        ("Pareto", "Ordenar por impacto para achar os 20% criticos."),
-        ("WIP", "Work In Progress - itens em processamento simultaneo."),
-        ("Retrabalho", "Refazer etapa ja feita, por erro ou devolucao."),
-        ("Intervencao digital", "Mudar o processo com tecnologia (app, automacao, BI, script)."),
-        ("Roadmap (TO-BE)", "Implantar o TO-BE em ondas, medindo o ganho de cada uma."),
-        ("Stakeholder", "Parte interessada no projeto (sponsor, equipe, usuario, cliente)."),
-        ("Sponsor", "Quem aprova e destrava recursos/decisoes do projeto."),
+        ("Painel de processo", "Relatório visual que responde onde o caso espera e qual etapa atacar."),
+        ("Workbook (Excel)", "Arquivo .xlsx com as tabelas do dataset, uma por aba, e a aba LEIA-ME."),
+        ("Grão da fato", "O que uma linha representa. Aqui, uma execução de etapa."),
+        ("Power Query", "Editor de transformação do Power BI, com cabeçalho, tipos e colunas calculadas."),
+        ("DAX", "Linguagem de medidas do Power BI, com SUM, CALCULATE, DIVIDE e outras funções."),
+        ("Medida e coluna", "A medida é um cálculo avaliado no contexto do filtro; a coluna guarda o dado bruto."),
+        ("Segmentação (slicer)", "Filtro visual que não altera o modelo, apenas o que aparece no painel."),
+        ("AS-IS", "Diagrama do processo como ele é hoje."),
+        ("TO-BE", "Diagrama do processo como ele será depois da intervenção."),
+        ("BPMN 2.0", "Notação padrão internacional para modelar processos, da OMG e da ISO 19510."),
+        ("Mermaid", "Linguagem de texto que gera diagramas, como flowchart, sequence, state e gantt."),
+        ("Evento (BPMN)", "Ponto que dispara, espera ou detecta: início, intermediário ou fim."),
+        ("Atividade (BPMN)", "O que é feito: tarefa ou subprocesso."),
+        ("Gateway (BPMN)", "Losango que decide ou divide o fluxo: exclusivo, paralelo ou inclusivo."),
+        ("Swimlane ou lane", "Faixa que indica quem executa a atividade."),
+        ("Subgraph (Mermaid)", "Bloco que agrupa atividades e equivale a uma swimlane."),
+        ("Gargalo", "Etapa que mais restringe o fluxo, medida por espera ou por ação."),
+        ("Espera (wait time)", "Tempo em que o caso fica parado na fila."),
+        ("Execução (touch time)", "Tempo em que alguém efetivamente trabalha no caso."),
+        ("TAT", "Tempo de ciclo total do processo, com a soma de esperas e execuções."),
+        ("Little's Law", "L = λ × W, em que a fila é o produto da chegada pelo tempo."),
+        ("Pareto", "Ordenação por impacto para identificar os 20% críticos."),
+        ("WIP", "Work in Progress, ou itens em processamento simultâneo."),
+        ("Retrabalho", "Refazer uma etapa já feita, por erro ou devolução."),
+        ("Intervenção digital", "Mudar o processo com tecnologia, como app, automação, BI ou script."),
+        ("Roadmap do TO-BE", "Implantar o TO-BE em ondas, medindo o ganho de cada uma."),
+        ("Stakeholder", "Parte interessada no projeto, como sponsor, equipe, usuário ou cliente."),
+        ("Sponsor", "Quem aprova e libera recursos e decisões do projeto."),
     ])
 )
 
-cad.section("referencias", "Referencias e para ir alem",
+cad.section("referencias", "Referências e para ir além",
     ul([
-        "<b>BPMN 2.0 (OMG)</b> - <code>omg.org/spec/BPMN/2.0/</code>: a "
-        "especificacao oficial da notacao.",
-        "<b>Mermaid</b> - <code>mermaid.js.org</code> e o "
-        "<b>Mermaid Live Editor</b> (mermaid.live) para renderizar online.",
-        "<b>ISO 19510</b>: padrao internacional de modelagem de processos.",
-        "<b>Lean Enterprise / Value Stream Mapping</b>: a disciplina de mapear "
-        "o fluxo e achar o desperdicio.",
-        "<b>Womack & Jones</b> - <i>Lean Thinking</i>: os principios de "
-        "eliminacao de desperdicio.",
-        "<b>John Little</b> - a formula L = λ × W que dimensiona filas.",
-        "<b>PMBOK Guide</b>: os 5 grupos de processos da gestao de projetos.",
-        "<b>Power Automate / Power BI</b>: as ferramentas de intervencao "
-        "digital (vistas nos Dias 4 e 5).",
+        "<b>BPMN 2.0 (OMG)</b> - <code>omg.org/spec/BPMN/2.0/</code>: a especificação oficial da notação.",
+        "<b>Mermaid</b> - <code>mermaid.js.org</code> e o <b>Mermaid Live Editor</b> (mermaid.live), para renderizar online.",
+        "<b>ISO 19510</b>: padrão internacional de modelagem de processos.",
+        "<b>Lean Enterprise e Value Stream Mapping</b>: a disciplina de mapear o fluxo e localizar o desperdício.",
+        "<b>Womack e Jones</b> - <i>Lean Thinking</i>: os princípios de eliminação de desperdício.",
+        "<b>John Little</b>: a fórmula L = λ × W, que dimensiona filas.",
+        "<b>PMBOK Guide</b>: os 5 grupos de processos da gestão de projetos.",
+        "<b>Power Automate e Power BI</b>: as ferramentas de intervenção digital apresentadas nos Dias 4 e 5.",
+        "<b>Power BI e DAX</b> - <code>learn.microsoft.com/power-bi</code>: documentação do modelo, das medidas e dos visuais.",
+        "<b>Google Antigravity</b> - <code>antigravity.google</code>: plataforma agent-first que será usada nas próximas aulas para prototipar mini apps.",
     ]) +
-    callout("tip", "Para comecar hoje",
-        "Escolha um processo pequeno da sua area, faca o Lab 1 (descrever em "
-        "texto) e o Lab 2 (desenhar em Mermaid). Em uma tarde voce tem o AS-IS "
-        "do seu processo - e ja entende onde o tempo se perde.")
+    callout("tip", "Para começar hoje",
+        "Escolha um processo pequeno da sua área, pegue o workbook do cenário "
+        "mais parecido e execute a receita da Parte 2. Em seguida, faça o Lab 5, "
+        "que descreve o processo em texto, e o Lab 6, que desenha o AS-IS em "
+        "Mermaid. Em uma tarde, você tem o painel e o AS-IS do seu processo.")
 )
 
-cad.section("encerramento", "O fim da capacitacao - e o comeco da mudanca",
-    p("Sao seis dias de fundamentacao, dados, planilha, ETL, dashboards e "
-      "hoje <b>gestao de projetos e melhoria de processos</b>. O ciclo fechou: "
-      "comecou no <b>dado</b> e termina na <b>acao</b>.") +
+cad.section("encerramento", "O começo da fase de mini apps",
+    p("São seis dias de fundamentação, dados, planilha, ETL, dashboards e, "
+      "hoje, painel de processo e gestão de projetos. O ciclo do dado até a "
+      "decisão está fechado. Agora começa a fase de construir: a tarde das "
+      "próximas aulas vira ideação e prototipação de mini apps com IA agêntica.") +
     legenda([
-        ("\U0001f4a1", "D1 a D3 - Dados e planilha",
-         "Aprendeu a medir, organizar e validar - a base de tudo."),
-        ("\U0001f4ca", "D4 e D5 - Dashboards de BI",
-         "Transformou dado em visual - ver o processo e o gargalo."),
-        ("\U0001f5fa", "D6 - Gestao e melhoria (hoje)",
-         "Desenhou, mediu o gargalo, redesenhou o TO-BE e automatizou.")
+        ("\U0001f4a1", "D1 a D3: dados e planilha",
+         "Aprendeu a medir, organizar e validar, que é a base de tudo."),
+        ("\U0001f4ca", "D4 e D5: dashboards de BI",
+         "Transformou dado em visual para ver o processo e o gargalo."),
+        ("\U0001f5fa", "D6: painel e projeto",
+         "Montou o painel, leu o gargalo, desenhou AS-IS e TO-BE e preencheu o canvas do mini app."),
+        ("\U0001f680", "Próximas aulas: mini apps com IA agêntica",
+         "O canvas vira protótipo: você descreve o app e a ferramenta constrói a tela.")
     ]) +
-    callout("purple", "A mensagem final do curso",
-        "&quot;<b>O dado so tem valor quando vira decisao; a decisao so tem "
-        "valor quando vira mudanca no processo; e a mudanca so se sustenta "
-        "quando esta medida.</b>&quot; Se voce aplicar esse ciclo - "
-        "<b>medir, mudar, medir de novo</b> - em um processo da POLITEC, esta "
-        "capacitacao cumpriu o papel. Boa sorte, e bom processo.")
+    callout("purple", "A mensagem que fica",
+        "&quot;O dado só tem valor quando vira decisão. A decisão só tem valor "
+        "quando vira mudança no processo. E a mudança só se sustenta quando é "
+        "medida.&quot; Na próxima fase, acrescente a construção: o app só tem "
+        "valor quando resolve o gargalo que o painel mostrou.")
 )
 
 # =================================================================
 # CONSTRUCAO
 # =================================================================
 cad.build()
+ptbr.acentuar_arquivo(pathlib.Path(__file__).resolve().parent / "caderno-dia6.html")

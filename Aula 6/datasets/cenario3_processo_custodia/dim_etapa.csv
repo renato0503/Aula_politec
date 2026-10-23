@@ -1,9 +1,9 @@
 ﻿etapa_key;etapa;sequencia;unidade_padrao;ativada_no_tobe
-1;Coleta;1;CAMPO;0
-2;Lacre;2;CAMPO;0
-3;Registro;3;CAMPO;0
-4;Transporte;4;CAMPO;0
-5;Recebimento;5;LAB;0
-6;Guarda;6;LAB;0
-7;Pericia;7;LAB;0
-8;Baixa;8;LAB;0
+2;Coleta;1;CAMPO - Operacao;0
+4;Lacre;2;CAMPO - Operacao;0
+7;Registro;3;CAMPO - Operacao;0
+8;Transporte;4;CAMPO - Transporte;0
+6;Recebimento;5;LAB - Recebimento;0
+3;Guarda;6;LAB - Arquivo;0
+5;Pericia;7;LAB - Pericia;0
+1;Baixa;8;CTRL - Custodia;0

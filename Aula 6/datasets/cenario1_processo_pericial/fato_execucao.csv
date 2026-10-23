@@ -1,4 +1,4 @@
-﻿id_execucao;id_ciclo;etapa_key;unidade_key;sistema_key;tipo_atividade_key;status_execucao_key;projeto_key;data_inicio_key;data_fim_key;tempo_espera_min;tempo_execucao_min;tempo_total_min;flag_retrabalho;flag_automatizada;custo_minuto
+﻿id_execucao;id_ciclo;etapa_key;unidade_key;sistema_key;tipo_atividade_key;status_execucao_key;projeto_key;data_inicio_key;data_fim_key;tempo_espera_min;tempo_execucao_min;tempo_total_h;flag_retrabalho;flag_automatizada;custo_execucao_rs
 EXE-000001;CIC-00001;5;3;6;2;2;2;20240119;20240119;0;0;0.0;0;1;0.0
 EXE-000002;CIC-00001;8;3;3;1;2;3;20240120;20240121;300;33;5.55;0;0;43.12
 EXE-000003;CIC-00001;4;3;6;4;2;4;20240122;20240123;420;68;8.13;0;0;88.85

@@ -17,7 +17,7 @@ Numeros **medidos** no dataset gerado (media por execucao de etapa):
 | 6. Publicacao do ato | 18 h | 0 h | 16,9% |
 
 **Achado principal**: **51,2% da espera** esta em duas etapas de aprovacao
-(parecer + autorizacao), e o retrabalho e o mais alto dos tres cenarios
+(parecer + autorizacao), e o retrabalho e o mais alto dos cinco datasets
 (**~16,5%**). O mapa comparativo (etapa 3) tem **6 h de execucao** — o maior
 trabalho manual do processo, e ele e atrasado por causa das aprovacoes.
 

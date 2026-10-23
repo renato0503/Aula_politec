@@ -1,0 +1,9 @@
+﻿etapa_key;etapa;sequencia;unidade_padrao;ativada_no_tobe
+1;Acionamento;1;ATO - Gabinete;0
+3;Deslocamento;2;ATV - Campo;0
+5;Isolamento;3;ATV - Campo;0
+2;Coleta;4;ATV - Campo;0
+4;Fotografia;5;ATV - Campo;0
+6;Lacre;6;IML - Medicina Legal;0
+7;Liberacao;7;ATO - Gabinete;0
+8;Relatorio;8;ATO - Gabinete;0

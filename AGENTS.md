@@ -1,4 +1,4 @@
-# Aula Politec — organização do curso e padrao dos cadernos
+﻿# Aula Politec — organização do curso e padrao dos cadernos
 
 Este repositorio guarda o material da **Capacitacao POLITEC/MT em Analise de Dados
 aplicada a Pericia Criminal** (Prof. Renato Rosa). O padrao de organizacao e o
@@ -19,17 +19,29 @@ mesmo formato de 6 partes (ver secao 3.5).
 |---|---|---|---|---|---|---|---|
 | 1 | Fundamentos da Analise + Estatistica | 61 | 161 KB | 53 pág · 4,9 MB | 7 | 4 | 102 KB |
 | 2 | Planilhas / Excel e Google Sheets | 68 | 174 KB | 60 pág · 3,8 MB | 7 + integrador | 4 | 111 KB |
-| 2 | Planilhas / Google Sheets (adaptado) | 69 | 207 KB | 71 pág · 4,6 MB | 7 + integrador | 4 | 142 KB |
+| 2 | Planilhas / Google Sheets (adaptado) | 69 | 207 KB | 71 pág · 4,6 MB | 7 + integrador | 4 | 150 KB |
 | 3 | Organizacao, Visualizacao e ETL | 64 | 144 KB | 48 pág · 4,2 MB | 7 | 4 | 86 KB |
 | 4 | Business Intelligence / Power BI | 107 | 227 KB | PDF a regerar | 7 (+ guia Parte 0) | 3 + 4 casos | 146 KB |
 | 5 | Dashboards de BI - 5 cenarios com datasets proprios | 80 | 140 KB | PDF opcional | 7 + integrador | 5 (cada um com dataset proprio) | 85 KB |
-| 6 | Gestao de Projetos com BPMN e Mermaid | 67 | 159 KB | PDF opcional | 7 | 3 (AS-IS + gargalo + TO-BE) | 76 KB |
+| 6 | Painel de Processo (manha) + Gestao de Projetos (tarde) | 80 | 417 KB | PDF opcional | 8 (4+4) | 5 datasets (3 modelados ponta a ponta) | 167 KB |
 
 Ferramentas de apoio na raiz: `caderno_lib.py` (motor), `exportar_pdf.py` (PDF em 2
-passadas) e `validar.py` (checagem automatica). Slides de origem em cada `Aula N/`.
+passadas), `validar.py` (checagem automatica) e `ptbr.py` (acentuacao pt-BR).
+Slides de origem em cada `Aula N/`.
 
 Aulas 5 e 6 nao tem slides (e o salto final — A5 e projeto integrador de dashboards
-com 5 datasets; A6 e gestao de projetos/melhoria de processos com 3 datasets de processo).
+com 5 datasets; A6 e o novo formato: manha de painel/BI e tarde de gestao de
+projetos/melhoria de processos, com 5 datasets de processo).
+
+> **Formato a partir da Aula 6**: a manha e sempre de **paineis, BI e analise de
+> dados**; a tarde e de **hands-on em gestao de projetos** e, nas aulas
+> seguintes, **ideacao/prototipacao de mini apps com IA agentica**. Ver secao
+> 3.5.1.
+
+> **Idioma a partir da Aula 6**: o caderno e escrito em **portugues do Brasil,
+> com acentuacao completa**, sem **adjetivacoes** (preferir o verbo ou o
+> numero), sem **travessoes** e com **conectivos** ligando as frases depois do
+> ponto final. Ver secao 5.2.
 
 ---
 
@@ -235,6 +247,46 @@ Dentro de cada secao de conteudo, o ritmo e: paragrafo de abertura + pelo menos
 todo "como fazer" (cliques, atalhos, contas) e `aplicab` para conectar com a
 POLITEC.
 
+### 3.5.1 Formato em dois turnos (a partir da Aula 6)
+
+A partir da **Aula 6**, o curso passa a operar em dois turnos com papeis
+distintos. O caderno deve refletir essa divisao explicitamente (no mapa do dia,
+nos grupos e nos labs):
+
+```
+Manha (08h-12h)  → paineis, BI e analise de dados
+                   modelo, medidas, layout, leitura do painel, datasets
+
+Tarde (13h-17h)  → hands-on: gestao de projetos, BPMN/Mermaid, AS-IS/TO-BE
+                   e, a partir das proximas aulas, ideacao/prototipacao de
+                   mini apps com IA agentica
+```
+
+Regras do formato:
+
+- **A manha comeca pelo dado** e termina com uma leitura/hipotese em uma frase.
+  Nao ha tarde sem a evidencia da manha.
+- **A tarde comeca pela leitura da manha** (nao do zero) e termina com um
+  artefato: diagrama AS-IS, TO-BE, canvas do mini app ou pitch.
+- **Cada dataset da manha vira uma receita** (`receita()` no gerador): **72
+  passos em 8 blocos**, do workbook Excel ao `.pbix` publicado. Os blocos sao:
+  (1) preparar o arquivo no Excel, (2) importar os dados no Power BI, (3) tratar
+  no Power Query, (4) montar o modelo, (5) criar as medidas, (6) montar o painel,
+  (7) filtros, segmentacoes e tabela resumo, (8) formatar, salvar e publicar.
+  Cada passo traz o caminho do menu e o que esperar na tela.
+- **Cada dataset e um workbook `.xlsx`** com todas as tabelas em abas
+  (`LEIA-ME`, `fato_*`, `dim_*`). O CSV fica como fonte; o `.xlsx` e o material
+  de sala.
+- A tarde da Aula 6 fica em **fundamentos e nocoes** de gestao de projetos. A
+  prototipacao de mini apps com IA agentica comeca nas aulas seguintes.
+
+Estrutura de referencia da Aula 6 (10 partes, 80 secoes): Abertura; Parte 1
+(fundamentos do painel); Parte 2 (5 receitas, uma por dataset); Parte 3
+(analise: espera x execucao, Pareto, Little's Law); Parte 4 (fundamentos de
+projeto); Parte 5 (BPMN/Mermaid); Parte 6 (texto -> diagrama); Parte 7 (TO-BE e
+intervencao digital); Parte 8 (8 labs); Parte 9 (3 cenarios modelados); Parte
+10 (fechamento).
+
 ### 3.6 Ferramentas do repositorio (na raiz)
 
 | Arquivo | O que faz |
@@ -246,7 +298,10 @@ POLITEC.
 | `gerar_datasets_estrela.py` | Le as fontes planas de `Aula 2/datasets/` e monta o modelo estrela (`fato_*` + `dim_*` + `dim_calendario`) nas pastas `datasets/` das Aulas 2, 3 e 4. Uso: `python gerar_datasets_estrela.py`. |
 | `Aula 4/gerar_datasets_orcamento.py` | Gera o conjunto de **orcamento e contratos** da Parte 0 do Dia 4 (star schema, `fato_empenhos` 620 linhas): `Orcamento_Contratos_SUJO.xlsx` (14 defeitos plantados), `Orcamento_Contratos_LIMPO.xlsx` (gabarito) e os CSV em `Aula 4/datasets/orcamento/`. Uso: `python "Aula 4/gerar_datasets_orcamento.py"`. |
 | `Aula 5/gerar_datasets_aula5.py` | Gera os **5 datasets sinteticos** da Aula 5 (um por cenario), cada um com `fato_*` >= 1000 linhas, dimensoes proprias + `dim_calendario` 1096 dias (2023-01-01 a 2025-12-31). Semente fixa = 20260120. Grava em `Aula 5/datasets/cenarioN_*/` + um `README.md` por cenario com esquema e visuais sugeridos. Uso: `python "Aula 5/gerar_datasets_aula5.py"`. |
-| `Aula 6/gerar_datasets_aula6.py` | Gera os **3 datasets de processo** da Aula 6 (requisicao pericial, empenho e contrato, cadeia de custodia). Mesmo schema nos 3: `fato_execucao` (1 linha por execucao de etapa, com `tempo_espera_min` e `tempo_execucao_min` separados) + `dim_etapa`, `dim_unidade`, `dim_sistema`, `dim_tipo_atividade`, `dim_status_execucao`, `dim_projeto`, `dim_calendario` 1096 dias. Semente fixa = 20260610. Tempos de espera lognormal (cauda longa realista), calibrados para que 88-92% do processo seja espera — assim o gargalo emerge do dado, nao e plantado. Grava em `Aula 6/datasets/cenarioN_*/` + README por cenario com a tabela de tempos medidos. Uso: `python "Aula 6/gerar_datasets_aula6.py"`. |
+| `Aula 6/gerar_datasets_aula6.py` | Gera os **5 datasets de processo** da Aula 6 (requisicao pericial, empenho e contrato, cadeia de custodia, local de crime, analise laboratorial). Mesmo schema nos 5: `fato_execucao` (1 linha por execucao de etapa, com `tempo_espera_min` e `tempo_execucao_min` separados) + `dim_etapa`, `dim_unidade`, `dim_sistema`, `dim_tipo_atividade`, `dim_status_execucao`, `dim_projeto`, `dim_calendario` 1096 dias. Semente fixa = 20260610. Tempos de espera lognormal (cauda longa realista), calibrados para que 86-93% do processo seja espera — assim o gargalo emerge do dado, nao e plantado. Grava em `Aula 6/datasets/cenarioN_*/` + README por cenario com a tabela de tempos medidos. Uso: `python "Aula 6/gerar_datasets_aula6.py"`. |
+| `Aula 6/gerar_excel_aula6.py` | Empacota cada um dos **5 datasets** em um **workbook `.xlsx`** com 9 abas (`LEIA-ME` + `fato_execucao` + 7 `dim_*`), cabecalho formatado, filtro, painel congelado e a tabela-resumo medida na aba `LEIA-ME`. E o material de sala da manha. Uso: `python "Aula 6/gerar_excel_aula6.py"` (depois do gerador de datasets). |
+| `ptbr.py` | **Acentuacao pt-BR do caderno**: percorre os nos de texto do HTML gerado e aplica a ortografia de `ptbr_dict.json`, sem tocar em codigo, tags, atributos, SVG ou blocos Mermaid/DAX/SQL. Remove travessoes. Chamado no fim do gerador da Aula 6 (`ptbr.acentuar_arquivo(...)`). Uso: `python -c "import ptbr; ptbr.acentuar_arquivo('Aula 6/caderno-dia6.html')"`. |
+| `ptbr_dict.json` | **Dicionario de acentuacao** usado pelo `ptbr.py` (403 entradas: `nao` → `não`, `execucao` → `execução`, `analise` → `análise`, `manha` → `manhã` e afins). Ao acrescentar palavra nova no texto, inclua a entrada aqui. |
 | `firebase.json` | Configuracao do Firebase Hosting (projeto `aulapolitec`, serve da raiz). |
 | `.firebaserc` | Aponta para o projeto `aulapolitec`. |
 
@@ -285,8 +340,10 @@ slides Dia-N-Politec.pdf
 1. **Slides**: coloque `Dia-N-Politec.pdf` em `Aula N/`.
 2. **Extrair o conteudo** dos slides (ex.: `python -c "import pdfplumber..."`) e
    salvar o texto num `.txt` de trabalho.
-3. **Esbocar** o outline no formato expandido de **6 partes** (Abertura, Modulos,
-   Pratica, Cenarios, Fechamento) — ver secao 3.5.
+3. **Esbocar** o outline no formato da aula: **6 partes** para as aulas 1-5 ou
+   **dois turnos / 10 partes** para as aulas 6+ (manha de BI, tarde de projeto) —
+   ver secoes 3.5 e 3.5.1. A partir da Aula 6, cada dataset da manha vira uma
+   **receita** de 72 passos em 8 blocos e um workbook `.xlsx` com todas as tabelas em abas.
 4. **Copie** `Aula 1/gerar_caderno_aula1.py` (ou a Aula 2, mais completa) como
    `Aula N/gerar_caderno_aulaN.py` e ajuste `Caderno(...)` + as secoes.
 5. **Rode**: `python "Aula N/gerar_caderno_aulaN.py"` → confere o HTML no navegador.
@@ -321,9 +378,38 @@ Uma boa secao do caderno segue este ritmo:
   (cliques/atalhos/contas) e um `aplicab` (QUANDO / POR QUE / EXEMPLO). A meta e
   55-71 secoes por aula.
 - Texto em **portugues sem acentos** (ex.: `analise`, `nao`, `referencia`) — padrao
-  adotado em todas as aulas. Numeros devem ter fonte (do slide ou do dataset).
+  das Aulas 1 a 5. **A partir da Aula 6, o padrao muda**: ver secao 5.2.
+  Numeros devem ter fonte (do slide ou do dataset).
 - **Encoding**: Python e HTML em UTF-8; evite aspas duplas dentro de string
   delimitada por aspas duplas (use aspas simples ou `&quot;`).
+
+### 5.2 Idioma e estilo do texto (Aula 6 em diante)
+
+A partir da **Aula 6**, o caderno e escrito em **portugues do Brasil, com
+acentuacao completa**. As regras valem para todo o texto visivel: paragrafos,
+titulos, tabelas, callouts, passos, quiz e glossario.
+
+| Regra | Como aplicar | Exemplo |
+|---|---|---|
+| **Acentuacao completa** | Toda palavra recebe a grafia oficial: `análise`, `execução`, `gestão`, `não`, `número`, `mês`, `manhã`, `custódia` | nao escrever "analise" nem "nao" |
+| **Sem adjetivacoes** | Prefira o verbo, o numero ou o fato. Nada de "muito bom", "enorme", "simples", "robusto", "claro", "forte" | "o painel e o gargalo" em vez de "o painel e claro" |
+| **Sem travessoes** | Nunca use `—` ou `–`. Troque por virgula, ponto ou dois-pontos | "o processo mede 44 h de espera, e nao 5 h" |
+| **Conectivos apos o ponto final** | Ligue as frases com "Além disso", "Por isso", "Dessa forma", "Nesse sentido", "Com isso", "Em seguida", "Por fim" | "A espera ocupa 92% do tempo. Além disso, a etapa 4 concentra 41,5% dela." |
+| **Verbo no lugar de substantivo abstrato** | "O painel mostra" em vez de "Ha uma evidencia no painel" | "a fila cresce no fim do dia" |
+| **Numeros com fonte** | Todo numero vem do slide ou do dataset medido | "41,5% da espera (dataset cenario1)" |
+
+Exemplo de paragrafo no padrao da Aula 6:
+
+> Todo processo tem dois tipos de tempo. O primeiro e o tempo em que alguem
+> trabalha, e o segundo e o tempo em que o caso fica parado, esperando.
+> Alem disso, nos cinco processos da POLITEC, a espera representa de 86% a
+> 93% do tempo total. Por isso, o problema nao esta na velocidade com que as
+> pessoas trabalham, e sim no tempo em que os casos ficam parados na fila.
+
+**Ferramenta de apoio**: `ptbr.py` aplica a acentuacao no HTML gerado, usando o
+`ptbr_dict.json`. Ele nao altera codigo, tags, atributos, SVG nem blocos
+Mermaid/DAX/SQL. Ao escrever uma palavra nova no texto, inclua a entrada no
+dicionario para que a acentuacao continue correta.
 
 ### Armadilhas de autoria (ja vistas no SESP)
 
@@ -421,8 +507,15 @@ Melhorias pendentes:
 |---|---|
 | Aula 5 — Dashboards de BI | Criados **5 datasets sinteticos** (um por cenario, cada um com `fato_*` >= 1000 linhas e modelo estrela) em `Aula 5/datasets/cenarioN_*/`: (1) Backlog de Pericias (1200), (2) TAT do Laboratorio de DNA (1100), (3) Mapa da Criminalidade em MT (1500), (4) Orcamento e Contratos (1300 + 240 dotacao), (5) Cadeia de Custodia (1300). Gerador: `Aula 5/gerar_datasets_aula5.py` (semente fixa 20260120). Caderno `Aula 5/gerar_caderno_aula5.py` com **80 secoes** em 7 partes: Abertura, DAX avancado, Service/Seguranca/Governanca, 7 labs, 5 cenarios com datasets proprios, projeto integrador (>=3 abas) e fechamento. |
 | Aula 6 — Gestao de Projetos (BPMN/Mermaid) | Criados **3 datasets de processo** em `Aula 6/datasets/cenarioN_*/`, todos com o mesmo schema (`fato_execucao` = 1 execucao de etapa, com `tempo_espera_min` e `tempo_execucao_min` separados) e **30.733 execucoes no total**: (1) Requisicao Pericial (10.352, gargalo = fila do perito, 41,5% da espera), (2) Empenho e Contrato (9.541, gargalo = parecer + autorizacao, 51,2%), (3) Cadeia de Custodia (10.840, gargalo = guarda, 35,3%). Gerador: `Aula 6/gerar_datasets_aula6.py` (semente fixa 20260610). Caderno `Aula 6/gerar_caderno_aula6.py` com **67 secoes** em 8 partes: Abertura, fundamentos de projeto, BPMN + Mermaid (14 blocos mermaid prontos), metodo das 7 perguntas (texto → diagrama), gargalos com dados (Pareto, Little's Law, retrabalho), TO-BE + intervencao digital, 7 labs, 3 cenarios modelados ponta a ponta (AS-IS → gargalo → TO-BE → ganho) e fechamento. |
+| Aula 6 — novo formato (dois turnos) | Reestruturada para o formato **manha de BI / tarde de gestao de projetos**: **5 datasets** (requisicao pericial, empenho e contrato, cadeia de custodia, local de crime, analise laboratorial), **57.293 execucoes**, cada um empacotado em um **workbook `.xlsx`** com 9 abas (`LEIA-ME` + fato + 7 dims) e formatacao de sala. Caderno com **80 secoes em 10 partes**: fundamentos do painel (8 medidas DAX, 5 visuais), **5 receitas de painel** (72 passos cada, em 8 blocos: Excel -> importacao -> Power Query -> modelo -> medidas -> cartoes/graficos/Pareto/linha/matriz/filtros/tabela resumo -> formatacao e publicacao), analise (espera x execucao, Pareto, Little's Law), fundamentos de projeto, BPMN/Mermaid, TO-BE, 8 labs (4+4), 3 cenarios modelados e fechamento. Gerador de Excel: `Aula 6/gerar_excel_aula6.py`. |
 
 | Refinaria visual (Aula 6) | Criada `caderno_svg.py` (na raiz): biblioteca SVG com **34 icones** da notacao BPMN 2.0 (geometria oficial OMG — eventos inicio/intermediario/fim, atividades, 3 gateways, swimlanes, objetos, mensagens), ilustrações pre-prontas (galeria de simbolos, anatomia de swimlane, comparacao dos 3 gateways, espera x execucao, anatomia da automacao, cadeia do metodo) e **diagramas de processo completos** (build_process_asis/_tobe/_orcamento/_custodia). CSS em `caderno_lib.py` adicionado para `.svgfig`. Os diagramas usam `var(--ink)`, `var(--accent)`, `var(--verde)` etc., entao adaptam ao tema claro, escuro e a impressao sem CSS extra.
+
+| Aula 6 — reescrita em pt-BR | Todo o caderno do Dia 6 (abertura, 10 partes, 80 secoes) foi **reescrito em portugues do Brasil com acentuacao completa**, sem adjetivacoes e sem travessoes, com **conectivos** ligando as frases depois do ponto final (" alem disso", " por isso", " dessa forma", " nesse sentido", " com isso", " em seguida", " por fim"). Criada a ferramenta `ptbr.py` (raiz), que aplica a acentuacao nos nos de texto do HTML sem tocar em codigo, tags, SVG ou blocos Mermaid/DAX/SQL, com o dicionario `ptbr_dict.json` (403 entradas). O gerador chama `ptbr.acentuar_arquivo(...)` no final do build. Corrigido o quiz do fechamento, em que a pergunta sobre o grao da fato estava com as alternativas do stateDiagram. |
+
+| Aula 6 — receitas detalhadas | A funcao `receita()` do gerador passou a produzir **72 passos em 8 blocos** por dataset (antes eram 19): (1) preparar o arquivo no Excel, (2) importar os dados no Power BI, (3) tratar no Power Query, (4) montar o modelo, (5) criar as medidas, (6) montar o painel, (7) filtros, segmentacoes e tabela resumo, (8) formatar, salvar e publicar. Cada passo indica o caminho do menu, o campo ou a opcao e o que esperar na tela. Acrescentadas as medidas do Pareto (`Rank da Etapa`, `% Acumulado da Espera` e `Espera por Etapa`) e as instrucoes de eixo secundario, escala, interacoes entre visuais, formatação condicional da matriz, marcacao da tabela de datas e publicacao no Service. |
+
+| Aula 6 — integridade dos datasets | Corrigidos tres defeitos que quebravam a analise e os labs: (1) **chaves de etapa desalinhadas** — `dim_etapa.etapa_key` usava `i+1` enquanto a fato usava a chave alfabetica de `dim()`, o que fazia o join errado (a etapa 41,5% aparecia com o nome errado); (2) **cabecalhos incompletos** em `dim_unidade` (faltava `tipo`) e `dim_projeto` (faltava `escopo`); (3) **colunas renomeadas** para o que realmente significam — `tempo_total_min` passou a `tempo_total_h` (o valor esta em horas) e `custo_minuto` passou a `custo_execucao_rs` (e o custo da execucao em R$). O campo `unidade_padrao` da `dim_etapa`, que antes repetia a espera mediana da etapa, passou a trazer o nome da unidade. Semente fixa `20260610` mantida, entao os valores nao mudaram. |
 
 ---
 

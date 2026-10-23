@@ -1,8 +1,8 @@
 ﻿etapa_key;etapa;sequencia;unidade_padrao;ativada_no_tobe
-1;Pedido;1;ADMIN;0
-2;Cotacao;2;ADMIN;0
-3;Mapa;3;ADMIN;0
-4;Parecer;4;ADMIN;0
-5;Autorizacao;5;ADMIN;0
-6;Empenho;6;ADMIN;0
-7;Publicacao;7;ADMIN;0
+6;Pedido;1;ADM - Divisao de Compras;0
+2;Cotacao;2;ADM - Divisao de Compras;0
+4;Mapa;3;ADM - Divisao de Compras;0
+5;Parecer;4;JUR - Assessoria Juridica;0
+1;Autorizacao;5;ADM - Diretoria;0
+3;Empenho;6;ADM - Divisao de Compras;0
+7;Publicacao;7;ADM - Divisao de Compras;0

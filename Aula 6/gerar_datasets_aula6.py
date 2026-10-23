@@ -1,5 +1,5 @@
-# -*- coding: utf-8 -*-
-"""Gerador dos 3 datasets de processo da Aula 6 (Gestao de Projetos: AS-IS/TO-BE).
+﻿# -*- coding: utf-8 -*-
+"""Gerador dos 5 datasets de processo da Aula 6 (Painel de Processo + AS-IS/TO-BE).
 
 Cada cenario e um **processo real da POLITEC/MT** medido etapa a etapa. O fato
 (`fato_execucao`) tem uma linha por **execucao de etapa**, com tempos de
@@ -8,9 +8,11 @@ permite ao aluno **medir o gargalo** em vez de chutar.
 
 Cenarios (todos com >=1000 linhas no fato):
 
-  1. cenario1_processo_pericial  -> fato_execucao (~1800) - Requisicao pericial
-  2. cenario2_processo_orcamento -> fato_execucao (~1500) - Empenho e contrato
-  3. cenario3_processo_custodia  -> fato_execucao (~1600) - Cadeia de custodia
+  1. cenario1_processo_pericial      -> Requisicao pericial
+  2. cenario2_processo_orcamento     -> Empenho e contrato
+  3. cenario3_processo_custodia      -> Cadeia de custodia
+  4. cenario4_local_crime            -> Atendimento de local de crime
+  5. cenario5_analise_laboratorial   -> Analise laboratorial (DNA/toxicologia)
 
 Convencoes:
 - CSV UTF-8 com BOM, separador ';', datas ISO (AAAA-MM-DD).
@@ -121,14 +123,20 @@ def cenario1_pericial(pasta):
     ]
     etapa_map, _ = dim([e[1] for e in etapas])
     ordem = {e[1]: i for i, e in enumerate(etapas)}
+    unidade_padrao = {
+        "Entrada": "ATO - Gabinete", "Triagem": "ATO - Gabinete",
+        "Distribuicao": "ATO - Gabinete", "Fila perito": "LAB - Biologia",
+        "Analise": "LAB - Biologia", "Revisao": "LAB - Biologia",
+        "Assinatura": "ATO - Gabinete", "Arquivamento": "ATO - Gabinete",
+    }
     csv_gravar(pasta, "dim_etapa.csv",
                ["etapa_key", "etapa", "sequencia", "unidade_padrao", "ativada_no_tobe"],
-               [[i + 1, e[1], i + 1, e[2], 0] for i, e in enumerate(etapas)])
+               [[etapa_map[e[1]], e[1], i + 1, unidade_padrao[e[1]], 0] for i, e in enumerate(etapas)])
 
     unidades = ["ATO - Gabinete", "LAB - Biologia", "LAB - Fisica", "LAB - Toxicologia",
                 "LAB - Informatica", "IML - Medicina Legal", "ATV - Campo"]
     un_map, un_rows = dim(unidades)
-    csv_gravar(pasta, "dim_unidade.csv", ["unidade_key", "unidade"],
+    csv_gravar(pasta, "dim_unidade.csv", ["unidade_key", "unidade", "tipo"],
                [[k, u, "Laboratorio" if u.startswith("LAB") or u.startswith("IML") else "Apoio"]
                 for k, u in un_rows])
 
@@ -150,7 +158,7 @@ def cenario1_pericial(pasta):
            (2, "PRJ-002 - Integracao SIGT x laboratorio"),
            (3, "PRJ-003 - Portal de solicitacao"),
            (4, "PRJ-004 - App de checklist do perito")]
-    csv_gravar(pasta, "dim_projeto.csv", ["projeto_key", "projeto"],
+    csv_gravar(pasta, "dim_projeto.csv", ["projeto_key", "projeto", "escopo"],
                [[k, p, (p.split(" - ")[1][:40])] for k, p in prj])
 
     gravar_calendario(pasta)
@@ -212,8 +220,8 @@ def cenario1_pericial(pasta):
                ["id_execucao", "id_ciclo", "etapa_key", "unidade_key", "sistema_key",
                 "tipo_atividade_key", "status_execucao_key", "projeto_key",
                 "data_inicio_key", "data_fim_key", "tempo_espera_min", "tempo_execucao_min",
-                "tempo_total_min", "flag_retrabalho", "flag_automatizada",
-                "custo_minuto"], fato)
+                "tempo_total_h", "flag_retrabalho", "flag_automatizada",
+                "custo_execucao_rs"], fato)
 
 
 # =================================================================
@@ -230,14 +238,20 @@ def cenario2_orcamento(pasta):
         ("Publicacao do ato", "Publicacao", 16, 45, 0.5, 1),
     ]
     etapa_map, _ = dim([e[1] for e in etapas])
+    unidade_padrao = {
+        "Pedido": "ADM - Divisao de Compras", "Cotacao": "ADM - Divisao de Compras",
+        "Mapa": "ADM - Divisao de Compras", "Parecer": "JUR - Assessoria Juridica",
+        "Autorizacao": "ADM - Diretoria", "Empenho": "ADM - Divisao de Compras",
+        "Publicacao": "ADM - Divisao de Compras",
+    }
     csv_gravar(pasta, "dim_etapa.csv",
                ["etapa_key", "etapa", "sequencia", "unidade_padrao", "ativada_no_tobe"],
-               [[i + 1, e[1], i + 1, "ADMIN", 0] for i, e in enumerate(etapas)])
+               [[etapa_map[e[1]], e[1], i + 1, unidade_padrao[e[1]], 0] for i, e in enumerate(etapas)])
 
     unidades = ["ADM - Diretoria", "ADM - Divisao de Compras", "PLEN - Planejamento",
                 "CONT - Controle Interno", "JUR - Assessoria Juridica"]
     un_map, un_rows = dim(unidades)
-    csv_gravar(pasta, "dim_unidade.csv", ["unidade_key", "unidade"],
+    csv_gravar(pasta, "dim_unidade.csv", ["unidade_key", "unidade", "tipo"],
                [[k, u, "Apoio" if u.startswith(("ADM", "PLEN")) else "Controle"] for k, u in un_rows])
 
     sis_map, sis_rows = dim(SISTEMAS)
@@ -257,7 +271,7 @@ def cenario2_orcamento(pasta):
            (2, "PRJ-011 - Catalogo de contratos"),
            (3, "PRJ-012 - Alertas de dotacao"),
            (4, "PRJ-013 - Pauta automatica de autorizacao")]
-    csv_gravar(pasta, "dim_projeto.csv", ["projeto_key", "projeto"],
+    csv_gravar(pasta, "dim_projeto.csv", ["projeto_key", "projeto", "escopo"],
                [[k, p, p.split(" - ")[1][:40]] for k, p in prj])
 
     gravar_calendario(pasta)
@@ -305,8 +319,8 @@ def cenario2_orcamento(pasta):
                ["id_execucao", "id_ciclo", "etapa_key", "unidade_key", "sistema_key",
                 "tipo_atividade_key", "status_execucao_key", "projeto_key",
                 "data_inicio_key", "data_fim_key", "tempo_espera_min", "tempo_execucao_min",
-                "tempo_total_min", "flag_retrabalho", "flag_automatizada",
-                "custo_minuto"], fato)
+                "tempo_total_h", "flag_retrabalho", "flag_automatizada",
+                "custo_execucao_rs"], fato)
 
 
 # =================================================================
@@ -324,14 +338,20 @@ def cenario3_custodia(pasta):
         ("Baixa e destino final", "Baixa", 22, 35, 0.7, 1),
     ]
     etapa_map, _ = dim([e[1] for e in etapas])
+    unidade_padrao = {
+        "Coleta": "CAMPO - Operacao", "Lacre": "CAMPO - Operacao",
+        "Registro": "CAMPO - Operacao", "Transporte": "CAMPO - Transporte",
+        "Recebimento": "LAB - Recebimento", "Guarda": "LAB - Arquivo",
+        "Pericia": "LAB - Pericia", "Baixa": "CTRL - Custodia",
+    }
     csv_gravar(pasta, "dim_etapa.csv",
                ["etapa_key", "etapa", "sequencia", "unidade_padrao", "ativada_no_tobe"],
-               [[i + 1, e[1], i + 1, "CAMPO" if i < 4 else "LAB", 0] for i, e in enumerate(etapas)])
+               [[etapa_map[e[1]], e[1], i + 1, unidade_padrao[e[1]], 0] for i, e in enumerate(etapas)])
 
     unidades = ["CAMPO - Operacao", "CAMPO - Transporte", "LAB - Recebimento",
                 "LAB - Pericia", "LAB - Arquivo", "CTRL - Custodia"]
     un_map, un_rows = dim(unidades)
-    csv_gravar(pasta, "dim_unidade.csv", ["unidade_key", "unidade"],
+    csv_gravar(pasta, "dim_unidade.csv", ["unidade_key", "unidade", "tipo"],
                [[k, u, "Laboratorio" if u.startswith("LAB") else "Campo"] for k, u in un_rows])
 
     sis_map, sis_rows = dim(SISTEMAS)
@@ -351,7 +371,7 @@ def cenario3_custodia(pasta):
            (2, "PRJ-021 - Rastreio GPS de transporte"),
            (3, "PRJ-022 - Integracao com a instituicao receptora"),
            (4, "PRJ-023 - Alerta de guarda vencida")]
-    csv_gravar(pasta, "dim_projeto.csv", ["projeto_key", "projeto"],
+    csv_gravar(pasta, "dim_projeto.csv", ["projeto_key", "projeto", "escopo"],
                [[k, p, p.split(" - ")[1][:40]] for k, p in prj])
 
     gravar_calendario(pasta)
@@ -400,34 +420,246 @@ def cenario3_custodia(pasta):
                ["id_execucao", "id_ciclo", "etapa_key", "unidade_key", "sistema_key",
                 "tipo_atividade_key", "status_execucao_key", "projeto_key",
                 "data_inicio_key", "data_fim_key", "tempo_espera_min", "tempo_execucao_min",
-                "tempo_total_min", "flag_retrabalho", "flag_automatizada",
-                "custo_minuto"], fato)
+                "tempo_total_h", "flag_retrabalho", "flag_automatizada",
+                "custo_execucao_rs"], fato)
+
+
+# =================================================================
+# CENARIO 4 - ATENDIMENTO DE LOCAL DE CRIME
+# =================================================================
+def cenario4_local_crime(pasta):
+    etapas = [
+        ("Acionamento da equipe", "Acionamento", 4, 30, 0.5, 1),
+        ("Deslocamento ao local", "Deslocamento", 14, 120, 0.8, 0),
+        ("Isolamento e preservacao", "Isolamento", 3, 45, 0.5, 0),
+        ("Coleta de vestigios", "Coleta", 6, 180, 0.7, 0),
+        ("Registro fotografico", "Fotografia", 4, 60, 0.6, 1),
+        ("Acondicionamento e lacre", "Lacre", 5, 40, 0.6, 0),
+        ("Liberacao do local", "Liberacao", 9, 30, 0.7, 0),
+        ("Relatorio de atendimento", "Relatorio", 7, 90, 0.6, 0),
+    ]
+    etapa_map, _ = dim([e[1] for e in etapas])
+    unidade_padrao = {
+        "Acionamento": "ATO - Gabinete", "Deslocamento": "ATV - Campo",
+        "Isolamento": "ATV - Campo", "Coleta": "ATV - Campo",
+        "Fotografia": "ATV - Campo", "Lacre": "IML - Medicina Legal",
+        "Liberacao": "ATO - Gabinete", "Relatorio": "ATO - Gabinete",
+    }
+    csv_gravar(pasta, "dim_etapa.csv",
+               ["etapa_key", "etapa", "sequencia", "unidade_padrao", "ativada_no_tobe"],
+               [[etapa_map[e[1]], e[1], i + 1, unidade_padrao[e[1]], 0] for i, e in enumerate(etapas)])
+
+    unidades = ["ATO - Gabinete", "ATV - Campo", "IML - Medicina Legal",
+                "LAB - Fisica", "CTRL - Plantao"]
+    un_map, un_rows = dim(unidades)
+    csv_gravar(pasta, "dim_unidade.csv", ["unidade_key", "unidade", "tipo"],
+               [[k, u, "Campo" if u.startswith("ATV") else (
+                   "Laboratorio" if u.startswith(("LAB", "IML")) else "Apoio")]
+                for k, u in un_rows])
+
+    sis_map, sis_rows = dim(SISTEMAS)
+    csv_gravar(pasta, "dim_sistema.csv",
+               ["sistema_key", "sistema", "digitizado", "integrado"],
+               [[k, s, 1 if i >= 1 else 0, 1 if i in (1, 3, 5) else 0]
+                for i, (k, s) in enumerate(sis_rows)])
+
+    ta_map, ta_rows = dim(TIPOS_ATIVIDADE)
+    csv_gravar(pasta, "dim_tipo_atividade.csv", ["tipo_atividade_key", "tipo_atividade"], ta_rows)
+
+    st = ["Concluido", "Em andamento", "Devolvido", "Cancelado"]
+    st_map, st_rows = dim(st)
+    csv_gravar(pasta, "dim_status_execucao.csv", ["status_execucao_key", "status_execucao"], st_rows)
+
+    prj = [(1, "PRJ-030 - App de atendimento de local"),
+           (2, "PRJ-031 - Checklist digital de vestigios"),
+           (3, "PRJ-032 - Roteirizacao de equipes"),
+           (4, "PRJ-033 - Integracao com a custodia")]
+    csv_gravar(pasta, "dim_projeto.csv", ["projeto_key", "projeto", "escopo"],
+               [[k, p, p.split(" - ")[1][:40]] for k, p in prj])
+
+    gravar_calendario(pasta)
+
+    fato, n = [], 0
+    for ciclo in range(240):
+        d0 = data_aleatoria()
+        unidade = random.choices(unidades, weights=[24, 42, 12, 12, 10])[0]
+        qtd = random.randint(4, 9)
+        for rep in range(qtd):
+            n += 1
+            d_ini = d0
+            status = "Cancelado" if pct(0.03) else (
+                "Devolvido" if pct(0.08) else (
+                    "Em andamento" if pct(0.15) else "Concluido"))
+            for idx, (rot, key, esp_med, exe_med, sig, autom) in enumerate(etapas):
+                fator = 1.35 if esp_med >= 10 else 1.0
+                espera = 0 if idx == 0 else lognormal(esp_med * fator, 0.6)
+                if status == "Cancelado" and idx > 1:
+                    espera = ""
+                    exe_min = 0
+                else:
+                    exe_min = 0 if autom else lognormal(exe_med, sig)
+                espera_min = round(espera * 60, 1) if espera != "" else ""
+                if status == "Cancelado" and idx > 1:
+                    d_fim = ""
+                else:
+                    dias = int((espera if espera != "" else 0) / 24) + int(
+                        (exe_min or 0) / 480) + random.randint(0, 2)
+                    d_fim = d_ini + dt.timedelta(days=min(dias, 180))
+                    if d_fim > FIM:
+                        d_fim = FIM
+                fato.append([
+                    f"EXL-{n:06d}", f"CIC-{ciclo + 1:05d}", etapa_map[key], un_map[unidade],
+                    sis_map[random.choice([SISTEMAS[0], SISTEMAS[2], SISTEMAS[4]])],
+                    ta_map[random.choice(TIPOS_ATIVIDADE[:5])], st_map[status],
+                    random.randint(1, 4), data_key(d_ini), data_key(d_fim),
+                    espera_min, exe_min,
+                    round(float(espera_min or 0) / 60 + float(exe_min or 0) / 60, 2),
+                    1 if pct(0.09) else 0, 1 if autom else 0,
+                    round(float(exe_min or 0) / 60 * 68.50, 2),
+                ])
+                if d_fim:
+                    d_ini = d_fim + dt.timedelta(days=random.randint(0, 2))
+    csv_gravar(pasta, "fato_execucao.csv",
+               ["id_execucao", "id_ciclo", "etapa_key", "unidade_key", "sistema_key",
+                "tipo_atividade_key", "status_execucao_key", "projeto_key",
+                "data_inicio_key", "data_fim_key", "tempo_espera_min", "tempo_execucao_min",
+                "tempo_total_h", "flag_retrabalho", "flag_automatizada",
+                "custo_execucao_rs"], fato)
+
+
+# =================================================================
+# CENARIO 5 - ANALISE LABORATORIAL (DNA / TOXICOLOGIA)
+# =================================================================
+def cenario5_laboratorio(pasta):
+    etapas = [
+        ("Recebimento e protocolo", "Recebimento", 4, 30, 0.5, 1),
+        ("Triagem da amostra", "Triagem", 8, 45, 0.6, 0),
+        ("Preparo e extracao", "Extracao", 12, 180, 0.8, 0),
+        ("Quantificacao", "Quantificacao", 10, 60, 0.7, 0),
+        ("Amplificacao (PCR)", "Amplificacao", 16, 120, 0.8, 0),
+        ("Eletroforese", "Eletroforese", 18, 90, 0.8, 0),
+        ("Interpretacao do perfil", "Interpretacao", 9, 150, 0.7, 0),
+        ("Revisao e laudo", "Laudo", 8, 60, 0.6, 1),
+    ]
+    etapa_map, _ = dim([e[1] for e in etapas])
+    unidade_padrao = {
+        "Recebimento": "LAB - Biologia", "Triagem": "LAB - Biologia",
+        "Extracao": "LAB - Biologia", "Quantificacao": "LAB - Toxicologia",
+        "Amplificacao": "LAB - Biologia", "Eletroforese": "LAB - Fisica",
+        "Interpretacao": "LAB - Biologia", "Laudo": "CTRL - Qualidade",
+    }
+    csv_gravar(pasta, "dim_etapa.csv",
+               ["etapa_key", "etapa", "sequencia", "unidade_padrao", "ativada_no_tobe"],
+               [[etapa_map[e[1]], e[1], i + 1, unidade_padrao[e[1]], 0] for i, e in enumerate(etapas)])
+
+    unidades = ["LAB - Biologia", "LAB - Toxicologia", "LAB - Fisica",
+                "IML - Medicina Legal", "CTRL - Qualidade"]
+    un_map, un_rows = dim(unidades)
+    csv_gravar(pasta, "dim_unidade.csv", ["unidade_key", "unidade", "tipo"],
+               [[k, u, "Laboratorio" if u.startswith(("LAB", "IML")) else "Controle"]
+                for k, u in un_rows])
+
+    sis_map, sis_rows = dim(SISTEMAS)
+    csv_gravar(pasta, "dim_sistema.csv",
+               ["sistema_key", "sistema", "digitizado", "integrado"],
+               [[k, s, 1 if i >= 1 else 0, 1 if i in (1, 3, 5) else 0]
+                for i, (k, s) in enumerate(sis_rows)])
+
+    ta_map, ta_rows = dim(TIPOS_ATIVIDADE)
+    csv_gravar(pasta, "dim_tipo_atividade.csv", ["tipo_atividade_key", "tipo_atividade"], ta_rows)
+
+    st = ["Concluido", "Em andamento", "Devolvido", "Cancelado"]
+    st_map, st_rows = dim(st)
+    csv_gravar(pasta, "dim_status_execucao.csv", ["status_execucao_key", "status_execucao"], st_rows)
+
+    prj = [(1, "PRJ-040 - Integracao LIMS x SIGT"),
+           (2, "PRJ-041 - Fila unica de amostras"),
+           (3, "PRJ-042 - Alerta de prazo de analise"),
+           (4, "PRJ-043 - Painel de capacidade do laboratorio")]
+    csv_gravar(pasta, "dim_projeto.csv", ["projeto_key", "projeto", "escopo"],
+               [[k, p, p.split(" - ")[1][:40]] for k, p in prj])
+
+    gravar_calendario(pasta)
+
+    fato, n = [], 0
+    for ciclo in range(260):
+        d0 = data_aleatoria()
+        unidade = random.choices(unidades, weights=[30, 26, 18, 12, 14])[0]
+        qtd = random.randint(4, 9)
+        for rep in range(qtd):
+            n += 1
+            d_ini = d0
+            status = "Cancelado" if pct(0.02) else (
+                "Devolvido" if pct(0.06) else (
+                    "Em andamento" if pct(0.12) else "Concluido"))
+            for idx, (rot, key, esp_med, exe_med, sig, autom) in enumerate(etapas):
+                fator = 1.30 if key in ("Amplificacao", "Eletroforese") else 1.0
+                espera = 0 if idx == 0 else lognormal(esp_med * fator, 0.6)
+                if status == "Cancelado" and idx > 2:
+                    espera = ""
+                    exe_min = 0
+                else:
+                    exe_min = 0 if autom else lognormal(exe_med, sig)
+                espera_min = round(espera * 60, 1) if espera != "" else ""
+                if status == "Cancelado" and idx > 2:
+                    d_fim = ""
+                else:
+                    dias = int((espera if espera != "" else 0) / 24) + int(
+                        (exe_min or 0) / 480) + random.randint(0, 2)
+                    d_fim = d_ini + dt.timedelta(days=min(dias, 200))
+                    if d_fim > FIM:
+                        d_fim = FIM
+                fato.append([
+                    f"EXA-{n:06d}", f"CIC-{ciclo + 1:05d}", etapa_map[key], un_map[unidade],
+                    sis_map[random.choice([SISTEMAS[1], SISTEMAS[2], SISTEMAS[4]])],
+                    ta_map[random.choice(TIPOS_ATIVIDADE[:4])], st_map[status],
+                    random.randint(1, 4), data_key(d_ini), data_key(d_fim),
+                    espera_min, exe_min,
+                    round(float(espera_min or 0) / 60 + float(exe_min or 0) / 60, 2),
+                    1 if pct(0.07) else 0, 1 if autom else 0,
+                    round(float(exe_min or 0) / 60 * 82.40, 2),
+                ])
+                if d_fim:
+                    d_ini = d_fim + dt.timedelta(days=random.randint(0, 2))
+    csv_gravar(pasta, "fato_execucao.csv",
+               ["id_execucao", "id_ciclo", "etapa_key", "unidade_key", "sistema_key",
+                "tipo_atividade_key", "status_execucao_key", "projeto_key",
+                "data_inicio_key", "data_fim_key", "tempo_espera_min", "tempo_execucao_min",
+                "tempo_total_h", "flag_retrabalho", "flag_automatizada",
+                "custo_execucao_rs"], fato)
 
 
 # =================================================================
 # READMES
 # =================================================================
-README_GERAL = r"""# Aula 6 - Datasets de Processo (Gestao de Projetos)
+README_GERAL = r"""# Aula 6 - Datasets de Processo (Painel de Processo + Gestao de Projetos)
 
-Tres **processos reais da POLITEC/MT**, medidos etapa a etapa. Sao a base do
-metodo AS-IS -> BPMN/Mermaid -> **gargalo medido** -> TO-BE -> **automacao**.
+Cinco **processos reais da POLITEC/MT**, medidos etapa a etapa. Sao a base do
+painel da manha (BI) e do metodo da tarde: AS-IS -> BPMN/Mermaid -> **gargalo
+medido** -> TO-BE -> **automacao**.
 
-Cada cenario tem o mesmo esquema em **modelo estrela**, com a mesma dimensao
-de tabelas. O fato tem uma linha por **execucao de etapa**, com **tempo de
-espera** (fila) e **tempo de execucao** (trabalho) separados. E essa separacao
-que revela o gargalo.
+Cada cenario tem o mesmo esquema em **modelo estrela**, com as mesmas dimensoes.
+O fato tem uma linha por **execucao de etapa**, com **tempo de espera** (fila) e
+**tempo de execucao** (trabalho) separados. E essa separacao que revela o
+gargalo.
 
-| # | Cenario | Pasta | Fato | Linhas |
-|---|---------|-------|------|--------|
-| 1 | Requisicao pericial | `cenario1_processo_pericial/` | `fato_execucao` | ~1.800 |
-| 2 | Empenho e contrato | `cenario2_processo_orcamento/` | `fato_execucao` | ~1.500 |
-| 3 | Cadeia de custodia | `cenario3_processo_custodia/` | `fato_execucao` | ~1.600 |
+| # | Cenario | Pasta | Workbook Excel | Fato | Linhas |
+|---|---------|-------|----------------|------|--------|
+| 1 | Requisicao pericial | `cenario1_processo_pericial/` | `Cenario1_Requisicao_Pericial.xlsx` | `fato_execucao` | **10.352** |
+| 2 | Empenho e contrato | `cenario2_processo_orcamento/` | `Cenario2_Empenho_Contrato.xlsx` | `fato_execucao` | **9.541** |
+| 3 | Cadeia de custodia | `cenario3_processo_custodia/` | `Cenario3_Cadeia_Custodia.xlsx` | `fato_execucao` | **10.840** |
+| 4 | Local de crime | `cenario4_local_crime/` | `Cenario4_Local_Crime.xlsx` | `fato_execucao` | **12.664** |
+| 5 | Analise laboratorial | `cenario5_analise_laboratorial/` | `Cenario5_Analise_Laboratorial.xlsx` | `fato_execucao` | **13.896** |
 
 Todos com `dim_calendario` de 1.096 dias (2023-01-01 a 2025-12-31).
 
+> **Para a sala de aula**, use o workbook `.xlsx` de cada pasta: ele traz todas
+> as tabelas em abas separadas (`fato_execucao`, `dim_*`) mais uma aba
+> `LEIA-ME`. Os CSVs ficam como fonte e para quem preferir importar por pasta.
+
 ---
 
-## O schema (identico nos 3 cenarios)
+## O schema (identico nos 5 cenarios)
 
 ```text
       dim_calendario   dim_projeto        dim_tipo_atividade
@@ -452,22 +684,26 @@ Todos com `dim_calendario` de 1.096 dias (2023-01-01 a 2025-12-31).
 | `data_inicio_key` / `data_fim_key` | Datas | linha do tempo, lead time |
 | **`tempo_espera_min`** | **Minutos na fila ANTES de comecar** | **onde o gargalo costuma estar** |
 | `tempo_execucao_min` | Minutos de trabalho efetivo | onde ha trabalho real |
-| `tempo_total_min` | Soma dos dois | tempo de ciclo |
+| `tempo_total_h` | Soma dos dois, em **horas** | tempo de ciclo daquela etapa |
 | `flag_retrabalho` | 1 se a etapa voltou | desperdicio |
-| `flag_automatizada` | 1 se ja automatizada |baseline de automacao |
-| `custo_minuto` | Custo da Mao de obra | custo do processo |
+| `flag_automatizada` | 1 se ja automatizada | baseline de automacao |
+| `custo_execucao_rs` | Custo da mao de obra daquela execucao, em **R$** | custo do processo |
 
 ### Dimensoes
 
 | Dimensao | Linhas | Chave | Atributos |
 |---|---|---|---|
 | `dim_etapa` | 7-8 | `etapa_key` | etapa, sequencia, unidade_padrao, ativada_no_tobe |
-| `dim_unidade` | 5-7 | `unidade_key` | unidade, tipo (Laboratorio / Apoio / Campo) |
+| `dim_unidade` | 5-7 | `unidade_key` | unidade, tipo (Laboratorio / Apoio / Campo / Controle) |
 | `dim_sistema` | 6 | `sistema_key` | sistema, digitizado, integrado |
 | `dim_tipo_atividade` | 6 | `tipo_atividade_key` | tipo_atividade |
 | `dim_status_execucao` | 4 | `status_execucao_key` | status_execucao |
 | `dim_projeto` | 4 | `projeto_key` | projeto, escopo |
 | `dim_calendario` | 1.096 | `data_key` | data, ano, mes, ano_mes, trimestre, dia, dia_semana |
+
+> **Atencao**: a `fato_execucao` e a `dim_etapa` usam a **mesma chave**
+> (`etapa_key`), entao o join funciona. Para ordenar as etapas do processo,
+> use `dim_etapa.sequencia`, e nao o texto da etapa.
 
 ---
 
@@ -499,7 +735,8 @@ Todos com `dim_calendario` de 1.096 dias (2023-01-01 a 2025-12-31).
 - CSV UTF-8 com BOM, separador `;`, datas ISO `AAAA-MM-DD`.
 - `data_key` inteiro no formato `AAAAMMDD`.
 - Chaves substitutas inteiras 1..N em ordem alfabetica.
-- Tempos em **minutos** (fracionarios com 1 casa).
+- `tempo_espera_min` e `tempo_execucao_min` em **minutos** (fracionarios com 1 casa);
+  `tempo_total_h` em **horas** (2 casas); `custo_execucao_rs` em **R$**.
 - Gerado por `../gerar_datasets_aula6.py` (semente fixa `20260610`).
 - Dados sinteticos: qualquer semelhanca com processos reais e coincidencia.
 """
@@ -556,7 +793,7 @@ Numeros **medidos** no dataset gerado (media por execucao de etapa):
 | 6. Publicacao do ato | 18 h | 0 h | 16,9% |
 
 **Achado principal**: **51,2% da espera** esta em duas etapas de aprovacao
-(parecer + autorizacao), e o retrabalho e o mais alto dos tres cenarios
+(parecer + autorizacao), e o retrabalho e o mais alto dos cinco datasets
 (**~16,5%**). O mapa comparativo (etapa 3) tem **6 h de execucao** — o maior
 trabalho manual do processo, e ele e atrasado por causa das aprovacoes.
 
@@ -612,6 +849,72 @@ gateway de "lacre confere?". Este e o melhor cenario para ensinar **rastreio**
 em vez de apenas velocidade.
 """
 
+README_CEN["cenario4_local_crime"] = r"""# Cenario 4 - Atendimento de Local de Crime
+
+O processo que comeca no acionamento da equipe e termina no relatorio de
+atendimento. O gargalo classico nao esta na coleta (o trabalho visivel), mas no
+**deslocamento** e na **liberacao do local** - as duas filas que dependem de
+equipe, veiculo e autoridade.
+
+Numeros **medidos** no dataset gerado (media por execucao de etapa):
+
+| Etapa | Espera media | Execucao media | Retrabalho |
+|---|---|---|---|
+| 1. Acionamento da equipe | 0 h | 0 h | 8,5% |
+| **2. Deslocamento ao local** | **22,9 h** | 2,6 h | 7,5% |
+| 3. Isolamento e preservacao | 3,9 h | 0,8 h | 8,0% |
+| 4. Coleta de vestigios | 7,5 h | 3,7 h | 8,3% |
+| 5. Registro fotografico | 5,1 h | 0 h | 8,1% |
+| 6. Acondicionamento e lacre | 6,2 h | 0,8 h | 8,6% |
+| 7. Liberacao do local | 10,8 h | 0,6 h | 8,8% |
+| 8. Relatorio de atendimento | 8,6 h | 1,7 h | 9,0% |
+
+**Achado principal**: o deslocamento concentra **35,2% da espera**, e o processo
+e **86,5% espera**. A coleta tem o maior trabalho manual (3,7 h), mas nao e o
+gargalo. O retrabalho e sistemico (8,4%, parecido em todas as etapas), sinal de
+problema de checklist/padrao, nao de uma equipe especifica.
+
+**Para onde aponta a intervencao**: roteirizacao de equipes + checklist digital
+de vestigios. A TO-BE reduz o deslocamento com fila por proximidade e elimina a
+redigitacao do relatorio.
+
+**Sugestao de Mermaid**: swimlanes por unidade (ATO, ATV - Campo, IML, CTRL) e
+um gateway "local preservado?" antes da coleta.
+"""
+
+README_CEN["cenario5_analise_laboratorial"] = r"""# Cenario 5 - Analise Laboratorial (DNA / Toxicologia)
+
+O processo de bancada: do recebimento da amostra ao laudo assinado. O gargalo
+tipico e a **fila do equipamento** (amplificacao e eletroforese), nao a
+interpretacao - que e o trabalho mais visivel do perito.
+
+Numeros **medidos** no dataset gerado (media por execucao de etapa):
+
+| Etapa | Espera media | Execucao media | Retrabalho |
+|---|---|---|---|
+| 1. Recebimento e protocolo | 0 h | 0 h | 6,6% |
+| 2. Triagem da amostra | 10,2 h | 0,9 h | 7,1% |
+| 3. Preparo e extracao | 15,5 h | 4,2 h | 6,9% |
+| 4. Quantificacao | 12,2 h | 1,3 h | 6,5% |
+| **5. Amplificacao (PCR)** | **24,6 h** | 2,6 h | 7,0% |
+| **6. Eletroforese** | **27,5 h** | 2,1 h | 6,2% |
+| 7. Interpretacao do perfil | 11,0 h | 3,2 h | 6,8% |
+| 8. Revisao e laudo | 9,7 h | 0 h | 7,7% |
+
+**Achado principal**: as duas etapas de equipamento concentram **47,1% da
+espera** (24,9% + 22,2%), e o processo e **88,6% espera**. A interpretacao tem o
+maior trabalho manual (3,2 h), mas nao e o gargalo. O retrabalho e baixo e
+uniforme (6,8%) - o problema e **capacidade de equipamento**, nao erro de
+execucao.
+
+**Para onde aponta a intervencao**: fila unica de amostras + painel de
+capacidade do laboratorio. A TO-BE agenda a placa por prazo e prioridade, em vez
+de ordem de chegada.
+
+**Sugestao de Mermaid**: swimlanes por laboratorio (Biologia, Toxicologia,
+Fisica) e um gateway "amostra conforme?" na triagem.
+"""
+
 
 def escrever_readmes():
     for nome, txt in README_CEN.items():
@@ -624,8 +927,10 @@ def main():
     cenario1_pericial(DATASETS / "cenario1_processo_pericial")
     cenario2_orcamento(DATASETS / "cenario2_processo_orcamento")
     cenario3_custodia(DATASETS / "cenario3_processo_custodia")
+    cenario4_local_crime(DATASETS / "cenario4_local_crime")
+    cenario5_laboratorio(DATASETS / "cenario5_analise_laboratorial")
     escrever_readmes()
-    print("3 datasets de processo + READMEs gerados em:", DATASETS.relative_to(RAIZ))
+    print("5 datasets de processo + READMEs gerados em:", DATASETS.relative_to(RAIZ))
     for p in sorted(DATASETS.iterdir()):
         if p.is_dir():
             print(f"  {p.name:34s}  {len(list(p.glob('*.csv')))} CSVs")

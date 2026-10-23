@@ -1,24 +1,31 @@
-# Aula 6 - Datasets de Processo (Gestao de Projetos)
+# Aula 6 - Datasets de Processo (Painel de Processo + Gestao de Projetos)
 
-Tres **processos reais da POLITEC/MT**, medidos etapa a etapa. Sao a base do
-metodo AS-IS -> BPMN/Mermaid -> **gargalo medido** -> TO-BE -> **automacao**.
+Cinco **processos reais da POLITEC/MT**, medidos etapa a etapa. Sao a base do
+painel da manha (BI) e do metodo da tarde: AS-IS -> BPMN/Mermaid -> **gargalo
+medido** -> TO-BE -> **automacao**.
 
-Cada cenario tem o mesmo esquema em **modelo estrela**, com a mesma dimensao
-de tabelas. O fato tem uma linha por **execucao de etapa**, com **tempo de
-espera** (fila) e **tempo de execucao** (trabalho) separados. E essa separacao
-que revela o gargalo.
+Cada cenario tem o mesmo esquema em **modelo estrela**, com as mesmas dimensoes.
+O fato tem uma linha por **execucao de etapa**, com **tempo de espera** (fila) e
+**tempo de execucao** (trabalho) separados. E essa separacao que revela o
+gargalo.
 
-| # | Cenario | Pasta | Fato | Linhas |
-|---|---------|-------|------|--------|
-| 1 | Requisicao pericial | `cenario1_processo_pericial/` | `fato_execucao` | ~1.800 |
-| 2 | Empenho e contrato | `cenario2_processo_orcamento/` | `fato_execucao` | ~1.500 |
-| 3 | Cadeia de custodia | `cenario3_processo_custodia/` | `fato_execucao` | ~1.600 |
+| # | Cenario | Pasta | Workbook Excel | Fato | Linhas |
+|---|---------|-------|----------------|------|--------|
+| 1 | Requisicao pericial | `cenario1_processo_pericial/` | `Cenario1_Requisicao_Pericial.xlsx` | `fato_execucao` | **10.352** |
+| 2 | Empenho e contrato | `cenario2_processo_orcamento/` | `Cenario2_Empenho_Contrato.xlsx` | `fato_execucao` | **9.541** |
+| 3 | Cadeia de custodia | `cenario3_processo_custodia/` | `Cenario3_Cadeia_Custodia.xlsx` | `fato_execucao` | **10.840** |
+| 4 | Local de crime | `cenario4_local_crime/` | `Cenario4_Local_Crime.xlsx` | `fato_execucao` | **12.664** |
+| 5 | Analise laboratorial | `cenario5_analise_laboratorial/` | `Cenario5_Analise_Laboratorial.xlsx` | `fato_execucao` | **13.896** |
 
 Todos com `dim_calendario` de 1.096 dias (2023-01-01 a 2025-12-31).
 
+> **Para a sala de aula**, use o workbook `.xlsx` de cada pasta: ele traz todas
+> as tabelas em abas separadas (`fato_execucao`, `dim_*`) mais uma aba
+> `LEIA-ME`. Os CSVs ficam como fonte e para quem preferir importar por pasta.
+
 ---
 
-## O schema (identico nos 3 cenarios)
+## O schema (identico nos 5 cenarios)
 
 ```text
       dim_calendario   dim_projeto        dim_tipo_atividade
@@ -43,22 +50,26 @@ Todos com `dim_calendario` de 1.096 dias (2023-01-01 a 2025-12-31).
 | `data_inicio_key` / `data_fim_key` | Datas | linha do tempo, lead time |
 | **`tempo_espera_min`** | **Minutos na fila ANTES de comecar** | **onde o gargalo costuma estar** |
 | `tempo_execucao_min` | Minutos de trabalho efetivo | onde ha trabalho real |
-| `tempo_total_min` | Soma dos dois | tempo de ciclo |
+| `tempo_total_h` | Soma dos dois, em **horas** | tempo de ciclo daquela etapa |
 | `flag_retrabalho` | 1 se a etapa voltou | desperdicio |
-| `flag_automatizada` | 1 se ja automatizada |baseline de automacao |
-| `custo_minuto` | Custo da Mao de obra | custo do processo |
+| `flag_automatizada` | 1 se ja automatizada | baseline de automacao |
+| `custo_execucao_rs` | Custo da mao de obra daquela execucao, em **R$** | custo do processo |
 
 ### Dimensoes
 
 | Dimensao | Linhas | Chave | Atributos |
 |---|---|---|---|
 | `dim_etapa` | 7-8 | `etapa_key` | etapa, sequencia, unidade_padrao, ativada_no_tobe |
-| `dim_unidade` | 5-7 | `unidade_key` | unidade, tipo (Laboratorio / Apoio / Campo) |
+| `dim_unidade` | 5-7 | `unidade_key` | unidade, tipo (Laboratorio / Apoio / Campo / Controle) |
 | `dim_sistema` | 6 | `sistema_key` | sistema, digitizado, integrado |
 | `dim_tipo_atividade` | 6 | `tipo_atividade_key` | tipo_atividade |
 | `dim_status_execucao` | 4 | `status_execucao_key` | status_execucao |
 | `dim_projeto` | 4 | `projeto_key` | projeto, escopo |
 | `dim_calendario` | 1.096 | `data_key` | data, ano, mes, ano_mes, trimestre, dia, dia_semana |
+
+> **Atencao**: a `fato_execucao` e a `dim_etapa` usam a **mesma chave**
+> (`etapa_key`), entao o join funciona. Para ordenar as etapas do processo,
+> use `dim_etapa.sequencia`, e nao o texto da etapa.
 
 ---
 
@@ -90,6 +101,7 @@ Todos com `dim_calendario` de 1.096 dias (2023-01-01 a 2025-12-31).
 - CSV UTF-8 com BOM, separador `;`, datas ISO `AAAA-MM-DD`.
 - `data_key` inteiro no formato `AAAAMMDD`.
 - Chaves substitutas inteiras 1..N em ordem alfabetica.
-- Tempos em **minutos** (fracionarios com 1 casa).
+- `tempo_espera_min` e `tempo_execucao_min` em **minutos** (fracionarios com 1 casa);
+  `tempo_total_h` em **horas** (2 casas); `custo_execucao_rs` em **R$**.
 - Gerado por `../gerar_datasets_aula6.py` (semente fixa `20260610`).
 - Dados sinteticos: qualquer semelhanca com processos reais e coincidencia.

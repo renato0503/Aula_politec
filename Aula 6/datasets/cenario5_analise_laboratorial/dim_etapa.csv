@@ -1,0 +1,9 @@
+﻿etapa_key;etapa;sequencia;unidade_padrao;ativada_no_tobe
+7;Recebimento;1;LAB - Biologia;0
+8;Triagem;2;LAB - Biologia;0
+3;Extracao;3;LAB - Biologia;0
+6;Quantificacao;4;LAB - Toxicologia;0
+1;Amplificacao;5;LAB - Biologia;0
+2;Eletroforese;6;LAB - Fisica;0
+4;Interpretacao;7;LAB - Biologia;0
+5;Laudo;8;CTRL - Qualidade;0
