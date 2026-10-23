@@ -1,4 +1,4 @@
-﻿# Aula 6 — Painel de Processo (manhã) + Gestão de Projetos (tarde)
+# Aula 6 — Painel de Processo (manhã) + Gestão de Projetos (tarde)
 
 **Módulo 8** — a aula que inaugura o **novo formato do curso**: a manhã é sempre
 de **painéis, BI e análise de dados**; a tarde é de **hands-on em gestão de
@@ -14,25 +14,40 @@ Curso de Capacitação POLITEC/MT · Professor Renato Rosa · Dia 6.
 
 ---
 
-## Rewritten in pt-BR (this delivery)
+## O que foi feito nesta entrega
 
-The whole notebook was **rewritten in Brazilian Portuguese with full
-accentuation**, without subjective adjectives and without em dashes, and with
-**connectives linking the sentences after the full stop** (Além disso, Por isso,
-Dessa forma, Nesse sentido, Com isso, Em seguida, Por fim).
+Todo o caderno foi **reescrito em português do Brasil com acentuação completa**,
+sem adjetivações e sem travessões, e com **conectivos** ligando as frases depois
+do ponto final (Além disso, Por isso, Dessa forma, Nesse sentido, Com isso, Em
+seguida, Por fim).
 
-| Item | What was done |
+| Item | O que foi feito |
+| **PDF** | Gerado `Caderno Dia 6 - POLITEC.pdf` com **121 páginas** e 80 seções no sumário paginado, em 2 passadas. O arquivo fica na pasta da aula e é publicado junto com o site |
 |---|---|
-| **Text** | Abertura and all 10 parts (80 sections) rewritten: no "e" in place of "é", no "esta" in place of "está", no travessões, no subjective adjectives, connectives after each full stop |
-| **Tooling** | `ptbr.py` (root) applies the accentuation to the text nodes of the generated HTML, without touching code, tags, attributes, SVG or Mermaid/DAX/SQL blocks. The dictionary is `ptbr_dict.json` (403 entries) |
-| **Call** | `gerar_caderno_aula6.py` calls `ptbr.acentuar_arquivo(...)` at the end of the build, so every regeneration keeps the orthography |
-| **Quiz fix** | The question about the grain of `fato_execucao` had the options of the old stateDiagram question; corrected to "1 execução de etapa" |
-| **Datasets** | Fixed 3 defects that broke the analysis: (1) `dim_etapa.etapa_key` did not match the key used by the fact, so the join showed the wrong stage name on the 41,5% bar; (2) missing headers in `dim_unidade` (`tipo`) and `dim_projeto` (`escopo`); (3) `tempo_total_min` renamed to `tempo_total_h` (the value is in hours) and `custo_minuto` renamed to `custo_execucao_rs` (the value is the execution cost in R$). The `unidade_padrao` field now carries the unit name instead of repeating the stage wait |
-| **Recipes** | The 5 panel recipes went from 19 to **72 steps in 8 blocks** (Excel, import, Power Query, model, measures, panel, filters and summary table, format and publish), with the DAX of the Pareto (`Rank da Etapa`, `% Acumulado da Espera`, `Espera por Etapa`) and the instructions for the secondary axis, the scale, the interactions between visuals, the conditional formatting of the matrix, the date table and the publication in the Service |
-| **Numbers** | The same seed (20260610) was kept, so the measured values did not change; only the schema and the labels were corrected |
+| **Texto** | Abertura e as 10 partes (80 seções) reescritas: sem "e" no lugar de "é", sem "esta" no lugar de "está", sem travessões, sem adjetivações, com conectivos depois de cada ponto final |
+| **Ferramenta** | `ptbr.py` (na raiz) aplica a acentuação nos nós de texto do HTML gerado, sem tocar em código, tags, atributos, SVG ou blocos Mermaid/DAX/SQL. O dicionário é `ptbr_dict.json`, com 403 entradas |
+| **Chamada** | `gerar_caderno_aula6.py` chama `ptbr.acentuar_arquivo(...)` no final do build, de modo que toda regeração mantém a ortografia |
+| **Quiz** | Corrigida a pergunta sobre o grão da tabela `fato_execucao`, que estava com as alternativas da pergunta antiga de stateDiagram; a resposta agora é "1 execução de etapa" |
+| **Datasets** | Corrigidos 3 defeitos que quebravam a análise e os labs: (1) o `dim_etapa.etapa_key` não correspondia à chave usada pela fato, e o join mostrava o nome errado da etapa na barra de 41,5%; (2) faltavam os cabeçalhos de `dim_unidade` (`tipo`) e `dim_projeto` (`escopo`); (3) `tempo_total_min` passou a `tempo_total_h`, porque o valor está em horas, e `custo_minuto` passou a `custo_execucao_rs`, porque o valor é o custo da execução em R$. O campo `unidade_padrao` passou a trazer o nome da unidade, e não a espera mediana da etapa |
+| **Receitas** | As 5 receitas de painel passaram de 19 para **72 passos em 8 blocos** (Excel, importação, Power Query, modelo, medidas, painel, filtros e tabela resumo, formatação e publicação), com o DAX do Pareto (`Rank da Etapa`, `% Acumulado da Espera`, `Espera por Etapa`) e as instruções de eixo secundário, escala, interações entre visuais, formatação condicional da matriz, marcação da tabela de datas e publicação no Service |
+| **Números** | A semente fixa `20260610` foi mantida, então os valores medidos não mudaram. Apenas o esquema e os rótulos foram corrigidos |
+| **Publicação** | Commit `3516501` na branch `main` do repositorio `renato0503/Aula_politec`. O site `https://renato0503.github.io/Aula_politec/` passou a servir o card novo da Aula 6, o caderno com 80 seções e os 5 workbooks para download |
 
-> When you write a new word in the generator, add the entry to `ptbr_dict.json`
-> so the accentuation stays correct.
+> Ao escrever uma palavra nova no gerador, inclua a entrada em
+> `ptbr_dict.json` para que a acentuação continue correta.
+
+---
+
+## Onde baixar
+
+| Arquivo | Caminho no site |
+|---|---|
+| Caderno (HTML) | `Aula 6/caderno-dia6.html` |
+| Workbook do Cenário 1 | `Aula 6/datasets/cenario1_processo_pericial/Cenario1_Requisicao_Pericial.xlsx` |
+| Workbook do Cenário 2 | `Aula 6/datasets/cenario2_processo_orcamento/Cenario2_Empenho_Contrato.xlsx` |
+| Workbook do Cenário 3 | `Aula 6/datasets/cenario3_processo_custodia/Cenario3_Cadeia_Custodia.xlsx` |
+| Workbook do Cenário 4 | `Aula 6/datasets/cenario4_local_crime/Cenario4_Local_Crime.xlsx` |
+| Workbook do Cenário 5 | `Aula 6/datasets/cenario5_analise_laboratorial/Cenario5_Analise_Laboratorial.xlsx` |
 
 ---
 
@@ -74,16 +89,20 @@ as 7 dimensões (`dim_etapa`, `dim_unidade`, `dim_sistema`,
 `dim_tipo_atividade`, `dim_status_execucao`, `dim_projeto`, `dim_calendario`).
 O grão da fato é **1 execução de etapa**, com espera e execução separadas.
 
-| # | Dataset | Workbook | Execuções | Gargalo medido |
-|---|---|---|---|---|
-| 1 | Requisição pericial | `Cenario1_Requisicao_Pericial.xlsx` | **10.352** | Fila perito (41,5%) |
-| 2 | Empenho e contrato | `Cenario2_Empenho_Contrato.xlsx` | **9.541** | Parecer + Autorização (51,2%) |
-| 3 | Cadeia de custódia | `Cenario3_Cadeia_Custodia.xlsx` | **10.840** | Guarda (35,3%) |
-| 4 | Local de crime | `Cenario4_Local_Crime.xlsx` | **12.664** | Deslocamento (35,2%) |
-| 5 | Análise laboratorial | `Cenario5_Analise_Laboratorial.xlsx` | **13.896** | Equipamento (47,1%) |
+| # | Dataset | Workbook | Execuções | Gargalo medido | |
+|---|---|---|---|---|---|
+| 1 | Requisição pericial | `Cenario1_Requisicao_Pericial.xlsx` | **10.352** | Fila perito (41,5%) | existente |
+| 2 | Empenho e contrato | `Cenario2_Empenho_Contrato.xlsx` | **9.541** | Parecer + Autorização (51,2%) | existente |
+| 3 | Cadeia de custódia | `Cenario3_Cadeia_Custodia.xlsx` | **10.840** | Guarda (35,3%) | existente |
+| 4 | Local de crime | `Cenario4_Local_Crime.xlsx` | **12.664** | Deslocamento (35,2%) | **novo** |
+| 5 | Análise laboratorial | `Cenario5_Analise_Laboratorial.xlsx` | **13.896** | Equipamento (47,1%) | **novo** |
 
 **Total: 57.293 execuções de etapa medidas.** Os CSVs continuam em cada pasta,
 como fonte e para quem preferir importar por pasta.
+
+Os dois cenários novos seguem o mesmo esquema dos três primeiros, com 8 etapas,
+5 a 7 unidades, 6 sistemas, 6 tipos de atividade, 4 status, 4 projetos e o
+calendário de 1.096 dias. Semente fixa: `20260610`.
 
 ### Onde estão
 
@@ -224,6 +243,7 @@ python -c "import ptbr; ptbr.acentuar_arquivo('Aula 6/caderno-dia6.html')"
 | Arquivo | Tamanho |
 |---|---|
 | `caderno-dia6.html` (fonte viva, tema claro/escuro) | 417 KB |
+| `Caderno Dia 6 - POLITEC.pdf` (121 páginas, sumário paginado) | 6,5 MB |
 | `gerar_caderno_aula6.py` (gerador de conteúdo) | 167 KB |
 | `gerar_datasets_aula6.py` (gerador dos 5 datasets) | 43 KB |
 | `gerar_excel_aula6.py` (workbooks Excel) | 13 KB |

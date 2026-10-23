@@ -19,7 +19,7 @@ materiais de pratica.
 | [3](Aula%203/) | Organizacao, Visualizacao e ETL | 64 | 4,0 MB | [144 KB](Aula%203/caderno-dia3.html) | 48 pág · 4,2 MB |
 | [4](Aula%204/) | Business Intelligence / Power BI | 107 | 6,3 MB | [227 KB](Aula%204/caderno-dia4.html) | PDF a regerar |
 | [5](Aula%205/) | Dashboards de BI - 5 cenarios com datasets proprios | 80 | — | [140 KB](Aula%205/caderno-dia5.html) | PDF opcional |
-| [6](Aula%206/) | Painel de Processo (manha) + Gestao de Projetos (tarde) | 80 | — | [417 KB](Aula%206/caderno-dia6.html) | PDF opcional |
+| [6](Aula%206/) | Painel de Processo (manha) + Gestao de Projetos (tarde) | 80 | — | [417 KB](Aula%206/caderno-dia6.html) | [121 pág · 6,5 MB](Aula%206/Caderno%20Dia%206%20-%20POLITEC.pdf) |
 
 Cada pasta `Aula N/` contem: `README.md` (indice da aula), `caderno-diaN.html`
 (fonte viva), `Caderno Dia N - POLITEC.pdf`, `Dia-N-Politec.pdf` (slides) e
@@ -67,11 +67,26 @@ Entregas da Aula 6:
 
 - **5 datasets de processo** (57.293 execucoes medidas), cada um em um
   **workbook `.xlsx` com 9 abas** (`LEIA-ME` + `fato_execucao` + 7 `dim_*`).
-- **5 receitas de painel** no caderno, uma por dataset, com 19 passos cada.
+- **5 receitas de painel** no caderno, uma por dataset, com **72 passos em 8
+  blocos** cada (antes eram 19).
 - **8 labs** (4 de painel pela manha + 4 de processo e mini app pela tarde).
 - **80 secoes em 10 partes**, com quiz, glossario e referencias.
 - Novo padrao de idioma: acentuacao completa, sem adjetivacoes, sem
   travessoes e com conectivos depois do ponto final (aplicado por `ptbr.py`).
+
+### O que foi feito nesta entrega (Aula 6)
+
+| Item | Detalhe |
+|---|---|
+| **Formato do curso** | Passa a ter manha de paineis/BI/analise e tarde de gestao de projetos e mini apps. O caderno foi reestruturado em **10 partes**: fundamentos do painel, 5 receitas, analise do processo, fundamentos de projeto, BPMN/Mermaid, do texto ao diagrama, TO-BE, 8 labs, 3 cenarios e fechamento |
+| **5 datasets** | 3 existentes (requisicao pericial, empenho e contrato, cadeia de custodia) + 2 novos (**atendimento de local de crime** e **analise laboratorial**). Total de **57.293 execucoes** medidas, com tempos de espera e execucao separados |
+| **Workbooks Excel** | Novo gerador `Aula 6/gerar_excel_aula6.py`: um `.xlsx` por dataset, com 9 abas (LEIA-ME + fato + 7 dims), cabecalho formatado, filtro, painel congelado e tabela-resumo medida |
+| **Receitas detalhadas** | A funcao `receita()` passou de 19 para **72 passos em 8 blocos** (Excel, importacao, Power Query, modelo, medidas, painel, filtros e tabela resumo, formatacao e publicacao), com o DAX do Pareto (`Rank da Etapa`, `% Acumulado da Espera`, `Espera por Etapa`) e as instrucoes de eixo secundario, escala, interacoes entre visuais, formatacao condicional da matriz e publicacao no Service |
+| **Reescrita em pt-BR** | Abertura e as 10 partes reescritas em portugues do Brasil: acentuacao completa, sem adjetivacoes, sem travessoes e com conectivos depois do ponto final. Nova ferramenta `ptbr.py` + `ptbr_dict.json` (403 entradas), chamada no fim do build |
+| **Correcoes nos datasets** | (1) `dim_etapa.etapa_key` alinhado com a chave usada pela fato, que estava quebrando o join do Pareto; (2) cabecalhos de `dim_unidade` (`tipo`) e `dim_projeto` (`escopo`); (3) `tempo_total_min` &rarr; `tempo_total_h` e `custo_minuto` &rarr; `custo_execucao_rs`; (4) `unidade_padrao` passou a trazer o nome da unidade |
+| **Quiz** | Corrigida a pergunta sobre o grao da tabela fato, que estava com as alternativas da pergunta de stateDiagram |
+| **PDF** | `Caderno Dia 6 - POLITEC.pdf` gerado com **121 paginas** e 80 secoes no sumario paginado (2 passadas), publicado junto com o site |
+| **Publicacao** | Commit `3516501` na branch `main`: site `https://renato0503.github.io/Aula_politec/` com o card novo da Aula 6, o caderno com 80 secoes, o PDF e os workbooks para download |
 
 ---
 
@@ -118,6 +133,36 @@ python validar.py 6
 ```
 
 **Criar uma nova aula** — siga `AGENTS.md` > "Como criar uma nova aula".
+
+---
+
+## Publicacao do site
+
+O site e publicado em **dois canais**, a partir do mesmo repositorio
+`renato0503/Aula_politec` (branch `main`):
+
+| Canal | Endereco |
+|---|---|
+| GitHub Pages | **https://renato0503.github.io/Aula_politec/** |
+| Firebase Hosting | https://aulapolitec.web.app |
+
+Publicar uma alteracao:
+
+```powershell
+python "Aula N\gerar_caderno_aulaN.py"     # gera o HTML
+python validar.py N                        # precisa imprimir OK
+git add <arquivos da aula> <docs>
+git commit -m "Aula N: <resumo>"
+git push origin main
+```
+
+> O cache do CDN do GitHub Pages leva de **1 a 10 minutos**. Apos o push, a
+> pagina pode continuar servindo a versao anterior por alguns minutos. Para
+> conferir se o commit chegou, use
+> `https://raw.githubusercontent.com/renato0503/Aula_politec/main/<caminho>`.
+>
+> Os **workbooks `.xlsx` da Aula 6** sao publicados junto e podem ser baixados
+> direto do site, em `Aula 6/datasets/cenarioN/`.
 
 ---
 

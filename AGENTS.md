@@ -464,7 +464,43 @@ $edge = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 
 ---
 
-## 8. Checklist de "pronto"
+## 8. Publicacao do site
+
+O site do curso e publicado em **dois lugares**, a partir do mesmo repositorio
+`renato0503/Aula_politec` (branch `main`):
+
+| Canal | Endereco | Como e publicado |
+|---|---|---|
+| GitHub Pages | `https://renato0503.github.io/Aula_politec/` | Push na branch `main`: o Pages serve a raiz do repositorio |
+| Firebase Hosting | `https://aulapolitec.web.app` | `firebase deploy` na raiz (projeto `aulapolitec`) |
+
+Fluxo de publicacao:
+
+```powershell
+python "Aula N\gerar_caderno_aulaN.py"     # gera o HTML
+python validar.py N                        # precisa imprimir OK
+git add <arquivos da aula> <docs>
+git commit -m "Aula N: <resumo>"
+git push origin main
+```
+
+Regras de publicacao:
+
+- **Push apenas do que pertence a entrega.** Arquivos modificados por outros
+  trabalhos (por exemplo, os workbooks de dados da Aula 4) ficam fora do commit.
+- **O cache do CDN do GitHub Pages leva de 1 a 10 minutos.** Apos o push, a
+  pagina pode continuar servindo a versao anterior por alguns minutos. Para
+  conferir se o commit chegou, use
+  `https://raw.githubusercontent.com/renato0503/Aula_politec/main/<caminho>`.
+- **Os workbooks `.xlsx` sao publicados junto**, e podem ser baixados direto do
+  site, em `Aula 6/datasets/cenarioN/`.
+- O `index.html` da raiz e o hub do curso: ele resume as aulas e deve ser
+  atualizado sempre que uma aula mudar de tema, de estrutura ou de numero de
+  secoes.
+
+---
+
+## 9. Checklist de "pronto"
 
 - [ ] `README.md` da aula escrito (partes + labs + cenarios + estatisticas).
 - [ ] `caderno-diaN.html` abre com duplo clique; TOC e main sem sobreposicao.
@@ -474,10 +510,13 @@ $edge = "C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe"
 - [ ] Quiz com `<details>` (gabarito) no fim; respostas abrem no PDF.
 - [ ] `Caderno Dia N - POLITEC.pdf` gerado (quando desejado).
 - [ ] Tudo dentro de `Aula N/`; nada solto na raiz.
+- [ ] `AGENTS.md`, `README.md` e `Aula N/README.md` atualizados com o que foi
+      feito, e o `index.html` da raiz conferido.
+- [ ] Commit feito e `git push origin main` executado.
 
 ---
 
-## 9. Historico de producao
+## 10. Historico de producao
 
 | Etapa | O que foi feito |
 |---|---|
@@ -516,6 +555,10 @@ Melhorias pendentes:
 | Aula 6 — receitas detalhadas | A funcao `receita()` do gerador passou a produzir **72 passos em 8 blocos** por dataset (antes eram 19): (1) preparar o arquivo no Excel, (2) importar os dados no Power BI, (3) tratar no Power Query, (4) montar o modelo, (5) criar as medidas, (6) montar o painel, (7) filtros, segmentacoes e tabela resumo, (8) formatar, salvar e publicar. Cada passo indica o caminho do menu, o campo ou a opcao e o que esperar na tela. Acrescentadas as medidas do Pareto (`Rank da Etapa`, `% Acumulado da Espera` e `Espera por Etapa`) e as instrucoes de eixo secundario, escala, interacoes entre visuais, formatação condicional da matriz, marcacao da tabela de datas e publicacao no Service. |
 
 | Aula 6 — integridade dos datasets | Corrigidos tres defeitos que quebravam a analise e os labs: (1) **chaves de etapa desalinhadas** — `dim_etapa.etapa_key` usava `i+1` enquanto a fato usava a chave alfabetica de `dim()`, o que fazia o join errado (a etapa 41,5% aparecia com o nome errado); (2) **cabecalhos incompletos** em `dim_unidade` (faltava `tipo`) e `dim_projeto` (faltava `escopo`); (3) **colunas renomeadas** para o que realmente significam — `tempo_total_min` passou a `tempo_total_h` (o valor esta em horas) e `custo_minuto` passou a `custo_execucao_rs` (e o custo da execucao em R$). O campo `unidade_padrao` da `dim_etapa`, que antes repetia a espera mediana da etapa, passou a trazer o nome da unidade. Semente fixa `20260610` mantida, entao os valores nao mudaram. |
+
+| Aula 6 — publicacao no GitHub Pages | Commit `3516501` na branch `main` do repositorio `renato0503/Aula_politec`, com o caderno reescrito em pt-BR, as 5 receitas com 72 passos, os 5 workbooks `.xlsx` e a documentacao atualizada. O site `https://renato0503.github.io/Aula_politec/` passou a servir o card novo da Aula 6, o caderno com 80 secoes e os workbooks para download (verificado com HTTP 200). O `index.html` da raiz foi atualizado com o tema, os numeros e o rodape do curso. |
+
+| Aula 6 — PDF do caderno | Gerado `Aula 6/Caderno Dia 6 - POLITEC.pdf` com **121 paginas** e 80 secoes no sumario paginado, em 2 passadas (`python exportar_pdf.py 6`). O PDF acompanha o HTML no site, junto dos workbooks. |
 
 ---
 
