@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="pt-BR" data-tema="claro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Página do projeto — Fase de Ideação | POLITEC/MT</title>
+<meta name="description" content="Página de um projeto da fase de ideação: problema, papéis, AS-IS, TO-BE, MVP, dados, regras, KPIs, hospedagem e arquivos.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  --paper:#faf9f6; --surface:#ffffff; --raised:#f3f1ec; --border:#e3e0d8;
+  --ink:#1a1d1e; --ink-soft:#4a4f52; --ink-faint:#82888c;
+  --accent:#12507f; --accent-soft:#e6eff7;
+  --verde:#1c8a5b; --verde-soft:#e6f4ec;
+  --ambar:#b4790a; --ambar-soft:#fbf1de;
+  --roxo:#6b3fa0; --roxo-soft:#efe8f7;
+  --vermelho:#c0392b; --vermelho-soft:#fbeae8;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 26px -14px rgba(20,30,40,.25);
+}
+html[data-tema="escuro"]{
+  --paper:#15171a; --surface:#1b1e22; --raised:#20242a; --border:#2c3036;
+  --ink:#eceeef; --ink-soft:#b6bcc2; --ink-faint:#7d858c;
+  --accent:#5fa8dd; --accent-soft:#16283a;
+  --verde:#4fc08c; --verde-soft:#152c23;
+  --ambar:#e0a33a; --ambar-soft:#2b2415;
+  --roxo:#b18ce0; --roxo-soft:#241c33;
+  --vermelho:#e9705f; --vermelho-soft:#2e1a17;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -16px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.6}
+h1,h2,h3,.kicker,.meta,.foot,.botao,.sec h2,.tag{font-family:'Archivo',system-ui,sans-serif}
+code,.mono{font-family:'JetBrains Mono',Consolas,monospace}
+.wrap{max-width:1080px;margin:0 auto;padding:0 24px}
+header.top{padding:36px 0 22px;border-bottom:1px solid var(--border);
+  background:linear-gradient(180deg,var(--surface),var(--paper))}
+.kicker{display:inline-block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:700;color:var(--accent);background:var(--accent-soft);padding:4px 12px;border-radius:20px}
+h1{font-size:clamp(22px,3vw,32px);line-height:1.15;letter-spacing:-.015em;margin:12px 0 8px}
+header p{color:var(--ink-soft);font-size:16px;max-width:760px;margin:0}
+.meta{font-size:13px;color:var(--ink-faint);margin-top:12px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.botao{font-family:'Archivo',sans-serif;font-size:13px;font-weight:700;padding:8px 14px;border-radius:10px;
+  border:1px solid var(--border);background:var(--surface);color:var(--ink-soft);cursor:pointer;text-decoration:none;display:inline-block}
+.botao:hover{border-color:var(--accent);color:var(--accent)}
+.botao.forte{background:var(--accent);border-color:var(--accent);color:#fff}
+main{padding:24px 0 60px}
+.sec{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 24px;
+  margin-bottom:16px;box-shadow:var(--shadow)}
+.sec h2{font-size:14px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin:0 0 10px}
+.sec h3{font-size:15.5px;margin:16px 0 6px}
+p{margin:0 0 10px}
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin:8px 0 4px}
+th{background:var(--raised);text-align:left;font-size:11px;font-weight:800;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-soft);padding:9px 8px;border-bottom:1px solid var(--border)}
+td{padding:7px 8px;border-bottom:1px solid var(--border);vertical-align:top;color:var(--ink-soft)}
+td b{color:var(--ink)}
+.tabela-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:10px}
+.tag{display:inline-block;font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:20px;
+  background:var(--raised);border:1px solid var(--border);color:var(--ink-soft);margin:0 6px 6px 0}
+.tag.bom{background:var(--verde-soft);border-color:var(--verde);color:var(--verde)}
+.tag.ambar{background:var(--ambar-soft);border-color:var(--ambar);color:var(--ambar)}
+.tag.roxo{background:var(--roxo-soft);border-color:var(--roxo);color:var(--roxo)}
+.arquivo{display:flex;gap:12px;align-items:center;padding:9px 0;border-bottom:1px solid var(--border)}
+.arquivo .n{flex:1;font-family:'Archivo',sans-serif;font-size:14px}
+.arquivo .t{font-size:12px;color:var(--ink-faint)}
+.aviso{background:var(--ambar-soft);border:1px solid var(--ambar);border-radius:12px;padding:12px 16px;font-size:14.5px;margin:16px 0}
+.aviso.erro{background:var(--vermelho-soft);border-color:var(--vermelho)}
+.aviso.ok{background:var(--verde-soft);border-color:var(--verde)}
+footer.foot{margin-top:36px;padding:22px 0 60px;border-top:1px solid var(--border);color:var(--ink-faint);font-size:13px}
+@media print{.botao{display:none}.sec{break-inside:avoid}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <span class="kicker">Projeto da fase de ideação</span>
+    <h1 id="titulo">Carregando...</h1>
+    <p id="resumo"></p>
+    <div class="meta">
+      <span id="meta"></span>
+      <a class="botao" href="index.html">Voltar ao hub</a>
+      <button class="botao" id="tema" type="button">Tema: claro</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="mensagem"></div>
+  <div id="corpo" class="oculto"></div>
+</main>
+
+<footer class="foot"><div class="wrap">
+  <b>Curso de Capacitação POLITEC/MT</b> · Fase de ideação e prototipação · Professor Renato Rosa.
+</div></footer>
+
+<script type="module">
+const corpo = document.getElementById("corpo");
+
+/* ------------------------------------------------------------------
+   PAPEL (ROLE) do Mermaid: o mesmo texto de prompt-bpmn-mermaid.md,
+   usado para montar o pedido ja preenchido com os dados do projeto.
+   ------------------------------------------------------------------ */
+const ROLE_MERMAID = `Voce e um Arquiteto de Software Senior, Engenheiro de Confiabilidade (SRE) e Especialista em Documentacao Tecnica. Sua missao e traduzir lógicas complexas, fluxos de usuarios, integracoes e fluxos de processo em diagramas visuais precisos usando EXCLUSIVAMENTE a sintaxe do Mermaid.js.
+
+REGRAS DE SELECAO: use flowchart TD ou LR para fluxos de decisao e jornadas; sequenceDiagram para interacoes cronologicas; erDiagram para modelo de dados; stateDiagram-v2 para estados de uma entidade.
+
+REGRAS DE CODIGO: (1) o diagrama vai sempre em bloco de codigo Markdown com a tag mermaid; (2) use subgraph para agrupar, com uma swimlane por papel; (3) use %% para anotar trechos criticos; (4) use os nomes reais de etapa, papel, sistema e documento que vieram no levantamento, sem inventar; (5) escolha a direcao TD ou LR para o diagrama nao ficar largo nem longo demais; (6) ao final, sugira salvar em docs/diagrams/.
+
+CONVENCOES BPMN NO MERMAID: evento de inicio e fim como A(["..."]) com classes :::inicio e :::fim; tarefa como ["..."] com :::tarefa; tarefa automatizada com :::auto; decisao como {"..."} com :::decisao; documento como [(...)] com :::dado; pool e swimlane como subgraph <papel>["<papel>"]. A etapa que mais espera recebe a classe :::gargalo e a nota %% gargalo: <valor>. Toda etapa automatizavel recebe a nota %% automatizavel: <porque>. Todo diagrama termina com uma subgrafo de legenda com as classes inicio, fim, tarefa, auto, gargalo, decisao, paralelo e dado.`;
+
+function linhaTexto(v){ return v ? String(v) : "-"; }
+function listaTexto(arr, campos){
+  return (arr||[]).map((l,i)=>{
+    const partes = campos.map(c=> c+": "+linhaTexto(l[c]));
+    return (i+1)+") "+partes.join(" | ");
+  }).join("\n");
+}
+function montarPrompt(p, modo){
+  const asis = (p.asIs && p.asIs.etapas) || [];
+  const papeis = p.papeis || [];
+  const tobe = (p.toBe && p.toBe.etapas) || [];
+  const arts = (p.mvp && p.mvp.artefatos) || [];
+  const metricas = (p.metricas && p.metricas.tabela) || [];
+  const fontes = (p.fontes && p.fontes.tabela) || [];
+
+  const dados = [
+    "PROJETO: " + linhaTexto(p.projeto),
+    "TIPO: " + linhaTexto(p.tipo),
+    "RESUMO: " + linhaTexto(p.resumo),
+    "",
+    "AS-IS",
+    "  inicio: " + linhaTexto(p.asIs && p.asIs.inicio),
+    "  fim: " + linhaTexto(p.asIs && p.asIs.fim),
+    "  entradas: " + linhaTexto(p.asIs && p.asIs.entradas),
+    "  saidas: " + linhaTexto(p.asIs && p.asIs.saidas),
+    "  volume: " + linhaTexto(p.asIs && p.asIs.volume) + " | duracao: " + linhaTexto(p.asIs && p.asIs.duracao),
+    "  decisoes: " + linhaTexto(p.asIs && p.asIs.decisoes),
+    "  excecoes: " + linhaTexto(p.asIs && p.asIs.excecoes),
+    "  ja digitalizado: " + linhaTexto(p.asIs && p.asIs.digital),
+    "  etapas:",
+    listaTexto(asis, ["etapa","papel","entra","acao","sai","sistema","regra","espera","tempo","auto"]),
+    "",
+    "PAPEIS (swimlanes)",
+    listaTexto(papeis, ["papel","quem","ve","faz","naofaz"]),
+    "",
+    "TO-BE",
+    "  visao: " + linhaTexto(p.toBe && p.toBe.visao),
+    "  mudanca principal: " + linhaTexto(p.toBe && p.toBe.mudanca),
+    "  fica igual: " + linhaTexto(p.toBe && p.toBe.inalterado),
+    "  nao pode mudar: " + linhaTexto(p.toBe && p.toBe.restricao),
+    "  etapas:",
+    listaTexto(tobe, ["etapa","muda","quem","beneficio","esforco"]),
+    "",
+    "MVP (telas)",
+    listaTexto(arts, ["rota","nome","objetivo","usuario","dados","acao","regra","tipo","verificacao"]),
+    "",
+    "KPIs",
+    listaTexto(metricas, ["nome","pergunta","formula","fonte","base","esperado"]),
+    "",
+    "FONTES DE DADOS",
+    listaTexto(fontes, ["fonte","tipo","onde","existe","linha","volume","campos","lgpd"])
+  ].join("\n");
+
+  const comando = {
+    asis: "Mapeie o workflow de " + linhaTexto(p.projeto) + " no estado atual. Entregue (1) o diagrama flowchart TD em bloco mermaid, com swimlane por papel, evento de inicio, tarefas, gateways de decisao, objetos de dados, evento de fim e legenda; (2) a tabela do gargalo, com as tres etapas que mais esperam e o total de espera do processo; (3) a lista de candidatos a automacao, com justificativa. Salve como docs/diagrams/asis-<slug>.md",
+    tobe: "Mapeie o TO-BE de " + linhaTexto(p.projeto) + ", com a intervencao dentro do processo. Use o AS-IS ja mapeado e mantenha a estrutura atual, trocando apenas as etapas que mudam. Entregue (1) o diagrama flowchart TD em bloco mermaid; (2) a tabela do que muda, do que fica igual e do que nao pode mudar; (3) o ganho esperado por etapa, com a metrica que mede. Salve como docs/diagrams/tobe-<slug>.md",
+    automacao: "Mapeie o TO-BE com automacao de " + linhaTexto(p.projeto) + ". Use a mesma base do TO-BE normal, com a etapa automatizada em destaque, a nota do que a maquina executa e o ponto de intervencao marcado. Entregue (1) o diagrama flowchart TD em bloco mermaid, com as etapas automatizadas em :::auto; (2) a tabela de interacao, com o que o humano faz, o que a maquina faz e o que o humano aprova; (3) o risco da automacao e o limite do que nao pode ser automatizado. Salve como docs/diagrams/tobe-automacao-<slug>.md"
+  }[modo];
+
+  return "# PAPEL (ROLE)\n\n" + ROLE_MERMAID +
+    "\n\n# COMANDO\n\n" + comando +
+    "\n\n# DADOS DO LEVANTAMENTO\n\n```text\n" + dados + "\n```\n";
+}
+
+const mensagem = document.getElementById("mensagem");
+
+function esc(s){
+  return String(s === undefined || s === null ? "" : s)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function sec(titulo, conteudo){
+  return '<section class="sec"><h2>'+titulo+'</h2>'+conteudo+'</section>';
+}
+function tabela(cols, linhas){
+  if(!linhas || !linhas.length) return '<p style="color:var(--ink-faint)">Nada preenchido.</p>';
+  let s = '<div class="tabela-wrap"><table><thead><tr>'+cols.map(c=>'<th>'+esc(c)+'</th>').join("")+'</tr></thead><tbody>';
+  linhas.forEach(l=>{ s += '<tr>'+l.map(c=>'<td>'+c+'</td>').join("")+'</tr>'; });
+  return s + '</tbody></table></div>';
+}
+function valor(v){ return v ? esc(v) : '<span style="color:var(--ink-faint)">-</span>'; }
+
+function render(p){
+  document.getElementById("titulo").textContent = p.projeto || "(sem título)";
+  document.getElementById("resumo").textContent = p.resumo || "";
+  document.getElementById("meta").innerHTML =
+    esc(p.aluno||"") + " · " + esc(p.unidade||"") + " · " + esc(p.tipo||"") +
+    (p.criadoEmTexto? " · enviado em "+esc(p.criadoEmTexto) : "");
+
+  const asis = (p.asIs && p.asIs.etapas) || [];
+  const papeis = p.papeis || [];
+  const tobe = (p.toBe && p.toBe.etapas) || [];
+  const arts = (p.mvp && p.mvp.artefatos) || [];
+  const fontes = (p.fontes && p.fontes.tabela) || [];
+  const metricas = (p.metricas && p.metricas.tabela) || [];
+  const host = (p.hospedagem && p.hospedagem.opcoes) || [];
+  const ents = (p.especificacao && p.especificacao.entidades) || [];
+  const regras = (p.especificacao && p.especificacao.regras) || [];
+  const refs = (p.requisitos && p.requisitos.referencias) || [];
+  const marcos = (p.plano && p.plano.marcos) || [];
+  const riscos = (p.plano && p.plano.riscos) || [];
+  const arquivos = p.arquivos || [];
+
+  let h = "";
+  h += sec("1. Problema (a dor)", "<p>"+valor(p.problema)+"</p><p>"+valor(p.impacto)+"</p>"+
+    "<p><b>Como é hoje:</b> "+valor(p.estadoAtual)+"</p>"+
+    "<p><b>Não automatizável:</b> "+valor(p.limite)+"</p>"+
+    "<p>"+((p.afetados||[]).map(a=>'<span class="tag">'+esc(a)+'</span>').join(""))+"</p>");
+  h += sec("2. Objetivo do MVP", "<p><b>Faz:</b> "+valor(p.mvp && p.mvp.objetivo)+"</p>"+
+    "<p><b>Não faz:</b> "+valor(p.mvp && p.mvp.naoFaz)+"</p>"+
+    "<p><b>Plataforma:</b> "+valor(p.mvp && p.mvp.plataforma)+" · <b>Primeira tela:</b> "+valor(p.mvp && p.mvp.primeiraTela)+"</p>"+
+    "<p><b>Simulado:</b> "+valor(p.mvp && p.mvp.simulado)+"</p>"+
+    "<p><b>Critério de aceite:</b> "+valor(p.mvp && p.mvp.criterio)+"</p>"+
+    "<p><b>Dados de exemplo:</b> "+valor(p.mvp && p.mvp.dados)+"</p>");
+  h += sec("3. Usuários e papéis", tabela(
+    ["Papel","Quem é","Vê","Faz","Não pode","Registro"],
+    papeis.map(l=>[valor(l.papel),valor(l.quem),valor(l.ve),valor(l.faz),valor(l.naofaz),valor(l.registro)])));
+  h += sec("4. AS-IS: o fluxo de hoje",
+    "<p><b>Início:</b> "+valor(p.asIs && p.asIs.inicio)+" · <b>Fim:</b> "+valor(p.asIs && p.asIs.fim)+"</p>"+
+    "<p><b>Entradas:</b> "+valor(p.asIs && p.asIs.entradas)+" · <b>Saídas:</b> "+valor(p.asIs && p.asIs.saidas)+"</p>"+
+    "<p><b>Volume:</b> "+valor(p.asIs && p.asIs.volume)+" · <b>Duração:</b> "+valor(p.asIs && p.asIs.duracao)+
+    " · <b>Frequência:</b> "+valor(p.asIs && p.asIs.frequencia)+"</p>"+
+    tabela(["Etapa","Quem faz","O que entra","Ação","O que sai","Sistema","Regra","Onde espera","Tempo (h)","Automatizável"],
+      asis.map(l=>[valor(l.etapa),valor(l.papel),valor(l.entra),valor(l.acao),valor(l.sai),valor(l.sistema),valor(l.regra),valor(l.espera),valor(l.tempo),valor(l.auto)]))+
+    "<p><b>Decisões:</b> "+valor(p.asIs && p.asIs.decisoes)+"</p>"+
+    "<p><b>Exceções:</b> "+valor(p.asIs && p.asIs.excecoes)+"</p>"+
+    "<p><b>Já digitalizado:</b> "+valor(p.asIs && p.asIs.digital)+"</p>");
+  h += sec("5. TO-BE: o fluxo depois da mudança",
+    "<p>"+valor(p.toBe && p.toBe.visao)+"</p>"+
+    "<p><b>Mudança principal:</b> "+valor(p.toBe && p.toBe.mudanca)+"</p>"+
+    "<p><b>Fica igual:</b> "+valor(p.toBe && p.toBe.inalterado)+" · <b>Não pode mudar:</b> "+valor(p.toBe && p.toBe.restricao)+"</p>"+
+    tabela(["Etapa","O que muda","Quem executa","Benefício","Esforço"],
+      tobe.map(l=>[valor(l.etapa),valor(l.muda),valor(l.quem),valor(l.beneficio),valor(l.esforco)])));
+  h += sec("6. MVP: telas e artefatos", tabela(
+    ["Rota","Artefato","Objetivo","Quem usa","Dados","Ação","Regra","Tipo","Verificável como","MVP"],
+    arts.map(l=>[valor(l.rota),valor(l.nome),valor(l.objetivo),valor(l.usuario),valor(l.dados),valor(l.acao),valor(l.regra),valor(l.tipo),valor(l.verificacao),valor(l.mvp)])));
+  h += sec("7. Dados e regras de negócio",
+    tabela(["Entidade","Representa","Colunas","Chave","Volume","Origem","Sintético"],
+      ents.map(l=>[valor(l.entidade),valor(l.representa),valor(l.colunas),valor(l.chave),valor(l.volume),valor(l.origem),valor(l.sintetico)]))+
+    "<h3>Regras</h3>"+
+    tabela(["ID","Regra","Quando","Exceção","Quem valida","Tipo"],
+      regras.map(l=>[valor(l.id),valor(l.regra),valor(l.quando),valor(l.excecao),valor(l.valida),valor(l.tipo)])));
+  h += sec("8. KPIs: linha de base e valor esperado", tabela(
+    ["Métrica","Pergunta","Fórmula","Fonte","Base","Esperado","Como medir"],
+    metricas.map(l=>[valor(l.nome),valor(l.pergunta),valor(l.formula),valor(l.fonte),valor(l.base),valor(l.esperado),valor(l.medir)]))+
+    "<p><b>Período da base:</b> "+valor(p.metricas && p.metricas.periodo)+"</p>");
+  h += sec("9. Fontes de dados", tabela(
+    ["Fonte","Tipo","Onde","Existe","Uma linha é","Volume","Campos de data","Atualiza","LGPD"],
+    fontes.map(l=>[valor(l.fonte),valor(l.tipo),valor(l.onde),valor(l.existe),valor(l.linha),valor(l.volume),valor(l.campos),valor(l.atualiza),valor(l.lgpd)]))+
+    "<p><b>Acesso:</b> "+valor(p.fontes && p.fontes.acesso)+" · <b>A coletar:</b> "+valor(p.fontes && p.fontes.coletar)+"</p>");
+  h += sec("10. Hospedagem e stack",
+    "<p><b>Escolhida:</b> "+valor(p.hospedagem && p.hospedagem.escolhida)+"</p>"+
+    "<p><b>Stack:</b> "+valor(p.especificacao && p.especificacao.stack)+"</p>"+
+    "<p>"+valor(p.especificacao && p.especificacao.stackDetalhe)+"</p>"+
+    tabela(["Opção","Tipo","Onde roda","Custo","Mantém","Limitação"],
+      host.map(l=>[valor(l.opcao),valor(l.tipo),valor(l.onde),valor(l.custo),valor(l.mantem),valor(l.limite)]))+
+    "<p><b>Contas:</b> "+valor(p.hospedagem && p.hospedagem.contas)+" · <b>Custo:</b> "+valor(p.hospedagem && p.hospedagem.custo)+"</p>");
+  h += sec("11. Restrições e LGPD",
+    "<p>"+valor(p.requisitos && p.requisitos.restricoes)+"</p>"+
+    "<p><b>Dados pessoais:</b> "+valor(p.especificacao && p.especificacao.lgpd && p.especificacao.lgpd.dados)+"</p>"+
+    "<p><b>Base legal:</b> "+valor(p.especificacao && p.especificacao.lgpd && p.especificacao.lgpd.base)+"</p>"+
+    "<p><b>Retenção:</b> "+valor(p.especificacao && p.especificacao.lgpd && p.especificacao.lgpd.retencao)+"</p>"+
+    "<p><b>Acesso:</b> "+valor(p.especificacao && p.especificacao.lgpd && p.especificacao.lgpd.acesso)+"</p>"+
+    "<p>"+((p.requisitos && p.requisitos.itens || []).map(a=>'<span class="tag">'+esc(a)+'</span>').join(""))+"</p>");
+  h += sec("12. Pesquisa de apoio", tabela(
+    ["Referência","Tipo","Fonte","Ano","Dado extraído","Uso na defesa","Link conferido"],
+    refs.map(l=>[valor(l.ref),valor(l.tipo),valor(l.fonte),valor(l.ano),valor(l.dado),valor(l.uso),valor(l.conferido)]))+
+    "<p><b>Hipótese de campo:</b> "+valor(p.requisitos && p.requisitos.hipotese)+"</p>"+
+    "<p><b>Lacunas:</b> "+valor(p.requisitos && p.requisitos.lacunas)+"</p>");
+  h += sec("13. Marcos, riscos e defesa",
+    tabela(["Marco","Data","Responsável","Depende de","Situação"], marcos.map(l=>[valor(l.marco),valor(l.data),valor(l.resp),valor(l.dep),valor(l.sit)]))+
+    tabela(["Risco","Probabilidade","Impacto","Mitigação"], riscos.map(l=>[valor(l.risco),valor(l.prob),valor(l.imp),valor(l.mit)]))+
+    "<p><b>Frase de defesa:</b> "+valor(p.defesa && p.defesa.frase)+"</p>"+
+    "<p><b>Provas:</b> "+valor(p.defesa && p.defesa.provas)+"</p>"+
+    "<p><b>Piloto:</b> "+valor(p.defesa && p.defesa.piloto)+" · <b>Risco:</b> "+valor(p.defesa && p.defesa.risco)+"</p>");
+  h += '<section class="sec" id="arquivos"><h2>14. Arquivos enviados ('+arquivos.length+')</h2>'+
+    (arquivos.length? arquivos.map(a=>'<div class="arquivo"><span class="n">'+esc(a.nome)+
+      '</span><span class="t">'+Math.round((a.tamanho||0)/1024)+" KB</span>"+
+      '<button class="botao" data-download="'+esc(a.docId||"")+'" data-nome="'+esc(a.nome)+'" type="button">Baixar</button></div>').join("")
+      : '<p style="color:var(--ink-faint)">Nenhum arquivo enviado.</p>')+
+    ((p.arquivosExternos||[]).length? "<h3>Enviados por e-mail (acima do limite)</h3>"+
+      p.arquivosExternos.map(a=>'<div class="arquivo"><span class="n">'+esc(a.nome)+
+        '</span><span class="t">'+Math.round((a.tamanho||0)/1024)+" KB</span>"+
+        '<span class="t">'+esc(a.motivo||"")+'</span></div>').join("") : "")+
+    (p.documentos && p.documentos.descricao? "<p><b>Descrição:</b> "+esc(p.documentos.descricao)+"</p>" : "")+
+    (p.documentos && p.documentos.faltando? "<p><b>Falta:</b> "+esc(p.documentos.faltando)+"</p>" : "")+"</section>";
+
+  h += '<section class="sec" id="diagramas"><h2>15. Diagramas em Mermaid (BPMN)</h2>'+
+    "<p>Os três diagramas saem da mesma fonte: o levantamento acima. Clique no comando "+
+    "para copiar o prompt com os dados do projeto ja preenchidos, cole no Antigravity "+
+    "(ou em qualquer chat de IA) e revise o resultado.</p>"+
+    '<div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">'+
+      '<button class="botao" data-prompt="asis" type="button">Copiar prompt do AS-IS</button>'+
+      '<button class="botao" data-prompt="tobe" type="button">Copiar prompt do TO-BE</button>'+
+      '<button class="botao" data-prompt="automacao" type="button">Copiar prompt do TO-BE com automação</button>'+
+      '<button class="botao" id="btnBaixarPrompt" type="button">Baixar os 3 prompts (.md)</button>'+
+    "</div>"+
+    '<div id="statusPrompt" style="font-size:13.5px;color:var(--ink-soft);margin-top:10px"></div>'+
+    '<div class="tabela-wrap" style="margin-top:14px"><table><thead><tr>'+
+      "<th>Rota</th><th>Tela</th><th>Tipo</th><th>Verificável como</th></tr></thead><tbody>"+
+      arts.map(l=>"<tr><td>"+valor(l.rota)+"</td><td>"+valor(l.nome)+"</td><td>"+valor(l.tipo)+
+        "</td><td>"+valor(l.verificacao)+"</td></tr>").join("")+
+    "</tbody></table></div></section>";
+
+  corpo.innerHTML = h;
+  corpo.classList.remove("oculto");
+
+  const stPrompt = document.getElementById("statusPrompt");
+  corpo.querySelectorAll("[data-prompt]").forEach(b=>{
+    b.addEventListener("click", async ()=>{
+      const txt = montarPrompt(p, b.dataset.prompt);
+      try{ await navigator.clipboard.writeText(txt); stPrompt.textContent = "Prompt copiado ("+txt.length+" caracteres). Cole no Antigravity."; }
+      catch(e){ stPrompt.textContent = "Não consegui copiar. Use o botão de baixar."; }
+    });
+  });
+  document.getElementById("btnBaixarPrompt").addEventListener("click", ()=>{
+    const txt = "# Prompts Mermaid — " + (p.projeto||"projeto") + "\n\n" +
+      "## AS-IS\n\n```text\n"+montarPrompt(p,"asis")+"\n```\n\n" +
+      "## TO-BE\n\n```text\n"+montarPrompt(p,"tobe")+"\n```\n\n" +
+      "## TO-BE com automação\n\n```text\n"+montarPrompt(p,"automacao")+"\n```\n";
+    const blob = new Blob([txt], {type:"text/markdown;charset=utf-8"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "prompts-mermaid-" + String(p.projeto||"projeto").replace(/[^\w\-]+/g,"_") + ".md";
+    a.click();
+  });
+
+  /* download dos arquivos guardados no Firestore (colecao ideacao_arquivos) */
+  corpo.querySelectorAll("[data-download]").forEach(b=>{
+    b.addEventListener("click", async ()=>{
+      const idArquivo = b.dataset.download;
+      if(!idArquivo) return;
+      b.textContent = "Baixando...";
+      try{
+        const mod = await import("./firebase-config.js");
+        const m = await mod.iniciarFirebase();
+        const snap = await m.fs.getDoc(m.fs.doc(m.db, mod.COLECAO_ARQUIVOS, idArquivo));
+        if(!snap.exists()){ b.textContent = "Arquivo não encontrado"; return; }
+        const d = snap.data();
+        const bin = atob(d.base64 || "");
+        const bytes = new Uint8Array(bin.length);
+        for(let i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i);
+        const url = URL.createObjectURL(new Blob([bytes], {type: d.tipo || "application/octet-stream"}));
+        const a = document.createElement("a");
+        a.href = url; a.download = d.nome || "arquivo";
+        a.click();
+        setTimeout(()=>URL.revokeObjectURL(url), 2000);
+        b.textContent = "Baixar";
+      }catch(e){
+        b.textContent = "Erro: " + (e && e.message ? e.message : e);
+      }
+    });
+  });
+}
+
+async function carregar(){
+  const id = new URLSearchParams(location.search).get("id");
+  if(!id){
+    mensagem.innerHTML = '<div class="aviso erro">Falta o identificador do projeto. ' +
+      '<a href="index.html">Volte ao hub</a> e escolha um cartão.</div>';
+    return;
+  }
+  try{
+    const mod = await import("./firebase-config.js");
+    const m = await mod.iniciarFirebase();
+    const fs = m.fs;
+    const snap = await fs.getDoc(fs.doc(m.db, mod.COLECAO, id));
+    if(!snap.exists()){
+      mensagem.innerHTML = '<div class="aviso erro">Projeto não encontrado no Firestore. ' +
+        'Confira o identificador <code>'+esc(id)+'</code>.</div>';
+      return;
+    }
+    const p = snap.data() || {};
+    p.id = snap.id;
+    if(p.criadoEm && p.criadoEm.toDate) p.criadoEmTexto = p.criadoEm.toDate().toLocaleString("pt-BR");
+    render(p);
+  }catch(e){
+    mensagem.innerHTML = '<div class="aviso erro"><b>Não consegui ler o projeto.</b> '+
+      esc(e && e.message ? e.message : e)+'</div>';
+  }
+}
+
+document.getElementById("tema").addEventListener("click", ()=>{
+  const h = document.documentElement;
+  const novo = h.dataset.tema === "escuro" ? "claro" : "escuro";
+  h.dataset.tema = novo;
+  localStorage.setItem("politec-tema", novo);
+  document.getElementById("tema").textContent = "Tema: " + novo;
+});
+const t = localStorage.getItem("politec-tema");
+if(t){ document.documentElement.dataset.tema = t; document.getElementById("tema").textContent = "Tema: " + t; }
+
+carregar();
+</script>
+</body>
+</html>

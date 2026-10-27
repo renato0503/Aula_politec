@@ -1,4 +1,7 @@
 {
+  "firestore": {
+    "rules": "Aula 8/firestore.rules"
+  },
   "hosting": {
     "public": ".",
     "ignore": [

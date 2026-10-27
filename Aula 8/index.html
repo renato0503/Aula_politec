@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="pt-BR" data-tema="claro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Hub dos projetos — Fase de Ideação | POLITEC/MT</title>
+<meta name="description" content="Hub dos projetos da fase de ideação e prototipação do curso de Capacitação POLITEC/MT: um cartão por projeto, com problema, papéis, AS-IS, TO-BE, MVP, métricas, hospedagem e arquivos enviados.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  --paper:#faf9f6; --surface:#ffffff; --raised:#f3f1ec; --border:#e3e0d8;
+  --ink:#1a1d1e; --ink-soft:#4a4f52; --ink-faint:#82888c;
+  --accent:#12507f; --accent-soft:#e6eff7;
+  --verde:#1c8a5b; --verde-soft:#e6f4ec;
+  --ambar:#b4790a; --ambar-soft:#fbf1de;
+  --roxo:#6b3fa0; --roxo-soft:#efe8f7;
+  --vermelho:#c0392b; --vermelho-soft:#fbeae8;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 26px -14px rgba(20,30,40,.25);
+}
+html[data-tema="escuro"]{
+  --paper:#15171a; --surface:#1b1e22; --raised:#20242a; --border:#2c3036;
+  --ink:#eceeef; --ink-soft:#b6bcc2; --ink-faint:#7d858c;
+  --accent:#5fa8dd; --accent-soft:#16283a;
+  --verde:#4fc08c; --verde-soft:#152c23;
+  --ambar:#e0a33a; --ambar-soft:#2b2415;
+  --roxo:#b18ce0; --roxo-soft:#241c33;
+  --vermelho:#e9705f; --vermelho-soft:#2e1a17;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -16px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.6}
+h1,h2,h3,.kicker,.meta,.foot,.card h3,.pill,.botao,.busca{font-family:'Archivo',system-ui,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:0 24px}
+header.top{padding:42px 0 24px;border-bottom:1px solid var(--border);
+  background:linear-gradient(180deg,var(--surface),var(--paper))}
+.kicker{display:inline-block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:700;color:var(--accent);background:var(--accent-soft);padding:4px 12px;border-radius:20px}
+h1{font-size:clamp(24px,3.4vw,34px);line-height:1.12;letter-spacing:-.015em;margin:12px 0 8px}
+header p{color:var(--ink-soft);font-size:16.5px;max-width:780px;margin:0}
+.meta{font-size:13px;color:var(--ink-faint);margin-top:12px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.botao{font-family:'Archivo',sans-serif;font-size:13px;font-weight:700;padding:8px 14px;
+  border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--ink-soft);
+  cursor:pointer;text-decoration:none;display:inline-block}
+.botao:hover{border-color:var(--accent);color:var(--accent)}
+.botao.forte{background:var(--accent);border-color:var(--accent);color:#fff}
+.botao.forte:hover{filter:brightness(1.08)}
+main{padding:26px 0 60px}
+.aviso{background:var(--ambar-soft);border:1px solid var(--ambar);border-radius:12px;
+  padding:12px 16px;font-size:14.5px;margin:16px 0}
+.aviso.erro{background:var(--vermelho-soft);border-color:var(--vermelho)}
+.aviso.ok{background:var(--verde-soft);border-color:var(--verde)}
+.barra{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:18px 0}
+.busca{flex:1;min-width:240px;font-size:14.5px;padding:10px 14px;border-radius:10px;
+  border:1px solid var(--border);background:var(--surface);color:var(--ink)}
+select.filtro{font-family:'Archivo',sans-serif;font-size:13.5px;padding:9px 12px;border-radius:10px;
+  border:1px solid var(--border);background:var(--surface);color:var(--ink)}
+.grade{display:grid;grid-template-columns:repeat(auto-fill,minmax(330px,1fr));gap:16px;margin-top:8px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px 22px;
+  box-shadow:var(--shadow);display:flex;flex-direction:column;gap:9px;border-top:4px solid var(--accent)}
+.card h3{font-size:17px;margin:0;letter-spacing:-.01em}
+.card .aluno{font-size:12.5px;font-weight:700;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.06em}
+.card .problema{font-size:15px;color:var(--ink-soft);margin:0}
+.pill{display:inline-block;font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:20px;
+  background:var(--raised);border:1px solid var(--border);color:var(--ink-soft);margin-right:6px}
+.pill.bom{background:var(--verde-soft);border-color:var(--verde);color:var(--verde)}
+.pill.ambar{background:var(--ambar-soft);border-color:var(--ambar);color:var(--ambar)}
+.pill.roxo{background:var(--roxo-soft);border-color:var(--roxo);color:var(--roxo)}
+.card .rodape{margin-top:auto;display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding-top:8px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:16px 0}
+.kpi{background:var(--raised);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.kpi .v{font-family:'Archivo',sans-serif;font-size:24px;font-weight:800}
+.kpi .l{font-family:'Archivo',sans-serif;font-size:11.5px;font-weight:600;color:var(--ink-faint);
+  text-transform:uppercase;letter-spacing:.06em}
+.vazio{text-align:center;padding:50px 20px;color:var(--ink-faint);font-size:16px}
+footer.foot{margin-top:40px;padding:22px 0 60px;border-top:1px solid var(--border);
+  color:var(--ink-faint);font-size:13px}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <span class="kicker">POLITEC/MT · Fase de ideação e prototipação</span>
+    <h1>Hub dos projetos</h1>
+    <p>Um cartão por projeto enviado pela turma. Cada cartão aponta o problema, os
+      papéis, o AS-IS, o TO-BE, o MVP, as métricas com linha de base e os arquivos que
+      o aluno enviou. É esta lista que o professor usa para montar os diagramas, o TO-BE
+      com automação e o MVP funcional de cada aluno.</p>
+    <div class="meta">
+      <span>Curso de Capacitação POLITEC/MT · Professor Renato Rosa</span>
+      <span id="status">Carregando do Firestore...</span>
+      <button class="botao" id="tema" type="button">Tema: claro</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="barra">
+    <input class="busca" id="busca" type="text" placeholder="Buscar por aluno, projeto, problema ou tipo...">
+    <select class="filtro" id="filtroTipo"><option value="">Todos os tipos</option></select>
+    <select class="filtro" id="filtroStatus">
+      <option value="">Todos</option>
+      <option value="completo">Completos</option>
+      <option value="pendente">Com pendência</option>
+    </select>
+    <button class="botao" id="btnRecarregar" type="button">Recarregar</button>
+    <a class="botao forte" href="formulario-ideacao.html">Abrir o formulário</a>
+  </div>
+
+  <div class="kpis" id="kpis"></div>
+  <div id="mensagem"></div>
+  <div class="grade" id="grade"></div>
+</main>
+
+<footer class="foot"><div class="wrap">
+  <b>Curso de Capacitação POLITEC/MT</b> · Fase de ideação e prototipação · Professor Renato Rosa.
+  Os dados dos projetos ficam no Firestore e os arquivos no Storage do projeto
+  <code>aulapolitec</code>. Nenhum dado pessoal de cidadão é aceito.
+</div></footer>
+
+<script type="module">
+let COLECAO = "ideacao";
+const grade = document.getElementById("grade");
+const mensagem = document.getElementById("mensagem");
+const statusEl = document.getElementById("status");
+let projetos = [];
+
+function esc(s){
+  return String(s === undefined || s === null ? "" : s)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+}
+function contarMetricas(p){
+  return ((p.metricas && p.metricas.tabela) || []).filter(m=>m.nome).length;
+}
+function temBase(p){
+  const ms = ((p.metricas && p.metricas.tabela) || []).filter(m=>m.nome);
+  return ms.filter(m=>m.base && String(m.base).toUpperCase() !== "A MEDIR").length;
+}
+function etapasAsIs(p){ return ((p.asIs && p.asIs.etapas) || []).length; }
+function etapasToBe(p){ return ((p.toBe && p.toBe.etapas) || []).length; }
+function funcoesMvp(p){ return ((p.mvp && p.mvp.artefatos) || []).filter(a=>a.mvp === "Sim").length; }
+function arquivos(p){ return (p.arquivos || []).length; }
+function statusProjeto(p){
+  const partes = [
+    !!(p.problema && p.resumo),
+    etapasAsIs(p) >= 3,
+    ((p.papeis||[]).length) >= 1,
+    etapasToBe(p) >= 1,
+    funcoesMvp(p) >= 1,
+    ((p.fontes && p.fontes.tabela)||[]).length >= 1,
+    contarMetricas(p) >= 2,
+    temBase(p) >= 1,
+    !!(p.hospedagem && p.hospedagem.escolhida)
+  ];
+  const ok = partes.filter(Boolean).length;
+  return {ok: ok, total: partes.length, completo: ok === partes.length};
+}
+function render(){
+  const busca = document.getElementById("busca").value.toLowerCase();
+  const tipo = document.getElementById("filtroTipo").value;
+  const st = document.getElementById("filtroStatus").value;
+  const tipos = {};
+  projetos.forEach(p=>{ tipos[p.tipo || "sem tipo"] = (tipos[p.tipo || "sem tipo"]||0)+1; });
+  const sel = document.getElementById("filtroTipo");
+  sel.innerHTML = '<option value="">Todos os tipos</option>' +
+    Object.entries(tipos).map(([k,v])=>'<option value="'+esc(k)+'">'+esc(k)+" ("+v+")</option>").join("");
+
+  const lista = projetos.filter(p=>{
+    const texto = [p.aluno,p.projeto,p.problema,p.tipo,p.resumo,(p.unidade||""),(p.metricas&&p.metricas.tabela||[]).map(m=>m.nome).join(" ")].join(" ").toLowerCase();
+    if(busca && !texto.includes(busca)) return false;
+    if(tipo && p.tipo !== tipo) return false;
+    if(st === "completo" && !statusProjeto(p).completo) return false;
+    if(st === "pendente" && statusProjeto(p).completo) return false;
+    return true;
+  });
+
+  document.getElementById("kpis").innerHTML =
+    '<div class="kpi"><div class="v">'+projetos.length+'</div><div class="l">Projetos</div></div>'+
+    '<div class="kpi"><div class="v">'+projetos.filter(p=>statusProjeto(p).completo).length+'</div><div class="l">Completos</div></div>'+
+    '<div class="kpi"><div class="v">'+projetos.reduce((s,p)=>s+arquivos(p),0)+'</div><div class="l">Arquivos recebidos</div></div>'+
+    '<div class="kpi"><div class="v">'+projetos.reduce((s,p)=>s+temBase(p),0)+'</div><div class="l">Métricas com linha de base</div></div>'+
+    '<div class="kpi"><div class="v">'+projetos.reduce((s,p)=>s+etapasAsIs(p),0)+'</div><div class="l">Etapas de AS-IS</div></div>';
+
+  if(!lista.length){
+    grade.innerHTML = '<div class="vazio">Nenhum projeto com esses filtros.</div>';
+    return;
+  }
+  grade.innerHTML = lista.map(p=>{
+    const st = statusProjeto(p);
+    const m = (p.metricas && p.metricas.tabela || []).filter(x=>x.nome)[0];
+    return '<div class="card">'+
+      '<span class="aluno">'+esc(p.aluno||"(sem nome)")+" · "+esc(p.unidade||"")+'</span>'+
+      '<h3>'+esc(p.projeto||"(sem título)")+'</h3>'+
+      '<p class="problema">'+esc(p.problema||p.resumo||"")+'</p>'+
+      '<div>'+
+        '<span class="pill roxo">'+esc(p.tipo||"sem tipo")+'</span>'+
+        '<span class="pill">AS-IS: '+etapasAsIs(p)+'</span>'+
+        '<span class="pill">TO-BE: '+etapasToBe(p)+'</span>'+
+        '<span class="pill">MVP: '+funcoesMvp(p)+'</span>'+
+        '<span class="pill">papéis: '+(p.papeis||[]).length+'</span>'+
+        '<span class="pill">fontes: '+(((p.fontes&&p.fontes.tabela)||[]).length)+'</span>'+
+        '<span class="pill">arquivos: '+arquivos(p)+'</span>'+
+        '<span class="pill '+(st.completo?"bom":"ambar")+'">'+(st.completo?"completo":(st.total-st.ok)+" pendências")+'</span>'+
+      '</div>'+
+      (m? '<div class="pill" style="display:block;border-radius:9px;padding:8px 12px">KPI principal: <b>'+esc(m.nome)+
+          '</b> — base '+esc(m.base||"a medir")+' → esperado '+esc(m.esperado||"a medir")+'</div>' : '')+
+      '<div class="rodape">'+
+        '<a class="botao forte" href="app.html?id='+esc(p.id)+'">Abrir projeto</a>'+
+        '<a class="botao" href="app.html?id='+esc(p.id)+'#arquivos">Arquivos ('+arquivos(p)+')</a>'+
+      '</div></div>';
+  }).join("");
+}
+
+async function carregar(){
+  mensagem.innerHTML = "";
+  statusEl.textContent = "Carregando do Firestore...";
+  try{
+    const mod = await import("./firebase-config.js");
+    COLECAO = mod.COLECAO;
+    const m = await mod.iniciarFirebase();
+    const fs = m.fs;
+    const snap = await fs.getDocs(fs.collection(m.db, COLECAO));
+    projetos = snap.docs.map(d=>{
+      const data = d.data() || {};
+      data.id = d.id;
+      const criado = data.criadoEm && data.criadoEm.toDate ? data.criadoEm.toDate() : null;
+      data.criadoEmTexto = criado ? criado.toLocaleString("pt-BR") : "";
+      return data;
+    });
+    projetos.sort((a,b)=> (b.criadoEmTexto||"").localeCompare(a.criadoEmTexto||""));
+    statusEl.textContent = projetos.length + " projeto(s) no hub.";
+    render();
+  }catch(e){
+    statusEl.textContent = "Firebase indisponível";
+    mensagem.innerHTML = '<div class="aviso erro"><b>Não consegui ler o Firestore.</b> ' +
+      esc(e && e.message ? e.message : e) +
+      ' <br>Se você está sem internet, abra o formulário e baixe o <b>.json</b>: ' +
+      '<a href="formulario-ideacao.html">formulario-ideacao.html</a>.</div>';
+    document.getElementById("kpis").innerHTML = "";
+  }
+}
+
+document.getElementById("busca").addEventListener("input", render);
+document.getElementById("filtroTipo").addEventListener("change", render);
+document.getElementById("filtroStatus").addEventListener("change", render);
+document.getElementById("btnRecarregar").addEventListener("click", carregar);
+document.getElementById("tema").addEventListener("click", ()=>{
+  const h = document.documentElement;
+  const novo = h.dataset.tema === "escuro" ? "claro" : "escuro";
+  h.dataset.tema = novo;
+  localStorage.setItem("politec-tema", novo);
+  document.getElementById("tema").textContent = "Tema: " + novo;
+});
+const t = localStorage.getItem("politec-tema");
+if(t){ document.documentElement.dataset.tema = t; document.getElementById("tema").textContent = "Tema: " + t; }
+
+carregar();
+</script>
+</body>
+</html>

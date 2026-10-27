@@ -1,0 +1,2266 @@
+<!doctype html>
+<html lang="pt-BR" data-tema="claro">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fase de Ideação e Prototipação — Formulário da equipe | POLITEC/MT</title>
+<meta name="description" content="Formulário da fase de ideação e prototipação do curso de Capacitação POLITEC/MT: projeto, papéis, escopo, fontes de dados, métricas com linha de base, hospedagem da plataforma, riscos, pesquisa e defesa.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<style>
+:root{
+  --paper:#faf9f6; --surface:#ffffff; --raised:#f3f1ec; --border:#e3e0d8;
+  --ink:#1a1d1e; --ink-soft:#4a4f52; --ink-faint:#82888c;
+  --accent:#12507f; --accent-soft:#e6eff7;
+  --verde:#1c8a5b; --verde-soft:#e6f4ec;
+  --ambar:#b4790a; --ambar-soft:#fbf1de;
+  --roxo:#6b3fa0; --roxo-soft:#efe8f7;
+  --vermelho:#c0392b; --vermelho-soft:#fbeae8;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 26px -14px rgba(20,30,40,.25);
+  --radius:14px;
+}
+html[data-tema="escuro"]{
+  --paper:#15171a; --surface:#1b1e22; --raised:#20242a; --border:#2c3036;
+  --ink:#eceeef; --ink-soft:#b6bcc2; --ink-faint:#7d858c;
+  --accent:#5fa8dd; --accent-soft:#16283a;
+  --verde:#4fc08c; --verde-soft:#152c23;
+  --ambar:#e0a33a; --ambar-soft:#2b2415;
+  --roxo:#b18ce0; --roxo-soft:#241c33;
+  --vermelho:#e9705f; --vermelho-soft:#2e1a17;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -16px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font-family:'Source Serif 4',Georgia,serif;font-size:17px;line-height:1.6}
+h1,h2,h3,h4,.kicker,.meta,.foot,.bloco-titulo,.rot,.campo label,button,.tab,
+table,.kpi .v,.kpi .l{font-family:'Archivo',system-ui,sans-serif}
+code,.mono{font-family:'JetBrains Mono',Consolas,monospace}
+.wrap{max-width:1240px;margin:0 auto;padding:0 24px}
+
+header.top{padding:44px 0 26px;border-bottom:1px solid var(--border);
+  background:linear-gradient(180deg,var(--surface),var(--paper))}
+.kicker{display:inline-block;font-size:12px;letter-spacing:.1em;text-transform:uppercase;
+  font-weight:700;color:var(--accent);background:var(--accent-soft);padding:4px 12px;border-radius:20px}
+h1{font-size:clamp(24px,3.4vw,36px);line-height:1.12;letter-spacing:-.015em;margin:12px 0 8px}
+header p{color:var(--ink-soft);font-size:16.5px;max-width:820px;margin:0}
+.meta{font-size:13px;color:var(--ink-faint);margin-top:10px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+.tempa{background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:7px 13px;font-size:12.5px;font-weight:700;color:var(--ink-soft);cursor:pointer}
+.abas{display:flex;gap:8px;margin:22px 0 0;flex-wrap:wrap}
+.tab{font-size:13px;font-weight:700;padding:9px 16px;border-radius:10px;cursor:pointer;
+  border:1px solid var(--border);background:var(--surface);color:var(--ink-soft)}
+.tab.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.aviso{background:var(--ambar-soft);border:1px solid var(--ambar);color:var(--ink);
+  border-radius:12px;padding:12px 16px;font-size:14.5px;margin:18px 0}
+.aviso.erro{background:var(--vermelho-soft);border-color:var(--vermelho)}
+.aviso.ok{background:var(--verde-soft);border-color:var(--verde)}
+.aviso.info{background:var(--accent-soft);border-color:var(--accent)}
+
+main{padding:26px 0 70px}
+.bloco{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:24px 26px;margin-bottom:22px;box-shadow:var(--shadow)}
+.bloco-titulo{display:flex;gap:10px;align-items:center;margin-bottom:6px}
+.bloco-num{font-size:11px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;
+  color:#fff;background:var(--accent);padding:3px 10px;border-radius:20px}
+.bloco-titulo h2{font-size:16px;font-weight:700;margin:0;letter-spacing:.02em}
+.bloco.verde .bloco-num{background:var(--verde)}
+.bloco.ambar .bloco-num{background:var(--ambar)}
+.bloco.roxo .bloco-num{background:var(--roxo)}
+.bloco.vermelho .bloco-num{background:var(--vermelho)}
+.bloco .intro{color:var(--ink-soft);font-size:15.5px;margin:8px 0 18px;max-width:940px}
+
+.rot{font-size:12px;font-weight:700;color:var(--ink-soft);text-transform:uppercase;
+  letter-spacing:.06em;display:block;margin:0 0 6px}
+.dica{font-size:13.5px;color:var(--ink-faint);margin:-2px 0 8px}
+input[type=text],input[type=email],input[type=number],input[type=date],input[type=url],select,textarea{
+  width:100%;font-family:'Archivo',sans-serif;font-size:15px;padding:10px 12px;
+  border:1.5px solid var(--border);border-radius:9px;background:var(--paper);color:var(--ink);
+  outline:none;transition:border-color .15s}
+input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+textarea{min-height:86px;resize:vertical;line-height:1.5}
+.campo{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+@media(max-width:820px){.grid2,.grid3{grid-template-columns:1fr}}
+.opcoes{display:flex;flex-wrap:wrap;gap:8px}
+.opcoes label{font-family:'Archivo',sans-serif;font-size:14px;color:var(--ink-soft);
+  border:1px solid var(--border);border-radius:20px;padding:7px 14px;cursor:pointer;background:var(--paper)}
+.opcoes label:has(input:checked){background:var(--accent-soft);border-color:var(--accent);color:var(--ink);font-weight:600}
+.opcoes input{margin-right:6px;accent-color:var(--accent)}
+
+.tabela-wrap{overflow-x:auto;border:1px solid var(--border);border-radius:12px;background:var(--paper)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;min-width:900px}
+th{background:var(--raised);text-align:left;font-size:11.5px;font-weight:800;letter-spacing:.06em;
+  text-transform:uppercase;color:var(--ink-soft);padding:10px 8px;border-bottom:1px solid var(--border);
+  position:sticky;top:0}
+td{padding:6px;border-bottom:1px solid var(--border);vertical-align:top}
+td input,td select,td textarea{font-size:13.5px;padding:7px 8px;border-radius:7px}
+td textarea{min-height:38px}
+td .rm{border:1px solid var(--border);background:var(--surface);color:var(--ink-faint);
+  border-radius:7px;width:30px;height:30px;cursor:pointer;font-weight:700}
+td .rm:hover{background:var(--vermelho-soft);color:var(--vermelho);border-color:var(--vermelho)}
+.barra-tabela{display:flex;gap:10px;align-items:center;margin-top:12px;flex-wrap:wrap}
+.act{font-family:'Archivo',sans-serif;font-size:14px;font-weight:700;padding:9px 16px;
+  border-radius:9px;border:1px solid var(--border);background:var(--surface);color:var(--ink);cursor:pointer}
+.act:hover{border-color:var(--accent);color:var(--accent)}
+.act.forte{background:var(--accent);border-color:var(--accent);color:#fff}
+.act.forte:hover{filter:brightness(1.08)}
+.act.pequeno{font-size:12.5px;padding:6px 12px}
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}
+.kpi{background:var(--raised);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.kpi .v{font-size:26px;font-weight:800;line-height:1.1}
+.kpi .l{font-size:12px;font-weight:600;color:var(--ink-faint);text-transform:uppercase;letter-spacing:.06em}
+.kpi.bom .v{color:var(--verde)}
+.kpi.atencao .v{color:var(--ambar)}
+.kpi.ruim .v{color:var(--vermelho)}
+
+.chk{display:flex;align-items:flex-start;gap:10px;font-family:'Archivo',sans-serif;
+  font-size:14.5px;color:var(--ink-soft);padding:7px 0}
+.chk input{accent-color:var(--verde);margin-top:3px}
+.chk span b{color:var(--ink)}
+
+.rodape{background:var(--raised);border:1px solid var(--border);border-radius:12px;padding:20px 22px}
+.rodape h3{font-size:15px;margin:0 0 8px}
+.progresso{display:flex;gap:4px;flex-wrap:wrap;margin:14px 0 0}
+.pchip{font-family:'Archivo',sans-serif;font-size:11.5px;font-weight:700;padding:4px 10px;
+  border-radius:20px;border:1px solid var(--border);background:var(--paper);color:var(--ink-faint)}
+.pchip.ok{background:var(--verde-soft);border-color:var(--verde);color:var(--verde)}
+.pchip.pend{background:var(--ambar-soft);border-color:var(--ambar);color:var(--ambar)}
+.oculto{display:none}
+.dropzone{border:2px dashed var(--border);border-radius:12px;background:var(--paper);
+  padding:26px;text-align:center;cursor:pointer;transition:border-color .15s,background .15s}
+.dropzone:hover,.dropzone.over{border-color:var(--accent);background:var(--accent-soft)}
+.dropzone b{display:block;font-family:'Archivo',sans-serif;font-size:15px;margin-bottom:4px}
+.dropzone span{font-size:13.5px;color:var(--ink-faint)}
+.lista-arquivos{margin-top:12px;display:flex;flex-direction:column;gap:6px}
+.arq{display:flex;gap:10px;align-items:center;background:var(--raised);border:1px solid var(--border);
+  border-radius:9px;padding:8px 12px;font-family:'Archivo',sans-serif;font-size:13.5px}
+.arq .nome{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.arq .tam{color:var(--ink-faint);font-size:12px}
+.arq .x{border:none;background:none;color:var(--vermelho);cursor:pointer;font-weight:700;font-size:15px}
+.status-envio{margin-top:12px;font-family:'Archivo',sans-serif;font-size:14px;color:var(--ink-soft)}
+.status-envio.ok{color:var(--verde)}
+.status-envio.erro{color:var(--vermelho)}
+.barra-progresso{height:8px;background:var(--raised);border-radius:6px;overflow:hidden;margin-top:10px;border:1px solid var(--border)}
+.barra-progresso i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
+.badge{font-family:'Archivo',sans-serif;font-size:11.5px;font-weight:700;padding:3px 9px;
+  border-radius:20px;background:var(--raised);border:1px solid var(--border);color:var(--ink-soft)}
+.badge.ruim{background:var(--vermelho-soft);border-color:var(--vermelho);color:var(--vermelho)}
+.badge.bom{background:var(--verde-soft);border-color:var(--verde);color:var(--verde)}
+.badge.ambar{background:var(--ambar-soft);border-color:var(--ambar);color:var(--ambar)}
+footer.foot{margin-top:40px;padding:22px 0 60px;border-top:1px solid var(--border);
+  color:var(--ink-faint);font-size:13px}
+@media print{
+  .abas,.tempa,.barra-tabela,.act{display:none !important}
+  .bloco{break-inside:avoid;box-shadow:none}
+  body{font-size:11.5pt}
+}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <span class="kicker">POLITEC/MT · Fase de ideação e prototipação</span>
+    <h1>Formulário do projeto: da ideia à métrica</h1>
+    <p>Uma resposta por aluno ou por equipe. O formulário vale para qualquer tipo de
+      projeto: aplicativo, painel de Business Intelligence, sistema, mapeamento de
+      processo, automação de script, relatório, norma ou procedimento. Ele recolhe
+      o problema, o escopo, os <b>papéis</b> (quem usa e o que cada um vê e faz), as
+      <b>fontes de dados</b>, as <b>métricas</b> com linha de base e melhoria
+      hipotética, a <b>hospedagem possível da plataforma</b>, os riscos, a pesquisa de
+      apoio e a defesa. Tudo fica salvo no navegador, e o professor importa as
+      respostas para montar o painel de cada projeto.</p>
+    <div class="meta">
+      <span>Curso de Capacitação POLITEC/MT · Professor Renato Rosa</span>
+      <span id="salvo">Salvamento local automático</span>
+      <button class="tempa" id="tema" type="button">Tema: claro</button>
+    </div>
+    <div class="abas">
+      <button class="tab on" data-alvo="form" type="button">Formulário do projeto</button>
+      <button class="tab" data-alvo="painel" type="button">Painel do professor</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+<div id="form">
+
+  <div class="aviso info">
+    <b>Como preencher:</b> leve de 60 a 90 minutos. O navegador guarda tudo na própria
+    máquina, então você pode fechar e voltar depois. Se um bloco não se aplicar ao seu
+    projeto, escreva <b>“não se aplica”</b> em vez de deixar em branco: isso também é
+    informação. No fim, baixe o <b>.md</b> ou o <b>.json</b> e envie ao professor.
+  </div>
+
+  <!-- ================= BLOCO 0 ================= -->
+  <section class="bloco">
+    <div class="bloco-titulo"><span class="bloco-num">Bloco 0</span><h2>Quem é você e o que é o projeto</h2></div>
+    <div class="grid3">
+      <div class="campo"><label for="aluno">Aluno ou equipe</label>
+        <input type="text" id="aluno" placeholder="Ana Souza (ou Equipe 3 - Perícia)"></div>
+      <div class="campo"><label for="unidade">Unidade, área ou setor</label>
+        <input type="text" id="unidade" placeholder="IML - Armamento"></div>
+      <div class="campo"><label for="contato">E-mail de contato</label>
+        <input type="email" id="contato" placeholder="aluno@exemplo.gov.br"></div>
+    </div>
+    <div class="grid3">
+      <div class="campo"><label for="nome_projeto">Nome do projeto</label>
+        <input type="text" id="nome_projeto" placeholder="Conferência de arma no celular"></div>
+      <div class="campo"><label for="tipo_projeto">Tipo de projeto</label>
+        <select id="tipo_projeto">
+          <option value=""></option>
+          <option>Aplicativo (app) paraCitizens, servidor ou equipe</option>
+          <option>Aplicativo web / portal</option>
+          <option>Painel de Business Intelligence (dashboard)</option>
+          <option>Sistema / integração com sistema oficial</option>
+          <option>Mapeamento de processo (fluxo, BPMN ou Mermaid)</option>
+          <option>Automação de script ou rotine</option>
+          <option>Relatório ou estudo técnico</option>
+          <option>Norma, procedimento ou manual</option>
+          <option>Formulário ou modelo de coleta</option>
+          <option>Protótipo de baixo custo (papel, planilha, caneta)</option>
+          <option>Outro</option>
+        </select></div>
+      <div class="campo"><label for="data">Data da resposta</label>
+        <input type="date" id="data"></div>
+    </div>
+    <div class="campo"><label for="resumo">0.4. Resumo do projeto, em uma frase</label>
+      <span class="dica">Modelo: <i>Ferramenta/sistema/procedimento que faz o quê, para quem, e no lugar de quê.</i></span>
+      <textarea id="resumo" placeholder="Aplicativo que registra a conferência da arma no ato e monta a ficha do SINARM, no lugar do preenchimento manual em papel."></textarea></div>
+  </section>
+
+  <!-- ================= BLOCO 1 ================= -->
+  <section class="bloco verde">
+    <div class="bloco-titulo"><span class="bloco-num">Bloco 1</span><h2>O problema e o estado atual</h2></div>
+    <p class="intro">O problema é o ponto de partida de tudo. Escreva em uma frase, com a
+      estrutura: <i>quem</i> tem dificuldade em <i>o quê</i>, e o que isso causa.</p>
+
+    <div class="campo"><label for="problema">1.1. Qual é o problema, em uma frase?</label>
+      <textarea id="problema" placeholder="O perito preenche a ficha da arma em papel e digita tudo de novo no SINARM, e o retrabalho de digitação consome 18 minutos de cada conferência."></textarea></div>
+
+    <div class="campo"><label>1.2. Quem é afetado</label>
+      <div class="opcoes">
+        <label><input type="checkbox" name="afetado" value="Cidadão externo"> Cidadão externo</label>
+        <label><input type="checkbox" name="afetado" value="Servidor da unidade"> Servidor da unidade</label>
+        <label><input type="checkbox" name="afetado" value="Equipe interna"> Equipe interna</label>
+        <label><input type="checkbox" name="afetado" value="Unidade parceira"> Unidade parceira</label>
+        <label><input type="checkbox" name="afetado" value="Chefia"> Chefia</label>
+        <label><input type="checkbox" name="afetado" value="Autoridade"> Autoridade</label>
+      </div></div>
+
+    <div class="campo"><label for="hoje">1.3. Como é feito hoje, na prática</label>
+      <span class="dica">Descreva o caminho real, com as ferramentas usadas e onde o tempo se perde. Se for um mapeamento de processo, descreva as etapas.</span>
+      <textarea id="hoje" placeholder="O agente preenche a ficha em papel no balcão, o perito confere e assina, o digitador transcreve para o SINARM e o papel vai para o arquivo físico."></textarea></div>
+
+    <div class="campo"><label for="impacto">1.4. Qual é o impacto hoje?</label>
+      <span class="dica">Tempo, custo, qualidade, risco, retrabalho. E a evidência de cada número.</span>
+      <textarea id="impacto" placeholder="Tempo: 25 minutos de conferência por arma. Volume: 180 armas por mês. Retrabalho: 18% das transcrições voltam para conferência."></textarea></div>
+
+    <div class="campo"><label>1.5. De onde vem a evidência do que você escreveu</label>
+      <div class="opcoes" style="margin-bottom:10px">
+        <label><input type="checkbox" name="evid" value="Planilha ou controle local"> Planilha ou controle local</label>
+        <label><input type="checkbox" name="evid" value="Relatório de sistema"> Relatório de sistema</label>
+        <label><input type="checkbox" name="evid" value="Entrevista com a equipe"> Entrevista com a equipe</label>
+        <label><input type="checkbox" name="evid" value="Medida feita pela equipe"> Medida feita pela equipe</label>
+        <label><input type="checkbox" name="evid" value="Documento ou norma oficial"> Documento ou norma oficial</label>
+        <label><input type="checkbox" name="evid" value="Pesquisa externa"> Pesquisa externa</label>
+      <textarea id="evid_detalhe" placeholder="Planilha de conferência de armas no Excel da unidade, com 180 linhas por mês e o tempo anotado pelo agente."></textarea></div>
+
+    <div class="campo"><label for="limite">1.6. O que não pode ser automatizado, e por quê</label>
+      <span class="dica">Decisão, responsabilidade legal, assinatura, tudo que depende de contexto humano. Toda proposta precisa desse limite.</span>
+      <textarea id="limite" placeholder="A conferência do perito e a assinatura da ficha continuam humanas: são responsabilidade técnica e precisam de registro nominal."></textarea></div>
+  </section>
+
+  <!-- ================= BLOCO 2 ================= -->
+  <section class="bloco ambar">
+    <div class="bloco-titulo"><span class="bloco-num">Bloco 2</span><h2>AS-IS: o processo como ele é hoje, passo a passo</h2></div>
+    <p class="intro">Este é o levantamento que o professor usa para desenhar o diagrama
+      AS-IS do seu processo. Uma linha por etapa, na ordem real em que o caso anda. Se o
+      seu projeto não é um processo, descreva o fluxo de trabalho do seu projeto: as
+      etapas de fazer a coisa do zero até entregar.</p>
+
+    <div class="grid2">
+      <div class="campo"><label for="asis_inicio">2.1. Evento de início</label>
+        <span class="dica">O que dispara o processo. "O segurado comunica o sinistro", "o agente entrega a arma apreendida".</span>
+        <input type="text" id="asis_inicio" placeholder="Abertura do sinistro pelo segurado, por telefone ou aplicativo"></div>
+      <div class="campo"><label for="asis_fim">2.2. Evento de fim</label>
+        <span class="dica">O que considera o processo encerrado. "Indenização paga", "laudo entregue aoauthority".</span>
+        <input type="text" id="asis_fim" placeholder="Indenização paga e processo arquivado"></div>
+    </div>
+
+    <div class="campo"><label for="asis_entradas">2.3. O que entra no processo</label>
+      <span class="dica">Documentos, Chamados, informações, pessoas. Esta é a lista de entradas do diagrama.</span>
+      <textarea id="asis_entradas" placeholder="Aviso do segurado, documento do veículo, fotos do sinistro, dados da apólice."></textarea></div>
+
+    <div class="campo"><label for="asis_saidas">2.4. O que sai do processo</label>
+      <textarea id="asis_saidas" placeholder="Laudo pericial assinado, parecer de cobertura e o pagamento da indenização."></textarea></div>
+
+    <div class="grid3">
+      <div class="campo"><label for="asis_volume">2.5. Volume</label>
+        <input type="text" id="asis_volume" placeholder="110 casos por mês"></div>
+      <div class="campo"><label for="asis_duracao">2.6. Duração total</label>
+        <input type="text" id="asis_duracao" placeholder="696 horas por caso, em média"></div>
+      <div class="campo"><label for="asis_frequencia">2.7. Frequência</label>
+        <select id="asis_frequencia">
+          <option value=""></option>
+          <option>Diário</option><option>Semanal</option><option>Mensal</option>
+          <option>Irregular</option><option>Por demanda</option><option>Uma vez</option>
+        </select></div>
+    </div>
+
+    <label class="rot">2.8. Tabela de etapas do AS-IS</label>
+    <span class="dica">Uma linha por etapa, na ordem do fluxo. A coluna “onde espera” é a
+      mais importante: é dela que sai o gargalo. A coluna “automatizável” diz o que o
+      professor pode propor como automação, e o que precisa continuar com a pessoa.</span>
+    <div class="tabela-wrap">
+      <table id="tAsIs">
+        <thead><tr>
+          <th style="width:34px">#</th><th style="width:160px">Etapa</th>
+          <th style="width:140px">Quem faz (papel/unidade)</th><th style="width:150px">O que entra</th>
+          <th style="width:180px">Ação realizada</th><th style="width:150px">O que sai</th>
+          <th style="width:120px">Sistema ou papel</th><th style="width:160px">Regra ou decisão</th>
+          <th style="width:150px">Onde espera</th><th style="width:80px">Tempo (h)</th>
+          <th style="width:120px">Automatizável?</th><th style="width:38px"></th>
+        </tr></thead><tbody></tbody>
+      </table>
+    </div>
+    <div class="barra-tabela">
+      <button class="act pequeno" data-add="tAsIs" type="button">Adicionar etapa</button>
+      <button class="act pequeno" data-add="tAsIs" data-modelo="1" type="button">Adicionar etapa padrão (revisar e registrar)</button>
+    </div>
+
+    <div class="campo" style="margin-top:20px"><label for="asis_decisoes">2.9. Decisões e aprovações</label>
+      <span class="dica">Onde há bifurcação, e o que decide. Vira o gateway do diagrama.</span>
+      <textarea id="asis_decisoes" placeholder="Se o laudo aponta cobertura, o processo segue para a seguradora. Se não aponta, o caso volta ao atendente para nova vistoria."></textarea></div>
+
+    <div class="campo"><label for="asis_excecoes">2.10. Caminhos alternativos e exceções</label>
+      <textarea id="asis_excecoes" placeholder="Sinistro sem documento do veículo vai para a fila de pendência e espera 48 horas antes de ser devolvido."></textarea></div>
+
+    <div class="campo"><label for="asis_digital">2.11. O que já é digitalizado hoje</label>
+      <textarea id="asis_digital" placeholder="A abertura é pelo aplicativo. A conferência é em papel. A digitação é no sistema. O retorno ao segurado é por telefone."></textarea></div>
+  </section>
+
+  <!-- ================= BLOCO 3 ================= -->
+  <section class="bloco roxo">
+    <div class="bloco-titulo"><span class="bloco-num">Bloco 3</span><h2>Os papéis: quem usa e o que cada um vê e faz</h2></div>
+    <p class="intro">O papel é o conjunto de ações e a visão de quem usa a solução. É o que
+      define permissões, o que aparece em cada tela e o que precisa ser registrado em
+      auditoria. Uma linha por papel.</p>
+
+    <label class="rot">3.1. Tabela de papéis</label>
+    <span class="dica">Colunas: papel, quem é na prática, o que enxerga, o que faz,
+      o que não pode fazer e o que o sistema registra.</span>
+    <div class="tabela-wrap">
+      <table id="tPapeis">
+        <thead><tr>
+          <th style="width:150px">Papel</th><th style="width:140px">Quem é na prática</th>
+          <th style="width:180px">O que enxerga</th><th style="width:180px">O que faz</th>
+          <th style="width:170px">O que não pode fazer</th><th style="width:170px">O que o sistema registra</th>
+          <th style="width:38px"></th>
+        </tr></thead><tbody></tbody>
+      </table>
+    </div>
+    <div class="barra-tabela">
+      <button class="act pequeno" data-add="tPapeis" type="button">Adicionar papel</button>
+      <button class="act pequeno" data-add="tPapeis" data-modelo="1" type="button">Adicionar papel padrão (cidadão)</button>
+    </div>
+
+    <div class="campo" style="margin-top:20px"><label for="papeis_obs">3.2. Observações sobre os papéis</label>
+      <textarea id="papeis_obs" placeholder="O papel de perito exige autenticação com matrícula, e o acesso ao histórico de armas é restrito ao chefe da seção."></textarea></div>
+  </section>
+
+  <!-- ================= BLOCO 4 ================= -->
+  <section class="bloco verde">
+    <div class="bloco-titulo"><span class="bloco-num">Bloco 4</span><h2>TO-BE: como o processo deve ficar depois da mudança</h2></div>
+    <p class="intro">Aqui você descreve o futuro, e o professor desenha o diagrama TO-BE em
+      duas versões: o TO-BE normal, com a intervenção dentro do processo, e o TO-BE com
+      automação, com o que a máquina passa a fazer. Não precisa saber desenhar: basta
+      descrever a mudança com clareza.</p>
+
+    <div class="campo"><label for="tobe_visao">4.1. A visão do futuro, em uma frase</label>
+      <span class="dica">Modelo: <i>Quando este processo existir, [quem] deixa de [problema] e passa a [novo estado].</i></span>
+      <textarea id="tobe_visao" placeholder="Quando o sinistro for aberto pelo celular, o segurado deixa de levar o documento à central e passa a acompanhar o processo por protocolo."></textarea></div>
+
+    <div class="campo"><label for="tobe_mudanca">4.2. A mudança principal</label>
+      <span class="dica">O que muda de verdade. Se só uma coisa mudar, escreva essa.</span>
+      <textarea id="tobe_mudanca" placeholder="A conferência de documentos deixa de esperar o papel: o documento é foto, e o sistema avisa quando falta algo, com prazo de 48 horas."></textarea></div>
+
+    <div class="campo"><label for="tobe_inalterado">4.3. O que fica igual</label>
+      <textarea id="tobe_inalterado" placeholder="A vistoria pericial continua presencial e o laudo continua assinado pelo perito responsável."></textarea></div>
+
+    <div class="campo"><label for="tobe_restricao">4.4. O que não pode mudar</label>
+      <span class="dica">Lei, norma, atribuição legal, procedimento oficial. Aqui a automação esbarra, e é bom que a resposta exista.</span>
+      <textarea id="tobe_restricao" placeholder="A emissão do auto de infração segue o formulário oficial e não pode ser substituído por modelo próprio."></textarea></div>
+
+    <label class="rot">4.5. Etapas do processo depois da mudança</label>
+    <span class="dica">Uma linha por etapa do TO-BE. Na coluna “quem executa”, marque a
+      máquina quando for automação, e a pessoa quando não puder ser automatizada.</span>
+    <div class="tabela-wrap">
+      <table id="tToBe">
+        <thead><tr>
+          <th style="width:34px">#</th><th style="width:170px">Etapa depois da mudança</th>
+          <th style="width:200px">O que muda</th><th style="width:150px">Quem executa</th>
+          <th style="width:180px">Benefício esperado</th><th style="width:110px">Esforço</th>
+          <th style="width:38px"></th>
+        </tr></thead><tbody></tbody>
+      </table>
+    </div>
+    <div class="barra-tabela">
+      <button class="act pequeno" data-add="tToBe" type="button">Adicionar etapa do TO-BE</button>
+      <button class="act pequeno" data-add="tToBe" data-modelo="1" type="button">Adicionar etapa padrão (automação de conferência)</button>
+    </div>
+
+    <div class="campo" style="margin-top:20px"><label for="tobe_piloto">4.6. Onde e como testar o TO-BE</label>
+      <textarea id="tobe_piloto" placeholder="Piloto de 90 dias em uma central de vistoria, com a medição da etapa de documentos antes e depois, no painel."></textarea></div>
+  </section>
+
+  <!-- ================= BLOCO 5 ================= -->
+  <section class="bloco">
+    <div class="bloco-titulo"><span class="bloco-num">Bloco 5</span><h2>Escopo, artefatos e o MVP mínimo</h2></div>
+    <p class="intro">O MVP é a menor coisa que já serve para provar a ideia. O professor
+      monta o MVP funcional a partir desta tabela: cada linha vira uma tela, uma regra ou
+      uma automação do protótipo.</p>
+
+    <div class="campo"><label for="entrega">5.1. Qual é o entregável final?</label>
+      <textarea id="entrega" placeholder="Aplicativo web de conferência de arma, com três telas (conferência, revisão e envio), publicado no GitHub Pages, mais o manual de uso em PDF."></textarea></div>
+
+    <div class="campo"><label for="dentro">5.2. O que entra no escopo</label>
+      <textarea id="dentro" placeholder="Registro da conferência, leitura da ficha, geração do PDF da ficha e envio ao SINARM por integração."></textarea></div>
+
+    <div class="campo"><label for="fora">5.3. O que fica de fora, e por quê</label>
+      <textarea id="fora" placeholder="A integração com o SINARM fica para a fase 2, porque depende de credencial de sistema oficial que ainda não foi liberada."></textarea></div>
+
+    <div class="campo"><label for="mvp_naofaz">5.4. O que o MVP NÃO faz, mesmo que o projeto final faça</label>
+      <span class="dica">Esta é a lista que corta escopo. O MVP prova uma coisa só, e o que
+        fica de fora está escrito, para ninguém cobrar depois.</span>
+      <textarea id="mvp_naofaz" placeholder="O MVP não integra com o SINARM, não envia e-mail, não tem login e não guarda histórico: a conferência fica só na tela."></textarea></div>
+
+    <label class="rot">5.5. Telas, artefatos ou etapas do entregável</label>
+    <span class="dica">Uma linha por tela, documento, etapa do mapeamento ou bloco do
+      relatório. A coluna “mínimo do MVP” diz o que precisa existir na primeira versão
+      funcional, e “verificável como” diz como se prova que a linha funciona.</span>
+    <div class="tabela-wrap">
+      <table id="tArtefatos">
+        <thead><tr>
+          <th style="width:34px">#</th><th style="width:160px">Tela, artefato ou etapa</th>
+          <th style="width:170px">Objetivo</th><th style="width:120px">Quem usa</th>
+          <th style="width:170px">Dados que aparecem</th><th style="width:160px">Ação principal</th>
+          <th style="width:170px">Regra ou regra de negócio</th><th style="width:120px">Tipo</th>
+          <th style="width:170px">Verificável como</th><th style="width:85px">MVP mínimo</th>
+          <th style="width:38px"></th>
+        </tr></thead><tbody></tbody>
+      </table>
+    </div>
+    <div class="barra-tabela">
+      <button class="act pequeno" data-add="tArtefatos" type="button">Adicionar artefato</button>
+      <button class="act pequeno" data-add="tArtefatos" data-modelo="1" type="button">Adicionar artefato padrão (tela principal)</button>
+    </div>
+
+    <div class="grid2" style="margin-top:20px">
+      <div class="campo"><label for="mvp_objetivo">5.6. Objetivo do MVP, em uma frase</label>
+        <input type="text" id="mvp_objetivo" placeholder="Provar que o perito consegue registrar a conferência pelo celular em menos de 2 minutos"></div>
+      <div class="campo"><label for="mvp_plataforma">5.7. Plataforma alvo</label>
+        <select id="mvp_plataforma">
+          <option value=""></option>
+          <option>Site web (abre no navegador)</option>
+          <option>Aplicativo de celular</option>
+          <option>Programa de desktop</option>
+          <option>Painel de Business Intelligence</option>
+          <option>Relatório ou PDF automático</option>
+          <option>Planilha com automação</option>
+          <option>Mapeamento ou diagrama</option>
+          <option>Procedimento ou norma escrita</option>
+          <option>Ainda não definido</option>
+        </select></div>
+    </div>
+
+    <div class="campo"><label for="mvp_tela_inicial">5.8. Qual é a primeira tela ou o primeiro artefato que o usuário vê</label>
+      <input type="text" id="mvp_tela_inicial" placeholder="Tela de login com matrícula, e depois o formulário de conferência da arma"></div>
+
+    <div class="campo"><label for="mvp_mock">5.9. O que vai ser simulado no MVP</label>
+      <span class="dica">O que não funciona de verdade e vai ser fingido, com dado de exemplo. Dizer isso agora evita promessa quebrada depois.</span>
+      <textarea id="mvp_mock" placeholder="A integração com o SINARM é simulada: o sistema mostra uma tela de sucesso, mas não grava nada. Os dados são de exemplo, com nomes fictícios."></textarea></div>
+
+    <div class="campo"><label for="mvp_criterio">5.10. Critério de aceite: como se sabe que o MVP funciona</label>
+      <textarea id="mvp_criterio" placeholder="O perito consegue registrar uma conferência completa em menos de 2 minutos, e o registro aparece no painel do professor ao recarregar a página."></textarea></div>
+
+    <div class="campo"><label for="mvp_dados">5.11. Dados de exemplo que o MVP deve ter</label>
+      <textarea id="mvp_dados" placeholder="No mínimo 10 registros de conferência de arma, com nomes fictícios, número de série, tipo de arma e situação, mais 3 casos de exceção."></textarea></div>
+
+    <div class="campo"><label for="mvp_reuso">5.12. O que já existe pronto e pode ser reaproveitado</label>
+      <span class="dica">Biblioteca, modelo de documento, script, planilha, template do agente. Reaproveitar é o caminho mais curto para o MVP.</span>
+      <textarea id="mvp_reuso" placeholder="Existe um modelo de ficha em PDF no manual da unidade, e o professor tem o template de app do Github Pages usado na aula anterior."></textarea></div>
+
+    <div class="campo"><label for="dependencias">5.13. De quem o projeto depende</label>
+      <span class="dica">TI, jurídico, sistema oficial, chefia, fornecedor, área parceira. Dependência sem dono é projeto parado.</span>
+      <textarea id="dependencias" placeholder="TI libera um usuário de integração no SINARM até o dia 20. O jurídico valida a assinatura eletrônica. A chefia define o campo obrigatório da ficha."></textarea></div>
+  </section>
+
+  <!-- ================= BLOCO 7 ================= -->
+  <section class="bloco roxo">
+    <div class="bloco-titulo"><span class="bloco-num">Bloco 6</span><h2>Dados, regras de negócio e conformidade do MVP</h2></div>
+    <p class="intro">Esta é a especificação que o MVP precisa cumprir. Tudo o que está
+      aqui vira o <code>PROJETO.md</code>, que é o dossiê do projeto: ele alimenta o
+      agente do Antigravity na hora de construir o app.</p>
+
+    <label class="rot">6.1. Entidades e colunas (tudo sintético)</label>
+    <span class="dica">Uma linha por entidade do MVP. Nas colunas, liste os campos com o
+      tipo e o formato, separados por vírgula. Marque como sintético todo dado que não
+      venha de uma fonte real.</span>
+    <div class="tabela-wrap">
+      <table id="tEntidades">
+        <thead><tr>
+          <th style="width:150px">Entidade</th><th style="width:180px">O que representa</th>
+          <th style="width:280px">Colunas (nome: tipo)</th><th style="width:130px">Chave</th>
+          <th style="width:90px">Volume</th><th style="width:150px">Origem</th>
+          <th style="width:100px">Sintético?</th><th style="width:38px"></th>
+        </tr></thead><tbody></tbody>
+      </table>
+    </div>
+    <div class="barra-tabela">
+      <button class="act pequeno" data-add="tEntidades" type="button">Adicionar entidade</button>
+      <button class="act pequeno" data-add="tEntidades" data-modelo="1" type="button">Adicionar entidade padrão (Registro)</button>
+    </div>
+
+    <label class="rot" style="margin-top:22px">6.2. Regras de negócio</label>
+    <span class="dica">Uma linha por regra, numerada no padrão RN01, RN02. A regra é a
+      frase que o programa precisa obedecer: “se o CPF não tiver 11 dígitos, o
+      registro é recusado”.</span>
+    <div class="tabela-wrap">
+      <table id="tRegras">
+        <thead><tr>
+          <th style="width:80px">ID</th><th style="width:290px">Regra</th>
+          <th style="width:180px">Quando se aplica</th><th style="width:170px">Exceção</th>
+          <th style="width:130px">Quem valida</th><th style="width:120px">Tipo</th>
+          <th style="width:38px"></th>
+        </tr></thead><tbody></tbody>
+      </table>
+    </div>
+    <div class="barra-tabela">
+      <button class="act pequeno" data-add="tRegras" type="button">Adicionar regra</button>
+      <button class="act pequeno" data-add="tRegras" data-modelo="1" type="button">Adicionar regra padrão (validação de CPF)</button>
+    </div>
+
+    <div class="campo" style="margin-top:20px"><label for="lgpd_dados">6.3. Dados pessoais tratados pelo MVP</label>
+      <textarea id="lgpd_dados" placeholder="Nome e CPF do condutor, apenas para o registro do teste. A foto do documento fica só no dispositivo e não é gravada."></textarea></div>
+
+    <div class="grid2">
+      <div class="campo"><label for="lgpd_base">6.4. Base legal e finalidade</label>
+        <input type="text" id="lgpd_base" placeholder="Execução de procedimento administrativo, art. 7º, II, da Lei 13.709/2018"></div>
+      <div class="campo"><label for="lgpd_retencao">6.5. Prazo de retenção</label>
+        <input type="text" id="lgpd_retencao" placeholder="Dados do MVP ficam apenas no navegador, e são apagados ao limpar a página"></div>
+    </div>
+
+    <div class="campo"><label for="lgpd_acesso">6.6. Quem acessa, e como é registrado</label>
+      <textarea id="lgpd_acesso" placeholder="No MVP, qualquer pessoa com o arquivo acessa. A versão com login registra usuário, data e hora de cada alteração."></textarea></div>
+
+    <div class="campo"><label>6.7. Stack e ambiente de execução</label>
+      <span class="dica">O padrão da aula é <b>HTML único</b>: um arquivo com CSS e JS
+        embutidos, dados em JSON dentro do próprio arquivo, publicado no GitHub Pages.
+        Se o seu projeto for outro, escolha a opção certa e explique.</span>
+      <div class="opcoes" style="margin-bottom:10px">
+        <label><input type="radio" name="stack" value="HTML único (CSS/JS inline), dados em JSON embutido, GitHub Pages"> HTML único (padrão da aula)</label>
+        <label><input type="radio" name="stack" value="HTML único + dados em arquivo JSON separado"> HTML único com JSON separado</label>
+        <label><input type="radio" name="stack" value="Aplicativo web com framework (React, Vite, TypeScript)"> Aplicativo web com framework</label>
+        <label><input type="radio" name="stack" value="Python (script, Flask ou similar)"> Python</label>
+        <label><input type="radio" name="stack" value="Power BI (dashboard e medidas DAX)"> Power BI</label>
+        <label><input type="radio" name="stack" value="Planilha com automação"> Planilha com automação</label>
+        <label><input type="radio" name="stack" value="Mermaid / diagrama + documento"> Diagrama e documento</label>
+        <label><input type="radio" name="stack" value="Ainda não definido"> Ainda não definido</label>
+      </div>
+      <textarea id="stack_detalhe" placeholder="Um arquivo index.html, com dados fictícios em um array JS, publicado no GitHub Pages. Sem build, sem servidor."></textarea></div>
+  </section>
+
+  <!-- ================= BLOCO 8 ================= -->
+  <section class="bloco ambar">
+    <div class="bloco-titulo"><span class="bloco-num">Bloco 7</span><h2>Fontes de dados</h2></div>
+    <p class="intro">É daqui que sai o painel do problema real. Para cada fonte: onde está,
+      quem tem acesso, o que é uma linha, quais campos de data e tempo existem e se há
+      dado sensível. Se a fonte não existir hoje, marque “não” e explique no Bloco 7 o que
+      precisa ser coletado.</p>
+
+    <label class="rot">7.1. Tabela de fontes</label>
+    <div class="tabela-wrap">
+      <table id="tFontes">
+        <thead><tr>
+          <th style="width:140px">Fonte</th><th style="width:120px">Tipo</th>
+          <th style="width:140px">Onde fica</th><th style="width:85px">Existe?</th>
+          <th style="width:110px">Acesso</th><th style="width:140px">Uma linha é</th>
+          <th style="width:85px">Volume</th><th style="width:100px">Histórico</th>
+          <th style="width:190px">Campos de data e tempo</th><th style="width:110px">Atualiza</th>
+          <th style="width:120px">Dado sensível (LGPD)</th><th style="width:150px">Observação</th>
+          <th style="width:38px"></th>
+        </tr></thead><tbody></tbody>
+      </table>
+    </div>
+    <div class="barra-tabela">
+      <button class="act pequeno" data-add="tFontes" type="button">Adicionar fonte</button>
+      <button class="act pequeno" data-add="tFontes" data-modelo="1" type="button">Adicionar fonte padrão (planilha de controle)</button>
+    </div>
+
+    <div class="campo" style="margin-top:20px"><label for="coletar">7.2. O que não existe hoje e precisa ser coletado</label>
+      <textarea id="coletar" placeholder="Hoje não há registro de quando a ficha chega ao digitador. Proposta: marcar a data de entrada e a data de envio no formulário durante 4 semanas."></textarea></div>
+
+    <div class="campo"><label for="acesso">7.3. Quem libera o acesso, e quando</label>
+      <textarea id="acesso" placeholder="A chefia da seção libera a planilha até o dia 15. O TI cria usuário de leitura do sistema de sinistros para o professor até o dia 20."></textarea></div>
+  </section>
+
+  <!-- ================= BLACO 5 ================= -->
+  <!-- ================= BLOCO 8 ================= -->
+  <section class="bloco verde">
+    <div class="bloco-titulo"><span class="bloco-num">Bloco 8</span><h2>As métricas: linha de base e melhoria hipotética</h2></div>
+    <p class="intro">A defesa do projeto é feita com estes números. Cada métrica tem uma
+      linha de base medida no processo de hoje e um valor esperado depois da intervenção,
+      com a mesma unidade dos dois lados.</p>
+
+    <div class="aviso" style="margin-top:0">
+      <b>Regras:</b> (1) uma métrica responde a uma pergunta; (2) toda métrica tem fonte;
+      (3) toda métrica tem unidade; (4) o valor esperado é hipótese declarada, e o piloto
+      serve para testá-la; (5) sem linha de base, escreva <b>A MEDIR</b> e diga como
+      medir em até duas semanas.
+    </div>
+
+    <label class="rot">8.1. Tabela de métricas</label>
+    <div class="tabela-wrap">
+      <table id="tMetricas">
+        <thead><tr>
+          <th style="width:34px">#</th><th style="width:150px">Nome da métrica</th>
+          <th style="width:170px">Pergunta que responde</th><th style="width:170px">Fórmula</th>
+          <th style="width:120px">Fonte (Bloco 4)</th><th style="width:95px">Granularidade</th>
+          <th style="width:95px">Linha de base</th><th style="width:95px">Valor esperado</th>
+          <th style="width:150px">Como medir na semana 1</th><th style="width:100px">Quem mede</th>
+          <th style="width:38px"></th>
+        </tr></thead><tbody></tbody>
+      </table>
+    </div>
+    <div class="barra-tabela">
+      <button class="act pequeno" data-add="tMetricas" type="button">Adicionar métrica</button>
+      <button class="act pequeno" data-add="tMetricas" data-modelo="1" type="button">Adicionar métrica padrão (tempo de espera)</button>
+      <button class="act pequeno" data-add="tMetricas" data-modelo="2" type="button">Adicionar métrica padrão (volume)</button>
+      <button class="act pequeno" data-add="tMetricas" data-modelo="3" type="button">Adicionar métrica padrão (retrabalho)</button>
+    </div>
+
+    <div class="campo" style="margin-top:20px"><label for="base_periodo">8.2. Período e volume da linha de base</label>
+      <textarea id="base_periodo" placeholder="Todos os registros de janeiro a dezembro de 2025: 180 conferências de arma e 1.113 sinistros."></textarea></div>
+
+    <div class="campo"><label for="campos_data">8.3. Quais campos de data e tempo existem de fato</label>
+      <span class="dica">É o que define se dá para medir espera, e não só volume.</span>
+      <textarea id="campos_data" placeholder="A planilha tem data de entrada e data de envio, mas não tem horário. Sem hora, a espera é medida por dia, e não por hora."></textarea></div>
+  </section>
+
+  <!-- ================= BLOCO 8 ================= -->
+  <section class="bloco roxo">
+    <div class="bloco-titulo"><span class="bloco-num">Bloco 9</span><h2>Hospedagem e implantação da plataforma</h2></div>
+    <p class="intro">Onde o artefato vai rodar. Esta é a pergunta que mata ou salva o
+      projeto: uma solução que só funciona no notebook de quem fez não é solução. Marque
+      as opções que você considera e escolha uma.</p>
+
+    <label class="rot">9.1. Opções de hospedagem consideradas</label>
+    <span class="dica">Uma linha por opção. A coluna “limitação” é a que decide: é onde a
+      opção deixa de servir.</span>
+    <div class="tabela-wrap">
+      <table id="tHospedagem">
+        <thead><tr>
+          <th style="width:170px">Opção</th><th style="width:130px">Tipo</th>
+          <th style="width:140px">Onde roda</th><th style="width:110px">Custo</th>
+          <th style="width:130px">Quem mantém</th><th style="width:130px">Acesso</th>
+          <th style="width:120px">Banco de dados</th><th style="width:110px">Escala</th>
+          <th style="width:190px">Limitação</th><th style="width:38px"></th>
+        </tr></thead><tbody></tbody>
+      </table>
+    </div>
+    <div class="barra-tabela">
+      <button class="act pequeno" data-add="tHospedagem" type="button">Adicionar opção</button>
+      <button class="act pequeno" data-add="tHospedagem" data-modelo="1" type="button">Adicionar opção padrão (GitHub Pages)</button>
+      <button class="act pequeno" data-add="tHospedagem" data-modelo="2" type="button">Adicionar opção padrão (arquivo HTML único)</button>
+      <button class="act pequeno" data-add="tHospedagem" data-modelo="3" type="button">Adicionar opção padrão (Firebase Hosting)</button>
+    </div>
+
+    <div class="campo" style="margin-top:20px"><label for="hospedagem_escolhida">9.2. Opção escolhida e por quê</label>
+      <textarea id="hospedagem_escolhida" placeholder="Arquivo HTML único, aberto com duplo clique: cabe na conversa do agente, publica no GitHub Pages e não depende de servidor nem de orçamento de TI."></textarea></div>
+
+    <div class="campo"><label for="conta_quem">9.3. Quem cria a conta, o domínio e o acesso</label>
+      <textarea id="conta_quem" placeholder="O aluno cria a conta no GitHub com e-mail institucional; o repositório fica privado até a entrega final."></textarea></div>
+
+    <div class="campo"><label for="orcamento">9.4. Orçamento, licenças e custos previstos</label>
+      <textarea id="orcamento" placeholder="Sem custo: só conta gratuita. Se houver API paga, custo estimado de R$ 0 a R$ 100 por mês, a ser Discussão com o TI."></textarea></div>
+  </section>
+
+  <!-- ================= BLOCO 9 ================= -->
+  <section class="bloco">
+    <div class="bloco-titulo"><span class="bloco-num">Bloco 10</span><h2>Requisitos, restrições e pesquisa</h2></div>
+    <p class="intro">O que a solução precisa respeitar, e o que você levantou para
+      sustentar a proposta com fonte. A referência externa é o que separa uma ideia de
+      uma proposta defendível.</p>
+
+    <div class="campo"><label>10.1. Requisitos e restrições que já estão definidos</label>
+      <span class="dica">Marque tudo que se aplica ao seu projeto.</span>
+      <div class="opcoes">
+        <label><input type="checkbox" name="req" value="LGPD e dado pessoal"> LGPD e dado pessoal</label>
+        <label><input type="checkbox" name="req" value="Segurança e controle de acesso"> Segurança e controle de acesso</label>
+        <label><input type="checkbox" name="req" value="Acessibilidade"> Acessibilidade</label>
+        <label><input type="checkbox" name="req" value="Funcionar offline"> Funcionar offline</label>
+        <label><input type="checkbox" name="req" value="Integração com sistema oficial"> Integração com sistema oficial</label>
+        <label><input type="checkbox" name="req" value="Assinatura ou认证 eletrônica"> Assinatura ou certificação eletrônica</label>
+        <label><input type="checkbox" name="req" value="Multilinguagem"> Multilinguagem</label>
+        <label><input type="checkbox" name="req" value="Impressão em formato oficial"> Impressão em formato oficial</label>
+        <label><input type="checkbox" name="req" value="Trilha de auditoria"> Trilha de auditoria</label>
+        <label><input type="checkbox" name="req" value="Nenhum (protótipo de aula)"> Nenhum (protótipo de aula)</label>
+      </div></div>
+
+    <div class="campo"><label for="restricoes">10.2. As restrições que você já sabe que existem</label>
+      <textarea id="restricoes" placeholder="O usuário do sistema oficial não pode ser criado sem autorização da chefia. O campo de matrícula é obrigatório e validado pela regra do SINARM."></textarea></div>
+
+    <div class="campo"><label for="hipotese_campo">10.3. Sua hipótese de campo, em uma frase</label>
+      <span class="dica">O que você acredita ser verdade sobre o problema, antes dos dados. Depois do dado, você confere ou corrige.</span>
+      <textarea id="hipotese_campo" placeholder="A maior perda de tempo na conferência de arma não é a conferência em si, é a transcrição do papel para o sistema."></textarea></div>
+
+    <label class="rot">10.4. Pesquisa de apoio: dados e referências</label>
+    <span class="dica">Uma linha por referência: dado oficial, notícia, artigo, norma ou
+      documento interno. Escreva o número com a fonte, e marque se o link foi conferido.</span>
+    <div class="tabela-wrap">
+      <table id="tRefs">
+        <thead><tr>
+          <th style="width:34px">#</th><th style="width:190px">Referência</th>
+          <th style="width:140px">Tipo</th><th style="width:170px">Fonte ou link</th>
+          <th style="width:80px">Ano</th><th style="width:220px">Dado que extrai</th>
+          <th style="width:190px">Como usar na defesa</th><th style="width:95px">Link conferido</th>
+          <th style="width:38px"></th>
+        </tr></thead><tbody></tbody>
+      </table>
+    </div>
+    <div class="barra-tabela">
+      <button class="act pequeno" data-add="tRefs" type="button">Adicionar referência</button>
+    </div>
+
+    <div class="campo" style="margin-top:20px"><label for="lacunas">10.5. Lacunas e limites da sua pesquisa</label>
+      <span class="dica">O que você não encontrou, e o que ainda precisa verificar. Declarar a lacuna dá mais credibilidade do que esconder.</span>
+      <textarea id="lacunas" placeholder="Não achei série pública de tempo de conferência de arma por unidade. O número de 25 minutos veio de 3 observações, e precisa de medição de 4 semanas."></textarea></div>
+  </section>
+
+  <!-- ================= BLOCO 10 ================= -->
+  <section class="bloco ambar">
+    <div class="bloco-titulo"><span class="bloco-num">Bloco 11</span><h2>Marcos, riscos e apoio necessário</h2></div>
+
+    <label class="rot">11.1. Marcos do projeto</label>
+    <div class="tabela-wrap">
+      <table id="tMarcos">
+        <thead><tr>
+          <th style="width:200px">Marco</th><th style="width:120px">Data</th>
+          <th style="width:160px">Responsável</th><th style="width:200px">Depende de</th>
+          <th style="width:120px">Situação</th><th style="width:38px"></th>
+        </tr></thead><tbody></tbody>
+      </table>
+    </div>
+    <div class="barra-tabela">
+      <button class="act pequeno" data-add="tMarcos" type="button">Adicionar marco</button>
+    </div>
+
+    <label class="rot" style="margin-top:22px">11.2. Riscos</label>
+    <div class="tabela-wrap">
+      <table id="tRiscos">
+        <thead><tr>
+          <th style="width:230px">Risco</th><th style="width:130px">Probabilidade</th>
+          <th style="width:130px">Impacto</th><th style="width:280px">Mitigação</th>
+          <th style="width:38px"></th>
+        </tr></thead><tbody></tbody>
+      </table>
+    </div>
+    <div class="barra-tabela">
+      <button class="act pequeno" data-add="tRiscos" type="button">Adicionar risco</button>
+    </div>
+
+    <div class="campo" style="margin-top:20px"><label for="apoio">11.3. De que apoio você precisa, e de quem</label>
+      <textarea id="apoio" placeholder="Preciso de uma hora com a chefia para definir os campos obrigatórios da ficha, e de um usuário de leitura no SINARM até o dia 20."></textarea></div>
+
+    <div class="campo"><label for="aprendizado">11.4. O que você precisa aprender para executar</label>
+      <textarea id="aprendizado" placeholder="Modelagem de processo, medida de espera, leitura de documento por imagem, GitHub e Antigravity."></textarea></div>
+  </section>
+
+  <!-- ================= BLOCO 11 ================= -->
+  <section class="bloco roxo">
+    <div class="bloco-titulo"><span class="bloco-num">Bloco 12</span><h2>A defesa</h2></div>
+    <p class="intro">Escreva a apresentação como uma frase de abertura. O professor usa
+      essa frase como título do painel e como eixo da apresentação.</p>
+
+    <div class="campo"><label for="frase">12.1. A frase de defesa, em uma linha</label>
+      <span class="dica">Modelo: <i>Se [métrica] passar de [linha de base] para [valor esperado], [quem] deixa de [problema].</i></span>
+      <textarea id="frase" placeholder="Se o tempo de conferência cair de 25 para 8 minutos por arma, o perito deixa de digitar a mesma ficha duas vezes."></textarea></div>
+
+    <div class="campo"><label for="provas">12.2. As três evidências que sustentam a proposta</label>
+      <textarea id="provas" placeholder="1. 18% das transcrições voltam para conferência. 2. São 25 minutos por arma e 180 armas por mês. 3. O SINARM não aceita importação do formulário da conferência."></textarea></div>
+
+    <div class="campo"><label for="piloto">12.3. Como você vai testar se a proposta funciona</label>
+      <textarea id="piloto" placeholder="Piloto de 30 dias com duas salas de armas, medindo o tempo de conferência e a taxa de retorno do formulário."></textarea></div>
+
+    <div class="campo"><label for="risco_defesa">12.4. O maior risco da proposta e como tratar</label>
+      <textarea id="risco_defesa" placeholder="A chefia pode pedir campo novo na ficha oficial. Mitigação: manter o formulário compatível com o layout atual e tratar a mudança por versão."></textarea></div>
+  </section>
+
+  <!-- ================= ENVIO ================= -->
+    <!-- ================= BLOCO 11 ================= -->
+  <section class="bloco verde">
+    <div class="bloco-titulo"><span class="bloco-num">Bloco 13</span><h2>Envie os documentos do seu projeto</h2></div>
+    <p class="intro">Tudo o que você já tem do projeto entra aqui: o diagrama AS-IS, o
+      TO-BE, a planilha de controle, o modelo de ficha, o print do sistema, o manual, a
+      planilha de dados, o código que já existe, o material do professor. É desse conjunto
+      que o professor monta o diagrama AS-IS, o TO-BE, o TO-BE com automação e o MVP
+      funcional.</p>
+
+    <div class="progresso" id="progresso"></div>
+    <div class="kpis" id="checklist"></div>
+    <div id="pendencias"></div>
+
+    <div class="campo">
+      <label for="arquivos">13.1. Arquivos do projeto</label>
+      <span class="dica">Arraste os arquivos para a área ou clique para escolher. Pode
+        enviar quantos quiser. Cada arquivo tem que ter até <b>600 KB</b>, que é o limite
+        do Firestore por documento.</span>
+      <div id="statusFirebase" class="aviso" style="margin:0 0 12px">Verificando o envio automático...</div>
+      <div id="dropzone" class="dropzone">
+        <b>Arraste aqui os arquivos</b>
+        <span>ou clique para escolher no computador</span>
+        <input type="file" id="arquivos" multiple class="oculto">
+      </div>
+      <div id="listaArquivos" class="lista-arquivos"></div>
+      <div class="barra-tabela">
+        <button class="act pequeno" id="btnAddArquivo" type="button">Adicionar arquivos</button>
+        <button class="act pequeno" id="btnLimparArquivos" type="button">Remover todos</button>
+        <span class="dica" style="margin:0" id="resumoArquivos">Nenhum arquivo selecionado.</span>
+      </div>
+    </div>
+
+    <div class="campo"><label for="doc_descricao">13.2. O que é cada arquivo, em uma linha</label>
+      <span class="dica">Escreva “nome do arquivo: o que é”. O professor usa essa lista para
+        encontrar o que precisa, sem abrir um por um.</span>
+      <textarea id="doc_descricao" placeholder="AS-IS.png: o fluxo atual desenhado à mão.Controle.xlsx: a planilha com 180 registros de conferência. Manual-ficha.pdf: o modelo oficial da ficha."></textarea></div>
+
+    <div class="campo"><label for="doc_faltando">13.3. O que você ainda não tem, e precisa para o MVP</label>
+      <textarea id="doc_faltando" placeholder="Falta o desenho do TO-BE e o modelo de ficha atualizado que a chefia ainda não mandou."></textarea></div>
+
+    <div class="campo">
+      <label>13.4. Envio</label>
+      <div class="barra-tabela" style="margin-top:0">
+        <button class="act forte" id="btnEnviar" type="button">Enviar projeto e arquivos ao professor</button>
+        <button class="act" id="btnEmail" type="button">Enviar por e-mail</button>
+        <button class="act" id="btnMd" type="button">Baixar PROJETO.md</button>
+        <button class="act" id="btnJson" type="button">Baixar dados (.json)</button>
+        <button class="act" id="btnCopiar" type="button">Copiar resumo</button>
+        <button class="act" id="btnImprimir" type="button">Imprimir</button>
+        <button class="act" id="btnLimpar" type="button">Limpar tudo</button>
+      </div>
+      <div id="statusEnvio" class="status-envio"></div>
+      <div class="barra-progresso" id="barraEnvio"><i></i></div>
+      <p class="dica">O envio grava tudo no Firestore do projeto
+        <code>aulapolitec</code>: a resposta do projeto e cada arquivo, um documento
+        por arquivo. Arquivo acima de <b>600 KB</b> não entra: envie esses por e-mail ou
+        WhatsApp, com o identificador do projeto. Se você estiver sem internet, o botão
+        não funciona: baixe o <b>.json</b> e envie por e-mail. Nada se perde: o rascunho
+        fica salvo neste navegador.</p>
+    </div>
+
+    <div class="aviso" style="margin-bottom:0">
+      <b>Privacidade:</b> não envie dado pessoal de citizens (CPF, endereço, telefone de
+        terceiro, foto). A aula usa dados sintéticos, conforme a Lei nº 13.709/2018.
+        Documento oficial, norma e material interno da unidade estão bem-vindos, desde que
+        não tragam dado pessoal de quem não é da equipe.
+    </div>
+  </section>
+</div>
+
+
+<!-- ================= PAINEL DO PROFESSOR ================= -->
+<div id="painel" class="oculto">
+  <div class="aviso">
+    <b>Painel do professor.</b> Importe os arquivos <b>.json</b> das equipes para
+    consolidar tudo em uma tabela única: projeto, papéis, fontes de dados, hospedagem
+    escolhida e as métricas com linha de base e valor esperado. Daqui sai o painel de
+    cada projeto e a ordem de prioridade das aulas.
+  </div>
+
+  <section class="bloco">
+    <div class="bloco-titulo"><span class="bloco-num">Painel</span><h2>Consolidação dos projetos</h2></div>
+    <div class="barra-tabela">
+      <label class="act" style="cursor:pointer">Importar arquivos .json
+        <input type="file" id="importar" accept=".json,application/json" multiple class="oculto"></label>
+      <button class="act" id="btnCsv" type="button">Exportar consolidação (.csv)</button>
+      <button class="act" id="btnCsvDetalhe" type="button">Exportar detalhe (.csv)</button>
+      <button class="act" id="btnLimparPainel" type="button">Limpar consolidação</button>
+      <span class="dica" style="margin:0" id="statusPainel">Nenhuma resposta importada.</span>
+    </div>
+    <div class="kpis" id="kpiPainel"></div>
+    <div class="tabela-wrap">
+      <table id="tConsolidado">
+        <thead><tr>
+          <th style="width:130px">Aluno ou equipe</th><th style="width:120px">Tipo</th>
+          <th style="width:180px">Projeto</th><th style="width:200px">Problema</th>
+          <th style="width:90px">AS-IS</th><th style="width:90px">TO-BE</th>
+          <th style="width:90px">MVP</th>
+          <th style="width:170px">Papéis</th><th style="width:170px">Fontes</th>
+          <th style="width:150px">Métricas</th><th style="width:170px">Hospedagem</th>
+          <th style="width:110px">Status</th>
+        </tr></thead><tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="bloco ambar">
+    <div class="bloco-titulo"><span class="bloco-num">Fluxo</span><h2>AS-IS e TO-BE: o desenho que o professor monta</h2></div>
+    <p class="intro">Da tabela de etapas do AS-IS sai o diagrama do processo como ele é hoje,
+      com a etapa que mais espera marcada em vermelho. Da tabela do TO-BE sai o diagrama
+      futuro, na versão normal e na versão com automação.</p>
+    <div class="tabela-wrap">
+      <table id="tFluxoConsol">
+        <thead><tr>
+          <th style="width:140px">Aluno ou equipe</th><th style="width:160px">Projeto</th>
+          <th style="width:90px">Etapas AS-IS</th><th style="width:220px">Etapa que mais espera</th>
+          <th style="width:110px">Automatizáveis</th><th style="width:90px">Etapas TO-BE</th>
+          <th style="width:150px">Etapas com máquina</th><th style="width:150px">Papéis no fluxo</th>
+        </tr></thead><tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="bloco roxo">
+    <div class="bloco-titulo"><span class="bloco-num">MVP</span><h2>O MVP que será construído</h2></div>
+    <p class="intro">Cada linha da tabela de artefatos vira uma tela, uma regra ou uma
+      automação do protótipo funcional. O critério de aceite é o teste de que a linha
+      funciona.</p>
+    <div class="tabela-wrap">
+      <table id="tMvpConsol">
+        <thead><tr>
+          <th style="width:140px">Aluno ou equipe</th><th style="width:160px">Projeto</th>
+          <th style="width:220px">Objetivo do MVP</th><th style="width:150px">Plataforma</th>
+          <th style="width:230px">Primeira tela</th><th style="width:200px">O que é simulado</th>
+          <th style="width:230px">Critério de aceite</th>
+        </tr></thead><tbody></tbody>
+      </table>
+    </div>
+    <div class="tabela-wrap" style="margin-top:16px">
+      <table id="tFuncConsol">
+        <thead><tr>
+          <th style="width:140px">Aluno ou equipe</th><th style="width:170px">Projeto</th>
+          <th style="width:170px">Funcionalidade</th><th style="width:100px">Tipo</th>
+          <th style="width:170px">Quem usa</th><th style="width:220px">Verificável como</th>
+          <th style="width:90px">MVP</th>
+        </tr></thead><tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="bloco">
+    <div class="bloco-titulo"><span class="bloco-num">Métricas</span><h2>Linha de base e melhoria hipotética</h2></div>
+    <div class="tabela-wrap">
+      <table id="tMetricasConsol">
+        <thead><tr>
+          <th style="width:130px">Aluno ou equipe</th><th style="width:150px">Projeto</th>
+          <th style="width:160px">Métrica</th><th style="width:180px">Pergunta</th>
+          <th style="width:90px">Base</th><th style="width:90px">Esperado</th>
+          <th style="width:100px">Variação</th><th style="width:140px">Fonte</th>
+          <th style="width:110px">Status</th>
+        </tr></thead><tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="bloco ambar">
+    <div class="bloco-titulo"><span class="bloco-num">Hospedagem</span><h2>Onde cada projeto vai rodar</h2></div>
+    <div class="tabela-wrap">
+      <table id="tHospedConsol">
+        <thead><tr>
+          <th style="width:140px">Aluno ou equipe</th><th style="width:170px">Projeto</th>
+          <th style="width:220px">Opção escolhida</th><th style="width:150px">Custo</th>
+          <th style="width:150px">Quem mantém</th><th style="width:260px">Limitações citadas</th>
+        </tr></thead><tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="bloco verde">
+    <div class="bloco-titulo"><span class="bloco-num">Checklist</span><h2>O que falta em cada projeto</h2></div>
+    <div class="kpis" id="kpiFaltas"></div>
+    <div class="tabela-wrap">
+      <table id="tFaltas">
+        <thead><tr>
+          <th style="width:150px">Aluno ou equipe</th><th style="width:150px">Tipo</th>
+          <th style="width:90px">Papéis</th><th style="width:90px">Fontes</th>
+          <th style="width:130px">Métricas com base</th><th style="width:150px">Hospedagem</th>
+          <th style="width:240px">Pendências</th>
+        </tr></thead><tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="bloco">
+    <div class="bloco-titulo"><span class="bloco-num">Professor</span><h2>Como usar a consolidação na aula</h2></div>
+    <div class="rodape">
+      <ol style="margin:0;padding-left:20px;font-size:15px;color:var(--ink-soft)">
+        <li style="margin-bottom:6px">Cada equipe recebe o painel do professor com a
+          <b>linha de base</b> da métrica que declarou, calculada nas fontes do Bloco 4.</li>
+        <li style="margin-bottom:6px">O painel tem o cartão de hoje e o cartão do valor
+          esperado, lado a lado. Esse par é a defesa.</li>
+        <li style="margin-bottom:6px">A equipe escreve a hipótese em cima do painel e explica,
+          em três minutos, o que muda para o usuário e para a unidade.</li>
+        <li style="margin-bottom:6px">O piloto de 30 a 90 dias testa a hipótese: no fim, o
+          mesmo painel mostra o valor real no lugar do esperado.</li>
+        <li style="margin-bottom:6px">A <b>hospedagem</b> é a checagem de viabilidade: projeto
+          sem plano de onde rodar não sai do papel.</li>
+        <li>Se o valor real ficar perto do esperado, a intervenção sobe de fase. Se não, a
+          hipótese é corrigida, e o painel continua sendo a evidência.</li>
+      </ol>
+    </div>
+  </section>
+</div>
+</main>
+
+<footer class="foot"><div class="wrap">
+  <b>Curso de Capacitação POLITEC/MT</b> · Fase de ideação e prototipação · Professor Renato Rosa.
+  Formulário com salvamento local no navegador, sem servidor e sem dado pessoal.
+</div></footer>
+
+<script type="module">
+  window.fb = { pronto: false, erro: "" };
+  try {
+    const mod = await import("./firebase-config.js");
+    window.fb.COLECAO = mod.COLECAO;
+    window.fb.COLECAO_ARQUIVOS = mod.COLECAO_ARQUIVOS;
+    window.fb.LIMITE_ARQUIVO = mod.LIMITE_ARQUIVO;
+    const m = await mod.iniciarFirebase();
+    window.fb.pronto = true;
+    window.fb.fs = m.fs;
+    window.fb.auth = m.auth;
+    window.fb.db = m.db;
+  } catch (e) {
+    window.fb.erro = e.message || String(e);
+  }
+</script>
+<script>
+/* =====================================================================
+   ESTADO E PERSISTENCIA
+   ===================================================================== */
+const CHAVE = "politec-ideacao-v3";
+const CAMPOS = ["aluno","unidade","contato","nome_projeto","data","resumo",
+  "problema","hoje","impacto","evid_detalhe","limite",
+  "asis_inicio","asis_fim","asis_entradas","asis_saidas","asis_volume","asis_duracao",
+  "asis_decisoes","asis_excecoes","asis_digital",
+  "papeis_obs",
+  "tobe_visao","tobe_mudanca","tobe_inalterado","tobe_restricao","tobe_piloto",
+  "entrega","dentro","fora","dependencias",
+  "mvp_objetivo","mvp_tela_inicial","mvp_mock","mvp_criterio","mvp_dados","mvp_reuso",
+  "coletar","acesso","base_periodo","campos_data",
+  "hospedagem_escolhida","conta_quem","orcamento",
+  "lgpd_dados","lgpd_base","lgpd_retencao","lgpd_acesso","stack_detalhe",
+  "restricoes","hipotese_campo","lacunas",
+  "apoio","aprendizado",
+  "frase","provas","piloto","risco_defesa",
+  "mvp_naofaz","doc_descricao","doc_faltando"];
+
+const SINAIS = [
+  {id:"tipo_projeto", opts:[
+    "Aplicativo (app) para cidadão, servidor ou equipe","Aplicativo web / portal",
+    "Painel de Business Intelligence (dashboard)","Sistema / integração com sistema oficial",
+    "Mapeamento de processo (fluxo, BPMN ou Mermaid)","Automação de script ou rotina",
+    "Relatório ou estudo técnico","Norma, procedimento ou manual","Formulário ou modelo de coleta",
+    "Protótipo de baixo custo (papel, planilha, caneta)","Outro"]},
+  {id:"asis_frequencia", opts:["Diário","Semanal","Mensal","Irregular","Por demanda","Uma vez"]},
+  {id:"mvp_plataforma", opts:["Site web (abre no navegador)","Aplicativo de celular",
+    "Programa de desktop","Painel de Business Intelligence","Relatório ou PDF automático",
+    "Planilha com automação","Mapeamento ou diagrama","Procedimento ou norma escrita",
+    "Ainda não definido"]}
+];
+
+const TABELAS = {
+  tAsIs:{cols:[
+      {k:"n",rot:"#",tipo:"rota"},
+      {k:"etapa",rot:"Etapa",tipo:"texto"},
+      {k:"papel",rot:"Quem faz (papel/unidade)",tipo:"texto"},
+      {k:"entra",rot:"O que entra",tipo:"texto"},
+      {k:"acao",rot:"Ação realizada",tipo:"texto"},
+      {k:"sai",rot:"O que sai",tipo:"texto"},
+      {k:"sistema",rot:"Sistema ou papel",tipo:"texto"},
+      {k:"regra",rot:"Regra ou decisão",tipo:"texto"},
+      {k:"espera",rot:"Onde espera",tipo:"texto"},
+      {k:"tempo",rot:"Tempo (h)",tipo:"texto"},
+      {k:"auto",rot:"Automatizável?",tipo:"select",opts:["Sim, com regra clara","Sim, com apoio humano","Pouco","Não"]},
+      {k:"rm",rot:"",tipo:"rm"}]},
+  tToBe:{cols:[
+      {k:"n",rot:"#",tipo:"rota"},
+      {k:"etapa",rot:"Etapa depois da mudança",tipo:"texto"},
+      {k:"muda",rot:"O que muda",tipo:"texto"},
+      {k:"quem",rot:"Quem executa",tipo:"select",opts:["A máquina (automação)","A pessoa assistida pela máquina","A pessoa, sem mudança"]},
+      {k:"beneficio",rot:"Benefício esperado",tipo:"texto"},
+      {k:"esforco",rot:"Esforço",tipo:"select",opts:["Baixo","Médio","Alto"]},
+      {k:"rm",rot:"",tipo:"rm"}]},
+  tPapeis:{cols:[
+      {k:"papel",rot:"Papel",tipo:"texto"},
+      {k:"quem",rot:"Quem é na prática",tipo:"texto"},
+      {k:"ve",rot:"O que enxerga",tipo:"texto"},
+      {k:"faz",rot:"O que faz",tipo:"texto"},
+      {k:"naofaz",rot:"O que não pode fazer",tipo:"texto"},
+      {k:"registro",rot:"O que o sistema registra",tipo:"texto"},
+      {k:"rm",rot:"",tipo:"rm"}]},
+  tArtefatos:{cols:[
+      {k:"n",rot:"#",tipo:"rota"},
+      {k:"nome",rot:"Tela, artefato ou etapa",tipo:"texto"},
+      {k:"rota",rot:"Rota (#/painel)",tipo:"texto"},
+      {k:"objetivo",rot:"Objetivo",tipo:"texto"},
+      {k:"usuario",rot:"Quem usa",tipo:"texto"},
+      {k:"dados",rot:"Dados que aparecem",tipo:"texto"},
+      {k:"acao",rot:"Ação principal",tipo:"texto"},
+      {k:"regra",rot:"Regra de negócio",tipo:"texto"},
+      {k:"tipo",rot:"Tipo",tipo:"select",opts:["Tela","Ação","Regra","Automação","Integração","Relatório","Documento"]},
+      {k:"verificacao",rot:"Verificável como",tipo:"texto"},
+      {k:"mvp",rot:"MVP mínimo",tipo:"select",opts:["Sim","Não"]},
+      {k:"rm",rot:"",tipo:"rm"}]},
+  tEntidades:{cols:[
+      {k:"entidade",rot:"Entidade",tipo:"texto"},
+      {k:"representa",rot:"O que representa",tipo:"texto"},
+      {k:"colunas",rot:"Colunas (nome: tipo)",tipo:"texto"},
+      {k:"chave",rot:"Chave",tipo:"texto"},
+      {k:"volume",rot:"Volume",tipo:"texto"},
+      {k:"origem",rot:"Origem",tipo:"texto"},
+      {k:"sintetico",rot:"Sintético?",tipo:"select",opts:["Sim","Não","Parcialmente"]},
+      {k:"rm",rot:"",tipo:"rm"}]},
+  tRegras:{cols:[
+      {k:"id",rot:"ID",tipo:"texto"},
+      {k:"regra",rot:"Regra",tipo:"texto"},
+      {k:"quando",rot:"Quando se aplica",tipo:"texto"},
+      {k:"excecao",rot:"Exceção",tipo:"texto"},
+      {k:"valida",rot:"Quem valida",tipo:"texto"},
+      {k:"tipo",rot:"Tipo",tipo:"select",opts:["Validação","Cálculo","Negócio","Acesso","LGPD"]},
+      {k:"rm",rot:"",tipo:"rm"}]},
+  tFontes:{cols:[
+      {k:"fonte",rot:"Fonte",tipo:"texto"},
+      {k:"tipo",rot:"Tipo",tipo:"select",opts:["Sistema oficial","Planilha local","Banco de dados","API","Documento em papel","Relatório","Não existe ainda"]},
+      {k:"onde",rot:"Onde fica",tipo:"texto"},
+      {k:"existe",rot:"Existe?",tipo:"select",opts:["Sim","Parcialmente","Não"]},
+      {k:"acesso",rot:"Acesso",tipo:"texto"},
+      {k:"linha",rot:"Uma linha é",tipo:"texto"},
+      {k:"volume",rot:"Volume",tipo:"texto"},
+      {k:"historico",rot:"Histórico",tipo:"texto"},
+      {k:"campos",rot:"Campos de data e tempo",tipo:"texto"},
+      {k:"atualiza",rot:"Atualiza",tipo:"texto"},
+      {k:"lgpd",rot:"Dado sensível (LGPD)",tipo:"select",opts:["Não","Sim","Duvidaso"]},
+      {k:"obs",rot:"Observação",tipo:"texto"},
+      {k:"rm",rot:"",tipo:"rm"}]},
+  tMetricas:{cols:[
+      {k:"n",rot:"#",tipo:"rota"},
+      {k:"nome",rot:"Nome da métrica",tipo:"texto"},
+      {k:"pergunta",rot:"Pergunta que responde",tipo:"texto"},
+      {k:"formula",rot:"Fórmula",tipo:"texto"},
+      {k:"fonte",rot:"Fonte (Bloco 4)",tipo:"texto"},
+      {k:"gran",rot:"Granularidade",tipo:"select",opts:["Caso","Etapa","Unidade","Mês","Equipe","Registro"]},
+      {k:"base",rot:"Linha de base",tipo:"texto"},
+      {k:"esperado",rot:"Valor esperado",tipo:"texto"},
+      {k:"medir",rot:"Como medir na semana 1",tipo:"texto"},
+      {k:"quem",rot:"Quem mede",tipo:"texto"},
+      {k:"rm",rot:"",tipo:"rm"}]},
+  tHospedagem:{cols:[
+      {k:"opcao",rot:"Opção",tipo:"texto"},
+      {k:"tipo",rot:"Tipo",tipo:"select",opts:["Estática e gratuita","Plataforma como serviço","Servidor interno","Nuvem corporativa","Aplicativo instalado","Arquivo local"]},
+      {k:"onde",rot:"Onde roda",tipo:"texto"},
+      {k:"custo",rot:"Custo",tipo:"texto"},
+      {k:"mantem",rot:"Quem mantém",tipo:"texto"},
+      {k:"acesso",rot:"Acesso",tipo:"texto"},
+      {k:"banco",rot:"Banco de dados",tipo:"texto"},
+      {k:"escala",rot:"Escala",tipo:"texto"},
+      {k:"limite",rot:"Limitação",tipo:"texto"},
+      {k:"rm",rot:"",tipo:"rm"}]},
+  tMarcos:{cols:[
+      {k:"marco",rot:"Marco",tipo:"texto"},
+      {k:"data",rot:"Data",tipo:"texto"},
+      {k:"resp",rot:"Responsável",tipo:"texto"},
+      {k:"dep",rot:"Depende de",tipo:"texto"},
+      {k:"sit",rot:"Situação",tipo:"select",opts:["Planejado","Em andamento","Feito","Atrasado"]},
+      {k:"rm",rot:"",tipo:"rm"}]},
+  tRiscos:{cols:[
+      {k:"risco",rot:"Risco",tipo:"texto"},
+      {k:"prob",rot:"Probabilidade",tipo:"select",opts:["Baixa","Média","Alta"]},
+      {k:"imp",rot:"Impacto",tipo:"select",opts:["Baixo","Médio","Alto"]},
+      {k:"mit",rot:"Mitigação",tipo:"texto"},
+      {k:"rm",rot:"",tipo:"rm"}]},
+  tRefs:{cols:[
+      {k:"n",rot:"#",tipo:"rota"},
+      {k:"ref",rot:"Referência",tipo:"texto"},
+      {k:"tipo",rot:"Tipo",tipo:"select",opts:["Dado oficial","Notícia","Artigo científico","Norma ou lei","Documento interno","Relatório"]},
+      {k:"fonte",rot:"Fonte ou link",tipo:"texto"},
+      {k:"ano",rot:"Ano",tipo:"texto"},
+      {k:"dado",rot:"Dado que extrai",tipo:"texto"},
+      {k:"uso",rot:"Como usar na defesa",tipo:"texto"},
+      {k:"conferido",rot:"Link conferido",tipo:"select",opts:["Sim","Não","Não se aplica"]},
+      {k:"rm",rot:"",tipo:"rm"}]}
+};
+
+let estado = {campos:{}, tabelas:{}, marcados:{}};
+const MODELOS = {
+  "tAsIs:1":{etapa:"Revisar e registrar",papel:"Papel",entra:"Documento recebido",
+    acao:"Conferir o documento contra a ficha e anotar as divergências",sai:"Registro conferido",
+    sistema:"Papel e planilha",regra:"Conferir número de série, tipo de arma e matrícula",
+    espera:"Documento que vem de fora",tempo:"0,5",auto:"Sim, com apoio humano"},
+  "tToBe:1":{etapa:"Conferência assistida do documento",muda:"A conferência vira automática e a pessoa só confirma",
+    quem:"A pessoa assistida pela máquina",beneficio:"Menos 12 minutos por registro",esforco:"Médio"},
+  "tArtefatos:1":{nome:"Tela principal do formulário",rota:"#/conferencia",objetivo:"Registrar a conferência em um formulário",
+    usuario:"Perito",dados:"Número de série, tipo de arma, situação",acao:"Salvar o registro",
+    regra:"Campo de matrícula é obrigatório",tipo:"Tela",verificacao:"Preencher e salvar; o registro aparece na lista",
+    mvp:"Sim"},
+  "tEntidades:1":{entidade:"Registro",representa:"Uma conferência de arma registrada",
+    colunas:"id: texto, matricula: texto, numeroSerie: texto, tipoArma: texto, situacao: texto, criadoEm: data",
+    chave:"id",volume:"10 registros de exemplo",origem:"Fictício, no arquivo",sintetico:"Sim"},
+  "tRegras:1":{id:"RN01",regra:"A matrícula é obrigatória e só aceita números.",
+    quando:"Sempre, ao salvar o registro",excecao:"Nenhuma",valida:"O sistema, no navegador",
+    tipo:"Validação"},
+  "tPapeis:1":{papel:"Cidadão",quem:"O cidadão que usa o serviço",
+    ve:"O próprio protocolo e o estado do seu pedido",faz:"Abre o pedido, envia documento, acompanha",
+    naofaz:"Não vê nada de terceiros e não decide nada",registro:"Data de abertura e de envio"},
+  "tFontes:1":{fonte:"Planilha de controle local",tipo:"Planilha local",
+    onde:"Pasta compartilhada da unidade",existe:"Sim",acesso:"Chefia da seção",
+    linha:"Uma conferência por linha",volume:"180 por mês",historico:"2024 em diante",
+    campos:"Data de entrada, data de envio, tempo anotado",atualiza:"Manual, diária",
+    lgpd:"Sim",obs:"O tempo anotado é estimativa do agente"},
+  "tMetricas:1":{nome:"Tempo de espera médio por caso (h)",
+    pergunta:"Quanto tempo o caso espera na etapa mais crítica?",
+    formula:"Soma do tempo de espera / quantidade de casos",fonte:"",gran:"Caso",
+    base:"A MEDIR",esperado:"A MEDIR",
+    medir:"Extrair a data de início e a data de fim de cada etapa no período de 4 semanas",quem:""},
+  "tMetricas:2":{nome:"Volume mensal de atendimentos",
+    pergunta:"Quantos casos passam pelo processo por mês?",
+    formula:"Contagem de casos por mês",fonte:"",gran:"Mês",
+    base:"A MEDIR",esperado:"A MEDIR",
+    medir:"Contar os registros do sistema no período de 3 meses",quem:""},
+  "tMetricas:3":{nome:"Taxa de retrabalho",
+    pergunta:"Quanto do trabalho precisa ser refeito?",
+    formula:"Registros devolvidos / registros totais",fonte:"",gran:"Registro",
+    base:"A MEDIR",esperado:"A MEDIR",
+    medir:"Contar as devoluções nos 3 meses anteriores",quem:""},
+  "tHospedagem:1":{opcao:"GitHub Pages",tipo:"Estática e gratuita",
+    onde:"github.io, a partir de um repositório",custo:"Gratuito",mantem:"O aluno, com a conta institucional",
+    acesso:"Público ou privado, conforme o repositório",banco:"Não tem",escala:"Serve a página estática",
+    limite:"Só site estático: sem servidor, sem banco de dados e sem autenticação"},
+  "tHospedagem:2":{opcao:"Arquivo HTML único",tipo:"Arquivo local",
+    onde:"Abre com duplo clique, em qualquer computador",custo:"Gratuito",mantem:"O aluno",
+    acesso:"Quem tiver o arquivo",banco:"Não tem",escala:"Baixa, uma pessoa por vez",
+    limite:"Sem servidor e sem dados compartilhados: serve para protótipo e demonstração"},
+  "tHospedagem:3":{opcao:"Firebase Hosting",tipo:"Plataforma como serviço",
+    onde:"projeto no Firebase, servido por CDN",custo:"Gratuito no plano inicial",
+    mantem:"A TI do órgão, com a conta do projeto",acesso:"Público ou com autenticação",
+    banco:"Firestore, para quem precisar",escala:"Alta",limite:"Exige conta de projeto e configuração de TI"}
+};
+
+function carregar(){
+  try{
+    const bruto = localStorage.getItem(CHAVE);
+    if(bruto) estado = JSON.parse(bruto);
+  }catch(e){}
+  if(!estado.campos) estado.campos = {};
+  if(!estado.tabelas) estado.tabelas = {};
+  if(!estado.marcados) estado.marcados = {};
+  if(!estado.campos.data) estado.campos.data = new Date().toISOString().slice(0,10);
+  Object.keys(TABELAS).forEach(tid=>{
+    if(!estado.tabelas[tid]) estado.tabelas[tid] = [];
+    const min = {tPapeis:2,tArtefatos:2,tFontes:1,tMetricas:2,tHospedagem:1,tMarcos:1,tRiscos:1,tRefs:1}[tid] || 1;
+    while(estado.tabelas[tid].length < min) estado.tabelas[tid].push(linhaVazia(tid));
+  });
+}
+function linhaVazia(tid){
+  const o = {};
+  TABELAS[tid].cols.forEach(c=>o[c.k]="");
+  return o;
+}
+function salvar(){
+  localStorage.setItem(CHAVE, JSON.stringify(estado));
+  document.getElementById("salvo").textContent = "Salvo às " + new Date().toLocaleTimeString("pt-BR");
+}
+
+/* =====================================================================
+   RENDER
+   ===================================================================== */
+function renderCampos(){
+  CAMPOS.forEach(id=>{
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.value = estado.campos[id] || "";
+    el.addEventListener("input", ()=>{ estado.campos[id]=el.value; salvar(); });
+  });
+  SINAIS.forEach(s=>{
+    const el = document.getElementById(s.id);
+    if(!el) return;
+    el.innerHTML = '<option value=""></option>' + s.opts.map(o=>'<option>'+o+'</option>').join("");
+    el.value = estado.campos[s.id] || "";
+    el.addEventListener("change", ()=>{ estado.campos[s.id]=el.value; salvar(); });
+  });
+  ["afetado","evid","req"].forEach(nome=>{
+    const vals = estado.marcados[nome] || [];
+    document.querySelectorAll('input[name="'+nome+'"]').forEach(i=>{
+      i.checked = vals.includes(i.value);
+      i.addEventListener("change", ()=>{
+        const st = new Set(estado.marcados[nome] || []);
+        i.checked ? st.add(i.value) : st.delete(i.value);
+        estado.marcados[nome] = Array.from(st);
+        salvar();
+      });
+    });
+  });
+  ["stack"].forEach(nome=>{
+    const v = estado.marcados[nome] || "";
+    document.querySelectorAll('input[name="'+nome+'"]').forEach(i=>{
+      i.checked = (i.value === v);
+      i.addEventListener("change", ()=>{ estado.marcados[nome]=i.value; salvar(); });
+    });
+  });
+}
+function renderTabelas(){
+  Object.keys(TABELAS).forEach(tid=>{
+    const tb = document.querySelector("#"+tid+" tbody");
+    tb.innerHTML = "";
+    estado.tabelas[tid].forEach((linha, i)=>{
+      const tr = document.createElement("tr");
+      TABELAS[tid].cols.forEach(c=>{
+        const td = document.createElement("td");
+        if(c.tipo === "rota"){ td.textContent = (i+1); }
+        else if(c.tipo === "rm"){
+          const b = document.createElement("button");
+          b.className = "rm"; b.type = "button"; b.textContent = "×"; b.title = "Remover linha";
+          b.onclick = ()=>{ estado.tabelas[tid].splice(i,1); salvar(); renderTabelas(); };
+          td.appendChild(b);
+        }
+        else if(c.tipo === "select"){
+          const s = document.createElement("select");
+          s.innerHTML = '<option value=""></option>' + c.opts.map(o=>'<option>'+o+'</option>').join("");
+          s.value = linha[c.k] || "";
+          s.onchange = ()=>{ linha[c.k]=s.value; salvar(); };
+          td.appendChild(s);
+        }
+        else{
+          const i = document.createElement("input");
+          i.type = "text"; i.value = linha[c.k] || "";
+          i.oninput = ()=>{ linha[c.k]=i.value; salvar(); };
+          td.appendChild(i);
+        }
+        tr.appendChild(td);
+      });
+      tb.appendChild(tr);
+    });
+  });
+}
+
+/* =====================================================================
+   CHECAGEM POR BLOCO
+   ===================================================================== */
+function preenchido(v, min){ return (v || "").trim().length >= (min || 10); }
+function linhasCom(tid, campo){ return (estado.tabelas[tid] || []).filter(l=>(l[campo]||"").trim()); }
+function bloco(nome){
+  switch(nome){
+    case "Identificação": return preenchido(estado.campos.aluno,2) && preenchido(estado.campos.nome_projeto,3)
+      && !!estado.campos.tipo_projeto;
+    case "Problema": return preenchido(estado.campos.problema,40) && preenchido(estado.campos.hoje,40);
+    case "AS-IS": {
+      const et = linhasCom("tAsIs","etapa");
+      return preenchido(estado.campos.asis_inicio,5) && preenchido(estado.campos.asis_fim,5)
+        && et.length >= 3 && linhasCom("tAsIs","espera").length >= 1 && linhasCom("tAsIs","papel").length >= 1;
+    }
+    case "Papéis": return linhasCom("tPapeis","papel").length >= 1 && linhasCom("tPapeis","ve").length >= 1;
+    case "TO-BE": return preenchido(estado.campos.tobe_visao,30) && preenchido(estado.campos.tobe_mudanca,30)
+      && linhasCom("tToBe","etapa").length >= 1;
+    case "MVP": {
+      const ar = linhasCom("tArtefatos","nome");
+      return preenchido(estado.campos.entrega,30) && preenchido(estado.campos.mvp_objetivo,20)
+        && ar.length >= 1 && ar.some(a=>(a.mvp||"")==="Sim");
+    }
+    case "Fontes": return linhasCom("tFontes","fonte").length >= 1 && linhasCom("tFontes","linha").length >= 1;
+    case "Especificação": return linhasCom("tEntidades","entidade").length >= 1
+      && linhasCom("tRegras","regra").length >= 1;    case "Métricas": {
+      const ms = linhasCom("tMetricas","nome");
+      return ms.length >= 2 && ms.every(m=>(m.fonte||"").trim().length>0)
+        && ms.some(m=>m.base && m.base.toUpperCase()!=="A MEDIR")
+        && ms.some(m=>m.esperado && m.esperado.toUpperCase()!=="A MEDIR");
+    }
+    case "Hospedagem": return preenchido(estado.campos.hospedagem_escolhida,30);
+    case "Pesquisa": return preenchido(estado.campos.hipotese_campo,30);
+    case "Defesa": return preenchido(estado.campos.frase,40) && preenchido(estado.campos.provas,20);
+    default: return false;
+  }
+}
+const BLOCOS = [
+  ["Identificação","Quem é você e o que é o projeto"],
+  ["Problema","O problema e o estado atual"],
+  ["AS-IS","O processo como ele é hoje, passo a passo"],
+  ["Papéis","Os papéis: quem usa e o que cada um vê e faz"],
+  ["TO-BE","Como o processo deve ficar depois da mudança"],
+  ["MVP","Escopo, artefatos e o MVP mínimo"],
+  ["Especificação","Dados, regras de negócio e conformidade"],
+  ["Fontes","Fontes de dados"],
+  ["Métricas","Métricas: linha de base e melhoria hipotética"],
+  ["Hospedagem","Hospedagem e implantação"],
+  ["Pesquisa","Requisitos, restrições e pesquisa"],
+  ["Defesa","A defesa"]
+];
+function pendencias(){
+  const p = [];
+  if(!bloco("Identificação")) p.push("identificação incompleta (aluno, projeto e tipo)");
+  if(!bloco("Problema")) p.push("problema ou estado atual por escrever");
+  if(!bloco("AS-IS")) p.push("AS-IS incompleto: início, fim e pelo menos 3 etapas, com onde espera");
+  if(!bloco("Papéis")) p.push("faltam os papéis (quem vê e o que faz)");
+  if(!bloco("TO-BE")) p.push("faltam a visão do TO-BE e a tabela de etapas futuras");
+  if(!bloco("MVP")) p.push("falta o escopo do MVP, o objetivo e as funcionalidades mínimas");
+  if(!bloco("Especificação")) p.push("faltam as entidades de dados e as regras de negócio");
+  if(!bloco("Fontes")) p.push("faltam as fontes de dados");
+  if(!bloco("Métricas")) p.push("faltam duas métricas com fonte, base e hipótese");
+  if(!bloco("Hospedagem")) p.push("faltam a hospedagem escolhida e a justificativa");
+  if(!bloco("Pesquisa")) p.push("falta a hipótese de campo");
+  if(!bloco("Defesa")) p.push("faltam a frase de defesa e as provas");
+  return p;
+}
+function pintarChecklist(){
+  const prog = document.getElementById("progresso");
+  const chips = BLOCOS.map(([nome])=>{
+    const ok = bloco(nome);
+    return '<span class="pchip '+(ok?"ok":"pend")+'">'+nome+'</span>';
+  }).join("");
+  prog.innerHTML = chips;
+  const pend = pendencias();
+  const ok = BLOCOS.length - pend.length;
+  document.getElementById("checklist").innerHTML =
+    '<div class="kpi '+(pend.length===0?"bom":(ok>=BLOCOS.length/2?"atencao":"ruim"))+'"><div class="v">'+ok+'/'+BLOCOS.length+
+    '</div><div class="l">Blocos prontos</div></div>'+
+    '<div class="kpi"><div class="v">'+linhasCom("tPapeis","papel").length+'</div><div class="l">Papéis</div></div>'+
+    '<div class="kpi"><div class="v">'+linhasCom("tFontes","fonte").length+'</div><div class="l">Fontes</div></div>'+
+    '<div class="kpi"><div class="v">'+linhasCom("tMetricas","nome").length+'</div><div class="l">Métricas</div></div>'+
+    '<div class="kpi"><div class="v">'+linhasCom("tHospedagem","opcao").length+'</div><div class="l">Opções de hospedagem</div></div>';
+  const box = document.getElementById("pendencias");
+  box.innerHTML = pend.length
+    ? '<div class="aviso erro"><b>Ainda falta:</b><ul style="margin:8px 0 0;padding-left:20px">'+
+      pend.map(p=>'<li>'+p+'</li>').join("")+'</ul></div>'
+    : '<div class="aviso ok"><b>Resposta completa.</b> Você pode baixar o arquivo e enviar ao professor.</div>';
+}
+
+/* ------------------------------------------------------------------
+   PROJETO.md - o dossie com as 9 secoes, no formato da aula de
+   prototipacao. E este arquivo que alimenta o agente do Antigravity.
+   ------------------------------------------------------------------ */
+function toProjetoMd(){
+  const c = estado.campos, m = estado.marcados, t = estado.tabelas;
+  const artefatos = (t.tArtefatos || []).filter(l=>l.nome);
+  const metricas = (t.tMetricas || []).filter(l=>l.nome);
+  const L = [];
+  L.push("# PROJETO.md — " + (c.nome_projeto || "SEM NOME"));
+  L.push("");
+  L.push("**Aluno ou equipe:** " + (c.aluno||"-") + "  ");
+  L.push("**Unidade:** " + (c.unidade||"-") + "  ");
+  L.push("**Contato:** " + (c.contato||"-") + "  ");
+  L.push("**Tipo de projeto:** " + (c.tipo_projeto||"-") + "  ");
+  L.push("**Data:** " + (c.data||"-"));
+  L.push("");
+  L.push("> " + (c.resumo || "Resumo do projeto em uma frase."));
+  L.push("");
+  L.push("## 1. Problema (a dor)");
+  L.push("");
+  L.push((c.problema||"-") + " " + (c.impacto||""));
+  L.push("");
+  L.push("**Quem sofre:** " + ((m.afetado||[]).join(", ")||"-"));
+  L.push("");
+  L.push("**Como é feito hoje:** " + (c.hoje||"-"));
+  L.push("");
+  L.push("**O que não pode ser automatizado:** " + (c.limite||"-"));
+  L.push("");
+  L.push("## 2. Objetivo do MVP (o que faz e o que NÃO faz)");
+  L.push("");
+  L.push("**Faz:** " + (c.mvp_objetivo||"-"));
+  L.push("");
+  L.push("**Não faz:** " + (c.mvp_naofaz||"-"));
+  L.push("");
+  L.push("**Entregável do projeto:** " + (c.entrega||"-"));
+  L.push("");
+  L.push("**Dentro do escopo:** " + (c.dentro||"-"));
+  L.push("");
+  L.push("**Fora do escopo:** " + (c.fora||"-"));
+  L.push("");
+  L.push("**Plataforma alvo:** " + (c.mvp_plataforma||"-") + "  ");
+  L.push("**Primeira tela:** " + (c.mvp_tela_inicial||"-") + "  ");
+  L.push("**Simulado no MVP:** " + (c.mvp_mock||"-") + "  ");
+  L.push("**Critério de aceite:** " + (c.mvp_criterio||"-") + "  ");
+  L.push("**Dados de exemplo:** " + (c.mvp_dados||"-"));
+  L.push("");
+  L.push("## 3. Usuários e papéis");
+  L.push("");
+  L.push("| Papel | Quem é | O que enxerga | O que faz | O que não pode fazer | Registro |");
+  L.push("|---|---|---|---|---|---|");
+  (t.tPapeis||[]).filter(l=>l.papel).forEach(l=>{
+    L.push("| "+[l.papel,l.quem,l.ve,l.faz,l.naofaz,l.registro].map(linhaMd).join(" | ")+" |");
+  });
+  L.push("");
+  L.push("**Observações:** " + (c.papeis_obs||"-"));
+  L.push("");
+  L.push("## 4. Dados (entidades e colunas; tudo SINTÉTICO)");
+  L.push("");
+  L.push("| Entidade | O que representa | Colunas | Chave | Volume | Origem | Sintético |");
+  L.push("|---|---|---|---|---|---|---|");
+  (t.tEntidades||[]).filter(l=>l.entidade).forEach(l=>{
+    L.push("| "+[l.entidade,l.representa,l.colunas,l.chave,l.volume,l.origem,l.sintetico].map(linhaMd).join(" | ")+" |");
+  });
+  L.push("");
+  L.push("**Fontes de dados do processo real:**");
+  L.push("");
+  L.push(tabelaMd("tFontes"));
+  L.push("## 5. Regras de negócio (RN01, RN02...)");
+  L.push("");
+  L.push("| ID | Regra | Quando se aplica | Exceção | Quem valida | Tipo |");
+  L.push("|---|---|---|---|---|---|");
+  (t.tRegras||[]).filter(l=>l.regra).forEach(l=>{
+    L.push("| "+[l.id||"RN00",l.regra,l.quando,l.excecao,l.valida,l.tipo].map(linhaMd).join(" | ")+" |");
+  });
+  L.push("");
+  L.push("## 6. Telas (#/painel, #/lista...)");
+  L.push("");
+  L.push("| Rota | Tela | Objetivo | Quem usa | Dados | Ação | Regra | Verificável como | MVP |");
+  L.push("|---|---|---|---|---|---|---|---|---|");
+  artefatos.forEach(l=>{
+    L.push("| "+[l.rota||"",l.nome,l.objetivo,l.usuario,l.dados,l.acao,l.regra,l.verificacao,l.mvp].map(linhaMd).join(" | ")+" |");
+  });
+  L.push("");
+  L.push("## 7. KPIs (nome = fórmula em uma linha)");
+  L.push("");
+  L.push("| KPI | Pergunta | Fórmula | Fonte | Linha de base | Valor esperado | Como medir |");
+  L.push("|---|---|---|---|---|---|---|");
+  metricas.forEach(l=>{
+    L.push("| "+[l.nome,l.pergunta,l.formula,l.fonte,l.base,l.esperado,l.medir].map(linhaMd).join(" | ")+" |");
+  });
+  L.push("");
+  L.push("**Período da linha de base:** " + (c.base_periodo||"-"));
+  L.push("");
+  L.push("## 8. Stack: HTML único (CSS/JS inline), dados em JSON embutido, GitHub Pages.");
+  L.push("");
+  L.push("**Stack escolhida:** " + (m.stack||"HTML único (CSS/JS inline), dados em JSON embutido, GitHub Pages"));
+  L.push("");
+  L.push((c.stack_detalhe||"-"));
+  L.push("");
+  L.push("**Hospedagem:** " + (c.hospedagem_escolhida||"-") + "  ");
+  L.push("**Custo e licenças:** " + (c.orcamento||"-") + "  ");
+  L.push("**Contas e domínio:** " + (c.conta_quem||"-"));
+  L.push("");
+  L.push("## 9. Restrições e LGPD");
+  L.push("");
+  L.push("**Restrições:** " + (c.restricoes||"-"));
+  L.push("");
+  L.push("**Dados pessoais tratados:** " + (c.lgpd_dados||"-") + "  ");
+  L.push("**Base legal:** " + (c.lgpd_base||"-") + "  ");
+  L.push("**Retenção:** " + (c.lgpd_retencao||"-") + "  ");
+  L.push("**Acesso e registro:** " + (c.lgpd_acesso||"-"));
+  L.push("");
+  L.push("**Requisitos marcados:** " + ((m.req||[]).join(", ")||"-"));
+  L.push("");
+  L.push("---");
+  L.push("");
+  L.push("# Anexo A — AS-IS (o fluxo de hoje)");
+  L.push("");
+  L.push("**Início:** " + (c.asis_inicio||"-") + "  ");
+  L.push("**Fim:** " + (c.asis_fim||"-"));
+  L.push("");
+  L.push("**Entradas:** " + (c.asis_entradas||"-") + "  ");
+  L.push("**Saídas:** " + (c.asis_saidas||"-"));
+  L.push("");
+  L.push("**Volume:** " + (c.asis_volume||"-") + " | **Duração:** " + (c.asis_duracao||"-") +
+         " | **Frequência:** " + (c.asis_frequencia||"-"));
+  L.push("");
+  L.push(tabelaMd("tAsIs"));
+  L.push("**Decisões:** " + (c.asis_decisoes||"-") + "  ");
+  L.push("**Exceções:** " + (c.asis_excecoes||"-") + "  ");
+  L.push("**Já digitalizado:** " + (c.asis_digital||"-"));
+  L.push("");
+  L.push("# Anexo B — TO-BE (o fluxo depois da mudança)");
+  L.push("");
+  L.push("**Visão:** " + (c.tobe_visao||"-") + "  ");
+  L.push("**Mudança principal:** " + (c.tobe_mudanca||"-") + "  ");
+  L.push("**O que fica igual:** " + (c.tobe_inalterado||"-") + "  ");
+  L.push("**O que não pode mudar:** " + (c.tobe_restricao||"-"));
+  L.push("");
+  L.push(tabelaMd("tToBe"));
+  L.push("**Piloto:** " + (c.tobe_piloto||"-"));
+  L.push("");
+  L.push("# Anexo C — Pesquisa, riscos e plano");
+  L.push("");
+  L.push("**Hipótese de campo:** " + (c.hipotese_campo||"-"));
+  L.push("");
+  L.push(tabelaMd("tRefs"));
+  L.push("**Lacunas:** " + (c.lacunas||"-"));
+  L.push("");
+  L.push(tabelaMd("tMarcos"));
+  L.push(tabelaMd("tRiscos"));
+  L.push("**Apoio necessário:** " + (c.apoio||"-") + "  ");
+  L.push("**Aprendizado necessário:** " + (c.aprendizado||"-"));
+  L.push("");
+  L.push("# Anexo D — A defesa");
+  L.push("");
+  L.push("**Frase:** " + (c.frase||"-"));
+  L.push("");
+  L.push("**Provas:** " + (c.provas||"-"));
+  L.push("");
+  L.push("**Piloto:** " + (c.piloto||"-") + "  ");
+  L.push("**Maior risco:** " + (c.risco_defesa||"-"));
+  L.push("");
+  L.push("# Anexo E — Documentos enviados");
+  L.push("");
+  L.push((c.doc_descricao||"-") + " " + (c.doc_faltando||""));
+  L.push("");
+  return L.join("\n");
+}
+
+/* =====================================================================
+   EXPORTACAO
+   ===================================================================== */
+function linhaMd(v){ return (v || "").toString().replace(/\|/g,"/").replace(/\n/g," "); }
+function escTexto(s){
+  return String(s === undefined || s === null ? "" : s)
+    .replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+}
+function tabelaMd(tid){
+  const cols = TABELAS[tid].cols.filter(c=>c.tipo!=="rm" && c.tipo!=="rota");
+  let s = '| ' + cols.map(c=>c.rot).join(' | ') + ' |\n';
+  s += '|' + cols.map(()=>'---').join('|') + '|\n';
+  estado.tabelas[tid].forEach(l=>{ s += '| ' + cols.map(c=>linhaMd(l[c.k])).join(' | ') + ' |\n'; });
+  return s + '\n';
+}
+function coletar(){
+  return {versao:2, gerado_em:new Date().toISOString(), campos:estado.campos,
+          marcados:estado.marcados, tabelas:estado.tabelas};
+}
+function toMd(){
+  const c = estado.campos, m = estado.marcados;
+  const L = [];
+  L.push("# Fase de ideação e prototipação — " + (c.aluno || "resposta sem identificação"));
+  L.push("");
+  L.push("- **Unidade ou área:** " + (c.unidade || "-"));
+  L.push("- **Contato:** " + (c.contato || "-"));
+  L.push("- **Projeto:** " + (c.nome_projeto || "-"));
+  L.push("- **Tipo:** " + (c.tipo_projeto || "-"));
+  L.push("- **Data:** " + (c.data || "-"));
+  L.push("");
+  L.push("**Resumo:** " + (c.resumo||"-"));
+  L.push("");
+  L.push("## Bloco 1 — Problema e estado atual");
+  L.push("**Problema:** " + (c.problema||"-"));
+  L.push("");
+  L.push("**Afetados:** " + ((m.afetado||[]).join(", ")||"-"));
+  L.push("");
+  L.push("**Como é feito hoje:** " + (c.hoje||"-"));
+  L.push("");
+  L.push("**Impacto:** " + (c.impacto||"-"));
+  L.push("");
+  L.push("**Evidências:** " + ((m.evid||[]).join(", ")||"-"));
+  L.push("");
+  L.push("**Detalhe da evidência:** " + (c.evid_detalhe||"-"));
+  L.push("");
+  L.push("**Limite da automação:** " + (c.limite||"-"));
+  L.push("");
+  L.push("## Bloco 2 — AS-IS: o processo como ele é hoje");
+  L.push("**Início:** " + (c.asis_inicio||"-"));
+  L.push("");
+  L.push("**Fim:** " + (c.asis_fim||"-"));
+  L.push("");
+  L.push("**Entradas:** " + (c.asis_entradas||"-"));
+  L.push("");
+  L.push("**Saídas:** " + (c.asis_saidas||"-"));
+  L.push("");
+  L.push("**Volume:** " + (c.asis_volume||"-") + " | **Duração:** " + (c.asis_duracao||"-") +
+         " | **Frequência:** " + (c.asis_frequencia||"-"));
+  L.push("");
+  L.push(tabelaMd("tAsIs"));
+  L.push("**Decisões e aprovações:** " + (c.asis_decisoes||"-"));
+  L.push("");
+  L.push("**Exceções:** " + (c.asis_excecoes||"-"));
+  L.push("");
+  L.push("**Já digitalizado:** " + (c.asis_digital||"-"));
+  L.push("");
+  L.push("## Bloco 3 — Papéis");
+  L.push(tabelaMd("tPapeis"));
+  L.push("**Observações:** " + (c.papeis_obs||"-"));
+  L.push("");
+  L.push("## Bloco 4 — TO-BE");
+  L.push("**Visão do futuro:** " + (c.tobe_visao||"-"));
+  L.push("");
+  L.push("**Mudança principal:** " + (c.tobe_mudanca||"-"));
+  L.push("");
+  L.push("**O que fica igual:** " + (c.tobe_inalterado||"-"));
+  L.push("");
+  L.push("**O que não pode mudar:** " + (c.tobe_restricao||"-"));
+  L.push("");
+  L.push(tabelaMd("tToBe"));
+  L.push("**Piloto do TO-BE:** " + (c.tobe_piloto||"-"));
+  L.push("");
+  L.push("## Bloco 5 — Escopo, artefatos e MVP");
+  L.push("**Entregável:** " + (c.entrega||"-"));
+  L.push("");
+  L.push("**Dentro do escopo:** " + (c.dentro||"-"));
+  L.push("");
+  L.push("**Fora do escopo:** " + (c.fora||"-"));
+  L.push("");
+  L.push(tabelaMd("tArtefatos"));
+  L.push("**Objetivo do MVP:** " + (c.mvp_objetivo||"-"));
+  L.push("");
+  L.push("**Plataforma alvo:** " + (c.mvp_plataforma||"-"));
+  L.push("");
+  L.push("**Primeira tela:** " + (c.mvp_tela_inicial||"-"));
+  L.push("");
+  L.push("**O que é simulado:** " + (c.mvp_mock||"-"));
+  L.push("");
+  L.push("**Critério de aceite:** " + (c.mvp_criterio||"-"));
+  L.push("");
+  L.push("**Dados de exemplo:** " + (c.mvp_dados||"-"));
+  L.push("");
+  L.push("**O que reaproveitar:** " + (c.mvp_reuso||"-"));
+  L.push("");
+  L.push("**Dependências:** " + (c.dependencias||"-"));
+  L.push("");
+  L.push("## Bloco 6 — Fontes de dados");
+  L.push(tabelaMd("tFontes"));
+  L.push("**O que precisa ser coletado:** " + (c.coletar||"-"));
+  L.push("");
+  L.push("**Acesso:** " + (c.acesso||"-"));
+  L.push("");
+  L.push("## Bloco 7 — Métricas");
+  L.push(tabelaMd("tMetricas"));
+  L.push("**Período e volume da base:** " + (c.base_periodo||"-"));
+  L.push("");
+  L.push("**Campos de data e tempo:** " + (c.campos_data||"-"));
+  L.push("");
+  L.push("## Bloco 8 — Hospedagem");
+  L.push(tabelaMd("tHospedagem"));
+  L.push("**Escolhida e por quê:** " + (c.hospedagem_escolhida||"-"));
+  L.push("");
+  L.push("**Contas e domínio:** " + (c.conta_quem||"-"));
+  L.push("");
+  L.push("**Orçamento e licenças:** " + (c.orcamento||"-"));
+  L.push("");
+  L.push("## Bloco 9 — Requisitos, restrições e pesquisa");
+  L.push("**Requisitos:** " + ((m.req||[]).join(", ")||"-"));
+  L.push("");
+  L.push("**Restrições:** " + (c.restricoes||"-"));
+  L.push("");
+  L.push("**Hipótese de campo:** " + (c.hipotese_campo||"-"));
+  L.push("");
+  L.push(tabelaMd("tRefs"));
+  L.push("**Lacunas:** " + (c.lacunas||"-"));
+  L.push("");
+  L.push("## Bloco 10 — Marcos, riscos e apoio");
+  L.push(tabelaMd("tMarcos"));
+  L.push(tabelaMd("tRiscos"));
+  L.push("**Apoio necessário:** " + (c.apoio||"-"));
+  L.push("");
+  L.push("**Aprendizado necessário:** " + (c.aprendizado||"-"));
+  L.push("");
+  L.push("## Bloco 11 — A defesa");
+  L.push("**Frase:** " + (c.frase||"-"));
+  L.push("");
+  L.push("**Provas:** " + (c.provas||"-"));
+  L.push("");
+  L.push("**Piloto:** " + (c.piloto||"-"));
+  L.push("");
+  L.push("**Maior risco:** " + (c.risco_defesa||"-"));
+  L.push("");
+  return L.join("\n");
+}
+function baixar(nome, conteudo, tipo){
+  const b = new Blob([conteudo], {type:tipo});
+  const u = URL.createObjectURL(b);
+  const a = document.createElement("a");
+  a.href = u; a.download = nome; a.click();
+  setTimeout(()=>URL.revokeObjectURL(u), 1500);
+}
+function nomeArquivo(ext){
+  const base = (estado.campos.nome_projeto || estado.campos.aluno || "ideacao")
+    .replace(/[^a-zA-Z0-9\-_ ]/g,"").trim().replace(/\s+/g,"-");
+  return base + "-" + (estado.campos.data||"") + "." + ext;
+}
+
+/* =====================================================================
+   PAINEL DO PROFESSOR
+   ===================================================================== */
+let respostas = [];
+function num(t){
+  if(!t) return null;
+  const limpo = String(t).replace(/[^0-9,.\-]/g,"").replace(/\.(?=\d{3}\b)/g,"").replace(",",".");
+  const n = parseFloat(limpo);
+  return isNaN(n) ? null : n;
+}
+function reduzivel(nome){ return /tempo|espera|custo|atraso|retrabalho|fila|dura|prazo|volume de/i.test(nome||""); }
+function statusMetrica(m){
+  const base = (m.base||"").trim(), esp = (m.esperado||"").trim();
+  if(!base || base.toUpperCase()==="A MEDIR") return {txt:"sem linha de base",cls:"ruim"};
+  if(!esp || esp.toUpperCase()==="A MEDIR") return {txt:"sem hipótese",cls:"ruim"};
+  const a = num(base), b = num(esp);
+  if(a!==null && b!==null && b>=a && reduzivel(m.nome)) return {txt:"hipótese sem ganho",cls:"ambar"};
+  return {txt:"pronta",cls:"bom"};
+}
+function variacao(m){
+  const a = num(m.base), b = num(m.esperado);
+  if(a===null || b===null || a===0) return "-";
+  const p = (b-a)/a*100;
+  if(reduzivel(m.nome)) return p<=0 ? (Math.abs(p).toFixed(0)+"% de queda") : (p.toFixed(0)+"% de alta, sem ganho");
+  return (p>0?"+":"") + p.toFixed(0) + "%";
+}
+function pendenciasResposta(r){
+  const c = r.campos || {}, t = r.tabelas || {};
+  const p = [];
+  if(!c.aluno || !c.nome_projeto || !c.tipo_projeto) p.push("identificação");
+  if(!c.problema || !c.hoje) p.push("problema");
+  if(!(t.tPapeis||[]).filter(l=>l.papel).length) p.push("papéis");
+  if(!(t.tArtefatos||[]).filter(l=>l.nome).length) p.push("artefatos");
+  if(!(t.tFontes||[]).filter(l=>l.fonte).length) p.push("fontes");
+  const ms = (t.tMetricas||[]).filter(m=>m.nome);
+  if(ms.length < 2) p.push("métricas");
+  else if(!ms.some(m=>m.base && m.base.toUpperCase()!=="A MEDIR")) p.push("linha de base");
+  if(!c.hospedagem_escolhida) p.push("hospedagem");
+  if(!c.hipotese_campo) p.push("hipótese de campo");
+  if(!c.frase) p.push("frase de defesa");
+  return p;
+}
+function renderPainel(){
+  const tbc = document.querySelector("#tConsolidado tbody");
+  const tbm = document.querySelector("#tMetricasConsol tbody");
+  const tbh = document.querySelector("#tHospedConsol tbody");
+  const tbf = document.querySelector("#tFaltas tbody");
+  const tbf2 = document.querySelector("#tFluxoConsol tbody");
+  const tbv = document.querySelector("#tMvpConsol tbody");
+  const tbf3 = document.querySelector("#tFuncConsol tbody");
+  [tbc,tbm,tbh,tbf,tbf2,tbv,tbf3].forEach(t=>t.innerHTML="");
+  let comBase=0, semBase=0, metricas=0, papelTotal=0, fonteTotal=0;
+  const tipos = {};
+  respostas.forEach(r=>{
+    const c = r.campos || {}, t = r.tabelas || {};
+    const ms = (t.tMetricas||[]).filter(m=>m.nome);
+    const papeis = (t.tPapeis||[]).filter(l=>l.papel);
+    const fontes = (t.tFontes||[]).filter(l=>l.fonte);
+    const host = (t.tHospedagem||[]).filter(l=>l.opcao);
+    const asis = (t.tAsIs||[]).filter(l=>l.etapa);
+    const tobe = (t.tToBe||[]).filter(l=>l.etapa);
+    const arts = (t.tArtefatos||[]).filter(l=>l.nome);
+    metricas += ms.length; papelTotal += papeis.length; fonteTotal += fontes.length;
+    tipos[c.tipo_projeto || "sem tipo"] = (tipos[c.tipo_projeto || "sem tipo"]||0)+1;
+    const com = ms.filter(m=>m.base && m.base.toUpperCase()!=="A MEDIR").length;
+    comBase += com; semBase += (ms.length-com);
+    const pend = pendenciasResposta(r);
+    const tr = document.createElement("tr");
+    tr.innerHTML = "<td>"+linhaMd(c.aluno||"(sem nome)")+"</td><td>"+linhaMd(c.tipo_projeto)+
+      "</td><td>"+linhaMd(c.nome_projeto)+"</td><td>"+linhaMd(c.problema)+"</td><td>"+asis.length+
+      "</td><td>"+tobe.length+"</td><td>"+arts.filter(a=>a.mvp==="Sim").length+
+      "</td><td>"+papeis.length+
+      "</td><td>"+fontes.length+"</td><td>"+ms.length+"</td><td>"+
+      (host.length? linhaMd(host[0].opcao) : "-")+"</td><td><span class='badge "+
+      (pend.length?"ambar":"bom")+"'>"+(pend.length? pend.length+" pendências" : "completo")+"</span></td>";
+    tbc.appendChild(tr);
+
+    // AS-IS: etapa que mais espera
+    const comEspera = asis.filter(a=>(a.espera||"").trim()).slice()
+      .sort((a,b)=> (parseFloat(String(b.tempo||"0").replace(",","."))||0) - (parseFloat(String(a.tempo||"0").replace(",","."))||0));
+    const automatiz = asis.filter(a=>(a.auto||"").startsWith("Sim")).length;
+    const trf2 = document.createElement("tr");
+    trf2.innerHTML = "<td>"+linhaMd(c.aluno||"(sem nome)")+"</td><td>"+linhaMd(c.nome_projeto)+
+      "</td><td>"+asis.length+"</td><td>"+linhaMd(comEspera.length? comEspera[0].etapa+" ("+comEspera[0].espera+")" : "-")+
+      "</td><td>"+automatiz+" de "+asis.length+"</td><td>"+tobe.length+"</td><td>"+
+      tobe.filter(x=>(x.quem||"").startsWith("A máquina")).length+"</td><td>"+
+      papeis.map(p=>linhaMd(p.papel)).join(", ")+"</td>";
+    tbf2.appendChild(trf2);
+
+    // MVP
+    const trv = document.createElement("tr");
+    trv.innerHTML = "<td>"+linhaMd(c.aluno||"(sem nome)")+"</td><td>"+linhaMd(c.nome_projeto)+
+      "</td><td>"+linhaMd(c.mvp_objetivo||"-")+"</td><td>"+linhaMd(c.mvp_plataforma||"-")+
+      "</td><td>"+linhaMd(c.mvp_tela_inicial||"-")+"</td><td>"+linhaMd(c.mvp_mock||"-")+
+      "</td><td>"+linhaMd(c.mvp_criterio||"-")+"</td>";
+    tbv.appendChild(trv);
+    arts.forEach(a=>{
+      const trf = document.createElement("tr");
+      trf.innerHTML = "<td>"+linhaMd(c.aluno||"(sem nome)")+"</td><td>"+linhaMd(c.nome_projeto)+
+        "</td><td>"+linhaMd(a.nome)+"</td><td>"+linhaMd(a.tipo)+"</td><td>"+linhaMd(a.usuario)+
+        "</td><td>"+linhaMd(a.verificacao)+"</td><td>"+linhaMd(a.mvp)+"</td>";
+      tbf3.appendChild(trf);
+    });
+
+    ms.forEach(m=>{
+      const st = statusMetrica(m);
+      const trm = document.createElement("tr");
+      trm.innerHTML = "<td>"+linhaMd(c.aluno||"(sem nome)")+"</td><td>"+linhaMd(c.nome_projeto)+
+        "</td><td>"+linhaMd(m.nome)+"</td><td>"+linhaMd(m.pergunta)+"</td><td>"+linhaMd(m.base)+
+        "</td><td>"+linhaMd(m.esperado)+"</td><td>"+variacao(m)+"</td><td>"+linhaMd(m.fonte)+
+        "</td><td><span class='badge "+st.cls+"'>"+st.txt+"</span></td>";
+      tbm.appendChild(trm);
+    });
+    const trh = document.createElement("tr");
+    trh.innerHTML = "<td>"+linhaMd(c.aluno||"(sem nome)")+"</td><td>"+linhaMd(c.nome_projeto)+
+      "</td><td>"+linhaMd(c.hospedagem_escolhida||"-")+"</td><td>"+linhaMd(c.orcamento||"-")+
+      "</td><td>"+linhaMd(c.conta_quem||"-")+"</td><td>"+
+      host.map(h=>linhaMd(h.limite)).filter(Boolean).join(" | ")+"</td>";
+    tbh.appendChild(trh);
+    const trf4 = document.createElement("tr");
+    trf4.innerHTML = "<td>"+linhaMd(c.aluno||"(sem nome)")+"</td><td>"+linhaMd(c.tipo_projeto)+
+      "</td><td>"+papeis.length+"</td><td>"+fontes.length+"</td><td>"+com+" de "+ms.length+
+      "</td><td>"+(host.length?"definida":"-")+"</td><td>"+(pend.length? pend.join(", ") : "nenhuma")+"</td>";
+    tbf.appendChild(trf4);
+  });
+  const tiposTop = Object.entries(tipos).sort((a,b)=>b[1]-a[1])
+    .map(([k,v])=>k.split("(")[0].trim().slice(0,22)+" ("+v+")").join(" · ");
+  document.getElementById("kpiPainel").innerHTML =
+    '<div class="kpi"><div class="v">'+respostas.length+'</div><div class="l">Projetos</div></div>'+
+    '<div class="kpi"><div class="v">'+metricas+'</div><div class="l">Métricas</div></div>'+
+    '<div class="kpi bom"><div class="v">'+comBase+'</div><div class="l">Com linha de base</div></div>'+
+    '<div class="kpi '+(semBase?"ruim":"bom")+'"><div class="v">'+semBase+'</div><div class="l">Sem linha de base</div></div>'+
+    '<div class="kpi"><div class="v">'+papelTotal+'</div><div class="l">Papéis mapeados</div></div>'+
+    '<div class="kpi"><div class="v">'+fonteTotal+'</div><div class="l">Fontes de dados</div></div>';
+  document.getElementById("kpiFaltas").innerHTML =
+    '<div class="kpi"><div class="v">'+respostas.length+'</div><div class="l">Respostas importadas</div></div>'+
+    '<div class="kpi '+(semBase?"atencao":"bom")+'"><div class="v">'+semBase+'</div><div class="l">Métricas a medir</div></div>'+
+    '<div class="kpi"><div class="v" style="font-size:15px;line-height:1.35">'+linhaMd(tiposTop||"-")+'</div><div class="l">Tipos de projeto</div></div>';
+  document.getElementById("statusPainel").textContent = respostas.length
+    ? (respostas.length+" projeto(s) importado(s).") : "Nenhuma resposta importada.";
+}
+function csvConsolidado(){
+  let s = "aluno;unidade;contato;projeto;tipo;resumo;problema;papels;fontes;metricas;hospedagem;frase\n";
+  respostas.forEach(r=>{
+    const c = r.campos || {}, t = r.tabelas || {};
+    const papeis = (t.tPapeis||[]).filter(l=>l.papel).map(l=>l.papel).join(" / ");
+    const fontes = (t.tFontes||[]).filter(l=>l.fonte).map(l=>l.fonte).join(" / ");
+    const ms = (t.tMetricas||[]).filter(m=>m.nome).map(m=>m.nome).join(" / ");
+    const host = (t.tHospedagem||[]).filter(l=>l.opcao).map(l=>l.opcao).join(" / ");
+    s += [c.aluno,c.unidade,c.contato,c.nome_projeto,c.tipo_projeto,c.resumo,c.problema,papeis,fontes,ms,host,c.frase]
+      .map(x=>'"'+String(x||"").replace(/"/g,'""')+'"').join(";")+"\n";
+  });
+  return s;
+}
+function csvDetalhe(){
+  let s = "aluno;projeto;bloco;métrica;pergunta;fonte;granularidade;linha_de_base;valor_esperado;variacao;status\n";
+  respostas.forEach(r=>{
+    const c = r.campos || {};
+    (r.tabelas && r.tabelas.tMetricas || []).filter(m=>m.nome).forEach(m=>{
+      s += [c.aluno,c.nome_projeto,"métricas",m.nome,m.pergunta,m.fonte,m.gran,m.base,m.esperado,variacao(m),statusMetrica(m).txt]
+        .map(x=>'"'+String(x||"").replace(/"/g,'""')+'"').join(";")+"\n";
+    });
+    (r.tabelas && r.tabelas.tHospedagem || []).filter(h=>h.opcao).forEach(h=>{
+      s += [c.aluno,c.nome_projeto,"hospedagem",h.opcao,h.tipo,h.limite,h.escala,"","","",""]
+        .map(x=>'"'+String(x||"").replace(/"/g,'""')+'"').join(";")+"\n";
+    });
+  });
+  return s;
+}
+
+/* =====================================================================
+   ARQUIVOS E ENVIO AO FIREBASE
+   ===================================================================== */
+let arquivosSelecionados = [];
+
+function tamanhoLegivel(bytes){
+  if(bytes < 1024) return bytes + " B";
+  if(bytes < 1048576) return (bytes/1024).toFixed(1) + " KB";
+  return (bytes/1048576).toFixed(1) + " MB";
+}
+function renderArquivos(){
+  const box = document.getElementById("listaArquivos");
+  box.innerHTML = arquivosSelecionados.map((f,i)=>
+    '<div class="arq"><span class="nome">'+ (f.name.length>60? f.name.slice(0,57)+"..." : f.name) +
+    '</span><span class="tam">'+tamanhoLegivel(f.size)+'</span>'+
+    '<button class="x" type="button" data-rm="'+i+'" title="Remover">&times;</button></div>').join("");
+  box.querySelectorAll("[data-rm]").forEach(b=>{
+    b.addEventListener("click", ()=>{
+      arquivosSelecionados.splice(parseInt(b.dataset.rm,10),1);
+      renderArquivos();
+    });
+  });
+  document.getElementById("resumoArquivos").textContent = arquivosSelecionados.length
+    ? arquivosSelecionados.length + " arquivo(s) selecionado(s)."
+    : "Nenhum arquivo selecionado.";
+  const grande = arquivosSelecionados.filter(f=>f.size > 20*1024*1024);
+  if(grande.length) document.getElementById("resumoArquivos").textContent +=
+    " Atenção: " + grande.length + " arquivo(s) acima de 20 MB.";
+}
+function adicionarArquivos(lista){
+  for(const f of lista){
+    if(arquivosSelecionados.some(x=>x.name===f.name && x.size===f.size)) continue;
+    arquivosSelecionados.push(f);
+  }
+  renderArquivos();
+}
+function montarPayload(){
+  const c = estado.campos, m = estado.marcados, t = estado.tabelas;
+  return {
+    aluno: c.aluno || "", unidade: c.unidade || "", contato: c.contato || "",
+    projeto: c.nome_projeto || "", tipo: c.tipo_projeto || "", resumo: c.resumo || "",
+    problema: c.problema || "", estadoAtual: c.hoje || "", impacto: c.impacto || "",
+    limite: c.limite || "", afetados: m.afetado || [], evidencias: m.evid || [],
+    asIs: {
+      inicio: c.asis_inicio || "", fim: c.asis_fim || "", entradas: c.asis_entradas || "",
+      saidas: c.asis_saidas || "", volume: c.asis_volume || "", duracao: c.asis_duracao || "",
+      frequencia: c.asis_frequencia || "", decisoes: c.asis_decisoes || "",
+      excecoes: c.asis_excecoes || "", digital: c.asis_digital || "",
+      etapas: (t.tAsIs || []).filter(l=>l.etapa)
+    },
+    papeis: (t.tPapeis || []).filter(l=>l.papel),
+    toBe: {
+      visao: c.tobe_visao || "", mudanca: c.tobe_mudanca || "", inalterado: c.tobe_inalterado || "",
+      restricao: c.tobe_restricao || "", piloto: c.tobe_piloto || "",
+      etapas: (t.tToBe || []).filter(l=>l.etapa)
+    },
+    mvp: {
+      entrega: c.entrega || "", dentro: c.dentro || "", fora: c.fora || "",
+      naoFaz: c.mvp_naofaz || "",
+      objetivo: c.mvp_objetivo || "", plataforma: c.mvp_plataforma || "",
+      primeiraTela: c.mvp_tela_inicial || "", simulado: c.mvp_mock || "",
+      criterio: c.mvp_criterio || "", dados: c.mvp_dados || "", reuso: c.mvp_reuso || "",
+      artefatos: (t.tArtefatos || []).filter(l=>l.nome)
+    },
+    especificacao: {
+      entidades: (t.tEntidades || []).filter(l=>l.entidade),
+      regras: (t.tRegras || []).filter(l=>l.regra),
+      lgpd: {
+        dados: c.lgpd_dados || "", base: c.lgpd_base || "",
+        retencao: c.lgpd_retencao || "", acesso: c.lgpd_acesso || ""
+      },
+      stack: m.stack || "HTML único (CSS/JS inline), dados em JSON embutido, GitHub Pages",
+      stackDetalhe: c.stack_detalhe || ""
+    },
+    fontes: {
+      tabela: (t.tFontes || []).filter(l=>l.fonte),
+      coletar: c.coletar || "", acesso: c.acesso || ""
+    },
+    metricas: {
+      tabela: (t.tMetricas || []).filter(l=>l.nome),
+      periodo: c.base_periodo || "", camposData: c.campos_data || ""
+    },
+    hospedagem: {
+      opcoes: (t.tHospedagem || []).filter(l=>l.opcao),
+      escolhida: c.hospedagem_escolhida || "", contas: c.conta_quem || "", custo: c.orcamento || ""
+    },
+    requisitos: {
+      itens: m.req || [], restricoes: c.restricoes || "", hipotese: c.hipotese_campo || "",
+      referencias: (t.tRefs || []).filter(l=>l.ref), lacunas: c.lacunas || ""
+    },
+    plano: {
+      marcos: (t.tMarcos || []).filter(l=>l.marco),
+      riscos: (t.tRiscos || []).filter(l=>l.risco),
+      apoio: c.apoio || "", aprendizado: c.aprendizado || ""
+    },
+    defesa: {
+      frase: c.frase || "", provas: c.provas || "", piloto: c.piloto || "", risco: c.risco_defesa || ""
+    },
+    documentos: {
+      descricao: c.doc_descricao || "", faltando: c.doc_faltando || ""
+    }
+  };
+}
+function lerBase64(file){
+  return new Promise((resolve, reject)=>{
+    const fr = new FileReader();
+    fr.onload = ()=>{
+      const s = String(fr.result || "");
+      const i = s.indexOf(",");
+      resolve(i >= 0 ? s.slice(i+1) : s);
+    };
+    fr.onerror = ()=>reject(new Error("Falha ao ler o arquivo " + file.name));
+    fr.readAsDataURL(file);
+  });
+}
+async function enviarAoFirebase(){
+  const status = document.getElementById("statusEnvio");
+  const barra = document.getElementById("barraEnvio");
+  status.className = "status-envio";
+  status.textContent = "Preparando o envio...";
+  if(!window.fb || !window.fb.pronto){
+    status.className = "status-envio erro";
+    status.textContent = "O Firebase não carregou (" + ((window.fb && window.fb.erro) || "sem internet") +
+      "). Baixe o .json e envie por e-mail ou WhatsApp.";
+    return;
+  }
+  const { fs, auth, db, COLECAO, COLECAO_ARQUIVOS, LIMITE_ARQUIVO } = window.fb;
+  try{
+    status.textContent = "Autenticando...";
+    try{
+      if(!auth.currentUser) await auth.signInAnonymously(auth);
+    }catch(e){ /* segue sem sessao, se as regras permitirem */ }
+
+    const payload = montarPayload();
+    const grandes = arquivosSelecionados.filter(f=>f.size > LIMITE_ARQUIVO);
+    const cabem = arquivosSelecionados.filter(f=>f.size <= LIMITE_ARQUIVO);
+
+    /* 1. cria o documento do projeto, para ter o id */
+    status.textContent = "Gravando o projeto no Firestore...";
+    const doc = await fs.addDoc(fs.collection(db, COLECAO), Object.assign({}, payload, {
+      arquivos: [],
+      arquivosExternos: grandes.map(f=>({nome: f.nome, tamanho: f.size, motivo: "acima de 600 KB"})),
+      status: "enviado",
+      criadoEm: fs.serverTimestamp(),
+      versaoFormulario: 4
+    }));
+
+    /* 2. grava cada arquivo como documento proprio, com o conteudo em base64 */
+    const salvos = [];
+    let i = 0;
+    for(const f of cabem){
+      i++;
+      status.textContent = "Enviando arquivo " + i + " de " + cabem.length + ": " + f.name;
+      if(barra){ barra.style.width = Math.round(i / Math.max(1, cabem.length) * 90) + "%"; }
+      const base64 = await lerBase64(f);
+      const dArquivo = await fs.addDoc(fs.collection(db, COLECAO_ARQUIVOS), {
+        projetoId: doc.id,
+        nome: f.name,
+        tipo: f.type || "",
+        tamanho: f.size,
+        base64: base64,
+        criadoEm: fs.serverTimestamp()
+      });
+      salvos.push({nome: f.name, tamanho: f.size, tipo: f.type || "", docId: dArquivo.id});
+    }
+
+    /* 3. atualiza o documento do projeto com a lista de arquivos */
+    if(salvos.length){
+      status.textContent = "Atualizando a lista de arquivos...";
+      await fs.updateDoc(fs.doc(db, COLECAO, doc.id), {arquivos: salvos});
+    }
+
+    if(barra){ barra.style.width = "100%"; }
+    status.className = "status-envio ok";
+    status.innerHTML = "Enviado. Seu projeto está no hub: <a href='app.html?id=" + doc.id + "' target='_blank'>abrir a página do projeto</a>. " +
+      "Identificador: <code>" + doc.id + "</code>." +
+      (grandes.length ? "<br><b>Atenção:</b> " + grandes.length + " arquivo(s) acima de 600 KB ficaram de fora. " +
+        "Envie esses arquivos por e-mail ou WhatsApp ao professor, com o identificador acima." : "");
+  }catch(e){
+    status.className = "status-envio erro";
+    status.textContent = "Falha no envio: " + (e && e.message ? e.message : e) +
+      ". Baixe o .json e envie por e-mail ou WhatsApp.";
+  }
+}
+
+/* =====================================================================
+   EVENTOS
+   ===================================================================== */
+document.addEventListener("DOMContentLoaded", ()=>{
+  carregar();
+  renderCampos();
+  renderTabelas();
+  pintarChecklist();
+  salvar();
+
+  document.querySelectorAll("[data-add]").forEach(b=>{
+    b.addEventListener("click", ()=>{
+      const tid = b.dataset.add;
+      const linha = linhaVazia(tid);
+      const modelo = MODELOS[tid + ":" + b.dataset.modelo];
+      if(modelo) Object.assign(linha, modelo);
+      estado.tabelas[tid].push(linha);
+      salvar(); renderTabelas(); pintarChecklist();
+    });
+  });
+
+  document.getElementById("btnMd").addEventListener("click", ()=>baixar(nomeArquivo("md"), toProjetoMd(), "text/markdown;charset=utf-8"));
+  document.getElementById("btnJson").addEventListener("click", ()=>baixar(nomeArquivo("json"), JSON.stringify(coletar(), null, 2), "application/json"));
+  document.getElementById("btnImprimir").addEventListener("click", ()=>window.print());
+  document.getElementById("btnEnviar").addEventListener("click", enviarAoFirebase);
+  document.getElementById("btnEmail").addEventListener("click", ()=>{
+    const c = estado.campos;
+    const assunto = "Fase de ideação - " + (c.nome_projeto || "projeto") + " - " + (c.aluno || "aluno");
+    const corpoMail = [
+      "Professor,",
+      "",
+      "Segue a minha resposta da fase de ideação.",
+      "",
+      "Projeto: " + (c.nome_projeto || "-"),
+      "Aluno ou equipe: " + (c.aluno || "-"),
+      "Tipo: " + (c.tipo_projeto || "-"),
+      "Resumo: " + (c.resumo || "-"),
+      "",
+      "Anexei dois arquivos:",
+      "1) PROJETO.md, com a resposta completa no formato da aula;",
+      "2) o arquivo .json, para o professor importar no painel de consolidação.",
+      "",
+      "Os arquivos do projeto (diagramas, planilhas e modelos) seguem anexados, quando couberem no limite do e-mail."
+    ].join("\n");
+    window.location.href = "mailto:?subject=" + encodeURIComponent(assunto) + "&body=" + encodeURIComponent(corpoMail);
+  });
+  document.getElementById("btnCopiar").addEventListener("click", async ()=>{
+    try{ await navigator.clipboard.writeText(toMd()); }catch(e){}
+    alert("Resumo copiado. Se o navegador não permitir a cópia, use o botão de baixar o .md.");
+  });
+  document.getElementById("btnLimpar").addEventListener("click", ()=>{
+    if(!confirm("Limpar toda a resposta deste navegador?")) return;
+    localStorage.removeItem(CHAVE);
+    estado = {campos:{}, tabelas:{}, marcados:{}};
+    arquivosSelecionados = [];
+    carregar(); renderCampos(); renderTabelas(); renderArquivos(); pintarChecklist(); salvar();
+  });
+
+  // area de arrastar e soltar os arquivos
+  const dz = document.getElementById("dropzone");
+  const inputArquivos = document.getElementById("arquivos");
+  dz.addEventListener("click", ()=>inputArquivos.click());
+  inputArquivos.addEventListener("change", ()=>{ adicionarArquivos(inputArquivos.files); inputArquivos.value = ""; });
+  ["dragenter","dragover"].forEach(ev=>dz.addEventListener(ev, e=>{ e.preventDefault(); dz.classList.add("over"); }));
+  ["dragleave","drop"].forEach(ev=>dz.addEventListener(ev, e=>{ e.preventDefault(); dz.classList.remove("over"); }));
+  dz.addEventListener("drop", e=>{ if(e.dataTransfer && e.dataTransfer.files) adicionarArquivos(e.dataTransfer.files); });
+  document.getElementById("btnAddArquivo").addEventListener("click", ()=>inputArquivos.click());
+  document.getElementById("btnLimparArquivos").addEventListener("click", ()=>{ arquivosSelecionados = []; renderArquivos(); });
+  renderArquivos();
+
+  /* aviso sobre o envio automatico, logo apos carregar o SDK */
+  const av = document.getElementById("statusFirebase");
+  if(av){
+    if(window.fb && window.fb.pronto){
+      av.className = "aviso ok";
+      av.innerHTML = "<b>Envio automatico disponivel.</b> Ao clicar em <i>Enviar projeto e arquivos ao professor</i>, " +
+        "a resposta vai para o painel do professor e os arquivos para o Firestore do projeto " +
+        "<code>aulapolitec</code>. Nao precisa anexar nada por e-mail.";
+    }else{
+      av.className = "aviso erro";
+      av.innerHTML = "<b>Envio automatico indisponivel neste computador</b> (" +
+        escTexto(window.fb && window.fb.erro ? window.fb.erro : "sem internet ou dominio bloqueado") + "). " +
+        "O formulario continua funcionando: preencha tudo, baixe o <b>PROJETO.md</b> e o <b>.json</b> " +
+        "e envie ao professor pelo botao <i>Enviar por e-mail</i>.";
+    }
+  }
+
+  document.getElementById("tema").addEventListener("click", ()=>{
+    const h = document.documentElement;
+    const novo = h.dataset.tema === "escuro" ? "claro" : "escuro";
+    h.dataset.tema = novo;
+    localStorage.setItem("politec-tema", novo);
+    document.getElementById("tema").textContent = "Tema: " + novo;
+  });
+  const t = localStorage.getItem("politec-tema");
+  if(t){ document.documentElement.dataset.tema = t; document.getElementById("tema").textContent = "Tema: " + t; }
+
+  document.querySelectorAll(".tab").forEach(b=>{
+    b.addEventListener("click", ()=>{
+      document.querySelectorAll(".tab").forEach(x=>x.classList.remove("on"));
+      b.classList.add("on");
+      document.getElementById("form").classList.toggle("oculto", b.dataset.alvo!=="form");
+      document.getElementById("painel").classList.toggle("oculto", b.dataset.alvo!=="painel");
+    });
+  });
+
+  document.getElementById("importar").addEventListener("change", async (ev)=>{
+    for(const f of ev.target.files){
+      try{ respostas.push(JSON.parse(await f.text())); }
+      catch(e){ alert("Não consegui ler o arquivo " + f.name); }
+    }
+    ev.target.value = "";
+    renderPainel();
+  });
+  document.getElementById("btnCsv").addEventListener("click", ()=>{
+    if(!respostas.length){ alert("Nenhuma resposta importada."); return; }
+    baixar("consolidacao-ideacao.csv", csvConsolidado(), "text/csv;charset=utf-8");
+  });
+  document.getElementById("btnCsvDetalhe").addEventListener("click", ()=>{
+    if(!respostas.length){ alert("Nenhuma resposta importada."); return; }
+    baixar("detalhe-metricas-hospedagem.csv", csvDetalhe(), "text/csv;charset=utf-8");
+  });
+  document.getElementById("btnLimparPainel").addEventListener("click", ()=>{
+    if(!confirm("Limpar a consolidação?")) return;
+    respostas = []; renderPainel();
+  });
+
+  let tmr = null;
+  const repintar = ()=>{ clearTimeout(tmr); tmr = setTimeout(pintarChecklist, 350); };
+  document.getElementById("form").addEventListener("input", repintar);
+  document.getElementById("form").addEventListener("change", repintar);
+
+  renderPainel();
+});
+</script>
+</body>
+</html>

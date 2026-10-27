@@ -1,0 +1,33 @@
+rules_version = '2';
+
+// Regras da fase de ideacao (POLITEC/MT), projeto no plano Spark.
+// Somente Firestore: a resposta do projeto e os arquivos enviados.
+//
+// Leitura publica: o hub lista os projetos da turma.
+// Escrita: qualquer pessoa pode criar um projeto novo e seus arquivos,
+// mas nao pode apagar nem alterar o que ja foi enviado.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /ideacao/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasAll(['aluno', 'projeto', 'criadoEm'])
+                    && request.resource.data.aluno is string
+                    && request.resource.data.projeto is string
+                    && request.resource.data.criadoEm == request.time;
+      allow update: if request.resource.data.diff(resource.data).affectedKeys()
+                    .hasOnly(['arquivos'])
+                    && request.resource.data.aluno == resource.data.aluno
+                    && request.resource.data.projeto == resource.data.projeto;
+      allow delete: if false;
+    }
+    match /ideacao_arquivos/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasAll(['projetoId', 'nome', 'base64'])
+                    && request.resource.data.base64.size() < 900000;
+      allow update, delete: if false;
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

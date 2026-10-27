@@ -21,6 +21,7 @@ materiais de pratica.
 | [5](Aula%205/) | Dashboards de BI - 5 cenarios com datasets proprios | 80 | — | [140 KB](Aula%205/caderno-dia5.html) | PDF opcional |
 | [6](Aula%206/) | Painel de Processo (manha) + Gestao de Projetos (tarde) | 80 | — | [417 KB](Aula%206/caderno-dia6.html) | [121 pág · 6,5 MB](Aula%206/Caderno%20Dia%206%20-%20POLITEC.pdf) |
 | [7](Aula%207/) | Gargalo medido, Automacao e Antigravity | 68 | — | [378 KB](Aula%207/caderno-dia7.html) | [135 pág · 6,6 MB](Aula%207/Caderno%20Dia%207%20-%20POLITEC.pdf) |
+| [8](Aula%208/) | Fase de ideação (formulario, metricas e defesa) | — | — | [Formulário](Aula%208/formulario-ideacao.html) | — |
 
 Cada pasta `Aula N/` contem: `README.md` (indice da aula), `caderno-diaN.html`
 (fonte viva), `Caderno Dia N - POLITEC.pdf`, `Dia-N-Politec.pdf` (slides) e
@@ -107,6 +108,34 @@ A Aula 7 mantem o formato de dois turnos e acrescenta a construcao do app.
 | **Aulao de Antigravity** | 11 secoes, botao por botao: instalacao, janela, painel do agente, Agent Manager, modelos, terminal e painel de versao, artefatos, permissoes, comandos de barra e Remote Control |
 | **GitHub** | Secao com os comandos para conectar a conta pelo navegador (`gh auth login --hostname github.com --git-protocol https --web`), publicar o projeto e o fluxo diario de versionamento |
 | **PDF** | `Caderno Dia 7 - POLITEC.pdf` gerado com **135 paginas** e 68 secoes no sumario paginado (2 passadas) |
+
+---
+
+## Fase de ideação (Aula 8)
+
+Material da fase que vem depois da Aula 7, em `Aula 8/`:
+
+| Arquivo | O que é |
+|---|---|
+| `formulario-ideacao.html` | Formulário do projeto, em 14 blocos: identificação, problema, **AS-IS** (tabela de etapas), **papéis**, **TO-BE**, escopo e **MVP mínimo**, **entidades, regras de negócio e LGPD**, **fontes de dados**, **KPIs** com linha de base, **hospedagem**, pesquisa de apoio, marcos e riscos, defesa e **upload dos documentos**. Exporta o `PROJETO.md` e envia tudo ao Firestore |
+| `index.html` | O **hub**: um cartão por projeto, com busca, filtros e indicadores de completude |
+| `app.html` | A página de cada projeto, com os 15 blocos recebidos, os arquivos para download e os prompts de Mermaid (AS-IS, TO-BE e TO-BE com automação) prontos para colar no Antigravity |
+| `prompt-bpmn-mermaid.md` | O **papel (role)** de Mermaid/BPMN, com as convenções e os três comandos de mapeamento |
+| `firestore.rules` | As regras do Firestore: leitura pública, criação livre, sem alteração nem remoção |
+| `formulario-ideacao.md` | As mesmas perguntas em texto, para Google Forms, Moodle ou papel |
+| `template-metricas.md` | Conjunto mínimo de métricas, fórmulas de ganho, frase de defesa, exemplo preenchido e checklist do professor |
+| `README.md` | Roteiro da fase: as duas semanas, a rotina do professor e os critérios de avaliação |
+
+A lógica da fase: a equipe declara **problema, AS-IS, papéis, TO-BE, MVP, dados,
+regras, fontes e hospedagem**; o professor mede a **linha de base** nas fontes
+declaradas, monta os **três diagramas** (AS-IS, TO-BE e TO-BE com automação) em
+Mermaid e constrói o **MVP funcional**; a equipe defende a proposta com a
+**mesma métrica**, comparando o valor medido com o valor esperado, que vira
+hipótese testada no piloto.
+
+Tudo é gravado no **Firestore** do projeto Firebase `aulapolitec` (plano Spark:
+só Firestore, sem Storage). Cada arquivo enviado vira um documento na coleção
+`ideacao_arquivos`, com limite de 600 KB por arquivo.
 
 ---
 
