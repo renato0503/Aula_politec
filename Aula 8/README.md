@@ -104,7 +104,7 @@ projeto, no momento do envio.
 
 | Arquivo | O que é |
 |---|---|
-| `formulario-ideacao.html` | O formulário da equipe, em 14 blocos, com tabelas dinâmicas, checklist que se atualiza em tempo real, upload de arquivos e envio ao Firestore. Continua funcionando offline: salva no navegador e exporta o `.json` e o `PROJETO.md` |
+| `formulario-ideacao.html` | O formulário da equipe, em 14 blocos, com tabelas dinâmicas, checklist que se atualiza em tempo real, upload de arquivos e envio ao Firestore. Continua funcionando offline: salva no navegador, exporta o `PROJETO.md` e o `.json`, e **importa os dois de volta** para continuar de onde parou |
 | `index.html` | O **hub**: um cartão por projeto, com busca, filtro por tipo e por situação, e indicadores de completude |
 | `app.html` | A página de cada projeto: 14 seções com tudo que chegou, e a lista de arquivos para download |
 | `firebase-config.js` | Configuração e inicialização do Firebase, compartilhada pelas três páginas, com fallback de versão do SDK |

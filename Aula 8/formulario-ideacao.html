@@ -188,9 +188,21 @@ footer.foot{margin-top:40px;padding:22px 0 60px;border-top:1px solid var(--borde
 
   <div class="aviso info">
     <b>Como preencher:</b> leve de 60 a 90 minutos. O navegador guarda tudo na própria
-    máquina, então você pode fechar e voltar depois. Se um bloco não se aplicar ao seu
+    máquina, então você pode fechar e voltar depois. Se um bloco não se aplica ao seu
     projeto, escreva <b>“não se aplica”</b> em vez de deixar em branco: isso também é
     informação. No fim, baixe o <b>.md</b> ou o <b>.json</b> e envie ao professor.
+  </div>
+
+  <div class="aviso">
+    <b>Continuou de onde parou?</b> Se você já baixou o <b>PROJETO.md</b> ou o
+    <b>.json</b> antes, importe o arquivo aqui e continue de onde parou. A importação
+    <b>substitui</b> o que está na tela agora, então salve antes se tiver algo em
+    andamento.
+    <div class="barra-tabela" style="margin-top:10px">
+      <label class="act pequeno" style="cursor:pointer">Importar PROJETO.md ou .json
+        <input type="file" id="importarResposta" accept=".json,.md,application/json,text/markdown" class="oculto"></label>
+      <span class="dica" style="margin:0" id="statusImportar">Nenhum arquivo importado.</span>
+    </div>
   </div>
 
   <!-- ================= BLOCO 0 ================= -->
@@ -1444,170 +1456,175 @@ function pintarChecklist(){
    ------------------------------------------------------------------ */
 function toProjetoMd(){
   const c = estado.campos, m = estado.marcados, t = estado.tabelas;
-  const artefatos = (t.tArtefatos || []).filter(l=>l.nome);
-  const metricas = (t.tMetricas || []).filter(l=>l.nome);
   const L = [];
+  const rot = (rotulo, valor) => L.push("**" + rotulo + ":** " + (valor === undefined || valor === null || valor === "" ? "-" : valor));
+  const tabela = (cols, linhas) => {
+    if(!linhas || !linhas.length) return;
+    L.push("| " + cols.join(" | ") + " |");
+    L.push("|" + cols.map(()=>"---").join("|") + "|");
+    linhas.forEach(l=>{ L.push("| " + l.map(linhaMd).join(" | ") + " |"); });
+    L.push("");
+  };
+
   L.push("# PROJETO.md — " + (c.nome_projeto || "SEM NOME"));
   L.push("");
-  L.push("**Aluno ou equipe:** " + (c.aluno||"-") + "  ");
-  L.push("**Unidade:** " + (c.unidade||"-") + "  ");
-  L.push("**Contato:** " + (c.contato||"-") + "  ");
-  L.push("**Tipo de projeto:** " + (c.tipo_projeto||"-") + "  ");
-  L.push("**Data:** " + (c.data||"-"));
+  rot("Aluno ou equipe", c.aluno);
+  rot("Unidade", c.unidade);
+  rot("Contato", c.contato);
+  rot("Projeto", c.nome_projeto);
+  rot("Tipo de projeto", c.tipo_projeto);
+  rot("Data", c.data);
+  rot("Resumo", c.resumo);
   L.push("");
-  L.push("> " + (c.resumo || "Resumo do projeto em uma frase."));
-  L.push("");
+
   L.push("## 1. Problema (a dor)");
   L.push("");
-  L.push((c.problema||"-") + " " + (c.impacto||""));
+  rot("Problema", c.problema);
+  rot("Impacto", c.impacto);
+  rot("Quem sofre", (m.afetado||[]).join(", "));
+  rot("Como é feito hoje", c.hoje);
+  rot("Evidências", (m.evid||[]).join(", "));
+  rot("Detalhe da evidência", c.evid_detalhe);
+  rot("O que não pode ser automatizado", c.limite);
   L.push("");
-  L.push("**Quem sofre:** " + ((m.afetado||[]).join(", ")||"-"));
-  L.push("");
-  L.push("**Como é feito hoje:** " + (c.hoje||"-"));
-  L.push("");
-  L.push("**O que não pode ser automatizado:** " + (c.limite||"-"));
-  L.push("");
+
   L.push("## 2. Objetivo do MVP (o que faz e o que NÃO faz)");
   L.push("");
-  L.push("**Faz:** " + (c.mvp_objetivo||"-"));
+  rot("Objetivo do MVP", c.mvp_objetivo);
+  rot("O que o MVP não faz", c.mvp_naofaz);
+  rot("Entregável do projeto", c.entrega);
+  rot("Dentro do escopo", c.dentro);
+  rot("Fora do escopo", c.fora);
+  rot("Plataforma alvo", c.mvp_plataforma);
+  rot("Primeira tela", c.mvp_tela_inicial);
+  rot("Simulado no MVP", c.mvp_mock);
+  rot("Critério de aceite", c.mvp_criterio);
+  rot("Dados de exemplo", c.mvp_dados);
+  rot("O que já existe pronto e pode ser reaproveitado", c.mvp_reuso);
+  rot("Dependências", c.dependencias);
   L.push("");
-  L.push("**Não faz:** " + (c.mvp_naofaz||"-"));
-  L.push("");
-  L.push("**Entregável do projeto:** " + (c.entrega||"-"));
-  L.push("");
-  L.push("**Dentro do escopo:** " + (c.dentro||"-"));
-  L.push("");
-  L.push("**Fora do escopo:** " + (c.fora||"-"));
-  L.push("");
-  L.push("**Plataforma alvo:** " + (c.mvp_plataforma||"-") + "  ");
-  L.push("**Primeira tela:** " + (c.mvp_tela_inicial||"-") + "  ");
-  L.push("**Simulado no MVP:** " + (c.mvp_mock||"-") + "  ");
-  L.push("**Critério de aceite:** " + (c.mvp_criterio||"-") + "  ");
-  L.push("**Dados de exemplo:** " + (c.mvp_dados||"-"));
-  L.push("");
+
   L.push("## 3. Usuários e papéis");
   L.push("");
-  L.push("| Papel | Quem é | O que enxerga | O que faz | O que não pode fazer | Registro |");
-  L.push("|---|---|---|---|---|---|");
-  (t.tPapeis||[]).filter(l=>l.papel).forEach(l=>{
-    L.push("| "+[l.papel,l.quem,l.ve,l.faz,l.naofaz,l.registro].map(linhaMd).join(" | ")+" |");
-  });
+  tabela(["Papel","Quem é","O que enxerga","O que faz","O que não pode fazer","Registro"],
+    (t.tPapeis||[]).filter(l=>l.papel).map(l=>[l.papel,l.quem,l.ve,l.faz,l.naofaz,l.registro]));
+  rot("Observações sobre os papéis", c.papeis_obs);
   L.push("");
-  L.push("**Observações:** " + (c.papeis_obs||"-"));
-  L.push("");
+
   L.push("## 4. Dados (entidades e colunas; tudo SINTÉTICO)");
   L.push("");
-  L.push("| Entidade | O que representa | Colunas | Chave | Volume | Origem | Sintético |");
-  L.push("|---|---|---|---|---|---|---|");
-  (t.tEntidades||[]).filter(l=>l.entidade).forEach(l=>{
-    L.push("| "+[l.entidade,l.representa,l.colunas,l.chave,l.volume,l.origem,l.sintetico].map(linhaMd).join(" | ")+" |");
-  });
+  tabela(["Entidade","O que representa","Colunas","Chave","Volume","Origem","Sintético"],
+    (t.tEntidades||[]).filter(l=>l.entidade).map(l=>[l.entidade,l.representa,l.colunas,l.chave,l.volume,l.origem,l.sintetico]));
+  rot("O que precisa ser coletado", c.coletar);
+  rot("Quem libera o acesso", c.acesso);
   L.push("");
-  L.push("**Fontes de dados do processo real:**");
+  L.push("### Fontes de dados do processo real");
   L.push("");
-  L.push(tabelaMd("tFontes"));
+  tabela(["Fonte","Tipo","Onde","Existe","Uma linha é","Volume","Campos de data","Atualiza","LGPD"],
+    (t.tFontes||[]).filter(l=>l.fonte).map(l=>[l.fonte,l.tipo,l.onde,l.existe,l.linha,l.volume,l.campos,l.atualiza,l.lgpd]));
+  L.push("");
+
   L.push("## 5. Regras de negócio (RN01, RN02...)");
   L.push("");
-  L.push("| ID | Regra | Quando se aplica | Exceção | Quem valida | Tipo |");
-  L.push("|---|---|---|---|---|---|");
-  (t.tRegras||[]).filter(l=>l.regra).forEach(l=>{
-    L.push("| "+[l.id||"RN00",l.regra,l.quando,l.excecao,l.valida,l.tipo].map(linhaMd).join(" | ")+" |");
-  });
+  tabela(["ID","Regra","Quando se aplica","Exceção","Quem valida","Tipo"],
+    (t.tRegras||[]).filter(l=>l.regra).map(l=>[l.id||"RN00",l.regra,l.quando,l.excecao,l.valida,l.tipo]));
   L.push("");
+
   L.push("## 6. Telas (#/painel, #/lista...)");
   L.push("");
-  L.push("| Rota | Tela | Objetivo | Quem usa | Dados | Ação | Regra | Verificável como | MVP |");
-  L.push("|---|---|---|---|---|---|---|---|---|");
-  artefatos.forEach(l=>{
-    L.push("| "+[l.rota||"",l.nome,l.objetivo,l.usuario,l.dados,l.acao,l.regra,l.verificacao,l.mvp].map(linhaMd).join(" | ")+" |");
-  });
+  tabela(["Rota","Tela","Objetivo","Quem usa","Dados","Ação","Regra","Tipo","Verificável como","MVP"],
+    (t.tArtefatos||[]).filter(l=>l.nome).map(l=>[l.rota||"",l.nome,l.objetivo,l.usuario,l.dados,l.acao,l.regra,l.tipo,l.verificacao,l.mvp]));
   L.push("");
+
   L.push("## 7. KPIs (nome = fórmula em uma linha)");
   L.push("");
-  L.push("| KPI | Pergunta | Fórmula | Fonte | Linha de base | Valor esperado | Como medir |");
-  L.push("|---|---|---|---|---|---|---|");
-  metricas.forEach(l=>{
-    L.push("| "+[l.nome,l.pergunta,l.formula,l.fonte,l.base,l.esperado,l.medir].map(linhaMd).join(" | ")+" |");
-  });
+  tabela(["KPI","Pergunta","Fórmula","Fonte","Linha de base","Valor esperado","Como medir"],
+    (t.tMetricas||[]).filter(l=>l.nome).map(l=>[l.nome,l.pergunta,l.formula,l.fonte,l.base,l.esperado,l.medir]));
+  rot("Período da linha de base", c.base_periodo);
+  rot("Campos de data e tempo que existem", c.campos_data);
   L.push("");
-  L.push("**Período da linha de base:** " + (c.base_periodo||"-"));
-  L.push("");
+
   L.push("## 8. Stack: HTML único (CSS/JS inline), dados em JSON embutido, GitHub Pages.");
   L.push("");
-  L.push("**Stack escolhida:** " + (m.stack||"HTML único (CSS/JS inline), dados em JSON embutido, GitHub Pages"));
+  rot("Stack escolhida", m.stack || "HTML único (CSS/JS inline), dados em JSON embutido, GitHub Pages");
+  rot("Detalhe da stack", c.stack_detalhe);
+  rot("Hospedagem", c.hospedagem_escolhida);
+  rot("Custo e licenças", c.orcamento);
+  rot("Contas e domínio", c.conta_quem);
   L.push("");
-  L.push((c.stack_detalhe||"-"));
+  tabela(["Opção","Tipo","Onde roda","Custo","Quem mantém","Acesso","Banco de dados","Escala","Limitação"],
+    (t.tHospedagem||[]).filter(l=>l.opcao).map(l=>[l.opcao,l.tipo,l.onde,l.custo,l.mantem,l.acesso,l.banco,l.escala,l.limite]));
   L.push("");
-  L.push("**Hospedagem:** " + (c.hospedagem_escolhida||"-") + "  ");
-  L.push("**Custo e licenças:** " + (c.orcamento||"-") + "  ");
-  L.push("**Contas e domínio:** " + (c.conta_quem||"-"));
-  L.push("");
+
   L.push("## 9. Restrições e LGPD");
   L.push("");
-  L.push("**Restrições:** " + (c.restricoes||"-"));
+  rot("Restrições", c.restricoes);
+  rot("Dados pessoais tratados", c.lgpd_dados);
+  rot("Base legal", c.lgpd_base);
+  rot("Retenção", c.lgpd_retencao);
+  rot("Acesso e registro", c.lgpd_acesso);
+  rot("Requisitos marcados", (m.req||[]).join(", "));
   L.push("");
-  L.push("**Dados pessoais tratados:** " + (c.lgpd_dados||"-") + "  ");
-  L.push("**Base legal:** " + (c.lgpd_base||"-") + "  ");
-  L.push("**Retenção:** " + (c.lgpd_retencao||"-") + "  ");
-  L.push("**Acesso e registro:** " + (c.lgpd_acesso||"-"));
-  L.push("");
-  L.push("**Requisitos marcados:** " + ((m.req||[]).join(", ")||"-"));
-  L.push("");
+
   L.push("---");
   L.push("");
   L.push("# Anexo A — AS-IS (o fluxo de hoje)");
   L.push("");
-  L.push("**Início:** " + (c.asis_inicio||"-") + "  ");
-  L.push("**Fim:** " + (c.asis_fim||"-"));
+  rot("Início", c.asis_inicio);
+  rot("Fim", c.asis_fim);
+  rot("Entradas", c.asis_entradas);
+  rot("Saídas", c.asis_saidas);
+  rot("Volume", c.asis_volume);
+  rot("Duração", c.asis_duracao);
+  rot("Frequência", c.asis_frequencia);
+  tabela(["Etapa","Quem faz","O que entra","Ação","O que sai","Sistema","Regra","Onde espera","Tempo (h)","Automatizável"],
+    (t.tAsIs||[]).filter(l=>l.etapa).map(l=>[l.etapa,l.papel,l.entra,l.acao,l.sai,l.sistema,l.regra,l.espera,l.tempo,l.auto]));
+  rot("Decisões e aprovações", c.asis_decisoes);
+  rot("Exceções", c.asis_excecoes);
+  rot("Já digitalizado", c.asis_digital);
   L.push("");
-  L.push("**Entradas:** " + (c.asis_entradas||"-") + "  ");
-  L.push("**Saídas:** " + (c.asis_saidas||"-"));
-  L.push("");
-  L.push("**Volume:** " + (c.asis_volume||"-") + " | **Duração:** " + (c.asis_duracao||"-") +
-         " | **Frequência:** " + (c.asis_frequencia||"-"));
-  L.push("");
-  L.push(tabelaMd("tAsIs"));
-  L.push("**Decisões:** " + (c.asis_decisoes||"-") + "  ");
-  L.push("**Exceções:** " + (c.asis_excecoes||"-") + "  ");
-  L.push("**Já digitalizado:** " + (c.asis_digital||"-"));
-  L.push("");
+
   L.push("# Anexo B — TO-BE (o fluxo depois da mudança)");
   L.push("");
-  L.push("**Visão:** " + (c.tobe_visao||"-") + "  ");
-  L.push("**Mudança principal:** " + (c.tobe_mudanca||"-") + "  ");
-  L.push("**O que fica igual:** " + (c.tobe_inalterado||"-") + "  ");
-  L.push("**O que não pode mudar:** " + (c.tobe_restricao||"-"));
+  rot("Visão do futuro", c.tobe_visao);
+  rot("Mudança principal", c.tobe_mudanca);
+  rot("O que fica igual", c.tobe_inalterado);
+  rot("O que não pode mudar", c.tobe_restricao);
+  tabela(["Etapa","O que muda","Quem executa","Benefício","Esforço"],
+    (t.tToBe||[]).filter(l=>l.etapa).map(l=>[l.etapa,l.muda,l.quem,l.beneficio,l.esforco]));
+  rot("Piloto do TO-BE", c.tobe_piloto);
   L.push("");
-  L.push(tabelaMd("tToBe"));
-  L.push("**Piloto:** " + (c.tobe_piloto||"-"));
-  L.push("");
+
   L.push("# Anexo C — Pesquisa, riscos e plano");
   L.push("");
-  L.push("**Hipótese de campo:** " + (c.hipotese_campo||"-"));
+  rot("Hipótese de campo", c.hipotese_campo);
+  tabela(["Referência","Tipo","Fonte ou link","Ano","Dado que extrai","Como usar na defesa","Link conferido"],
+    (t.tRefs||[]).filter(l=>l.ref).map(l=>[l.ref,l.tipo,l.fonte,l.ano,l.dado,l.uso,l.conferido]));
+  rot("Lacunas", c.lacunas);
+  tabela(["Marco","Data","Responsável","Depende de","Situação"],
+    (t.tMarcos||[]).filter(l=>l.marco).map(l=>[l.marco,l.data,l.resp,l.dep,l.sit]));
+  tabela(["Risco","Probabilidade","Impacto","Mitigação"],
+    (t.tRiscos||[]).filter(l=>l.risco).map(l=>[l.risco,l.prob,l.imp,l.mit]));
+  rot("Apoio necessário", c.apoio);
+  rot("Aprendizado necessário", c.aprendizado);
   L.push("");
-  L.push(tabelaMd("tRefs"));
-  L.push("**Lacunas:** " + (c.lacunas||"-"));
-  L.push("");
-  L.push(tabelaMd("tMarcos"));
-  L.push(tabelaMd("tRiscos"));
-  L.push("**Apoio necessário:** " + (c.apoio||"-") + "  ");
-  L.push("**Aprendizado necessário:** " + (c.aprendizado||"-"));
-  L.push("");
+
   L.push("# Anexo D — A defesa");
   L.push("");
-  L.push("**Frase:** " + (c.frase||"-"));
+  rot("Frase de defesa", c.frase);
+  rot("Provas", c.provas);
+  rot("Piloto", c.piloto);
+  rot("Maior risco", c.risco_defesa);
   L.push("");
-  L.push("**Provas:** " + (c.provas||"-"));
-  L.push("");
-  L.push("**Piloto:** " + (c.piloto||"-") + "  ");
-  L.push("**Maior risco:** " + (c.risco_defesa||"-"));
-  L.push("");
+
   L.push("# Anexo E — Documentos enviados");
   L.push("");
-  L.push((c.doc_descricao||"-") + " " + (c.doc_faltando||""));
+  rot("Descrição dos documentos", c.doc_descricao);
+  rot("O que ainda falta", c.doc_faltando);
   L.push("");
   return L.join("\n");
 }
+
 
 /* =====================================================================
    EXPORTACAO
@@ -2131,6 +2148,231 @@ async function enviarAoFirebase(){
   }
 }
 
+/* ------------------------------------------------------------------
+   IMPORTAR RESPOSTA: o .json volta inteiro; o PROJETO.md volta por
+   rotulos e tabelas. Serve para continuar de onde parou.
+   ------------------------------------------------------------------ */
+function textoDeArquivo(file){
+  return new Promise((resolve, reject)=>{
+    const fr = new FileReader();
+    fr.onload = ()=>resolve(String(fr.result||""));
+    fr.onerror = ()=>reject(new Error("Falha ao ler " + file.name));
+    fr.readAsText(file);
+  });
+}
+function secoesDoMd(txt){
+  const secoes = {};
+  let atual = null;
+  txt.split(/\r?\n/).forEach(l=>{
+    const h = l.match(/^#{1,3}\s+(.+)$/);
+    if(h){ atual = h[1].trim(); secoes[atual] = secoes[atual] || []; return; }
+    if(atual) secoes[atual].push(l);
+  });
+  return secoes;
+}
+function rotuloDaSecao(linhas, rotulo){
+  const alvo = rotulo.toLowerCase();
+  for(const l of linhas){
+    const m = l.match(/^\*\*(.+?):\*\*\s*(.*)$/);
+    if(m && m[1].trim().toLowerCase() === alvo){
+      let v = m[2].trim();
+      if(v === "-") return "";
+      return v.replace(/^\*\*(.*?)\*\*:?\s*/, "").trim();
+    }
+  }
+  return "";
+}
+function tabelaDaSecao(linhas, primeiroRotulo){
+  const alvo = primeiroRotulo.toLowerCase();
+  let cabecalho = null, idx = -1;
+  for(let i=0;i<linhas.length;i++){
+    const l = linhas[i];
+    if(l.trim().startsWith("|")){
+      const cols = l.split("|").slice(1,-1).map(x=>x.trim());
+      if(!cabecalho && cols.length && cols[0].toLowerCase() === alvo){ cabecalho = cols; idx = i; }
+    }else if(cabecalho){
+      break;
+    }
+  }
+  if(!cabecalho) return {cols:null, linhas:[]};
+  const saida = [];
+  for(let i=idx+2;i<linhas.length;i++){
+    const l = linhas[i];
+    if(!l.trim().startsWith("|")) break;
+    const celulas = l.split("|").slice(1,-1).map(x=>x.trim());
+    if(celulas.every(c=>c === "" || c === "-")) continue;
+    saida.push(celulas);
+  }
+  return {cols: cabecalho, linhas: saida};
+}
+function linhasParaTabela(sec, chaves, cabecalho){
+  const t = tabelaDaSecao(sec, cabecalho || chaves[0]);
+  if(!t.cols) return [];
+  return t.linhas.map(celulas=>{
+    const o = {};
+    chaves.forEach((k,i)=>{ o[k] = celulas[i] === undefined || celulas[i] === "-" ? "" : celulas[i]; });
+    return o;
+  });
+}
+function importarMarkdown(txt){
+  const S = secoesDoMd(txt);
+  const sec = (...nomes) => {
+    for(const n of nomes){
+      const alvo = n.toLowerCase();
+      for(const k of Object.keys(S)){
+        if(k.toLowerCase() === alvo || k.toLowerCase().startsWith(alvo)) return S[k];
+      }
+    }
+    return [];
+  };
+  const c = {};
+  const put = (k, v) => { if(v !== undefined && v !== "") c[k] = v; };
+  const cab = sec("PROJETO.md");
+  put("aluno", rotuloDaSecao(cab, "Aluno ou equipe"));
+  put("unidade", rotuloDaSecao(cab, "Unidade"));
+  put("contato", rotuloDaSecao(cab, "Contato"));
+  put("nome_projeto", rotuloDaSecao(cab, "Projeto"));
+  put("tipo_projeto", rotuloDaSecao(cab, "Tipo de projeto"));
+  put("data", rotuloDaSecao(cab, "Data"));
+  put("resumo", rotuloDaSecao(cab, "Resumo"));
+
+  const s1 = sec("1. Problema (a dor)");
+  put("problema", rotuloDaSecao(s1, "Problema"));
+  put("impacto", rotuloDaSecao(s1, "Impacto"));
+  put("hoje", rotuloDaSecao(s1, "Como é feito hoje"));
+  put("evid_detalhe", rotuloDaSecao(s1, "Detalhe da evidência"));
+  put("limite", rotuloDaSecao(s1, "O que não pode ser automatizado"));
+
+  const s2 = sec("2. Objetivo do MVP (o que faz e o que NÃO faz)");
+  put("mvp_objetivo", rotuloDaSecao(s2, "Objetivo do MVP"));
+  put("mvp_naofaz", rotuloDaSecao(s2, "O que o MVP não faz"));
+  put("entrega", rotuloDaSecao(s2, "Entregável do projeto"));
+  put("dentro", rotuloDaSecao(s2, "Dentro do escopo"));
+  put("fora", rotuloDaSecao(s2, "Fora do escopo"));
+  put("mvp_plataforma", rotuloDaSecao(s2, "Plataforma alvo"));
+  put("mvp_tela_inicial", rotuloDaSecao(s2, "Primeira tela"));
+  put("mvp_mock", rotuloDaSecao(s2, "Simulado no MVP"));
+  put("mvp_criterio", rotuloDaSecao(s2, "Critério de aceite"));
+  put("mvp_dados", rotuloDaSecao(s2, "Dados de exemplo"));
+  put("mvp_reuso", rotuloDaSecao(s2, "O que já existe pronto e pode ser reaproveitado"));
+  put("dependencias", rotuloDaSecao(s2, "Dependências"));
+
+  const s3 = sec("3. Usuários e papéis");
+  put("papeis_obs", rotuloDaSecao(s3, "Observações sobre os papéis"));
+
+  const s4 = sec("4. Dados (entidades e colunas; tudo SINTÉTICO)");
+  put("coletar", rotuloDaSecao(s4, "O que precisa ser coletado"));
+  put("acesso", rotuloDaSecao(s4, "Quem libera o acesso"));
+
+  const s7 = sec("7. KPIs (nome = fórmula em uma linha)");
+  put("base_periodo", rotuloDaSecao(s7, "Período da linha de base"));
+  put("campos_data", rotuloDaSecao(s7, "Campos de data e tempo que existem"));
+
+  const s8 = sec("8. Stack: HTML único (CSS/JS inline), dados em JSON embutido, GitHub Pages.");
+  put("stack_detalhe", rotuloDaSecao(s8, "Detalhe da stack"));
+  put("hospedagem_escolhida", rotuloDaSecao(s8, "Hospedagem"));
+  put("orcamento", rotuloDaSecao(s8, "Custo e licenças"));
+  put("conta_quem", rotuloDaSecao(s8, "Contas e domínio"));
+
+  const s9 = sec("9. Restrições e LGPD");
+  put("restricoes", rotuloDaSecao(s9, "Restrições"));
+  put("lgpd_dados", rotuloDaSecao(s9, "Dados pessoais tratados"));
+  put("lgpd_base", rotuloDaSecao(s9, "Base legal"));
+  put("lgpd_retencao", rotuloDaSecao(s9, "Retenção"));
+  put("lgpd_acesso", rotuloDaSecao(s9, "Acesso e registro"));
+
+  const aA = sec("Anexo A — AS-IS (o fluxo de hoje)");
+  put("asis_inicio", rotuloDaSecao(aA, "Início"));
+  put("asis_fim", rotuloDaSecao(aA, "Fim"));
+  put("asis_entradas", rotuloDaSecao(aA, "Entradas"));
+  put("asis_saidas", rotuloDaSecao(aA, "Saídas"));
+  put("asis_volume", rotuloDaSecao(aA, "Volume"));
+  put("asis_duracao", rotuloDaSecao(aA, "Duração"));
+  put("asis_frequencia", rotuloDaSecao(aA, "Frequência"));
+  put("asis_decisoes", rotuloDaSecao(aA, "Decisões e aprovações"));
+  put("asis_excecoes", rotuloDaSecao(aA, "Exceções"));
+  put("asis_digital", rotuloDaSecao(aA, "Já digitalizado"));
+
+  const aB = sec("Anexo B — TO-BE (o fluxo depois da mudança)");
+  put("tobe_visao", rotuloDaSecao(aB, "Visão do futuro"));
+  put("tobe_mudanca", rotuloDaSecao(aB, "Mudança principal"));
+  put("tobe_inalterado", rotuloDaSecao(aB, "O que fica igual"));
+  put("tobe_restricao", rotuloDaSecao(aB, "O que não pode mudar"));
+  put("tobe_piloto", rotuloDaSecao(aB, "Piloto do TO-BE"));
+
+  const aC = sec("Anexo C — Pesquisa, riscos e plano");
+  put("hipotese_campo", rotuloDaSecao(aC, "Hipótese de campo"));
+  put("lacunas", rotuloDaSecao(aC, "Lacunas"));
+  put("apoio", rotuloDaSecao(aC, "Apoio necessário"));
+  put("aprendizado", rotuloDaSecao(aC, "Aprendizado necessário"));
+
+  const aD = sec("Anexo D — A defesa");
+  put("frase", rotuloDaSecao(aD, "Frase de defesa"));
+  put("provas", rotuloDaSecao(aD, "Provas"));
+  put("piloto", rotuloDaSecao(aD, "Piloto"));
+  put("risco_defesa", rotuloDaSecao(aD, "Maior risco"));
+
+  const aE = sec("Anexo E — Documentos enviados");
+  put("doc_descricao", rotuloDaSecao(aE, "Descrição dos documentos"));
+  put("doc_faltando", rotuloDaSecao(aE, "O que ainda falta"));
+
+  const marcados = {};
+  const lista = (rot) => rotuloDaSecao(s1, rot).split(",").map(x=>x.trim()).filter(x=>x && x !== "-");
+  marcados.afetado = lista("Quem sofre");
+  marcados.evid = lista("Evidências");
+  marcados.req = rotuloDaSecao(s9, "Requisitos marcados").split(",").map(x=>x.trim()).filter(x=>x && x !== "-");
+  const stack = rotuloDaSecao(s8, "Stack escolhida");
+  if(stack) marcados.stack = stack;
+
+  const tabelas = {
+    tPapeis: linhasParaTabela(s3, ["papel","quem","ve","faz","naofaz","registro"], "Papel"),
+    tEntidades: linhasParaTabela(s4, ["entidade","representa","colunas","chave","volume","origem","sintetico"], "Entidade"),
+    tRegras: linhasParaTabela(sec("5. Regras de negócio"), ["id","regra","quando","excecao","valida","tipo"], "ID"),
+    tArtefatos: linhasParaTabela(sec("6. Telas"), ["rota","nome","objetivo","usuario","dados","acao","regra","tipo","verificacao","mvp"], "Rota"),
+    tMetricas: linhasParaTabela(s7, ["nome","pergunta","formula","fonte","base","esperado","medir"], "KPI"),
+    tAsIs: linhasParaTabela(aA, ["etapa","papel","entra","acao","sai","sistema","regra","espera","tempo","auto"], "Etapa"),
+    tToBe: linhasParaTabela(aB, ["etapa","muda","quem","beneficio","esforco"], "Etapa"),
+    tRefs: linhasParaTabela(aC, ["ref","tipo","fonte","ano","dado","uso","conferido"], "Referência"),
+    tMarcos: linhasParaTabela(aC, ["marco","data","resp","dep","sit"], "Marco"),
+    tRiscos: linhasParaTabela(aC, ["risco","prob","imp","mit"], "Risco"),
+    tFontes: linhasParaTabela(s4, ["fonte","tipo","onde","existe","linha","volume","campos","atualiza","lgpd"], "Fonte"),
+    tHospedagem: linhasParaTabela(s8, ["opcao","tipo","onde","custo","mantem","acesso","banco","escala","limite"], "Opção")
+  };
+  return {campos: c, marcados: marcados, tabelas: tabelas};
+}
+function aplicarEstado(novo){
+  estado = Object.assign({campos:{}, tabelas:{}, marcados:{}}, novo);
+  Object.keys(TABELAS).forEach(tid=>{
+    if(!estado.tabelas[tid]) estado.tabelas[tid] = [];
+    while(estado.tabelas[tid].length < 1) estado.tabelas[tid].push(linhaVazia(tid));
+  });
+  if(!estado.campos.data) estado.campos.data = new Date().toISOString().slice(0,10);
+  renderCampos();
+  renderTabelas();
+  pintarChecklist();
+  salvar();
+}
+async function importarResposta(file){
+  const status = document.getElementById("statusImportar");
+  status.textContent = "Importando " + file.name + "...";
+  try{
+    const txt = await textoDeArquivo(file);
+    if(/\.json$/i.test(file.name)){
+      const obj = JSON.parse(txt);
+      aplicarEstado({campos: obj.campos || {}, marcados: obj.marcados || {}, tabelas: obj.tabelas || {}});
+    }else{
+      aplicarEstado(importarMarkdown(txt));
+    }
+    const nEt = (estado.tabelas.tAsIs||[]).filter(l=>l.etapa).length;
+    const nMe = (estado.tabelas.tMetricas||[]).filter(l=>l.nome).length;
+    status.textContent = "Importado: " + file.name + ". " + nEt + " etapas de AS-IS, " + nMe +
+      " métricas e " + ((estado.tabelas.tPapeis||[]).filter(l=>l.papel).length) + " papéis. Continue de onde parou.";
+    window.scrollTo({top:0, behavior:"smooth"});
+  }catch(e){
+    status.textContent = "Não consegui importar: " + (e && e.message ? e.message : e);
+  }
+}
+
 /* =====================================================================
    EVENTOS
    ===================================================================== */
@@ -2150,6 +2392,12 @@ document.addEventListener("DOMContentLoaded", ()=>{
       estado.tabelas[tid].push(linha);
       salvar(); renderTabelas(); pintarChecklist();
     });
+  });
+
+  document.getElementById("importarResposta").addEventListener("change", (ev)=>{
+    const f = ev.target.files && ev.target.files[0];
+    if(f) importarResposta(f);
+    ev.target.value = "";
   });
 
   document.getElementById("btnMd").addEventListener("click", ()=>baixar(nomeArquivo("md"), toProjetoMd(), "text/markdown;charset=utf-8"));
