@@ -20,13 +20,16 @@ materiais de pratica.
 | [4](Aula%204/) | Business Intelligence / Power BI | 107 | 6,3 MB | [227 KB](Aula%204/caderno-dia4.html) | PDF a regerar |
 | [5](Aula%205/) | Dashboards de BI - 5 cenarios com datasets proprios | 80 | — | [140 KB](Aula%205/caderno-dia5.html) | PDF opcional |
 | [6](Aula%206/) | Painel de Processo (manha) + Gestao de Projetos (tarde) | 80 | — | [417 KB](Aula%206/caderno-dia6.html) | [121 pág · 6,5 MB](Aula%206/Caderno%20Dia%206%20-%20POLITEC.pdf) |
+| [7](Aula%207/) | Gargalo medido, Automacao e Antigravity | 68 | — | [378 KB](Aula%207/caderno-dia7.html) | [135 pág · 6,6 MB](Aula%207/Caderno%20Dia%207%20-%20POLITEC.pdf) |
 
 Cada pasta `Aula N/` contem: `README.md` (indice da aula), `caderno-diaN.html`
 (fonte viva), `Caderno Dia N - POLITEC.pdf`, `Dia-N-Politec.pdf` (slides) e
 `gerar_caderno_aulaN.py` (gerador de conteudo). A Aula 6 acrescenta
 `gerar_datasets_aula6.py` (5 datasets de processo), `gerar_excel_aula6.py`
 (5 workbooks `.xlsx` com todas as tabelas em abas) e a pasta `datasets/` com
-os 5 cenarios.
+os 5 cenarios. A Aula 7 repete o esquema com **5 cenarios novos**
+(`gerar_datasets_aula7.py` e `gerar_excel_aula7.py`, 58.408 execucoes de etapa),
+acrescenta o **aulão de Antigravity** e os **comandos do GitHub**.
 
 ---
 
@@ -90,6 +93,23 @@ Entregas da Aula 6:
 
 ---
 
+## Novidades da Aula 7 (gargalo medido, automacao e Antigravity)
+
+A Aula 7 mantem o formato de dois turnos e acrescenta a construcao do app.
+
+| Item | Detalhe |
+|---|---|
+| **5 cenarios novos** | Apreensao e pericia de armas, sinistro de transito, credenciamento de peritos, operacao de etilometria e atendimento/ouvidoria. **58.408 execucoes de etapa** medidas, com o gargalo de cada processo saindo do dado |
+| **Workbooks Excel** | `Aula 7/gerar_excel_aula7.py`: um `.xlsx` por cenario, com 9 abas (LEIA-ME + fato + 7 dims) e a tabela-resumo medida |
+| **Receitas detalhadas** | 5 receitas em **8 blocos e 96 passos**, do Excel ao Power BI, com caminho de menu, o que esperar na tela e o que fazer quando da erro |
+| **11 medidas por cenario** | 8 medidas base, 3 do Pareto e 1 especifica do processo, com o DAX pronto para copiar |
+| **Tarde de projeto** | Leitura comparada dos 5 gargalos, catalogo de 10 intervencoes, matriz gargalo x intervencao, calculo de ganho, business case, roadmap em 4 fases e proposta de solucao (TO-BE em Mermaid) para cada cenario |
+| **Aulao de Antigravity** | 11 secoes, botao por botao: instalacao, janela, painel do agente, Agent Manager, modelos, terminal e painel de versao, artefatos, permissoes, comandos de barra e Remote Control |
+| **GitHub** | Secao com os comandos para conectar a conta pelo navegador (`gh auth login --hostname github.com --git-protocol https --web`), publicar o projeto e o fluxo diario de versionamento |
+| **PDF** | `Caderno Dia 7 - POLITEC.pdf` gerado com **135 paginas** e 68 secoes no sumario paginado (2 passadas) |
+
+---
+
 ## Estrutura do repositorio
 
 ```
@@ -103,7 +123,7 @@ Aula Politec/
 ├── exportar_pdf.py        ← exporta caderno-diaN.html -> "Caderno Dia N - POLITEC.pdf"
 ├── validar.py             ← checa secoes x TOC x h2, tema, erros de console
 ├── gerar_datasets_estrela.py ← monta o modelo estrela (fato_*/dim_*) nas Aulas 2, 3 e 4
-├── Aula 1/ … Aula 6/      ← uma pasta por aula
+├── Aula 1/ … Aula 7/      ← uma pasta por aula
 ```
 
 ---
@@ -130,6 +150,15 @@ python "Aula 6\gerar_datasets_aula6.py"   # 5 datasets (CSVs + READMEs)
 python "Aula 6\gerar_excel_aula6.py"      # 5 workbooks .xlsx (uma aba por tabela)
 python "Aula 6\gerar_caderno_aula6.py"    # caderno (ja aplica a acentuacao pt-BR)
 python validar.py 6
+```
+
+**Regerar os datasets da Aula 7** (na ordem)
+
+```powershell
+python "Aula 7\gerar_datasets_aula7.py"   # 5 datasets novos (58.408 execucoes)
+python "Aula 7\gerar_excel_aula7.py"      # 5 workbooks .xlsx (uma aba por tabela)
+python "Aula 7\gerar_caderno_aula7.py"    # caderno (ja aplica a acentuacao pt-BR)
+python validar.py 7
 ```
 
 **Criar uma nova aula** — siga `AGENTS.md` > "Como criar uma nova aula".
@@ -185,7 +214,7 @@ git push origin main
    layout de impressao dedicado (capa, quebras por parte). O HTML e a fonte de verdade.
 2. **Datasets** — arquivos sinteticos (`datasets/`) para os labs de Excel/Power BI.
 3. **PDFs das Aulas 5 e 6** — opcional; rodar `python exportar_pdf.py 5` e `python exportar_pdf.py 6`.
-4. **Aulas 7+** — proxima fase: manha de BI e tarde de ideacao/prototipacao de mini apps com IA agentica (Antigravity). A tarde da Aula 6 ja deixa o **canvas do mini app** pronto (problema, usuario, dado, acao e medida), que e o ponto de partida do prototipo.
+4. **Aula 8+** — a Aula 7 ja entrega o app construido no GitHub, com o agente do Antigravity e o diff revisado. O proximo passo e pegar esse app e transformá-lo em artefato pronto para apresentar: teste automatizado, imagem de tela, documentacao e deploy.
 5. **Ampliar o dicionario pt-BR** — ao escrever palavras novas no gerador, incluir a entrada em `ptbr_dict.json` para que a acentuacao continue correta.
 
 ---

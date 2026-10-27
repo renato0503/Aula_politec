@@ -24,19 +24,27 @@ mesmo formato de 6 partes (ver secao 3.5).
 | 4 | Business Intelligence / Power BI | 107 | 227 KB | PDF a regerar | 7 (+ guia Parte 0) | 3 + 4 casos | 146 KB |
 | 5 | Dashboards de BI - 5 cenarios com datasets proprios | 80 | 140 KB | PDF opcional | 7 + integrador | 5 (cada um com dataset proprio) | 85 KB |
 | 6 | Painel de Processo (manha) + Gestao de Projetos (tarde) | 80 | 417 KB | PDF opcional | 8 (4+4) | 5 datasets (3 modelados ponta a ponta) | 167 KB |
+| 7 | Gargalo medido, Automacao e Antigravity | 68 | 378 KB | 135 pag | 8 (4+4) | 5 cenarios + 5 workbooks | 58.408 execucoes |
 
 Ferramentas de apoio na raiz: `caderno_lib.py` (motor), `exportar_pdf.py` (PDF em 2
 passadas), `validar.py` (checagem automatica) e `ptbr.py` (acentuacao pt-BR).
 Slides de origem em cada `Aula N/`.
 
-Aulas 5 e 6 nao tem slides (e o salto final — A5 e projeto integrador de dashboards
-com 5 datasets; A6 e o novo formato: manha de painel/BI e tarde de gestao de
-projetos/melhoria de processos, com 5 datasets de processo).
+Aulas 5, 6 e 7 nao tem slides (e o salto final — A5 e projeto integrador de
+dashboards com 5 datasets; A6 e o novo formato: manha de painel/BI e tarde de
+gestao de projetos/melhoria de processos, com 5 datasets de processo; A7 e a
+construcao do app: gargalo medido, automacao/digitalizacao, Antigravity e
+GitHub).
 
 > **Formato a partir da Aula 6**: a manha e sempre de **paineis, BI e analise de
 > dados**; a tarde e de **hands-on em gestao de projetos** e, nas aulas
 > seguintes, **ideacao/prototipacao de mini apps com IA agentica**. Ver secao
 > 3.5.1.
+>
+> **Formato a partir da Aula 7**: a tarde nao redesenha o workflow (ja feito na
+> Aula 6): ela parte do **gargalo medido no painel**, **propoe a intervencao
+> com numero** (catalogo de automacao/digitalizacao, TO-BE em Mermaid, ganho e
+> piloto) e **constroi o app no GitHub**, com o agente do **Antigravity**.
 
 > **Idioma a partir da Aula 6**: o caderno e escrito em **portugues do Brasil,
 > com acentuacao completa**, sem **adjetivacoes** (preferir o verbo ou o
@@ -300,6 +308,8 @@ intervencao digital); Parte 8 (8 labs); Parte 9 (3 cenarios modelados); Parte
 | `Aula 5/gerar_datasets_aula5.py` | Gera os **5 datasets sinteticos** da Aula 5 (um por cenario), cada um com `fato_*` >= 1000 linhas, dimensoes proprias + `dim_calendario` 1096 dias (2023-01-01 a 2025-12-31). Semente fixa = 20260120. Grava em `Aula 5/datasets/cenarioN_*/` + um `README.md` por cenario com esquema e visuais sugeridos. Uso: `python "Aula 5/gerar_datasets_aula5.py"`. |
 | `Aula 6/gerar_datasets_aula6.py` | Gera os **5 datasets de processo** da Aula 6 (requisicao pericial, empenho e contrato, cadeia de custodia, local de crime, analise laboratorial). Mesmo schema nos 5: `fato_execucao` (1 linha por execucao de etapa, com `tempo_espera_min` e `tempo_execucao_min` separados) + `dim_etapa`, `dim_unidade`, `dim_sistema`, `dim_tipo_atividade`, `dim_status_execucao`, `dim_projeto`, `dim_calendario` 1096 dias. Semente fixa = 20260610. Tempos de espera lognormal (cauda longa realista), calibrados para que 86-93% do processo seja espera — assim o gargalo emerge do dado, nao e plantado. Grava em `Aula 6/datasets/cenarioN_*/` + README por cenario com a tabela de tempos medidos. Uso: `python "Aula 6/gerar_datasets_aula6.py"`. |
 | `Aula 6/gerar_excel_aula6.py` | Empacota cada um dos **5 datasets** em um **workbook `.xlsx`** com 9 abas (`LEIA-ME` + `fato_execucao` + 7 `dim_*`), cabecalho formatado, filtro, painel congelado e a tabela-resumo medida na aba `LEIA-ME`. E o material de sala da manha. Uso: `python "Aula 6/gerar_excel_aula6.py"` (depois do gerador de datasets). |
+| `Aula 7/gerar_datasets_aula7.py` | Gera os **5 datasets novos** da Aula 7 (apreensao de armas, sinistro de transito, credenciamento de peritos, etilometria, atendimento/ouvidoria). Mesmo schema da Aula 6: `fato_execucao` (1 linha por execucao de etapa) + as 7 dimensoes. **58.408 execucoes**. Semente fixa = 20261027. Uso: `python "Aula 7/gerar_datasets_aula7.py"`. |
+| `Aula 7/gerar_excel_aula7.py` | Empacota os **5 datasets novos** em um workbook `.xlsx` por cenario, com 9 abas e a tabela-resumo medida. Uso: `python "Aula 7/gerar_excel_aula7.py"`. |
 | `ptbr.py` | **Acentuacao pt-BR do caderno**: percorre os nos de texto do HTML gerado e aplica a ortografia de `ptbr_dict.json`, sem tocar em codigo, tags, atributos, SVG ou blocos Mermaid/DAX/SQL. Remove travessoes. Chamado no fim do gerador da Aula 6 (`ptbr.acentuar_arquivo(...)`). Uso: `python -c "import ptbr; ptbr.acentuar_arquivo('Aula 6/caderno-dia6.html')"`. |
 | `ptbr_dict.json` | **Dicionario de acentuacao** usado pelo `ptbr.py` (403 entradas: `nao` → `não`, `execucao` → `execução`, `analise` → `análise`, `manha` → `manhã` e afins). Ao acrescentar palavra nova no texto, inclua a entrada aqui. |
 | `firebase.json` | Configuracao do Firebase Hosting (projeto `aulapolitec`, serve da raiz). |
@@ -559,6 +569,8 @@ Melhorias pendentes:
 | Aula 6 — publicacao no GitHub Pages | Commit `3516501` na branch `main` do repositorio `renato0503/Aula_politec`, com o caderno reescrito em pt-BR, as 5 receitas com 72 passos, os 5 workbooks `.xlsx` e a documentacao atualizada. O site `https://renato0503.github.io/Aula_politec/` passou a servir o card novo da Aula 6, o caderno com 80 secoes e os workbooks para download (verificado com HTTP 200). O `index.html` da raiz foi atualizado com o tema, os numeros e o rodape do curso. |
 
 | Aula 6 — PDF do caderno | Gerado `Aula 6/Caderno Dia 6 - POLITEC.pdf` com **121 paginas** e 80 secoes no sumario paginado, em 2 passadas (`python exportar_pdf.py 6`). O PDF acompanha o HTML no site, junto dos workbooks. |
+
+| Aula 7 — gargalo medido, automacao e Antigravity | Criados **5 datasets novos** em `Aula 7/datasets/cenarioN_*/`, com o mesmo schema da Aula 6 (`fato_execucao` = 1 execucao de etapa) e **58.408 execucoes** no total: (1) Apreensao e pericia de armas (11.312, gargalo = prova de fogo, 40,3%), (2) Sinistro de transito (11.336, gargalo = documentos, 35,7%), (3) Credenciamento de peritos (10.152, gargalo = curriculo, 31,3%), (4) Etilometria (12.176, gargalo = auto de infracao, 28,9%), (5) Atendimento e ouvidoria (13.432, gargalo = instrucao, 35,5%). A espera ocupa 92,1% a 97,2% do tempo dos cinco processos. Geradores: `Aula 7/gerar_datasets_aula7.py` (semente fixa 20261027) e `Aula 7/gerar_excel_aula7.py`. Caderno `Aula 7/gerar_caderno_aula7.py` com **68 secoes em 12 partes**: Abertura, 5 cenarios (cada um com 4 secoes: contexto medido, receita de 8 blocos e 96 passos, as 11 medidas DAX e a leitura do painel), analise comparada dos 5 gargalos, gargalo x automacao e digitalizacao (catalogo de 10 intervencoes, matriz, ganho, business case, roadmap), proposta de solucao com TO-BE em Mermaid para cada cenario, **aulão de Antigravity** (11 secoes, botao por botao), **GitHub conectado pelo navegador** (comandos `gh`), 8 labs e fechamento. PDF com **135 paginas** (`python exportar_pdf.py 7`). |
 
 ---
 

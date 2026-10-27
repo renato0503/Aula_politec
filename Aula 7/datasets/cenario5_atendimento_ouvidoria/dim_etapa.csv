@@ -1,0 +1,9 @@
+﻿etapa_key;etapa;sequencia;unidade_padrao;ativada_no_tobe
+1;Abertura;1;PR - Atendimento;0
+8;Triagem;2;PR - Atendimento;0
+3;Encaminhamento;3;PR - Atendimento;0
+5;Instrucao;4;PR - Area Tecnica;0
+6;Parecer;5;PR - Area Tecnica;0
+7;Resposta;6;PR - Atendimento;0
+2;Acompanhamento;7;PR - Atendimento;0
+4;Encerramento;8;PR - Atendimento;0

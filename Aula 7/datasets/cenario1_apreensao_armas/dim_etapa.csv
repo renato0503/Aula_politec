@@ -1,0 +1,9 @@
+﻿etapa_key;etapa;sequencia;unidade_padrao;ativada_no_tobe
+1;Apreensao;1;PR - Guarda de Prisao;0
+8;Transporte;2;PR - Viatura;0
+6;Recebimento;3;IML - Armamento;0
+7;SINARM;4;IML - Armamento;0
+2;Documental;5;IML - Armamento;0
+5;Prova de fogo;6;IML - Pericia Balistica;0
+4;Laudo;7;IML - Pericia Balistica;0
+3;Encaminhamento;8;IML - Gabinete;0

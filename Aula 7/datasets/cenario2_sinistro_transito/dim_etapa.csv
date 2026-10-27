@@ -1,0 +1,9 @@
+﻿etapa_key;etapa;sequencia;unidade_padrao;ativada_no_tobe
+1;Abertura;1;PR - Atendimento;0
+7;Triagem;2;PR - Atendimento;0
+8;Vistoria;3;PR - Vistoria;0
+3;Documentos;4;PR - Atendimento;0
+4;Laudo;5;PR - Vistoria;0
+6;Parecer;6;PR - Pericia;0
+5;Pagamento;7;PR - Financeiro;0
+2;Arquivo;8;PR - Atendimento;0

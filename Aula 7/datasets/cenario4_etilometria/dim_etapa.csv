@@ -1,0 +1,9 @@
+﻿etapa_key;etapa;sequencia;unidade_padrao;ativada_no_tobe
+1;Acionamento;1;PR - Operacao;0
+4;Conferencia;2;PR - Operacao;0
+8;Teste;3;PR - Operacao;0
+7;Prova;4;PR - Operacao;0
+3;Auto;5;PR - Delegacia;0
+6;Notificacao;6;PR - Delegacia;0
+5;Instrucao;7;PR - Julgamento;0
+2;Arquivo;8;PR - Gabinete;0
