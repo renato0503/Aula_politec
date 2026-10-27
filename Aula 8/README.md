@@ -125,13 +125,31 @@ git push origin main
 firebase deploy --only hosting
 ```
 
-Links: `https://aulapolitec.web.app/Aula%208/` (hub),
-`https://aulapolitec.web.app/Aula%208/formulario-ideacao.html` (formulário) e
-`https://renato0503.github.io/Aula_politec/Aula%208/` (GitHub Pages).
+**Links para a sala:**
 
-> O GitHub Pages serve as páginas, mas o **envio ao Firestore** só funciona por
-> `https`, com a origem permitida no console do Firebase (em *Authentication >
-> Authorized domains*). Para uso em sala, use o endereço do Firebase Hosting.
+| Quem | Endereço |
+|---|---|
+| Aluno (formulário) | `https://renato0503.github.io/Aula_politec/Aula%208/formulario-ideacao.html` |
+| Professor (hub) | `https://renato0503.github.io/Aula_politec/Aula%208/` |
+| Professor (hub, espelho no Firebase) | `https://aulapolitec.web.app/Aula%208/` |
+
+O aluno abre o formulário no GitHub Pages e clica em **Enviar projeto e arquivos
+ao professor**: a resposta vai para o Firestore e aparece no hub, sem e-mail e
+sem planilha.
+
+> **Domínio autorizado no Firebase:** para o envio automático funcionar a partir
+> do GitHub Pages, adicione `renato0503.github.io` em **Authentication >
+> Configurações > Domínios autorizados** no console do Firebase. As regras do
+> Firestore já aceitam a escrita sem sessão, então o envio funciona mesmo sem
+> essa autorização; o que ela garante é o login anônimo e a identificação de
+> quem enviou.
+>
+> **Se o computador da sala bloquear o acesso:** o formulário continua
+> funcionando offline (salva no navegador e exporta o `PROJETO.md` e o `.json`).
+> Nesse caso, o aluno baixa os dois arquivos e envia por e-mail ou WhatsApp, e o
+> professor importa o `.json` pelo botão **Importar arquivos .json** do hub.
+> Para descobrir o que está bloqueado, abra o console do navegador (F12) na aba
+> **Console**: o nome do domínio recusado aparece lá.
 
 ---
 
