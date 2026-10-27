@@ -117,7 +117,7 @@ Material da fase que vem depois da Aula 7, em `Aula 8/`:
 
 | Arquivo | O que é |
 |---|---|
-| `formulario-ideacao.html` | Formulário do projeto, em 14 blocos: identificação, problema, **AS-IS** (tabela de etapas), **papéis**, **TO-BE**, escopo e **MVP mínimo**, **entidades, regras de negócio e LGPD**, **fontes de dados**, **KPIs** com linha de base, **hospedagem**, pesquisa de apoio, marcos e riscos, defesa e **upload dos documentos**. Exporta o `PROJETO.md` e envia tudo ao Firestore |
+| `formulario-ideacao.html` | Formulário do projeto, em 14 blocos: identificação, problema, **AS-IS** (tabela de etapas), **papéis**, **TO-BE**, escopo e **MVP mínimo**, **entidades, regras de negócio e LGPD**, **fontes de dados**, **KPIs** com linha de base, **hospedagem**, pesquisa de apoio, marcos e riscos, defesa e **upload dos documentos**. Exporta o `PROJETO.md`, **importa o `.md` e o `.json`** para continuar depois, e em todas as tabelas oferece **copiar modelo, copiar tabela e colar tudo de uma vez** (TAB do Excel, ponto e vírgula ou Markdown). Não envia formulário vazio e avisa as pendências antes do envio |
 | `index.html` | O **hub**: um cartão por projeto, com busca, filtros e indicadores de completude |
 | `app.html` | A página de cada projeto, com os 15 blocos recebidos, os arquivos para download e os prompts de Mermaid (AS-IS, TO-BE e TO-BE com automação) prontos para colar no Antigravity |
 | `prompt-bpmn-mermaid.md` | O **papel (role)** de Mermaid/BPMN, com as convenções e os três comandos de mapeamento |
@@ -136,6 +136,20 @@ hipótese testada no piloto.
 Tudo é gravado no **Firestore** do projeto Firebase `aulapolitec` (plano Spark:
 só Firestore, sem Storage). Cada arquivo enviado vira um documento na coleção
 `ideacao_arquivos`, com limite de 600 KB por arquivo.
+
+**Links da sala:** o aluno abre
+`https://renato0503.github.io/Aula_politec/Aula%208/formulario-ideacao.html` e o
+professor acompanha em `https://renato0503.github.io/Aula_politec/Aula%208/`
+(espelho em `https://aulapolitec.web.app/Aula%208/`).
+
+**O que foi feito nesta fase**, em ordem: (1) formulário inicial, com métricas e
+painel do professor; (2) formulário genérico, com AS-IS, papéis, TO-BE, MVP,
+entidades, regras, LGPD, stack e hospedagem; (3) Firebase só Firestore, com os
+arquivos em base64 e limite de 600 KB; (4) hub com cartões, filtros e CSV, e
+página do projeto com 15 seções; (5) `PROJETO.md` em 9 seções e o papel de
+Mermaid/BPMN com os três comandos; (6) importação do `.md` e do `.json` e
+copiar/colar tabelas; (7) validação do envio e contingência por e-mail;
+(8) publicação no GitHub Pages e no Firebase Hosting.
 
 ---
 

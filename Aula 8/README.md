@@ -71,7 +71,7 @@ documentos enviados.
 ## Firebase: o que o professor precisa habilitar
 
 O projeto Firebase `aulapolitec` já tem a configuração web
-(`Aula 8/firebase-config.js`). Para a fase funcionar, são três passos no console
+(`Aula 8/firebase-config.js`). Para a fase funcionar, são dois passos no console
 do Firebase:
 
 | Passo | Onde | O que fazer |
@@ -106,13 +106,77 @@ projeto, no momento do envio.
 |---|---|
 | `formulario-ideacao.html` | O formulário da equipe, em 14 blocos, com tabelas dinâmicas, checklist que se atualiza em tempo real, upload de arquivos e envio ao Firestore. Continua funcionando offline: salva no navegador, exporta o `PROJETO.md` e o `.json`, e **importa os dois de volta** para continuar de onde parou |
 | `index.html` | O **hub**: um cartão por projeto, com busca, filtro por tipo e por situação, e indicadores de completude |
-| `app.html` | A página de cada projeto: 14 seções com tudo que chegou, e a lista de arquivos para download |
+| `app.html` | A página de cada projeto: 15 seções com tudo que chegou, a lista de arquivos para download e os botões que montam o prompt de Mermaid (AS-IS, TO-BE e TO-BE com automação) já preenchido |
 | `firebase-config.js` | Configuração e inicialização do Firebase, compartilhada pelas três páginas, com fallback de versão do SDK |
 | `firestore.rules` | As regras de leitura e escrita do Firestore, para publicar no console |
 | `prompt-bpmn-mermaid.md` | O **papel (role)** que gera os diagramas AS-IS, TO-BE e TO-BE com automação em Mermaid, no padrão BPMN, com as convenções e os três comandos |
 | `formulario-ideacao.md` | As mesmas perguntas em texto, para Google Forms, Moodle ou papel |
 | `template-metricas.md` | Conjunto mínimo de métricas, fórmulas de ganho, frase de defesa, exemplo preenchido e checklist do professor |
 | `README.md` | Este roteiro da fase |
+
+---
+
+## Trabalhar no Excel, copiar e colar
+
+Todas as 12 tabelas do formulário têm, logo abaixo, três botões e uma área de
+colagem. O objetivo é deixar o preenchimento mais simples para quem prefere
+trabalhar na planilha.
+
+| Recurso | O que faz |
+|---|---|
+| **Copiar modelo** | Copia a linha de cabeçalho da tabela, para colar no Excel e preencher lá |
+| **Copiar tabela** | Copia a tabela inteira (cabeçalho + linhas) em TSV, para levar ao Excel ou para outra pessoa |
+| **Colar tudo de uma vez** | Abre um campo único onde o aluno cola o bloco inteiro. Aceita **TAB** (cópia do Excel), ponto e vírgula, dois espaços e tabela **Markdown** (`\|`) |
+
+Regras da colagem:
+
+- a primeira linha com os **nomes das colunas** vira cabeçalho, e as linhas são
+  distribuídas **pelo nome**, então o aluno pode reordenar as colunas no Excel;
+- sem cabeçalho, a distribuição é pela **posição**;
+- se a tabela já tiver linhas, o formulário pede confirmação antes de substituir;
+- linha com menos colunas que o modelo gera aviso, com a quantidade de linhas
+  incompletas;
+- as colunas de seleção (`Automatizável?`, `Situação`, `Granularidade`, `Tipo`,
+  `MVP mínimo`) recebem o valor colado, desde que o texto seja igual a uma das
+  opções.
+
+## Continuar depois: importar o que já foi baixado
+
+No topo do formulário existe o botão **Importar PROJETO.md ou .json**:
+
+| Arquivo | O que volta |
+|---|---|
+| `.json` | Tudo: campos, listas marcadas, tabelas e a opção de stack |
+| `PROJETO.md` | Tudo o que estava escrito, lido pelos rótulos e pelas tabelas do dossiê |
+
+A importação **substitui** o que está na tela, então o aluno deve baixar antes se
+tiver algo em andamento. Depois de importar, o formulário mostra quantas etapas
+de AS-IS, métricas e papéis foram recuperados.
+
+## Antes de enviar
+
+O botão **Enviar projeto e arquivos ao professor** passou a validar:
+
+- formulário **vazio** não é enviado, e o aluno recebe a orientação de preencher
+  ao menos a identificação, o problema e a tabela de etapas do AS-IS;
+- formulário **incompleto** mostra a lista de pendências e pede confirmação,
+  explicando que o professor vai ver as pendências no hub;
+- se o Firebase estiver bloqueado na máquina, aparece um aviso no topo do bloco
+  de envio, com o motivo, e o botão **Enviar por e-mail** abre a mensagem pronta
+  para o aluno anexar o `PROJETO.md` e o `.json`.
+
+## O que foi feito (histórico desta fase)
+
+| Etapa | O que entrou |
+|---|---|
+| 1 | Formulário inicial da fase de ideação: identificação, problema, fluxo atual, intervenção, fontes de dados, métricas com linha de base e valor esperado, e defesa. Salvamento local no navegador, exportação `.md` e `.json`, painel do professor com importação e consolidação |
+| 2 | Formulário **genérico**: o projeto pode ser app, painel, sistema, mapeamento, automação, relatório, norma ou formulário. Entraram os blocos de **AS-IS** (tabela de etapas com onde espera, tempo e automatizável), **papéis** (o que cada um vê, faz e não pode fazer), **TO-BE**, **MVP mínimo** (o que faz e o que não faz, telas com rota, critério de aceite), **entidades e colunas**, **regras de negócio RN01**, **LGPD**, **stack**, **hospedagem** (opções, custo, quem mantém, limitação), **pesquisa de apoio** com fontes, e marcos e riscos |
+| 3 | **Firebase no plano Spark**: só Firestore. A resposta vai para a coleção `ideacao` e cada arquivo enviado vira um documento em `ideacao_arquivos`, em base64, com limite de 600 KB. Regras publicadas: leitura pública, criação livre, sem alteração nem remoção |
+| 4 | **Hub** (`index.html`) com um cartão por projeto, busca, filtros, indicadores de completude e exportação em CSV; e a **página do projeto** (`app.html`) com 15 seções e download dos arquivos |
+| 5 | **PROJETO.md** no formato da aula de prototipação (9 seções + anexos A a E), gerado a partir das respostas, e o **papel (role) de Mermaid/BPMN** (`prompt-bpmn-mermaid.md`), com os três comandos (AS-IS, TO-BE, TO-BE com automação). Na página do projeto, os botões montam o prompt já preenchido com os dados do aluno |
+| 6 | **Importar `.md` e `.json`** para continuar de onde parou, e **copiar modelo, copiar tabela e colar tudo de uma vez** em todas as tabelas, para quem prefere trabalhar no Excel |
+| 7 | **Validação do envio**: não envia formulário vazio, avisa as pendências antes de enviar e oferece o envio por e-mail quando o Firebase está bloqueado |
+| 8 | **Publicação** no GitHub Pages (link dos alunos) e no Firebase Hosting (espelho), com as regras do Firestore publicadas |
 
 ---
 

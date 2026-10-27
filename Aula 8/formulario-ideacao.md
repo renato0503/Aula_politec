@@ -7,6 +7,18 @@ quem precisar aplicar em outra ferramenta. A ordem das perguntas é a mesma.
 > 8 (KPIs) e 9 (hospedagem) são os que o professor usa para montar os três
 > diagramas e o MVP. São eles que precisam de resposta completa.
 
+**Recursos da versão em HTML** (`formulario-ideacao.html`), que não existem em
+uma versão de texto:
+
+| Recurso | Para que serve |
+|---|---|
+| Salvamento automático no navegador | Fechar e voltar depois sem perder nada |
+| **Importar PROJETO.md ou .json** | Continuar de onde parou, inclusive em outro computador |
+| **Copiar modelo / Copiar tabela / Colar tudo de uma vez** | Preencher as tabelas no Excel e colar o bloco inteiro de uma vez |
+| **Enviar projeto e arquivos ao professor** | Grava a resposta no Firestore e os arquivos na coleção `ideacao_arquivos` |
+| **Enviar por e-mail** | Contingência quando o Firebase está bloqueado na máquina |
+| Checklist em tempo real | Mostra o que ainda falta antes de enviar |
+
 ---
 
 ## Bloco 0 — Identificação
