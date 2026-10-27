@@ -1021,6 +1021,9 @@ footer.foot{margin-top:40px;padding:22px 0 60px;border-top:1px solid var(--borde
 
 <script type="module">
   window.fb = { pronto: false, erro: "" };
+  function avisar(){
+    window.dispatchEvent(new CustomEvent("firebase-status", {detail: window.fb}));
+  }
   try {
     const mod = await import("./firebase-config.js");
     window.fb.COLECAO = mod.COLECAO;
@@ -1034,6 +1037,7 @@ footer.foot{margin-top:40px;padding:22px 0 60px;border-top:1px solid var(--borde
   } catch (e) {
     window.fb.erro = e.message || String(e);
   }
+  avisar();
 </script>
 <script>
 /* =====================================================================
@@ -2197,22 +2201,28 @@ document.addEventListener("DOMContentLoaded", ()=>{
   document.getElementById("btnLimparArquivos").addEventListener("click", ()=>{ arquivosSelecionados = []; renderArquivos(); });
   renderArquivos();
 
-  /* aviso sobre o envio automatico, logo apos carregar o SDK */
+  /* aviso sobre o envio automatico: desenhado assim que o SDK responde */
   const av = document.getElementById("statusFirebase");
-  if(av){
+  function pintarAvisoFirebase(){
+    if(!av) return;
     if(window.fb && window.fb.pronto){
       av.className = "aviso ok";
       av.innerHTML = "<b>Envio automatico disponivel.</b> Ao clicar em <i>Enviar projeto e arquivos ao professor</i>, " +
         "a resposta vai para o painel do professor e os arquivos para o Firestore do projeto " +
         "<code>aulapolitec</code>. Nao precisa anexar nada por e-mail.";
-    }else{
+    }else if(window.fb && window.fb.erro){
       av.className = "aviso erro";
       av.innerHTML = "<b>Envio automatico indisponivel neste computador</b> (" +
-        escTexto(window.fb && window.fb.erro ? window.fb.erro : "sem internet ou dominio bloqueado") + "). " +
+        escTexto(window.fb.erro) + "). " +
         "O formulario continua funcionando: preencha tudo, baixe o <b>PROJETO.md</b> e o <b>.json</b> " +
         "e envie ao professor pelo botao <i>Enviar por e-mail</i>.";
+    }else{
+      av.className = "aviso";
+      av.textContent = "Verificando o envio automatico...";
     }
   }
+  window.addEventListener("firebase-status", pintarAvisoFirebase);
+  pintarAvisoFirebase();
 
   document.getElementById("tema").addEventListener("click", ()=>{
     const h = document.documentElement;
