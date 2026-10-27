@@ -2155,7 +2155,22 @@ document.addEventListener("DOMContentLoaded", ()=>{
   document.getElementById("btnMd").addEventListener("click", ()=>baixar(nomeArquivo("md"), toProjetoMd(), "text/markdown;charset=utf-8"));
   document.getElementById("btnJson").addEventListener("click", ()=>baixar(nomeArquivo("json"), JSON.stringify(coletar(), null, 2), "application/json"));
   document.getElementById("btnImprimir").addEventListener("click", ()=>window.print());
-  document.getElementById("btnEnviar").addEventListener("click", enviarAoFirebase);
+  document.getElementById("btnEnviar").addEventListener("click", async ()=>{
+    const temAlgo = (estado.campos.aluno||"").trim() || (estado.campos.problema||"").trim()
+      || linhasCom("tAsIs","etapa").length || linhasCom("tMetricas","nome").length;
+    if(!temAlgo){
+      window.alert("O formulário está vazio.\n\nPreencha pelo menos a identificação, o problema e a tabela de etapas do AS-IS antes de enviar. "
+        + "Se quiser salvar o rascunho, baixe o PROJETO.md ou o .json.");
+      return;
+    }
+    const faltam = pendencias();
+    if(faltam.length){
+      const ok = window.confirm("A resposta ainda está incompleta. Faltam " + faltam.length + " item(ns):\n\n- "
+        + faltam.join("\n- ") + "\n\nEnviar mesmo assim? O professor vai ver as pendências no hub.");
+      if(!ok) return;
+    }
+    enviarAoFirebase();
+  });
   document.getElementById("btnEmail").addEventListener("click", ()=>{
     const c = estado.campos;
     const assunto = "Fase de ideação - " + (c.nome_projeto || "projeto") + " - " + (c.aluno || "aluno");
