@@ -143,6 +143,12 @@ td .rm:hover{background:var(--vermelho-soft);color:var(--vermelho);border-color:
 .status-envio.ok{color:var(--verde)}
 .status-envio.erro{color:var(--vermelho)}
 .barra-progresso{height:8px;background:var(--raised);border-radius:6px;overflow:hidden;margin-top:10px;border:1px solid var(--border)}
+.colar{margin-top:8px}
+.colar summary{font-family:'Archivo',sans-serif;font-size:12.5px;font-weight:700;color:var(--accent);
+  cursor:pointer;padding:4px 0}
+.colar textarea{margin-top:8px;font-family:'JetBrains Mono',Consolas,monospace;font-size:13px;min-height:80px}
+.colar .dica{margin:6px 0 0}
+.colar-status{font-family:'Archivo',sans-serif;font-size:12.5px;color:var(--verde);margin-top:6px}
 .barra-progresso i{display:block;height:100%;width:0;background:var(--accent);transition:width .2s}
 .badge{font-family:'Archivo',sans-serif;font-size:11.5px;font-weight:700;padding:3px 9px;
   border-radius:20px;background:var(--raised);border:1px solid var(--border);color:var(--ink-soft)}
@@ -2373,6 +2379,137 @@ async function importarResposta(file){
   }
 }
 
+/* ------------------------------------------------------------------
+   COLAR E COPIAR TABELAS: o aluno pode trabalhar no Excel e colar
+   tudo de uma vez, em qualquer tabela do formulario.
+   ------------------------------------------------------------------ */
+function semAcento(s){
+  return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().trim();
+}
+function colunasDaTabela(tid){
+  return TABELAS[tid].cols.filter(c=>c.tipo !== "rm" && c.tipo !== "rota");
+}
+function cabecalhoTsv(tid){
+  return colunasDaTabela(tid).map(c=>c.rot).join("\t");
+}
+function tabelaTsv(tid){
+  return colunasDaTabela(tid).map(c=>c.rot).join("\t") + "\n" +
+    estado.tabelas[tid].map(l=>colunasDaTabela(tid).map(c=>(l[c.k]||"").replace(/\t/g," ").replace(/\n/g," ")).join("\t")).join("\n");
+}
+function chaveDoCabecalho(celula, cols){
+  const c = semAcento(celula);
+  if(!c) return null;
+  for(const col of cols){ if(semAcento(col.rot) === c) return col.k; }
+  for(const col of cols){
+    const r = semAcento(col.rot);
+    if(r.startsWith(c) || c.startsWith(r)) return col.k;
+  }
+  return null;
+}
+function partirLinhas(txt, cols){
+  const linhas = [];
+  let cabecalho = null;
+  let incompletas = 0;
+  txt.split(/\r?\n/).forEach(raw=>{
+    if(!raw || !raw.trim()) return;
+    let cells;
+    const t = raw.trim();
+    if(t.startsWith("|")){
+      cells = t.split("|").slice(1, t.endsWith("|") ? -1 : undefined).map(x=>x.trim());
+      if(cells.length && /^:?-{2,}:?$/.test(cells[0])) return;
+    }else if(t.includes("\t")){
+      cells = raw.split("\t");
+    }else if(t.includes(";")){
+      cells = raw.split(";");
+    }else{
+      cells = raw.split(/\s{2,}/);
+    }
+    cells = cells.map(x=>x.trim());
+    if(!cells.length || cells.every(c=>c === "")) return;
+    const conhecidos = cells.map(c=>chaveDoCabecalho(c, cols)).filter(Boolean).length;
+    /* a primeira linha com nomes conhecidos vira cabecalho */
+    if(!cabecalho && conhecidos >= 2){
+      cabecalho = cells.map((c,i)=> chaveDoCabecalho(c, cols) || (cols[i] ? cols[i].k : null));
+      return;
+    }
+    const o = {};
+    cells.forEach((c,i)=>{
+      const k = cabecalho ? (chaveDoCabecalho(c, cols) || cabecalho[i]) : (cols[i] ? cols[i].k : null);
+      if(k) o[k] = c;
+    });
+    cols.forEach(c=>{ if(o[c.k] === undefined) o[c.k] = ""; });
+    if(cells.length < cols.length) incompletas++;
+    linhas.push(o);
+  });
+  linhas.incompletas = incompletas;
+  return linhas;
+}
+function statusColar(tid, texto){
+  const el = document.querySelector('[data-colar-status="'+tid+'"]');
+  if(el) el.textContent = texto;
+}
+async function copiarTexto(texto, origem){
+  try{
+    await navigator.clipboard.writeText(texto);
+    statusColar(origem, "Copiado. Agora cole no campo abaixo, ou na planilha.");
+  }catch(e){
+    statusColar(origem, "Não consegui copiar. Selecione o texto à mão.");
+  }
+}
+function montarColadores(){
+  Object.keys(TABELAS).forEach(tid=>{
+    const tabela = document.getElementById(tid);
+    if(!tabela || document.querySelector('[data-coladores="'+tid+'"]')) return;
+    const barra = tabela.parentElement.nextElementSibling;
+    const alvo = barra && barra.classList.contains("barra-tabela") ? barra : null;
+    if(!alvo) return;
+    const box = document.createElement("div");
+    box.className = "barra-tabela";
+    box.setAttribute("data-coladores", tid);
+    box.innerHTML =
+      '<button class="act pequeno" data-tabela-acao="modelo" type="button">Copiar modelo</button>'+
+      '<button class="act pequeno" data-tabela-acao="copiar" type="button">Copiar tabela</button>'+
+      '<details class="colar"><summary>Colar tudo de uma vez (do Excel ou de um texto)</summary>'+
+        '<textarea data-tabela-paste="'+tid+'" placeholder="Cole aqui as linhas. Separador: TAB (do Excel), ponto e vírgula ou 2 espaços. A primeira linha com os nomes das colunas vira cabeçalho."></textarea>'+
+        '<div class="barra-tabela" style="margin-top:8px">'+
+          '<button class="act pequeno" data-tabela-acao="colar" type="button">Colar na tabela</button>'+
+          '<button class="act pequeno" data-tabela-acao="limpar" type="button">Limpar a tabela</button>'+
+        '</div>'+
+        '<div class="colar-status" data-colar-status="'+tid+'"></div>'+
+        '<p class="dica">Colunas esperadas: <code>'+cabecalhoTsv(tid).replace(/\t/g,"</code> | <code>")+'</code></p>'+
+      '</details>';
+    alvo.appendChild(box);
+    box.addEventListener("click", async (ev)=>{
+      const b = ev.target.closest("[data-tabela-acao]");
+      if(!b) return;
+      const acao = b.dataset.tabelaAcao;
+      if(acao === "modelo"){ copiarTexto(cabecalhoTsv(tid), tid); return; }
+      if(acao === "copiar"){ copiarTexto(tabelaTsv(tid), tid); return; }
+      if(acao === "limpar"){
+        if(!confirm("Limpar as linhas de "+tid+"?")) return;
+        estado.tabelas[tid] = [linhaVazia(tid)];
+        salvar(); renderTabelas();
+        statusColar(tid, "Tabela limpa.");
+        return;
+      }
+      if(acao === "colar"){
+        const ta = box.querySelector("[data-tabela-paste]");
+        const txt = (ta.value || "").trim();
+        if(!txt){ statusColar(tid, "Cole o texto no campo acima primeiro."); return; }
+        const cols = colunasDaTabela(tid);
+        const novas = partirLinhas(txt, cols);
+        if(!novas.length){ statusColar(tid, "Não achei nenhuma linha para colar."); return; }
+        const atuais = (estado.tabelas[tid]||[]).filter(l=>colunasDaTabela(tid).some(c=>(l[c.k]||"").trim())).length;
+        if(atuais && !confirm("A tabela já tem "+atuais+" linha(s). Substituir pelas "+novas.length+" linha(s) colada(s)?")) return;
+        estado.tabelas[tid] = novas;
+        salvar(); renderTabelas();
+        statusColar(tid, novas.length + " linha(s) colada(s) em " + tid +
+          (novas.incompletas ? " — " + novas.incompletas + " linha(s) vieram com menos colunas que o modelo: confira os campos." : "."));
+      }
+    });
+  });
+}
+
 /* =====================================================================
    EVENTOS
    ===================================================================== */
@@ -2380,6 +2517,7 @@ document.addEventListener("DOMContentLoaded", ()=>{
   carregar();
   renderCampos();
   renderTabelas();
+  montarColadores();
   pintarChecklist();
   salvar();
 
