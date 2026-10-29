@@ -73,7 +73,7 @@ a{{color:var(--accent)}}
   </div>
   <footer>Para editar um app, mexa nas fontes (<code>app.json</code>, <code>src/</code>)
     e rode <code>python Apps/_base/construir.py &lt;app&gt;</code>. O <code>index.html</code> é gerado.
-    Guia completo em <a href="README.md">Apps/README.md</a>.</footer>
+    Guia completo em <a href="https://github.com/renato0503/Aula_politec/blob/main/Apps/README.md">Apps/README.md</a>.</footer>
 </main>
 </body>
 </html>
