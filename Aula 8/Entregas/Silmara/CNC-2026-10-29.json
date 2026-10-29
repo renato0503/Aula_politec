@@ -1,0 +1,253 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T17:30:29.274Z",
+  "campos": {
+    "data": "2026-10-29",
+    "aluno": "Silmara Bueno",
+    "unidade": "IML — Coordenadoria de Perícias em Mortos",
+    "contato": "silmarabueno@politec.mt.gov.br",
+    "nome_projeto": "CNC",
+    "tipo_projeto": "Aplicativo (app) para cidadão, servidor ou equipe",
+    "resumo": "CCN -  Controle de Necropsia Centralizado . Um aplicativo que controla todo Procedimento com registro digital único que acompanha cada corpo da remoção à liberação, para as equipes do IML, no lugar do controle manual disperso e sem rastreabilidade.",
+    "problema": "Ausência centralizada de informações sobre os cadáveres.",
+    "hoje": "Hoje o registro é feito em paralelo por vários setores e em suportes diferentes. O CIOP recebe o acionamento, abre o protocolo no Atena e repassa a ocorrência ao técnico, que se desloca sem registrar os marcos de saída da base, chegada ao local, saída do local e retorno ao IML, porque esse aviso é informal e frequentemente esquecido. No local, o técnico preenche o registro de ocorrência em papel, recolhe a requisição pericial de necropsia emitida pela autoridade policial e, quando existe, o documento da vítima. Na chegada ao IML, preenche o livro de registro de necropsia, o livro de câmara fria, o livro de PAF e o controle de tornozeleira, com dados que se repetem em cada um deles, e entrega ao gestor. A necropsia e os lacres das amostras biológicas são lançados no Atena, mas não há forma de registrar a entrega dessas amostras pelo sistema. A identificação é buscada de forma manual: quando um familiar ou uma autoridade policial procura uma pessoa desaparecida, o plantonista consulta os registros um a um. Os corpos não identificados e os identificados não reclamados ficam sem controle centralizado, e a situação de cada corpo depende de quem está de plantão, o que se perde na passagem de plantão. Como consequência, a família e a autoridade policial muitas vezes só sabem da identificação dias depois, enquanto a busca por uma vítima já identificada continua.",
+    "impacto": "O impacto de hoje é retrabalho para o técnico, que repete o mesmo registro em quatro livros diferentes e ainda avisa os marcos de deslocamento de forma verbal; custódia sem rastro, com lacres e autos de entrega fora do sistema; corpos não identificados e não reclamados sem controle centralizado, com informação que se perde na passagem de plantão; espera maior para a família; e aviso tardio à autoridade policial, que segue buscando uma vítima já identificada. Nada disso é medido hoje.",
+    "evid_detalhe": "O impacto de hoje é retrabalho para o técnico, que repete o mesmo registro em quatro livros diferentes e ainda avisa os marcos de deslocamento de forma verbal; custódia sem rastro, com lacres e autos de entrega fora do sistema; corpos não identificados e não reclamados sem controle centralizado, com informação que se perde na passagem de plantão; espera maior para a família; e aviso tardio à autoridade policial, que segue buscando uma vítima já identificada. Nada disso é medido hoje.",
+    "limite": "Não são automatizáveis a necropsia, o laudo, os exames de identificação, as decisões técnicas, a custódia física e a liberação do corpo, porque dependem de julgamento profissional, assinatura de responsabilidade e ato presencial. O sistema automatiza o registro, a geração de documentos, as notificações e o controle de prazos, não o trabalho pericial em si.",
+    "asis_inicio": "Acionamento pelo CIOSP",
+    "asis_fim": "Arquivamento do laudo",
+    "asis_entradas": "Acionamento do CIOP, requisição pericial de necropsia, dados da ocorrência (local, horário, natureza da morte), documentos da vítima quando houver, informações de familiares, o corpo, amostras biológicas, guia de auto de entrega de cadáver e resultados dos exames de identificação.",
+    "asis_saidas": "Registro de ocorrência, livro de necropsia, livro de câmara fria, livro de PAF e controle de tornozeleira preenchidos, laudo de necropsia assinado, declaração de identificação, auto de entrega do cadáver, relação de lacres de amostras e comunicação de identificação à autoridade policial.",
+    "asis_frequencia": "Diário",
+    "tobe_visao": "Informações centralizadas e sem retrabalho.",
+    "tobe_mudanca": "O registro deixa de ser papel em manual em papeis, além de concentrar informações sobre o cadáver em um único local. ",
+    "tobe_inalterado": "As necropsias ",
+    "tobe_restricao": ""
+  },
+  "marcados": {
+    "afetado": [
+      "Cidadão externo",
+      "Servidor da unidade",
+      "Equipe interna",
+      "Chefia",
+      "Autoridade"
+    ],
+    "evid": [
+      "Relatório de sistema",
+      "Medida feita pela equipe",
+      "Documento ou norma oficial"
+    ],
+    "stack": "Aplicativo web com framework (React, Vite, TypeScript)"
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "",
+        "papel": "",
+        "entra": "",
+        "acao": "",
+        "sai": "",
+        "sistema": "",
+        "regra": "",
+        "espera": "",
+        "tempo": "",
+        "auto": "",
+        "rm": ""
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "",
+        "muda": "",
+        "quem": "",
+        "beneficio": "",
+        "esforco": "",
+        "rm": ""
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "",
+        "quem": "Operador",
+        "ve": "1 - Acionamento e deslocamento e 2-local de ocorrencia",
+        "faz": "insere a requisição perícial, dados do local de ocorrencia, ",
+        "naofaz": "",
+        "registro": "Protocolo de necropsia",
+        "rm": ""
+      },
+      {
+        "papel": "Técnico de necropsia",
+        "quem": "",
+        "ve": "",
+        "faz": "",
+        "naofaz": "",
+        "registro": "",
+        "rm": ""
+      },
+      {
+        "papel": "",
+        "quem": "",
+        "ve": "",
+        "faz": "",
+        "naofaz": "",
+        "registro": "",
+        "rm": ""
+      },
+      {
+        "papel": "",
+        "quem": "",
+        "ve": "",
+        "faz": "",
+        "naofaz": "",
+        "registro": "",
+        "rm": ""
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "",
+        "rota": "",
+        "objetivo": "",
+        "usuario": "",
+        "dados": "",
+        "acao": "",
+        "regra": "",
+        "tipo": "",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "",
+        "rota": "",
+        "objetivo": "",
+        "usuario": "",
+        "dados": "",
+        "acao": "",
+        "regra": "",
+        "tipo": "",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "",
+        "representa": "",
+        "colunas": "",
+        "chave": "",
+        "volume": "",
+        "origem": "",
+        "sintetico": "",
+        "rm": ""
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "",
+        "regra": "",
+        "quando": "",
+        "excecao": "",
+        "valida": "",
+        "tipo": "",
+        "rm": ""
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "",
+        "tipo": "",
+        "onde": "",
+        "existe": "",
+        "acesso": "",
+        "linha": "",
+        "volume": "",
+        "historico": "",
+        "campos": "",
+        "atualiza": "",
+        "lgpd": "",
+        "obs": "",
+        "rm": ""
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "",
+        "pergunta": "",
+        "formula": "",
+        "fonte": "",
+        "gran": "",
+        "base": "",
+        "esperado": "",
+        "medir": "",
+        "quem": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "",
+        "pergunta": "",
+        "formula": "",
+        "fonte": "",
+        "gran": "",
+        "base": "",
+        "esperado": "",
+        "medir": "",
+        "quem": "",
+        "rm": ""
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "",
+        "tipo": "",
+        "onde": "",
+        "custo": "",
+        "mantem": "",
+        "acesso": "",
+        "banco": "",
+        "escala": "",
+        "limite": "",
+        "rm": ""
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "",
+        "data": "",
+        "resp": "",
+        "dep": "",
+        "sit": "",
+        "rm": ""
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "",
+        "prob": "",
+        "imp": "",
+        "mit": "",
+        "rm": ""
+      }
+    ],
+    "tRefs": [
+      {
+        "n": "",
+        "ref": "",
+        "tipo": "",
+        "fonte": "",
+        "ano": "",
+        "dado": "",
+        "uso": "",
+        "conferido": "",
+        "rm": ""
+      }
+    ]
+  }
+}

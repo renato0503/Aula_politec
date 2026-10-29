@@ -1,0 +1,756 @@
+{
+ "corpos": [
+  {
+   "id_corpo": "C-0001",
+   "protocolo": "NEC-2026-001",
+   "origem": "Delegacia de Polícia de Cuiabá",
+   "natureza": "local de crime",
+   "municipio": "Cuiabá",
+   "local": "Endereço fictício 1",
+   "nome": "Maria Fictícia Souza",
+   "documento": "DOC-001",
+   "desconhecido": false,
+   "identificado": true,
+   "sexo": "Feminino",
+   "idade": 20,
+   "tecnico": "Técnico Fictício A",
+   "situacao": "em custódia",
+   "criado_em": "2026-10-18T08:00:00",
+   "entrega": null
+  },
+  {
+   "id_corpo": "C-0002",
+   "protocolo": "NEC-2026-002",
+   "origem": "Delegacia de Várzea Grande",
+   "natureza": "morte natural",
+   "municipio": "Várzea Grande",
+   "local": "Endereço fictício 2",
+   "nome": "",
+   "documento": "",
+   "desconhecido": true,
+   "identificado": false,
+   "sexo": "Masculino",
+   "idade": 23,
+   "tecnico": "Técnico Fictício B",
+   "situacao": "em custódia",
+   "criado_em": "2026-10-19T08:00:00",
+   "entrega": null
+  },
+  {
+   "id_corpo": "C-0003",
+   "protocolo": "NEC-2026-003",
+   "origem": "Delegacia de Rondonópolis",
+   "natureza": "acidente de trânsito",
+   "municipio": "Rondonópolis",
+   "local": "Endereço fictício 3",
+   "nome": "João Fictício Lima",
+   "documento": "DOC-003",
+   "desconhecido": false,
+   "identificado": false,
+   "sexo": "Feminino",
+   "idade": 26,
+   "tecnico": "Técnico Fictício C",
+   "situacao": "aguardando identificação",
+   "criado_em": "2026-10-20T08:00:00",
+   "entrega": null
+  },
+  {
+   "id_corpo": "C-0004",
+   "protocolo": "NEC-2026-004",
+   "origem": "CIOP",
+   "natureza": "morte a esclarecer",
+   "municipio": "Cuiabá",
+   "local": "Endereço fictício 4",
+   "nome": "",
+   "documento": "",
+   "desconhecido": true,
+   "identificado": false,
+   "sexo": "Masculino",
+   "idade": 29,
+   "tecnico": "Técnico Fictício D",
+   "situacao": "não identificado",
+   "criado_em": "2026-10-21T08:00:00",
+   "entrega": null
+  },
+  {
+   "id_corpo": "C-0005",
+   "protocolo": "NEC-2026-005",
+   "origem": "Delegacia de Polícia de Cuiabá",
+   "natureza": "local de crime",
+   "municipio": "Várzea Grande",
+   "local": "Endereço fictício 5",
+   "nome": "",
+   "documento": "",
+   "desconhecido": true,
+   "identificado": false,
+   "sexo": "Feminino",
+   "idade": 32,
+   "tecnico": "Técnico Fictício A",
+   "situacao": "não reclamado",
+   "criado_em": "2026-10-22T08:00:00",
+   "entrega": null
+  },
+  {
+   "id_corpo": "C-0006",
+   "protocolo": "NEC-2026-006",
+   "origem": "Delegacia de Várzea Grande",
+   "natureza": "morte natural",
+   "municipio": "Rondonópolis",
+   "local": "Endereço fictício 6",
+   "nome": "Ana Fictícia Alves",
+   "documento": "DOC-006",
+   "desconhecido": false,
+   "identificado": true,
+   "sexo": "Masculino",
+   "idade": 35,
+   "tecnico": "Técnico Fictício B",
+   "situacao": "em custódia",
+   "criado_em": "2026-10-23T08:00:00",
+   "entrega": null
+  },
+  {
+   "id_corpo": "C-0007",
+   "protocolo": "NEC-2026-007",
+   "origem": "Delegacia de Rondonópolis",
+   "natureza": "acidente de trânsito",
+   "municipio": "Cuiabá",
+   "local": "Endereço fictício 7",
+   "nome": "Carlos Fictício Rocha",
+   "documento": "DOC-007",
+   "desconhecido": false,
+   "identificado": true,
+   "sexo": "Feminino",
+   "idade": 38,
+   "tecnico": "Técnico Fictício C",
+   "situacao": "liberado",
+   "criado_em": "2026-10-24T08:00:00",
+   "entrega": {
+    "responsavel": "Servidor Fictício",
+    "documento": "AUTO-007",
+    "data": "2026-10-26T15:00:00"
+   }
+  },
+  {
+   "id_corpo": "C-0008",
+   "protocolo": "NEC-2026-008",
+   "origem": "CIOP",
+   "natureza": "morte a esclarecer",
+   "municipio": "Várzea Grande",
+   "local": "Endereço fictício 8",
+   "nome": "Beatriz Fictícia Dias",
+   "documento": "DOC-008",
+   "desconhecido": false,
+   "identificado": true,
+   "sexo": "Masculino",
+   "idade": 41,
+   "tecnico": "Técnico Fictício D",
+   "situacao": "em custódia",
+   "criado_em": "2026-10-25T08:00:00",
+   "entrega": null
+  },
+  {
+   "id_corpo": "C-0009",
+   "protocolo": "NEC-2026-009",
+   "origem": "Delegacia de Polícia de Cuiabá",
+   "natureza": "local de crime",
+   "municipio": "Rondonópolis",
+   "local": "Endereço fictício 9",
+   "nome": "",
+   "documento": "",
+   "desconhecido": true,
+   "identificado": false,
+   "sexo": "Feminino",
+   "idade": 44,
+   "tecnico": "Técnico Fictício A",
+   "situacao": "aguardando identificação",
+   "criado_em": "2026-10-26T08:00:00",
+   "entrega": null
+  },
+  {
+   "id_corpo": "C-0010",
+   "protocolo": "NEC-2026-010",
+   "origem": "Delegacia de Várzea Grande",
+   "natureza": "morte natural",
+   "municipio": "Cuiabá",
+   "local": "Endereço fictício 10",
+   "nome": "",
+   "documento": "",
+   "desconhecido": true,
+   "identificado": false,
+   "sexo": "Masculino",
+   "idade": 47,
+   "tecnico": "Técnico Fictício B",
+   "situacao": "não reclamado",
+   "criado_em": "2026-10-27T08:00:00",
+   "entrega": null
+  },
+  {
+   "id_corpo": "C-0011",
+   "protocolo": "NEC-2026-011",
+   "origem": "Delegacia de Rondonópolis",
+   "natureza": "acidente de trânsito",
+   "municipio": "Várzea Grande",
+   "local": "Endereço fictício 11",
+   "nome": "Paulo Fictício Matos",
+   "documento": "DOC-011",
+   "desconhecido": false,
+   "identificado": true,
+   "sexo": "Feminino",
+   "idade": 50,
+   "tecnico": "Técnico Fictício C",
+   "situacao": "liberado",
+   "criado_em": "2026-10-28T08:00:00",
+   "entrega": {
+    "responsavel": "Servidor Fictício",
+    "documento": "AUTO-011",
+    "data": "2026-10-30T15:00:00"
+   }
+  },
+  {
+   "id_corpo": "C-0012",
+   "protocolo": "NEC-2026-012",
+   "origem": "CIOP",
+   "natureza": "morte a esclarecer",
+   "municipio": "Rondonópolis",
+   "local": "Endereço fictício 12",
+   "nome": "Rita Fictícia Prado",
+   "documento": "DOC-012",
+   "desconhecido": false,
+   "identificado": true,
+   "sexo": "Masculino",
+   "idade": 53,
+   "tecnico": "Técnico Fictício D",
+   "situacao": "em custódia",
+   "criado_em": "2026-10-29T08:00:00",
+   "entrega": null
+  }
+ ],
+ "marcos": [
+  {
+   "id_marco": "C-0001-M1",
+   "corpo_id": "C-0001",
+   "tipo": "Saída da base",
+   "data_hora": "2026-10-18T08:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0001-M2",
+   "corpo_id": "C-0001",
+   "tipo": "Chegada ao local",
+   "data_hora": "2026-10-18T10:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0001-M3",
+   "corpo_id": "C-0001",
+   "tipo": "Saída do local",
+   "data_hora": "2026-10-18T12:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0001-M4",
+   "corpo_id": "C-0001",
+   "tipo": "Retorno ao IML",
+   "data_hora": "2026-10-18T14:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0002-M1",
+   "corpo_id": "C-0002",
+   "tipo": "Saída da base",
+   "data_hora": "2026-10-19T08:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0002-M2",
+   "corpo_id": "C-0002",
+   "tipo": "Chegada ao local",
+   "data_hora": "2026-10-19T10:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0002-M3",
+   "corpo_id": "C-0002",
+   "tipo": "Saída do local",
+   "data_hora": "2026-10-19T12:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0002-M4",
+   "corpo_id": "C-0002",
+   "tipo": "Retorno ao IML",
+   "data_hora": "2026-10-19T14:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0003-M1",
+   "corpo_id": "C-0003",
+   "tipo": "Saída da base",
+   "data_hora": "2026-10-20T08:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0003-M2",
+   "corpo_id": "C-0003",
+   "tipo": "Chegada ao local",
+   "data_hora": "2026-10-20T10:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0004-M1",
+   "corpo_id": "C-0004",
+   "tipo": "Saída da base",
+   "data_hora": "2026-10-21T08:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0004-M2",
+   "corpo_id": "C-0004",
+   "tipo": "Chegada ao local",
+   "data_hora": "2026-10-21T10:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0004-M3",
+   "corpo_id": "C-0004",
+   "tipo": "Saída do local",
+   "data_hora": "2026-10-21T12:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0005-M1",
+   "corpo_id": "C-0005",
+   "tipo": "Saída da base",
+   "data_hora": "2026-10-22T08:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0005-M2",
+   "corpo_id": "C-0005",
+   "tipo": "Chegada ao local",
+   "data_hora": "2026-10-22T10:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0005-M3",
+   "corpo_id": "C-0005",
+   "tipo": "Saída do local",
+   "data_hora": "2026-10-22T12:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0006-M1",
+   "corpo_id": "C-0006",
+   "tipo": "Saída da base",
+   "data_hora": "2026-10-23T08:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0006-M2",
+   "corpo_id": "C-0006",
+   "tipo": "Chegada ao local",
+   "data_hora": "2026-10-23T10:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0006-M3",
+   "corpo_id": "C-0006",
+   "tipo": "Saída do local",
+   "data_hora": "2026-10-23T12:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0006-M4",
+   "corpo_id": "C-0006",
+   "tipo": "Retorno ao IML",
+   "data_hora": "2026-10-23T14:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0007-M1",
+   "corpo_id": "C-0007",
+   "tipo": "Saída da base",
+   "data_hora": "2026-10-24T08:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0007-M2",
+   "corpo_id": "C-0007",
+   "tipo": "Chegada ao local",
+   "data_hora": "2026-10-24T10:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0007-M3",
+   "corpo_id": "C-0007",
+   "tipo": "Saída do local",
+   "data_hora": "2026-10-24T12:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0007-M4",
+   "corpo_id": "C-0007",
+   "tipo": "Retorno ao IML",
+   "data_hora": "2026-10-24T14:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0008-M1",
+   "corpo_id": "C-0008",
+   "tipo": "Saída da base",
+   "data_hora": "2026-10-25T08:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0008-M2",
+   "corpo_id": "C-0008",
+   "tipo": "Chegada ao local",
+   "data_hora": "2026-10-25T10:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0008-M3",
+   "corpo_id": "C-0008",
+   "tipo": "Saída do local",
+   "data_hora": "2026-10-25T12:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0008-M4",
+   "corpo_id": "C-0008",
+   "tipo": "Retorno ao IML",
+   "data_hora": "2026-10-25T14:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0009-M1",
+   "corpo_id": "C-0009",
+   "tipo": "Saída da base",
+   "data_hora": "2026-10-26T08:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0009-M2",
+   "corpo_id": "C-0009",
+   "tipo": "Chegada ao local",
+   "data_hora": "2026-10-26T10:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0010-M1",
+   "corpo_id": "C-0010",
+   "tipo": "Saída da base",
+   "data_hora": "2026-10-27T08:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0010-M2",
+   "corpo_id": "C-0010",
+   "tipo": "Chegada ao local",
+   "data_hora": "2026-10-27T10:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0010-M3",
+   "corpo_id": "C-0010",
+   "tipo": "Saída do local",
+   "data_hora": "2026-10-27T12:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0011-M1",
+   "corpo_id": "C-0011",
+   "tipo": "Saída da base",
+   "data_hora": "2026-10-28T08:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0011-M2",
+   "corpo_id": "C-0011",
+   "tipo": "Chegada ao local",
+   "data_hora": "2026-10-28T10:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0011-M3",
+   "corpo_id": "C-0011",
+   "tipo": "Saída do local",
+   "data_hora": "2026-10-28T12:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0011-M4",
+   "corpo_id": "C-0011",
+   "tipo": "Retorno ao IML",
+   "data_hora": "2026-10-28T14:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0012-M1",
+   "corpo_id": "C-0012",
+   "tipo": "Saída da base",
+   "data_hora": "2026-10-29T08:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0012-M2",
+   "corpo_id": "C-0012",
+   "tipo": "Chegada ao local",
+   "data_hora": "2026-10-29T10:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0012-M3",
+   "corpo_id": "C-0012",
+   "tipo": "Saída do local",
+   "data_hora": "2026-10-29T12:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  },
+  {
+   "id_marco": "C-0012-M4",
+   "corpo_id": "C-0012",
+   "tipo": "Retorno ao IML",
+   "data_hora": "2026-10-29T14:00:00",
+   "perfil": "tecnico",
+   "observacao": ""
+  }
+ ],
+ "lacres": [
+  {
+   "id_lacre": "C-0001-L1",
+   "corpo_id": "C-0001",
+   "codigo": "LC-0011",
+   "destino": "Laboratório de DNA",
+   "data_hora": "2026-10-18T12:00:00",
+   "perfil": "tecnico"
+  },
+  {
+   "id_lacre": "C-0001-L2",
+   "corpo_id": "C-0001",
+   "codigo": "LC-0012",
+   "destino": "Toxicologia",
+   "data_hora": "2026-10-18T12:00:00",
+   "perfil": "tecnico"
+  },
+  {
+   "id_lacre": "C-0003-L1",
+   "corpo_id": "C-0003",
+   "codigo": "LC-0031",
+   "destino": "Laboratório de DNA",
+   "data_hora": "2026-10-20T12:00:00",
+   "perfil": "tecnico"
+  },
+  {
+   "id_lacre": "C-0003-L2",
+   "corpo_id": "C-0003",
+   "codigo": "LC-0032",
+   "destino": "Toxicologia",
+   "data_hora": "2026-10-20T12:00:00",
+   "perfil": "tecnico"
+  },
+  {
+   "id_lacre": "C-0005-L1",
+   "corpo_id": "C-0005",
+   "codigo": "LC-0051",
+   "destino": "Laboratório de DNA",
+   "data_hora": "2026-10-22T12:00:00",
+   "perfil": "tecnico"
+  },
+  {
+   "id_lacre": "C-0005-L2",
+   "corpo_id": "C-0005",
+   "codigo": "LC-0052",
+   "destino": "Toxicologia",
+   "data_hora": "2026-10-22T12:00:00",
+   "perfil": "tecnico"
+  },
+  {
+   "id_lacre": "C-0007-L1",
+   "corpo_id": "C-0007",
+   "codigo": "LC-0071",
+   "destino": "Laboratório de DNA",
+   "data_hora": "2026-10-24T12:00:00",
+   "perfil": "tecnico"
+  },
+  {
+   "id_lacre": "C-0007-L2",
+   "corpo_id": "C-0007",
+   "codigo": "LC-0072",
+   "destino": "Toxicologia",
+   "data_hora": "2026-10-24T12:00:00",
+   "perfil": "tecnico"
+  },
+  {
+   "id_lacre": "C-0009-L1",
+   "corpo_id": "C-0009",
+   "codigo": "LC-0091",
+   "destino": "Laboratório de DNA",
+   "data_hora": "2026-10-26T12:00:00",
+   "perfil": "tecnico"
+  },
+  {
+   "id_lacre": "C-0009-L2",
+   "corpo_id": "C-0009",
+   "codigo": "LC-0092",
+   "destino": "Toxicologia",
+   "data_hora": "2026-10-26T12:00:00",
+   "perfil": "tecnico"
+  },
+  {
+   "id_lacre": "C-0011-L1",
+   "corpo_id": "C-0011",
+   "codigo": "LC-0111",
+   "destino": "Laboratório de DNA",
+   "data_hora": "2026-10-28T12:00:00",
+   "perfil": "tecnico"
+  },
+  {
+   "id_lacre": "C-0011-L2",
+   "corpo_id": "C-0011",
+   "codigo": "LC-0112",
+   "destino": "Toxicologia",
+   "data_hora": "2026-10-28T12:00:00",
+   "perfil": "tecnico"
+  }
+ ],
+ "log": [
+  {
+   "id": "L-C-0001",
+   "corpo_id": "C-0001",
+   "acao": "corpo registrado",
+   "perfil": "operador",
+   "data_hora": "2026-10-18T08:00:00"
+  },
+  {
+   "id": "L-C-0002",
+   "corpo_id": "C-0002",
+   "acao": "corpo registrado",
+   "perfil": "operador",
+   "data_hora": "2026-10-19T08:00:00"
+  },
+  {
+   "id": "L-C-0003",
+   "corpo_id": "C-0003",
+   "acao": "corpo registrado",
+   "perfil": "operador",
+   "data_hora": "2026-10-20T08:00:00"
+  },
+  {
+   "id": "L-C-0004",
+   "corpo_id": "C-0004",
+   "acao": "corpo registrado",
+   "perfil": "operador",
+   "data_hora": "2026-10-21T08:00:00"
+  },
+  {
+   "id": "L-C-0005",
+   "corpo_id": "C-0005",
+   "acao": "corpo registrado",
+   "perfil": "operador",
+   "data_hora": "2026-10-22T08:00:00"
+  },
+  {
+   "id": "L-C-0006",
+   "corpo_id": "C-0006",
+   "acao": "corpo registrado",
+   "perfil": "operador",
+   "data_hora": "2026-10-23T08:00:00"
+  },
+  {
+   "id": "L-C-0007",
+   "corpo_id": "C-0007",
+   "acao": "corpo registrado",
+   "perfil": "operador",
+   "data_hora": "2026-10-24T08:00:00"
+  },
+  {
+   "id": "L-C-0007-lib",
+   "corpo_id": "C-0007",
+   "acao": "situação: liberado",
+   "perfil": "plantonista",
+   "data_hora": "2026-10-26T15:00:00"
+  },
+  {
+   "id": "L-C-0008",
+   "corpo_id": "C-0008",
+   "acao": "corpo registrado",
+   "perfil": "operador",
+   "data_hora": "2026-10-25T08:00:00"
+  },
+  {
+   "id": "L-C-0009",
+   "corpo_id": "C-0009",
+   "acao": "corpo registrado",
+   "perfil": "operador",
+   "data_hora": "2026-10-26T08:00:00"
+  },
+  {
+   "id": "L-C-0010",
+   "corpo_id": "C-0010",
+   "acao": "corpo registrado",
+   "perfil": "operador",
+   "data_hora": "2026-10-27T08:00:00"
+  },
+  {
+   "id": "L-C-0011",
+   "corpo_id": "C-0011",
+   "acao": "corpo registrado",
+   "perfil": "operador",
+   "data_hora": "2026-10-28T08:00:00"
+  },
+  {
+   "id": "L-C-0011-lib",
+   "corpo_id": "C-0011",
+   "acao": "situação: liberado",
+   "perfil": "plantonista",
+   "data_hora": "2026-10-30T15:00:00"
+  },
+  {
+   "id": "L-C-0012",
+   "corpo_id": "C-0012",
+   "acao": "corpo registrado",
+   "perfil": "operador",
+   "data_hora": "2026-10-29T08:00:00"
+  }
+ ]
+}

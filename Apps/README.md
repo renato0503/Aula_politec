@@ -6,6 +6,7 @@ recebe o código do app.
 
 | Pasta | Projeto | Grupo / contato | Unidade | Tipo | Fonte da entrega |
 |---|---|---|---|---|---|
+| [trilha-custodia-necropsia/](trilha-custodia-necropsia/) | TCIN · Trilha de Custódia e Identificação de Necropsia | Silmara Bueno · silmarabueno@politec.mt.gov.br | IML · Coordenadoria de Perícias em Mortos | Aplicativo para servidor | `Aula 8/Entregas/Silmara/` (envios parciais + protótipo), 29/10/2026 |
 | [distribuicao-casos-dna/](distribuicao-casos-dna/) | Distribuição de casos de DNA por rodada da placa | Nelson e Luciana · nelsonyoshitake@politec.mt.gov.br | Gerência de Perícias em Biologia Molecular | Mapeamento de processo (fluxo, BPMN ou Mermaid) | `Aula 8/Entregas/`, 29/10/2026 |
 | [controle-aquisicoes/](controle-aquisicoes/) | Controle do processo de aquisição | Kasteline Gonçalves · kastelinesilva@politec.mt.gov.br | Aquisição | Painel de Business Intelligence (dashboard) | `Aula 8/Entregas/`, 29/10/2026 |
 | [gestao-documentos/](gestao-documentos/) | Gestão de Documentos (processos e prazos) | Vitória Araújo Dias · vitoriadias@politec.mt.gov.br | Gabinete de Direção | Aplicativo para servidor | `Aula 8/Entregas/`, 29/10/2026 |
@@ -28,11 +29,11 @@ recebe o código do app.
 
 ## Andamento (29/10/2026)
 
-Os 19 apps andam juntos, sprint a sprint. Os **12 primeiros** estão com os
+Os 20 apps andam juntos, sprint a sprint. Os **12 primeiros** estão com os
 **Sprints 1, 2 e 3** feitos; `cin-segunda-via` e `metas-bi-ocr` já têm o **Sprint
-4 parcial**. Os **7 novos** (custódia, passivo, renovação, DOCUMENTAPOLITEC,
-Gestão de Documentos, Controle de Aquisições e Distribuição de Casos de DNA)
-estão com os **Sprints 1 e 2**. Todos têm a parte técnica do
+4 parcial**. Os **8 novos** (custódia, passivo, renovação, DOCUMENTAPOLITEC,
+Gestão de Documentos, Controle de Aquisições, Distribuição de Casos de DNA e
+Trilha de Custódia de Necropsia) estão com os **Sprints 1 e 2**. Todos têm a parte técnica do
 Sprint 0 (dados fictícios, bibliotecas, modelos). Os itens do Sprint 0 que
 dependem de pessoas (autorizações, amostras reais, linha de base) continuam
 abertos no `sprint.md` de cada app.
@@ -58,6 +59,7 @@ abertos no `sprint.md` de cada app.
 | gestao-documentos | Autuação com anexos (RN01), número AAAA.NNNN-SD (RN02) e sinal do prazo (RN06, RN07) | — (Sprint 3 a fazer: instrução e minutas) |
 | controle-aquisicoes | Registro com SIGADOC e SIAG (RN01) e avanço por etapa com documentos e sem pendência (RN02, RN03) | — (Sprint 3 a fazer: pesquisa de preços) |
 | distribuicao-casos-dna | Rodada com processamento (RN01), rodada inteira para um perito em rotação (RN02, RN04) e fila de cobranças (RN03) | — (Sprint 3 a fazer: rotação automática e exceções) |
+| trilha-custodia-necropsia | Acionamento com protocolo (RN01), marcos e lacres (RN03), situação e liberação (RN02) | — (Sprint 3 a fazer: identificação e busca) |
 
 Cada sprint de cada app tem um cenário de interface que confere o "Pronto
 quando" do `sprint.md`. Pendências que dependem de pessoas: teste das inscrições
@@ -139,4 +141,5 @@ Para acrescentar um login: `python Apps/_base/equipes.py <app> "<nome>" <login>`
 | renovacao-contratos-horus | Rodrigo Neves Ribeiro | `Rodrigoribeiro-cloud` (Rodrigo) |
 | rnc-nao-conformidade | Sabrina Ellen | `Sabrinaelllen1209` (Sabrina) |
 | tap-portfolio-projetos | Danielle Marques de Almeida Trevizan | `daniellealmeida-sudo` (Danielle) |
+| trilha-custodia-necropsia | Silmara Bueno | a informar |
 | (sem projeto) | Francis Souza | `francissouza-pixel` |

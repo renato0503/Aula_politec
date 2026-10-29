@@ -37,7 +37,7 @@ pagina = f"""<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Apps dos grupos · POLITEC/MT</title>
-<meta name="description" content="Mini apps construídos pelos grupos da Capacitação POLITEC/MT: 19 projetos, offline first, com dados fictícios.">
+<meta name="description" content="Mini apps construídos pelos grupos da Capacitação POLITEC/MT: 20 projetos, offline first, com dados fictícios.">
 <style>
 :root{{--bg:#f6f4ef;--surface:#fff;--ink:#1c1a17;--soft:#5c574f;--line:#e2ddd2;--accent:#0f766e}}
 @media (prefers-color-scheme:dark){{:root{{--bg:#141412;--surface:#1d1c19;--ink:#f2efe8;--soft:#b5afa3;--line:#33302a;--accent:#2dd4bf}}}}
@@ -66,7 +66,7 @@ a{{color:var(--accent)}}
   <p class="sub">Cada projeto saiu do formulário da Aula 8 e virou um app de um único arquivo:
     abre no navegador, funciona sem internet, guarda os dados no próprio computador e usa
     apenas dados fictícios. As decisões continuam com as pessoas.</p>
-  <p class="meta"><a href="../index.html">&larr; Voltar ao hub do curso</a> · 19 projetos ·
+  <p class="meta"><a href="../index.html">&larr; Voltar ao hub do curso</a> · 20 projetos ·
     fonte dos contatos e logins: <code>Apps/equipes.json</code></p>
   <div class="grid">
 {chr(10).join(linhas)}

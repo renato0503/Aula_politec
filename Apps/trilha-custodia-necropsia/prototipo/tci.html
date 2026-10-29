@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<!-- saved from url=(0076)https://sa-zio3ucia5ehsure36kraidl2pu.goskip.app/bnrz3h44ho76ymvo2enrsdsxce/ -->
+<html lang="pt-BR" data-theme="light"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script>if(location.pathname==="/bnrz3h44ho76ymvo2enrsdsxce")location.replace("/bnrz3h44ho76ymvo2enrsdsxce/"+location.search+location.hash)</script>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TCI · Trilha de Custódia e Identificação</title>
+<link rel="stylesheet" href="./TCI · Trilha de Custódia e Identificação_files/css2">
+<link rel="stylesheet" href="./TCI · Trilha de Custódia e Identificação_files/shell.css">
+<script src="./TCI · Trilha de Custódia e Identificação_files/shell.js.download"></script>
+<script src="./TCI · Trilha de Custódia e Identificação_files/qrcode.min.js.download"></script>
+<style>
+:root {
+--accent: #0E7C86;
+--accent-text: #0A5C64;
+--accent-contrast: #ffffff;
+--primary: #123B54;
+--amber: #B7791F;
+--red: #B3261E;
+--page: #F4F6F8;
+font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+body { background: var(--page); color: #1B2A36; }
+.app { display: grid; grid-template-columns: 240px 1fr; min-height: 100vh; }
+.sidebar { background: var(--primary); color: #E6EEF3; padding: 24px 16px; position: sticky; top: 0; height: 100vh; }
+.sidebar .brand { color: #fff; font-weight: 700; font-size: 1.05rem; line-height: 1.3; }
+.sidebar .brand small { display: block; color: #A9C2D1; font-weight: 500; font-size: .78rem; margin-top: 4px; }
+.nav-btn { width: 100%; display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 8px; color: #D8E6EE; background: transparent; border: 0; cursor: pointer; font-size: .95rem; text-align: left; transition: background .15s; min-height: 44px; }
+.nav-btn:hover { background: rgba(255,255,255,.08); }
+.nav-btn[aria-current="page"] { background: var(--accent); color: #fff; font-weight: 600; }
+.nav-btn:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 3px solid #7FD3D9; outline-offset: 2px; }
+.nav-btn .ico { width: 20px; height: 20px; flex-shrink: 0; }
+.main { min-width: 0; display: flex; flex-direction: column; }
+.topbar { background: #fff; border-bottom: 1px solid #DCE3E9; padding: 14px 24px; display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; position: sticky; top: 0; z-index: 30; }
+.topbar .sysname { font-weight: 700; color: var(--primary); font-size: 1.05rem; }
+.content { padding: 24px; display: flex; flex-direction: column; gap: 20px; width: 100%; max-width: 1200px; margin: 0 auto; }
+.bottomnav { display: none; }
+.case-header { background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(18,59,84,.10), 0 4px 14px rgba(18,59,84,.06); padding: 18px 22px; display: grid; grid-template-columns: repeat(auto-fit, minmax(170px,1fr)); gap: 16px; align-items: center; border-left: 5px solid var(--accent); }
+.case-header .lbl { font-size: .75rem; text-transform: uppercase; letter-spacing: .06em; color: #4F6474; font-weight: 600; }
+.case-header .val { font-size: 1.05rem; font-weight: 700; color: var(--primary); margin-top: 2px; }
+.card { background: #fff; border-radius: 8px; box-shadow: 0 1px 3px rgba(18,59,84,.10), 0 4px 14px rgba(18,59,84,.06); padding: 20px; }
+.card h2, .card h3 { color: var(--primary); }
+.kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px,1fr)); gap: 14px; }
+.kpi { background: #fff; border-radius: 8px; padding: 16px; box-shadow: 0 1px 3px rgba(18,59,84,.10); border-top: 4px solid var(--accent); }
+.kpi .n { font-size: 2rem; font-weight: 700; color: var(--primary); line-height: 1.1; }
+.kpi .t { font-weight: 600; color: #2B3E4D; font-size: .95rem; margin-top: 4px; }
+.kpi .c { font-size: .8rem; color: #4F6474; margin-top: 4px; }
+.alert { border-radius: 8px; padding: 14px 16px; border-left: 5px solid var(--amber); background: #FFF8EC; color: #5C3D0D; display: flex; gap: 12px; align-items: flex-start; }
+.alert.red { border-left-color: var(--red); background: #FDF0EF; color: #6E1A16; }
+.alert strong { color: inherit; }
+.alert .txt { font-size: .92rem; line-height: 1.5; }
+.pill { display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; font-size: .8rem; font-weight: 600; background: #E3EEF2; color: var(--primary); }
+.pill.teal { background: #DDF2F3; color: #0A5C64; }
+.pill.amber { background: #FBEFD9; color: #7A4D0A; }
+.pill.red { background: #FBE3E1; color: #8E1F18; }
+.pill.gray { background: #E9EDF1; color: #334B5C; }
+.seal { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 8px; font-weight: 700; font-size: .9rem; }
+.seal.ok { background: #DDF2F3; color: #0A5C64; border: 1px solid #9ED8DC; }
+.seal.bad { background: #FDF0EF; color: #8E1F18; border: 1px solid #F0B9B4; }
+.muted-s { color: #4F6474; font-size: .9rem; }
+.hint { color: #4F6474; font-size: .82rem; margin-top: 4px; }
+.screen { display: none; }
+.screen.active { display: flex; flex-direction: column; gap: 20px; animation: fadeIn .25s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(4px);} to { opacity: 1; transform: none; } }
+.grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px,1fr)); gap: 20px; }
+.grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap: 16px; }
+.marco { border-radius: 8px; padding: 18px; background: #fff; box-shadow: 0 1px 3px rgba(18,59,84,.10); border-top: 4px solid #B9C7D1; display: flex; flex-direction: column; gap: 10px; }
+.marco.done { border-top-color: var(--accent); }
+.marco.pend { border-top-color: var(--red); }
+.marco .time { font-size: 1.9rem; font-weight: 700; color: var(--primary); font-variant-numeric: tabular-nums; }
+.marco .nr { color: var(--red); font-weight: 700; font-size: 1.05rem; }
+.stepper { display: flex; gap: 8px; flex-wrap: wrap; }
+.step { padding: 8px 14px; border-radius: 999px; background: #E9EDF1; color: #334B5C; font-weight: 600; font-size: .88rem; }
+.step.on { background: var(--primary); color: #fff; }
+.step.done { background: #DDF2F3; color: #0A5C64; }
+.field { display: flex; flex-direction: column; gap: 6px; }
+.field label { font-weight: 600; font-size: .92rem; color: #1B2A36; }
+.input, select.input, textarea.input { border: 1px solid #B9C7D1; border-radius: 8px; padding: 11px 12px; font-size: 1rem; background: #fff; color: #1B2A36; min-height: 44px; font-family: inherit; }
+textarea.input { min-height: 90px; resize: vertical; }
+.form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px,1fr)); gap: 16px; }
+.btn-lg { min-height: 46px; padding: 0 20px; font-size: 1rem; }
+.btn-row { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+.filters { display: flex; gap: 8px; flex-wrap: wrap; }
+.chip { border: 1px solid #B9C7D1; background: #fff; border-radius: 999px; padding: 8px 14px; font-size: .9rem; font-weight: 600; color: #334B5C; cursor: pointer; min-height: 40px; }
+.chip[aria-pressed="true"] { background: var(--primary); color: #fff; border-color: var(--primary); }
+.list-item { display: grid; grid-template-columns: 1fr auto; gap: 12px; padding: 16px; border-bottom: 1px solid #E6ECF1; align-items: center; cursor: pointer; border-radius: 8px; }
+.list-item:hover { background: #F4F8FA; }
+.list-item:last-child { border-bottom: 0; }
+.list-item .prot { font-weight: 700; color: var(--primary); }
+.list-item .meta { font-size: .85rem; color: #4F6474; margin-top: 2px; }
+.alert-bar { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 6px; }
+.timeline { position: relative; padding-left: 8px; display: flex; flex-direction: column; gap: 4px; }
+.tl-item { display: grid; grid-template-columns: 44px 1fr; gap: 14px; position: relative; padding-bottom: 18px; }
+.tl-item::before { content: ""; position: absolute; left: 21px; top: 44px; bottom: 0; width: 2px; background: #C8D5DE; }
+.tl-item:last-child::before { display: none; }
+.tl-ico { width: 44px; height: 44px; border-radius: 50%; background: #E3EEF2; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; position: relative; z-index: 1; }
+.tl-ico.teal { background: #DDF2F3; color: #0A5C64; }
+.tl-ico.amber { background: #FBEFD9; color: #7A4D0A; }
+.tl-ico.red { background: #FBE3E1; color: #8E1F18; }
+.tl-body { background: #fff; border-radius: 8px; padding: 12px 16px; box-shadow: 0 1px 3px rgba(18,59,84,.08); }
+.tl-body .t { font-weight: 700; color: var(--primary); }
+.tl-body .m { font-size: .85rem; color: #4F6474; margin-top: 2px; }
+.term { background: #fff; border: 2px solid var(--primary); border-radius: 8px; padding: 26px; font-family: 'Inter', sans-serif; }
+.term .lock { background: #FBE3E1; color: #8E1F18; border-radius: 8px; padding: 14px; font-weight: 700; text-align: center; border: 1px solid #F0B9B4; }
+.term table { width: 100%; border-collapse: collapse; margin-top: 12px; font-size: .95rem; }
+.term td { padding: 8px 6px; border-bottom: 1px dashed #C8D5DE; vertical-align: top; }
+.term td:first-child { color: #4F6474; width: 36%; font-weight: 600; }
+.label-card { border: 2px dashed var(--primary); border-radius: 8px; padding: 18px; display: flex; gap: 18px; align-items: center; background: #fff; flex-wrap: wrap; }
+#qr-box { width: 130px; height: 130px; background: #fff; display: flex; align-items: center; justify-content: center; }
+#qr-box img, #qr-box canvas { width: 130px !important; height: 130px !important; }
+.bar-note { font-size: .82rem; color: #4F6474; }
+.footer-note { text-align: center; color: #4F6474; font-size: .85rem; padding: 18px 0 6px; }
+.trend-ok { color: var(--accent-text); }
+.table-wrap { overflow-x: auto; }
+@media (max-width: 860px) {
+.app { grid-template-columns: 1fr; }
+.sidebar { display: none; }
+.bottomnav { display: flex; position: fixed; bottom: 0; left: 0; right: 0; background: var(--primary); z-index: 50; padding: 6px 4px; justify-content: space-around; box-shadow: 0 -2px 10px rgba(0,0,0,.2); }
+.bottomnav button { background: transparent; border: 0; color: #D8E6EE; display: flex; flex-direction: column; align-items: center; gap: 2px; font-size: .68rem; padding: 6px 4px; min-width: 52px; min-height: 52px; border-radius: 8px; cursor: pointer; }
+.bottomnav button[aria-current="page"] { color: #fff; background: var(--accent); }
+.bottomnav .ico { width: 22px; height: 22px; }
+.content { padding: 16px 14px 100px; }
+.topbar { padding: 12px 14px; }
+}
+@media print {
+.sidebar, .topbar, .bottomnav, .btn, button, .footer-note, .filters, .no-print { display: none !important; }
+.app { display: block; }
+.content { padding: 0; max-width: 100%; }
+.card, .case-header, .term { box-shadow: none; border: 1px solid #999; }
+body { background: #fff; }
+}
+</style>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar" aria-label="Navegação principal">
+<div class="brand">TCI · Trilha de Custódia<br>e Identificação<small>IML / POLITEC-MT</small></div>
+<nav style="margin-top:28px; display:flex; flex-direction:column; gap:6px;" id="navDesktop"><button class="nav-btn" data-nav="painel" aria-current="page"><span class="ico" aria-hidden="true">▦</span>Painel</button><button class="nav-btn" data-nav="acionamento" aria-current="false"><span class="ico" aria-hidden="true">📝</span>Acionamento</button><button class="nav-btn" data-nav="marcos" aria-current="false"><span class="ico" aria-hidden="true">⏱</span>Marcos</button><button class="nav-btn" data-nav="lacres" aria-current="false"><span class="ico" aria-hidden="true">🔒</span>Lacres</button><button class="nav-btn" data-nav="recepcao" aria-current="false"><span class="ico" aria-hidden="true">🏥</span>Recepção</button><button class="nav-btn" data-nav="auto" aria-current="false"><span class="ico" aria-hidden="true">📄</span>Auto</button><button class="nav-btn" data-nav="auditoria" aria-current="false"><span class="ico" aria-hidden="true">🧭</span>Auditoria</button></nav>
+</aside>
+<div class="main">
+<header class="topbar">
+<div class="row gap-3" style="align-items:center;">
+<span class="sysname">TCI · Trilha de Custódia e Identificação</span>
+<span class="pill teal">IML/POLITEC-MT</span>
+</div>
+<div class="row gap-3" style="align-items:center; flex-wrap:wrap;">
+<label for="caseSelect" class="muted-s" style="font-weight:600;">Caso ativo</label>
+<select id="caseSelect" class="input" style="min-width:230px;"><option value="0">TCI-2026-0001 — Homem não identificado</option><option value="1">TCI-2026-0002 — Homem não identificado</option><option value="2">TCI-2026-0003 — Mulher não identificada</option><option value="3">TCI-2026-0004 — José Carlos Lima</option><option value="4">TCI-2026-0005 — Paulo Henrique Souza</option><option value="5">TCI-2026-0006 — Homem não identificado</option><option value="6" selected="">TCI-2026-0007 — NI</option></select>
+<span class="pill amber">Dados simulados</span>
+</div>
+</header>
+<main class="content">
+<section class="case-header" aria-label="Cabeçalho do caso ativo">
+<div><div class="lbl">Protocolo</div><div class="val" id="hdrProto">TCI-2026-0007</div></div>
+<div><div class="lbl">Vítima (provisório)</div><div class="val" id="hdrVitima">NI</div></div>
+<div><div class="lbl">Status atual</div><div class="val" id="hdrStatus">Liberado</div></div>
+<div><div class="lbl">Última movimentação</div><div class="val" id="hdrUltima">-4754 h atrás</div></div>
+<div><span class="seal bad" id="hdrSeal">🔓 Custódia encerrada</span></div>
+</section>
+
+<!-- TELA 1: PAINEL -->
+<section class="screen active" id="screen-painel" aria-label="Painel">
+<div class="case-header" style="border-left-color: var(--primary);">
+<div><span class="pill">Painel</span></div>
+<div class="btn-row" style="justify-content:flex-end; grid-column: span 2;">
+<button class="btn" data-variant="outline" id="btnExportPainel">Exportar lista</button>
+<button class="btn" data-variant="secondary" onclick="window.print()">Imprimir painel</button>
+<button class="btn" id="btnNovoCaso" data-action="novo-caso">Novo acionamento</button>
+</div>
+</div>
+<div>
+<div class="alert red" id="alertsBox" role="region" aria-label="Alertas do painel"><div class="txt" style="width:100%;"><div><strong>Caso parado há mais de 30 dias:</strong> TCI-2026-0002. Revise a situação com a autoridade policial.</div><div><strong>Laudo pendente há mais de 15 dias:</strong> TCI-2026-0001, TCI-2026-0002, TCI-2026-0003, TCI-2026-0004.</div><div><strong>Todos os casos ativos têm marco de deslocamento.</strong></div></div></div>
+</div>
+<div class="kpi-grid" id="kpiGrid"><div class="kpi"><div class="n">5</div><div class="t">Casos ativos</div><div class="c">Com movimentação em aberto</div></div><div class="kpi"><div class="n">5</div><div class="t">Corpos em custódia</div><div class="c">Sob guarda do IML</div></div><div class="kpi"><div class="n">3</div><div class="t">Não identificados</div><div class="c">Aguardando confirmação de identidade</div></div><div class="kpi"><div class="n">1</div><div class="t">Não reclamados</div><div class="c">Sem familiar ou responsável</div></div><div class="kpi"><div class="n">5</div><div class="t">Laudos pendentes</div><div class="c">Aguardando laudo complementar</div></div></div>
+<div class="card">
+<div class="row between" style="flex-wrap:wrap; gap:12px;">
+<div>
+<h2 class="text-lg font-bold m-0">Casos registrados</h2>
+<p class="muted-s m-0">Filtre por status. Toque em um caso para torná-lo o caso ativo.</p>
+</div>
+<div class="filters" id="statusFilters" role="group" aria-label="Filtrar por status"><button class="chip" data-filter="Todos" aria-pressed="true">Todos</button><button class="chip" data-filter="Em custódia" aria-pressed="false">Em custódia</button><button class="chip" data-filter="Aguardando identificação" aria-pressed="false">Aguardando identificação</button><button class="chip" data-filter="Não identificado" aria-pressed="false">Não identificado</button><button class="chip" data-filter="Não reclamado" aria-pressed="false">Não reclamado</button><button class="chip" data-filter="Liberado" aria-pressed="false">Liberado</button></div>
+</div>
+<div id="casesList" style="margin-top:14px;"><div class="list-item" data-case="0" role="button" tabindex="0">
+<div><div class="prot"><span class="alert-bar" style="background:var(--accent)"></span>TCI-2026-0001 · Não identificado</div>
+<div class="meta">Entrada 14/03/2026, 09:42 · Homicídio · Cuiabá</div></div>
+<div style="text-align:right;"><span class="pill amber">Aguardando identificação</span><div class="meta">30 dias parados</div></div>
+</div><div class="list-item" data-case="1" role="button" tabindex="0">
+<div><div class="prot"><span class="alert-bar" style="background:var(--red)" title="Mais de 30 dias"></span>TCI-2026-0002 · Não identificado</div>
+<div class="meta">Entrada 10/02/2026, 17:25 · Acidente · Cuiabá</div></div>
+<div style="text-align:right;"><span class="pill red">Não identificado</span><div class="meta">31 dias parados</div></div>
+</div><div class="list-item" data-case="2" role="button" tabindex="0">
+<div><div class="prot"><span class="alert-bar" style="background:var(--accent)"></span>TCI-2026-0003 · Não identificado</div>
+<div class="meta">Entrada 28/03/2026, 21:00 · Homicídio · Cuiabá</div></div>
+<div style="text-align:right;"><span class="pill red">Não identificado</span><div class="meta">16 dias parados</div></div>
+</div><div class="list-item" data-case="3" role="button" tabindex="0">
+<div><div class="prot"><span class="alert-bar" style="background:var(--accent)"></span>TCI-2026-0004 · José Carlos Lima</div>
+<div class="meta">Entrada 23/03/2026, 10:45 · Acidente · Cuiabá</div></div>
+<div style="text-align:right;"><span class="pill gray">Não reclamado</span><div class="meta">22 dias parados</div></div>
+</div><div class="list-item" data-case="4" role="button" tabindex="0">
+<div><div class="prot"><span class="alert-bar" style="background:var(--red)" title="Mais de 30 dias"></span>TCI-2026-0005 · Paulo Henrique Souza</div>
+<div class="meta">Entrada 06/03/2026, 00:30 · Acidente · Cuiabá</div></div>
+<div style="text-align:right;"><span class="pill ">Liberado</span><div class="meta">31 dias parados</div></div>
+</div><div class="list-item" data-case="5" role="button" tabindex="0">
+<div><div class="prot"><span class="alert-bar" style="background:var(--accent)"></span>TCI-2026-0006 · Não identificado</div>
+<div class="meta">Entrada 13/04/2026, 10:10 · Suicídio · Cuiabá</div></div>
+<div style="text-align:right;"><span class="pill teal">Em custódia</span><div class="meta">1 dia parado</div></div>
+</div><div class="list-item" data-case="6" role="button" tabindex="0">
+<div><div class="prot"><span class="alert-bar" style="background:var(--accent)"></span>TCI-2026-0007 · NI</div>
+<div class="meta">Entrada 29/10/2026, 13:20 · Homicídio · Cuiabá</div></div>
+<div style="text-align:right;"><span class="pill ">Liberado</span><div class="meta">-199 dias parados</div></div>
+</div></div>
+</div>
+</section>
+
+<!-- TELA 2: ACIONAMENTO -->
+<section class="screen" id="screen-acionamento" aria-label="Acionamento e registro no local">
+<div class="card">
+<div class="row between" style="flex-wrap:wrap; gap:12px;">
+<div>
+<span class="pill">Etapa de campo</span>
+<h2 class="text-xl font-bold m-0 mt-2">Acionamento e registro no local</h2>
+<p class="muted-s m-0">Preencha as duas etapas para abrir o caso. Os dados ficam disponíveis imediatamente no painel.</p>
+</div>
+<div class="stepper" id="stepper">
+<span class="step on" data-step="1">1 · Acionamento</span>
+<span class="step" data-step="2">2 · Vítima</span>
+<span class="step" data-step="3">3 · Requisição</span>
+</div>
+</div>
+</div>
+<div class="card" id="stepA">
+<h3 class="text-lg font-bold m-0">1 · Dados do acionamento</h3>
+<p class="muted-s">Registre quando e por qual canal o corpo foi acionado.</p>
+<div class="form-grid mt-3">
+<div class="field"><label for="fDataHora">Data e hora do acionamento</label><input class="input" id="fDataHora" type="datetime-local" value="2026-03-14T06:40"><span class="hint">Horário de recebimento pela CIOP.</span></div>
+<div class="field"><label for="fOrigem">Origem CIOP</label><select class="input" id="fOrigem"><option>CIOP 190 — Cuiabá</option><option>CIOP 190 — Várzea Grande</option><option>CIOP 193 — Bombeiros</option><option>Plantão Policial 1ª DP</option></select></div>
+<div class="field"><label for="fNatureza">Natureza da morte</label><select class="input" id="fNatureza"><option value="Homicídio">Homicídio</option><option value="Suicídio">Suicídio</option><option value="Acidente">Acidente</option></select></div>
+<div class="field"><label for="fMunicipio">Município</label><input class="input" id="fMunicipio" value="Cuiabá"><span class="hint">Município da ocorrência.</span></div>
+<div class="field" style="grid-column: span 2;"><label for="fLocal">Local da ocorrência</label><input class="input" id="fLocal" placeholder="Ex.: Av. Historiador Rubens de Mendonça, altura do nº 1200"><span class="hint">Descreva via, referência e bairro.</span></div>
+</div>
+<div class="btn-row mt-3" style="justify-content:flex-end;"><button class="btn btn-lg" id="btnNextA">Continuar</button></div>
+</div>
+<div class="card" id="stepB" hidden="">
+<h3 class="text-lg font-bold m-0">2 · Dados da vítima</h3>
+<p class="muted-s">Use nome provisório quando a identidade ainda não estiver confirmada.</p>
+<div class="form-grid mt-3">
+<div class="field"><label for="fNome">Nome provisório</label><input class="input" id="fNome" placeholder="Ex.: Homem não identificado, ~35 anos"><span class="hint">Use "não identificado" se não houver dados.</span></div>
+<div class="field"><label for="fDoc">Documento (quando houver)</label><input class="input" id="fDoc" placeholder="RG, CNH ou CPF"><span class="hint">Deixe em branco se não houver.</span></div>
+<div class="field"><label for="fSexo">Sexo</label><select class="input" id="fSexo"><option>Masculino</option><option>Feminino</option><option>Indeterminado</option></select></div>
+<div class="field"><label for="fIdade">Faixa de idade estimada</label><select class="input" id="fIdade"><option>0–12 anos</option><option>13–17 anos</option><option selected="">18–29 anos</option><option>30–44 anos</option><option>45–59 anos</option><option>60+ anos</option></select></div>
+</div>
+<div class="btn-row mt-3" style="justify-content:space-between;">
+<button class="btn" data-variant="outline" id="btnScan">📷 Escanear documento da vítima</button>
+<div class="btn-row"><button class="btn" data-variant="ghost" id="btnBackB">Voltar</button><button class="btn btn-lg" id="btnNextB">Continuar</button></div>
+</div>
+<div id="scanBox" class="mt-3 muted-s"></div>
+</div>
+<div class="card" id="stepC" hidden="">
+<h3 class="text-lg font-bold m-0">3 · Requisição pericial de necropsia</h3>
+<p class="muted-s">Documento emitido pela autoridade policial que autoriza o exame.</p>
+<div class="form-grid mt-3">
+<div class="field"><label for="fReq">Número da requisição</label><input class="input" id="fReq" value="4471/2026"></div>
+<div class="field"><label for="fDel">Delegacia</label><input class="input" id="fDel" value="1ª Delegacia de Polícia de Cuiabá"></div>
+<div class="field"><label for="fAut">Autoridade (nome)</label><input class="input" id="fAut" value="Delegado M. Ribeiro"></div>
+<div class="field"><label for="fAnexo">Anexo digital</label><input class="input" id="fAnexo" value="requisicao_4471_2026.pdf" readonly=""><span class="hint">Arquivo anexado ao caso.</span></div>
+</div>
+<div class="btn-row mt-3" style="justify-content:space-between;">
+<button class="btn" data-variant="ghost" id="btnBackC">Voltar</button>
+<button class="btn btn-lg" id="btnSalvarCaso">Salvar caso e voltar ao painel</button>
+</div>
+</div>
+</section>
+
+<!-- TELA 3: MARCOS -->
+<section class="screen" id="screen-marcos" aria-label="Marcos de deslocamento">
+<div class="card">
+<div class="row between" style="flex-wrap:wrap; gap:14px;">
+<div>
+<span class="pill">Deslocamento</span>
+<h2 class="text-xl font-bold m-0 mt-2">Marcos de deslocamento</h2>
+<p class="muted-s m-0">Registre cada etapa no momento em que ela acontece. O horário é gravado pelo sistema.</p>
+</div>
+<div style="text-align:right;">
+<div class="lbl" style="font-size:.75rem; text-transform:uppercase; color:#4F6474; font-weight:600;">Tempo total de deslocamento</div>
+<div class="kpi-n" id="tempoTotal" style="font-size:2rem; font-weight:700; color:var(--primary);">—</div>
+<div class="hint" id="tempoTotalHint">0 de 4 marcos registrados</div>
+</div>
+</div>
+</div>
+<div class="alert red" id="marcosAlert" role="alert"><div class="txt"><strong>4 marcos pendentes:</strong> Saída da base, Chegada ao local, Saída do local, Chegada ao IML. Hoje este aviso é verbal e frequentemente esquecido pela equipe — registre cada marco no momento em que ele ocorre.</div></div>
+<div class="grid-4" id="marcosGrid"><div class="marco pend">
+<div class="row between"><span class="pill">1º marco</span></div>
+<div style="font-weight:700; color:var(--primary); font-size:1.05rem;">Saída da base</div>
+<div class="muted-s">Veículo deixa a base do IML</div>
+<div class="nr">não registrado</div>
+<button class="btn" data-marco="saidaBase">Registrar agora</button>
+</div><div class="marco pend">
+<div class="row between"><span class="pill">2º marco</span></div>
+<div style="font-weight:700; color:var(--primary); font-size:1.05rem;">Chegada ao local</div>
+<div class="muted-s">Equipe chega à ocorrência</div>
+<div class="nr">não registrado</div>
+<button class="btn" data-marco="chegadaLocal">Registrar agora</button>
+</div><div class="marco pend">
+<div class="row between"><span class="pill">3º marco</span></div>
+<div style="font-weight:700; color:var(--primary); font-size:1.05rem;">Saída do local</div>
+<div class="muted-s">Corpo deixa a via pública</div>
+<div class="nr">não registrado</div>
+<button class="btn" data-marco="saidaLocal">Registrar agora</button>
+</div><div class="marco pend">
+<div class="row between"><span class="pill">4º marco</span></div>
+<div style="font-weight:700; color:var(--primary); font-size:1.05rem;">Chegada ao IML</div>
+<div class="muted-s">Corpo chega à unidade</div>
+<div class="nr">não registrado</div>
+<button class="btn" data-marco="chegadaIml">Registrar agora</button>
+</div></div>
+<div class="card">
+<h3 class="text-base font-bold m-0">Intervalos entre marcos</h3>
+<p class="muted-s m-0">Tempo decorrido entre cada par de marcos registrados.</p>
+<div id="intervalos" class="mt-3"><div class="row between" style="padding:10px 0; border-bottom:1px solid #E6ECF1;"><span>Saída da base → Chegada ao local</span><span class="pill red">aguardando</span></div><div class="row between" style="padding:10px 0; border-bottom:1px solid #E6ECF1;"><span>Chegada ao local → Saída do local</span><span class="pill red">aguardando</span></div><div class="row between" style="padding:10px 0; border-bottom:1px solid #E6ECF1;"><span>Saída do local → Chegada ao IML</span><span class="pill red">aguardando</span></div></div>
+</div>
+</section>
+
+<!-- TELA 4: LACRES -->
+<section class="screen" id="screen-lacres" aria-label="Lacres e custódia">
+<div class="card">
+<div class="row between" style="flex-wrap:wrap; gap:12px;">
+<div>
+<span class="pill">Custódia</span>
+<h2 class="text-xl font-bold m-0 mt-2">Lacres e cadeia de custódia</h2>
+<p class="muted-s m-0">Cada amostra recebe lacre sequencial. Toda transferência fica registrada com assinatura.</p>
+</div>
+<div id="selo" class="seal ok">🔒 Custódia íntegra</div>
+</div>
+<div class="btn-row mt-3">
+<button class="btn" id="btnAddLacre">Adicionar lacre</button>
+<button class="btn" data-variant="outline" id="btnTransfer">Transferir custódia</button>
+</div>
+<div id="lacreForm" class="mt-3" hidden="">
+<div class="form-grid">
+<div class="field"><label for="lTipo">Tipo de amostra</label><select class="input" id="lTipo"><option>Sangue</option><option>Urina</option><option>Conteúdo gástrico</option><option>Projétil</option><option>Vestes</option><option>Outros</option></select><span class="hint">Escolha a amostra coletada.</span></div>
+<div class="field"><label for="lResp">Responsável pela coleta</label><input class="input" id="lResp" value="J. Almeida"></div>
+<div class="field"><label for="lDest">Destino inicial</label><input class="input" id="lDest" value="Refrigerador — Sala de Coleta IML"><span class="hint">Local onde o lacre foi guardado.</span></div>
+</div>
+<div class="btn-row mt-3" style="justify-content:flex-end;"><button class="btn" id="btnConfirmLacre">Gerar lacre</button></div>
+</div>
+</div>
+<div class="card">
+<h3 class="text-base font-bold m-0">Lacres do caso</h3>
+<p class="muted-s m-0">Número, tipo, responsável, horário e destino de cada amostra.</p>
+<div class="table-wrap mt-3"><table class="shell-table" id="lacresTable"><tbody><tr><td class="muted-s">Nenhum lacre criado. Use "Adicionar lacre".</td></tr></tbody></table></div>
+</div>
+<div class="card">
+<h3 class="text-base font-bold m-0">Cadeia de custódia</h3>
+<p class="muted-s m-0">Transferências em ordem cronológica, da coleta até o encerramento.</p>
+<div id="cadeia" class="mt-3"><p class="muted-s">Nenhuma transferência registrada.</p></div>
+</div>
+<dialog class="dialog" id="dlgTransfer">
+<div>
+<header><h2>Transferir custódia</h2><p>Informe o destino e o responsável pelo recebimento.</p></header>
+<section class="stack gap-3 mt-3">
+<div class="field"><label for="tDest">Destino</label><select class="input" id="tDest"><option>Câmara fria — IML Cuiabá</option><option>Laboratório de Toxicologia — POLITEC</option><option>Laboratório de Balística — POLITEC</option><option>Arquivo de vestes — IML</option></select></div>
+<div class="field"><label for="tResp">Responsável</label><input class="input" id="tResp" value="A. Costa"></div>
+<div class="field"><label for="tObs">Observação</label><textarea class="input" id="tObs" placeholder="Ex.: lacres íntegros, sem avarias"></textarea><span class="hint">Opcional, registrada na trilha.</span></div>
+</section>
+<footer class="btn-row mt-4" style="justify-content:flex-end;">
+<button class="btn" data-variant="ghost" data-dialog-close="">Cancelar</button>
+<button class="btn" id="btnConfirmTransfer">Confirmar transferência</button>
+</footer>
+</div>
+</dialog>
+</section>
+
+<!-- TELA 5: RECEPÇÃO -->
+<section class="screen" id="screen-recepcao" aria-label="Recepção no IML e necropsia">
+<div class="card">
+<span class="pill">IML</span>
+<h2 class="text-xl font-bold m-0 mt-2">Recepção no IML e necropsia</h2>
+<p class="muted-s m-0">Conferência de entrada, etiqueta de identificação e acompanhamento do exame.</p>
+</div>
+<div class="grid-2">
+<div class="card">
+<h3 class="text-base font-bold m-0">Conferência de entrada</h3>
+<p class="muted-s m-0">Dados de chegada e documentação recebida.</p>
+<div class="form-grid mt-3">
+<div class="field"><label for="rAtena">Protocolo do Atena</label><input class="input" id="rAtena" value="ATN-260314-0871"><span class="hint">Número gerado no sistema Atena.</span></div>
+<div class="field"><label for="rChegada">Data e hora de chegada</label><input class="input" id="rChegada" type="datetime-local" value="2026-03-14T09:42"></div>
+</div>
+<div class="stack gap-2 mt-3" style="font-size:.95rem;">
+<label class="row gap-2"><input type="checkbox" id="chkReq" checked=""> Requisição pericial conferida</label>
+<label class="row gap-2"><input type="checkbox" id="chkLacres" checked=""> Lacres conferidos</label>
+<label class="row gap-2"><input type="checkbox" id="chkFicha" checked=""> Ficha de recepção assinada</label>
+</div>
+</div>
+<div class="card">
+<h3 class="text-base font-bold m-0">Etiqueta de identificação</h3>
+<p class="muted-s m-0">Código QR com protocolo, lacre principal e data de entrada.</p>
+<div class="label-card mt-3">
+<div id="qr-box" title="TCI|TCI-2026-0001|LAC:LAC-2026-0001|14/03/2026, 09:42"><canvas width="130" height="130" style="display: none;"></canvas><img src="data:image/png;base64,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" style="display: block;"></div>
+<div style="flex:1; min-width:200px;">
+<div class="bar-note">Protocolo</div><div class="font-bold" id="lbProto">TCI-2026-0001</div>
+<div class="bar-note mt-2">Lacre principal</div><div class="font-bold" id="lbLacre">LAC-2026-0001</div>
+<div class="bar-note mt-2">Data de entrada</div><div class="font-bold" id="lbData">14/03/2026, 09:42</div>
+</div>
+</div>
+<div class="btn-row mt-3"><button class="btn" id="btnImprimirEtiqueta">Imprimir etiqueta</button></div>
+</div>
+</div>
+<div class="grid-2">
+<div class="card">
+<h3 class="text-base font-bold m-0">Necropsia</h3>
+<p class="muted-s m-0">Registro do exame e acionamentos de apoio pericial.</p>
+<div class="form-grid mt-3">
+<div class="field"><label for="nLegista">Legista responsável</label><input class="input" id="nLegista" value="Dr. R. Fonseca"></div>
+<div class="field"><label for="nIni">Hora de início</label><input class="input" id="nIni" value="10:15" readonly=""></div>
+<div class="field"><label for="nFim">Hora de fim</label><input class="input" id="nFim" value="12:40" readonly=""><span class="hint">Exame finalizado.</span></div>
+</div>
+<div class="btn-row mt-3">
+<button class="btn" data-variant="outline" id="btnPapil">Acionar papiloscopia</button>
+<button class="btn" data-variant="outline" id="btnOdont">Acionar odontologia</button>
+</div>
+<div id="acionamentosNec" class="mt-3 stack gap-2"><span class="muted-s">Nenhum acionamento de apoio registrado.</span></div>
+</div>
+<div class="card">
+<h3 class="text-base font-bold m-0">Indicação antropológica</h3>
+<p class="muted-s m-0">Indicar quando houver carbonização, esqueletização ou decomposição avançada.</p>
+<div class="btn-row mt-3">
+<button class="chip" data-anth="sim" aria-pressed="false">Sim</button>
+<button class="chip" data-anth="nao" aria-pressed="true">Não</button>
+</div>
+<div id="anthNote" class="hint mt-3">Sem indicação antropológica para este caso.</div>
+</div>
+</div>
+</section>
+
+<!-- TELA 6: AUTO DE ENTREGA -->
+<section class="screen" id="screen-auto" aria-label="Auto de entrega">
+<div class="card">
+<span class="pill">Liberação</span>
+<h2 class="text-xl font-bold m-0 mt-2">Auto de entrega do corpo</h2>
+<p class="muted-s m-0">Ato que encerra a custódia do corpo. Só emita após conferir os dados de quem retira.</p>
+</div>
+<div class="grid-2">
+<div class="card">
+<h3 class="text-base font-bold m-0">Quem retira</h3>
+<p class="muted-s m-0">Dados de quem recebe o corpo.</p>
+<div class="form-grid mt-3">
+<div class="field"><label for="aNome">Nome completo</label><input class="input" id="aNome" placeholder="Ex.: Maria Aparecida Souza"></div>
+<div class="field"><label for="aDoc">Documento</label><input class="input" id="aDoc" placeholder="RG e órgão emissor"></div>
+<div class="field"><label for="aVinc">Vínculo com a vítima</label><select class="input" id="aVinc"><option>Familiar direto</option><option>Cônjuge</option><option>Responsável legal</option><option>Representante da funerária</option></select></div>
+<div class="field"><label for="aFun">Funerária</label><input class="input" id="aFun" placeholder="Nome da funerária"></div>
+<div class="field" style="grid-column: span 2;"><label for="aAut">Autorização da autoridade policial</label><input class="input" id="aAut" value="Autorizado pelo Delegado M. Ribeiro — Req. 4471/2026"></div>
+</div>
+</div>
+<div class="card">
+<h3 class="text-base font-bold m-0">Lacres entregues com o corpo</h3>
+<p class="muted-s m-0">Lacres que acompanham o corpo na entrega.</p>
+<div id="aLacres" class="mt-3 stack gap-2"><span class="muted-s">Nenhum lacre cadastrado.</span></div>
+<div class="field mt-3"><label for="aObs">Observações</label><textarea class="input" id="aObs" placeholder="Ex.: vestes acompanham o corpo em saco lacrado"></textarea><span class="hint">Opcional.</span></div>
+<div class="btn-row mt-3"><button class="btn btn-lg" id="btnEmitirAuto">Emitir auto de entrega</button></div>
+</div>
+</div>
+<div id="autoOutput"><div class="term" id="termoAuto">
+<div class="row between" style="flex-wrap:wrap; gap:10px;">
+<div><div class="muted-s">Instituto Médico Legal · POLITEC-MT</div><div style="font-size:1.3rem; font-weight:700; color:var(--primary);">AUTO DE ENTREGA DE CORPO</div></div>
+<span class="pill">Nº AE-2026-0020</span>
+</div>
+<div class="lock mt-3">CUSTÓDIA ENCERRADA — A partir deste ato, a guarda do corpo é transferida a quem recebe.</div>
+<table>
+<tbody><tr><td>Data e hora</td><td>29/10/2026, 13:25</td></tr>
+<tr><td>Corpo entregue</td><td>NI · Protocolo TCI-2026-0007</td></tr>
+<tr><td>Lacres entregues</td><td>Nenhum</td></tr>
+<tr><td>Responsável pela liberação</td><td>A definir</td></tr>
+<tr><td>Recebido por</td><td>MAria (Familiar direto)</td></tr>
+<tr><td>Requisição</td><td>4471/2026 · Delegado M. Ribeiro</td></tr>
+</tbody></table>
+<div class="btn-row mt-3 no-print" style="justify-content:flex-end;"><button class="btn" data-variant="outline" id="btnPrintAuto">Imprimir (simulado)</button></div>
+</div></div>
+</section>
+
+<!-- TELA 7: AUDITORIA -->
+<section class="screen" id="screen-auditoria" aria-label="Trilha de auditoria">
+<div class="card">
+<div class="row between" style="flex-wrap:wrap; gap:12px;">
+<div>
+<span class="pill">Auditoria</span>
+<h2 class="text-xl font-bold m-0 mt-2">Trilha de auditoria</h2>
+<p class="muted-s m-0">Linha do tempo completa do caso. Atualiza automaticamente com cada registro.</p>
+</div>
+<div class="filters" id="auditFilters" role="group" aria-label="Filtrar eventos"><button class="chip" data-audit="Todos" aria-pressed="true">Todos</button><button class="chip" data-audit="acionamento" aria-pressed="false">Acionamento</button><button class="chip" data-audit="marco" aria-pressed="false">Marcos</button><button class="chip" data-audit="lacre" aria-pressed="false">Lacres</button><button class="chip" data-audit="custodia" aria-pressed="false">Transferências</button><button class="chip" data-audit="recepcao" aria-pressed="false">Recepção</button><button class="chip" data-audit="necropsia" aria-pressed="false">Necropsia</button><button class="chip" data-audit="identificacao" aria-pressed="false">Identificação</button><button class="chip" data-audit="auto" aria-pressed="false">Auto de entrega</button></div>
+</div>
+</div>
+<div class="card">
+<div class="timeline" id="timeline"><div class="tl-item">
+<div class="tl-ico ">📞</div>
+<div class="tl-body"><div class="t">Acionamento recebido pela CIOP 190 — Cuiabá</div><div class="m">CIOP 190 — Cuiabá · 29/10/2026, 06:40</div></div>
+</div><div class="tl-item">
+<div class="tl-ico ">🏥</div>
+<div class="tl-body"><div class="t">Recepção no IML · Atena ATN-260314-0871</div><div class="m">Recepção IML · 29/10/2026, 13:20</div></div>
+</div><div class="tl-item">
+<div class="tl-ico ">✎</div>
+<div class="tl-body"><div class="t">Caso cadastrado no registro local</div><div class="m">Equipe de campo · 29/10/2026, 13:22</div></div>
+</div><div class="tl-item">
+<div class="tl-ico red">📄</div>
+<div class="tl-body"><div class="t">Auto de entrega AE-2026-0020 emitido — custódia encerrada</div><div class="m">A definir → MAria (Familiar direto) · 29/10/2026, 13:25</div></div>
+</div><div class="tl-item">
+<div class="tl-ico ">✎</div>
+<div class="tl-body"><div class="t">Auto de entrega AE-2026-0020 emitido</div><div class="m">A definir · 29/10/2026, 13:25</div></div>
+</div></div>
+</div>
+</section>
+
+<footer class="footer-note">Protótipo com dados simulados, sem integração com o Atena.</footer>
+</main>
+</div>
+</div>
+
+<nav class="bottomnav" id="navMobile" aria-label="Navegação inferior"><button data-nav="painel" aria-current="page"><span class="ico" aria-hidden="true">▦</span>Painel</button><button data-nav="acionamento" aria-current="false"><span class="ico" aria-hidden="true">📝</span>Acionamento</button><button data-nav="marcos" aria-current="false"><span class="ico" aria-hidden="true">⏱</span>Marcos</button><button data-nav="lacres" aria-current="false"><span class="ico" aria-hidden="true">🔒</span>Lacres</button><button data-nav="recepcao" aria-current="false"><span class="ico" aria-hidden="true">🏥</span>Recepção</button><button data-nav="auto" aria-current="false"><span class="ico" aria-hidden="true">📄</span>Auto</button><button data-nav="auditoria" aria-current="false"><span class="ico" aria-hidden="true">🧭</span>Auditoria</button></nav>
+
+<script>
+(function () {
+const SCREENS = [
+{ id: 'painel', label: 'Painel', icon: '▦' },
+{ id: 'acionamento', label: 'Acionamento', icon: '📝' },
+{ id: 'marcos', label: 'Marcos', icon: '⏱' },
+{ id: 'lacres', label: 'Lacres', icon: '🔒' },
+{ id: 'recepcao', label: 'Recepção', icon: '🏥' },
+{ id: 'auto', label: 'Auto', icon: '📄' },
+{ id: 'auditoria', label: 'Auditoria', icon: '🧭' }
+];
+const TODAY = new Date('2026-04-14T12:00:00');
+const day = 86400000;
+const hh = (d) => d ? d.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) : '—';
+const dt = (d) => d ? d.toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' }) : '—';
+const at = (y, m, d, h, mi) => new Date(y, m - 1, d, h, mi);
+const esc = (s) => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+
+const STATUSES = ['Em custódia', 'Aguardando identificação', 'Não identificado', 'Não reclamado', 'Liberado'];
+
+function newCase(p) {
+return Object.assign({
+proto: 'TCI-2026-0001', nome: 'Homem não identificado, ~35 anos', sexo: 'Masculino', idade: '30–44 anos', doc: '',
+natureza: 'Homicídio', origem: 'CIOP 190 — Cuiabá', municipio: 'Cuiabá', local: 'Av. Historiador Rubens de Mendonça, altura do nº 1200',
+acionado: at(2026, 3, 14, 6, 40), req: '4471/2026', del: '1ª Delegacia de Polícia de Cuiabá', aut: 'Delegado M. Ribeiro',
+tecnico: 'J. Almeida', legista: 'Dr. R. Fonseca', status: 'Aguardando identificação',
+entrada: at(2026, 3, 14, 9, 42),
+marcos: { saidaBase: at(2026, 3, 14, 7, 12), chegadaLocal: at(2026, 3, 14, 7, 48), saidaLocal: at(2026, 3, 14, 9, 5), chegadaIml: at(2026, 3, 14, 9, 32) },
+lacres: [
+{ num: 'LAC-2026-0001', tipo: 'Sangue', resp: 'J. Almeida', hora: at(2026, 3, 14, 10, 20), destino: 'Refrigerador — Sala de Coleta IML' },
+{ num: 'LAC-2026-0002', tipo: 'Urina', resp: 'J. Almeida', hora: at(2026, 3, 14, 10, 22), destino: 'Refrigerador — Sala de Coleta IML' },
+{ num: 'LAC-2026-0003', tipo: 'Projétil', resp: 'Dr. R. Fonseca', hora: at(2026, 3, 14, 12, 35), destino: 'Câmara de Balística — POLITEC' },
+{ num: 'LAC-2026-0004', tipo: 'Vestes', resp: 'Dr. R. Fonseca', hora: at(2026, 3, 14, 12, 38), destino: 'Arquivo de vestes — IML' }
+],
+transfers: [
+{ de: 'Coleta — J. Almeida', para: 'Refrigerador — Sala de Coleta IML', resp: 'J. Almeida', hora: at(2026, 3, 14, 10, 25), assin: 'JA-7731', obs: 'Coleta inicial' },
+{ de: 'Sala de Coleta IML', para: 'Laboratório de Toxicologia — POLITEC', resp: 'M. Pereira', hora: at(2026, 3, 14, 15, 10), assin: 'MP-4402', obs: 'Envio para análise' }
+],
+necropsia: { ini: '10:15', fim: '12:40', papil: null, odont: null },
+antropo: false,
+auto: null,
+recepcaoAtena: 'ATN-260314-0871',
+audit: []
+}, p);
+}
+
+let CASES = [
+newCase({}),
+newCase({ proto: 'TCI-2026-0002', nome: 'Homem não identificado, ~40 anos', status: 'Não identificado', natureza: 'Acidente', local: 'Rod. BR-163, km 812', acionado: at(2026, 2, 10, 14, 0), entrada: at(2026, 2, 10, 17, 25), lacres: [], transfers: [] }),
+newCase({ proto: 'TCI-2026-0003', nome: 'Mulher não identificada, ~25 anos', sexo: 'Feminino', status: 'Não identificado', natureza: 'Homicídio', local: 'Bairro Cidade Alta, Rua das Acácias', acionado: at(2026, 3, 28, 19, 10), entrada: at(2026, 3, 28, 21, 0), lacres: [], transfers: [] }),
+newCase({ proto: 'TCI-2026-0004', nome: 'José Carlos Lima', status: 'Não reclamado', natureza: 'Acidente', local: 'Av. Miguel Sutil, Coxipó', acionado: at(2026, 3, 23, 8, 30), entrada: at(2026, 3, 23, 10, 45), lacres: [], transfers: [] }),
+newCase({ proto: 'TCI-2026-0005', nome: 'Paulo Henrique Souza', status: 'Liberado', natureza: 'Acidente', local: 'Rod. MT-010, Várzea Grande', acionado: at(2026, 3, 5, 22, 15), entrada: at(2026, 3, 6, 0, 30), lacres: [], transfers: [], auto: { num: 'AE-2026-0019', data: at(2026, 3, 9, 15, 20), recebe: 'Carla Souza (esposa)', liberou: 'Dr. R. Fonseca' } }),
+newCase({ proto: 'TCI-2026-0006', nome: 'Homem não identificado, ~28 anos', status: 'Em custódia', natureza: 'Suicídio', local: 'Residencial Jardim Itália, Quadra 14', acionado: at(2026, 4, 13, 7, 5), entrada: at(2026, 4, 13, 10, 10), lacres: [], transfers: [] })
+];
+CASES.forEach(c => { if (!c.audit) c.audit = []; });
+
+let activeIdx = 0;
+let filterStatus = 'Todos';
+let auditFilter = 'Todos';
+
+const cur = () => CASES[activeIdx];
+
+function diasParado(c) {
+const last = lastMove(c);
+return Math.floor((TODAY - last) / day);
+}
+function lastMove(c) {
+const dates = [c.entrada, c.acionado];
+Object.values(c.marcos || {}).forEach(d => d && dates.push(d));
+(c.lacres || []).forEach(l => l.hora && dates.push(l.hora));
+(c.transfers || []).forEach(t => t.hora && dates.push(t.hora));
+if (c.auto) dates.push(c.auto.data);
+return new Date(Math.max(...dates.map(d => d.getTime())));
+}
+function humanAgo(c) {
+const diff = TODAY - lastMove(c);
+const d = Math.floor(diff / day);
+if (d > 0) return d + (d === 1 ? ' dia' : ' dias');
+const h = Math.floor(diff / 3600000);
+return h + ' h';
+}
+
+function statusPill(s) {
+const map = { 'Em custódia': 'teal', 'Aguardando identificação': 'amber', 'Não identificado': 'red', 'Não reclamado': 'gray', 'Liberado': '' };
+return `<span class="pill ${map[s] || ''}">${esc(s)}</span>`;
+}
+
+function syncHeader() {
+const c = cur();
+document.getElementById('hdrProto').textContent = c.proto;
+document.getElementById('hdrVitima').textContent = c.nome;
+document.getElementById('hdrStatus').textContent = c.status;
+document.getElementById('hdrUltima').textContent = humanAgo(c) + ' atrás';
+const seal = document.getElementById('hdrSeal');
+const ativa = c.status !== 'Liberado';
+seal.className = 'seal ' + (ativa ? 'ok' : 'bad');
+seal.textContent = ativa ? '🔒 Custódia ativa' : '🔓 Custódia encerrada';
+const sel = document.getElementById('caseSelect');
+sel.innerHTML = CASES.map((x, i) => `<option value="${i}" ${i === activeIdx ? 'selected' : ''}>${esc(x.proto)} — ${esc(x.nome.split(',')[0])}</option>`).join('');
+}
+
+function logAudit(c, tipo, titulo, resp, when) {
+c.audit.push({ tipo, titulo, resp, when: when || new Date() });
+}
+
+// ---------- PAINEL ----------
+function renderPainel() {
+const all = CASES;
+const emCustodia = all.filter(c => c.status !== 'Liberado').length;
+const naoId = all.filter(c => c.status === 'Não identificado' || c.status === 'Aguardando identificação').length;
+const naoRec = all.filter(c => c.status === 'Não reclamado').length;
+const laudos = all.filter(c => c.status !== 'Liberado' && !c.necropsia.papil && c.necropsia.ini).length;
+const ativos = all.filter(c => c.status !== 'Liberado').length;
+const kpis = [
+{ n: ativos, t: 'Casos ativos', c: 'Com movimentação em aberto' },
+{ n: emCustodia, t: 'Corpos em custódia', c: 'Sob guarda do IML' },
+{ n: naoId, t: 'Não identificados', c: 'Aguardando confirmação de identidade' },
+{ n: naoRec, t: 'Não reclamados', c: 'Sem familiar ou responsável' },
+{ n: laudos, t: 'Laudos pendentes', c: 'Aguardando laudo complementar' }
+];
+document.getElementById('kpiGrid').innerHTML = kpis.map(k => `<div class="kpi"><div class="n">${k.n}</div><div class="t">${k.t}</div><div class="c">${k.c}</div></div>`).join('');
+
+const parados = all.filter(c => diasParado(c) > 30 && c.status !== 'Liberado');
+const laudoAtr = all.filter(c => c.status !== 'Liberado' && !c.necropsia.papil && (TODAY - (c.necropsia.iniDate || c.entrada)) / day > 15);
+const semDesl = all.filter(c => c.status !== 'Liberado' && !c.marcos.saidaBase);
+const alerts = [];
+alerts.push(parados.length ? `<div><strong>Caso parado há mais de 30 dias:</strong> ${parados.map(c => c.proto).join(', ')}. Revise a situação com a autoridade policial.</div>` : `<div><strong>Sem casos parados há mais de 30 dias.</strong></div>`);
+alerts.push(laudoAtr.length ? `<div><strong>Laudo pendente há mais de 15 dias:</strong> ${laudoAtr.map(c => c.proto).join(', ')}.</div>` : `<div><strong>Nenhum laudo pendente acima de 15 dias.</strong></div>`);
+alerts.push(semDesl.length ? `<div><strong>Caso sem marco de deslocamento registrado:</strong> ${semDesl.map(c => c.proto).join(', ')}.</div>` : `<div><strong>Todos os casos ativos têm marco de deslocamento.</strong></div>`);
+const box = document.getElementById('alertsBox');
+box.innerHTML = `<div class="txt" style="width:100%;">${alerts.join('')}</div>`;
+box.className = 'alert' + (parados.length ? ' red' : '');
+
+const filtros = ['Todos', ...STATUSES];
+document.getElementById('statusFilters').innerHTML = filtros.map(f => `<button class="chip" data-filter="${esc(f)}" aria-pressed="${f === filterStatus}">${esc(f)}</button>`).join('');
+
+const list = all.filter(c => filterStatus === 'Todos' || c.status === filterStatus);
+const html = list.map(c => {
+const d = diasParado(c);
+const alerta = d > 30 ? `<span class="alert-bar" style="background:var(--red)" title="Mais de 30 dias"></span>` : `<span class="alert-bar" style="background:var(--accent)"></span>`;
+const nome = c.nome.startsWith('Homem não') || c.nome.startsWith('Mulher não') ? 'Não identificado' : c.nome;
+return `<div class="list-item" data-case="${all.indexOf(c)}" role="button" tabindex="0">
+<div><div class="prot">${alerta}${esc(c.proto)} · ${esc(nome)}</div>
+<div class="meta">Entrada ${dt(c.entrada)} · ${esc(c.natureza)} · ${esc(c.municipio || 'Cuiabá')}</div></div>
+<div style="text-align:right;">${statusPill(c.status)}<div class="meta">${d} dia${d === 1 ? '' : 's'} parado${d === 1 ? '' : 's'}</div></div>
+</div>`;
+}).join('');
+document.getElementById('casesList').innerHTML = html || '<p class="muted-s">Nenhum caso neste status.</p>';
+}
+
+// ---------- ACIONAMENTO ----------
+let stepState = 1;
+function setStep(n) {
+stepState = n;
+document.getElementById('stepA').hidden = n !== 1;
+document.getElementById('stepB').hidden = n !== 2;
+document.getElementById('stepC').hidden = n !== 3;
+document.querySelectorAll('#stepper .step').forEach(s => {
+const k = +s.dataset.step;
+s.className = 'step' + (k === n ? ' on' : k < n ? ' done' : '');
+});
+}
+
+// ---------- MARCOS ----------
+const MARCOS = [
+{ key: 'saidaBase', label: 'Saída da base', desc: 'Veículo deixa a base do IML' },
+{ key: 'chegadaLocal', label: 'Chegada ao local', desc: 'Equipe chega à ocorrência' },
+{ key: 'saidaLocal', label: 'Saída do local', desc: 'Corpo deixa a via pública' },
+{ key: 'chegadaIml', label: 'Chegada ao IML', desc: 'Corpo chega à unidade' }
+];
+function renderMarcos() {
+const c = cur();
+const grid = document.getElementById('marcosGrid');
+grid.innerHTML = MARCOS.map((m, i) => {
+const v = c.marcos[m.key];
+const cls = v ? 'done' : 'pend';
+return `<div class="marco ${cls}">
+<div class="row between"><span class="pill">${i + 1}º marco</span></div>
+<div style="font-weight:700; color:var(--primary); font-size:1.05rem;">${m.label}</div>
+<div class="muted-s">${m.desc}</div>
+<div class="${v ? 'time' : 'nr'}">${v ? hh(v) : 'não registrado'}</div>
+<button class="btn" data-marco="${m.key}" ${v ? 'disabled data-variant="outline"' : ''}>${v ? 'Registrado' : 'Registrar agora'}</button>
+</div>`;
+}).join('');
+
+const pend = MARCOS.filter(m => !c.marcos[m.key]);
+const al = document.getElementById('marcosAlert');
+if (pend.length) {
+al.hidden = false;
+al.innerHTML = `<div class="txt"><strong>${pend.length} marco${pend.length > 1 ? 's' : ''} pendente${pend.length > 1 ? 's' : ''}:</strong> ${pend.map(p => p.label).join(', ')}. Hoje este aviso é verbal e frequentemente esquecido pela equipe — registre cada marco no momento em que ele ocorre.</div>`;
+} else {
+al.hidden = true;
+}
+const done = MARCOS.filter(m => c.marcos[m.key]);
+if (done.length === 4) {
+const total = (c.marcos.chegadaIml - c.marcos.saidaBase) / 60000;
+document.getElementById('tempoTotal').textContent = Math.floor(total / 60) + 'h ' + String(Math.round(total % 60)).padStart(2, '0') + 'min';
+document.getElementById('tempoTotalHint').textContent = 'Do início da saída à chegada ao IML';
+} else {
+document.getElementById('tempoTotal').textContent = '—';
+document.getElementById('tempoTotalHint').textContent = `${done.length} de 4 marcos registrados`;
+}
+
+const ints = [];
+for (let i = 0; i < 3; i++) {
+const a = c.marcos[MARCOS[i].key], b = c.marcos[MARCOS[i + 1].key];
+const label = `${MARCOS[i].label} → ${MARCOS[i + 1].label}`;
+if (a && b) {
+const mins = Math.round((b - a) / 60000);
+ints.push(`<div class="row between" style="padding:10px 0; border-bottom:1px solid #E6ECF1;"><span>${label}</span><span class="pill teal">${mins} min</span></div>`);
+} else {
+ints.push(`<div class="row between" style="padding:10px 0; border-bottom:1px solid #E6ECF1;"><span>${label}</span><span class="pill red">aguardando</span></div>`);
+}
+}
+document.getElementById('intervalos').innerHTML = ints.join('');
+}
+
+function registerMarco(key) {
+const c = cur();
+const now = new Date();
+c.marcos[key] = now;
+const label = MARCOS.find(m => m.key === key).label;
+logAudit(c, 'marco', 'Marco registrado: ' + label, c.tecnico, now);
+c.status = c.status === 'Liberado' ? c.status : c.status;
+renderMarcos(); syncHeader(); renderAuditoria();
+window.skipUI.toast(`${label} registrado às ${hh(now)}`, { type: 'success' });
+}
+
+// ---------- LACRES ----------
+function renderLacres() {
+const c = cur();
+const tbl = document.getElementById('lacresTable');
+if (!c.lacres.length) {
+tbl.innerHTML = '<tbody><tr><td class="muted-s">Nenhum lacre criado. Use "Adicionar lacre".</td></tr></tbody>';
+} else {
+tbl.innerHTML = `<thead><tr><th>Número</th><th>Tipo</th><th>Responsável</th><th>Horário</th><th>Destino</th></tr></thead><tbody>${c.lacres.map(l => `<tr><td class="mono">${esc(l.num)}</td><td>${esc(l.tipo)}</td><td>${esc(l.resp)}</td><td>${dt(l.hora)}</td><td>${esc(l.destino || '—')}</td></tr>`).join('')}</tbody>`;
+}
+const semDest = c.lacres.some(l => !l.destino);
+const selo = document.getElementById('selo');
+selo.className = 'seal ' + (semDest ? 'bad' : 'ok');
+selo.textContent = semDest ? '⚠ Lacre sem destino registrado' : '🔒 Custódia íntegra';
+
+const ch = document.getElementById('cadeia');
+if (!c.transfers.length) {
+ch.innerHTML = '<p class="muted-s">Nenhuma transferência registrada.</p>';
+} else {
+ch.innerHTML = c.transfers.map((t, i) => `<div class="tl-item" style="grid-template-columns:44px 1fr;">
+<div class="tl-ico teal">${i + 1}</div>
+<div class="tl-body"><div class="t">${esc(t.de)} → ${esc(t.para)}</div>
+<div class="m">Responsável: ${esc(t.resp)} · ${dt(t.hora)} · Assinatura: <span class="mono">${esc(t.assin)}</span></div>
+${t.obs ? `<div class="m">Obs.: ${esc(t.obs)}</div>` : ''}</div></div>`).join('');
+}
+}
+
+// ---------- RECEPÇÃO ----------
+function renderRecepcao() {
+const c = cur();
+document.getElementById('rAtena').value = c.recepcaoAtena || '';
+document.getElementById('lbProto').textContent = c.proto;
+document.getElementById('lbLacre').textContent = c.lacres[0] ? c.lacres[0].num : 'Sem lacre';
+document.getElementById('lbData').textContent = dt(c.entrada);
+renderQR();
+document.getElementById('nLegista').value = c.legista;
+document.getElementById('nIni').value = c.necropsia.ini;
+document.getElementById('nFim').value = c.necropsia.fim;
+const ac = document.getElementById('acionamentosNec');
+const rows = [];
+if (c.necropsia.papil) rows.push(`<div class="row between"><span>Papiloscopia acionada</span><span class="pill teal">${hh(c.necropsia.papil)}</span></div>`);
+if (c.necropsia.odont) rows.push(`<div class="row between"><span>Odontologia acionada</span><span class="pill teal">${hh(c.necropsia.odont)}</span></div>`);
+ac.innerHTML = rows.join('') || '<span class="muted-s">Nenhum acionamento de apoio registrado.</span>';
+document.querySelectorAll('[data-anth]').forEach(b => b.setAttribute('aria-pressed', String((b.dataset.anth === 'sim') === c.antropo)));
+document.getElementById('anthNote').textContent = c.antropo ? 'Indicação antropológica registrada: encaminhar para antropologia forense.' : 'Sem indicação antropológica para este caso.';
+}
+let qrObj = null;
+function renderQR() {
+const c = cur();
+const box = document.getElementById('qr-box');
+box.innerHTML = '';
+try {
+qrObj = new QRCode(box, { text: `TCI|${c.proto}|LAC:${c.lacres[0] ? c.lacres[0].num : 'NA'}|${dt(c.entrada)}`, width: 130, height: 130 });
+} catch (e) { box.textContent = 'QR indisponível'; }
+}
+
+// ---------- AUTO ----------
+function renderAuto() {
+const c = cur();
+document.getElementById('aLacres').innerHTML = c.lacres.length ? c.lacres.map(l => `<div class="row between" style="padding:8px 10px; background:#F4F8FA; border-radius:8px;"><span class="mono">${esc(l.num)}</span><span>${esc(l.tipo)}</span></div>`).join('') : '<span class="muted-s">Nenhum lacre cadastrado.</span>';
+const out = document.getElementById('autoOutput');
+if (c.auto) {
+out.innerHTML = autoCard(c);
+} else {
+out.innerHTML = '';
+}
+}
+function autoCard(c) {
+return `<div class="term" id="termoAuto">
+<div class="row between" style="flex-wrap:wrap; gap:10px;">
+<div><div class="muted-s">Instituto Médico Legal · POLITEC-MT</div><div style="font-size:1.3rem; font-weight:700; color:var(--primary);">AUTO DE ENTREGA DE CORPO</div></div>
+<span class="pill">Nº ${esc(c.auto.num)}</span>
+</div>
+<div class="lock mt-3">CUSTÓDIA ENCERRADA — A partir deste ato, a guarda do corpo é transferida a quem recebe.</div>
+<table>
+<tr><td>Data e hora</td><td>${dt(c.auto.data)}</td></tr>
+<tr><td>Corpo entregue</td><td>${esc(c.nome)} · Protocolo ${esc(c.proto)}</td></tr>
+<tr><td>Lacres entregues</td><td>${c.lacres.map(l => esc(l.num)).join(', ') || 'Nenhum'}</td></tr>
+<tr><td>Responsável pela liberação</td><td>${esc(c.auto.liberou)}</td></tr>
+<tr><td>Recebido por</td><td>${esc(c.auto.recebe)}</td></tr>
+<tr><td>Requisição</td><td>${esc(c.req)} · ${esc(c.aut)}</td></tr>
+</table>
+<div class="btn-row mt-3 no-print" style="justify-content:flex-end;"><button class="btn" data-variant="outline" id="btnPrintAuto">Imprimir (simulado)</button></div>
+</div>`;
+}
+
+// ---------- AUDITORIA ----------
+function buildEvents(c) {
+const ev = [];
+ev.push({ tipo: 'acionamento', ico: '📞', cls: '', titulo: 'Acionamento recebido pela ' + c.origem, resp: c.origem, when: c.acionado });
+const marcoIco = { saidaBase: '🚑', chegadaLocal: '📍', saidaLocal: '🚐', chegadaIml: '🏥' };
+MARCOS.forEach(m => { if (c.marcos[m.key]) ev.push({ tipo: 'marco', ico: marcoIco[m.key], cls: 'teal', titulo: 'Marco: ' + m.label, resp: c.tecnico, when: c.marcos[m.key] }); });
+c.lacres.forEach(l => ev.push({ tipo: 'lacre', ico: '🔒', cls: 'teal', titulo: `Lacre ${l.num} coletado (${l.tipo})`, resp: l.resp, when: l.hora }));
+c.transfers.forEach(t => ev.push({ tipo: 'custodia', ico: '🔁', cls: '', titulo: `Transferência: ${t.de} → ${t.para}`, resp: t.resp + ' · assinatura ' + t.assin, when: t.hora }));
+ev.push({ tipo: 'recepcao', ico: '🏥', cls: '', titulo: 'Recepção no IML · Atena ' + c.recepcaoAtena, resp: 'Recepção IML', when: c.entrada });
+if (c.necropsia.ini) ev.push({ tipo: 'necropsia', ico: '🩺', cls: '', titulo: `Necropsia (${c.necropsia.ini}–${c.necropsia.fim})`, resp: c.legista, when: at(2026, 3, 14, +c.necropsia.ini.split(':')[0], +c.necropsia.ini.split(':')[1]) });
+if (c.necropsia.papil) ev.push({ tipo: 'identificacao', ico: '🖐', cls: 'amber', titulo: 'Papiloscopia acionada', resp: c.legista, when: c.necropsia.papil });
+if (c.necropsia.odont) ev.push({ tipo: 'identificacao', ico: '🦷', cls: 'amber', titulo: 'Odontologia acionada', resp: c.legista, when: c.necropsia.odont });
+if (c.antropo) ev.push({ tipo: 'antropologia', ico: '🦴', cls: 'amber', titulo: 'Indicação antropológica registrada', resp: c.legista, when: c.entrada });
+if (c.auto) ev.push({ tipo: 'auto', ico: '📄', cls: 'red', titulo: `Auto de entrega ${c.auto.num} emitido — custódia encerrada`, resp: `${c.auto.liberou} → ${c.auto.recebe}`, when: c.auto.data });
+c.audit.forEach(a => ev.push({ tipo: a.tipo, ico: a.tipo === 'marco' ? '⏱' : '✎', cls: '', titulo: a.titulo, resp: a.resp, when: a.when, extra: true }));
+return ev.sort((a, b) => a.when - b.when);
+}
+const AUDIT_TYPES = [
+{ k: 'Todos', l: 'Todos' },
+{ k: 'acionamento', l: 'Acionamento' },
+{ k: 'marco', l: 'Marcos' },
+{ k: 'lacre', l: 'Lacres' },
+{ k: 'custodia', l: 'Transferências' },
+{ k: 'recepcao', l: 'Recepção' },
+{ k: 'necropsia', l: 'Necropsia' },
+{ k: 'identificacao', l: 'Identificação' },
+{ k: 'auto', l: 'Auto de entrega' }
+];
+function renderAuditoria() {
+const c = cur();
+document.getElementById('auditFilters').innerHTML = AUDIT_TYPES.map(t => `<button class="chip" data-audit="${t.k}" aria-pressed="${t.k === auditFilter}">${t.l}</button>`).join('');
+const evs = buildEvents(c).filter(e => auditFilter === 'Todos' || e.tipo === auditFilter || (auditFilter === 'identificacao' && e.tipo === 'antropologia'));
+document.getElementById('timeline').innerHTML = evs.length ? evs.map(e => `<div class="tl-item">
+<div class="tl-ico ${e.cls}">${e.ico}</div>
+<div class="tl-body"><div class="t">${esc(e.titulo)}</div><div class="m">${esc(e.resp)} · ${dt(e.when)}</div></div>
+</div>`).join('') : '<p class="muted-s">Nenhum evento deste tipo.</p>';
+}
+
+// ---------- NAV ----------
+let currentScreen = 'painel';
+function go(id) {
+currentScreen = id;
+document.querySelectorAll('.screen').forEach(s => s.classList.toggle('active', s.id === 'screen-' + id));
+document.querySelectorAll('[data-nav]').forEach(b => b.setAttribute('aria-current', b.dataset.nav === id ? 'page' : 'false'));
+if (id === 'painel') renderPainel();
+if (id === 'acionamento') setStep(1);
+if (id === 'marcos') renderMarcos();
+if (id === 'lacres') renderLacres();
+if (id === 'recepcao') renderRecepcao();
+if (id === 'auto') renderAuto();
+if (id === 'auditoria') renderAuditoria();
+window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+function buildNav() {
+const d = document.getElementById('navDesktop');
+const m = document.getElementById('navMobile');
+d.innerHTML = SCREENS.map(s => `<button class="nav-btn" data-nav="${s.id}"><span class="ico" aria-hidden="true">${s.icon}</span>${s.label}</button>`).join('');
+m.innerHTML = SCREENS.map(s => `<button data-nav="${s.id}"><span class="ico" aria-hidden="true">${s.icon}</span>${s.label}</button>`).join('');
+}
+
+function bindEvents() {
+document.body.addEventListener('click', (e) => {
+const nav = e.target.closest('[data-nav]');
+if (nav) { go(nav.dataset.nav); return; }
+
+const cs = e.target.closest('[data-case]');
+if (cs) { activeIdx = +cs.dataset.case; syncHeader(); window.skipUI.toast(`Caso ${cur().proto} selecionado`); go('painel'); renderPainel(); return; }
+
+const f = e.target.closest('[data-filter]');
+if (f) { filterStatus = f.dataset.filter; renderPainel(); return; }
+
+const af = e.target.closest('[data-audit]');
+if (af) { auditFilter = af.dataset.audit; renderAuditoria(); return; }
+
+const mk = e.target.closest('[data-marco]');
+if (mk && !mk.disabled) { registerMarco(mk.dataset.marco); return; }
+
+const an = e.target.closest('[data-anth]');
+if (an) { cur().antropo = an.dataset.anth === 'sim'; renderRecepcao(); window.skipUI.toast('Indicação antropológica atualizada'); return; }
+
+if (e.target.id === 'btnPrintAuto') { window.print(); return; }
+});
+document.body.addEventListener('keydown', (e) => {
+if ((e.key === 'Enter' || e.key === ' ') && e.target.matches('.list-item[data-case]')) { e.preventDefault(); e.target.click(); }
+});
+
+document.getElementById('caseSelect').addEventListener('change', (e) => {
+activeIdx = +e.target.value; syncHeader(); renderPainel(); renderMarcos(); renderLacres(); renderRecepcao(); renderAuto(); renderAuditoria();
+window.skipUI.toast('Caso ativo: ' + cur().proto);
+});
+
+document.getElementById('btnExportPainel').addEventListener('click', () => {
+window.skipUI.toast('Lista de casos copiada para a área de transferência');
+const txt = CASES.map(c => `${c.proto}\t${c.nome}\t${c.status}\t${diasParado(c)} dias`).join('\n');
+if (navigator.clipboard) navigator.clipboard.writeText(txt).catch(() => {});
+});
+document.getElementById('btnNovoCaso').addEventListener('click', () => {
+const n = 'TCI-2026-' + String(CASES.length + 1).padStart(4, '0');
+const c = newCase({ proto: n, nome: 'Não identificado (em triagem)', status: 'Em custódia', acionado: new Date(), entrada: new Date(), marcos: {}, lacres: [], transfers: [], necropsia: { ini: null, fim: null, papil: null, odont: null }, local: '', req: '', del: '', aut: '', legista: 'A definir', tecnico: 'J. Almeida' });
+CASES.push(c); activeIdx = CASES.length - 1;
+syncHeader(); go('acionamento');
+window.skipUI.toast('Novo caso ' + n + ' iniciado', { type: 'success' });
+});
+
+// Acionamento wizard
+document.getElementById('btnNextA').addEventListener('click', () => { setStep(2); });
+document.getElementById('btnBackB').addEventListener('click', () => setStep(1));
+document.getElementById('btnNextB').addEventListener('click', () => {
+if (!document.getElementById('fNome').value.trim()) { window.skipUI.toast('Informe ao menos um nome provisório', { type: 'error' }); return; }
+setStep(3);
+});
+document.getElementById('btnBackC').addEventListener('click', () => setStep(2));
+document.getElementById('btnScan').addEventListener('click', () => {
+const box = document.getElementById('scanBox');
+box.innerHTML = '<span class="pill teal">Captura simulada concluída</span> documento_vitima_2026.jpg anexado.';
+document.getElementById('fDoc').value = document.getElementById('fDoc').value || 'RG 1234567 SSP-MT';
+window.skipUI.toast('Documento escaneado e anexado', { type: 'success' });
+});
+document.getElementById('btnSalvarCaso').addEventListener('click', () => {
+const c = cur();
+const nome = document.getElementById('fNome').value.trim();
+const data = new Date(document.getElementById('fDataHora').value || Date.now());
+c.nome = nome || c.nome;
+c.doc = document.getElementById('fDoc').value;
+c.sexo = document.getElementById('fSexo').value;
+c.idade = document.getElementById('fIdade').value;
+c.natureza = document.getElementById('fNatureza').value;
+c.origem = document.getElementById('fOrigem').value;
+c.municipio = document.getElementById('fMunicipio').value;
+c.local = document.getElementById('fLocal').value;
+c.acionado = data;
+c.req = document.getElementById('fReq').value;
+c.del = document.getElementById('fDel').value;
+c.aut = document.getElementById('fAut').value;
+logAudit(c, 'acionamento', 'Caso cadastrado no registro local', 'Equipe de campo', new Date());
+syncHeader(); go('painel');
+window.skipUI.toast('Caso ' + c.proto + ' salvo', { type: 'success' });
+});
+
+// Lacres
+document.getElementById('btnAddLacre').addEventListener('click', () => {
+document.getElementById('lacreForm').hidden = !document.getElementById('lacreForm').hidden;
+});
+document.getElementById('btnConfirmLacre').addEventListener('click', () => {
+const c = cur();
+const n = 'LAC-2026-' + String(c.lacres.length + 1).padStart(4, '0');
+const hora = new Date();
+const destino = document.getElementById('lDest').value;
+c.lacres.push({ num: n, tipo: document.getElementById('lTipo').value, resp: document.getElementById('lResp').value, hora, destino });
+logAudit(c, 'lacre', `Lacre ${n} criado (${document.getElementById('lTipo').value})`, document.getElementById('lResp').value, hora);
+document.getElementById('lacreForm').hidden = true;
+renderLacres(); renderAuditoria(); syncHeader();
+window.skipUI.toast(`Lacre ${n} gerado`, { type: 'success' });
+});
+document.getElementById('btnTransfer').addEventListener('click', () => document.getElementById('dlgTransfer').showModal());
+document.getElementById('btnConfirmTransfer').addEventListener('click', () => {
+const c = cur();
+const dest = document.getElementById('tDest').value;
+const resp = document.getElementById('tResp').value.trim() || 'Não informado';
+const obs = document.getElementById('tObs').value.trim();
+const hora = new Date();
+const assin = 'AS-' + Math.floor(1000 + Math.random() * 9000);
+const origem = c.transfers.length ? c.transfers[c.transfers.length - 1].para : 'Sala de Coleta IML';
+c.transfers.push({ de: origem, para: dest, resp, hora, assin, obs });
+c.lacres.forEach(l => { if (!l.destino) l.destino = dest; });
+logAudit(c, 'custodia', `Custódia transferida para ${dest}`, resp, hora);
+document.getElementById('dlgTransfer').close();
+document.getElementById('tObs').value = '';
+renderLacres(); renderAuditoria(); syncHeader();
+window.skipUI.toast('Custódia transferida e registrada na trilha', { type: 'success' });
+});
+
+// Recepção
+document.getElementById('btnImprimirEtiqueta').addEventListener('click', () => window.print());
+document.getElementById('btnPapil').addEventListener('click', () => {
+const c = cur();
+if (c.necropsia.papil) { window.skipUI.toast('Papiloscopia já acionada'); return; }
+c.necropsia.papil = new Date(); logAudit(c, 'identificacao', 'Papiloscopia acionada', c.legista, c.necropsia.papil);
+renderRecepcao(); renderAuditoria(); window.skipUI.toast('Papiloscopia acionada às ' + hh(c.necropsia.papil), { type: 'success' });
+});
+document.getElementById('btnOdont').addEventListener('click', () => {
+const c = cur();
+if (c.necropsia.odont) { window.skipUI.toast('Odontologia já acionada'); return; }
+c.necropsia.odont = new Date(); logAudit(c, 'identificacao', 'Odontologia acionada', c.legista, c.necropsia.odont);
+renderRecepcao(); renderAuditoria(); window.skipUI.toast('Odontologia acionada às ' + hh(c.necropsia.odont), { type: 'success' });
+});
+
+// Auto de entrega
+document.getElementById('btnEmitirAuto').addEventListener('click', () => {
+const c = cur();
+const nome = document.getElementById('aNome').value.trim();
+if (!nome) { window.skipUI.toast('Informe quem retira o corpo', { type: 'error' }); return; }
+if (c.auto) { window.skipUI.toast('Auto já emitido para este caso', { type: 'error' }); return; }
+const now = new Date();
+const num = 'AE-2026-' + String(CASES.filter(x => x.auto).length + 19).padStart(4, '0');
+c.auto = { num, data: now, recebe: nome + ' (' + document.getElementById('aVinc').value + ')', liberou: c.legista };
+c.status = 'Liberado';
+logAudit(c, 'auto', `Auto de entrega ${num} emitido`, c.legista, now);
+renderAuto(); renderAuditoria(); syncHeader();
+window.skipUI.toast('Auto de entrega emitido. Custódia encerrada.', { type: 'success', title: 'Custódia encerrada' });
+});
+
+// Dialog keyboard
+document.getElementById('dlgTransfer').addEventListener('click', (e) => { if (e.target.id === 'dlgTransfer') e.target.close(); });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+buildNav();
+bindEvents();
+syncHeader();
+renderPainel();
+renderMarcos();
+renderLacres();
+renderRecepcao();
+renderAuto();
+renderAuditoria();
+go('painel');
+});
+})();
+</script>
+<script type="module" src="./TCI · Trilha de Custódia e Identificação_files/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;7004b19d732d43b298810595cc4050b1&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
+
+
+<div class="toaster"></div></body></html>

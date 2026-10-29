@@ -31,10 +31,16 @@ MAPA = {
     "leticia": ("Letícia", "comissao-etica-denuncias"),
     "rodrigo": ("Rodrigo Neves Ribeiro", "renovacao-contratos-horus"),
     "sabrina": ("Sabrina Ellen", "rnc-nao-conformidade"),
-    "silmara": ("Silmara", None),
+    "silmara": ("Silmara Bueno", "trilha-custodia-necropsia"),
     "thiago": ("Thiago", "comissao-etica-denuncias"),
     "francis": ("Francis Souza", None),
     "iohan": ("Iohan Camões de Albuquerque", "horus-banco-demandas"),
+    "aline": ("Aline Xavier dos Passos", "documentapolitec"),
+    "fabio": ("Fábio", "passivo-ambiental"),
+    "kasteline": ("Kasteline Gonçalves", "controle-aquisicoes"),
+    "diego": ("Diego Costa", "agiliza-mais"),
+    "vitória": ("Vitória Araújo Dias", "gestao-documentos"),
+    "vitoria": ("Vitória Araújo Dias", "gestao-documentos"),
 }
 
 
@@ -81,21 +87,27 @@ def main():
     total = len(linhas)
     n_pbix = sum(1 for x in linhas if x[0].lower().endswith(".pbix"))
     n_pbip = total - n_pbix
+    copias = [x[0] for x in linhas if "copia" in x[0].lower()]
+    alunos_com_bi = {x[1] for x in linhas if x[1] != "a identificar"}
+    todos = [a["nome"] for d in EQUIPES["apps"].values() for a in d["alunos"]]
+    sem_bi = [n for n in todos if n.split()[0] not in {a.split()[0] for a in alunos_com_bi}]
     txt = ["# Entregas de BI · Aula 7/8", "",
            "Trabalhos de Power BI entregues pela turma. O índice é gerado por",
            "`gerar_indice.py`, que lê as páginas e os visuais de cada `.pbix` (zip) e de",
            "cada projeto `.pbip`, sem abrir o Power BI.", "",
-           f"**{total} trabalhos** ({n_pbix} `.pbix`, {n_pbip} `.pbip`).", "",
-           "| Arquivo | Aluno | App relacionado | Tamanho | Páginas | Visuais | Páginas do relatório |",
-           "|---|---|---|---:|---:|---:|---|"]
+           f"**{total} trabalhos** ({n_pbix} `.pbix`, {n_pbip} `.pbip`), de {len(alunos_com_bi)} alunos.", "",
+           "| Arquivo | Aluno | App relacionado | Tamanho | Páginas | Visuais | Páginas do relatório | Obs. |",
+           "|---|---|---|---:|---:|---:|---|---|"]
     for nome, aluno, app, tam, npag, vis, nomes, erro in linhas:
-        txt.append(f"| `{nome}` | {aluno} | {('`' + app + '`') if app else '—'} | {tam} | {npag} | {vis or '—'} | {nomes or (erro or '—')} |")
-    txt += ["", "## O que falta nesta pasta", "",
-            "- **Silmara** entregou BI e não aparece em nenhuma equipe do formulário (`Apps/equipes.json`); confirmar o projeto.",
-            "- **Francis Souza** entregou o projeto `.pbip` (Painel Gargalo Ouvidoria) e ainda não tem app vinculado.",
-            "- Os arquivos são binários e grandes; nenhum está publicado no site. Se forem publicados, precisam de uma página de índice e de autorização dos alunos.",
+        obs = "cópia" if "copia" in nome.lower() else ""
+        txt.append(f"| `{nome}` | {aluno} | {('`' + app + '`') if app else '—'} | {tam} | {npag} | {vis or '—'} | {nomes or (erro or '—')} | {obs} |")
+    txt += ["", "## O que falta nesta pasta", ""]
+    if copias:
+        txt.append(f"- **{len(copias)} arquivo(s) marcados como cópia**: conferir qual é a versão final e arquivar a outra. " + ", ".join(f"`{c}`" for c in copias[:6]) + ("…" if len(copias) > 6 else ""))
+    txt += ["- **Francis Souza** entregou o projeto `.pbip` (Painel Gargalo Ouvidoria) e ainda não tem app vinculado.",
+            "- Os arquivos são binários e grandes; nenhum está publicado no site. Se forem publicados, precisam de autorização dos alunos.",
             "- A avaliação de conteúdo (medidas, modelagem, narrativa) não é feita por este índice; ele só descreve o que existe.",
-            "- Alunos sem entrega de BI nesta pasta: Diego Costa, Glauce, Danielle, Aline, Kasteline, Fábio, Vitória e Luciana não aparecem (ou aparecem por outro nome).",
+            f"- Alunos sem entrega de BI nesta pasta: {', '.join(sem_bi) if sem_bi else 'nenhum'}.",
             "", "Gerar de novo: `python \"Aula 8/Entregas BI/gerar_indice.py\"`.", ""]
     (AQUI / "README.md").write_text("\n".join(txt), encoding="utf-8")
     print(f"README.md: {total} trabalhos")

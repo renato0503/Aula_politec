@@ -164,7 +164,7 @@ exceção é o `agendamento-cin`, servido pelo Google Apps Script.
 | Situação (29/10/2026) | Apps |
 |---|---|
 | Sprints 1, 2 e 3 | adiantamento, agendamento-cin, agiliza-mais, cin-segunda-via, comissao-etica-denuncias, equipamentos-google-earth, horus-banco-demandas, inscricoes-cursos, mapa-distribuicao-credor, metas-bi-ocr, rnc-nao-conformidade, tap-portfolio-projetos |
-| Sprints 1 e 2 | custodia-definitiva, passivo-ambiental, renovacao-contratos-horus, documentapolitec, gestao-documentos, controle-aquisicoes, distribuicao-casos-dna |
+| Sprints 1 e 2 | custodia-definitiva, passivo-ambiental, renovacao-contratos-horus, documentapolitec, gestao-documentos, controle-aquisicoes, distribuicao-casos-dna, trilha-custodia-necropsia |
 
 A base comum fica em `Apps/_base/`: `base.html` (tema, rotas, IndexedDB, perfis,
 backup e `#/testes`), `construir.py` (gera o `index.html`), `embutir.py`,
@@ -193,7 +193,7 @@ Aula Politec/
 ├── validar.py             ← checa secoes x TOC x h2, tema, erros de console
 ├── gerar_datasets_estrela.py ← monta o modelo estrela (fato_*/dim_*) nas Aulas 2, 3 e 4
 ├── Aula 1/ … Aula 8/      ← uma pasta por aula
-├── Apps/                  ← mini apps dos grupos (19 projetos, HTML único)
+├── Apps/                  ← mini apps dos grupos (20 projetos, HTML único)
 ```
 
 ---
