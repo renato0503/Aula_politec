@@ -1,0 +1,854 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: blob:; connect-src 'none'; img-src 'self' data: blob:; media-src 'self' blob: mediastream:; worker-src blob:">
+<title>TAP Digital</title>
+<meta name="description" content="TAP guiado com checklist de documentos, triagem pela equipe e Portfólio de Projetos Estratégicos.">
+<style>
+/* ===================================================================
+   BASE COMUM DOS APPS (Apps/_base/base.html)
+   Tema, layout, componentes. O CSS do app fica no fim deste bloco.
+   =================================================================== */
+:root{
+  --bg:#f6f7f9; --painel:#ffffff; --ink:#1c2430; --ink2:#5b6676; --linha:#dde2e9;
+  --accent:#1f5fae; --accent-ink:#ffffff; --verde:#1d7a46; --ambar:#a86500; --vermelho:#b42318;
+  --sombra:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.10);
+  --raio:10px; --mono:ui-monospace,SFMono-Regular,Consolas,monospace;
+  --ui:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#11161d; --painel:#1a212b; --ink:#e6eaf0; --ink2:#a3adbb; --linha:#2c3542;
+    --accent:#6ea8ff; --accent-ink:#0b1220; --verde:#4cc283; --ambar:#f0b44c; --vermelho:#ff7b72;
+    --sombra:none; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11161d; --painel:#1a212b; --ink:#e6eaf0; --ink2:#a3adbb; --linha:#2c3542;
+  --accent:#6ea8ff; --accent-ink:#0b1220; --verde:#4cc283; --ambar:#f0b44c; --vermelho:#ff7b72;
+  --sombra:none; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--ui)}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.topo{background:var(--painel);border-bottom:1px solid var(--linha);position:sticky;top:0;z-index:5}
+.topo-in{max-width:1200px;margin:0 auto;padding:10px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.marca{font-weight:700;font-size:17px;margin-right:auto}
+.marca small{display:block;font-weight:400;font-size:12px;color:var(--ink2)}
+.aviso-topo{background:var(--accent);color:var(--accent-ink);font-size:13px;text-align:center;padding:4px 16px}
+nav.menu{max-width:1200px;margin:0 auto;padding:0 16px 8px;display:flex;gap:4px;flex-wrap:wrap}
+nav.menu a{padding:6px 10px;border-radius:8px;text-decoration:none;color:var(--ink2);font-size:14px}
+nav.menu a[aria-current="page"]{background:var(--accent);color:var(--accent-ink)}
+main{max-width:1200px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:22px;margin:0 0 4px} h2{font-size:18px;margin:24px 0 8px}
+.sub{color:var(--ink2);margin:0 0 16px}
+.card{background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio);padding:16px;box-shadow:var(--sombra);margin-bottom:16px}
+.grade{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.kpi .v{font-size:26px;font-weight:700} .kpi .r{color:var(--ink2);font-size:13px}
+button,.botao{font:inherit;border:1px solid var(--linha);background:var(--painel);color:var(--ink);padding:7px 12px;border-radius:8px;cursor:pointer}
+button.prim,.botao.prim{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+button.perigo{border-color:var(--vermelho);color:var(--vermelho)}
+button:disabled{opacity:.5;cursor:not-allowed}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--linha);border-radius:8px;padding:7px 9px;width:100%}
+label{display:block;font-size:13px;color:var(--ink2);margin:10px 0 4px}
+.linha-botoes{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tabela-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--linha);vertical-align:top}
+th{color:var(--ink2);font-weight:600}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.selo{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;border:1px solid currentColor}
+.selo.ok{color:var(--verde)} .selo.alerta{color:var(--ambar)} .selo.erro{color:var(--vermelho)} .selo.info{color:var(--accent)}
+.vazio{color:var(--ink2);text-align:center;padding:28px}
+.campos{display:grid;gap:0 16px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.campo small{display:block;margin-top:2px}
+.ok-txt{color:var(--verde)} .erro-txt{color:var(--vermelho)} .alerta-txt{color:var(--ambar)}
+.pendente{border-left:4px solid var(--ambar)}
+code,.mono{font-family:var(--mono);font-size:13px}
+#toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;display:none;z-index:20;max-width:90vw}
+@media (max-width:640px){ .marca{font-size:15px} main{padding:16px 16px 48px} }
+@media print{ .topo,nav.menu,#toast,.nao-imprimir{display:none!important} body{background:#fff;color:#000} .card{box-shadow:none;break-inside:avoid} }
+/* ===== CSS DO APP ===== */
+
+</style>
+</head>
+<body>
+<header class="topo">
+  
+  <div class="topo-in">
+    <div class="marca">TAP Digital<small>Termo de Abertura de Projeto e Portfólio de Projetos Estratégicos</small></div>
+    <span id="perfilAtual" class="selo info" hidden></span>
+    <button id="btnTema" type="button" aria-label="Alternar tema claro e escuro">Tema</button>
+  </div>
+  <nav class="menu" id="menu" aria-label="Telas do app"></nav>
+</header>
+<main id="conteudo" tabindex="-1"></main>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<!-- Bibliotecas e dados embutidos (preenchidos por Apps/_base/embutir.py) -->
+<!-- DADOS:seed:exemplos/seed.json -->
+<script type="application/json" id="seed">{"propostas":[{"id":"TAP-2026-001","titulo":"Ampliação do laboratório de DNA","unidade":"Laboratório de Genética Forense","responsavel":"Responsável Fictício 1","contato":"responsavel1@exemplo.gov.br","objetivo":"Ampliação do laboratório de DNA para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Reduzir o tempo de emissão de laudos","valor_estimado":2400000,"prazo_meses":24,"status":"aprovada","enviado_em":"2026-08-03","documentos":{"pesquisa_precos":true,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-002","titulo":"Digitalização do arquivo de identificação","unidade":"Identificação Civil","responsavel":"Responsável Fictício 2","contato":"responsavel2@exemplo.gov.br","objetivo":"Digitalização do arquivo de identificação para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Modernizar a infraestrutura das unidades","valor_estimado":380000,"prazo_meses":18,"status":"aprovada","enviado_em":"2026-08-12","documentos":{"pesquisa_precos":true,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-003","titulo":"Reforma do IML de Sinop","unidade":"Regional Sinop","responsavel":"Responsável Fictício 3","contato":"responsavel3@exemplo.gov.br","objetivo":"Reforma do IML de Sinop para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Ampliar a capacidade dos laboratórios","valor_estimado":1150000,"prazo_meses":18,"status":"devolvida","enviado_em":"2026-08-21","documentos":{"pesquisa_precos":false,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-004","titulo":"Capacitação em perícia digital","unidade":"Informática Forense","responsavel":"Responsável Fictício 4","contato":"responsavel4@exemplo.gov.br","objetivo":"Capacitação em perícia digital para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Fortalecer a identificação civil","valor_estimado":95000,"prazo_meses":12,"status":"em triagem","enviado_em":"2026-08-30","documentos":{"pesquisa_precos":true,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-005","titulo":"Frota de viaturas para local de crime","unidade":"Criminalística","responsavel":"Responsável Fictício 5","contato":"responsavel5@exemplo.gov.br","objetivo":"Frota de viaturas para local de crime para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Qualificar os servidores","valor_estimado":1600000,"prazo_meses":24,"status":"em análise","enviado_em":"2026-09-08","documentos":{"pesquisa_precos":true,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-006","titulo":"Sistema de gestão de vestígios","unidade":"Central de Custódia","responsavel":"Responsável Fictício 6","contato":"responsavel6@exemplo.gov.br","objetivo":"Sistema de gestão de vestígios para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"Justificativa curta.","objetivo_estrategico":"Reduzir o tempo de emissão de laudos","valor_estimado":520000,"prazo_meses":24,"status":"rascunho","enviado_em":null,"documentos":{"pesquisa_precos":true,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-007","titulo":"Energia solar nas regionais","unidade":"DAS","responsavel":"Responsável Fictício 7","contato":"responsavel7@exemplo.gov.br","objetivo":"Energia solar nas regionais para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Modernizar a infraestrutura das unidades","valor_estimado":870000,"prazo_meses":6,"status":"devolvida","enviado_em":"2026-09-26","documentos":{"pesquisa_precos":false,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-008","titulo":"Câmara fria para o IML de Cuiabá","unidade":"IML Cuiabá","responsavel":"Responsável Fictício 8","contato":"responsavel8@exemplo.gov.br","objetivo":"Câmara fria para o IML de Cuiabá para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Ampliar a capacidade dos laboratórios","valor_estimado":310000,"prazo_meses":18,"status":"aprovada","enviado_em":"2026-10-05","documentos":{"pesquisa_precos":true,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}}],"pendencias":[{"id":"TAP-2026-003-P1","proposta_id":"TAP-2026-003","motivo":"Pesquisa de preços ausente","aberta_em":"2026-08-23","resolvida_em":null},{"id":"TAP-2026-007-P1","proposta_id":"TAP-2026-007","motivo":"Pesquisa de preços ausente","aberta_em":"2026-09-28","resolvida_em":null}],"decisoes":[{"id":"TAP-2026-001-D1","proposta_id":"TAP-2026-001","tipo":"aprovação","texto":"Aprovado pela instância competente (fictício).","autor":"Autoridade fictícia","data":"2026-08-23"},{"id":"TAP-2026-002-D1","proposta_id":"TAP-2026-002","tipo":"aprovação","texto":"Aprovado pela instância competente (fictício).","autor":"Autoridade fictícia","data":"2026-09-01"},{"id":"TAP-2026-008-D1","proposta_id":"TAP-2026-008","tipo":"aprovação","texto":"Aprovado pela instância competente (fictício).","autor":"Autoridade fictícia","data":"2026-10-25"}],"portfolio":[{"proposta_id":"TAP-2026-001","prioridade":1,"justificativa_prioridade":"Critério fictício de impacto e urgência.","fonte_recurso":"Tesouro estadual","situacao_captacao":"em prospecção"},{"proposta_id":"TAP-2026-002","prioridade":2,"justificativa_prioridade":"Critério fictício de impacto e urgência.","fonte_recurso":"Emenda parlamentar","situacao_captacao":"em prospecção"},{"proposta_id":"TAP-2026-008","prioridade":3,"justificativa_prioridade":"Critério fictício de impacto e urgência.","fonte_recurso":"Convênio federal","situacao_captacao":"em prospecção"}],"documentos":[{"tipo":"pesquisa_precos","nome":"Pesquisa de preços (mínimo 3 orçamentos)","obrigatorio":true},{"tipo":"estudo_tecnico","nome":"Estudo técnico preliminar","obrigatorio":true},{"tipo":"anuencia_chefia","nome":"Anuência da chefia da unidade","obrigatorio":true},{"tipo":"cronograma","nome":"Cronograma físico-financeiro","obrigatorio":false},{"tipo":"fotos","nome":"Fotos ou evidências da necessidade","obrigatorio":false}]}</script>
+<!-- /DADOS:seed -->
+
+<script>
+/* ===================================================================
+   BASE COMUM DOS APPS
+   util · db (IndexedDB) · roteador · tema · backup · perfis
+   =================================================================== */
+"use strict";
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => Array.from(el.querySelectorAll(s));
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : "id-" + Date.now().toString(36) + Math.random().toString(36).slice(2));
+const agora = () => new Date().toISOString();
+const dataBR = iso => iso ? new Date(iso).toLocaleString("pt-BR") : "";
+
+function toast(msg, ms=3200){
+  const t = $("#toast"); t.textContent = msg; t.style.display = "block";
+  clearTimeout(toast._t); toast._t = setTimeout(()=>{ t.style.display = "none"; }, ms);
+}
+function baixar(nome, conteudo, tipo="application/octet-stream"){
+  const blob = conteudo instanceof Blob ? conteudo : new Blob([conteudo], {type: tipo});
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = nome;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+}
+function lerArquivoTexto(file){
+  return new Promise((ok, erro)=>{ const r = new FileReader(); r.onload = ()=>ok(r.result); r.onerror = erro; r.readAsText(file); });
+}
+function dadosEmbutidos(id){
+  const el = document.getElementById(id);
+  return el && el.textContent.trim() ? JSON.parse(el.textContent) : null;
+}
+function lerArrayBuffer(file){
+  return new Promise((ok, erro)=>{ const r = new FileReader(); r.onload = ()=>ok(r.result); r.onerror = erro; r.readAsArrayBuffer(file); });
+}
+// sem acento, minúsculo, espaços simples: para casar nomes de colunas, setores e unidades
+const normalizar = s => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+const hojeISO = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); };
+const dataCurtaBR = iso => iso ? iso.slice(0, 10).split("-").reverse().join("/") : "";
+// "29/10/2026", "29/10/2026 09:15:00", "2026-10-29" -> "2026-10-29" (ou com hora: "2026-10-29T09:15:00")
+function dataDeTexto(t){
+  const s = String(t ?? "").trim();
+  let m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);
+  if (m){ const d = `${m[3]}-${m[2].padStart(2, "0")}-${m[1].padStart(2, "0")}`; return m[4] ? `${d}T${m[4].padStart(2, "0")}:${m[5]}:${m[6] || "00"}` : d; }
+  m = s.match(/^(\d{4})-(\d{2})-(\d{2})(T[\d:]+)?/);
+  return m ? m[0] : null;
+}
+
+/* ---------- dinheiro em centavos inteiros (sem erro de arredondamento) ---------- */
+const dinheiro = {
+  // "1.234,56" · "R$ 1.234,5" · "1234.56" · 12.5 -> centavos. Arredonda meio para cima na 3ª casa.
+  de(v){
+    if (v === null || v === undefined || v === "") return null;
+    if (typeof v === "number") return Math.round(v * 100);
+    let s = String(v).trim().replace(/^R\$\s*/, "").replace(/\s/g, "");
+    const neg = s.startsWith("-"); s = s.replace(/^-/, "");
+    if (s.includes(",")) s = s.replace(/\./g, "").replace(",", ".");
+    else if (/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g, "");
+    const [i, d = ""] = s.split(".");
+    if (!/^\d+$/.test(i) || !/^\d*$/.test(d)) return NaN;
+    const c = Number(i) * 100 + Number((d + "00").slice(0, 2)) + (Number(d[2] || 0) >= 5 ? 1 : 0);
+    return neg ? -c : c;
+  },
+  // 123456 -> "R$ 1.234,56"
+  fmt(c){
+    if (c === null || c === undefined || Number.isNaN(c)) return "";
+    const neg = c < 0; c = Math.abs(c);
+    return (neg ? "-" : "") + "R$ " + Math.floor(c / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "," + String(c % 100).padStart(2, "0");
+  },
+  // quantidade (até 3 casas) × valor unitário em centavos, arredondado a 2 casas
+  vezes(qtd, c){ const q = Math.round(qtd * 1000); return Math.floor((q * c + 500) / 1000); },
+  // divide um total em centavos pelos pesos, sem perder centavo (maiores restos)
+  ratear(total, pesos){
+    const soma = pesos.reduce((a, b)=>a + b, 0); if (!soma) return pesos.map(()=>0);
+    const base = pesos.map(p=>Math.floor(total * p / soma)); const falta = total - base.reduce((a, b)=>a + b, 0);
+    pesos.map((p, i)=>({i, r: total * p / soma - base[i]})).sort((a, b)=>b.r - a.r).slice(0, falta).forEach(x=>base[x.i]++);
+    return base;
+  }
+};
+
+/* ---------- documentos ---------- */
+function cpfValido(v){
+  const d = String(v || "").replace(/\D/g, "");
+  if (d.length !== 11 || /^(\d)\1{10}$/.test(d)) return false;
+  for (const t of [9, 10]){
+    let s = 0; for (let i = 0; i < t; i++) s += Number(d[i]) * (t + 1 - i);
+    if (((s * 10) % 11) % 10 !== Number(d[t])) return false;
+  }
+  return true;
+}
+function cnpjValido(v){
+  const d = String(v || "").replace(/\D/g, "");
+  if (d.length !== 14 || /^(\d)\1{13}$/.test(d)) return false;
+  const dv = n => { const pesos = n === 12 ? [5,4,3,2,9,8,7,6,5,4,3,2] : [6,5,4,3,2,9,8,7,6,5,4,3,2];
+    const s = pesos.reduce((a, p, i)=>a + Number(d[i]) * p, 0) % 11; return s < 2 ? 0 : 11 - s; };
+  return dv(12) === Number(d[12]) && dv(13) === Number(d[13]);
+}
+
+/* ---------- CSV: separador detectado (; , ou tab), aspas, BOM ---------- */
+function lerCSV(texto){
+  texto = String(texto).replace(/^﻿/, "");
+  const primeira = texto.split(/\r?\n/, 1)[0];
+  const sep = [";", "\t", ","].map(c=>[c, primeira.split(c).length]).sort((a, b)=>b[1] - a[1])[0][0];
+  const linhas = []; let linha = [], campo = "", aspas = false;
+  for (let i = 0; i < texto.length; i++){
+    const c = texto[i];
+    if (aspas){
+      if (c === '"' && texto[i + 1] === '"'){ campo += '"'; i++; }
+      else if (c === '"') aspas = false; else campo += c;
+    } else if (c === '"') aspas = true;
+    else if (c === sep){ linha.push(campo); campo = ""; }
+    else if (c === "\n" || c === "\r"){
+      if (c === "\r" && texto[i + 1] === "\n") i++;
+      linha.push(campo); campo = ""; if (linha.some(x=>x !== "")) linhas.push(linha); linha = [];
+    } else campo += c;
+  }
+  linha.push(campo); if (linha.some(x=>x !== "")) linhas.push(linha);
+  return linhas;
+}
+// sugere, para cada campo, a coluna do cabeçalho cujo nome contém um dos sinônimos
+function sugerirColunas(cabecalho, sinonimos){
+  const cab = cabecalho.map(normalizar), out = {};
+  for (const [campo, lista] of Object.entries(sinonimos)){
+    const i = cab.findIndex(c=>lista.some(s=>c === normalizar(s))) ;
+    const j = i >= 0 ? i : cab.findIndex(c=>lista.some(s=>c.includes(normalizar(s))));
+    out[campo] = j;
+  }
+  return out;
+}
+
+/* ---------- imagem: reduz no navegador antes de guardar ---------- */
+function reduzirImagem(fonte, max=1280, qualidade=0.75){
+  return new Promise((ok, erro)=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const k = Math.min(1, max / Math.max(img.width, img.height));
+      const cv = document.createElement("canvas"); cv.width = Math.round(img.width * k); cv.height = Math.round(img.height * k);
+      cv.getContext("2d").drawImage(img, 0, 0, cv.width, cv.height);
+      cv.toBlob(b=>{ URL.revokeObjectURL(img.src); b ? ok(b) : erro(new Error("Não consegui reduzir a imagem.")); }, "image/jpeg", qualidade);
+    };
+    img.onerror = ()=>erro(new Error("Arquivo de imagem ilegível."));
+    img.src = fonte instanceof Blob ? URL.createObjectURL(fonte) : fonte;
+  });
+}
+
+/* ---------- formulário ---------- */
+// campo("nome", "Nome", {tipo: "text", valor, obrigatorio, ajuda, attrs})
+function campo(id, rotulo, o={}){
+  const tipo = o.tipo || "text", obr = o.obrigatorio ? " required" : "", v = o.valor ?? "";
+  const ajuda = o.ajuda ? `<small class="sub" id="${id}-ajuda">${esc(o.ajuda)}</small>` : "";
+  const desc = o.ajuda ? ` aria-describedby="${id}-ajuda"` : "";
+  let ctl;
+  if (tipo === "textarea") ctl = `<textarea id="${id}" name="${id}" rows="${o.linhas || 4}"${obr}${desc} ${o.attrs || ""}>${esc(v)}</textarea>`;
+  else if (tipo === "select") ctl = `<select id="${id}" name="${id}"${obr}${desc} ${o.attrs || ""}>${(o.opcoes || []).map(op=>{
+      const [val, txt] = Array.isArray(op) ? op : [op, op];
+      return `<option value="${esc(val)}" ${String(val) === String(v) ? "selected" : ""}>${esc(txt)}</option>`; }).join("")}</select>`;
+  else ctl = `<input id="${id}" name="${id}" type="${tipo}" value="${esc(v)}"${obr}${desc} ${o.attrs || ""}>`;
+  return `<div class="campo"><label for="${id}">${esc(rotulo)}${o.obrigatorio ? " *" : ""}</label>${ctl}${ajuda}</div>`;
+}
+const valorDe = id => ($("#" + id)?.value ?? "").trim();
+function mostrarErros(alvo, erros){
+  const el = typeof alvo === "string" ? $(alvo) : alvo;
+  el.innerHTML = erros.length ? `<div class="card pendente" role="alert"><b>Corrija antes de salvar:</b><ul>${erros.map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>` : "";
+  if (erros.length) el.scrollIntoView({block: "nearest"});
+  return !erros.length;
+}
+
+/* ---------- db: camada fina sobre o IndexedDB ---------- */
+const db = {
+  con: null,
+  abrir(){
+    return new Promise((ok, erro)=>{
+      const req = indexedDB.open(APP.db.nome, APP.db.versao);
+      req.onupgradeneeded = ()=>{
+        const banco = req.result;
+        const stores = Object.assign({meta: {keyPath: "chave"}}, APP.db.stores);
+        for (const [nome, def] of Object.entries(stores)){
+          const st = banco.objectStoreNames.contains(nome) ? req.transaction.objectStore(nome) : banco.createObjectStore(nome, {keyPath: def.keyPath});
+          for (const ix of def.indices || []){
+            if (!st.indexNames.contains(ix.nome)) st.createIndex(ix.nome, ix.campo, {unique: !!ix.unico});
+          }
+        }
+      };
+      req.onsuccess = ()=>{ this.con = req.result; ok(this.con); };
+      req.onerror = ()=>erro(req.error);
+    });
+  },
+  _op(store, modo, fn){
+    return new Promise((ok, erro)=>{
+      const tx = this.con.transaction(store, modo); const r = fn(tx.objectStore(store));
+      tx.oncomplete = ()=>ok(r && "result" in r ? r.result : undefined);
+      tx.onerror = ()=>erro(tx.error); tx.onabort = ()=>erro(tx.error);
+    });
+  },
+  get(store, chave){ return this._op(store, "readonly", s=>s.get(chave)); },
+  list(store){ return this._op(store, "readonly", s=>s.getAll()); },
+  porIndice(store, indice, valor){ return this._op(store, "readonly", s=>s.index(indice).getAll(valor)); },
+  put(store, obj){ return this._op(store, "readwrite", s=>s.put(obj)); },
+  del(store, chave){ return this._op(store, "readwrite", s=>s.delete(chave)); },
+  limpar(store){ return this._op(store, "readwrite", s=>s.clear()); },
+  async meta(chave, valor){
+    if (valor === undefined){ const r = await this.get("meta", chave); return r ? r.valor : undefined; }
+    return this.put("meta", {chave, valor});
+  },
+  async exportar(){
+    const dados = {};
+    for (const nome of Object.keys(APP.db.stores)) dados[nome] = await this.list(nome);
+    return {app: APP.id, versao: APP.db.versao, exportado_em: agora(), dados};
+  },
+  async importar(pacote, substituir=true){
+    if (!pacote || pacote.app !== APP.id) throw new Error("Este arquivo não é um backup deste app.");
+    for (const [nome, linhas] of Object.entries(pacote.dados || {})){
+      if (!APP.db.stores[nome]) continue;
+      if (substituir) await this.limpar(nome);
+      for (const l of linhas) await this.put(nome, l);
+    }
+  }
+};
+async function registrar(acao, detalhe={}){
+  const store = APP.db.log || "log";
+  if (!APP.db.stores[store]) return;
+  await db.put(store, {id: uuid(), data_hora: agora(), perfil: estado.perfil || "", acao, ...detalhe});
+}
+
+/* ---------- tema ---------- */
+function aplicarTema(t){ if (t) document.documentElement.dataset.theme = t; else delete document.documentElement.dataset.theme; }
+function iniciarTema(){
+  let t = null; try { t = localStorage.getItem(APP.id + ":tema"); } catch(e){}
+  aplicarTema(t);
+  $("#btnTema").addEventListener("click", ()=>{
+    const escuro = document.documentElement.dataset.theme === "dark" ||
+      (!document.documentElement.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches);
+    const novo = escuro ? "light" : "dark"; aplicarTema(novo);
+    try { localStorage.setItem(APP.id + ":tema", novo); } catch(e){}
+  });
+}
+
+/* ---------- roteador por hash ---------- */
+const estado = {perfil: null, rota: null};
+function casarRota(hash){
+  const partes = hash.replace(/^#\/?/, "").split("?")[0].split("/").filter(Boolean);
+  for (const r of APP.rotas){
+    const molde = r.rota.replace(/^#\/?/, "").split("/").filter(Boolean);
+    if (molde.length !== partes.length) continue;
+    const params = {}; let ok = true;
+    molde.forEach((m, i)=>{ if (m.startsWith(":")) params[m.slice(1)] = decodeURIComponent(partes[i]); else if (m !== partes[i]) ok = false; });
+    if (ok) return {r, params};
+  }
+  return null;
+}
+function rotaPermitida(r){ return !r.perfis || !estado.perfil || r.perfis.includes(estado.perfil); }
+function montarMenu(){
+  $("#menu").innerHTML = APP.rotas.filter(r=>r.menu !== false && !r.publica && !r.rota.includes(":") && rotaPermitida(r))
+    .map(r=>`<a href="${r.rota}" data-rota="${r.rota}">${esc(r.titulo)}</a>`).join("");
+  const p = $("#perfilAtual");
+  if (APP.perfis && estado.perfil){ p.hidden = false; p.textContent = "Perfil: " + estado.perfil; } else p.hidden = true;
+}
+async function navegar(){
+  if (APP.perfis && !estado.perfil && !["#/testes", ...(APP.rotaSemPerfil || [])].some(x=>location.hash.startsWith(x))){
+    if (APP.perfilDoServidor){
+      $("#conteudo").innerHTML = `<div class="card pendente"><h1>Acesso restrito</h1><p>Esta área é só para servidores cadastrados. Entre com a conta institucional.</p></div>`;
+      return;
+    }
+    return telaEscolherPerfil();
+  }
+  const hash = location.hash || APP.rotas[0].rota;
+  const achou = hash.startsWith("#/testes") ? {r: {rota: "#/testes", titulo: "Testes", publica: false}, params: {}} : casarRota(hash);
+  const alvo = $("#conteudo");
+  $$("#menu a").forEach(a=>a.removeAttribute("aria-current"));
+  if (!achou){ alvo.innerHTML = `<div class="card vazio">Tela não encontrada: <code>${esc(hash)}</code></div>`; return; }
+  if (!rotaPermitida(achou.r)){ alvo.innerHTML = `<div class="card vazio">O perfil <b>${esc(estado.perfil)}</b> não usa esta tela.</div>`; return; }
+  $("#menu").hidden = !!achou.r.publica;
+  const link = $(`#menu a[data-rota="${achou.r.rota}"]`); if (link) link.setAttribute("aria-current", "page");
+  estado.rota = achou.r.rota;
+  document.title = achou.r.titulo + " · " + APP.titulo;
+  const fn = TELAS[achou.r.rota] || telaPendente(achou.r);
+  try { alvo.innerHTML = await fn(achou.params); if (TELAS_DEPOIS[achou.r.rota]) await TELAS_DEPOIS[achou.r.rota](achou.params); }
+  catch(e){ console.error(e); alvo.innerHTML = `<div class="card pendente"><b>Erro nesta tela.</b><p class="mono">${esc(e.message)}</p></div>`; }
+  alvo.focus({preventScroll: true});
+}
+function telaPendente(r){
+  return async ()=>`<h1>${esc(r.titulo)}</h1><p class="sub">${esc(r.descricao || "")}</p>
+    <div class="card pendente">Esta tela é construída no <b>Sprint ${esc(r.sprint)}</b> (ver <code>sprint.md</code>).</div>`;
+}
+
+/* ---------- perfis (o perfil escolhe as telas; não é controle de segurança) ---------- */
+function telaEscolherPerfil(){
+  $("#menu").hidden = true;
+  $("#conteudo").innerHTML = `<h1>Escolha o perfil desta cópia</h1>
+    <p class="sub">O perfil define quais telas aparecem neste computador. Ele pode ser trocado em Configuração.</p>
+    <div class="grade">${APP.perfis.map(p=>`<button class="card" data-perfil="${esc(p.id)}" style="text-align:left"><b>${esc(p.nome)}</b><br><span class="sub">${esc(p.descricao)}</span></button>`).join("")}</div>`;
+  $$("[data-perfil]").forEach(b=>b.addEventListener("click", async ()=>{
+    estado.perfil = b.dataset.perfil; await db.meta("perfil", estado.perfil); await registrar("perfil escolhido", {detalhe: estado.perfil});
+    montarMenu(); location.hash = APP.rotas.find(rotaPermitida).rota; navegar();
+  }));
+}
+
+/* ---------- configuração comum: backup, dados fictícios, perfil, limpeza ---------- */
+async function blocoConfigComum(){
+  const usado = navigator.storage && navigator.storage.estimate ? await navigator.storage.estimate() : null;
+  const persist = navigator.storage && navigator.storage.persisted ? await navigator.storage.persisted() : false;
+  return `<div class="card"><h2 style="margin-top:0">Backup</h2>
+      <p class="sub">Os dados ficam só neste navegador. Exporte o backup toda semana.</p>
+      <div class="linha-botoes"><button class="prim" id="btnExportar">Exportar backup (.json)</button>
+      <label class="botao" style="margin:0">Importar backup<input type="file" id="arqBackup" accept=".json" hidden></label></div>
+      <p class="sub" style="margin-top:10px">Armazenamento: ${usado ? (usado.usage/1048576).toFixed(1) + " MB usados" : "não informado"} ·
+      ${persist ? '<span class="selo ok">persistente</span>' : '<span class="selo alerta">pode ser apagado pelo navegador</span>'}</p></div>
+    ${dadosEmbutidos("seed") ? `<div class="card"><h2 style="margin-top:0">Dados fictícios</h2>
+      <p class="sub">Carrega o conjunto de exemplo para testar. Substitui os dados atuais.</p>
+      <button id="btnSeed">Carregar dados fictícios</button></div>` : ""}
+    ${APP.perfis ? `<div class="card"><h2 style="margin-top:0">Perfil desta cópia</h2>
+      <p class="sub">Atual: <b>${esc(estado.perfil || "nenhum")}</b></p><button id="btnTrocarPerfil">Trocar perfil</button></div>` : ""}
+    <div class="card"><h2 style="margin-top:0">Apagar tudo</h2>
+      <p class="sub">Remove todos os dados deste app neste navegador.</p><button class="perigo" id="btnApagar">Apagar todos os dados</button></div>`;
+}
+function ligarConfigComum(){
+  $("#btnExportar")?.addEventListener("click", async ()=>{
+    baixar(`${APP.id}-backup-${new Date().toISOString().slice(0,10)}.json`, JSON.stringify(await db.exportar(), null, 2), "application/json");
+    await registrar("backup exportado");
+  });
+  $("#arqBackup")?.addEventListener("change", async e=>{
+    const f = e.target.files[0]; if (!f) return;
+    try { await db.importar(JSON.parse(await lerArquivoTexto(f))); await registrar("backup importado", {detalhe: f.name}); toast("Backup importado."); navegar(); }
+    catch(err){ toast("Não consegui importar: " + err.message, 5000); }
+  });
+  $("#btnSeed")?.addEventListener("click", async ()=>{
+    if (!confirm("Substituir os dados atuais pelos dados fictícios?")) return;
+    await db.importar({app: APP.id, dados: dadosEmbutidos("seed")}); await registrar("dados fictícios carregados");
+    toast("Dados fictícios carregados."); navegar();
+  });
+  $("#btnTrocarPerfil")?.addEventListener("click", async ()=>{ estado.perfil = null; await db.meta("perfil", null); montarMenu(); telaEscolherPerfil(); });
+  $("#btnApagar")?.addEventListener("click", async ()=>{
+    if (!confirm("Apagar todos os dados deste app neste navegador?")) return;
+    for (const nome of Object.keys(APP.db.stores)) await db.limpar(nome);
+    toast("Dados apagados."); navegar();
+  });
+}
+
+/* ---------- testes embutidos (#/testes) ---------- */
+const TESTES = [];
+function teste(nome, fn){ TESTES.push({nome, fn}); }
+async function telaTestes(){
+  const res = [];
+  for (const t of TESTES){
+    try { const r = await t.fn(); res.push({nome: t.nome, ok: r !== false, msg: r === true || r === undefined ? "" : String(r)}); }
+    catch(e){ res.push({nome: t.nome, ok: false, msg: e.message}); }
+  }
+  window.__testes = res;
+  const ok = res.filter(r=>r.ok).length;
+  return `<h1>Testes</h1><p class="sub" id="resumoTestes">${ok} de ${res.length} passaram</p>
+    <div class="card tabela-wrap"><table><tr><th>Teste</th><th>Resultado</th></tr>${res.map(r=>`<tr><td>${esc(r.nome)}</td>
+    <td>${r.ok ? '<span class="selo ok">ok</span>' : '<span class="selo erro">falhou</span> <span class="mono">' + esc(r.msg) + "</span>"}</td></tr>`).join("")}</table></div>`;
+}
+
+/* ---------- partida ---------- */
+const TELAS = {"#/testes": telaTestes}, TELAS_DEPOIS = {};
+async function iniciar(){
+  iniciarTema();
+  await db.abrir();
+  if (navigator.storage && navigator.storage.persist) { try { await navigator.storage.persist(); } catch(e){} }
+  if (APP.perfis) estado.perfil = (await db.meta("perfil")) || null;
+  if (typeof iniciarApp === "function") await iniciarApp();
+  montarMenu();
+  window.addEventListener("hashchange", navegar);
+  await navegar();
+}
+</script>
+
+<script>
+/* ===================================================================
+   APP: TAP Digital
+   Configuração (rotas, banco, perfis) e telas. Os sprints editam daqui
+   para baixo.
+   =================================================================== */
+"use strict";
+const APP = {
+  "id": "tap-portfolio-projetos",
+  "titulo": "TAP Digital",
+  "db": {
+    "nome": "tap_portfolio_v1",
+    "versao": 1,
+    "stores": {
+      "propostas": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "status",
+            "campo": "status",
+            "unico": false
+          }
+        ]
+      },
+      "anexos": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "proposta_id",
+            "campo": "proposta_id",
+            "unico": false
+          }
+        ]
+      },
+      "pendencias": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "proposta_id",
+            "campo": "proposta_id",
+            "unico": false
+          }
+        ]
+      },
+      "decisoes": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "proposta_id",
+            "campo": "proposta_id",
+            "unico": false
+          }
+        ]
+      },
+      "portfolio": {
+        "keyPath": "proposta_id",
+        "indices": []
+      },
+      "documentos": {
+        "keyPath": "tipo",
+        "indices": []
+      },
+      "log": {
+        "keyPath": "id",
+        "indices": []
+      }
+    }
+  },
+  "rotas": [
+    {
+      "rota": "#/tap/novo",
+      "titulo": "Novo TAP",
+      "sprint": 2,
+      "descricao": "TAP guiado, checklist de anexos e pendências antes do envio.",
+      "perfis": [
+        "demandante",
+        "equipe"
+      ]
+    },
+    {
+      "rota": "#/minhas",
+      "titulo": "Minhas propostas",
+      "sprint": 3,
+      "descricao": "Propostas, status e pendências.",
+      "perfis": [
+        "demandante"
+      ]
+    },
+    {
+      "rota": "#/triagem",
+      "titulo": "Triagem",
+      "sprint": 3,
+      "descricao": "Importar pacotes e conferir o checklist.",
+      "perfis": [
+        "equipe"
+      ]
+    },
+    {
+      "rota": "#/proposta/:id",
+      "titulo": "Proposta",
+      "sprint": 4,
+      "descricao": "TAP, anexos, pendências, parecer e decisão."
+    },
+    {
+      "rota": "#/portfolio",
+      "titulo": "Portfólio",
+      "sprint": 5,
+      "descricao": "Projetos aprovados, prioridade e captação.",
+      "perfis": [
+        "equipe",
+        "autoridade"
+      ]
+    },
+    {
+      "rota": "#/indicadores",
+      "titulo": "Indicadores",
+      "sprint": 6,
+      "descricao": "TAPs completos, devoluções e tempo de triagem.",
+      "perfis": [
+        "equipe"
+      ]
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": ""
+    }
+  ],
+  "perfis": [
+    {
+      "id": "demandante",
+      "nome": "Demandante",
+      "descricao": "Preenche o TAP e acompanha as próprias propostas."
+    },
+    {
+      "id": "equipe",
+      "nome": "Equipe de projetos",
+      "descricao": "Faz a triagem, registra pendências e mantém o portfólio."
+    },
+    {
+      "id": "autoridade",
+      "nome": "Autoridade",
+      "descricao": "Consulta as propostas analisadas e registra a decisão."
+    }
+  ]
+};
+
+/* ---------- comum a todos os apps (Sprint 1) ---------- */
+TELAS["#/config"] = async ()=> `<h1>Configuração</h1><p class="sub">Backup, dados de exemplo e perfil desta cópia.</p>` +
+  (typeof configExtra === "function" ? await configExtra() : "") + await blocoConfigComum();
+TELAS_DEPOIS["#/config"] = async ()=>{ ligarConfigComum(); if (typeof ligarConfigExtra === "function") await ligarConfigExtra(); };
+async function resumoBase(stores){
+  const linhas = [];
+  for (const s of stores) linhas.push(`<div class="card kpi"><div class="v">${(await db.list(s)).length}</div><div class="r">${esc(s)}</div></div>`);
+  return `<div class="grade">${linhas.join("")}</div>`;
+}
+teste("IndexedDB grava e lê", async ()=>{ await db.meta("teste", 42); return (await db.meta("teste")) === 42; });
+teste("Todas as rotas têm título e sprint", ()=> APP.rotas.every(r=>r.titulo && r.sprint !== undefined));
+teste("lerCSV: ponto e vírgula, aspas e BOM", ()=>{ const r = lerCSV('﻿a;b\n"x;1";2\n'); return r.length === 2 && r[1][0] === "x;1" && r[1][1] === "2"; });
+teste("cnpjValido e cpfValido", ()=> cnpjValido("11.222.333/0001-81") && !cnpjValido("11222333000182") && cpfValido("529.982.247-25") && !cpfValido("52998224726"));
+teste("dataDeTexto('29/10/2026 09:05:00')", ()=> dataDeTexto("29/10/2026 09:05:00") === "2026-10-29T09:05:00");
+
+/* TAP Digital · código do app (o construir.py junta com a base comum) */
+"use strict";
+TELAS["#/portfolio"] = async ()=> `<h1>Portfólio</h1><p class="sub">O portfólio chega no Sprint 5. Resumo da base:</p>
+  ${await resumoBase(["propostas", "pendencias", "decisoes", "portfolio", "documentos"])}
+  <p class="sub">Para testar, carregue os dados fictícios em <a href="#/config">Configuração</a>.</p>`;
+teste("Checklist do exemplo tem 3 documentos obrigatórios", ()=> (dadosEmbutidos("seed")?.documentos || []).filter(d=>d.obrigatorio).length === 3);
+teste("Exemplo sem CPF", ()=> !JSON.stringify(dadosEmbutidos("seed")).toLowerCase().includes('"cpf"'));
+
+/* ================= Sprint 2 · TAP guiado (RN01 a RN04) ================= */
+const MIN_OBJETIVO = 100, MIN_JUSTIFICATIVA = 200, LIMITE_ANEXO = 10 * 1024 * 1024;
+const OBJETIVOS_ESTRATEGICOS = ["Reduzir o tempo de emissão de laudos", "Modernizar a infraestrutura das unidades", "Ampliar a capacidade dos laboratórios",
+  "Fortalecer a identificação civil", "Qualificar os servidores"];
+// Checklist padrão enquanto a equipe não cadastra o oficial (store documentos)
+const DOCUMENTOS_PADRAO = (dadosEmbutidos("seed")?.documentos || []);
+const ETAPAS_TAP = [
+  {id: "ident", titulo: "Identificação", campos: ["titulo", "unidade", "responsavel", "contato"]},
+  {id: "objetivo", titulo: "Objetivo e justificativa", campos: ["objetivo", "justificativa"]},
+  {id: "alinhamento", titulo: "Alinhamento estratégico", campos: ["objetivo_estrategico"]},
+  {id: "custo", titulo: "Custo e prazo", campos: ["valor_estimado", "prazo_meses"]},
+  {id: "anexos", titulo: "Anexos", campos: []}
+];
+const ROT_TAP = {titulo: "Título do projeto", unidade: "Unidade demandante", responsavel: "Responsável", contato: "Contato institucional",
+  objetivo: "Objetivo", justificativa: "Justificativa", objetivo_estrategico: "Objetivo estratégico", valor_estimado: "Valor estimado", prazo_meses: "Prazo (meses)"};
+const AJUDA_TAP = {titulo: "Nome curto que identifica o projeto no portfólio.", contato: "E-mail ou telefone institucional.",
+  objetivo: `O que o projeto entrega, em pelo menos ${MIN_OBJETIVO} caracteres.`, justificativa: `Por que é necessário agora e o que acontece se não for feito, em pelo menos ${MIN_JUSTIFICATIVA} caracteres.`,
+  objetivo_estrategico: "A qual objetivo do planejamento da SESP/POLITEC o projeto atende.", valor_estimado: "Com base na pesquisa de preços anexada."};
+
+async function documentosChecklist(){ const d = await db.list("documentos"); return d.length ? d : DOCUMENTOS_PADRAO; }
+
+// RN01 a RN04: lista de pendências (vazia = TAP completo)
+function pendenciasTap(p, anexos, docs){
+  const e = [];
+  for (const k of ["titulo", "unidade", "responsavel", "contato", "objetivo_estrategico"]) if (!String(p[k] || "").trim()) e.push(`${ROT_TAP[k]}: não preenchido (RN01).`);
+  const lo = String(p.objetivo || "").trim().length, lj = String(p.justificativa || "").trim().length;
+  if (lo < MIN_OBJETIVO) e.push(`Objetivo: ${lo} de ${MIN_OBJETIVO} caracteres (RN02).`);
+  if (lj < MIN_JUSTIFICATIVA) e.push(`Justificativa: ${lj} de ${MIN_JUSTIFICATIVA} caracteres (RN02).`);
+  if (!(p.valor_estimado > 0)) e.push("Valor estimado: não preenchido (RN01).");
+  if (!(p.prazo_meses > 0)) e.push("Prazo: não preenchido (RN01).");
+  for (const d of docs.filter(d=>d.obrigatorio)){
+    const a = anexos.find(x=>x.tipo === d.tipo);
+    if (!a && !String(p.ausencias?.[d.tipo] || "").trim()) e.push(`Anexo obrigatório: ${d.nome} (anexe ou justifique a ausência, RN03).`);
+  }
+  return e;
+}
+teste("RN02: justificativa curta é pendência", ()=> pendenciasTap({justificativa: "curta"}, [], []).some(x=>x.includes("Justificativa: 5 de 200")));
+teste("RN03: documento ausente justificado não é pendência", ()=>
+  !pendenciasTap({ausencias: {x: "Não se aplica a este projeto."}}, [], [{tipo: "x", nome: "X", obrigatorio: true}]).some(x=>x.includes("RN03")));
+
+async function rascunhoAtual(){
+  let id = await db.meta("rascunho_atual"), p = id ? await db.get("propostas", id) : null;
+  if (!p || p.status !== "rascunho"){
+    const ano = new Date().getFullYear(), seq = (await db.list("propostas")).filter(x=>x.id.startsWith(`TAP-${ano}-`)).length + 1;
+    p = {id: `TAP-${ano}-${String(seq).padStart(3, "0")}`, status: "rascunho", criado_em: agora(), ausencias: {}};
+    await db.put("propostas", p); await db.meta("rascunho_atual", p.id);
+  }
+  return p;
+}
+
+TELAS["#/tap/novo"] = async ()=>{
+  const p = await rascunhoAtual(), docs = await documentosChecklist(), anexos = await db.porIndice("anexos", "proposta_id", p.id);
+  const etapa = estado.etapaTap || "ident";
+  const ctrl = k => {
+    if (k === "objetivo" || k === "justificativa") return campo("tap-" + k, ROT_TAP[k], {tipo: "textarea", linhas: 5, valor: p[k] || "", obrigatorio: true, ajuda: AJUDA_TAP[k]}) + `<p class="sub" id="cont-${k}"></p>`;
+    if (k === "objetivo_estrategico") return campo("tap-" + k, ROT_TAP[k], {tipo: "select", opcoes: [["", "Escolha"], ...OBJETIVOS_ESTRATEGICOS], valor: p[k] || "", obrigatorio: true, ajuda: AJUDA_TAP[k]});
+    if (k === "valor_estimado") return campo("tap-" + k, ROT_TAP[k] + " (R$)", {valor: p[k] ? dinheiro.fmt(Math.round(p[k] * 100)).replace("R$ ", "") : "", obrigatorio: true, attrs: 'inputmode="decimal"', ajuda: AJUDA_TAP[k]});
+    if (k === "prazo_meses") return campo("tap-" + k, ROT_TAP[k], {tipo: "number", valor: p[k] || "", obrigatorio: true, attrs: 'min="1" max="120"'});
+    return campo("tap-" + k, ROT_TAP[k], {valor: p[k] || "", obrigatorio: true, ajuda: AJUDA_TAP[k]});
+  };
+  const secao = ETAPAS_TAP.find(e=>e.id === etapa);
+  const corpo = etapa === "anexos" ? docs.map(d=>{
+    const a = anexos.find(x=>x.tipo === d.tipo);
+    return `<div class="card"><b>${esc(d.nome)}</b> ${d.obrigatorio ? '<span class="selo erro">obrigatório</span>' : '<span class="selo info">opcional</span>'}
+      <p class="sub">${a ? `Anexado: ${esc(a.nome)} (${(a.tamanho / 1024).toFixed(0)} KB) <button type="button" data-tirar="${esc(a.id)}">Tirar</button>` : "Nenhum arquivo."}</p>
+      <label class="botao">${a ? "Trocar arquivo" : "Anexar arquivo"}<input type="file" data-anexo="${esc(d.tipo)}" accept=".pdf,.xlsx,.xls,.csv,.jpg,.jpeg,.png" hidden></label>
+      ${d.obrigatorio && !a ? campo("aus-" + d.tipo, "Ou justifique a ausência", {tipo: "textarea", linhas: 2, valor: p.ausencias?.[d.tipo] || ""}) : ""}</div>`;
+  }).join("") : `<div class="campos" style="grid-template-columns:1fr">${secao.campos.map(ctrl).join("")}</div>`;
+  const ip = ETAPAS_TAP.findIndex(e=>e.id === etapa);
+  return `<h1>Termo de Abertura de Projeto · ${esc(p.id)}</h1><p class="sub">O rascunho é salvo a cada campo. Você pode fechar e continuar depois.</p>
+    <nav class="menu" style="padding:0 0 8px" aria-label="Etapas do TAP">${ETAPAS_TAP.map((e, i)=>`<a href="javascript:void 0" data-etapa="${e.id}" ${e.id === etapa ? 'aria-current="page"' : ""}>${i + 1}. ${e.titulo}</a>`).join("")}</nav>
+    <form class="card" id="formTap" onsubmit="return false"><h2 style="margin-top:0">${ip + 1}. ${esc(secao.titulo)}</h2>${corpo}
+      <div class="linha-botoes">${ip > 0 ? `<button type="button" data-etapa="${ETAPAS_TAP[ip - 1].id}">Anterior</button>` : ""}
+        ${ip < ETAPAS_TAP.length - 1 ? `<button type="button" class="prim" data-etapa="${ETAPAS_TAP[ip + 1].id}">Próxima</button>` : ""}</div></form>
+    <div class="card" id="painelPendencias"></div>`;
+};
+async function atualizarPendencias(){
+  const p = await rascunhoAtual(), pend = pendenciasTap(p, await db.porIndice("anexos", "proposta_id", p.id), await documentosChecklist());
+  $("#painelPendencias").innerHTML = pend.length
+    ? `<h2 style="margin-top:0">Pendências antes do envio (<span id="qtdPend">${pend.length}</span>)</h2><ul>${pend.map(x=>`<li>${esc(x)}</li>`).join("")}</ul>`
+    : `<h2 style="margin-top:0" class="ok-txt">TAP completo (<span id="qtdPend">0</span> pendências)</h2>
+       <p>O pacote para envio pelo SEI ou e-mail chega no Sprint 3.</p><button class="prim" id="btnConcluir">Concluir TAP</button>`;
+  $("#btnConcluir")?.addEventListener("click", async ()=>{
+    const q = await rascunhoAtual();
+    if (pendenciasTap(q, await db.porIndice("anexos", "proposta_id", q.id), await documentosChecklist()).length) return toast("Ainda há pendências.");
+    await db.put("propostas", {...q, status: "pronto para envio", concluido_em: agora()}); await db.meta("rascunho_atual", null);
+    await registrar("TAP concluído", {proposta_id: q.id}); toast(`TAP ${q.id} concluído.`); location.hash = "#/minhas";
+  });
+  for (const k of ["objetivo", "justificativa"]){
+    const el = $("#cont-" + k); if (!el) continue;
+    const n = valorDe("tap-" + k).length, min = k === "objetivo" ? MIN_OBJETIVO : MIN_JUSTIFICATIVA;
+    el.innerHTML = `<span class="${n >= min ? "ok-txt" : "erro-txt"}">${n} de ${min} caracteres</span>`;
+  }
+}
+TELAS_DEPOIS["#/tap/novo"] = async ()=>{
+  $$("[data-etapa]").forEach(b=>b.addEventListener("click", ()=>{ estado.etapaTap = b.dataset.etapa; navegar(); }));
+  // salva cada campo assim que muda (rascunho)
+  $$("#formTap [id^=tap-]").forEach(el=>el.addEventListener("input", async ()=>{
+    const p = await rascunhoAtual(), k = el.id.slice(4);
+    let v = el.value;
+    if (k === "valor_estimado") v = (dinheiro.de(v) || 0) / 100;
+    if (k === "prazo_meses") v = Number(v) || 0;
+    await db.put("propostas", {...p, [k]: v, atualizado_em: agora()}); atualizarPendencias();
+  }));
+  $$("#formTap [id^=aus-]").forEach(el=>el.addEventListener("input", async ()=>{
+    const p = await rascunhoAtual(); await db.put("propostas", {...p, ausencias: {...(p.ausencias || {}), [el.id.slice(4)]: el.value}}); atualizarPendencias();
+  }));
+  $$("[data-anexo]").forEach(inp=>inp.addEventListener("change", async e=>{
+    const f = e.target.files[0]; if (!f) return;
+    if (f.size > LIMITE_ANEXO) return toast(`O arquivo ${f.name} passa de 10 MB (RN04).`, 5000);
+    const p = await rascunhoAtual(), tipo = e.target.dataset.anexo;
+    await db.put("anexos", {id: `${p.id}-${tipo}`, proposta_id: p.id, tipo, nome: f.name, tamanho: f.size, mime: f.type, conteudo: f});
+    await registrar("anexo", {proposta_id: p.id, detalhe: `${tipo}: ${f.name}`}); navegar();
+  }));
+  $$("[data-tirar]").forEach(b=>b.addEventListener("click", async ()=>{ await db.del("anexos", b.dataset.tirar); navegar(); }));
+  await atualizarPendencias();
+};
+
+/* ================= Sprint 3 · Pacote e triagem (RN05, RN06) ================= */
+function fnvTap(txt){ let h = 0x811c9dc5; for (const b of new TextEncoder().encode(txt)){ h ^= b; h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(16).padStart(8, "0"); }
+const blobParaB64 = b => new Promise((ok, erro)=>{ const r = new FileReader(); r.onload = ()=>ok(String(r.result).split(",")[1]); r.onerror = erro; r.readAsDataURL(b); });
+const b64ParaBlob = (b64, mime)=> new Blob([Uint8Array.from(atob(b64), c=>c.charCodeAt(0))], {type: mime || "application/octet-stream"});
+// pacote = {formato, conteudo, verificacao}; verificacao = fnv1a do conteúdo em JSON (detecta arquivo alterado ou cortado)
+const embalar = (formato, conteudo)=>{ const s = JSON.stringify(conteudo); return JSON.stringify({formato, conteudo, verificacao: fnvTap(s)}); };
+function desembalar(texto, formato){
+  let p; try { p = JSON.parse(texto); } catch(e){ throw new Error("O arquivo não é um pacote do TAP Digital."); }
+  if (p.formato !== formato) throw new Error(`Este arquivo não é ${formato === "TAP-v1" ? "um pacote de proposta" : "uma devolução"}.`);
+  if (fnvTap(JSON.stringify(p.conteudo)) !== p.verificacao) throw new Error("O código de verificação não confere: o arquivo foi alterado ou está incompleto.");
+  return p.conteudo;
+}
+teste("pacote alterado é recusado", ()=>{ const t = embalar("TAP-v1", {a: 1}); try { desembalar(t.replace('"a":1', '"a":2'), "TAP-v1"); return false; } catch(e){ return true; } });
+
+async function gerarPacote(id){
+  const p = await db.get("propostas", id), anexos = await db.porIndice("anexos", "proposta_id", id);
+  const conteudo = {proposta: {...p, status: "enviado"}, anexos: await Promise.all(anexos.map(async a=>({tipo: a.tipo, nome: a.nome, mime: a.mime, tamanho: a.tamanho, base64: await blobParaB64(a.conteudo)})))};
+  await db.put("propostas", {...p, status: "enviado", enviado_em: agora()}); await registrar("pacote gerado", {proposta_id: id});
+  baixar(`proposta-${id}.json`, embalar("TAP-v1", conteudo), "application/json");
+}
+
+TELAS["#/minhas"] = async ()=>{
+  const ps = (await db.list("propostas")).sort((a, b)=>(b.criado_em || "").localeCompare(a.criado_em || ""));
+  const pend = await db.list("pendencias");
+  return `<h1>Minhas propostas</h1><p class="sub"><a href="#/tap/novo">Novo TAP</a> · O pacote vai pelo SEI ou e-mail para a equipe de projetos.</p>
+    <div class="card"><label class="botao">Importar devolução da equipe<input type="file" id="arqDevolucao" accept=".json" hidden></label><div id="errosDevolucao"></div></div>
+    <div class="card tabela-wrap"><table id="tabelaMinhas"><tr><th>TAP</th><th>Título</th><th>Situação</th><th>Pendências</th><th></th></tr>
+      ${ps.map(p=>{ const abertas = pend.filter(x=>x.proposta_id === p.id && !x.resolvida_em); return `<tr data-id="${esc(p.id)}"><td>${esc(p.id)}</td><td>${esc(p.titulo || "(sem título)")}</td>
+        <td><span class="selo ${p.status === "devolvida" ? "erro" : "info"}">${esc(p.status)}</span></td><td>${abertas.map(x=>esc(x.motivo)).join("<br>") || "—"}</td>
+        <td>${["pronto para envio", "enviado"].includes(p.status) ? `<button data-pacote="${esc(p.id)}">${p.status === "enviado" ? "Gerar de novo" : "Gerar pacote"}</button>` : ""}
+          ${p.status === "devolvida" ? `<button data-corrigir="${esc(p.id)}">Corrigir</button>` : ""}</td></tr>`; }).join("") || '<tr><td colspan="5" class="vazio">Nenhuma proposta.</td></tr>'}</table></div>`;
+};
+TELAS_DEPOIS["#/minhas"] = ()=>{
+  $$("[data-pacote]").forEach(b=>b.addEventListener("click", async ()=>{ await gerarPacote(b.dataset.pacote); toast("Pacote gerado. Envie o arquivo pelo SEI ou e-mail."); navegar(); }));
+  $$("[data-corrigir]").forEach(b=>b.addEventListener("click", async ()=>{
+    const p = await db.get("propostas", b.dataset.corrigir); await db.put("propostas", {...p, status: "rascunho"}); await db.meta("rascunho_atual", p.id);
+    estado.etapaTap = "ident"; location.hash = "#/tap/novo";
+  }));
+  $("#arqDevolucao").addEventListener("change", async e=>{
+    const f = e.target.files[0]; if (!f) return;
+    try {
+      const d = desembalar(await lerArquivoTexto(f), "TAP-DEV-v1"), p = await db.get("propostas", d.proposta_id);
+      if (!p) throw new Error(`A proposta ${d.proposta_id} não está nesta cópia.`);
+      for (const x of d.pendencias) await db.put("pendencias", x);
+      await db.put("propostas", {...p, status: "devolvida"}); await registrar("devolução recebida", {proposta_id: p.id}); toast("Devolução importada."); navegar();
+    } catch(err){ mostrarErros("#errosDevolucao", [err.message]); }
+  });
+};
+
+TELAS["#/triagem"] = async ()=>{
+  const ps = (await db.list("propostas")).filter(p=>["em triagem", "devolvida", "em análise"].includes(p.status)).sort((a, b)=>(a.recebido_em || "").localeCompare(b.recebido_em || ""));
+  const sel = estado.tapSel && await db.get("propostas", estado.tapSel), docs = await documentosChecklist();
+  let ficha = "";
+  if (sel){
+    const anexos = await db.porIndice("anexos", "proposta_id", sel.id), pends = (await db.porIndice("pendencias", "proposta_id", sel.id));
+    const falta = pendenciasTap(sel, anexos, docs);
+    ficha = `<div class="card" id="fichaTriagem"><h2 style="margin-top:0">${esc(sel.id)} · ${esc(sel.titulo)} <span class="selo info" id="sitTap">${esc(sel.status)}</span></h2>
+      <p>${esc(sel.unidade)} · ${esc(sel.responsavel)} · ${dinheiro.fmt(Math.round((sel.valor_estimado || 0) * 100))} · ${sel.prazo_meses} meses · ${esc(sel.objetivo_estrategico)}</p>
+      <h3>Checklist de documentos</h3><ul>${docs.map(d=>{ const a = anexos.find(x=>x.tipo === d.tipo);
+        return `<li>${esc(d.nome)}${d.obrigatorio ? " *" : ""}: ${a ? `<span class="ok-txt">anexado</span> (${esc(a.nome)})` : sel.ausencias?.[d.tipo] ? `<span class="alerta-txt">ausência justificada</span>: ${esc(sel.ausencias[d.tipo])}` : '<span class="erro-txt">falta</span>'}</li>`; }).join("")}</ul>
+      ${falta.length ? `<p class="erro-txt">O app aponta: ${falta.map(esc).join(" · ")}</p>` : ""}
+      ${pends.length ? `<h3>Pendências</h3><ul>${pends.map(x=>`<li>${esc(x.motivo)} · ${dataCurtaBR(x.aberta_em)}${x.resolvida_em ? " · resolvida" : ""}</li>`).join("")}</ul>` : ""}
+      ${sel.status === "em triagem" ? `${campo("tMotivo", "Pendência (motivo)", {tipo: "textarea", linhas: 2})}<div id="errosTriagem"></div>
+        <div class="linha-botoes"><button id="btnPendencia">Registrar pendência e devolver</button><button class="prim" id="btnAceitarTap">Aceitar para análise</button></div>` : ""}</div>`;
+  }
+  return `<h1>Triagem</h1><div class="card"><label class="botao prim">Importar pacote de proposta<input type="file" id="arqPacote" accept=".json" hidden></label><div id="errosPacote"></div></div>
+    ${ficha}<div class="card tabela-wrap"><table><tr><th>TAP</th><th>Título</th><th>Unidade</th><th>Recebido</th><th>Situação</th></tr>
+      ${ps.map(p=>`<tr><td><a href="#" data-tap="${esc(p.id)}">${esc(p.id)}</a></td><td>${esc(p.titulo)}</td><td>${esc(p.unidade)}</td><td>${dataBR(p.recebido_em)}</td><td>${esc(p.status)}</td></tr>`).join("")
+        || '<tr><td colspan="5" class="vazio">Nenhuma proposta em triagem.</td></tr>'}</table></div>`;
+};
+TELAS_DEPOIS["#/triagem"] = ()=>{
+  $$("[data-tap]").forEach(a=>a.addEventListener("click", e=>{ e.preventDefault(); estado.tapSel = a.dataset.tap; navegar(); }));
+  $("#arqPacote").addEventListener("change", async e=>{
+    const f = e.target.files[0]; if (!f) return;
+    try {
+      const c = desembalar(await lerArquivoTexto(f), "TAP-v1"), id = c.proposta.id;
+      for (const a of await db.porIndice("anexos", "proposta_id", id)) await db.del("anexos", a.id);
+      for (const a of c.anexos) await db.put("anexos", {id: `${id}-${a.tipo}`, proposta_id: id, tipo: a.tipo, nome: a.nome, mime: a.mime, tamanho: a.tamanho, conteudo: b64ParaBlob(a.base64, a.mime)});
+      await db.put("propostas", {...c.proposta, status: "em triagem", recebido_em: agora()});
+      await registrar("pacote recebido", {proposta_id: id, detalhe: f.name}); estado.tapSel = id; toast(`Proposta ${id} recebida.`); navegar();
+    } catch(err){ mostrarErros("#errosPacote", [err.message]); }
+  });
+  $("#btnPendencia")?.addEventListener("click", async ()=>{
+    const motivo = valorDe("tMotivo"); if (!motivo) return mostrarErros("#errosTriagem", ["Escreva o motivo da pendência (RN05)."]);
+    const p = await db.get("propostas", estado.tapSel), pend = {id: uuid(), proposta_id: p.id, motivo, aberta_em: hojeISO(), resolvida_em: null};
+    await db.put("pendencias", pend); await db.put("propostas", {...p, status: "devolvida"}); await registrar("pendência registrada", {proposta_id: p.id, detalhe: motivo});
+    const abertas = (await db.porIndice("pendencias", "proposta_id", p.id)).filter(x=>!x.resolvida_em);
+    baixar(`devolucao-${p.id}.json`, embalar("TAP-DEV-v1", {proposta_id: p.id, pendencias: abertas}), "application/json");
+    toast("Pendência registrada. Envie o arquivo de devolução ao demandante."); navegar();
+  });
+  $("#btnAceitarTap")?.addEventListener("click", async ()=>{
+    const p = await db.get("propostas", estado.tapSel), falta = pendenciasTap(p, await db.porIndice("anexos", "proposta_id", p.id), await documentosChecklist());
+    if (falta.length) return mostrarErros("#errosTriagem", ["Checklist incompleto (RN06): " + falta.join(" · ")]);
+    for (const x of (await db.porIndice("pendencias", "proposta_id", p.id)).filter(x=>!x.resolvida_em)) await db.put("pendencias", {...x, resolvida_em: hojeISO()});
+    await db.put("propostas", {...p, status: "em análise", completa_em: agora()}); await registrar("aceita para análise", {proposta_id: p.id}); toast("Proposta aceita para análise."); navegar();
+  });
+};
+
+
+iniciar();
+</script>
+</body>
+</html>

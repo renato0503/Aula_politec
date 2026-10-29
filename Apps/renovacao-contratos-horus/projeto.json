@@ -1,0 +1,437 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T15:42:04.625Z",
+  "campos": {
+    "nome_projeto": "Fluxo de Renovação de Contratos- apoiado pelo HORUS",
+    "tipo_projeto": "Mapeamento de processo (fluxo, BPMN ou Mermaid)",
+    "data": "2026-10-29",
+    "resumo": "Módulo de gestão, acompanhamento e controle de contratos do Hórus que centraliza a renovação, desde o monitoramento do vencimento até a atualização da vigência e o registro em trilha de auditoria.",
+    "problema": "O fluxo não apresenta dificuldade de acompanhamento dos fiscais de contrato devido as atividades que cada fiscal exerce durante as rotinas diarias, muitas vezes esquecendo dos deveres de fiscalização de contrato, necessitando de ferramento de aviso aos fiscais e gestores.",
+    "impacto": "todo o valor gasto na instrução processual, empenho do contrato, e horas trabalhadas do servidor, nao se concretiza com a chegada dos materia",
+    "hoje": "O fiscal recebe um e-mail inicial, e depois fica responsável pela fiscalização dos itens, o fiscal não requisita o item e o contrato pode vencer sem execução no periodo vigente do contrato; confirmar contrato Vigente e permissão de prorrogação; avaliar vantajosidade e enquadramento legal; instruir e anexar documentos; registrar termo aditivo; registrar reajuste/repactuação/reequilíbrio, se houver; após publicação, atualizar a vigência do contrato e manter o status Vigente; recalcular alertas e registrar em auditoria.",
+    "evid_detalhe": "Fonte única: Fluxo de Renovação de Contratos — Sistema Hórus (PlaniTec), versão 1.0, de 29/10/2026. Documento de uso interno, elaborado a partir do comportamento real do módulo de Gestão de Contratos.",
+    "limite": "O fluxo prevê avaliação de vantajosidade e enquadramento legal, decisão pela renovação e formalização por termo aditivo assinado e publicado. Não atribui essas decisões ao sistema; as automações descritas são cálculo de término, semáforo, alertas e trilha de auditoria.",
+    "mvp_objetivo": "Não informado no fluxo anexado.",
+    "mvp_naofaz": "O fluxo não define MVP nem recorte de funcionalidades.",
+    "entrega": "Fluxo documentado de renovação de contratos no módulo de Gestão, Acompanhamento e Controle de Contratos do Hórus (PlaniTec). O documento não define um novo entregável ou MVP.",
+    "dentro": "Monitoramento de vencimento; decisão e instrução da renovação; documentos; termo aditivo de prorrogação; reajuste/repactuação/reequilíbrio quando aplicável; atualização da vigência; semáforo, alertas, auditoria e caminhos alternativos de não renovação.",
+    "fora": "O documento delimita a descrição à renovação de contratos; não especifica exclusões de um projeto ou MVP.",
+    "mvp_tela_inicial": "Painel de Contratos: indicador Vencendo (90d) e lista Próximos do vencimento.",
+    "mvp_mock": "Não informado no fluxo anexado.",
+    "mvp_criterio": "Critério de aceite de MVP não informado. Resultado final descrito no fluxo: aditivo publicado, vigência atualizada, status Vigente, semáforo recalculado, documentos anexados e trilha de auditoria.",
+    "mvp_dados": "O documento não fornece registros de contratos nem conjunto de dados de exemplo.",
+    "mvp_reuso": "O documento descreve o módulo existente do Hórus (PlaniTec), com painel de Contratos, Documentos, Termos aditivos / apostilamentos, Reajustes / repactuações / reequilíbrio e auditoria.",
+    "dependencias": "O fluxo identifica perfis de gestão e responsáveis designados pela fiscalização. Não informa dependências de implantação de projeto.",
+    "papeis_obs": "Gestão de contratos disponível a Administrador, Diretor, Coordenador e Gerente. Escrita permitida ao autor do registro e às chefias. Fiscalização pelos responsáveis designados: gestor, fiscais titular/substituto, técnico/administrativo e preposto da contratada, com histórico de substituições. O documento não detalha a visibilidade individual de cada perfil.",
+    "coletar": "O documento não apresenta levantamento de dados faltantes ou plano de coleta.",
+    "acesso": "O documento informa permissões dos perfis, mas não identifica quem libera acesso nem prazo.",
+    "base_periodo": "Não há período, volume ou valores de linha de base no fluxo anexado.",
+    "campos_data": "Contrato: data_inicio, vigencia_meses, data_fim e alerta_dias (padrão 90). Aditivo: data de assinatura e nova vigência (fim). Alteração financeira: data de aplicação. O documento não especifica horários ou datas de entrada/saída por etapa.",
+    "stack_detalhe": "Tecnologias, linguagem, framework e infraestrutura não informados no fluxo.",
+    "hospedagem_escolhida": "Hospedagem não informada no fluxo anexado.",
+    "orcamento": "Não informado no fluxo anexado.",
+    "conta_quem": "Não informado no fluxo anexado.",
+    "restricoes": "Renovação apenas para contrato em vigência ativa, com permissão de prorrogação. Aditivo e atualização da vigência são registros distintos. Documentos em repositório privado; escrita restrita ao autor e chefias; auditoria append-only. O documento cita os arts. 105, 107 e 125 da Lei nº 14.133/2021 e diferencia prorrogação pura de prazo de acréscimo de valor.",
+    "lgpd_dados": "O fluxo identifica papéis de responsáveis e preposto, mas não especifica dados pessoais ou tratamento em MVP.",
+    "lgpd_base": "Base legal de tratamento de dados pessoais não informada no fluxo.",
+    "lgpd_retencao": "Não informado no fluxo anexado.",
+    "lgpd_acesso": "Gestão: Administrador, Diretor, Coordenador e Gerente. Escrita: autor do registro e chefias. Documentos em repositório privado. Trilha append-only registra criação do aditivo e mudanças de situação/vigência.",
+    "asis_inicio": "Identificação de contrato vigente próximo do vencimento no painel (até 90 dias) ou pelo filtro do semáforo.",
+    "asis_fim": "Vigência atualizada após publicação do aditivo, status Vigente mantido, semáforo recalculado, documentos anexados e alterações registradas na trilha de auditoria.",
+    "asis_entradas": "Contrato com data_inicio, vigencia_meses, data_fim, permite_prorrogacao, alerta_dias e status; avaliação de vantajosidade e enquadramento legal; documentos do processo; termo aditivo; dados de reajuste, repactuação ou reequilíbrio quando aplicável.",
+    "asis_saidas": "Termo aditivo de prorrogação registrado e publicado; nova vigência no contrato; semáforo e alertas atualizados; documentos para consulta e fiscalização; trilha de auditoria. Quando aplicável, registro da alteração financeira.",
+    "asis_volume": "Não informado no fluxo anexado.",
+    "asis_duracao": "Não informado no fluxo anexado.",
+    "asis_decisoes": "Contrato deve estar Vigente e permitir prorrogação; caso contrário, avaliar nova contratação. Avaliar vantajosidade e enquadramento legal. Aditivo: Rascunho → Em tramitação → Assinado → Publicado, ou Cancelado. Alteração financeira, se houver: Solicitado → Em análise → Aprovado → Aplicado, ou Indeferido. Atualizar a vigência após publicação do aditivo.",
+    "asis_excecoes": "Sem interesse/vantajosidade: deixar expirar (Expirado) ou encerrar formalmente (Encerrado). Extinção antecipada: registrar aditivo tipo Rescisão e alterar para Rescindido. Nova contratação: encerrar o contrato atual e iniciar novo instrumento. Contratos encerrados, rescindidos ou expirados saem da contagem regressiva.",
+    "asis_digital": "Painel de Contratos, semáforo e alertas; cadastro e edição de vigência; aba Documentos em repositório privado; Termos aditivos / apostilamentos; Reajustes / repactuações / reequilíbrio; trilha de auditoria append-only.",
+    "tobe_visao": "O documento descreve o funcionamento atual do Hórus; não apresenta processo futuro distinto.",
+    "tobe_mudanca": "Não há mudança proposta no fluxo anexado.",
+    "tobe_inalterado": "O fluxo documentado é: monitorar, decidir, instruir, registrar aditivo, registrar alteração financeira se houver, atualizar vigência e registrar auditoria.",
+    "tobe_restricao": "Conforme o documento: observar os fundamentos legais indicados (Lei nº 14.133/2021, arts. 105, 107 e 125), formalização por termo aditivo e permissões de acesso. Registro do aditivo e atualização da vigência são etapas distintas.",
+    "tobe_piloto": "Não informado no fluxo anexado.",
+    "hipotese_campo": "O fluxo não formula hipótese de campo.",
+    "lacunas": "Fonte limitada ao fluxo anexado. Não há diagnóstico anterior ao Hórus, tempos de etapas, filas medidas, volumes, linha de base, meta de melhoria, TO-BE distinto, definição de MVP, infraestrutura, custos ou cronograma de projeto. As referências legais são as citadas no documento; não houve pesquisa externa.",
+    "apoio": "Não informado no fluxo anexado.",
+    "aprendizado": "Não informado no fluxo anexado.",
+    "frase": "O Hórus centraliza o acompanhamento da renovação contratual, do alerta de vencimento ao registro do termo aditivo, à atualização da vigência e à trilha de auditoria. O fluxo não fornece base e meta para uma defesa quantitativa.",
+    "provas": "1. Semáforo com seis faixas e alerta padrão de 90 dias.",
+    "piloto": "Plano de teste ou piloto não informado no fluxo.",
+    "risco_defesa": "O documento não hierarquiza riscos de uma proposta. Para contratos vencidos, indica ação imediata/análise jurídica; para a faixa de 0–30 dias, recomenda assinar/publicar antes do vencimento.",
+    "doc_descricao": "Fluxo-Renovacao-Contratos-Horus(1).docx: documento de uso interno que descreve o fluxo de renovação de contratos do Hórus (PlaniTec), versão 1.0, 29/10/2026. Referência usada no preenchimento; arquivo não anexado ao formulário.",
+    "doc_faltando": "O fluxo não define os insumos necessários para um MVP.",
+    "aluno": "Rodrigo Neves Ribeiro",
+    "unidade": "coordenadoria de aquisições e contratos",
+    "contato": "rodrigoribeiro@politec.mt.gov.br"
+  },
+  "marcados": {
+    "afetado": [
+      "Equipe interna",
+      "Unidade parceira",
+      "Servidor da unidade",
+      "Chefia"
+    ],
+    "evid": [],
+    "req": [
+      "Segurança e controle de acesso",
+      "Trilha de auditoria"
+    ],
+    "stack": "HTML único (CSS/JS inline), dados em JSON embutido, GitHub Pages"
+  },
+  "tabelas": {
+    "tPapeis": [
+      {
+        "papel": "Perfis de gestão",
+        "quem": "Administrador, Diretor, Coordenador e Gerente",
+        "ve": "Módulo de gestão de contratos; recorte por perfil não detalhado",
+        "faz": "Gestão de contratos, incluindo renovação",
+        "naofaz": "Restrições específicas por perfil não detalhadas",
+        "registro": "Criação de aditivos e mudanças de situação/vigência em auditoria"
+      },
+      {
+        "papel": "Autor do registro",
+        "quem": "Usuário autor do registro",
+        "ve": "Visibilidade não detalhada no fluxo",
+        "faz": "Escrita permitida no próprio registro",
+        "naofaz": "Escrita em registros de terceiros não é autorizada por essa regra",
+        "registro": "Trilha de auditoria do módulo"
+      },
+      {
+        "papel": "Responsáveis pela fiscalização",
+        "quem": "Gestor, fiscais titular/substituto, técnico/administrativo e preposto da contratada",
+        "ve": "Documentos anexados para consulta e fiscalização; visibilidade por papel não detalhada",
+        "faz": "Fiscalização pelos responsáveis designados",
+        "naofaz": "Permissão de escrita não é concedida apenas pela designação de fiscal no texto",
+        "registro": "Histórico de substituições"
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "Contrato",
+        "representa": "Contrato administrativo",
+        "colunas": "data_inicio; vigencia_meses; data_fim; permite_prorrogacao; alerta_dias; status. Tipos técnicos não especificados.",
+        "chave": "Não informado no fluxo anexado.",
+        "volume": "Não informado no fluxo anexado.",
+        "origem": "Cadastro de contratos do Hórus",
+        "sintetico": ""
+      },
+      {
+        "entidade": "Termo aditivo",
+        "representa": "Alteração contratual de prorrogação",
+        "colunas": "Tipo; assinatura; nova vigência (fim); fundamento legal; número do aditivo; descrição; status. Tipos técnicos não especificados.",
+        "chave": "Não informado no fluxo anexado.",
+        "volume": "Não informado no fluxo anexado.",
+        "origem": "Termos aditivos / apostilamentos",
+        "sintetico": ""
+      },
+      {
+        "entidade": "Alteração financeira",
+        "representa": "Reajuste, repactuação, reequilíbrio, revisão ou atualização",
+        "colunas": "Tipo; índice; percentual; data de aplicação; valor anterior; novo valor; memória de cálculo; status. Tipos técnicos não especificados.",
+        "chave": "Não informado no fluxo anexado.",
+        "volume": "Não informado no fluxo anexado.",
+        "origem": "Reajustes / repactuações / reequilíbrio",
+        "sintetico": ""
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "R1",
+        "regra": "Renovação aplicável apenas a contratos com vigência ativa; confirmar permite_prorrogacao",
+        "quando": "Avaliação da renovação",
+        "excecao": "Sem permissão: avaliar nova contratação",
+        "valida": "Não informado no fluxo anexado.",
+        "tipo": "Negócio"
+      },
+      {
+        "id": "R2",
+        "regra": "data_fim calculada por data_inicio + vigencia_meses; admite ajuste manual",
+        "quando": "Cadastro e atualização de vigência",
+        "excecao": "Ajuste manual previsto",
+        "valida": "Não informado no fluxo anexado.",
+        "tipo": "Cálculo"
+      },
+      {
+        "id": "R3",
+        "regra": "Semáforo: >120 normal; 91–120 acompanhamento; 61–90 atenção; 31–60 providências; 0–30 urgente; vencido ação imediata",
+        "quando": "Monitoramento diário",
+        "excecao": "Encerrado, Rescindido e Expirado saem da contagem regressiva",
+        "valida": "Sistema Hórus",
+        "tipo": "Cálculo"
+      },
+      {
+        "id": "R4",
+        "regra": "Após publicação do aditivo, editar a vigência e manter Vigente",
+        "quando": "Prorrogação formalizada",
+        "excecao": "Aditivo e atualização do contrato são etapas distintas",
+        "valida": "Não informado no fluxo anexado.",
+        "tipo": "Negócio"
+      },
+      {
+        "id": "R5",
+        "regra": "Escrita permitida ao autor e às chefias; gestão para Administrador, Diretor, Coordenador e Gerente",
+        "quando": "Gestão e alteração de registros",
+        "excecao": "Não informado no fluxo anexado.",
+        "valida": "Não informado no fluxo anexado.",
+        "tipo": "Acesso"
+      },
+      {
+        "id": "R6",
+        "regra": "Auditoria append-only da criação do aditivo e mudanças de situação/vigência",
+        "quando": "Registro e alteração contratual",
+        "excecao": "Não informado no fluxo anexado.",
+        "valida": "Sistema Hórus",
+        "tipo": "Negócio"
+      }
+    ],
+    "tArtefatos": [
+      {
+        "rota": "",
+        "nome": "Painel de Contratos",
+        "objetivo": "Monitorar vencimento",
+        "usuario": "Perfis de gestão",
+        "dados": "Indicador Vencendo (90d), próximos do vencimento e semáforo",
+        "acao": "Consultar lista e filtrar faixas",
+        "regra": "Seis faixas; recálculo diário; alerta padrão 90 dias",
+        "tipo": "Tela",
+        "verificacao": "Conferir faixa conforme dias restantes; resultado descrito no fluxo",
+        "mvp": ""
+      },
+      {
+        "rota": "",
+        "nome": "Documentos",
+        "objetivo": "Reunir documentação do processo",
+        "usuario": "Perfis autorizados do módulo",
+        "dados": "Documentos anexados ao contrato",
+        "acao": "Anexar documentação como Termo aditivo",
+        "regra": "Repositório privado",
+        "tipo": "Tela",
+        "verificacao": "Consultar documento anexado ao contrato",
+        "mvp": ""
+      },
+      {
+        "rota": "",
+        "nome": "Termos aditivos / apostilamentos",
+        "objetivo": "Registrar prorrogação",
+        "usuario": "Autor do registro e chefias",
+        "dados": "Tipo, assinatura, nova vigência, fundamento, número, descrição e status",
+        "acao": "Registrar e tramitar aditivo",
+        "regra": "Rascunho → Em tramitação → Assinado → Publicado; ou Cancelado",
+        "tipo": "Tela",
+        "verificacao": "Conferir registro do aditivo e situação",
+        "mvp": ""
+      },
+      {
+        "rota": "",
+        "nome": "Reajustes / repactuações / reequilíbrio",
+        "objetivo": "Registrar alteração financeira quando aplicável",
+        "usuario": "Autor do registro e chefias",
+        "dados": "Tipo, índice, percentual, data, valores e memória de cálculo",
+        "acao": "Registrar alteração financeira",
+        "regra": "Solicitado → Em análise → Aprovado → Aplicado; ou Indeferido",
+        "tipo": "Tela",
+        "verificacao": "Conferir campos e situação do registro",
+        "mvp": ""
+      },
+      {
+        "rota": "",
+        "nome": "Edição da vigência",
+        "objetivo": "Refletir a nova vigência no contrato",
+        "usuario": "Autor do registro e chefias",
+        "dados": "Data de término ou meses de vigência; status",
+        "acao": "Atualizar término após publicação do aditivo",
+        "regra": "Manter Vigente; edição distinta do registro do aditivo",
+        "tipo": "Ação",
+        "verificacao": "Conferir nova data e semáforo recalculado",
+        "mvp": ""
+      },
+      {
+        "rota": "",
+        "nome": "Trilha de auditoria",
+        "objetivo": "Registrar alterações do contrato",
+        "usuario": "Sistema Hórus",
+        "dados": "Criação do aditivo e mudanças de situação/vigência",
+        "acao": "Registrar eventos",
+        "regra": "Append-only",
+        "tipo": "Automação",
+        "verificacao": "Conferir eventos registrados; procedimento de teste não especificado",
+        "mvp": ""
+      }
+    ],
+    "tMetricas": [
+      {
+        "nome": "Dias restantes até o fim da vigência",
+        "pergunta": "Em qual faixa do semáforo está o contrato?",
+        "formula": "Quantidade de dias restantes até data_fim",
+        "fonte": "Contrato: data_fim; semáforo do Hórus",
+        "base": "Não informada no fluxo",
+        "esperado": "Não informado; o documento não fixa meta de melhoria",
+        "medir": "Plano de medição não informado no fluxo"
+      },
+      {
+        "nome": "Vencendo (90d)",
+        "pergunta": "Quais contratos estão próximos do vencimento em até 90 dias?",
+        "formula": "Indicador do painel relativo aos contratos próximos do vencimento (até 90 dias)",
+        "fonte": "Painel de Contratos do Hórus",
+        "base": "Não informada no fluxo",
+        "esperado": "Não informado; 90 dias é janela de alerta, não meta de melhoria",
+        "medir": "Plano de medição não informado no fluxo"
+      }
+    ],
+    "tAsIs": [
+      {
+        "etapa": "Monitoramento e gatilho",
+        "papel": "Administrador, Diretor, Coordenador ou Gerente; escrita pelo autor e chefias",
+        "entra": "Contrato vigente e datas de vigência",
+        "acao": "Consultar Próximos do vencimento ou filtrar semáforo",
+        "sai": "Contrato identificado para avaliação",
+        "sistema": "Hórus — painel de Contratos",
+        "regra": "Até 90 dias; confirmar Vigente e permite_prorrogacao",
+        "espera": "Não informado no fluxo anexado.",
+        "tempo": "Não informado no fluxo anexado.",
+        "auto": ""
+      },
+      {
+        "etapa": "Decisão e instrução",
+        "papel": "Administrador, Diretor, Coordenador ou Gerente; escrita pelo autor e chefias",
+        "entra": "Contrato elegível e condições/preços de mercado",
+        "acao": "Avaliar vantajosidade e enquadramento legal; reunir e anexar documentos",
+        "sai": "Documentação anexada ao contrato",
+        "sistema": "Hórus — Documentos, repositório privado",
+        "regra": "Decidir pela prorrogação ou avaliar nova contratação",
+        "espera": "Não informado no fluxo anexado.",
+        "tempo": "Não informado no fluxo anexado.",
+        "auto": ""
+      },
+      {
+        "etapa": "Registro do termo aditivo",
+        "papel": "Administrador, Diretor, Coordenador ou Gerente; escrita pelo autor e chefias",
+        "entra": "Documentação e dados da prorrogação",
+        "acao": "Registrar tipo, assinatura, nova vigência, fundamento, número, descrição e status",
+        "sai": "Aditivo registrado e tramitado até publicação",
+        "sistema": "Hórus — Termos aditivos / apostilamentos",
+        "regra": "Rascunho → Em tramitação → Assinado → Publicado; ou Cancelado",
+        "espera": "Não informado no fluxo anexado.",
+        "tempo": "Não informado no fluxo anexado.",
+        "auto": ""
+      },
+      {
+        "etapa": "Alteração financeira, quando aplicável",
+        "papel": "Administrador, Diretor, Coordenador ou Gerente; escrita pelo autor e chefias",
+        "entra": "Índice, percentual, data, valores e memória de cálculo",
+        "acao": "Registrar reajuste, repactuação, reequilíbrio, revisão ou atualização monetária",
+        "sai": "Alteração financeira registrada",
+        "sistema": "Hórus — Reajustes / repactuações / reequilíbrio",
+        "regra": "Solicitado → Em análise → Aprovado → Aplicado; ou Indeferido",
+        "espera": "Não informado no fluxo anexado.",
+        "tempo": "Não informado no fluxo anexado.",
+        "auto": ""
+      },
+      {
+        "etapa": "Atualização da vigência",
+        "papel": "Administrador, Diretor, Coordenador ou Gerente; escrita pelo autor e chefias",
+        "entra": "Aditivo publicado com nova data de término",
+        "acao": "Editar data de término ou meses de vigência",
+        "sai": "Contrato com nova vigência e status Vigente",
+        "sistema": "Hórus — edição do contrato",
+        "regra": "Registro do aditivo e edição da vigência são etapas distintas",
+        "espera": "Após publicação do aditivo; espera não medida",
+        "tempo": "Não informado no fluxo anexado.",
+        "auto": ""
+      },
+      {
+        "etapa": "Efeitos e encerramento do fluxo",
+        "papel": "Sistema Hórus",
+        "entra": "Nova vigência e registros de alterações",
+        "acao": "Recalcular semáforo e registrar criação do aditivo e mudanças em auditoria",
+        "sai": "Alertas recalculados; documentos disponíveis; trilha de auditoria",
+        "sistema": "Hórus — semáforo, alertas e auditoria",
+        "regra": "Auditoria append-only; faixa recalculada diariamente",
+        "espera": "Não informado no fluxo anexado.",
+        "tempo": "Não informado no fluxo anexado.",
+        "auto": "Sim, com regra clara"
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "",
+        "muda": "",
+        "quem": "",
+        "beneficio": "",
+        "esforco": "",
+        "rm": ""
+      }
+    ],
+    "tRefs": [
+      {
+        "ref": "Fluxo de Renovação de Contratos — Hórus (PlaniTec), versão 1.0",
+        "tipo": "Documento interno",
+        "fonte": "Fluxo-Renovacao-Contratos-Horus(1).docx",
+        "ano": "2026",
+        "dado": "Etapas, dados, status, semáforo, papéis e auditoria",
+        "uso": "Sustentar a descrição do funcionamento documentado",
+        "conferido": "Não se aplica"
+      },
+      {
+        "ref": "Lei nº 14.133/2021, arts. 105, 107 e 125, citados no fluxo",
+        "tipo": "Norma ou lei",
+        "fonte": "Referência presente no documento anexado; link não fornecido",
+        "ano": "2021",
+        "dado": "Fundamentos de duração/prorrogação e limites de acréscimos/supressões, conforme o fluxo",
+        "uso": "Identificar os fundamentos indicados pelo documento, sem validação jurídica externa",
+        "conferido": "Não"
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "",
+        "data": "",
+        "resp": "",
+        "dep": "",
+        "sit": "",
+        "rm": ""
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "",
+        "prob": "",
+        "imp": "",
+        "mit": "",
+        "rm": ""
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "",
+        "tipo": "",
+        "onde": "",
+        "existe": "",
+        "acesso": "",
+        "linha": "",
+        "volume": "",
+        "historico": "",
+        "campos": "",
+        "atualiza": "",
+        "lgpd": "",
+        "obs": "",
+        "rm": ""
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "",
+        "tipo": "",
+        "onde": "",
+        "custo": "",
+        "mantem": "",
+        "acesso": "",
+        "banco": "",
+        "escala": "",
+        "limite": "",
+        "rm": ""
+      }
+    ]
+  }
+}

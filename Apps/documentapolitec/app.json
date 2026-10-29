@@ -1,0 +1,29 @@
+{
+  "titulo": "DOCUMENTAPOLITEC",
+  "subtitulo": "POLITEC/MT · prontuários civis para o arquivo central",
+  "descricao": "Conferência da relação de prontuários de cada caixa com o arquivo digital, lacre e busca do prontuário. Dados fictícios.",
+  "aviso": "Protótipo com dados fictícios. Não cadastre prontuários, nomes ou caixas reais.",
+  "db": {
+    "nome": "documentapolitec_v1",
+    "versao": 1,
+    "stores": {
+      "caixas": {"keyPath": "id_caixa", "indices": [{"nome": "status", "campo": "status", "unico": false}]},
+      "prontuarios": {"keyPath": "numero", "indices": [{"nome": "caixa_id", "campo": "caixa_id", "unico": false}]},
+      "log": {"keyPath": "id", "indices": [{"nome": "caixa_id", "campo": "caixa_id", "unico": false}]}
+    }
+  },
+  "perfis": [
+    {"id": "papiloscopista", "nome": "Papiloscopista", "descricao": "Confere a relação, atesta a veracidade e lacra a caixa."},
+    {"id": "gestor", "nome": "Gestor documental", "descricao": "Acompanha as caixas conferidas, pendentes e o espaço liberado."}
+  ],
+  "rotas": [
+    {"rota": "#/painel", "titulo": "Painel", "sprint": 1, "descricao": "Caixas conferidas, pendentes e prontuários."},
+    {"rota": "#/caixas", "titulo": "Caixas", "sprint": 2, "descricao": "Lista das caixas com a situação da conferência."},
+    {"rota": "#/caixa/nova", "titulo": "Nova caixa", "sprint": 2, "descricao": "Caixa com a relação de prontuários.", "perfis": ["papiloscopista"]},
+    {"rota": "#/caixa/:id", "titulo": "Caixa", "sprint": 2, "descricao": "Relação, conferência e lacre."},
+    {"rota": "#/busca", "titulo": "Busca", "sprint": 2, "descricao": "Localiza a caixa pelo número do prontuário."},
+    {"rota": "#/config", "titulo": "Configuração", "sprint": 1, "descricao": ""}
+  ],
+  "libs": [],
+  "dados": [["seed", "exemplos/seed.json"]]
+}

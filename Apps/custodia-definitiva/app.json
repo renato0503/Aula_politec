@@ -1,0 +1,35 @@
+{
+  "titulo": "Custódia Definitiva",
+  "subtitulo": "POLITEC/MT · Central de Custódia de vestígios periciais",
+  "descricao": "Cadastro, classificação, endereçamento e localização de vestígios e contraprovas, com painel de ocupação. Dados fictícios.",
+  "aviso": "Protótipo com dados fictícios. Não cadastre vestígios, lacres ou processos reais.",
+  "db": {
+    "nome": "custodia_definitiva_v1",
+    "versao": 1,
+    "stores": {
+      "categorias": {"keyPath": "id_categoria", "indices": []},
+      "conteineres": {"keyPath": "id_conteiner", "indices": []},
+      "vestigios": {"keyPath": "id_vestigio", "indices": [
+        {"nome": "categoria_id", "campo": "categoria_id", "unico": false},
+        {"nome": "conteiner_id", "campo": "conteiner_id", "unico": false}
+      ]},
+      "movimentacoes": {"keyPath": "id_movimentacao", "indices": [{"nome": "vestigio_id", "campo": "vestigio_id", "unico": false}]},
+      "historico_mensal": {"keyPath": "id_periodo", "indices": []}
+    }
+  },
+  "perfis": [
+    {"id": "custodia", "nome": "Núcleo de Custódia", "descricao": "Recebe, confere, endereça e movimenta os vestígios."},
+    {"id": "perito", "nome": "Perito criminal", "descricao": "Separa contraprovas e consulta a localização dos materiais."},
+    {"id": "gestor", "nome": "Gestor da unidade", "descricao": "Acompanha a ocupação, a capacidade e as projeções."}
+  ],
+  "rotas": [
+    {"rota": "#/painel", "titulo": "Painel", "sprint": 1, "descricao": "Ocupação dos contêineres e total de vestígios."},
+    {"rota": "#/vestigios", "titulo": "Vestígios", "sprint": 2, "descricao": "Lista com filtros de categoria, contêiner e situação."},
+    {"rota": "#/vestigio/novo", "titulo": "Novo vestígio", "sprint": 2, "descricao": "Cadastro, classificação e endereçamento sugerido.", "perfis": ["custodia", "perito"]},
+    {"rota": "#/vestigio/:id", "titulo": "Vestígio", "sprint": 2, "descricao": "Ficha, endereço digital e movimentações."},
+    {"rota": "#/conteineres", "titulo": "Contêineres", "sprint": 1, "descricao": "Capacidade e ocupação de cada contêiner."},
+    {"rota": "#/config", "titulo": "Configuração", "sprint": 1, "descricao": ""}
+  ],
+  "libs": [],
+  "dados": [["seed", "exemplos/seed.json"]]
+}

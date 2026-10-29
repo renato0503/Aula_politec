@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "Painel Gargalo Ouvidoria - Francis"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "928b2c96-288c-4f8b-8ec2-7d61d4012632"
+  }
+}

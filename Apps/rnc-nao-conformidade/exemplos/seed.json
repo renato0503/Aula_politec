@@ -1,0 +1,642 @@
+{
+ "setores": [
+  {
+   "sigla": "LQF",
+   "nome": "Laboratório de Química Forense",
+   "diretoria": "DLF"
+  },
+  {
+   "sigla": "LGF",
+   "nome": "Laboratório de Genética Forense",
+   "diretoria": "DLF"
+  },
+  {
+   "sigla": "LTX",
+   "nome": "Laboratório de Toxicologia",
+   "diretoria": "DLF"
+  },
+  {
+   "sigla": "REC",
+   "nome": "Recepção de vestígios",
+   "diretoria": "DLF"
+  },
+  {
+   "sigla": "ALM",
+   "nome": "Almoxarifado",
+   "diretoria": "DLF"
+  },
+  {
+   "sigla": "CUS",
+   "nome": "Central de Custódia",
+   "diretoria": "DLF"
+  }
+ ],
+ "rncs": [
+  {
+   "numero": "DLF/2026-001",
+   "aberta_em": "2026-09-02",
+   "setor_relator": "LGF",
+   "setor_notificado": "LTX",
+   "categoria": "Prazo de laudo",
+   "gravidade": "leve",
+   "descricao": "Ocorrência fictícia 1 (prazo de laudo).",
+   "etapa": "encerramento",
+   "situacao": "encerrada"
+  },
+  {
+   "numero": "DLF/2026-002",
+   "aberta_em": "2026-09-04",
+   "setor_relator": "LTX",
+   "setor_notificado": "ALM",
+   "categoria": "Cadeia de custódia",
+   "gravidade": "leve",
+   "descricao": "Ocorrência fictícia 2 (cadeia de custódia).",
+   "etapa": "encerramento",
+   "situacao": "encerrada"
+  },
+  {
+   "numero": "DLF/2026-003",
+   "aberta_em": "2026-09-05",
+   "setor_relator": "LGF",
+   "setor_notificado": "LTX",
+   "categoria": "Cadeia de custódia",
+   "gravidade": "moderada",
+   "descricao": "Ocorrência fictícia 3 (cadeia de custódia).",
+   "etapa": "avaliação",
+   "situacao": "aberta"
+  },
+  {
+   "numero": "DLF/2026-004",
+   "aberta_em": "2026-09-08",
+   "setor_relator": "REC",
+   "setor_notificado": "LQF",
+   "categoria": "Registro incompleto",
+   "gravidade": "moderada",
+   "descricao": "Ocorrência fictícia 4 (registro incompleto).",
+   "etapa": "encerramento",
+   "situacao": "encerrada"
+  },
+  {
+   "numero": "DLF/2026-005",
+   "aberta_em": "2026-09-09",
+   "setor_relator": "REC",
+   "setor_notificado": "CUS",
+   "categoria": "Biossegurança",
+   "gravidade": "leve",
+   "descricao": "Ocorrência fictícia 5 (biossegurança).",
+   "etapa": "plano",
+   "situacao": "aberta"
+  },
+  {
+   "numero": "DLF/2026-006",
+   "aberta_em": "2026-09-12",
+   "setor_relator": "LTX",
+   "setor_notificado": "CUS",
+   "categoria": "Prazo de laudo",
+   "gravidade": "moderada",
+   "descricao": "Ocorrência fictícia 6 (prazo de laudo).",
+   "etapa": "plano",
+   "situacao": "aberta"
+  },
+  {
+   "numero": "DLF/2026-007",
+   "aberta_em": "2026-09-13",
+   "setor_relator": "LQF",
+   "setor_notificado": "REC",
+   "categoria": "Registro incompleto",
+   "gravidade": "leve",
+   "descricao": "Ocorrência fictícia 7 (registro incompleto).",
+   "etapa": "avaliação",
+   "situacao": "aberta"
+  },
+  {
+   "numero": "DLF/2026-008",
+   "aberta_em": "2026-09-16",
+   "setor_relator": "ALM",
+   "setor_notificado": "LGF",
+   "categoria": "Registro incompleto",
+   "gravidade": "moderada",
+   "descricao": "Ocorrência fictícia 8 (registro incompleto).",
+   "etapa": "validação",
+   "situacao": "anulada"
+  },
+  {
+   "numero": "DLF/2026-009",
+   "aberta_em": "2026-09-18",
+   "setor_relator": "CUS",
+   "setor_notificado": "LQF",
+   "categoria": "Biossegurança",
+   "gravidade": "moderada",
+   "descricao": "Ocorrência fictícia 9 (biossegurança).",
+   "etapa": "encerramento",
+   "situacao": "encerrada"
+  },
+  {
+   "numero": "DLF/2026-010",
+   "aberta_em": "2026-09-20",
+   "setor_relator": "CUS",
+   "setor_notificado": "LQF",
+   "categoria": "Registro incompleto",
+   "gravidade": "leve",
+   "descricao": "Ocorrência fictícia 10 (registro incompleto).",
+   "etapa": "avaliação",
+   "situacao": "aberta"
+  },
+  {
+   "numero": "DLF/2026-011",
+   "aberta_em": "2026-09-22",
+   "setor_relator": "LQF",
+   "setor_notificado": "CUS",
+   "categoria": "Prazo de laudo",
+   "gravidade": "leve",
+   "descricao": "Ocorrência fictícia 11 (prazo de laudo).",
+   "etapa": "plano",
+   "situacao": "aberta"
+  },
+  {
+   "numero": "DLF/2026-012",
+   "aberta_em": "2026-09-23",
+   "setor_relator": "LTX",
+   "setor_notificado": "CUS",
+   "categoria": "Registro incompleto",
+   "gravidade": "leve",
+   "descricao": "Ocorrência fictícia 12 (registro incompleto).",
+   "etapa": "plano",
+   "situacao": "aberta"
+  },
+  {
+   "numero": "DLF/2026-013",
+   "aberta_em": "2026-09-25",
+   "setor_relator": "ALM",
+   "setor_notificado": "REC",
+   "categoria": "Registro incompleto",
+   "gravidade": "grave",
+   "descricao": "Ocorrência fictícia 13 (registro incompleto).",
+   "etapa": "validação",
+   "situacao": "encaminhada à corregedoria"
+  },
+  {
+   "numero": "DLF/2026-014",
+   "aberta_em": "2026-09-27",
+   "setor_relator": "REC",
+   "setor_notificado": "ALM",
+   "categoria": "Cadeia de custódia",
+   "gravidade": "leve",
+   "descricao": "Ocorrência fictícia 14 (cadeia de custódia).",
+   "etapa": "avaliação",
+   "situacao": "aberta"
+  },
+  {
+   "numero": "DLF/2026-015",
+   "aberta_em": "2026-09-29",
+   "setor_relator": "REC",
+   "setor_notificado": "CUS",
+   "categoria": "Registro incompleto",
+   "gravidade": "leve",
+   "descricao": "Ocorrência fictícia 15 (registro incompleto).",
+   "etapa": "plano",
+   "situacao": "aberta"
+  },
+  {
+   "numero": "DLF/2026-016",
+   "aberta_em": "2026-10-02",
+   "setor_relator": "LTX",
+   "setor_notificado": "LQF",
+   "categoria": "Registro incompleto",
+   "gravidade": "moderada",
+   "descricao": "Ocorrência fictícia 16 (registro incompleto).",
+   "etapa": "plano",
+   "situacao": "aberta"
+  },
+  {
+   "numero": "DLF/2026-017",
+   "aberta_em": "2026-10-04",
+   "setor_relator": "CUS",
+   "setor_notificado": "LQF",
+   "categoria": "Biossegurança",
+   "gravidade": "leve",
+   "descricao": "Ocorrência fictícia 17 (biossegurança).",
+   "etapa": "validação",
+   "situacao": "aberta"
+  },
+  {
+   "numero": "DLF/2026-018",
+   "aberta_em": "2026-10-05",
+   "setor_relator": "ALM",
+   "setor_notificado": "LQF",
+   "categoria": "Cadeia de custódia",
+   "gravidade": "moderada",
+   "descricao": "Ocorrência fictícia 18 (cadeia de custódia).",
+   "etapa": "plano",
+   "situacao": "aberta"
+  },
+  {
+   "numero": "DLF/2026-019",
+   "aberta_em": "2026-10-08",
+   "setor_relator": "LQF",
+   "setor_notificado": "LTX",
+   "categoria": "Registro incompleto",
+   "gravidade": "leve",
+   "descricao": "Ocorrência fictícia 19 (registro incompleto).",
+   "etapa": "validação",
+   "situacao": "aberta"
+  },
+  {
+   "numero": "DLF/2026-020",
+   "aberta_em": "2026-10-09",
+   "setor_relator": "LQF",
+   "setor_notificado": "REC",
+   "categoria": "Cadeia de custódia",
+   "gravidade": "leve",
+   "descricao": "Ocorrência fictícia 20 (cadeia de custódia).",
+   "etapa": "plano",
+   "situacao": "aberta"
+  }
+ ],
+ "etapas": [
+  {
+   "id": "DLF/2026-001#0",
+   "rnc": "DLF/2026-001",
+   "etapa": "validação",
+   "inicio": "2026-09-02",
+   "fim": "2026-09-04",
+   "prazo": "2026-09-07"
+  },
+  {
+   "id": "DLF/2026-001#1",
+   "rnc": "DLF/2026-001",
+   "etapa": "plano",
+   "inicio": "2026-09-04",
+   "fim": "2026-09-27",
+   "prazo": "2026-10-04"
+  },
+  {
+   "id": "DLF/2026-001#2",
+   "rnc": "DLF/2026-001",
+   "etapa": "avaliação",
+   "inicio": "2026-09-27",
+   "fim": "2026-10-01",
+   "prazo": "2026-10-07"
+  },
+  {
+   "id": "DLF/2026-001#3",
+   "rnc": "DLF/2026-001",
+   "etapa": "encerramento",
+   "inicio": "2026-10-01",
+   "fim": "2026-10-02",
+   "prazo": "2026-10-11"
+  },
+  {
+   "id": "DLF/2026-002#0",
+   "rnc": "DLF/2026-002",
+   "etapa": "validação",
+   "inicio": "2026-09-04",
+   "fim": "2026-09-05",
+   "prazo": "2026-09-09"
+  },
+  {
+   "id": "DLF/2026-002#1",
+   "rnc": "DLF/2026-002",
+   "etapa": "plano",
+   "inicio": "2026-09-05",
+   "fim": "2026-09-23",
+   "prazo": "2026-10-05"
+  },
+  {
+   "id": "DLF/2026-002#2",
+   "rnc": "DLF/2026-002",
+   "etapa": "avaliação",
+   "inicio": "2026-09-23",
+   "fim": "2026-09-26",
+   "prazo": "2026-10-03"
+  },
+  {
+   "id": "DLF/2026-002#3",
+   "rnc": "DLF/2026-002",
+   "etapa": "encerramento",
+   "inicio": "2026-09-26",
+   "fim": "2026-09-27",
+   "prazo": "2026-10-06"
+  },
+  {
+   "id": "DLF/2026-003#0",
+   "rnc": "DLF/2026-003",
+   "etapa": "validação",
+   "inicio": "2026-09-05",
+   "fim": "2026-09-06",
+   "prazo": "2026-09-10"
+  },
+  {
+   "id": "DLF/2026-003#1",
+   "rnc": "DLF/2026-003",
+   "etapa": "plano",
+   "inicio": "2026-09-06",
+   "fim": "2026-09-29",
+   "prazo": "2026-10-06"
+  },
+  {
+   "id": "DLF/2026-003#2",
+   "rnc": "DLF/2026-003",
+   "etapa": "avaliação",
+   "inicio": "2026-09-29",
+   "fim": null,
+   "prazo": "2026-10-09"
+  },
+  {
+   "id": "DLF/2026-004#0",
+   "rnc": "DLF/2026-004",
+   "etapa": "validação",
+   "inicio": "2026-09-08",
+   "fim": "2026-09-09",
+   "prazo": "2026-09-13"
+  },
+  {
+   "id": "DLF/2026-004#1",
+   "rnc": "DLF/2026-004",
+   "etapa": "plano",
+   "inicio": "2026-09-09",
+   "fim": "2026-10-05",
+   "prazo": "2026-10-09"
+  },
+  {
+   "id": "DLF/2026-004#2",
+   "rnc": "DLF/2026-004",
+   "etapa": "avaliação",
+   "inicio": "2026-10-05",
+   "fim": "2026-10-09",
+   "prazo": "2026-10-15"
+  },
+  {
+   "id": "DLF/2026-004#3",
+   "rnc": "DLF/2026-004",
+   "etapa": "encerramento",
+   "inicio": "2026-10-09",
+   "fim": "2026-10-10",
+   "prazo": "2026-10-19"
+  },
+  {
+   "id": "DLF/2026-005#0",
+   "rnc": "DLF/2026-005",
+   "etapa": "validação",
+   "inicio": "2026-09-09",
+   "fim": "2026-09-11",
+   "prazo": "2026-09-14"
+  },
+  {
+   "id": "DLF/2026-005#1",
+   "rnc": "DLF/2026-005",
+   "etapa": "plano",
+   "inicio": "2026-09-11",
+   "fim": null,
+   "prazo": "2026-10-11"
+  },
+  {
+   "id": "DLF/2026-006#0",
+   "rnc": "DLF/2026-006",
+   "etapa": "validação",
+   "inicio": "2026-09-12",
+   "fim": "2026-09-14",
+   "prazo": "2026-09-17"
+  },
+  {
+   "id": "DLF/2026-006#1",
+   "rnc": "DLF/2026-006",
+   "etapa": "plano",
+   "inicio": "2026-09-14",
+   "fim": null,
+   "prazo": "2026-10-14"
+  },
+  {
+   "id": "DLF/2026-007#0",
+   "rnc": "DLF/2026-007",
+   "etapa": "validação",
+   "inicio": "2026-09-13",
+   "fim": "2026-09-16",
+   "prazo": "2026-09-18"
+  },
+  {
+   "id": "DLF/2026-007#1",
+   "rnc": "DLF/2026-007",
+   "etapa": "plano",
+   "inicio": "2026-09-16",
+   "fim": "2026-10-06",
+   "prazo": "2026-10-16"
+  },
+  {
+   "id": "DLF/2026-007#2",
+   "rnc": "DLF/2026-007",
+   "etapa": "avaliação",
+   "inicio": "2026-10-06",
+   "fim": null,
+   "prazo": "2026-10-16"
+  },
+  {
+   "id": "DLF/2026-008#0",
+   "rnc": "DLF/2026-008",
+   "etapa": "validação",
+   "inicio": "2026-09-16",
+   "fim": null,
+   "prazo": "2026-09-21"
+  },
+  {
+   "id": "DLF/2026-009#0",
+   "rnc": "DLF/2026-009",
+   "etapa": "validação",
+   "inicio": "2026-09-18",
+   "fim": "2026-09-19",
+   "prazo": "2026-09-23"
+  },
+  {
+   "id": "DLF/2026-009#1",
+   "rnc": "DLF/2026-009",
+   "etapa": "plano",
+   "inicio": "2026-09-19",
+   "fim": "2026-10-05",
+   "prazo": "2026-10-19"
+  },
+  {
+   "id": "DLF/2026-009#2",
+   "rnc": "DLF/2026-009",
+   "etapa": "avaliação",
+   "inicio": "2026-10-05",
+   "fim": "2026-10-07",
+   "prazo": "2026-10-15"
+  },
+  {
+   "id": "DLF/2026-009#3",
+   "rnc": "DLF/2026-009",
+   "etapa": "encerramento",
+   "inicio": "2026-10-07",
+   "fim": "2026-10-08",
+   "prazo": "2026-10-17"
+  },
+  {
+   "id": "DLF/2026-010#0",
+   "rnc": "DLF/2026-010",
+   "etapa": "validação",
+   "inicio": "2026-09-20",
+   "fim": "2026-09-23",
+   "prazo": "2026-09-25"
+  },
+  {
+   "id": "DLF/2026-010#1",
+   "rnc": "DLF/2026-010",
+   "etapa": "plano",
+   "inicio": "2026-09-23",
+   "fim": "2026-10-15",
+   "prazo": "2026-10-23"
+  },
+  {
+   "id": "DLF/2026-010#2",
+   "rnc": "DLF/2026-010",
+   "etapa": "avaliação",
+   "inicio": "2026-10-15",
+   "fim": null,
+   "prazo": "2026-10-25"
+  },
+  {
+   "id": "DLF/2026-011#0",
+   "rnc": "DLF/2026-011",
+   "etapa": "validação",
+   "inicio": "2026-09-22",
+   "fim": "2026-09-23",
+   "prazo": "2026-09-27"
+  },
+  {
+   "id": "DLF/2026-011#1",
+   "rnc": "DLF/2026-011",
+   "etapa": "plano",
+   "inicio": "2026-09-23",
+   "fim": null,
+   "prazo": "2026-10-23"
+  },
+  {
+   "id": "DLF/2026-012#0",
+   "rnc": "DLF/2026-012",
+   "etapa": "validação",
+   "inicio": "2026-09-23",
+   "fim": "2026-09-24",
+   "prazo": "2026-09-28"
+  },
+  {
+   "id": "DLF/2026-012#1",
+   "rnc": "DLF/2026-012",
+   "etapa": "plano",
+   "inicio": "2026-09-24",
+   "fim": null,
+   "prazo": "2026-10-24"
+  },
+  {
+   "id": "DLF/2026-013#0",
+   "rnc": "DLF/2026-013",
+   "etapa": "validação",
+   "inicio": "2026-09-25",
+   "fim": null,
+   "prazo": "2026-09-30"
+  },
+  {
+   "id": "DLF/2026-014#0",
+   "rnc": "DLF/2026-014",
+   "etapa": "validação",
+   "inicio": "2026-09-27",
+   "fim": "2026-09-30",
+   "prazo": "2026-10-02"
+  },
+  {
+   "id": "DLF/2026-014#1",
+   "rnc": "DLF/2026-014",
+   "etapa": "plano",
+   "inicio": "2026-09-30",
+   "fim": "2026-10-27",
+   "prazo": "2026-10-30"
+  },
+  {
+   "id": "DLF/2026-014#2",
+   "rnc": "DLF/2026-014",
+   "etapa": "avaliação",
+   "inicio": "2026-10-27",
+   "fim": null,
+   "prazo": "2026-11-06"
+  },
+  {
+   "id": "DLF/2026-015#0",
+   "rnc": "DLF/2026-015",
+   "etapa": "validação",
+   "inicio": "2026-09-29",
+   "fim": "2026-10-01",
+   "prazo": "2026-10-04"
+  },
+  {
+   "id": "DLF/2026-015#1",
+   "rnc": "DLF/2026-015",
+   "etapa": "plano",
+   "inicio": "2026-10-01",
+   "fim": null,
+   "prazo": "2026-10-31"
+  },
+  {
+   "id": "DLF/2026-016#0",
+   "rnc": "DLF/2026-016",
+   "etapa": "validação",
+   "inicio": "2026-10-02",
+   "fim": "2026-10-05",
+   "prazo": "2026-10-07"
+  },
+  {
+   "id": "DLF/2026-016#1",
+   "rnc": "DLF/2026-016",
+   "etapa": "plano",
+   "inicio": "2026-10-05",
+   "fim": null,
+   "prazo": "2026-11-04"
+  },
+  {
+   "id": "DLF/2026-017#0",
+   "rnc": "DLF/2026-017",
+   "etapa": "validação",
+   "inicio": "2026-10-04",
+   "fim": null,
+   "prazo": "2026-10-09"
+  },
+  {
+   "id": "DLF/2026-018#0",
+   "rnc": "DLF/2026-018",
+   "etapa": "validação",
+   "inicio": "2026-10-05",
+   "fim": "2026-10-08",
+   "prazo": "2026-10-10"
+  },
+  {
+   "id": "DLF/2026-018#1",
+   "rnc": "DLF/2026-018",
+   "etapa": "plano",
+   "inicio": "2026-10-08",
+   "fim": null,
+   "prazo": "2026-11-07"
+  },
+  {
+   "id": "DLF/2026-019#0",
+   "rnc": "DLF/2026-019",
+   "etapa": "validação",
+   "inicio": "2026-10-08",
+   "fim": null,
+   "prazo": "2026-10-13"
+  },
+  {
+   "id": "DLF/2026-020#0",
+   "rnc": "DLF/2026-020",
+   "etapa": "validação",
+   "inicio": "2026-10-09",
+   "fim": "2026-10-10",
+   "prazo": "2026-10-14"
+  },
+  {
+   "id": "DLF/2026-020#1",
+   "rnc": "DLF/2026-020",
+   "etapa": "plano",
+   "inicio": "2026-10-10",
+   "fim": null,
+   "prazo": "2026-11-09"
+  }
+ ]
+}

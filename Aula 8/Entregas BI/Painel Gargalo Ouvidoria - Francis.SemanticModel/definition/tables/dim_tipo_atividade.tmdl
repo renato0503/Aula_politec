@@ -1,0 +1,34 @@
+table dim_tipo_atividade
+	lineageTag: b51c5a0b-58a3-50e4-95f1-8e70d7cd6690
+
+	column tipo_atividade_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: f2447af8-6f01-5611-9385-da0a995896a4
+		summarizeBy: none
+		sourceColumn: tipo_atividade_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo_atividade
+		dataType: string
+		lineageTag: ef8e4a0b-1dea-574f-9b46-1cc73dd92728
+		summarizeBy: none
+		sourceColumn: tipo_atividade
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_tipo_atividade = m
+		mode: import
+		source =
+				let
+					Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(
+					"i4421FFyLCjKL0s8vPzw4nylWJ1oIx0ll9TkzGIo11hHybW4ILUoEcQx0VEKSSxKTUtUSCwtyc9NLMmsSkwBy5jCZXIT80oTc0BiZkCxosS84rTUosOr8pIzgQpjAQ==",
+						BinaryEncoding.Base64), Compression.Deflate)), {"tipo_atividade_key", "tipo_atividade"}),
+					Tipos = Table.TransformColumnTypes(Fonte, {{"tipo_atividade_key", Int64.Type}, {"tipo_atividade", type text}}, "en-US")
+				in
+					Tipos
+
+	annotation PBI_ResultType = Table
+

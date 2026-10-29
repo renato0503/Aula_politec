@@ -1,0 +1,154 @@
+{
+  "titulo": "Agiliza +",
+  "subtitulo": "Gerador de laudos de exame em celular",
+  "descricao": "Lê a pasta do caso, mostra os dados para conferência e gera o laudo Word a partir do modelo institucional.",
+  "aviso": "Apoio à elaboração. A revisão e a aprovação são do perito.",
+  "db": {
+    "nome": "agiliza_mais_v1",
+    "versao": 1,
+    "log": "conferencias",
+    "stores": {
+      "casos": {
+        "keyPath": "id_caso",
+        "indices": []
+      },
+      "aparelhos": {
+        "keyPath": "id_aparelho",
+        "indices": [
+          {
+            "nome": "id_caso",
+            "campo": "id_caso",
+            "unico": false
+          }
+        ]
+      },
+      "sims": {
+        "keyPath": "id_sim",
+        "indices": [
+          {
+            "nome": "id_caso",
+            "campo": "id_caso",
+            "unico": false
+          }
+        ]
+      },
+      "hashes": {
+        "keyPath": "id_hash",
+        "indices": [
+          {
+            "nome": "id_caso",
+            "campo": "id_caso",
+            "unico": false
+          }
+        ]
+      },
+      "textos": {
+        "keyPath": "id_texto",
+        "indices": [
+          {
+            "nome": "categoria",
+            "campo": "categoria",
+            "unico": false
+          }
+        ]
+      },
+      "quesitos": {
+        "keyPath": "id_quesito",
+        "indices": [
+          {
+            "nome": "id_caso",
+            "campo": "id_caso",
+            "unico": false
+          }
+        ]
+      },
+      "modelos": {
+        "keyPath": "id_modelo",
+        "indices": []
+      },
+      "laudos": {
+        "keyPath": "id_laudo",
+        "indices": [
+          {
+            "nome": "id_caso",
+            "campo": "id_caso",
+            "unico": false
+          }
+        ]
+      },
+      "conferencias": {
+        "keyPath": "id",
+        "indices": []
+      }
+    }
+  },
+  "rotas": [
+    {
+      "rota": "#/inicio",
+      "titulo": "Início",
+      "sprint": 1,
+      "descricao": "Novo laudo ou retomar um caso."
+    },
+    {
+      "rota": "#/arquivos",
+      "titulo": "Pasta do caso",
+      "sprint": 2,
+      "descricao": "Selecionar a pasta e ver o inventário."
+    },
+    {
+      "rota": "#/dados",
+      "titulo": "Conferência",
+      "sprint": 5,
+      "descricao": "Dados extraídos ao lado da origem."
+    },
+    {
+      "rota": "#/textos",
+      "titulo": "Textos",
+      "sprint": 7,
+      "descricao": "Textos padronizados por seção."
+    },
+    {
+      "rota": "#/quesitos",
+      "titulo": "Quesitos",
+      "sprint": 8,
+      "descricao": "Numeração, enunciado e resposta."
+    },
+    {
+      "rota": "#/gerar",
+      "titulo": "Gerar laudo",
+      "sprint": 4,
+      "descricao": "Conferência automática e geração do .docx."
+    },
+    {
+      "rota": "#/revisao",
+      "titulo": "Revisão final",
+      "sprint": 9,
+      "descricao": "Correções e marcação de revisado."
+    },
+    {
+      "rota": "#/biblioteca",
+      "titulo": "Biblioteca",
+      "sprint": 7,
+      "descricao": "Textos padronizados e respostas-modelo."
+    },
+    {
+      "rota": "#/historico",
+      "titulo": "Histórico",
+      "sprint": 11,
+      "descricao": "Casos, versões, tempos e CSV."
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": ""
+    }
+  ],
+  "libs": [],
+  "dados": [
+    [
+      "seed",
+      "exemplos/seed.json"
+    ]
+  ]
+}

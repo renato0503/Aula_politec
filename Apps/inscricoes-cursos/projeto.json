@@ -1,0 +1,640 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T12:56:17.533Z",
+  "campos": {
+    "data": "2026-10-27",
+    "aluno": "Edilaura Rondon ",
+    "unidade": "Gerência de Formação Inicial e Continuada ",
+    "contato": "capacitacao@politec.mt.gov.br",
+    "nome_projeto": "Gestão Dinâmica de Inscrições em Cursos",
+    "tipo_projeto": "Aplicativo (app) para cidadão, servidor ou equipe",
+    "resumo": "O projeto Gestão Dinâmica de Inscrições em Cursos consiste na padronização e automação de todo o ciclo de ingresso em capacitações da POLITEC, centralizando a coleta dos dados funcionais do servidor, como matrícula, lotação e e-mail institucional, em um fluxo contínuo e transparente. A iniciativa elimina gargalos operacionais ao fornecer confirmação imediata de recebimento ao candidato com status \"em análise\", automatizar a comunicação por e-mail e estruturar uma triagem eficiente para validação de requisitos e controle de vagas pela equipe responsável.",
+    "problema": "O principal gargalo identificado é a ausência de um fluxo padronizado para a coleta de dados cadastrais dos servidores e a gestão das inscrições em cursos.",
+    "hoje": "Atualmente, a divulgação das capacitações e a distribuição de vagas ocorrem diretamente às diretorias, que ficam responsáveis pela seleção dos servidores — definindo os candidatos para as vagas efetivas e para o cadastro de reserva",
+    "impacto": "O impacto negativo central decorre da distribuição ineficiente das vagas e de falhas no processo de coleta de dados, causadas pela falta de retorno tempestivo dos servidores e pela ausência de um cadastro atualizado e padronizado.\"",
+    "evid_detalhe": "Planilha de excel",
+    "limite": "Decidir quem fica com a vaga titular ou no cadastro de reserva quando a demanda é maior que o número de vagas.",
+    "asis_inicio": "divulgação de vagas de cursos/treinamentos para a Diretorias da POLITEC",
+    "asis_fim": "Cadastro do servidor no curso/treinamento",
+    "asis_entradas": "Planilha com os dados do servidor(nome completo, unidade/lotação, matricula, CPF, telefone e email funcional)",
+    "asis_saidas": "Servidor capacitado e certificação/declaração de conclusão de cursos/treinamentos",
+    "asis_volume": "50",
+    "asis_duracao": "40 horas semanais",
+    "asis_frequencia": "Mensal",
+    "asis_decisoes": " A efetivação da inscrição é pela ordem de indicação ",
+    "asis_excecoes": "Caso haja desistência de primeiro indicado temos o cadastro reserva ",
+    "asis_digital": "Digitação em planilha de Excel e disponibilizado ao setor ou órgão responsável pelo o curso ",
+    "papeis_obs": "O gerente verifica os dados e planilha as informações e compartilha aos gestores do curso",
+    "tobe_visao": "Transformar a gestão de capacitações em um processo totalmente fluido, onde a tecnologia automatiza a coleta de dados e a comunicação, permitindo que a liderança foque na decisão estratégica e no desenvolvimento continuo dos servidores.",
+    "tobe_mudanca": "A mudança principal é a transição de um processo manual, descentralizado e lento para um fluxo automatizado, padronizado e transparente.",
+    "tobe_inalterado": "A prerrogativa das diretorias na seleção dos servidores, a validação humana dos pré-requisitos e a execução presencial das instruções práticas permanecem exatamente as mesmas.",
+    "tobe_restricao": "A autonomia das diretorias na indicação dos participantes, o cumprimento rigoroso dos pré-requisitos regulamentares e a avaliação presencial da aptidão técnica do servidor permanecem intocados",
+    "tobe_piloto": "O teste do estado futuro (TO-BE) será realizado em ambiente de homologação e por meio de um projeto-piloto em turma reduzida, validando o preenchimento dos dados, o disparo das notificações automáticas e a facilidade de triagem pelas diretorias antes do lançamento oficial.",
+    "entrega": "App de inscrição em um único arquivo HTML (inscrição, triagem pelas diretorias e convocação), com a documentação do novo fluxo (AS-IS e TO-BE), a matriz de governança e o relatório do piloto.",
+    "dentro": "O escopo do projeto abrange o mapeamento e a padronização integral do fluxo de inscrição (AS-IS e TO-BE), a criação dos formulários digitais padronizados, a automação das notificações e comunicações com os servidores, a organização da base de dados para otimizar a triagem pelas diretorias, o estabelecimento da matriz de governança, além da realização do projeto-piloto de testes e a entrega da documentação final para a implantação definitiva na POLITEC.",
+    "fora": "Automação da decisão de seleção das vagas; gestão das aulas práticas; integração em tempo real com o RH; emissão de certificados. A autonomia das diretorias na escolha dos servidores continua.",
+    "mvp_naofaz": "O MVP (Produto Mínimo Viável) NÃO faz a integração em tempo real com o banco de dados corporativo do RH, a emissão e o envio automatizado de certificados, a geração de painéis e dashboards gerenciais de BI, o reescalonamento automático do cadastro de reserva em caso de desistências e a autenticação centralizada por login corporativo (SSO), mantendo essas funcionalidades avançadas para fases futuras do projeto e focando, nesta etapa, exclusivamente na validação da coleta de dados, automação de avisos e apoio à triagem das diretorias.",
+    "doc_descricao": "Tabela de definições consolidadas (7 artefatos): movida para o bloco de telas e artefatos.",
+    "mvp_plataforma": "Site web (abre no navegador)",
+    "mvp_objetivo": "O objetivo do MVP é validar, em ambiente controlado, a automação da coleta de dados e do envio de notificações mantendo a triagem manual das diretorias, garantindo maior agilidade e redução de erros operacionais antes da expansão definitiva na POLITEC.",
+    "mvp_tela_inicial": "O primeiro artefato que o usuário vê depende do seu papel no fluxo:  * **Para o Servidor (Candidato):** É a **Tela/Formulário de Inscrição Online**, onde ele visualiza as informações do curso e preenche seus dados cadastrais. * **Para o Gestor/Diretoria:** É a **Planilha/Painel de Triagem**, onde ele visualiza a lista consolidada dos inscritos para realizar a seleção das vagas.",
+    "mvp_mock": "A conferência da matrícula usa um relatório do SEAP exportado (fictício no teste). A resposta automática por e-mail usa uma regra do Outlook, se a TI liberar; sem ela, vale o comprovante na tela. A chamada da reserva é feita pela gerência com um botão, sem reescalonamento automático.",
+    "mvp_criterio": "O critério de aceite que comprova o funcionamento do MVP é a validação de quatro condições fundamentais de ponta a ponta:\n\nCaptura e Validação de Dados: 100% das submissões no formulário online geram registros corretos na base de dados, bloqueando envios com campos obrigatórios em branco ou inválidos.\n\nDisparo das Notificações Automáticas: Todos os e-mails/mensagens de confirmação de inscrição (\"Em Análise\") chegam às caixas de entrada dos servidores de teste imediatamente após o envio do formulário.\n\nFluidez na Triagem pelas Diretorias: Os gestores conseguem acessar a planilha/painel consolidado, aplicar filtros por diretoria e indicar os candidatos (Titulares e Reserva) sem retrabalho ou ambiguidades.\n\nEncaminhamento Efetivo: Os servidores aprovados recebem a notificação final de convocação contendo o link funcional para o grupo oficial da turma, concluindo o ciclo do teste sem falhas de comunicação.",
+    "mvp_dados": "Para realizar os testes e homologação do MVP no ambiente de teste, a base de dados deve ser populada com os seguintes dados de exemplo (dados fictícios/dummy data):1. Dados de Entradas/Inscrições (Formulário)CPFNome CompletoMatrículaDiretoria / UnidadeE-mail Funcional",
+    "mvp_reuso": "O que pode ser reaproveitado como fonte de validação manual/semi-automatizada (Sistemas de RH / SESP)\nCadastro Base do Servidor (SEAP / Portal do Servidor SEPLAG-MT): Os dados oficiais de identificação (Matrícula, CPF, Cargo, Nome Completo, Vínculo Ativo) já existem na base legada de recursos humanos do Estado.\n\nComo reaproveitar no MVP: Em vez de criar um banco de dados novo, a equipe usa relatórios exportados em Excel/CSV do SEAP/Portal do Servidor para cruzar e validar rapidamente os dados informados pelos candidatos nos formulários.",
+    "dependencias": "Para garantir o funcionamento do novo fluxo e a validação do MVP, o projeto depende diretamente do alinhamento e das parcerias entre três níveis essenciais da estrutura governamental:\n\n1. Parcerias Internas da POLITEC (Diretoria Executiva e Áreas Finalísticas)\nDiretorias Finalísticas e Regionais da POLITEC: Responsáveis por validar os pré-requisitos técnicos dos inscritos, realizar a triagem/seleção de vagas (Titulares e Reserva) e definir o limite de capacidade das turmas.\n\nCoordenadoria de Ensino/Capacitação da POLITEC: Responsável por operacionalizar o formulário, acompanhar os disparos de notificações e intermediar a comunicação com instrutores e alunos.\n\nEquipe de Tecnologia da Informação (TI Local): Apoia no fornecimento e suporte ao ecossistema institucional (contas corporativas, licenças e ferramentas no-code para as automações).\n\n2. Parcerias Estratégicas com a SESP-MT (Secretaria de Estado de Segurança Pública)\nCoordenadoria de Tecnologia da Informação e Comunicação (COTIC/SESP): Dependência essencial para liberação de acessos, garantia da estabilidade das ferramentas corporativas e validação das regras de segurança de dados na rede estadual.\n\nGestão de Pessoas / RH Central da SESP (SEAP/SEPLAG): Dependência necessária para o fornecimento pontual das bases/relatórios de servidores ativos (matrícula, vínculo e cargo) utilizados na conferência cadastral do MVP.\n\nSuperintendência de Formação e Capacitação da SESP: Para alinhamento das diretrizes pedagógicas institucionais e validação de regras para aproveitamento de cursos no histórico funcional do servidor.\n\n3. Parcerias com as demais Forças de Segurança de Mato Grosso (PMMT, CBMMT, PJC-MT)\nComandos e Diretorias de Ensino da Polícia Militar (PMMT), Polícia Judiciária Civil (PJC-MT) e Corpo de Bombeiros (CBMMT):\n\nEm cursos integrados ou vagas interinstitucionais: Para validação e indicação de servidores externos que participarão dos treinamentos oferecidos pela POLITEC.\n\nAlinhamento de Liberação e Escala: Dependência no envio formal da autorização de afastamento/liberação dos servidores inscritos para realizarem a capacitação presencial e prática sem prejuízo à escala operacional.",
+    "lgpd_dados": "Matrícula, nome, lotação, diretoria, e-mail institucional e telefone opcional dos servidores inscritos. Sem CPF: a matrícula identifica o servidor no SEAP.",
+    "lgpd_acesso": "O gerente de formação",
+    "lgpd_base": "Cadastro de servidores nos cursos de fromação",
+    "lgpd_retencao": "30 dias ",
+    "coletar": "o material não fica disponível ",
+    "acesso": "o gerente de formação e quando o curso abre ",
+    "base_periodo": "Os 2 últimos cursos com inscrição encerrada: data da divulgação, data de retorno de cada diretoria, data da lista final, inscrições corrigidas pela gerência e vagas não ocupadas.",
+    "campos_data": "Hoje: data dos e-mails de divulgação e de resposta das diretorias, e a data da planilha final. No app: enviado_em e recebido_em da inscrição, data da exportação e do retorno da triagem, data da convocação e da confirmação de presença.",
+    "hospedagem_escolhida": "Arquivo HTML único, publicado no GitHub Pages para o servidor abrir o link de inscrição, e aberto por duplo clique no computador da gerência. Sem servidor e sem banco de dados externo.",
+    "conta_quem": "A Gerência de Formação publica o arquivo no GitHub Pages (ou no site institucional, se a TI preferir). A caixa capacitacao@politec.mt.gov.br já existe.",
+    "orcamento": "Custo zero: arquivo HTML, biblioteca de QR Code de código aberto e GitHub Pages.",
+    "restricoes": "Sem servidor: as inscrições chegam por e-mail à caixa da gerência. Sem CPF. A decisão de quem fica com a vaga é da diretoria. Dados dos inscritos apagados 30 dias após o fim do curso.",
+    "hipotese_campo": "A maior parte do tempo se perde esperando o retorno das diretorias (36 h por etapa) e redigitando dados que chegam em formatos diferentes, e não na escolha dos servidores.",
+    "lacunas": "Não há medição do tempo entre a divulgação e a lista final, nem contagem de erros de cadastro. A regra de resposta automática da caixa de e-mail depende da TI.",
+    "apoio": "Gerente de Formação: aprovar o fluxo e as mensagens. Diretorias: testar a triagem por arquivo. TI: confirmar a regra de resposta automática da caixa capacitacao@ e a publicação do link.",
+    "aprendizado": "Estrutura de um app em um único HTML, IndexedDB, leitura de texto colado (blocos de inscrição), exportação de CSV e regras de LGPD (minimização e retenção).",
+    "frase": "Se a inscrição chegar padronizada e a triagem voltar por arquivo, a gerência deixa de redigitar planilhas e as vagas são distribuídas antes do curso começar.",
+    "provas": "1) A gerência gasta 40 h por semana no processo (informado pela aluna). 2) A espera pelo retorno das indicações é de 36 h por etapa (AS-IS). 3) O piloto com uma turma reduzida mede a redigitação e o tempo até a lista final.",
+    "piloto": "Uma turma reduzida, com 10 servidores de teste e 3 diretorias, do link de inscrição à lista final, comparando com a linha de base dos 2 cursos anteriores.",
+    "risco_defesa": "O e-mail de inscrição não chegar inteiro (corpo cortado). Mitigação: bloco curto, botão de copiar o bloco e comprovante na tela com o protocolo.",
+    "stack_detalhe": "Um único arquivo index.html (HTML, CSS e JS embutidos) com três perfis: servidor (inscrição), diretoria (triagem) e gerência. A inscrição gera um bloco de dados enviado por e-mail à caixa capacitacao@; a gerência cola os e-mails no app. Dados no IndexedDB da gerência; troca com as diretorias por arquivo .json. Biblioteca embutida: gerador de QR Code.",
+    "doc_faltando": "Planilha usada hoje (sem dados pessoais); exemplo de e-mail de divulgação e de resposta das diretorias; lista das diretorias que recebem vagas."
+  },
+  "marcados": {
+    "afetado": [
+      "Servidor da unidade",
+      "Chefia"
+    ],
+    "evid": [
+      "Planilha ou controle local"
+    ],
+    "stack": "HTML único (CSS/JS inline), dados em JSON embutido, GitHub Pages",
+    "req": [
+      "Funcionar offline",
+      "LGPD e dado pessoal",
+      "Segurança e controle de acesso",
+      "Trilha de auditoria"
+    ]
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "Divulgar o curso e as vagas",
+        "papel": "Gerente de Formação",
+        "entra": "Curso, vagas e pré-requisitos",
+        "acao": "Envia e-mail às diretorias com as vagas de cada uma",
+        "sai": "E-mail de divulgação",
+        "sistema": "E-mail",
+        "regra": "Vagas distribuídas por diretoria",
+        "espera": "Não identificado",
+        "tempo": "1",
+        "auto": "Sim, com regra clara"
+      },
+      {
+        "n": "",
+        "etapa": "Indicar os servidores",
+        "papel": "Chefia da diretoria",
+        "entra": "E-mail de divulgação",
+        "acao": "Escolhe titulares e reserva e responde por e-mail",
+        "sai": "E-mail com as indicações",
+        "sistema": "E-mail",
+        "regra": "Não indicar mais servidores que vagas",
+        "espera": "Retorno das diretorias",
+        "tempo": "36",
+        "auto": "Sim, com apoio humano"
+      },
+      {
+        "n": "",
+        "etapa": "Coletar os dados dos servidores",
+        "papel": "Gerente de Formação",
+        "entra": "Indicações",
+        "acao": "Pede e recebe nome, lotação, matrícula, e-mail e telefone",
+        "sai": "Dados dos indicados",
+        "sistema": "E-mail",
+        "regra": "Dados completos",
+        "espera": "Retorno dos servidores",
+        "tempo": "A medir",
+        "auto": "Sim, com regra clara"
+      },
+      {
+        "n": "",
+        "etapa": "Montar a planilha",
+        "papel": "Gerente de Formação",
+        "entra": "Dados dos indicados",
+        "acao": "Digita os dados no Excel",
+        "sai": "Planilha de inscritos",
+        "sistema": "Excel",
+        "regra": "Ordem de indicação",
+        "espera": "Não identificado",
+        "tempo": "A medir",
+        "auto": "Sim, com regra clara"
+      },
+      {
+        "n": "",
+        "etapa": "Enviar ao responsável pelo curso",
+        "papel": "Gerente de Formação",
+        "entra": "Planilha",
+        "acao": "Compartilha a planilha com o gestor do curso",
+        "sai": "Lista de inscritos",
+        "sistema": "E-mail",
+        "regra": "Efetivação pela ordem de indicação",
+        "espera": "Não identificado",
+        "tempo": "A medir",
+        "auto": "Sim, com regra clara"
+      },
+      {
+        "n": "",
+        "etapa": "Tratar desistências",
+        "papel": "Gerente de Formação",
+        "entra": "Desistência do titular",
+        "acao": "Chama o próximo do cadastro de reserva",
+        "sai": "Reserva convocada",
+        "sistema": "E-mail e telefone",
+        "regra": "Próximo da reserva da mesma diretoria",
+        "espera": "Resposta da reserva",
+        "tempo": "A medir",
+        "auto": "Sim, com apoio humano"
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "Criar e divulgar o curso",
+        "muda": "Link e QR Code de inscrição gerados pelo app",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Divulgação padronizada",
+        "esforco": "Baixo"
+      },
+      {
+        "n": "",
+        "etapa": "Inscrever-se",
+        "muda": "Formulário validado e comprovante na hora",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Dados completos na primeira vez",
+        "esforco": "Médio"
+      },
+      {
+        "n": "",
+        "etapa": "Importar as inscrições",
+        "muda": "A gerência cola os e-mails e o app lê os blocos",
+        "quem": "A máquina (automação)",
+        "beneficio": "Fim da redigitação",
+        "esforco": "Médio"
+      },
+      {
+        "n": "",
+        "etapa": "Triagem pela diretoria",
+        "muda": "Arquivo com os inscritos da diretoria e limite de vagas",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Decisão sem ambiguidade",
+        "esforco": "Médio"
+      },
+      {
+        "n": "",
+        "etapa": "Convocar e chamar a reserva",
+        "muda": "Mensagens geradas com o link do grupo oficial",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Convocação no mesmo dia",
+        "esforco": "Baixo"
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "gerente ",
+        "quem": "quem organiza os cursos e o numero de vagas ",
+        "ve": "atender máximos de servidores e diferentes setores ",
+        "faz": "planilha dos interessados e divulga os inscritos ",
+        "naofaz": "mudar a ordem de indicação",
+        "registro": "servidores com inscrição efetivada ",
+        "rm": ""
+      },
+      {
+        "papel": "chefia ",
+        "quem": "divulga as vagas aos servidores do setor ",
+        "ve": "possibilidades e perfis para as vagas ",
+        "faz": "respostas de indicação via email",
+        "naofaz": "mandar mais servidores do que vagas ",
+        "registro": "e-mail com as indicações ",
+        "rm": ""
+      },
+      {
+        "papel": "Servidor (candidato)",
+        "quem": "Servidor da POLITEC interessado no curso",
+        "ve": "Dados do curso e o próprio comprovante",
+        "faz": "Inscreve-se e confirma presença",
+        "naofaz": "Ver outros inscritos",
+        "registro": "Inscrição com protocolo e data"
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "Mapeamento AS-IS e TO-BE",
+        "rota": "(documento)",
+        "objetivo": "Documentar o fluxo atual e o futuro",
+        "usuario": "Equipe do projeto e gestores",
+        "dados": "Etapas, gargalos, pontos de automação, papéis",
+        "acao": "Mapear e validar",
+        "regra": "O TO-BE preserva a autonomia das diretorias",
+        "tipo": "Documento",
+        "verificacao": "Fluxograma aprovado pelos gestores",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Formulário de inscrição",
+        "rota": "#/inscricao",
+        "objetivo": "Coletar dados padronizados",
+        "usuario": "Servidor",
+        "dados": "Matrícula, nome, lotação, diretoria, e-mail, telefone, pré-requisitos",
+        "acao": "Preencher e enviar",
+        "regra": "Campos obrigatórios e e-mail institucional",
+        "tipo": "Tela",
+        "verificacao": "Envio com campo vazio é bloqueado",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Comprovante e confirmação",
+        "rota": "#/inscricao (comprovante)",
+        "objetivo": "Confirmar o recebimento",
+        "usuario": "Servidor",
+        "dados": "Protocolo, curso, status em análise",
+        "acao": "Ver e imprimir o comprovante",
+        "regra": "Gerado no momento do envio",
+        "tipo": "Automação",
+        "verificacao": "Comprovante aparece logo após o envio",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Painel de triagem",
+        "rota": "#/triagem",
+        "objetivo": "Apoiar a decisão da diretoria",
+        "usuario": "Diretorias",
+        "dados": "Inscritos da diretoria, data de envio, pré-requisitos",
+        "acao": "Ordenar titulares e reserva",
+        "regra": "Só a diretoria define a classificação",
+        "tipo": "Tela",
+        "verificacao": "Diretoria não marca titulares acima das vagas",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Convocação e grupo oficial",
+        "rota": "#/convocacao",
+        "objetivo": "Convocar e direcionar ao grupo",
+        "usuario": "Gerência",
+        "dados": "Nome, status, orientações, link do grupo",
+        "acao": "Gerar e enviar a mensagem",
+        "regra": "Só selecionados recebem o link",
+        "tipo": "Automação",
+        "verificacao": "Mensagem gerada com o link correto",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Matriz de governança",
+        "rota": "(documento)",
+        "objetivo": "Formalizar papéis e limites",
+        "usuario": "Gestores e instrução",
+        "dados": "Papéis, exceções, desistências",
+        "acao": "Consultar",
+        "regra": "Automação não sobrepõe decisão das diretorias",
+        "tipo": "Documento",
+        "verificacao": "Documento aprovado",
+        "mvp": "Não"
+      },
+      {
+        "n": "",
+        "nome": "Relatório do piloto",
+        "rota": "(documento)",
+        "objetivo": "Registrar os resultados do teste",
+        "usuario": "Equipe e alta gestão",
+        "dados": "Erros, tempo de triagem, retorno dos usuários",
+        "acao": "Consolidar e autorizar",
+        "regra": "Avança se todas as mensagens de teste forem entregues",
+        "tipo": "Relatório",
+        "verificacao": "Relatório apresentado à gestão",
+        "mvp": "Sim"
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "Curso",
+        "representa": "Capacitação oferecida",
+        "colunas": "id: texto, nome: texto, inicio: data, fim: data, vagas_por_diretoria: lista, prerequisitos: lista, link_grupo: texto, prazo_triagem: data",
+        "chave": "id",
+        "volume": "2 a 5 por mês",
+        "origem": "Gerência",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "Inscricao",
+        "representa": "Pedido de vaga do servidor",
+        "colunas": "protocolo: texto, curso_id: texto, matricula: texto, nome: texto, lotacao: texto, diretoria: texto, email: texto, telefone: texto, status: texto, enviado_em: data_hora",
+        "chave": "protocolo",
+        "volume": "50 por mês",
+        "origem": "Formulário",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "Triagem",
+        "representa": "Decisão da diretoria",
+        "colunas": "id: texto, curso_id: texto, protocolo: texto, decisao: texto, ordem: inteiro, decidido_em: data_hora",
+        "chave": "id",
+        "volume": "1 por inscrição",
+        "origem": "Diretoria",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "Convocacao",
+        "representa": "Mensagem enviada ao selecionado",
+        "colunas": "id: texto, protocolo: texto, tipo: texto, enviada_em: data_hora, confirmou: lógico",
+        "chave": "id",
+        "volume": "1 por selecionado",
+        "origem": "Gerência",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "ServidorSEAP",
+        "representa": "Servidor ativo no RH",
+        "colunas": "matricula: texto, nome: texto, cargo: texto, lotacao: texto, vinculo_ativo: lógico",
+        "chave": "matricula",
+        "volume": "Relatório do SEAP",
+        "origem": "Relatório exportado",
+        "sintetico": "Sim"
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "RN01",
+        "regra": "Matrícula, nome, lotação, diretoria e e-mail são obrigatórios",
+        "quando": "Na inscrição",
+        "excecao": "Nenhuma",
+        "valida": "Sistema",
+        "tipo": "Validação"
+      },
+      {
+        "id": "RN02",
+        "regra": "E-mail institucional (@politec.mt.gov.br)",
+        "quando": "Na inscrição",
+        "excecao": "Servidor de outra força em curso integrado",
+        "valida": "Sistema",
+        "tipo": "Validação"
+      },
+      {
+        "id": "RN03",
+        "regra": "Uma inscrição por matrícula e curso; o reenvio substitui a anterior",
+        "quando": "Na importação",
+        "excecao": "Nenhuma",
+        "valida": "Sistema",
+        "tipo": "Validação"
+      },
+      {
+        "id": "RN04",
+        "regra": "Matrícula ausente do SEAP gera alerta, sem recusar",
+        "quando": "Na conferência",
+        "excecao": "Nenhuma",
+        "valida": "Gerente de Formação",
+        "tipo": "Validação"
+      },
+      {
+        "id": "RN05",
+        "regra": "A diretoria não marca mais titulares que as vagas dela",
+        "quando": "Na triagem",
+        "excecao": "Nenhuma",
+        "valida": "Sistema",
+        "tipo": "Negócio"
+      },
+      {
+        "id": "RN06",
+        "regra": "A efetivação segue a ordem de indicação da diretoria",
+        "quando": "Na convocação",
+        "excecao": "Nenhuma",
+        "valida": "Gerente de Formação",
+        "tipo": "Negócio"
+      },
+      {
+        "id": "RN07",
+        "regra": "Desistência de titular chama o próximo da reserva da mesma diretoria",
+        "quando": "Após a convocação",
+        "excecao": "Reserva vazia: a vaga volta para a gerência",
+        "valida": "Gerente de Formação",
+        "tipo": "Negócio"
+      },
+      {
+        "id": "RN08",
+        "regra": "Dados dos inscritos apagados 30 dias após o fim do curso",
+        "quando": "Ao abrir o app",
+        "excecao": "Nenhuma",
+        "valida": "Gerente de Formação",
+        "tipo": "LGPD"
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "Planilha de inscritos",
+        "tipo": "Planilha local",
+        "onde": "Drive da Gerência de Formação",
+        "existe": "Parcialmente",
+        "acesso": "Gerente de Formação",
+        "linha": "Um servidor indicado",
+        "volume": "50 por mês",
+        "historico": "30 dias",
+        "campos": "Data do e-mail de indicação",
+        "atualiza": "A cada curso",
+        "lgpd": "Sim",
+        "obs": "Hoje traz CPF; o app não coleta"
+      },
+      {
+        "fonte": "E-mails das diretorias",
+        "tipo": "Documento em papel",
+        "onde": "Caixa capacitacao@",
+        "existe": "Sim",
+        "acesso": "Gerente de Formação",
+        "linha": "Uma resposta de diretoria",
+        "volume": "Uma por diretoria e curso",
+        "historico": "Na caixa de e-mail",
+        "campos": "Data de envio e de resposta",
+        "atualiza": "A cada curso",
+        "lgpd": "Sim",
+        "obs": "Mede a espera de 36 h"
+      },
+      {
+        "fonte": "Relatório de servidores ativos (SEAP)",
+        "tipo": "Sistema oficial",
+        "onde": "SEAP / Portal do Servidor",
+        "existe": "Sim",
+        "acesso": "RH da SESP",
+        "linha": "Um servidor",
+        "volume": "Servidores da POLITEC",
+        "historico": "Situação atual",
+        "campos": "Não se aplica",
+        "atualiza": "Mensal",
+        "lgpd": "Sim",
+        "obs": "Usado só para conferir a matrícula"
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "Tempo até a lista final",
+        "pergunta": "Quanto tempo leva da divulgação à lista final?",
+        "formula": "Data da lista final − data da divulgação",
+        "fonte": "E-mails e app",
+        "gran": "Caso",
+        "base": "A medir em 2 cursos",
+        "esperado": "Metade do tempo atual",
+        "medir": "Datas dos e-mails dos 2 últimos cursos",
+        "quem": "Gerente de Formação"
+      },
+      {
+        "n": "",
+        "nome": "Espera pela indicação",
+        "pergunta": "Quanto as diretorias demoram a responder?",
+        "formula": "Retorno da triagem − envio do arquivo",
+        "fonte": "App",
+        "gran": "Unidade",
+        "base": "36 h (AS-IS)",
+        "esperado": "Até 24 h",
+        "medir": "Datas de exportação e retorno",
+        "quem": "Gerente de Formação"
+      },
+      {
+        "n": "",
+        "nome": "Inscrições com erro de dado",
+        "pergunta": "Quantas inscrições a gerência precisou corrigir?",
+        "formula": "Inscrições corrigidas ÷ total × 100",
+        "fonte": "Log do app",
+        "gran": "Caso",
+        "base": "A medir na planilha atual",
+        "esperado": "Abaixo de 5%",
+        "medir": "Contar correções na planilha de 2 cursos",
+        "quem": "Gerente de Formação"
+      },
+      {
+        "n": "",
+        "nome": "Vagas ociosas",
+        "pergunta": "Quantas vagas ficaram sem servidor?",
+        "formula": "Vagas − confirmados",
+        "fonte": "App",
+        "gran": "Caso",
+        "base": "A medir em 2 cursos",
+        "esperado": "Zero com o cadastro de reserva",
+        "medir": "Comparar vagas e presentes",
+        "quem": "Gerente de Formação"
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "Arquivo HTML único + GitHub Pages",
+        "tipo": "Estática e gratuita",
+        "onde": "GitHub Pages (link) e computador da gerência",
+        "custo": "Zero",
+        "mantem": "Gerência de Formação",
+        "acesso": "Link público de inscrição; base só na gerência",
+        "banco": "IndexedDB da gerência",
+        "escala": "Dezenas de inscrições por curso",
+        "limite": "Inscrições chegam por e-mail"
+      },
+      {
+        "opcao": "Forms + planilha + Power Automate",
+        "tipo": "Nuvem corporativa",
+        "onde": "Microsoft 365 ou Google Workspace",
+        "custo": "Licença institucional",
+        "mantem": "Gerência e TI",
+        "acesso": "Conta institucional",
+        "banco": "Planilha",
+        "escala": "Média",
+        "limite": "Depende de licença e de configuração pela TI"
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "Escopo e mensagens aprovados",
+        "data": "Semana 1",
+        "resp": "Edilaura",
+        "dep": "Gerente de Formação",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Formulário de inscrição com comprovante",
+        "data": "Semana 4",
+        "resp": "Edilaura",
+        "dep": "Curso cadastrado",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Triagem pelas diretorias",
+        "data": "Semana 7",
+        "resp": "Edilaura",
+        "dep": "Importação das inscrições",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Piloto com turma reduzida",
+        "data": "Semana 10",
+        "resp": "Edilaura e diretorias",
+        "dep": "Aceite",
+        "sit": "Planejado"
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "E-mail de inscrição cortado pelo cliente de e-mail",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "Bloco curto e botão de copiar o bloco"
+      },
+      {
+        "risco": "Diretoria não devolve a triagem no prazo",
+        "prob": "Alta",
+        "imp": "Médio",
+        "mit": "Prazo no arquivo e lista de pendentes na gerência"
+      },
+      {
+        "risco": "TI não libera a resposta automática",
+        "prob": "Média",
+        "imp": "Baixo",
+        "mit": "Comprovante na tela vale como confirmação"
+      },
+      {
+        "risco": "Base só no computador da gerência",
+        "prob": "Baixa",
+        "imp": "Alto",
+        "mit": "Backup .json semanal"
+      }
+    ],
+    "tRefs": [
+      {
+        "n": "",
+        "ref": "Lei Geral de Proteção de Dados, art. 6º (necessidade)",
+        "tipo": "Norma ou lei",
+        "fonte": "Lei nº 13.709/2018, Planalto",
+        "ano": "2018",
+        "dado": "Tratar só os dados necessários à finalidade",
+        "uso": "Justificar a retirada do CPF",
+        "conferido": "Não"
+      },
+      {
+        "n": "",
+        "ref": "Lei do Governo Digital",
+        "tipo": "Norma ou lei",
+        "fonte": "Lei nº 14.129/2021, Planalto",
+        "ano": "2021",
+        "dado": "Digitalização de serviços públicos",
+        "uso": "Justificar a inscrição digital",
+        "conferido": "Não"
+      }
+    ]
+  },
+  "completado_em": "2026-10-29"
+}

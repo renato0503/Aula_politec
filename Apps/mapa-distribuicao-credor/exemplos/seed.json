@@ -1,0 +1,1757 @@
+{
+ "processos": [
+  {
+   "id": "PROC-2026-001",
+   "nome": "Aquisição de insumos e equipamentos de laboratório",
+   "numero": "001/2026",
+   "ano": 2026,
+   "status": "em andamento",
+   "criado_em": "2026-10-29T12:00:00Z"
+  }
+ ],
+ "itens": [
+  {
+   "id": "PROC-2026-001|G01|01",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G01",
+   "item": "01",
+   "codigo": "CATMAT-4100",
+   "descricao": "Luva nitrílica tamanho M",
+   "unidade": "caixa",
+   "tipo_despesa": 3,
+   "valor_unitario_estimado_c": 9979,
+   "quantidade_total": 145,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 2
+   }
+  },
+  {
+   "id": "PROC-2026-001|G01|02",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G01",
+   "item": "02",
+   "codigo": "CATMAT-4101",
+   "descricao": "Reagente luminol 500 mL",
+   "unidade": "frasco",
+   "tipo_despesa": 3,
+   "valor_unitario_estimado_c": 13201,
+   "quantidade_total": 138,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 3
+   }
+  },
+  {
+   "id": "PROC-2026-001|G01|03",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G01",
+   "item": "03",
+   "codigo": "CATMAT-4102",
+   "descricao": "Swab estéril",
+   "unidade": "pacote",
+   "tipo_despesa": 3,
+   "valor_unitario_estimado_c": 12775,
+   "quantidade_total": 116,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 4
+   }
+  },
+  {
+   "id": "PROC-2026-001|G01|04",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G01",
+   "item": "04",
+   "codigo": "CATMAT-4103",
+   "descricao": "Etiqueta de lacre numerada",
+   "unidade": "rolo",
+   "tipo_despesa": 3,
+   "valor_unitario_estimado_c": 3106,
+   "quantidade_total": 148,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 5
+   }
+  },
+  {
+   "id": "PROC-2026-001|G01|05",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G01",
+   "item": "05",
+   "codigo": "CATMAT-4104",
+   "descricao": "Envelope de segurança",
+   "unidade": "pacote",
+   "tipo_despesa": 3,
+   "valor_unitario_estimado_c": 2256,
+   "quantidade_total": 131,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 6
+   }
+  },
+  {
+   "id": "PROC-2026-001|G02|01",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G02",
+   "item": "01",
+   "codigo": "CATMAT-4110",
+   "descricao": "Álcool isopropílico 1 L",
+   "unidade": "frasco",
+   "tipo_despesa": 3,
+   "valor_unitario_estimado_c": 4219,
+   "quantidade_total": 106,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 7
+   }
+  },
+  {
+   "id": "PROC-2026-001|G02|02",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G02",
+   "item": "02",
+   "codigo": "CATMAT-4111",
+   "descricao": "Máscara PFF2",
+   "unidade": "caixa",
+   "tipo_despesa": 3,
+   "valor_unitario_estimado_c": 2551,
+   "quantidade_total": 167,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 8
+   }
+  },
+  {
+   "id": "PROC-2026-001|G02|03",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G02",
+   "item": "03",
+   "codigo": "CATMAT-4112",
+   "descricao": "Tubo de coleta 10 mL",
+   "unidade": "pacote",
+   "tipo_despesa": 3,
+   "valor_unitario_estimado_c": 3131,
+   "quantidade_total": 186,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 9
+   }
+  },
+  {
+   "id": "PROC-2026-001|G02|04",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G02",
+   "item": "04",
+   "codigo": "CATMAT-4113",
+   "descricao": "Papel filtro qualitativo",
+   "unidade": "caixa",
+   "tipo_despesa": 3,
+   "valor_unitario_estimado_c": 13768,
+   "quantidade_total": 83,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 10
+   }
+  },
+  {
+   "id": "PROC-2026-001|G02|05",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G02",
+   "item": "05",
+   "codigo": "CATMAT-4114",
+   "descricao": "Ponteira 1000 µL",
+   "unidade": "caixa",
+   "tipo_despesa": 3,
+   "valor_unitario_estimado_c": 11032,
+   "quantidade_total": 164,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 11
+   }
+  },
+  {
+   "id": "PROC-2026-001|G03|01",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G03",
+   "item": "01",
+   "codigo": "CATMAT-4120",
+   "descricao": "Microscópio estereoscópico",
+   "unidade": "unidade",
+   "tipo_despesa": 4,
+   "valor_unitario_estimado_c": 2242618,
+   "quantidade_total": 8,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 12
+   }
+  },
+  {
+   "id": "PROC-2026-001|G03|02",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G03",
+   "item": "02",
+   "codigo": "CATMAT-4121",
+   "descricao": "Centrífuga de bancada",
+   "unidade": "unidade",
+   "tipo_despesa": 4,
+   "valor_unitario_estimado_c": 3439958,
+   "quantidade_total": 7,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 13
+   }
+  },
+  {
+   "id": "PROC-2026-001|G03|03",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G03",
+   "item": "03",
+   "codigo": "CATMAT-4122",
+   "descricao": "Balança analítica",
+   "unidade": "unidade",
+   "tipo_despesa": 4,
+   "valor_unitario_estimado_c": 1430444,
+   "quantidade_total": 12,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 14
+   }
+  },
+  {
+   "id": "PROC-2026-001|G03|04",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G03",
+   "item": "04",
+   "codigo": "CATMAT-4123",
+   "descricao": "Câmera fotográfica forense",
+   "unidade": "unidade",
+   "tipo_despesa": 4,
+   "valor_unitario_estimado_c": 1457339,
+   "quantidade_total": 9,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 15
+   }
+  },
+  {
+   "id": "PROC-2026-001|G03|05",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G03",
+   "item": "05",
+   "codigo": "CATMAT-4124",
+   "descricao": "Luz forense multibanda",
+   "unidade": "unidade",
+   "tipo_despesa": 4,
+   "valor_unitario_estimado_c": 297001,
+   "quantidade_total": 10,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 16
+   }
+  },
+  {
+   "id": "PROC-2026-001|G04|01",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G04",
+   "item": "01",
+   "codigo": "CATMAT-4130",
+   "descricao": "Capela de fluxo laminar",
+   "unidade": "unidade",
+   "tipo_despesa": 4,
+   "valor_unitario_estimado_c": 1455640,
+   "quantidade_total": 8,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 17
+   }
+  },
+  {
+   "id": "PROC-2026-001|G04|02",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G04",
+   "item": "02",
+   "codigo": "CATMAT-4131",
+   "descricao": "Freezer -20 °C",
+   "unidade": "unidade",
+   "tipo_despesa": 4,
+   "valor_unitario_estimado_c": 4798053,
+   "quantidade_total": 10,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 18
+   }
+  },
+  {
+   "id": "PROC-2026-001|G04|03",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G04",
+   "item": "03",
+   "codigo": "CATMAT-4132",
+   "descricao": "Computador de extração forense",
+   "unidade": "unidade",
+   "tipo_despesa": 4,
+   "valor_unitario_estimado_c": 2799674,
+   "quantidade_total": 8,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 19
+   }
+  },
+  {
+   "id": "PROC-2026-001|G04|04",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G04",
+   "item": "04",
+   "codigo": "CATMAT-4133",
+   "descricao": "Bloqueador de escrita",
+   "unidade": "unidade",
+   "tipo_despesa": 4,
+   "valor_unitario_estimado_c": 1738070,
+   "quantidade_total": 8,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 20
+   }
+  },
+  {
+   "id": "PROC-2026-001|G04|05",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G04",
+   "item": "05",
+   "codigo": "CATMAT-4134",
+   "descricao": "Pipeta automática",
+   "unidade": "unidade",
+   "tipo_despesa": 4,
+   "valor_unitario_estimado_c": 4724985,
+   "quantidade_total": 4,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 21
+   }
+  },
+  {
+   "id": "PROC-2026-001|G05|01",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G05",
+   "item": "01",
+   "codigo": "CATMAT-4140",
+   "descricao": "Fita adesiva de evidência",
+   "unidade": "rolo",
+   "tipo_despesa": 3,
+   "valor_unitario_estimado_c": 1004,
+   "quantidade_total": 73,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 22
+   }
+  },
+  {
+   "id": "PROC-2026-001|G05|02",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G05",
+   "item": "02",
+   "codigo": "CATMAT-4141",
+   "descricao": "Saco plástico de evidência",
+   "unidade": "pacote",
+   "tipo_despesa": 3,
+   "valor_unitario_estimado_c": 6459,
+   "quantidade_total": 196,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 23
+   }
+  },
+  {
+   "id": "PROC-2026-001|G05|03",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G05",
+   "item": "03",
+   "codigo": "CATMAT-4142",
+   "descricao": "Óculos de proteção",
+   "unidade": "unidade",
+   "tipo_despesa": 3,
+   "valor_unitario_estimado_c": 16040,
+   "quantidade_total": 94,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 24
+   }
+  },
+  {
+   "id": "PROC-2026-001|G05|04",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G05",
+   "item": "04",
+   "codigo": "CATMAT-4143",
+   "descricao": "Avental descartável",
+   "unidade": "pacote",
+   "tipo_despesa": 3,
+   "valor_unitario_estimado_c": 10270,
+   "quantidade_total": 110,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 25
+   }
+  },
+  {
+   "id": "PROC-2026-001|G05|05",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G05",
+   "item": "05",
+   "codigo": "CATMAT-4144",
+   "descricao": "Reagente de Kastle-Meyer",
+   "unidade": "frasco",
+   "tipo_despesa": 3,
+   "valor_unitario_estimado_c": 910,
+   "quantidade_total": 143,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 26
+   }
+  },
+  {
+   "id": "PROC-2026-001|G06|01",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G06",
+   "item": "01",
+   "codigo": "CATMAT-4150",
+   "descricao": "Estufa de secagem",
+   "unidade": "unidade",
+   "tipo_despesa": 4,
+   "valor_unitario_estimado_c": 2898652,
+   "quantidade_total": 5,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 27
+   }
+  },
+  {
+   "id": "PROC-2026-001|G06|02",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G06",
+   "item": "02",
+   "codigo": "CATMAT-4151",
+   "descricao": "Agitador vórtex",
+   "unidade": "unidade",
+   "tipo_despesa": 4,
+   "valor_unitario_estimado_c": 4063798,
+   "quantidade_total": 6,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 28
+   }
+  },
+  {
+   "id": "PROC-2026-001|G06|03",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G06",
+   "item": "03",
+   "codigo": "CATMAT-4152",
+   "descricao": "Leitor de microplacas",
+   "unidade": "unidade",
+   "tipo_despesa": 4,
+   "valor_unitario_estimado_c": 3056024,
+   "quantidade_total": 7,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 29
+   }
+  },
+  {
+   "id": "PROC-2026-001|G06|04",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G06",
+   "item": "04",
+   "codigo": "CATMAT-4153",
+   "descricao": "Destilador de água",
+   "unidade": "unidade",
+   "tipo_despesa": 4,
+   "valor_unitario_estimado_c": 2261175,
+   "quantidade_total": 7,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 30
+   }
+  },
+  {
+   "id": "PROC-2026-001|G06|05",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G06",
+   "item": "05",
+   "codigo": "CATMAT-4154",
+   "descricao": "Termociclador",
+   "unidade": "unidade",
+   "tipo_despesa": 4,
+   "valor_unitario_estimado_c": 3911668,
+   "quantidade_total": 4,
+   "origem": {
+    "arquivo": "distribuicao-orgaos.xlsx",
+    "aba": "Distribuicao",
+    "linha": 31
+   }
+  }
+ ],
+ "distribuicao": [
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G01|01",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G01",
+   "item": "01",
+   "quantidade": 33
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G01|01",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G01",
+   "item": "01",
+   "quantidade": 49
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G01|01",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G01",
+   "item": "01",
+   "quantidade": 63
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G01|02",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G01",
+   "item": "02",
+   "quantidade": 63
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G01|02",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G01",
+   "item": "02",
+   "quantidade": 59
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G01|02",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G01",
+   "item": "02",
+   "quantidade": 16
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G01|03",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G01",
+   "item": "03",
+   "quantidade": 23
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G01|03",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G01",
+   "item": "03",
+   "quantidade": 59
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G01|03",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G01",
+   "item": "03",
+   "quantidade": 34
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G01|04",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G01",
+   "item": "04",
+   "quantidade": 51
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G01|04",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G01",
+   "item": "04",
+   "quantidade": 79
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G01|04",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G01",
+   "item": "04",
+   "quantidade": 18
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G01|05",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G01",
+   "item": "05",
+   "quantidade": 40
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G01|05",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G01",
+   "item": "05",
+   "quantidade": 30
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G01|05",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G01",
+   "item": "05",
+   "quantidade": 61
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G02|01",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G02",
+   "item": "01",
+   "quantidade": 69
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G02|01",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G02",
+   "item": "01",
+   "quantidade": 20
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G02|01",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G02",
+   "item": "01",
+   "quantidade": 17
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G02|02",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G02",
+   "item": "02",
+   "quantidade": 67
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G02|02",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G02",
+   "item": "02",
+   "quantidade": 42
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G02|02",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G02",
+   "item": "02",
+   "quantidade": 58
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G02|03",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G02",
+   "item": "03",
+   "quantidade": 59
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G02|03",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G02",
+   "item": "03",
+   "quantidade": 62
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G02|03",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G02",
+   "item": "03",
+   "quantidade": 65
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G02|04",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G02",
+   "item": "04",
+   "quantidade": 6
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G02|04",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G02",
+   "item": "04",
+   "quantidade": 67
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G02|04",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G02",
+   "item": "04",
+   "quantidade": 10
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G02|05",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G02",
+   "item": "05",
+   "quantidade": 41
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G02|05",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G02",
+   "item": "05",
+   "quantidade": 59
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G02|05",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G02",
+   "item": "05",
+   "quantidade": 64
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G03|01",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G03",
+   "item": "01",
+   "quantidade": 3
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G03|01",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G03",
+   "item": "01",
+   "quantidade": 2
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G03|01",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G03",
+   "item": "01",
+   "quantidade": 3
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G03|02",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G03",
+   "item": "02",
+   "quantidade": 1
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G03|02",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G03",
+   "item": "02",
+   "quantidade": 3
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G03|02",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G03",
+   "item": "02",
+   "quantidade": 3
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G03|03",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G03",
+   "item": "03",
+   "quantidade": 4
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G03|03",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G03",
+   "item": "03",
+   "quantidade": 4
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G03|03",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G03",
+   "item": "03",
+   "quantidade": 4
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G03|04",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G03",
+   "item": "04",
+   "quantidade": 4
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G03|04",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G03",
+   "item": "04",
+   "quantidade": 3
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G03|04",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G03",
+   "item": "04",
+   "quantidade": 2
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G03|05",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G03",
+   "item": "05",
+   "quantidade": 4
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G03|05",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G03",
+   "item": "05",
+   "quantidade": 2
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G03|05",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G03",
+   "item": "05",
+   "quantidade": 4
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G04|01",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G04",
+   "item": "01",
+   "quantidade": 3
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G04|01",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G04",
+   "item": "01",
+   "quantidade": 2
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G04|01",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G04",
+   "item": "01",
+   "quantidade": 3
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G04|02",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G04",
+   "item": "02",
+   "quantidade": 4
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G04|02",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G04",
+   "item": "02",
+   "quantidade": 2
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G04|02",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G04",
+   "item": "02",
+   "quantidade": 4
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G04|03",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G04",
+   "item": "03",
+   "quantidade": 2
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G04|03",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G04",
+   "item": "03",
+   "quantidade": 2
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G04|03",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G04",
+   "item": "03",
+   "quantidade": 4
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G04|04",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G04",
+   "item": "04",
+   "quantidade": 1
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G04|04",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G04",
+   "item": "04",
+   "quantidade": 4
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G04|04",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G04",
+   "item": "04",
+   "quantidade": 3
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G04|05",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G04",
+   "item": "05",
+   "quantidade": 1
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G04|05",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G04",
+   "item": "05",
+   "quantidade": 2
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G04|05",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G04",
+   "item": "05",
+   "quantidade": 1
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G05|01",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G05",
+   "item": "01",
+   "quantidade": 30
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G05|01",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G05",
+   "item": "01",
+   "quantidade": 30
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G05|01",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G05",
+   "item": "01",
+   "quantidade": 13
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G05|02",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G05",
+   "item": "02",
+   "quantidade": 73
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G05|02",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G05",
+   "item": "02",
+   "quantidade": 60
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G05|02",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G05",
+   "item": "02",
+   "quantidade": 63
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G05|03",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G05",
+   "item": "03",
+   "quantidade": 42
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G05|03",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G05",
+   "item": "03",
+   "quantidade": 29
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G05|03",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G05",
+   "item": "03",
+   "quantidade": 23
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G05|04",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G05",
+   "item": "04",
+   "quantidade": 41
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G05|04",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G05",
+   "item": "04",
+   "quantidade": 20
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G05|04",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G05",
+   "item": "04",
+   "quantidade": 49
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G05|05",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G05",
+   "item": "05",
+   "quantidade": 33
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G05|05",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G05",
+   "item": "05",
+   "quantidade": 74
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G05|05",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G05",
+   "item": "05",
+   "quantidade": 36
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G06|01",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G06",
+   "item": "01",
+   "quantidade": 1
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G06|01",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G06",
+   "item": "01",
+   "quantidade": 1
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G06|01",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G06",
+   "item": "01",
+   "quantidade": 3
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G06|02",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G06",
+   "item": "02",
+   "quantidade": 3
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G06|02",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G06",
+   "item": "02",
+   "quantidade": 2
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G06|02",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G06",
+   "item": "02",
+   "quantidade": 1
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G06|03",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G06",
+   "item": "03",
+   "quantidade": 4
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G06|03",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G06",
+   "item": "03",
+   "quantidade": 1
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G06|03",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G06",
+   "item": "03",
+   "quantidade": 2
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G06|04",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G06",
+   "item": "04",
+   "quantidade": 2
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G06|04",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G06",
+   "item": "04",
+   "quantidade": 4
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G06|04",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G06",
+   "item": "04",
+   "quantidade": 1
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|G06|05",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "grupo": "G06",
+   "item": "05",
+   "quantidade": 2
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|G06|05",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "grupo": "G06",
+   "item": "05",
+   "quantidade": 1
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|G06|05",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "grupo": "G06",
+   "item": "05",
+   "quantidade": 1
+  }
+ ],
+ "resultado": [
+  {
+   "id": "PROC-2026-001|G01|01",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G01",
+   "item": "01",
+   "situacao": "homologado",
+   "empresa": "Alfa Suprimentos Laboratoriais Ltda",
+   "cnpj": "11222333000181",
+   "valor_unitario_homologado_c": 9071,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 2
+   }
+  },
+  {
+   "id": "PROC-2026-001|G01|02",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G01",
+   "item": "02",
+   "situacao": "homologado",
+   "empresa": "Alfa Suprimentos Laboratoriais Ltda",
+   "cnpj": "11222333000181",
+   "valor_unitario_homologado_c": 10814,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 3
+   }
+  },
+  {
+   "id": "PROC-2026-001|G01|03",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G01",
+   "item": "03",
+   "situacao": "homologado",
+   "empresa": "Alfa Suprimentos Laboratoriais Ltda",
+   "cnpj": "11222333000181",
+   "valor_unitario_homologado_c": 10247,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 4
+   }
+  },
+  {
+   "id": "PROC-2026-001|G01|04",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G01",
+   "item": "04",
+   "situacao": "homologado",
+   "empresa": "Alfa Suprimentos Laboratoriais Ltda",
+   "cnpj": "11222333000181",
+   "valor_unitario_homologado_c": 2549,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 5
+   }
+  },
+  {
+   "id": "PROC-2026-001|G01|05",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G01",
+   "item": "05",
+   "situacao": "homologado",
+   "empresa": "Alfa Suprimentos Laboratoriais Ltda",
+   "cnpj": "11222333000181",
+   "valor_unitario_homologado_c": 2005,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 6
+   }
+  },
+  {
+   "id": "PROC-2026-001|G02|01",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G02",
+   "item": "01",
+   "situacao": "homologado",
+   "empresa": "Beta Científica Comércio Ltda",
+   "cnpj": "44555666000181",
+   "valor_unitario_homologado_c": 3908,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 7
+   }
+  },
+  {
+   "id": "PROC-2026-001|G02|02",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G02",
+   "item": "02",
+   "situacao": "homologado",
+   "empresa": "Beta Científica Comércio Ltda",
+   "cnpj": "44555666000181",
+   "valor_unitario_homologado_c": 2010,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 8
+   }
+  },
+  {
+   "id": "PROC-2026-001|G02|03",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G02",
+   "item": "03",
+   "situacao": "homologado",
+   "empresa": "Beta Científica Comércio Ltda",
+   "cnpj": "44555666000181",
+   "valor_unitario_homologado_c": 2779,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 9
+   }
+  },
+  {
+   "id": "PROC-2026-001|G02|04",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G02",
+   "item": "04",
+   "situacao": "homologado",
+   "empresa": "Beta Científica Comércio Ltda",
+   "cnpj": "44555666000181",
+   "valor_unitario_homologado_c": 10904,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 10
+   }
+  },
+  {
+   "id": "PROC-2026-001|G02|05",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G02",
+   "item": "05",
+   "situacao": "homologado",
+   "empresa": "Beta Científica Comércio Ltda",
+   "cnpj": "44555666000181",
+   "valor_unitario_homologado_c": 9938,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 11
+   }
+  },
+  {
+   "id": "PROC-2026-001|G03|01",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G03",
+   "item": "01",
+   "situacao": "fracassado",
+   "empresa": "",
+   "cnpj": "",
+   "valor_unitario_homologado_c": null,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 12
+   }
+  },
+  {
+   "id": "PROC-2026-001|G03|02",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G03",
+   "item": "02",
+   "situacao": "fracassado",
+   "empresa": "",
+   "cnpj": "",
+   "valor_unitario_homologado_c": null,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 13
+   }
+  },
+  {
+   "id": "PROC-2026-001|G03|03",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G03",
+   "item": "03",
+   "situacao": "fracassado",
+   "empresa": "",
+   "cnpj": "",
+   "valor_unitario_homologado_c": null,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 14
+   }
+  },
+  {
+   "id": "PROC-2026-001|G03|04",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G03",
+   "item": "04",
+   "situacao": "fracassado",
+   "empresa": "",
+   "cnpj": "",
+   "valor_unitario_homologado_c": null,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 15
+   }
+  },
+  {
+   "id": "PROC-2026-001|G03|05",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G03",
+   "item": "05",
+   "situacao": "fracassado",
+   "empresa": "",
+   "cnpj": "",
+   "valor_unitario_homologado_c": null,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 16
+   }
+  },
+  {
+   "id": "PROC-2026-001|G04|01",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G04",
+   "item": "01",
+   "situacao": "deserto",
+   "empresa": "",
+   "cnpj": "",
+   "valor_unitario_homologado_c": null,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 17
+   }
+  },
+  {
+   "id": "PROC-2026-001|G04|02",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G04",
+   "item": "02",
+   "situacao": "deserto",
+   "empresa": "",
+   "cnpj": "",
+   "valor_unitario_homologado_c": null,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 18
+   }
+  },
+  {
+   "id": "PROC-2026-001|G04|03",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G04",
+   "item": "03",
+   "situacao": "deserto",
+   "empresa": "",
+   "cnpj": "",
+   "valor_unitario_homologado_c": null,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 19
+   }
+  },
+  {
+   "id": "PROC-2026-001|G04|04",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G04",
+   "item": "04",
+   "situacao": "deserto",
+   "empresa": "",
+   "cnpj": "",
+   "valor_unitario_homologado_c": null,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 20
+   }
+  },
+  {
+   "id": "PROC-2026-001|G04|05",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G04",
+   "item": "05",
+   "situacao": "deserto",
+   "empresa": "",
+   "cnpj": "",
+   "valor_unitario_homologado_c": null,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 21
+   }
+  },
+  {
+   "id": "PROC-2026-001|G05|01",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G05",
+   "item": "01",
+   "situacao": "homologado",
+   "empresa": "Alfa Suprimentos Laboratoriais Ltda",
+   "cnpj": "11222333000181",
+   "valor_unitario_homologado_c": 948,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 22
+   }
+  },
+  {
+   "id": "PROC-2026-001|G05|02",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G05",
+   "item": "02",
+   "situacao": "homologado",
+   "empresa": "Beta Científica Comércio Ltda",
+   "cnpj": "44555666000181",
+   "valor_unitario_homologado_c": 5399,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 23
+   }
+  },
+  {
+   "id": "PROC-2026-001|G05|03",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G05",
+   "item": "03",
+   "situacao": "homologado",
+   "empresa": "Alfa Suprimentos Laboratoriais Ltda",
+   "cnpj": "11222333000181",
+   "valor_unitario_homologado_c": 14240,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 24
+   }
+  },
+  {
+   "id": "PROC-2026-001|G05|04",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G05",
+   "item": "04",
+   "situacao": "homologado",
+   "empresa": "Beta Científica Comércio Ltda",
+   "cnpj": "44555666000181",
+   "valor_unitario_homologado_c": 9855,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 25
+   }
+  },
+  {
+   "id": "PROC-2026-001|G05|05",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G05",
+   "item": "05",
+   "situacao": "homologado",
+   "empresa": "Alfa Suprimentos Laboratoriais Ltda",
+   "cnpj": "11222333000181",
+   "valor_unitario_homologado_c": 768,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 26
+   }
+  },
+  {
+   "id": "PROC-2026-001|G06|01",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G06",
+   "item": "01",
+   "situacao": "homologado",
+   "empresa": "Gama Equipamentos Técnicos S.A.",
+   "cnpj": "77888999000181",
+   "valor_unitario_homologado_c": 2377474,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 27
+   }
+  },
+  {
+   "id": "PROC-2026-001|G06|02",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G06",
+   "item": "02",
+   "situacao": "homologado",
+   "empresa": "Delta Distribuidora Hospitalar Ltda",
+   "cnpj": "22333444000181",
+   "valor_unitario_homologado_c": 3274608,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 28
+   }
+  },
+  {
+   "id": "PROC-2026-001|G06|03",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G06",
+   "item": "03",
+   "situacao": "homologado",
+   "empresa": "Gama Equipamentos Técnicos S.A.",
+   "cnpj": "77888999000181",
+   "valor_unitario_homologado_c": 2929810,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 29
+   }
+  },
+  {
+   "id": "PROC-2026-001|G06|04",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G06",
+   "item": "04",
+   "situacao": "homologado",
+   "empresa": "Delta Distribuidora Hospitalar Ltda",
+   "cnpj": "22333444000181",
+   "valor_unitario_homologado_c": 1819115,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 30
+   }
+  },
+  {
+   "id": "PROC-2026-001|G06|05",
+   "id_processo": "PROC-2026-001",
+   "grupo": "G06",
+   "item": "05",
+   "situacao": "homologado",
+   "empresa": "Gama Equipamentos Técnicos S.A.",
+   "cnpj": "77888999000181",
+   "valor_unitario_homologado_c": 3718823,
+   "origem": {
+    "arquivo": "relatorio-pregoeiro.xlsx",
+    "aba": "Resultado",
+    "linha": 31
+   }
+  }
+ ],
+ "dotacao": [
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|3|2026",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "tipo": 3,
+   "ano": 2026,
+   "valor_c": 4605373
+  },
+  {
+   "id": "PROC-2026-001|POLITEC-SEDE|4|2026",
+   "id_processo": "PROC-2026-001",
+   "orgao": "POLITEC-SEDE",
+   "tipo": 4,
+   "ano": 2026,
+   "valor_c": 40345876
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|3|2026",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "tipo": 3,
+   "ano": 2026,
+   "valor_c": 5412608
+  },
+  {
+   "id": "PROC-2026-001|IML-CUIABA|4|2026",
+   "id_processo": "PROC-2026-001",
+   "orgao": "IML-CUIABA",
+   "tipo": 4,
+   "ano": 2026,
+   "valor_c": 26379550
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|3|2026",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "tipo": 3,
+   "ano": 2026,
+   "valor_c": 4194378
+  },
+  {
+   "id": "PROC-2026-001|LAB-FORENSE|4|2026",
+   "id_processo": "PROC-2026-001",
+   "orgao": "LAB-FORENSE",
+   "tipo": 4,
+   "ano": 2026,
+   "valor_c": 13082753
+  }
+ ],
+ "gabarito": [
+  {
+   "id": "totais",
+   "total_estimado_c": 295862946,
+   "total_homologado_c": 91750489,
+   "orcamento_ano_c": 83028654,
+   "orcamento_ano_seguinte_c": 8721835
+  }
+ ]
+}

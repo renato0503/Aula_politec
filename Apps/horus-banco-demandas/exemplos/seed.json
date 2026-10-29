@@ -1,0 +1,433 @@
+{
+ "orgaos": [
+  {
+   "id": "a3842312-39c0-4189-b15c-7236889da34b",
+   "nome": "POLITEC/MT (fictício)"
+  }
+ ],
+ "diretorias": [
+  {
+   "id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "nome": "Diretoria Metropolitana de Criminalística (fictícia)",
+   "sigla": "DMC"
+  }
+ ],
+ "unidades": [
+  {
+   "id": "755f459a-af5f-4e1c-b890-f5862e5ccbf0",
+   "nome": "Laboratório de Química Forense",
+   "sigla": "LQF",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b"
+  },
+  {
+   "id": "e27f3dac-6c91-4d31-b168-f2c5faee9c16",
+   "nome": "Laboratório de Genética Forense",
+   "sigla": "LGF",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b"
+  },
+  {
+   "id": "b23c9349-4574-4a97-8833-73da1646372f",
+   "nome": "Núcleo de Perícias em Local de Crime",
+   "sigla": "NPLC",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b"
+  },
+  {
+   "id": "e9dce30e-6c71-4188-a5b2-16c842ff9186",
+   "nome": "Núcleo de Informática Forense",
+   "sigla": "NIF",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b"
+  }
+ ],
+ "unidades_medida": [
+  {
+   "id": "e09f3cb4-3b2c-4dfc-a8b6-f2abdfb35f1f",
+   "sigla": "UN",
+   "nome": "unidade"
+  },
+  {
+   "id": "5cd409a2-4154-497f-a252-c0de80328ec1",
+   "sigla": "CX",
+   "nome": "caixa"
+  },
+  {
+   "id": "ea4e3086-95cd-4365-b0a5-501aeb7f0575",
+   "sigla": "FR",
+   "nome": "frasco"
+  },
+  {
+   "id": "c5fd1f93-1ac2-4de5-b423-980de69683b0",
+   "sigla": "PCT",
+   "nome": "pacote"
+  },
+  {
+   "id": "a38a1253-5007-4e33-95aa-67323e90995e",
+   "sigla": "KIT",
+   "nome": "kit"
+  }
+ ],
+ "ciclos": [
+  {
+   "id": "656e4a22-7091-4707-b204-533c47b129fe",
+   "ano": 2027,
+   "status": "ATIVO",
+   "nome": "PCA 2027"
+  }
+ ],
+ "banco_demandas": [
+  {
+   "id": "818789a8-85ed-404c-b2e2-e1f533b9eaa8",
+   "grupo": "CUSTEIO",
+   "unidade_id": "755f459a-af5f-4e1c-b890-f5862e5ccbf0",
+   "especificacao_tecnica": "Reagente luminol para revelação de manchas de sangue latente, frasco de 500 mL, validade mínima de 12 meses na entrega",
+   "valor_unitario": 285.4,
+   "quantidade": 40,
+   "unidade_medida_id": "ea4e3086-95cd-4365-b0a5-501aeb7f0575",
+   "valor_global": 11416.0,
+   "links_referencia": [
+    "https://www.exemplo-fornecedor.com.br/produto/1000"
+   ],
+   "preview_title": "Página de referência do fornecedor (fictícia)",
+   "justificativa": "A demanda atende à rotina do setor e foi dimensionada pela média de consumo dos dois últimos anos, considerando o volume de exames recebidos e a necessidade de manter estoque mínimo para três meses.",
+   "arquivo_pdf": null,
+   "criado_por": "servidor.lqf",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b",
+   "created_at": "2026-10-05T13:00:00Z",
+   "updated_at": "2026-10-05T13:00:00Z"
+  },
+  {
+   "id": "2fba9708-19cc-4501-98eb-f5151f38c9ec",
+   "grupo": "CUSTEIO",
+   "unidade_id": "755f459a-af5f-4e1c-b890-f5862e5ccbf0",
+   "especificacao_tecnica": "Kit de reagente de Kastle-Meyer para teste presuntivo de sangue, com fenolftaleína reduzida e peróxido",
+   "valor_unitario": 412.0,
+   "quantidade": 25,
+   "unidade_medida_id": "a38a1253-5007-4e33-95aa-67323e90995e",
+   "valor_global": 10300.0,
+   "links_referencia": [
+    "https://www.exemplo-fornecedor.com.br/produto/1001"
+   ],
+   "preview_title": "Página de referência do fornecedor (fictícia)",
+   "justificativa": "A demanda atende à rotina do setor e foi dimensionada pela média de consumo dos dois últimos anos, considerando o volume de exames recebidos e a necessidade de manter estoque mínimo para três meses.",
+   "arquivo_pdf": null,
+   "criado_por": "servidor.lqf",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b",
+   "created_at": "2026-10-06T13:01:00Z",
+   "updated_at": "2026-10-06T13:01:00Z"
+  },
+  {
+   "id": "a736fd70-36c2-4c7b-9a11-1b0e4ec3aeaf",
+   "grupo": "CUSTEIO",
+   "unidade_id": "e27f3dac-6c91-4d31-b168-f2c5faee9c16",
+   "especificacao_tecnica": "Kit de extração de DNA de amostras biológicas, 50 reações, compatível com extrator automatizado",
+   "valor_unitario": 3980.0,
+   "quantidade": 12,
+   "unidade_medida_id": "a38a1253-5007-4e33-95aa-67323e90995e",
+   "valor_global": 47760.0,
+   "links_referencia": [
+    "https://www.exemplo-fornecedor.com.br/produto/1002"
+   ],
+   "preview_title": "Página de referência do fornecedor (fictícia)",
+   "justificativa": "A demanda atende à rotina do setor e foi dimensionada pela média de consumo dos dois últimos anos, considerando o volume de exames recebidos e a necessidade de manter estoque mínimo para três meses.",
+   "arquivo_pdf": null,
+   "criado_por": "servidor.lgf",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b",
+   "created_at": "2026-10-07T13:02:00Z",
+   "updated_at": "2026-10-07T13:02:00Z"
+  },
+  {
+   "id": "6af978fd-4ab7-4759-bca5-6cebeca50cec",
+   "grupo": "CUSTEIO",
+   "unidade_id": "e27f3dac-6c91-4d31-b168-f2c5faee9c16",
+   "especificacao_tecnica": "Ponteira com filtro de 1000 microlitros, estéril, livre de DNase e RNase, caixa com 96 unidades",
+   "valor_unitario": 96.5,
+   "quantidade": 120,
+   "unidade_medida_id": "5cd409a2-4154-497f-a252-c0de80328ec1",
+   "valor_global": 11580.0,
+   "links_referencia": [
+    "https://www.exemplo-fornecedor.com.br/produto/1003"
+   ],
+   "preview_title": "Página de referência do fornecedor (fictícia)",
+   "justificativa": "A demanda atende à rotina do setor e foi dimensionada pela média de consumo dos dois últimos anos, considerando o volume de exames recebidos e a necessidade de manter estoque mínimo para três meses.",
+   "arquivo_pdf": null,
+   "criado_por": "servidor.lgf",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b",
+   "created_at": "2026-10-08T13:03:00Z",
+   "updated_at": "2026-10-08T13:03:00Z"
+  },
+  {
+   "id": "8a7f3482-22b2-4c70-a10c-4382f475734d",
+   "grupo": "CUSTEIO",
+   "unidade_id": "b23c9349-4574-4a97-8833-73da1646372f",
+   "especificacao_tecnica": "Luva nitrílica sem pó, tamanho M, caixa com 100 unidades, para manuseio de vestígios em local de crime",
+   "valor_unitario": 38.9,
+   "quantidade": 300,
+   "unidade_medida_id": "5cd409a2-4154-497f-a252-c0de80328ec1",
+   "valor_global": 11670.0,
+   "links_referencia": [
+    "https://www.exemplo-fornecedor.com.br/produto/1004"
+   ],
+   "preview_title": "Página de referência do fornecedor (fictícia)",
+   "justificativa": "A demanda atende à rotina do setor e foi dimensionada pela média de consumo dos dois últimos anos, considerando o volume de exames recebidos e a necessidade de manter estoque mínimo para três meses.",
+   "arquivo_pdf": null,
+   "criado_por": "gerente.nplc",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b",
+   "created_at": "2026-10-09T13:04:00Z",
+   "updated_at": "2026-10-09T13:04:00Z"
+  },
+  {
+   "id": "f35b7ae4-dbdb-44de-ac95-7cd7df6f316b",
+   "grupo": "CUSTEIO",
+   "unidade_id": "b23c9349-4574-4a97-8833-73da1646372f",
+   "especificacao_tecnica": "Envelope de segurança para vestígios com lacre numerado e campo de cadeia de custódia, tamanho A4",
+   "valor_unitario": 189.0,
+   "quantidade": 80,
+   "unidade_medida_id": "c5fd1f93-1ac2-4de5-b423-980de69683b0",
+   "valor_global": 15120.0,
+   "links_referencia": [
+    "https://www.exemplo-fornecedor.com.br/produto/1005"
+   ],
+   "preview_title": "Página de referência do fornecedor (fictícia)",
+   "justificativa": "A demanda atende à rotina do setor e foi dimensionada pela média de consumo dos dois últimos anos, considerando o volume de exames recebidos e a necessidade de manter estoque mínimo para três meses.",
+   "arquivo_pdf": null,
+   "criado_por": "gerente.nplc",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b",
+   "created_at": "2026-10-10T13:05:00Z",
+   "updated_at": "2026-10-10T13:05:00Z"
+  },
+  {
+   "id": "9f044813-e1d1-4934-b2df-20699a2b0b91",
+   "grupo": "CUSTEIO",
+   "unidade_id": "b23c9349-4574-4a97-8833-73da1646372f",
+   "especificacao_tecnica": "Swab estéril com haste de plástico e tubo protetor, embalado individualmente, pacote com 100",
+   "valor_unitario": 74.3,
+   "quantidade": 150,
+   "unidade_medida_id": "c5fd1f93-1ac2-4de5-b423-980de69683b0",
+   "valor_global": 11145.0,
+   "links_referencia": [
+    "https://www.exemplo-fornecedor.com.br/produto/1006"
+   ],
+   "preview_title": "Página de referência do fornecedor (fictícia)",
+   "justificativa": "A demanda atende à rotina do setor e foi dimensionada pela média de consumo dos dois últimos anos, considerando o volume de exames recebidos e a necessidade de manter estoque mínimo para três meses.",
+   "arquivo_pdf": null,
+   "criado_por": "gerente.nplc",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b",
+   "created_at": "2026-10-11T13:06:00Z",
+   "updated_at": "2026-10-11T13:06:00Z"
+  },
+  {
+   "id": "c104cfb4-6c0e-4e86-a70d-81b97962faa3",
+   "grupo": "CUSTEIO",
+   "unidade_id": "e9dce30e-6c71-4188-a5b2-16c842ff9186",
+   "especificacao_tecnica": "Mídia de armazenamento SSD de 2 TB para cópia forense de dispositivos apreendidos",
+   "valor_unitario": 899.0,
+   "quantidade": 30,
+   "unidade_medida_id": "e09f3cb4-3b2c-4dfc-a8b6-f2abdfb35f1f",
+   "valor_global": 26970.0,
+   "links_referencia": [
+    "https://www.exemplo-fornecedor.com.br/produto/1007"
+   ],
+   "preview_title": "Página de referência do fornecedor (fictícia)",
+   "justificativa": "A demanda atende à rotina do setor e foi dimensionada pela média de consumo dos dois últimos anos, considerando o volume de exames recebidos e a necessidade de manter estoque mínimo para três meses.",
+   "arquivo_pdf": null,
+   "criado_por": "servidor.nif",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b",
+   "created_at": "2026-10-12T13:07:00Z",
+   "updated_at": "2026-10-12T13:07:00Z"
+  },
+  {
+   "id": "d3d60172-7d02-447a-83c4-a672c6e7244a",
+   "grupo": "CUSTEIO",
+   "unidade_id": "e9dce30e-6c71-4188-a5b2-16c842ff9186",
+   "especificacao_tecnica": "Cabo de dados USB-C para extração de celulares, com blindagem e 1 metro de comprimento",
+   "valor_unitario": 59.9,
+   "quantidade": 60,
+   "unidade_medida_id": "e09f3cb4-3b2c-4dfc-a8b6-f2abdfb35f1f",
+   "valor_global": 3594.0,
+   "links_referencia": [
+    "https://www.exemplo-fornecedor.com.br/produto/1008"
+   ],
+   "preview_title": "Página de referência do fornecedor (fictícia)",
+   "justificativa": "A demanda atende à rotina do setor e foi dimensionada pela média de consumo dos dois últimos anos, considerando o volume de exames recebidos e a necessidade de manter estoque mínimo para três meses.",
+   "arquivo_pdf": null,
+   "criado_por": "servidor.nif",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b",
+   "created_at": "2026-10-13T13:08:00Z",
+   "updated_at": "2026-10-13T13:08:00Z"
+  },
+  {
+   "id": "c1266028-f145-4155-98fb-4243e48dfebb",
+   "grupo": "INVESTIMENTO",
+   "unidade_id": "755f459a-af5f-4e1c-b890-f5862e5ccbf0",
+   "especificacao_tecnica": "Cromatógrafo a gás acoplado a espectrômetro de massas para identificação de drogas de abuso",
+   "valor_unitario": 685000.0,
+   "quantidade": 1,
+   "unidade_medida_id": "e09f3cb4-3b2c-4dfc-a8b6-f2abdfb35f1f",
+   "valor_global": 685000.0,
+   "links_referencia": [
+    "https://www.exemplo-fornecedor.com.br/produto/1009"
+   ],
+   "preview_title": "Página de referência do fornecedor (fictícia)",
+   "justificativa": "A demanda atende à rotina do setor e foi dimensionada pela média de consumo dos dois últimos anos, considerando o volume de exames recebidos e a necessidade de manter estoque mínimo para três meses.",
+   "arquivo_pdf": null,
+   "criado_por": "servidor.lqf",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b",
+   "created_at": "2026-10-14T13:09:00Z",
+   "updated_at": "2026-10-14T13:09:00Z"
+  },
+  {
+   "id": "9848f7bc-83ba-4cd8-aee2-be030a572665",
+   "grupo": "INVESTIMENTO",
+   "unidade_id": "e27f3dac-6c91-4d31-b168-f2c5faee9c16",
+   "especificacao_tecnica": "Termociclador para PCR em tempo real com 96 poços e software de análise de genotipagem",
+   "valor_unitario": 248000.0,
+   "quantidade": 1,
+   "unidade_medida_id": "e09f3cb4-3b2c-4dfc-a8b6-f2abdfb35f1f",
+   "valor_global": 248000.0,
+   "links_referencia": [
+    "https://www.exemplo-fornecedor.com.br/produto/1010"
+   ],
+   "preview_title": "Página de referência do fornecedor (fictícia)",
+   "justificativa": "A demanda atende à rotina do setor e foi dimensionada pela média de consumo dos dois últimos anos, considerando o volume de exames recebidos e a necessidade de manter estoque mínimo para três meses.",
+   "arquivo_pdf": null,
+   "criado_por": "servidor.lgf",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b",
+   "created_at": "2026-10-15T13:10:00Z",
+   "updated_at": "2026-10-15T13:10:00Z"
+  },
+  {
+   "id": "4960f709-a16f-49cd-a3ad-594fa2b1bb12",
+   "grupo": "INVESTIMENTO",
+   "unidade_id": "b23c9349-4574-4a97-8833-73da1646372f",
+   "especificacao_tecnica": "Fonte de luz forense multibanda com filtros de 365 a 640 nm para busca de vestígios",
+   "valor_unitario": 78500.0,
+   "quantidade": 2,
+   "unidade_medida_id": "e09f3cb4-3b2c-4dfc-a8b6-f2abdfb35f1f",
+   "valor_global": 157000.0,
+   "links_referencia": [
+    "https://www.exemplo-fornecedor.com.br/produto/1011"
+   ],
+   "preview_title": "Página de referência do fornecedor (fictícia)",
+   "justificativa": "A demanda atende à rotina do setor e foi dimensionada pela média de consumo dos dois últimos anos, considerando o volume de exames recebidos e a necessidade de manter estoque mínimo para três meses.",
+   "arquivo_pdf": null,
+   "criado_por": "gerente.nplc",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b",
+   "created_at": "2026-10-16T13:11:00Z",
+   "updated_at": "2026-10-16T13:11:00Z"
+  },
+  {
+   "id": "7799ba98-6c16-49c9-a262-820cd60dbc4a",
+   "grupo": "INVESTIMENTO",
+   "unidade_id": "b23c9349-4574-4a97-8833-73da1646372f",
+   "especificacao_tecnica": "Câmera fotográfica digital full frame com lente macro para documentação de local de crime",
+   "valor_unitario": 21900.0,
+   "quantidade": 3,
+   "unidade_medida_id": "e09f3cb4-3b2c-4dfc-a8b6-f2abdfb35f1f",
+   "valor_global": 65700.0,
+   "links_referencia": [
+    "https://www.exemplo-fornecedor.com.br/produto/1012"
+   ],
+   "preview_title": "Página de referência do fornecedor (fictícia)",
+   "justificativa": "A demanda atende à rotina do setor e foi dimensionada pela média de consumo dos dois últimos anos, considerando o volume de exames recebidos e a necessidade de manter estoque mínimo para três meses.",
+   "arquivo_pdf": null,
+   "criado_por": "gerente.nplc",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b",
+   "created_at": "2026-10-17T13:12:00Z",
+   "updated_at": "2026-10-17T13:12:00Z"
+  },
+  {
+   "id": "70ee4ebe-701c-45dd-a06a-669454202dbb",
+   "grupo": "INVESTIMENTO",
+   "unidade_id": "e9dce30e-6c71-4188-a5b2-16c842ff9186",
+   "especificacao_tecnica": "Bloqueador de escrita forense para discos SATA, NVMe e USB, com certificação de integridade",
+   "valor_unitario": 9800.0,
+   "quantidade": 4,
+   "unidade_medida_id": "e09f3cb4-3b2c-4dfc-a8b6-f2abdfb35f1f",
+   "valor_global": 39200.0,
+   "links_referencia": [
+    "https://www.exemplo-fornecedor.com.br/produto/1013"
+   ],
+   "preview_title": "Página de referência do fornecedor (fictícia)",
+   "justificativa": "A demanda atende à rotina do setor e foi dimensionada pela média de consumo dos dois últimos anos, considerando o volume de exames recebidos e a necessidade de manter estoque mínimo para três meses.",
+   "arquivo_pdf": null,
+   "criado_por": "servidor.nif",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b",
+   "created_at": "2026-10-18T13:13:00Z",
+   "updated_at": "2026-10-18T13:13:00Z"
+  },
+  {
+   "id": "ee5dfb4a-bcb6-4be7-8eb4-c3dba428eeea",
+   "grupo": "INVESTIMENTO",
+   "unidade_id": "e9dce30e-6c71-4188-a5b2-16c842ff9186",
+   "especificacao_tecnica": "Estação de trabalho para extração e análise de dispositivos móveis com 128 GB de memória",
+   "valor_unitario": 46500.0,
+   "quantidade": 2,
+   "unidade_medida_id": "e09f3cb4-3b2c-4dfc-a8b6-f2abdfb35f1f",
+   "valor_global": 93000.0,
+   "links_referencia": [
+    "https://www.exemplo-fornecedor.com.br/produto/1014"
+   ],
+   "preview_title": "Página de referência do fornecedor (fictícia)",
+   "justificativa": "A demanda atende à rotina do setor e foi dimensionada pela média de consumo dos dois últimos anos, considerando o volume de exames recebidos e a necessidade de manter estoque mínimo para três meses.",
+   "arquivo_pdf": null,
+   "criado_por": "servidor.nif",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b",
+   "created_at": "2026-10-19T13:14:00Z",
+   "updated_at": "2026-10-19T13:14:00Z"
+  }
+ ],
+ "banco_demanda_manifestacoes": [
+  {
+   "id": "edbbe059-a2b2-46b7-8d80-cab12b3a96d1",
+   "banco_demanda_id": "8a7f3482-22b2-4c70-a10c-4382f475734d",
+   "unidade_id": "755f459a-af5f-4e1c-b890-f5862e5ccbf0",
+   "quantidade": 100,
+   "justificativa": "A unidade usa o mesmo item na rotina e prefere aderir à especificação já cadastrada.",
+   "criado_por": "servidor.lqf",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "created_at": "2026-10-27T15:00:00Z"
+  },
+  {
+   "id": "c5b3d1b0-8989-43ed-b37a-9d9e5e9aa7c7",
+   "banco_demanda_id": "8a7f3482-22b2-4c70-a10c-4382f475734d",
+   "unidade_id": "e27f3dac-6c91-4d31-b168-f2c5faee9c16",
+   "quantidade": 80,
+   "justificativa": "A unidade usa o mesmo item na rotina e prefere aderir à especificação já cadastrada.",
+   "criado_por": "servidor.lgf",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "created_at": "2026-10-27T15:00:00Z"
+  },
+  {
+   "id": "51b72199-feb1-4361-9fe6-e93917b9e949",
+   "banco_demanda_id": "9f044813-e1d1-4934-b2df-20699a2b0b91",
+   "unidade_id": "e27f3dac-6c91-4d31-b168-f2c5faee9c16",
+   "quantidade": 40,
+   "justificativa": "A unidade usa o mesmo item na rotina e prefere aderir à especificação já cadastrada.",
+   "criado_por": "servidor.lgf",
+   "orgao_id": "a3842312-39c0-4189-b15c-7236889da34b",
+   "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+   "created_at": "2026-10-27T15:00:00Z"
+  }
+ ],
+ "banco_demanda_inclusoes": []
+}

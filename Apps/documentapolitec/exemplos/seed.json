@@ -1,0 +1,1062 @@
+{
+ "caixas": [
+  {
+   "id_caixa": "CX-001",
+   "setor_origem": "DMIT · Arquivo corrente",
+   "responsavel": "Papiloscopista Fictício",
+   "data": "2026-09-01",
+   "qtd": 12,
+   "status": "conferida",
+   "criado_em": "2026-09-01T09:00:00",
+   "lacrada_por": "Papiloscopista Fictício",
+   "lacrada_em": "2026-09-01T16:00:00"
+  },
+  {
+   "id_caixa": "CX-002",
+   "setor_origem": "DMIT · Sala cofre",
+   "responsavel": "Papiloscopista Fictício",
+   "data": "2026-09-03",
+   "qtd": 11,
+   "status": "divergencia",
+   "criado_em": "2026-09-03T09:00:00",
+   "lacrada_por": null,
+   "lacrada_em": null
+  },
+  {
+   "id_caixa": "CX-003",
+   "setor_origem": "Instituto de Identificação",
+   "responsavel": "Papiloscopista Fictício",
+   "data": "2026-09-05",
+   "qtd": 9,
+   "status": "pendente",
+   "criado_em": "2026-09-05T09:00:00",
+   "lacrada_por": null,
+   "lacrada_em": null
+  },
+  {
+   "id_caixa": "CX-004",
+   "setor_origem": "Posto de Cuiabá",
+   "responsavel": "Papiloscopista Fictício",
+   "data": "2026-09-07",
+   "qtd": 13,
+   "status": "pendente",
+   "criado_em": "2026-09-07T09:00:00",
+   "lacrada_por": null,
+   "lacrada_em": null
+  },
+  {
+   "id_caixa": "CX-005",
+   "setor_origem": "Posto de Várzea Grande",
+   "responsavel": "Papiloscopista Fictício",
+   "data": "2026-09-09",
+   "qtd": 10,
+   "status": "pendente",
+   "criado_em": "2026-09-09T09:00:00",
+   "lacrada_por": null,
+   "lacrada_em": null
+  },
+  {
+   "id_caixa": "CX-006",
+   "setor_origem": "Posto de Rondonópolis",
+   "responsavel": "Papiloscopista Fictício",
+   "data": "2026-09-11",
+   "qtd": 11,
+   "status": "pendente",
+   "criado_em": "2026-09-11T09:00:00",
+   "lacrada_por": null,
+   "lacrada_em": null
+  },
+  {
+   "id_caixa": "CX-007",
+   "setor_origem": "Posto de Sinop",
+   "responsavel": "Papiloscopista Fictício",
+   "data": "2026-09-13",
+   "qtd": 10,
+   "status": "pendente",
+   "criado_em": "2026-09-13T09:00:00",
+   "lacrada_por": null,
+   "lacrada_em": null
+  },
+  {
+   "id_caixa": "CX-008",
+   "setor_origem": "Arquivo central",
+   "responsavel": "Papiloscopista Fictício",
+   "data": "2026-09-15",
+   "qtd": 9,
+   "status": "pendente",
+   "criado_em": "2026-09-15T09:00:00",
+   "lacrada_por": null,
+   "lacrada_em": null
+  },
+  {
+   "id_caixa": "CX-009",
+   "setor_origem": "DMIT · Arquivo corrente",
+   "responsavel": "Papiloscopista Fictício",
+   "data": "2026-09-17",
+   "qtd": 13,
+   "status": "pendente",
+   "criado_em": "2026-09-17T09:00:00",
+   "lacrada_por": null,
+   "lacrada_em": null
+  },
+  {
+   "id_caixa": "CX-010",
+   "setor_origem": "DMIT · Sala cofre",
+   "responsavel": "Papiloscopista Fictício",
+   "data": "2026-09-19",
+   "qtd": 13,
+   "status": "pendente",
+   "criado_em": "2026-09-19T09:00:00",
+   "lacrada_por": null,
+   "lacrada_em": null
+  },
+  {
+   "id_caixa": "CX-011",
+   "setor_origem": "Instituto de Identificação",
+   "responsavel": "Papiloscopista Fictício",
+   "data": "2026-09-21",
+   "qtd": 11,
+   "status": "pendente",
+   "criado_em": "2026-09-21T09:00:00",
+   "lacrada_por": null,
+   "lacrada_em": null
+  },
+  {
+   "id_caixa": "CX-012",
+   "setor_origem": "Posto de Cuiabá",
+   "responsavel": "Papiloscopista Fictício",
+   "data": "2026-09-23",
+   "qtd": 13,
+   "status": "pendente",
+   "criado_em": "2026-09-23T09:00:00",
+   "lacrada_por": null,
+   "lacrada_em": null
+  }
+ ],
+ "prontuarios": [
+  {
+   "numero": "2019.000001",
+   "caixa_id": "CX-001",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000002",
+   "caixa_id": "CX-001",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000003",
+   "caixa_id": "CX-001",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000004",
+   "caixa_id": "CX-001",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000005",
+   "caixa_id": "CX-001",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000006",
+   "caixa_id": "CX-001",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000007",
+   "caixa_id": "CX-001",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000008",
+   "caixa_id": "CX-001",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000009",
+   "caixa_id": "CX-001",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000010",
+   "caixa_id": "CX-001",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000011",
+   "caixa_id": "CX-001",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000012",
+   "caixa_id": "CX-001",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000013",
+   "caixa_id": "CX-002",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000014",
+   "caixa_id": "CX-002",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000015",
+   "caixa_id": "CX-002",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000016",
+   "caixa_id": "CX-002",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000017",
+   "caixa_id": "CX-002",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000018",
+   "caixa_id": "CX-002",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000019",
+   "caixa_id": "CX-002",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000020",
+   "caixa_id": "CX-002",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000021",
+   "caixa_id": "CX-002",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000022",
+   "caixa_id": "CX-002",
+   "conferido": true,
+   "digital": true
+  },
+  {
+   "numero": "2019.000023",
+   "caixa_id": "CX-002",
+   "conferido": true,
+   "digital": false
+  },
+  {
+   "numero": "2019.000024",
+   "caixa_id": "CX-003",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000025",
+   "caixa_id": "CX-003",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000026",
+   "caixa_id": "CX-003",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000027",
+   "caixa_id": "CX-003",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000028",
+   "caixa_id": "CX-003",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000029",
+   "caixa_id": "CX-003",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000030",
+   "caixa_id": "CX-003",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000031",
+   "caixa_id": "CX-003",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000032",
+   "caixa_id": "CX-003",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000033",
+   "caixa_id": "CX-004",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000034",
+   "caixa_id": "CX-004",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000035",
+   "caixa_id": "CX-004",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000036",
+   "caixa_id": "CX-004",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000037",
+   "caixa_id": "CX-004",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000038",
+   "caixa_id": "CX-004",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000039",
+   "caixa_id": "CX-004",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000040",
+   "caixa_id": "CX-004",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000041",
+   "caixa_id": "CX-004",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000042",
+   "caixa_id": "CX-004",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000043",
+   "caixa_id": "CX-004",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000044",
+   "caixa_id": "CX-004",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000045",
+   "caixa_id": "CX-004",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000046",
+   "caixa_id": "CX-005",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000047",
+   "caixa_id": "CX-005",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000048",
+   "caixa_id": "CX-005",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000049",
+   "caixa_id": "CX-005",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000050",
+   "caixa_id": "CX-005",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000051",
+   "caixa_id": "CX-005",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000052",
+   "caixa_id": "CX-005",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000053",
+   "caixa_id": "CX-005",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000054",
+   "caixa_id": "CX-005",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000055",
+   "caixa_id": "CX-005",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000056",
+   "caixa_id": "CX-006",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000057",
+   "caixa_id": "CX-006",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000058",
+   "caixa_id": "CX-006",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000059",
+   "caixa_id": "CX-006",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000060",
+   "caixa_id": "CX-006",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000061",
+   "caixa_id": "CX-006",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000062",
+   "caixa_id": "CX-006",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000063",
+   "caixa_id": "CX-006",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000064",
+   "caixa_id": "CX-006",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000065",
+   "caixa_id": "CX-006",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000066",
+   "caixa_id": "CX-006",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000067",
+   "caixa_id": "CX-007",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000068",
+   "caixa_id": "CX-007",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000069",
+   "caixa_id": "CX-007",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000070",
+   "caixa_id": "CX-007",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000071",
+   "caixa_id": "CX-007",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000072",
+   "caixa_id": "CX-007",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000073",
+   "caixa_id": "CX-007",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000074",
+   "caixa_id": "CX-007",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000075",
+   "caixa_id": "CX-007",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000076",
+   "caixa_id": "CX-007",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000077",
+   "caixa_id": "CX-008",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000078",
+   "caixa_id": "CX-008",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000079",
+   "caixa_id": "CX-008",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000080",
+   "caixa_id": "CX-008",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000081",
+   "caixa_id": "CX-008",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000082",
+   "caixa_id": "CX-008",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000083",
+   "caixa_id": "CX-008",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000084",
+   "caixa_id": "CX-008",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000085",
+   "caixa_id": "CX-008",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000086",
+   "caixa_id": "CX-009",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000087",
+   "caixa_id": "CX-009",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000088",
+   "caixa_id": "CX-009",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000089",
+   "caixa_id": "CX-009",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000090",
+   "caixa_id": "CX-009",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000091",
+   "caixa_id": "CX-009",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000092",
+   "caixa_id": "CX-009",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000093",
+   "caixa_id": "CX-009",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000094",
+   "caixa_id": "CX-009",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000095",
+   "caixa_id": "CX-009",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000096",
+   "caixa_id": "CX-009",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000097",
+   "caixa_id": "CX-009",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000098",
+   "caixa_id": "CX-009",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000099",
+   "caixa_id": "CX-010",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000100",
+   "caixa_id": "CX-010",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000101",
+   "caixa_id": "CX-010",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000102",
+   "caixa_id": "CX-010",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000103",
+   "caixa_id": "CX-010",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000104",
+   "caixa_id": "CX-010",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000105",
+   "caixa_id": "CX-010",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000106",
+   "caixa_id": "CX-010",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000107",
+   "caixa_id": "CX-010",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000108",
+   "caixa_id": "CX-010",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000109",
+   "caixa_id": "CX-010",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000110",
+   "caixa_id": "CX-010",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000111",
+   "caixa_id": "CX-010",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000112",
+   "caixa_id": "CX-011",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000113",
+   "caixa_id": "CX-011",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000114",
+   "caixa_id": "CX-011",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000115",
+   "caixa_id": "CX-011",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000116",
+   "caixa_id": "CX-011",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000117",
+   "caixa_id": "CX-011",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000118",
+   "caixa_id": "CX-011",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000119",
+   "caixa_id": "CX-011",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000120",
+   "caixa_id": "CX-011",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000121",
+   "caixa_id": "CX-011",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000122",
+   "caixa_id": "CX-011",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000123",
+   "caixa_id": "CX-012",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000124",
+   "caixa_id": "CX-012",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000125",
+   "caixa_id": "CX-012",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000126",
+   "caixa_id": "CX-012",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000127",
+   "caixa_id": "CX-012",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000128",
+   "caixa_id": "CX-012",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000129",
+   "caixa_id": "CX-012",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000130",
+   "caixa_id": "CX-012",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000131",
+   "caixa_id": "CX-012",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000132",
+   "caixa_id": "CX-012",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000133",
+   "caixa_id": "CX-012",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000134",
+   "caixa_id": "CX-012",
+   "conferido": false,
+   "digital": true
+  },
+  {
+   "numero": "2019.000135",
+   "caixa_id": "CX-012",
+   "conferido": false,
+   "digital": true
+  }
+ ],
+ "log": [
+  {
+   "id": "L-1",
+   "caixa_id": "CX-001",
+   "acao": "caixa cadastrada",
+   "perfil": "papiloscopista",
+   "data_hora": "2026-09-01T09:00:00",
+   "detalhe": "12 prontuários"
+  },
+  {
+   "id": "L-1-c",
+   "caixa_id": "CX-001",
+   "acao": "caixa conferida e lacrada",
+   "perfil": "papiloscopista",
+   "data_hora": "2026-09-01T16:00:00",
+   "detalhe": "Papiloscopista Fictício"
+  },
+  {
+   "id": "L-2",
+   "caixa_id": "CX-002",
+   "acao": "caixa cadastrada",
+   "perfil": "papiloscopista",
+   "data_hora": "2026-09-03T09:00:00",
+   "detalhe": "11 prontuários"
+  },
+  {
+   "id": "L-2-c",
+   "caixa_id": "CX-002",
+   "acao": "conferência com divergência",
+   "perfil": "papiloscopista",
+   "data_hora": "2026-09-03T16:00:00",
+   "detalhe": "1 prontuário sem correspondência"
+  },
+  {
+   "id": "L-3",
+   "caixa_id": "CX-003",
+   "acao": "caixa cadastrada",
+   "perfil": "papiloscopista",
+   "data_hora": "2026-09-05T09:00:00",
+   "detalhe": "9 prontuários"
+  },
+  {
+   "id": "L-4",
+   "caixa_id": "CX-004",
+   "acao": "caixa cadastrada",
+   "perfil": "papiloscopista",
+   "data_hora": "2026-09-07T09:00:00",
+   "detalhe": "13 prontuários"
+  },
+  {
+   "id": "L-5",
+   "caixa_id": "CX-005",
+   "acao": "caixa cadastrada",
+   "perfil": "papiloscopista",
+   "data_hora": "2026-09-09T09:00:00",
+   "detalhe": "10 prontuários"
+  },
+  {
+   "id": "L-6",
+   "caixa_id": "CX-006",
+   "acao": "caixa cadastrada",
+   "perfil": "papiloscopista",
+   "data_hora": "2026-09-11T09:00:00",
+   "detalhe": "11 prontuários"
+  },
+  {
+   "id": "L-7",
+   "caixa_id": "CX-007",
+   "acao": "caixa cadastrada",
+   "perfil": "papiloscopista",
+   "data_hora": "2026-09-13T09:00:00",
+   "detalhe": "10 prontuários"
+  },
+  {
+   "id": "L-8",
+   "caixa_id": "CX-008",
+   "acao": "caixa cadastrada",
+   "perfil": "papiloscopista",
+   "data_hora": "2026-09-15T09:00:00",
+   "detalhe": "9 prontuários"
+  },
+  {
+   "id": "L-9",
+   "caixa_id": "CX-009",
+   "acao": "caixa cadastrada",
+   "perfil": "papiloscopista",
+   "data_hora": "2026-09-17T09:00:00",
+   "detalhe": "13 prontuários"
+  },
+  {
+   "id": "L-10",
+   "caixa_id": "CX-010",
+   "acao": "caixa cadastrada",
+   "perfil": "papiloscopista",
+   "data_hora": "2026-09-19T09:00:00",
+   "detalhe": "13 prontuários"
+  },
+  {
+   "id": "L-11",
+   "caixa_id": "CX-011",
+   "acao": "caixa cadastrada",
+   "perfil": "papiloscopista",
+   "data_hora": "2026-09-21T09:00:00",
+   "detalhe": "11 prontuários"
+  },
+  {
+   "id": "L-12",
+   "caixa_id": "CX-012",
+   "acao": "caixa cadastrada",
+   "perfil": "papiloscopista",
+   "data_hora": "2026-09-23T09:00:00",
+   "detalhe": "13 prontuários"
+  }
+ ]
+}

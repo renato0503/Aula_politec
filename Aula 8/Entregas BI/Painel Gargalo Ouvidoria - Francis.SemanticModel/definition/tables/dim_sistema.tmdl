@@ -1,0 +1,60 @@
+table dim_sistema
+	lineageTag: 0235f222-0428-540e-938c-fa5a281f788f
+
+	column sistema_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: c4a59f13-93a6-5e6c-8ff8-fe71ca43ec30
+		summarizeBy: none
+		sourceColumn: sistema_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column sistema
+		dataType: string
+		lineageTag: 84c8724f-2dbe-50c5-b93e-c62624a982c9
+		summarizeBy: none
+		sourceColumn: sistema
+
+		annotation SummarizationSetBy = Automatic
+
+	column digitizado
+		dataType: int64
+		formatString: 0
+		lineageTag: 3943a5a0-7d09-5c95-a27a-f84c05c8cd32
+		summarizeBy: none
+		sourceColumn: digitizado
+
+		annotation SummarizationSetBy = Automatic
+
+	column integrado
+		dataType: int64
+		formatString: 0
+		lineageTag: c5df73fb-c5c1-5c53-a4af-d90fa026929d
+		summarizeBy: none
+		sourceColumn: integrado
+
+		annotation SummarizationSetBy = Automatic
+
+	column sistema_curto
+		dataType: string
+		lineageTag: afba1a18-88a2-5560-a9d3-b6157eb0c95d
+		summarizeBy: none
+		sourceColumn: sistema_curto
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_sistema = m
+		mode: import
+		source =
+				let
+					Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(
+					"XY/LasNADEV/RczKIWPIo8kPFC+6K2RpvFDHohaVR2GslH5+ZqgnkKDdueciqe/33r1PaECAX5TslhA0tsKRnN/l+U8rGnx/8K5rZ2QBjoux3QJrRHF+n2eNinf07hOvJLAF4d+kMBJck5oGFS327kUopbfMBCPLhND9hRw2QaMlFQLRgLKpzSerVE8ZajKUsgiN4sgzRct7+ZvtcWB1VpiLZ+8uvBjN+HTiAs2l+8hv/9Bm7VatcjcMdw==",
+						BinaryEncoding.Base64), Compression.Deflate)), {"sistema_key", "sistema", "digitizado", "integrado", "sistema_curto"}),
+					Tipos = Table.TransformColumnTypes(Fonte, {{"sistema_key", Int64.Type}, {"sistema", type text}, {"digitizado", Int64.Type}, {"integrado", Int64.Type}, {"sistema_curto", type text}}, "en-US")
+				in
+					Tipos
+
+	annotation PBI_ResultType = Table
+

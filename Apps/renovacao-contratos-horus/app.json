@@ -1,0 +1,29 @@
+{
+  "titulo": "Renovação de Contratos · Hórus",
+  "subtitulo": "POLITEC/MT · monitoramento de vigências e termos aditivos",
+  "descricao": "Painel de vencimentos com semáforo de seis faixas, cadastro de contratos e registro do termo aditivo de prorrogação. Dados fictícios.",
+  "aviso": "Protótipo com dados fictícios. Não registre contratos, fornecedores ou processos reais.",
+  "db": {
+    "nome": "renovacao_contratos_v1",
+    "versao": 1,
+    "stores": {
+      "contratos": {"keyPath": "id_contrato", "indices": [{"nome": "status", "campo": "status", "unico": false}]},
+      "aditivos": {"keyPath": "id_aditivo", "indices": [{"nome": "contrato_id", "campo": "contrato_id", "unico": false}]},
+      "auditoria": {"keyPath": "id_evento", "indices": [{"nome": "contrato_id", "campo": "contrato_id", "unico": false}]}
+    }
+  },
+  "perfis": [
+    {"id": "gestor", "nome": "Gestor de contratos", "descricao": "Monitora vencimentos, instrui e registra a prorrogação."},
+    {"id": "fiscal", "nome": "Fiscal do contrato", "descricao": "Acompanha a vigência e os alertas do contrato designado."},
+    {"id": "admin", "nome": "Administrador", "descricao": "Mantém o cadastro e consulta a trilha de auditoria."}
+  ],
+  "rotas": [
+    {"rota": "#/painel", "titulo": "Painel", "sprint": 1, "descricao": "Vencendo em 90 dias e semáforo das seis faixas."},
+    {"rota": "#/contratos", "titulo": "Contratos", "sprint": 2, "descricao": "Lista com filtros de faixa, status e busca."},
+    {"rota": "#/contrato/novo", "titulo": "Novo contrato", "sprint": 2, "descricao": "Cadastro com a data de término calculada (R2).", "perfis": ["gestor", "admin"]},
+    {"rota": "#/contrato/:id", "titulo": "Contrato", "sprint": 2, "descricao": "Ficha, semáforo, aditivos e auditoria."},
+    {"rota": "#/config", "titulo": "Configuração", "sprint": 1, "descricao": ""}
+  ],
+  "libs": [],
+  "dados": [["seed", "exemplos/seed.json"]]
+}

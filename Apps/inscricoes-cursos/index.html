@@ -1,0 +1,916 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: blob:; connect-src 'none'; img-src 'self' data: blob:; media-src 'self' blob: mediastream:; worker-src blob:">
+<title>Inscrições em Cursos</title>
+<meta name="description" content="Inscrição padronizada, triagem pelas diretorias e convocação, sem redigitação.">
+<style>
+/* ===================================================================
+   BASE COMUM DOS APPS (Apps/_base/base.html)
+   Tema, layout, componentes. O CSS do app fica no fim deste bloco.
+   =================================================================== */
+:root{
+  --bg:#f6f7f9; --painel:#ffffff; --ink:#1c2430; --ink2:#5b6676; --linha:#dde2e9;
+  --accent:#1f5fae; --accent-ink:#ffffff; --verde:#1d7a46; --ambar:#a86500; --vermelho:#b42318;
+  --sombra:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.10);
+  --raio:10px; --mono:ui-monospace,SFMono-Regular,Consolas,monospace;
+  --ui:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#11161d; --painel:#1a212b; --ink:#e6eaf0; --ink2:#a3adbb; --linha:#2c3542;
+    --accent:#6ea8ff; --accent-ink:#0b1220; --verde:#4cc283; --ambar:#f0b44c; --vermelho:#ff7b72;
+    --sombra:none; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11161d; --painel:#1a212b; --ink:#e6eaf0; --ink2:#a3adbb; --linha:#2c3542;
+  --accent:#6ea8ff; --accent-ink:#0b1220; --verde:#4cc283; --ambar:#f0b44c; --vermelho:#ff7b72;
+  --sombra:none; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--ui)}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.topo{background:var(--painel);border-bottom:1px solid var(--linha);position:sticky;top:0;z-index:5}
+.topo-in{max-width:1200px;margin:0 auto;padding:10px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.marca{font-weight:700;font-size:17px;margin-right:auto}
+.marca small{display:block;font-weight:400;font-size:12px;color:var(--ink2)}
+.aviso-topo{background:var(--accent);color:var(--accent-ink);font-size:13px;text-align:center;padding:4px 16px}
+nav.menu{max-width:1200px;margin:0 auto;padding:0 16px 8px;display:flex;gap:4px;flex-wrap:wrap}
+nav.menu a{padding:6px 10px;border-radius:8px;text-decoration:none;color:var(--ink2);font-size:14px}
+nav.menu a[aria-current="page"]{background:var(--accent);color:var(--accent-ink)}
+main{max-width:1200px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:22px;margin:0 0 4px} h2{font-size:18px;margin:24px 0 8px}
+.sub{color:var(--ink2);margin:0 0 16px}
+.card{background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio);padding:16px;box-shadow:var(--sombra);margin-bottom:16px}
+.grade{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.kpi .v{font-size:26px;font-weight:700} .kpi .r{color:var(--ink2);font-size:13px}
+button,.botao{font:inherit;border:1px solid var(--linha);background:var(--painel);color:var(--ink);padding:7px 12px;border-radius:8px;cursor:pointer}
+button.prim,.botao.prim{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+button.perigo{border-color:var(--vermelho);color:var(--vermelho)}
+button:disabled{opacity:.5;cursor:not-allowed}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--linha);border-radius:8px;padding:7px 9px;width:100%}
+label{display:block;font-size:13px;color:var(--ink2);margin:10px 0 4px}
+.linha-botoes{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tabela-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--linha);vertical-align:top}
+th{color:var(--ink2);font-weight:600}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.selo{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;border:1px solid currentColor}
+.selo.ok{color:var(--verde)} .selo.alerta{color:var(--ambar)} .selo.erro{color:var(--vermelho)} .selo.info{color:var(--accent)}
+.vazio{color:var(--ink2);text-align:center;padding:28px}
+.campos{display:grid;gap:0 16px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.campo small{display:block;margin-top:2px}
+.ok-txt{color:var(--verde)} .erro-txt{color:var(--vermelho)} .alerta-txt{color:var(--ambar)}
+.pendente{border-left:4px solid var(--ambar)}
+code,.mono{font-family:var(--mono);font-size:13px}
+#toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;display:none;z-index:20;max-width:90vw}
+@media (max-width:640px){ .marca{font-size:15px} main{padding:16px 16px 48px} }
+@media print{ .topo,nav.menu,#toast,.nao-imprimir{display:none!important} body{background:#fff;color:#000} .card{box-shadow:none;break-inside:avoid} }
+/* ===== CSS DO APP ===== */
+
+</style>
+</head>
+<body>
+<header class="topo">
+  
+  <div class="topo-in">
+    <div class="marca">Inscrições em Cursos<small>POLITEC/MT · Gerência de Formação Inicial e Continuada</small></div>
+    <span id="perfilAtual" class="selo info" hidden></span>
+    <button id="btnTema" type="button" aria-label="Alternar tema claro e escuro">Tema</button>
+  </div>
+  <nav class="menu" id="menu" aria-label="Telas do app"></nav>
+</header>
+<main id="conteudo" tabindex="-1"></main>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<!-- Bibliotecas e dados embutidos (preenchidos por Apps/_base/embutir.py) -->
+<!-- LIB:qrcode.min.js -->
+<script>var qrcode=function(){function i(t,r){function a(t,r){g=function(t){for(var r=new Array(t),e=0;e<t;e+=1){r[e]=new Array(t);for(var n=0;n<t;n+=1)r[e][n]=null}return r}(l=4*u+17),e(0,0),e(l-7,0),e(0,l-7),i(),o(),v(t,r),7<=u&&h(t),null==n&&(n=w(u,f,c)),d(n,r)}var u=t,f=y[r],g=null,l=0,n=null,c=[],s={},e=function(t,r){for(var e=-1;e<=7;e+=1)if(!(t+e<=-1||l<=t+e))for(var n=-1;n<=7;n+=1)r+n<=-1||l<=r+n||(g[t+e][r+n]=0<=e&&e<=6&&(0==n||6==n)||0<=n&&n<=6&&(0==e||6==e)||2<=e&&e<=4&&2<=n&&n<=4)},o=function(){for(var t=8;t<l-8;t+=1)null==g[t][6]&&(g[t][6]=t%2==0);for(var r=8;r<l-8;r+=1)null==g[6][r]&&(g[6][r]=r%2==0)},i=function(){for(var t=B.getPatternPosition(u),r=0;r<t.length;r+=1)for(var e=0;e<t.length;e+=1){var n=t[r],o=t[e];if(null==g[n][o])for(var i=-2;i<=2;i+=1)for(var a=-2;a<=2;a+=1)g[n+i][o+a]=-2==i||2==i||-2==a||2==a||0==i&&0==a}},h=function(t){for(var r=B.getBCHTypeNumber(u),e=0;e<18;e+=1){var n=!t&&1==(r>>e&1);g[Math.floor(e/3)][e%3+l-8-3]=n}for(e=0;e<18;e+=1){n=!t&&1==(r>>e&1);g[e%3+l-8-3][Math.floor(e/3)]=n}},v=function(t,r){for(var e=f<<3|r,n=B.getBCHTypeInfo(e),o=0;o<15;o+=1){var i=!t&&1==(n>>o&1);o<6?g[o][8]=i:o<8?g[o+1][8]=i:g[l-15+o][8]=i}for(o=0;o<15;o+=1){i=!t&&1==(n>>o&1);o<8?g[8][l-o-1]=i:o<9?g[8][15-o-1+1]=i:g[8][15-o-1]=i}g[l-8][8]=!t},d=function(t,r){for(var e=-1,n=l-1,o=7,i=0,a=B.getMaskFunction(r),u=l-1;0<u;u-=2)for(6==u&&(u-=1);;){for(var f=0;f<2;f+=1)if(null==g[n][u-f]){var c=!1;i<t.length&&(c=1==(t[i]>>>o&1)),a(n,u-f)&&(c=!c),g[n][u-f]=c,-1==(o-=1)&&(i+=1,o=7)}if((n+=e)<0||l<=n){n-=e,e=-e;break}}},w=function(t,r,e){for(var n=b.getRSBlocks(t,r),o=M(),i=0;i<e.length;i+=1){var a=e[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var u=0;for(i=0;i<n.length;i+=1)u+=n[i].dataCount;if(o.getLengthInBits()>8*u)throw"code length overflow. ("+o.getLengthInBits()+">"+8*u+")";for(o.getLengthInBits()+4<=8*u&&o.put(0,4);o.getLengthInBits()%8!=0;)o.putBit(!1);for(;!(o.getLengthInBits()>=8*u||(o.put(236,8),o.getLengthInBits()>=8*u));)o.put(17,8);return function(t,r){for(var e=0,n=0,o=0,i=new Array(r.length),a=new Array(r.length),u=0;u<r.length;u+=1){var f=r[u].dataCount,c=r[u].totalCount-f;n=Math.max(n,f),o=Math.max(o,c),i[u]=new Array(f);for(var g=0;g<i[u].length;g+=1)i[u][g]=255&t.getBuffer()[g+e];e+=f;var l=B.getErrorCorrectPolynomial(c),h=C(i[u],l.getLength()-1).mod(l);a[u]=new Array(l.getLength()-1);for(g=0;g<a[u].length;g+=1){var s=g+h.getLength()-a[u].length;a[u][g]=0<=s?h.getAt(s):0}}var v=0;for(g=0;g<r.length;g+=1)v+=r[g].totalCount;var d=new Array(v),w=0;for(g=0;g<n;g+=1)for(u=0;u<r.length;u+=1)g<i[u].length&&(d[w]=i[u][g],w+=1);for(g=0;g<o;g+=1)for(u=0;u<r.length;u+=1)g<a[u].length&&(d[w]=a[u][g],w+=1);return d}(o,n)};s.addData=function(t,r){var e=null;switch(r=r||"Byte"){case"Numeric":e=x(t);break;case"Alphanumeric":e=m(t);break;case"Byte":e=L(t);break;case"Kanji":e=D(t);break;default:throw"mode:"+r}c.push(e),n=null},s.isDark=function(t,r){if(t<0||l<=t||r<0||l<=r)throw t+","+r;return g[t][r]},s.getModuleCount=function(){return l},s.make=function(){if(u<1){for(var t=1;t<40;t++){for(var r=b.getRSBlocks(t,f),e=M(),n=0;n<c.length;n++){var o=c[n];e.put(o.getMode(),4),e.put(o.getLength(),B.getLengthInBits(o.getMode(),t)),o.write(e)}var i=0;for(n=0;n<r.length;n++)i+=r[n].dataCount;if(e.getLengthInBits()<=8*i)break}u=t}a(!1,function(){for(var t=0,r=0,e=0;e<8;e+=1){a(!0,e);var n=B.getLostPoint(s);(0==e||n<t)&&(t=n,r=e)}return r}())},s.createTableTag=function(t,r){t=t||2;var e="";e+='<table style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: "+(r=void 0===r?4*t:r)+"px;",e+='">',e+="<tbody>";for(var n=0;n<s.getModuleCount();n+=1){e+="<tr>";for(var o=0;o<s.getModuleCount();o+=1)e+='<td style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: 0px;",e+=" width: "+t+"px;",e+=" height: "+t+"px;",e+=" background-color: ",e+=s.isDark(n,o)?"#000000":"#ffffff",e+=";",e+='"/>';e+="</tr>"}return e+="</tbody>",e+="</table>"},s.createSvgTag=function(t,r,e,n){var o={};"object"==typeof t&&(t=(o=t).cellSize,r=o.margin,e=o.alt,n=o.title),t=t||2,r=void 0===r?4*t:r,(e="string"==typeof e?{text:e}:e||{}).text=e.text||null,e.id=e.text?e.id||"qrcode-description":null,(n="string"==typeof n?{text:n}:n||{}).text=n.text||null,n.id=n.text?n.id||"qrcode-title":null;var i,a,u,f,c=s.getModuleCount()*t+2*r,g="";for(f="l"+t+",0 0,"+t+" -"+t+",0 0,-"+t+"z ",g+='<svg version="1.1" xmlns="http://www.w3.org/2000/svg"',g+=o.scalable?"":' width="'+c+'px" height="'+c+'px"',g+=' viewBox="0 0 '+c+" "+c+'" ',g+=' preserveAspectRatio="xMinYMin meet"',g+=n.text||e.text?' role="img" aria-labelledby="'+p([n.id,e.id].join(" ").trim())+'"':"",g+=">",g+=n.text?'<title id="'+p(n.id)+'">'+p(n.text)+"</title>":"",g+=e.text?'<description id="'+p(e.id)+'">'+p(e.text)+"</description>":"",g+='<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>',g+='<path d="',a=0;a<s.getModuleCount();a+=1)for(u=a*t+r,i=0;i<s.getModuleCount();i+=1)s.isDark(a,i)&&(g+="M"+(i*t+r)+","+u+f);return g+='" stroke="transparent" fill="black"/>',g+="</svg>"},s.createDataURL=function(o,t){o=o||2,t=void 0===t?4*o:t;var r=s.getModuleCount()*o+2*t,i=t,a=r-t;return I(r,r,function(t,r){if(i<=t&&t<a&&i<=r&&r<a){var e=Math.floor((t-i)/o),n=Math.floor((r-i)/o);return s.isDark(n,e)?0:1}return 1})},s.createImgTag=function(t,r,e){t=t||2,r=void 0===r?4*t:r;var n=s.getModuleCount()*t+2*r,o="";return o+="<img",o+=' src="',o+=s.createDataURL(t,r),o+='"',o+=' width="',o+=n,o+='"',o+=' height="',o+=n,o+='"',e&&(o+=' alt="',o+=p(e),o+='"'),o+="/>"};var p=function(t){for(var r="",e=0;e<t.length;e+=1){var n=t.charAt(e);switch(n){case"<":r+="&lt;";break;case">":r+="&gt;";break;case"&":r+="&amp;";break;case'"':r+="&quot;";break;default:r+=n}}return r};return s.createASCII=function(t,r){if((t=t||1)<2)return function(t){t=void 0===t?2:t;var r,e,n,o,i,a=1*s.getModuleCount()+2*t,u=t,f=a-t,c={"██":"█","█ ":"▀"," █":"▄","  ":" "},g={"██":"▀","█ ":"▀"," █":" ","  ":" "},l="";for(r=0;r<a;r+=2){for(n=Math.floor((r-u)/1),o=Math.floor((r+1-u)/1),e=0;e<a;e+=1)i="█",u<=e&&e<f&&u<=r&&r<f&&s.isDark(n,Math.floor((e-u)/1))&&(i=" "),u<=e&&e<f&&u<=r+1&&r+1<f&&s.isDark(o,Math.floor((e-u)/1))?i+=" ":i+="█",l+=t<1&&f<=r+1?g[i]:c[i];l+="\n"}return a%2&&0<t?l.substring(0,l.length-a-1)+Array(1+a).join("▀"):l.substring(0,l.length-1)}(r);t-=1,r=void 0===r?2*t:r;var e,n,o,i,a=s.getModuleCount()*t+2*r,u=r,f=a-r,c=Array(t+1).join("██"),g=Array(t+1).join("  "),l="",h="";for(e=0;e<a;e+=1){for(o=Math.floor((e-u)/t),h="",n=0;n<a;n+=1)i=1,u<=n&&n<f&&u<=e&&e<f&&s.isDark(o,Math.floor((n-u)/t))&&(i=0),h+=i?c:g;for(o=0;o<t;o+=1)l+=h+"\n"}return l.substring(0,l.length-1)},s.renderTo2dContext=function(t,r){r=r||2;for(var e=s.getModuleCount(),n=0;n<e;n++)for(var o=0;o<e;o++)t.fillStyle=s.isDark(n,o)?"black":"white",t.fillRect(n*r,o*r,r,r)},s}i.stringToBytes=(i.stringToBytesFuncs={default:function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);r.push(255&n)}return r}}).default,i.createStringToBytes=function(u,f){var i=function(){function t(){var t=r.read();if(-1==t)throw"eof";return t}for(var r=S(u),e=0,n={};;){var o=r.read();if(-1==o)break;var i=t(),a=t()<<8|t();n[String.fromCharCode(o<<8|i)]=a,e+=1}if(e!=f)throw e+" != "+f;return n}(),a="?".charCodeAt(0);return function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);if(n<128)r.push(n);else{var o=i[t.charAt(e)];"number"==typeof o?(255&o)==o?r.push(o):(r.push(o>>>8),r.push(255&o)):r.push(a)}}return r}};var r,t,a=1,u=2,o=4,f=8,y={L:1,M:0,Q:3,H:2},e=0,n=1,c=2,g=3,l=4,h=5,s=6,v=7,B=(r=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],(t={}).getBCHTypeInfo=function(t){for(var r=t<<10;0<=d(r)-d(1335);)r^=1335<<d(r)-d(1335);return 21522^(t<<10|r)},t.getBCHTypeNumber=function(t){for(var r=t<<12;0<=d(r)-d(7973);)r^=7973<<d(r)-d(7973);return t<<12|r},t.getPatternPosition=function(t){return r[t-1]},t.getMaskFunction=function(t){switch(t){case e:return function(t,r){return(t+r)%2==0};case n:return function(t,r){return t%2==0};case c:return function(t,r){return r%3==0};case g:return function(t,r){return(t+r)%3==0};case l:return function(t,r){return(Math.floor(t/2)+Math.floor(r/3))%2==0};case h:return function(t,r){return t*r%2+t*r%3==0};case s:return function(t,r){return(t*r%2+t*r%3)%2==0};case v:return function(t,r){return(t*r%3+(t+r)%2)%2==0};default:throw"bad maskPattern:"+t}},t.getErrorCorrectPolynomial=function(t){for(var r=C([1],0),e=0;e<t;e+=1)r=r.multiply(C([1,w.gexp(e)],0));return r},t.getLengthInBits=function(t,r){if(1<=r&&r<10)switch(t){case a:return 10;case u:return 9;case o:case f:return 8;default:throw"mode:"+t}else if(r<27)switch(t){case a:return 12;case u:return 11;case o:return 16;case f:return 10;default:throw"mode:"+t}else{if(!(r<41))throw"type:"+r;switch(t){case a:return 14;case u:return 13;case o:return 16;case f:return 12;default:throw"mode:"+t}}},t.getLostPoint=function(t){for(var r=t.getModuleCount(),e=0,n=0;n<r;n+=1)for(var o=0;o<r;o+=1){for(var i=0,a=t.isDark(n,o),u=-1;u<=1;u+=1)if(!(n+u<0||r<=n+u))for(var f=-1;f<=1;f+=1)o+f<0||r<=o+f||0==u&&0==f||a==t.isDark(n+u,o+f)&&(i+=1);5<i&&(e+=3+i-5)}for(n=0;n<r-1;n+=1)for(o=0;o<r-1;o+=1){var c=0;t.isDark(n,o)&&(c+=1),t.isDark(n+1,o)&&(c+=1),t.isDark(n,o+1)&&(c+=1),t.isDark(n+1,o+1)&&(c+=1),0!=c&&4!=c||(e+=3)}for(n=0;n<r;n+=1)for(o=0;o<r-6;o+=1)t.isDark(n,o)&&!t.isDark(n,o+1)&&t.isDark(n,o+2)&&t.isDark(n,o+3)&&t.isDark(n,o+4)&&!t.isDark(n,o+5)&&t.isDark(n,o+6)&&(e+=40);for(o=0;o<r;o+=1)for(n=0;n<r-6;n+=1)t.isDark(n,o)&&!t.isDark(n+1,o)&&t.isDark(n+2,o)&&t.isDark(n+3,o)&&t.isDark(n+4,o)&&!t.isDark(n+5,o)&&t.isDark(n+6,o)&&(e+=40);var g=0;for(o=0;o<r;o+=1)for(n=0;n<r;n+=1)t.isDark(n,o)&&(g+=1);return e+=Math.abs(100*g/r/r-50)/5*10},t);function d(t){for(var r=0;0!=t;)r+=1,t>>>=1;return r}var w=function(){for(var r=new Array(256),e=new Array(256),t=0;t<8;t+=1)r[t]=1<<t;for(t=8;t<256;t+=1)r[t]=r[t-4]^r[t-5]^r[t-6]^r[t-8];for(t=0;t<255;t+=1)e[r[t]]=t;var n={glog:function(t){if(t<1)throw"glog("+t+")";return e[t]},gexp:function(t){for(;t<0;)t+=255;for(;256<=t;)t-=255;return r[t]}};return n}();function C(n,o){if(void 0===n.length)throw n.length+"/"+o;var r=function(){for(var t=0;t<n.length&&0==n[t];)t+=1;for(var r=new Array(n.length-t+o),e=0;e<n.length-t;e+=1)r[e]=n[e+t];return r}(),i={getAt:function(t){return r[t]},getLength:function(){return r.length},multiply:function(t){for(var r=new Array(i.getLength()+t.getLength()-1),e=0;e<i.getLength();e+=1)for(var n=0;n<t.getLength();n+=1)r[e+n]^=w.gexp(w.glog(i.getAt(e))+w.glog(t.getAt(n)));return C(r,0)},mod:function(t){if(i.getLength()-t.getLength()<0)return i;for(var r=w.glog(i.getAt(0))-w.glog(t.getAt(0)),e=new Array(i.getLength()),n=0;n<i.getLength();n+=1)e[n]=i.getAt(n);for(n=0;n<t.getLength();n+=1)e[n]^=w.gexp(w.glog(t.getAt(n))+r);return C(e,0).mod(t)}};return i}function p(){var e=[],o={writeByte:function(t){e.push(255&t)},writeShort:function(t){o.writeByte(t),o.writeByte(t>>>8)},writeBytes:function(t,r,e){r=r||0,e=e||t.length;for(var n=0;n<e;n+=1)o.writeByte(t[n+r])},writeString:function(t){for(var r=0;r<t.length;r+=1)o.writeByte(t.charCodeAt(r))},toByteArray:function(){return e},toString:function(){var t="";t+="[";for(var r=0;r<e.length;r+=1)0<r&&(t+=","),t+=e[r];return t+="]"}};return o}var k,A,b=(k=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12,7,37,13],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]],(A={}).getRSBlocks=function(t,r){var e=function(t,r){switch(r){case y.L:return k[4*(t-1)+0];case y.M:return k[4*(t-1)+1];case y.Q:return k[4*(t-1)+2];case y.H:return k[4*(t-1)+3];default:return}}(t,r);if(void 0===e)throw"bad rs block @ typeNumber:"+t+"/errorCorrectionLevel:"+r;for(var n,o,i=e.length/3,a=[],u=0;u<i;u+=1)for(var f=e[3*u+0],c=e[3*u+1],g=e[3*u+2],l=0;l<f;l+=1)a.push((n=g,o=void 0,(o={}).totalCount=c,o.dataCount=n,o));return a},A),M=function(){var e=[],n=0,o={getBuffer:function(){return e},getAt:function(t){var r=Math.floor(t/8);return 1==(e[r]>>>7-t%8&1)},put:function(t,r){for(var e=0;e<r;e+=1)o.putBit(1==(t>>>r-e-1&1))},getLengthInBits:function(){return n},putBit:function(t){var r=Math.floor(n/8);e.length<=r&&e.push(0),t&&(e[r]|=128>>>n%8),n+=1}};return o},x=function(t){var r=a,n=t,e={getMode:function(){return r},getLength:function(t){return n.length},write:function(t){for(var r=n,e=0;e+2<r.length;)t.put(o(r.substring(e,e+3)),10),e+=3;e<r.length&&(r.length-e==1?t.put(o(r.substring(e,e+1)),4):r.length-e==2&&t.put(o(r.substring(e,e+2)),7))}},o=function(t){for(var r=0,e=0;e<t.length;e+=1)r=10*r+i(t.charAt(e));return r},i=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);throw"illegal char :"+t};return e},m=function(t){var r=u,n=t,e={getMode:function(){return r},getLength:function(t){return n.length},write:function(t){for(var r=n,e=0;e+1<r.length;)t.put(45*o(r.charAt(e))+o(r.charAt(e+1)),11),e+=2;e<r.length&&t.put(o(r.charAt(e)),6)}},o=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);if("A"<=t&&t<="Z")return t.charCodeAt(0)-"A".charCodeAt(0)+10;switch(t){case" ":return 36;case"$":return 37;case"%":return 38;case"*":return 39;case"+":return 40;case"-":return 41;case".":return 42;case"/":return 43;case":":return 44;default:throw"illegal char :"+t}};return e},L=function(t){var r=o,e=i.stringToBytes(t),n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=0;r<e.length;r+=1)t.put(e[r],8)}};return n},D=function(t){var r=f,e=i.stringToBytesFuncs.SJIS;if(!e)throw"sjis not supported.";!function(){var t=e("友");if(2!=t.length||38726!=(t[0]<<8|t[1]))throw"sjis not supported."}();var o=e(t),n={getMode:function(){return r},getLength:function(t){return~~(o.length/2)},write:function(t){for(var r=o,e=0;e+1<r.length;){var n=(255&r[e])<<8|255&r[e+1];if(33088<=n&&n<=40956)n-=33088;else{if(!(57408<=n&&n<=60351))throw"illegal char at "+(e+1)+"/"+n;n-=49472}n=192*(n>>>8&255)+(255&n),t.put(n,13),e+=2}if(e<r.length)throw"illegal char at "+(e+1)}};return n},S=function(t){var e=t,n=0,o=0,i=0,r={read:function(){for(;i<8;){if(n>=e.length){if(0==i)return-1;throw"unexpected end of file./"+i}var t=e.charAt(n);if(n+=1,"="==t)return i=0,-1;t.match(/^\s$/)||(o=o<<6|a(t.charCodeAt(0)),i+=6)}var r=o>>>i-8&255;return i-=8,r}},a=function(t){if(65<=t&&t<=90)return t-65;if(97<=t&&t<=122)return t-97+26;if(48<=t&&t<=57)return t-48+52;if(43==t)return 62;if(47==t)return 63;throw"c:"+t};return r},I=function(t,r,e){for(var n=function(t,r){var n=t,o=r,l=new Array(t*r),e={setPixel:function(t,r,e){l[r*n+t]=e},write:function(t){t.writeString("GIF87a"),t.writeShort(n),t.writeShort(o),t.writeByte(128),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(255),t.writeByte(255),t.writeByte(255),t.writeString(","),t.writeShort(0),t.writeShort(0),t.writeShort(n),t.writeShort(o),t.writeByte(0);var r=i(2);t.writeByte(2);for(var e=0;255<r.length-e;)t.writeByte(255),t.writeBytes(r,e,255),e+=255;t.writeByte(r.length-e),t.writeBytes(r,e,r.length-e),t.writeByte(0),t.writeString(";")}},i=function(t){for(var r=1<<t,e=1+(1<<t),n=t+1,o=h(),i=0;i<r;i+=1)o.add(String.fromCharCode(i));o.add(String.fromCharCode(r)),o.add(String.fromCharCode(e));var a=p(),u=function(t){var e=t,n=0,o=0,r={write:function(t,r){if(t>>>r!=0)throw"length over";for(;8<=n+r;)e.writeByte(255&(t<<n|o)),r-=8-n,t>>>=8-n,n=o=0;o|=t<<n,n+=r},flush:function(){0<n&&e.writeByte(o)}};return r}(a);u.write(r,n);var f=0,c=String.fromCharCode(l[f]);for(f+=1;f<l.length;){var g=String.fromCharCode(l[f]);f+=1,o.contains(c+g)?c+=g:(u.write(o.indexOf(c),n),o.size()<4095&&(o.size()==1<<n&&(n+=1),o.add(c+g)),c=g)}return u.write(o.indexOf(c),n),u.write(e,n),u.flush(),a.toByteArray()},h=function(){var r={},e=0,n={add:function(t){if(n.contains(t))throw"dup key:"+t;r[t]=e,e+=1},size:function(){return e},indexOf:function(t){return r[t]},contains:function(t){return void 0!==r[t]}};return n};return e}(t,r),o=0;o<r;o+=1)for(var i=0;i<t;i+=1)n.setPixel(i,o,e(i,o));var a=p();n.write(a);for(var u=function(){function e(t){a+=String.fromCharCode(r(63&t))}var n=0,o=0,i=0,a="",t={},r=function(t){if(t<0);else{if(t<26)return 65+t;if(t<52)return t-26+97;if(t<62)return t-52+48;if(62==t)return 43;if(63==t)return 47}throw"n:"+t};return t.writeByte=function(t){for(n=n<<8|255&t,o+=8,i+=1;6<=o;)e(n>>>o-6),o-=6},t.flush=function(){if(0<o&&(e(n<<6-o),o=n=0),i%3!=0)for(var t=3-i%3,r=0;r<t;r+=1)a+="="},t.toString=function(){return a},t}(),f=a.toByteArray(),c=0;c<f.length;c+=1)u.writeByte(f[c]);return u.flush(),"data:image/gif;base64,"+u};return i}();qrcode.stringToBytesFuncs["UTF-8"]=function(t){return function(t){for(var r=[],e=0;e<t.length;e++){var n=t.charCodeAt(e);n<128?r.push(n):n<2048?r.push(192|n>>6,128|63&n):n<55296||57344<=n?r.push(224|n>>12,128|n>>6&63,128|63&n):(e++,n=65536+((1023&n)<<10|1023&t.charCodeAt(e)),r.push(240|n>>18,128|n>>12&63,128|n>>6&63,128|63&n))}return r}(t)},function(t){"function"==typeof define&&define.amd?define([],t):"object"==typeof exports&&(module.exports=t())}(function(){return qrcode});</script>
+<!-- /LIB:qrcode.min.js -->
+<!-- DADOS:seed:exemplos/seed.json -->
+<script type="application/json" id="seed">{"cursos":[{"id":"CURSO-2026-11","nome":"Fotografia Forense em Local de Crime","carga_horaria":24,"inicio":"2026-11-23","fim":"2026-11-25","local":"Auditório da sede (fictício)","prerequisitos":["Ser servidor efetivo","Atuar em local de crime ou em laboratório"],"vagas_por_diretoria":{"DMC":8,"DML":4,"DII":2,"DIN":6},"link_grupo":"https://chat.whatsapp.com/EXEMPLO-FICTICIO","inscricao_inicio":"2026-10-29","inscricao_fim":"2026-11-12","prazo_triagem":"2026-11-16","status":"inscrições abertas"}],"seap":[{"matricula":"200000","nome":"Heitor Lima Freitas","cargo":"Médico Legista","lotacao":"Regional de Sinop","diretoria":"DIN","vinculo_ativo":false},{"matricula":"200037","nome":"Xavier Lima Holanda","cargo":"Médico Legista","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"200074","nome":"Wanda Esteves Campos","cargo":"Médico Legista","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"200111","nome":"Isabela Freitas Jardim","cargo":"Perito Oficial Criminal","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"200148","nome":"Karen Lima Esteves","cargo":"Técnico em Necropsia","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"200185","nome":"Gabriela Duarte Igarashi","cargo":"Perito Oficial Criminal","lotacao":"Regional de Rondonópolis","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200222","nome":"João Barros Duarte","cargo":"Médico Legista","lotacao":"IML Várzea Grande","diretoria":"DML","vinculo_ativo":true},{"matricula":"200259","nome":"Elisa Campos Igarashi","cargo":"Médico Legista","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200296","nome":"Tiago Holanda Gomes","cargo":"Médico Legista","lotacao":"Regional de Rondonópolis","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200333","nome":"Tiago Nunes Almeida","cargo":"Papiloscopista","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200370","nome":"Olívia Freitas Campos","cargo":"Médico Legista","lotacao":"Regional de Sinop","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200407","nome":"Xavier Campos Nunes","cargo":"Papiloscopista","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"200444","nome":"Karen Esteves Holanda","cargo":"Médico Legista","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"200481","nome":"Isabela Lima Moraes","cargo":"Médico Legista","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200518","nome":"Fábio Almeida Lima","cargo":"Médico Legista","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"200555","nome":"Isabela Freitas Freitas","cargo":"Técnico em Necropsia","lotacao":"Regional de Sinop","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200592","nome":"Heitor Igarashi Nunes","cargo":"Médico Legista","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200629","nome":"Yasmin Duarte Holanda","cargo":"Papiloscopista","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"200666","nome":"Lucas Lima Moraes","cargo":"Perito Oficial Criminal","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200703","nome":"Diego Almeida Nunes","cargo":"Técnico em Necropsia","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"200740","nome":"Carla Freitas Igarashi","cargo":"Médico Legista","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"200777","nome":"Wanda Esteves Duarte","cargo":"Técnico em Necropsia","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"200814","nome":"Rafael Prado Esteves","cargo":"Perito Oficial Criminal","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"200851","nome":"Vítor Almeida Holanda","cargo":"Técnico em Necropsia","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":false},{"matricula":"200888","nome":"Carla Freitas Nunes","cargo":"Papiloscopista","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"200925","nome":"Wanda Jardim Esteves","cargo":"Médico Legista","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"200962","nome":"Ana Jardim Holanda","cargo":"Técnico em Necropsia","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"200999","nome":"Yasmin Igarashi Nunes","cargo":"Perito Oficial Criminal","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201036","nome":"Tiago Igarashi Igarashi","cargo":"Técnico em Necropsia","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"201073","nome":"Bruno Gomes Holanda","cargo":"Técnico em Necropsia","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201110","nome":"Bruno Campos Igarashi","cargo":"Técnico em Necropsia","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201147","nome":"Isabela Lima Lima","cargo":"Técnico em Necropsia","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"201184","nome":"Fábio Campos Barros","cargo":"Papiloscopista","lotacao":"IML Várzea Grande","diretoria":"DML","vinculo_ativo":true},{"matricula":"201221","nome":"Wanda Freitas Esteves","cargo":"Perito Oficial Criminal","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201258","nome":"Rafael Prado Almeida","cargo":"Perito Oficial Criminal","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"201295","nome":"Úrsula Esteves Moraes","cargo":"Técnico em Necropsia","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201332","nome":"Bruno Freitas Duarte","cargo":"Perito Oficial Criminal","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"201369","nome":"Ana Prado Gomes","cargo":"Perito Oficial Criminal","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"201406","nome":"Diego Esteves Moraes","cargo":"Perito Oficial Criminal","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201443","nome":"Elisa Lima Almeida","cargo":"Médico Legista","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201480","nome":"Sílvia Gomes Jardim","cargo":"Técnico em Necropsia","lotacao":"Regional de Rondonópolis","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201517","nome":"Yasmin Esteves Esteves","cargo":"Perito Oficial Criminal","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201554","nome":"Heitor Nunes Moraes","cargo":"Médico Legista","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201591","nome":"Vítor Gomes Nunes","cargo":"Médico Legista","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201628","nome":"Isabela Igarashi Campos","cargo":"Papiloscopista","lotacao":"Regional de Rondonópolis","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201665","nome":"Sílvia Moraes Barros","cargo":"Papiloscopista","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"201702","nome":"Olívia Prado Freitas","cargo":"Médico Legista","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":false},{"matricula":"201739","nome":"Queila Duarte Duarte","cargo":"Papiloscopista","lotacao":"Regional de Rondonópolis","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201776","nome":"Sílvia Prado Almeida","cargo":"Técnico em Necropsia","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201813","nome":"Nelson Nunes Nunes","cargo":"Técnico em Necropsia","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"201850","nome":"Yasmin Lima Lima","cargo":"Perito Oficial Criminal","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201887","nome":"Zeca Nunes Jardim","cargo":"Papiloscopista","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201924","nome":"Yasmin Igarashi Holanda","cargo":"Perito Oficial Criminal","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"201961","nome":"Zeca Holanda Jardim","cargo":"Papiloscopista","lotacao":"IML Várzea Grande","diretoria":"DML","vinculo_ativo":true},{"matricula":"201998","nome":"Rafael Igarashi Igarashi","cargo":"Papiloscopista","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"202035","nome":"Fábio Lima Lima","cargo":"Médico Legista","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"202072","nome":"Rafael Nunes Nunes","cargo":"Perito Oficial Criminal","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"202109","nome":"Heitor Moraes Gomes","cargo":"Técnico em Necropsia","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"202146","nome":"Wanda Duarte Igarashi","cargo":"Perito Oficial Criminal","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"202183","nome":"Sílvia Barros Duarte","cargo":"Médico Legista","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"202220","nome":"Fábio Duarte Esteves","cargo":"Médico Legista","lotacao":"Regional de Sinop","diretoria":"DIN","vinculo_ativo":true},{"matricula":"202257","nome":"Paulo Holanda Holanda","cargo":"Papiloscopista","lotacao":"Regional de Sinop","diretoria":"DIN","vinculo_ativo":true},{"matricula":"202294","nome":"Nelson Nunes Prado","cargo":"Papiloscopista","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"202331","nome":"Ana Esteves Lima","cargo":"Médico Legista","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"202368","nome":"Zeca Campos Prado","cargo":"Médico Legista","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"202405","nome":"Elisa Nunes Moraes","cargo":"Médico Legista","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"202442","nome":"Heitor Freitas Almeida","cargo":"Técnico em Necropsia","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"202479","nome":"Carla Gomes Esteves","cargo":"Perito Oficial Criminal","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"202516","nome":"Queila Holanda Igarashi","cargo":"Papiloscopista","lotacao":"IML Várzea Grande","diretoria":"DML","vinculo_ativo":true},{"matricula":"202553","nome":"Zeca Holanda Jardim","cargo":"Perito Oficial Criminal","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":false}],"diretorias":[{"sigla":"DMC","nome":"Diretoria Metropolitana de Criminalística"},{"sigla":"DML","nome":"Diretoria Metropolitana de Medicina Legal"},{"sigla":"DII","nome":"Diretoria de Identificação"},{"sigla":"DIN","nome":"Diretoria de Interiorização"}]}</script>
+<!-- /DADOS:seed -->
+
+<script>
+/* ===================================================================
+   BASE COMUM DOS APPS
+   util · db (IndexedDB) · roteador · tema · backup · perfis
+   =================================================================== */
+"use strict";
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => Array.from(el.querySelectorAll(s));
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : "id-" + Date.now().toString(36) + Math.random().toString(36).slice(2));
+const agora = () => new Date().toISOString();
+const dataBR = iso => iso ? new Date(iso).toLocaleString("pt-BR") : "";
+
+function toast(msg, ms=3200){
+  const t = $("#toast"); t.textContent = msg; t.style.display = "block";
+  clearTimeout(toast._t); toast._t = setTimeout(()=>{ t.style.display = "none"; }, ms);
+}
+function baixar(nome, conteudo, tipo="application/octet-stream"){
+  const blob = conteudo instanceof Blob ? conteudo : new Blob([conteudo], {type: tipo});
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = nome;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+}
+function lerArquivoTexto(file){
+  return new Promise((ok, erro)=>{ const r = new FileReader(); r.onload = ()=>ok(r.result); r.onerror = erro; r.readAsText(file); });
+}
+function dadosEmbutidos(id){
+  const el = document.getElementById(id);
+  return el && el.textContent.trim() ? JSON.parse(el.textContent) : null;
+}
+function lerArrayBuffer(file){
+  return new Promise((ok, erro)=>{ const r = new FileReader(); r.onload = ()=>ok(r.result); r.onerror = erro; r.readAsArrayBuffer(file); });
+}
+// sem acento, minúsculo, espaços simples: para casar nomes de colunas, setores e unidades
+const normalizar = s => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+const hojeISO = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); };
+const dataCurtaBR = iso => iso ? iso.slice(0, 10).split("-").reverse().join("/") : "";
+// "29/10/2026", "29/10/2026 09:15:00", "2026-10-29" -> "2026-10-29" (ou com hora: "2026-10-29T09:15:00")
+function dataDeTexto(t){
+  const s = String(t ?? "").trim();
+  let m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);
+  if (m){ const d = `${m[3]}-${m[2].padStart(2, "0")}-${m[1].padStart(2, "0")}`; return m[4] ? `${d}T${m[4].padStart(2, "0")}:${m[5]}:${m[6] || "00"}` : d; }
+  m = s.match(/^(\d{4})-(\d{2})-(\d{2})(T[\d:]+)?/);
+  return m ? m[0] : null;
+}
+
+/* ---------- dinheiro em centavos inteiros (sem erro de arredondamento) ---------- */
+const dinheiro = {
+  // "1.234,56" · "R$ 1.234,5" · "1234.56" · 12.5 -> centavos. Arredonda meio para cima na 3ª casa.
+  de(v){
+    if (v === null || v === undefined || v === "") return null;
+    if (typeof v === "number") return Math.round(v * 100);
+    let s = String(v).trim().replace(/^R\$\s*/, "").replace(/\s/g, "");
+    const neg = s.startsWith("-"); s = s.replace(/^-/, "");
+    if (s.includes(",")) s = s.replace(/\./g, "").replace(",", ".");
+    else if (/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g, "");
+    const [i, d = ""] = s.split(".");
+    if (!/^\d+$/.test(i) || !/^\d*$/.test(d)) return NaN;
+    const c = Number(i) * 100 + Number((d + "00").slice(0, 2)) + (Number(d[2] || 0) >= 5 ? 1 : 0);
+    return neg ? -c : c;
+  },
+  // 123456 -> "R$ 1.234,56"
+  fmt(c){
+    if (c === null || c === undefined || Number.isNaN(c)) return "";
+    const neg = c < 0; c = Math.abs(c);
+    return (neg ? "-" : "") + "R$ " + Math.floor(c / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "," + String(c % 100).padStart(2, "0");
+  },
+  // quantidade (até 3 casas) × valor unitário em centavos, arredondado a 2 casas
+  vezes(qtd, c){ const q = Math.round(qtd * 1000); return Math.floor((q * c + 500) / 1000); },
+  // divide um total em centavos pelos pesos, sem perder centavo (maiores restos)
+  ratear(total, pesos){
+    const soma = pesos.reduce((a, b)=>a + b, 0); if (!soma) return pesos.map(()=>0);
+    const base = pesos.map(p=>Math.floor(total * p / soma)); const falta = total - base.reduce((a, b)=>a + b, 0);
+    pesos.map((p, i)=>({i, r: total * p / soma - base[i]})).sort((a, b)=>b.r - a.r).slice(0, falta).forEach(x=>base[x.i]++);
+    return base;
+  }
+};
+
+/* ---------- documentos ---------- */
+function cpfValido(v){
+  const d = String(v || "").replace(/\D/g, "");
+  if (d.length !== 11 || /^(\d)\1{10}$/.test(d)) return false;
+  for (const t of [9, 10]){
+    let s = 0; for (let i = 0; i < t; i++) s += Number(d[i]) * (t + 1 - i);
+    if (((s * 10) % 11) % 10 !== Number(d[t])) return false;
+  }
+  return true;
+}
+function cnpjValido(v){
+  const d = String(v || "").replace(/\D/g, "");
+  if (d.length !== 14 || /^(\d)\1{13}$/.test(d)) return false;
+  const dv = n => { const pesos = n === 12 ? [5,4,3,2,9,8,7,6,5,4,3,2] : [6,5,4,3,2,9,8,7,6,5,4,3,2];
+    const s = pesos.reduce((a, p, i)=>a + Number(d[i]) * p, 0) % 11; return s < 2 ? 0 : 11 - s; };
+  return dv(12) === Number(d[12]) && dv(13) === Number(d[13]);
+}
+
+/* ---------- CSV: separador detectado (; , ou tab), aspas, BOM ---------- */
+function lerCSV(texto){
+  texto = String(texto).replace(/^﻿/, "");
+  const primeira = texto.split(/\r?\n/, 1)[0];
+  const sep = [";", "\t", ","].map(c=>[c, primeira.split(c).length]).sort((a, b)=>b[1] - a[1])[0][0];
+  const linhas = []; let linha = [], campo = "", aspas = false;
+  for (let i = 0; i < texto.length; i++){
+    const c = texto[i];
+    if (aspas){
+      if (c === '"' && texto[i + 1] === '"'){ campo += '"'; i++; }
+      else if (c === '"') aspas = false; else campo += c;
+    } else if (c === '"') aspas = true;
+    else if (c === sep){ linha.push(campo); campo = ""; }
+    else if (c === "\n" || c === "\r"){
+      if (c === "\r" && texto[i + 1] === "\n") i++;
+      linha.push(campo); campo = ""; if (linha.some(x=>x !== "")) linhas.push(linha); linha = [];
+    } else campo += c;
+  }
+  linha.push(campo); if (linha.some(x=>x !== "")) linhas.push(linha);
+  return linhas;
+}
+// sugere, para cada campo, a coluna do cabeçalho cujo nome contém um dos sinônimos
+function sugerirColunas(cabecalho, sinonimos){
+  const cab = cabecalho.map(normalizar), out = {};
+  for (const [campo, lista] of Object.entries(sinonimos)){
+    const i = cab.findIndex(c=>lista.some(s=>c === normalizar(s))) ;
+    const j = i >= 0 ? i : cab.findIndex(c=>lista.some(s=>c.includes(normalizar(s))));
+    out[campo] = j;
+  }
+  return out;
+}
+
+/* ---------- imagem: reduz no navegador antes de guardar ---------- */
+function reduzirImagem(fonte, max=1280, qualidade=0.75){
+  return new Promise((ok, erro)=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const k = Math.min(1, max / Math.max(img.width, img.height));
+      const cv = document.createElement("canvas"); cv.width = Math.round(img.width * k); cv.height = Math.round(img.height * k);
+      cv.getContext("2d").drawImage(img, 0, 0, cv.width, cv.height);
+      cv.toBlob(b=>{ URL.revokeObjectURL(img.src); b ? ok(b) : erro(new Error("Não consegui reduzir a imagem.")); }, "image/jpeg", qualidade);
+    };
+    img.onerror = ()=>erro(new Error("Arquivo de imagem ilegível."));
+    img.src = fonte instanceof Blob ? URL.createObjectURL(fonte) : fonte;
+  });
+}
+
+/* ---------- formulário ---------- */
+// campo("nome", "Nome", {tipo: "text", valor, obrigatorio, ajuda, attrs})
+function campo(id, rotulo, o={}){
+  const tipo = o.tipo || "text", obr = o.obrigatorio ? " required" : "", v = o.valor ?? "";
+  const ajuda = o.ajuda ? `<small class="sub" id="${id}-ajuda">${esc(o.ajuda)}</small>` : "";
+  const desc = o.ajuda ? ` aria-describedby="${id}-ajuda"` : "";
+  let ctl;
+  if (tipo === "textarea") ctl = `<textarea id="${id}" name="${id}" rows="${o.linhas || 4}"${obr}${desc} ${o.attrs || ""}>${esc(v)}</textarea>`;
+  else if (tipo === "select") ctl = `<select id="${id}" name="${id}"${obr}${desc} ${o.attrs || ""}>${(o.opcoes || []).map(op=>{
+      const [val, txt] = Array.isArray(op) ? op : [op, op];
+      return `<option value="${esc(val)}" ${String(val) === String(v) ? "selected" : ""}>${esc(txt)}</option>`; }).join("")}</select>`;
+  else ctl = `<input id="${id}" name="${id}" type="${tipo}" value="${esc(v)}"${obr}${desc} ${o.attrs || ""}>`;
+  return `<div class="campo"><label for="${id}">${esc(rotulo)}${o.obrigatorio ? " *" : ""}</label>${ctl}${ajuda}</div>`;
+}
+const valorDe = id => ($("#" + id)?.value ?? "").trim();
+function mostrarErros(alvo, erros){
+  const el = typeof alvo === "string" ? $(alvo) : alvo;
+  el.innerHTML = erros.length ? `<div class="card pendente" role="alert"><b>Corrija antes de salvar:</b><ul>${erros.map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>` : "";
+  if (erros.length) el.scrollIntoView({block: "nearest"});
+  return !erros.length;
+}
+
+/* ---------- db: camada fina sobre o IndexedDB ---------- */
+const db = {
+  con: null,
+  abrir(){
+    return new Promise((ok, erro)=>{
+      const req = indexedDB.open(APP.db.nome, APP.db.versao);
+      req.onupgradeneeded = ()=>{
+        const banco = req.result;
+        const stores = Object.assign({meta: {keyPath: "chave"}}, APP.db.stores);
+        for (const [nome, def] of Object.entries(stores)){
+          const st = banco.objectStoreNames.contains(nome) ? req.transaction.objectStore(nome) : banco.createObjectStore(nome, {keyPath: def.keyPath});
+          for (const ix of def.indices || []){
+            if (!st.indexNames.contains(ix.nome)) st.createIndex(ix.nome, ix.campo, {unique: !!ix.unico});
+          }
+        }
+      };
+      req.onsuccess = ()=>{ this.con = req.result; ok(this.con); };
+      req.onerror = ()=>erro(req.error);
+    });
+  },
+  _op(store, modo, fn){
+    return new Promise((ok, erro)=>{
+      const tx = this.con.transaction(store, modo); const r = fn(tx.objectStore(store));
+      tx.oncomplete = ()=>ok(r && "result" in r ? r.result : undefined);
+      tx.onerror = ()=>erro(tx.error); tx.onabort = ()=>erro(tx.error);
+    });
+  },
+  get(store, chave){ return this._op(store, "readonly", s=>s.get(chave)); },
+  list(store){ return this._op(store, "readonly", s=>s.getAll()); },
+  porIndice(store, indice, valor){ return this._op(store, "readonly", s=>s.index(indice).getAll(valor)); },
+  put(store, obj){ return this._op(store, "readwrite", s=>s.put(obj)); },
+  del(store, chave){ return this._op(store, "readwrite", s=>s.delete(chave)); },
+  limpar(store){ return this._op(store, "readwrite", s=>s.clear()); },
+  async meta(chave, valor){
+    if (valor === undefined){ const r = await this.get("meta", chave); return r ? r.valor : undefined; }
+    return this.put("meta", {chave, valor});
+  },
+  async exportar(){
+    const dados = {};
+    for (const nome of Object.keys(APP.db.stores)) dados[nome] = await this.list(nome);
+    return {app: APP.id, versao: APP.db.versao, exportado_em: agora(), dados};
+  },
+  async importar(pacote, substituir=true){
+    if (!pacote || pacote.app !== APP.id) throw new Error("Este arquivo não é um backup deste app.");
+    for (const [nome, linhas] of Object.entries(pacote.dados || {})){
+      if (!APP.db.stores[nome]) continue;
+      if (substituir) await this.limpar(nome);
+      for (const l of linhas) await this.put(nome, l);
+    }
+  }
+};
+async function registrar(acao, detalhe={}){
+  const store = APP.db.log || "log";
+  if (!APP.db.stores[store]) return;
+  await db.put(store, {id: uuid(), data_hora: agora(), perfil: estado.perfil || "", acao, ...detalhe});
+}
+
+/* ---------- tema ---------- */
+function aplicarTema(t){ if (t) document.documentElement.dataset.theme = t; else delete document.documentElement.dataset.theme; }
+function iniciarTema(){
+  let t = null; try { t = localStorage.getItem(APP.id + ":tema"); } catch(e){}
+  aplicarTema(t);
+  $("#btnTema").addEventListener("click", ()=>{
+    const escuro = document.documentElement.dataset.theme === "dark" ||
+      (!document.documentElement.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches);
+    const novo = escuro ? "light" : "dark"; aplicarTema(novo);
+    try { localStorage.setItem(APP.id + ":tema", novo); } catch(e){}
+  });
+}
+
+/* ---------- roteador por hash ---------- */
+const estado = {perfil: null, rota: null};
+function casarRota(hash){
+  const partes = hash.replace(/^#\/?/, "").split("?")[0].split("/").filter(Boolean);
+  for (const r of APP.rotas){
+    const molde = r.rota.replace(/^#\/?/, "").split("/").filter(Boolean);
+    if (molde.length !== partes.length) continue;
+    const params = {}; let ok = true;
+    molde.forEach((m, i)=>{ if (m.startsWith(":")) params[m.slice(1)] = decodeURIComponent(partes[i]); else if (m !== partes[i]) ok = false; });
+    if (ok) return {r, params};
+  }
+  return null;
+}
+function rotaPermitida(r){ return !r.perfis || !estado.perfil || r.perfis.includes(estado.perfil); }
+function montarMenu(){
+  $("#menu").innerHTML = APP.rotas.filter(r=>r.menu !== false && !r.publica && !r.rota.includes(":") && rotaPermitida(r))
+    .map(r=>`<a href="${r.rota}" data-rota="${r.rota}">${esc(r.titulo)}</a>`).join("");
+  const p = $("#perfilAtual");
+  if (APP.perfis && estado.perfil){ p.hidden = false; p.textContent = "Perfil: " + estado.perfil; } else p.hidden = true;
+}
+async function navegar(){
+  if (APP.perfis && !estado.perfil && !["#/testes", ...(APP.rotaSemPerfil || [])].some(x=>location.hash.startsWith(x))){
+    if (APP.perfilDoServidor){
+      $("#conteudo").innerHTML = `<div class="card pendente"><h1>Acesso restrito</h1><p>Esta área é só para servidores cadastrados. Entre com a conta institucional.</p></div>`;
+      return;
+    }
+    return telaEscolherPerfil();
+  }
+  const hash = location.hash || APP.rotas[0].rota;
+  const achou = hash.startsWith("#/testes") ? {r: {rota: "#/testes", titulo: "Testes", publica: false}, params: {}} : casarRota(hash);
+  const alvo = $("#conteudo");
+  $$("#menu a").forEach(a=>a.removeAttribute("aria-current"));
+  if (!achou){ alvo.innerHTML = `<div class="card vazio">Tela não encontrada: <code>${esc(hash)}</code></div>`; return; }
+  if (!rotaPermitida(achou.r)){ alvo.innerHTML = `<div class="card vazio">O perfil <b>${esc(estado.perfil)}</b> não usa esta tela.</div>`; return; }
+  $("#menu").hidden = !!achou.r.publica;
+  const link = $(`#menu a[data-rota="${achou.r.rota}"]`); if (link) link.setAttribute("aria-current", "page");
+  estado.rota = achou.r.rota;
+  document.title = achou.r.titulo + " · " + APP.titulo;
+  const fn = TELAS[achou.r.rota] || telaPendente(achou.r);
+  try { alvo.innerHTML = await fn(achou.params); if (TELAS_DEPOIS[achou.r.rota]) await TELAS_DEPOIS[achou.r.rota](achou.params); }
+  catch(e){ console.error(e); alvo.innerHTML = `<div class="card pendente"><b>Erro nesta tela.</b><p class="mono">${esc(e.message)}</p></div>`; }
+  alvo.focus({preventScroll: true});
+}
+function telaPendente(r){
+  return async ()=>`<h1>${esc(r.titulo)}</h1><p class="sub">${esc(r.descricao || "")}</p>
+    <div class="card pendente">Esta tela é construída no <b>Sprint ${esc(r.sprint)}</b> (ver <code>sprint.md</code>).</div>`;
+}
+
+/* ---------- perfis (o perfil escolhe as telas; não é controle de segurança) ---------- */
+function telaEscolherPerfil(){
+  $("#menu").hidden = true;
+  $("#conteudo").innerHTML = `<h1>Escolha o perfil desta cópia</h1>
+    <p class="sub">O perfil define quais telas aparecem neste computador. Ele pode ser trocado em Configuração.</p>
+    <div class="grade">${APP.perfis.map(p=>`<button class="card" data-perfil="${esc(p.id)}" style="text-align:left"><b>${esc(p.nome)}</b><br><span class="sub">${esc(p.descricao)}</span></button>`).join("")}</div>`;
+  $$("[data-perfil]").forEach(b=>b.addEventListener("click", async ()=>{
+    estado.perfil = b.dataset.perfil; await db.meta("perfil", estado.perfil); await registrar("perfil escolhido", {detalhe: estado.perfil});
+    montarMenu(); location.hash = APP.rotas.find(rotaPermitida).rota; navegar();
+  }));
+}
+
+/* ---------- configuração comum: backup, dados fictícios, perfil, limpeza ---------- */
+async function blocoConfigComum(){
+  const usado = navigator.storage && navigator.storage.estimate ? await navigator.storage.estimate() : null;
+  const persist = navigator.storage && navigator.storage.persisted ? await navigator.storage.persisted() : false;
+  return `<div class="card"><h2 style="margin-top:0">Backup</h2>
+      <p class="sub">Os dados ficam só neste navegador. Exporte o backup toda semana.</p>
+      <div class="linha-botoes"><button class="prim" id="btnExportar">Exportar backup (.json)</button>
+      <label class="botao" style="margin:0">Importar backup<input type="file" id="arqBackup" accept=".json" hidden></label></div>
+      <p class="sub" style="margin-top:10px">Armazenamento: ${usado ? (usado.usage/1048576).toFixed(1) + " MB usados" : "não informado"} ·
+      ${persist ? '<span class="selo ok">persistente</span>' : '<span class="selo alerta">pode ser apagado pelo navegador</span>'}</p></div>
+    ${dadosEmbutidos("seed") ? `<div class="card"><h2 style="margin-top:0">Dados fictícios</h2>
+      <p class="sub">Carrega o conjunto de exemplo para testar. Substitui os dados atuais.</p>
+      <button id="btnSeed">Carregar dados fictícios</button></div>` : ""}
+    ${APP.perfis ? `<div class="card"><h2 style="margin-top:0">Perfil desta cópia</h2>
+      <p class="sub">Atual: <b>${esc(estado.perfil || "nenhum")}</b></p><button id="btnTrocarPerfil">Trocar perfil</button></div>` : ""}
+    <div class="card"><h2 style="margin-top:0">Apagar tudo</h2>
+      <p class="sub">Remove todos os dados deste app neste navegador.</p><button class="perigo" id="btnApagar">Apagar todos os dados</button></div>`;
+}
+function ligarConfigComum(){
+  $("#btnExportar")?.addEventListener("click", async ()=>{
+    baixar(`${APP.id}-backup-${new Date().toISOString().slice(0,10)}.json`, JSON.stringify(await db.exportar(), null, 2), "application/json");
+    await registrar("backup exportado");
+  });
+  $("#arqBackup")?.addEventListener("change", async e=>{
+    const f = e.target.files[0]; if (!f) return;
+    try { await db.importar(JSON.parse(await lerArquivoTexto(f))); await registrar("backup importado", {detalhe: f.name}); toast("Backup importado."); navegar(); }
+    catch(err){ toast("Não consegui importar: " + err.message, 5000); }
+  });
+  $("#btnSeed")?.addEventListener("click", async ()=>{
+    if (!confirm("Substituir os dados atuais pelos dados fictícios?")) return;
+    await db.importar({app: APP.id, dados: dadosEmbutidos("seed")}); await registrar("dados fictícios carregados");
+    toast("Dados fictícios carregados."); navegar();
+  });
+  $("#btnTrocarPerfil")?.addEventListener("click", async ()=>{ estado.perfil = null; await db.meta("perfil", null); montarMenu(); telaEscolherPerfil(); });
+  $("#btnApagar")?.addEventListener("click", async ()=>{
+    if (!confirm("Apagar todos os dados deste app neste navegador?")) return;
+    for (const nome of Object.keys(APP.db.stores)) await db.limpar(nome);
+    toast("Dados apagados."); navegar();
+  });
+}
+
+/* ---------- testes embutidos (#/testes) ---------- */
+const TESTES = [];
+function teste(nome, fn){ TESTES.push({nome, fn}); }
+async function telaTestes(){
+  const res = [];
+  for (const t of TESTES){
+    try { const r = await t.fn(); res.push({nome: t.nome, ok: r !== false, msg: r === true || r === undefined ? "" : String(r)}); }
+    catch(e){ res.push({nome: t.nome, ok: false, msg: e.message}); }
+  }
+  window.__testes = res;
+  const ok = res.filter(r=>r.ok).length;
+  return `<h1>Testes</h1><p class="sub" id="resumoTestes">${ok} de ${res.length} passaram</p>
+    <div class="card tabela-wrap"><table><tr><th>Teste</th><th>Resultado</th></tr>${res.map(r=>`<tr><td>${esc(r.nome)}</td>
+    <td>${r.ok ? '<span class="selo ok">ok</span>' : '<span class="selo erro">falhou</span> <span class="mono">' + esc(r.msg) + "</span>"}</td></tr>`).join("")}</table></div>`;
+}
+
+/* ---------- partida ---------- */
+const TELAS = {"#/testes": telaTestes}, TELAS_DEPOIS = {};
+async function iniciar(){
+  iniciarTema();
+  await db.abrir();
+  if (navigator.storage && navigator.storage.persist) { try { await navigator.storage.persist(); } catch(e){} }
+  if (APP.perfis) estado.perfil = (await db.meta("perfil")) || null;
+  if (typeof iniciarApp === "function") await iniciarApp();
+  montarMenu();
+  window.addEventListener("hashchange", navegar);
+  await navegar();
+}
+</script>
+
+<script>
+/* ===================================================================
+   APP: Inscrições em Cursos
+   Configuração (rotas, banco, perfis) e telas. Os sprints editam daqui
+   para baixo.
+   =================================================================== */
+"use strict";
+const APP = {
+  "id": "inscricoes-cursos",
+  "titulo": "Inscrições em Cursos",
+  "db": {
+    "nome": "inscricoes_politec_v1",
+    "versao": 1,
+    "stores": {
+      "cursos": {
+        "keyPath": "id",
+        "indices": []
+      },
+      "inscricoes": {
+        "keyPath": "protocolo",
+        "indices": [
+          {
+            "nome": "curso_id",
+            "campo": "curso_id",
+            "unico": false
+          },
+          {
+            "nome": "matricula",
+            "campo": "matricula",
+            "unico": false
+          }
+        ]
+      },
+      "triagens": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "curso_id",
+            "campo": "curso_id",
+            "unico": false
+          }
+        ]
+      },
+      "convocacoes": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "protocolo",
+            "campo": "protocolo",
+            "unico": false
+          }
+        ]
+      },
+      "seap": {
+        "keyPath": "matricula",
+        "indices": []
+      },
+      "diretorias": {
+        "keyPath": "sigla",
+        "indices": []
+      },
+      "log": {
+        "keyPath": "id",
+        "indices": []
+      }
+    }
+  },
+  "rotas": [
+    {
+      "rota": "#/cursos",
+      "titulo": "Cursos",
+      "sprint": 2,
+      "descricao": "Criar e editar cursos.",
+      "perfis": [
+        "gerencia"
+      ]
+    },
+    {
+      "rota": "#/divulgar/:curso",
+      "titulo": "Divulgar",
+      "sprint": 2,
+      "descricao": "Link, QR Code e texto de divulgação.",
+      "perfis": [
+        "gerencia"
+      ]
+    },
+    {
+      "rota": "#/importar",
+      "titulo": "Importar inscrições",
+      "sprint": 4,
+      "descricao": "Colar os e-mails ou importar CSV.",
+      "perfis": [
+        "gerencia"
+      ]
+    },
+    {
+      "rota": "#/inscritos/:curso",
+      "titulo": "Inscritos",
+      "sprint": 5,
+      "descricao": "Lista e conferência com o SEAP.",
+      "perfis": [
+        "gerencia"
+      ]
+    },
+    {
+      "rota": "#/triagem",
+      "titulo": "Triagem",
+      "sprint": 6,
+      "descricao": "Titulares, reserva e não selecionados.",
+      "perfis": [
+        "diretoria"
+      ]
+    },
+    {
+      "rota": "#/convocacao/:curso",
+      "titulo": "Convocação",
+      "sprint": 7,
+      "descricao": "Mensagens de titular e reserva.",
+      "perfis": [
+        "gerencia"
+      ]
+    },
+    {
+      "rota": "#/turma/:curso",
+      "titulo": "Turma",
+      "sprint": 8,
+      "descricao": "Lista final e desistências.",
+      "perfis": [
+        "gerencia"
+      ]
+    },
+    {
+      "rota": "#/inscricao",
+      "titulo": "Inscrição",
+      "sprint": 3,
+      "descricao": "Formulário do servidor.",
+      "publica": true
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": ""
+    }
+  ],
+  "perfis": [
+    {
+      "id": "gerencia",
+      "nome": "Gerência de Formação",
+      "descricao": "Cria cursos, importa inscrições, envia a triagem e convoca."
+    },
+    {
+      "id": "diretoria",
+      "nome": "Diretoria",
+      "descricao": "Recebe o arquivo de triagem e define titulares e reserva."
+    }
+  ],
+  "rotaSemPerfil": [
+    "#/inscricao"
+  ]
+};
+
+/* ---------- comum a todos os apps (Sprint 1) ---------- */
+TELAS["#/config"] = async ()=> `<h1>Configuração</h1><p class="sub">Backup, dados de exemplo e perfil desta cópia.</p>` +
+  (typeof configExtra === "function" ? await configExtra() : "") + await blocoConfigComum();
+TELAS_DEPOIS["#/config"] = async ()=>{ ligarConfigComum(); if (typeof ligarConfigExtra === "function") await ligarConfigExtra(); };
+async function resumoBase(stores){
+  const linhas = [];
+  for (const s of stores) linhas.push(`<div class="card kpi"><div class="v">${(await db.list(s)).length}</div><div class="r">${esc(s)}</div></div>`);
+  return `<div class="grade">${linhas.join("")}</div>`;
+}
+teste("IndexedDB grava e lê", async ()=>{ await db.meta("teste", 42); return (await db.meta("teste")) === 42; });
+teste("Todas as rotas têm título e sprint", ()=> APP.rotas.every(r=>r.titulo && r.sprint !== undefined));
+teste("lerCSV: ponto e vírgula, aspas e BOM", ()=>{ const r = lerCSV('﻿a;b\n"x;1";2\n'); return r.length === 2 && r[1][0] === "x;1" && r[1][1] === "2"; });
+teste("cnpjValido e cpfValido", ()=> cnpjValido("11.222.333/0001-81") && !cnpjValido("11222333000182") && cpfValido("529.982.247-25") && !cpfValido("52998224726"));
+teste("dataDeTexto('29/10/2026 09:05:00')", ()=> dataDeTexto("29/10/2026 09:05:00") === "2026-10-29T09:05:00");
+
+/* Inscrições em Cursos · código do app (o construir.py junta com a base comum) */
+"use strict";
+/* ---------- bloco de inscrição (formato definido no Sprint 0, ver exemplos/gerar_exemplos.py) ---------- */
+function fnv1a(txt){
+  let h = 0x811c9dc5;
+  for (const b of new TextEncoder().encode(txt)){ h ^= b; h = Math.imul(h, 0x01000193) >>> 0; }
+  return h.toString(16).padStart(8, "0");
+}
+function b64url(txt){ return btoa(String.fromCharCode(...new TextEncoder().encode(txt))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); }
+function deB64url(s){ const b = atob(s.replace(/-/g, "+").replace(/_/g, "/")); return new TextDecoder().decode(Uint8Array.from(b, c=>c.charCodeAt(0))); }
+const blocoInscricao = {
+  gerar(dados){ const b = b64url(JSON.stringify(dados)); return `INSCRICAO-v1:${b}.${fnv1a(b)}`; },
+  // Acha todos os blocos num texto colado. Devolve {dados} ou {erro} por bloco.
+  ler(texto){
+    return Array.from(texto.matchAll(/INSCRICAO-v1:([A-Za-z0-9_-]+)(?:\.([0-9a-f]{8}))?/g)).map(m=>{
+      if (!m[2]) return {erro: "bloco incompleto (cortado)", trecho: m[0].slice(0, 40)};
+      if (fnv1a(m[1]) !== m[2]) return {erro: "código de verificação não confere (bloco alterado)", trecho: m[0].slice(0, 40)};
+      try { return {dados: JSON.parse(deB64url(m[1]))}; } catch(e){ return {erro: "bloco ilegível", trecho: m[0].slice(0, 40)}; }
+    });
+  }
+};
+teste("fnv1a('abc') = 1a47e90b (igual ao gerador Python)", ()=> fnv1a("abc") === "1a47e90b");
+teste("bloco ida e volta com acento", ()=>{ const d = {n: "João Ávila", m: "123"}; const r = blocoInscricao.ler("x " + blocoInscricao.gerar(d) + " y"); return r[0].dados.n === "João Ávila"; });
+teste("bloco alterado é recusado", ()=>{ const b = blocoInscricao.gerar({m: "1"}); return !!blocoInscricao.ler(b.slice(0, -1) + (b.endsWith("0") ? "1" : "0"))[0].erro; });
+teste("biblioteca de QR Code embutida", ()=> typeof qrcode === "function");
+
+const EMAIL_GERENCIA = "capacitacao@politec.mt.gov.br";
+
+/* ---------- diretorias (configuração) ---------- */
+async function configExtra(){
+  const dirs = await db.list("diretorias");
+  return `<div class="card"><h2 style="margin-top:0">Diretorias que recebem vagas</h2>
+    <p>${dirs.map(d=>`<span class="selo info">${esc(d.sigla)} · ${esc(d.nome)}</span>`).join(" ") || '<span class="sub">Nenhuma.</span>'}</p>
+    <form id="formDir" class="campos">${campo("dirSigla", "Sigla")}${campo("dirNome", "Nome")}
+      <div class="campo"><label>&nbsp;</label><button type="submit">Acrescentar</button></div></form></div>`;
+}
+async function ligarConfigExtra(){
+  $("#formDir")?.addEventListener("submit", async e=>{
+    e.preventDefault(); const sigla = valorDe("dirSigla").toUpperCase(), nome = valorDe("dirNome");
+    if (!sigla || !nome) return toast("Informe sigla e nome.");
+    await db.put("diretorias", {sigla, nome}); await registrar("diretoria cadastrada", {detalhe: sigla}); navegar();
+  });
+}
+
+/* ================= Sprint 2 · Cadastro e divulgação do curso ================= */
+const totalVagas = c => Object.values(c.vagas_por_diretoria || {}).reduce((a, b)=>a + Number(b || 0), 0);
+const periodo = c => `${dataCurtaBR(c.inicio)} a ${dataCurtaBR(c.fim)}`;
+
+TELAS["#/cursos"] = async ()=>{
+  const cursos = (await db.list("cursos")).sort((a, b)=>(b.inicio || "").localeCompare(a.inicio || ""));
+  const dirs = await db.list("diretorias");
+  return `<h1>Cursos</h1><p class="sub">Cadastre o curso, distribua as vagas por diretoria e gere o link de inscrição.</p>
+    <div class="card tabela-wrap">${cursos.length ? `<table><tr><th>Curso</th><th>Período</th><th>Inscrições até</th><th class="num">Vagas</th><th>Situação</th><th></th></tr>
+      ${cursos.map(c=>`<tr><td><b>${esc(c.nome)}</b><br><span class="sub">${esc(c.local || "")}</span></td><td>${periodo(c)}</td><td>${dataCurtaBR(c.inscricao_fim)}</td>
+      <td class="num">${totalVagas(c)}</td><td>${esc(c.status || "")}</td>
+      <td><a href="#/divulgar/${encodeURIComponent(c.id)}">Divulgar</a> · <button data-editar="${esc(c.id)}">Editar</button></td></tr>`).join("")}</table>`
+      : `<p class="sub">Nenhum curso. Cadastre abaixo.</p>`}</div>
+    <form class="card" id="formCurso"><h2 style="margin-top:0" id="tituloCurso">Novo curso</h2><input type="hidden" id="cursoId">
+      <div class="campos">
+        ${campo("cNome", "Nome do curso", {obrigatorio: true})}
+        ${campo("cCarga", "Carga horária (h)", {tipo: "number", obrigatorio: true, attrs: 'min="1"'})}
+        ${campo("cLocal", "Local", {obrigatorio: true})}
+        ${campo("cInicio", "Início do curso", {tipo: "date", obrigatorio: true})}
+        ${campo("cFim", "Fim do curso", {tipo: "date", obrigatorio: true})}
+        ${campo("cInscIni", "Inscrições a partir de", {tipo: "date", obrigatorio: true})}
+        ${campo("cInscFim", "Inscrições até", {tipo: "date", obrigatorio: true})}
+        ${campo("cTriagem", "Prazo da triagem pelas diretorias", {tipo: "date", obrigatorio: true})}
+        ${campo("cGrupo", "Link do grupo oficial da turma", {tipo: "url", ajuda: "Enviado só aos selecionados (RN08)."})}
+      </div>
+      ${campo("cPre", "Pré-requisitos (um por linha)", {tipo: "textarea", linhas: 3})}
+      <h3>Vagas por diretoria</h3>
+      ${dirs.length ? `<div class="campos">${dirs.map(d=>campo("vaga-" + d.sigla, `${d.sigla} · ${d.nome}`, {tipo: "number", valor: 0, attrs: 'min="0" data-vaga="' + esc(d.sigla) + '"'})).join("")}</div>
+        <p>Total de vagas: <b id="totalVagas">0</b></p>`
+        : `<p class="sub">Nenhuma diretoria cadastrada. Cadastre em <a href="#/config">Configuração</a> ou carregue os dados fictícios.</p>`}
+      <div id="errosCurso"></div>
+      <div class="linha-botoes"><button class="prim" type="submit">Salvar curso</button></div></form>`;
+};
+TELAS_DEPOIS["#/cursos"] = ()=>{
+  const soma = ()=>{ const t = $$("[data-vaga]").reduce((a, i)=>a + (Number(i.value) || 0), 0); if ($("#totalVagas")) $("#totalVagas").textContent = t; };
+  $$("[data-vaga]").forEach(i=>i.addEventListener("input", soma));
+  $$("[data-editar]").forEach(b=>b.addEventListener("click", async ()=>{
+    const c = await db.get("cursos", b.dataset.editar);
+    $("#cursoId").value = c.id; $("#cNome").value = c.nome; $("#cCarga").value = c.carga_horaria; $("#cLocal").value = c.local || "";
+    $("#cInicio").value = c.inicio; $("#cFim").value = c.fim; $("#cInscIni").value = c.inscricao_inicio || ""; $("#cInscFim").value = c.inscricao_fim || "";
+    $("#cTriagem").value = c.prazo_triagem || ""; $("#cGrupo").value = c.link_grupo || ""; $("#cPre").value = (c.prerequisitos || []).join("\n");
+    $$("[data-vaga]").forEach(i=>i.value = c.vagas_por_diretoria?.[i.dataset.vaga] || 0); soma();
+    $("#tituloCurso").textContent = "Editar " + c.nome; $("#formCurso").scrollIntoView();
+  }));
+  $("#formCurso").addEventListener("submit", async e=>{
+    e.preventDefault();
+    const vagas = {}; $$("[data-vaga]").forEach(i=>{ const v = Number(i.value) || 0; if (v > 0) vagas[i.dataset.vaga] = v; });
+    const c = {nome: valorDe("cNome"), carga_horaria: Number(valorDe("cCarga")), local: valorDe("cLocal"), inicio: valorDe("cInicio"), fim: valorDe("cFim"),
+      inscricao_inicio: valorDe("cInscIni"), inscricao_fim: valorDe("cInscFim"), prazo_triagem: valorDe("cTriagem"), link_grupo: valorDe("cGrupo"),
+      prerequisitos: valorDe("cPre").split("\n").map(s=>s.trim()).filter(Boolean), vagas_por_diretoria: vagas};
+    const erros = [];
+    if (!c.nome) erros.push("Informe o nome do curso.");
+    if (!(c.carga_horaria > 0)) erros.push("Informe a carga horária.");
+    if (!c.local) erros.push("Informe o local.");
+    if (!c.inicio || !c.fim || c.fim < c.inicio) erros.push("O fim do curso deve ser igual ou depois do início.");
+    if (!c.inscricao_inicio || !c.inscricao_fim || c.inscricao_fim < c.inscricao_inicio) erros.push("O fim das inscrições deve ser depois do início das inscrições.");
+    if (c.inscricao_fim && c.inicio && c.inscricao_fim > c.inicio) erros.push("As inscrições terminam antes de o curso começar.");
+    if (!c.prazo_triagem || (c.inscricao_fim && c.prazo_triagem < c.inscricao_fim) || (c.inicio && c.prazo_triagem > c.inicio)) erros.push("O prazo da triagem fica entre o fim das inscrições e o início do curso.");
+    if (c.link_grupo && !/^https?:\/\//.test(c.link_grupo)) erros.push("O link do grupo começa com http:// ou https://.");
+    if (!totalVagas(c)) erros.push("Distribua ao menos uma vaga.");
+    if (!mostrarErros("#errosCurso", erros)) return;
+    const id = valorDe("cursoId"), antes = id ? await db.get("cursos", id) : null;
+    const reg = {...(antes || {id: "CURSO-" + Date.now().toString(36).toUpperCase(), status: "inscrições abertas", criado_em: agora()}), ...c, atualizado_em: agora()};
+    await db.put("cursos", reg); await registrar(antes ? "curso alterado" : "curso criado", {curso_id: reg.id});
+    toast("Curso salvo."); location.hash = "#/divulgar/" + encodeURIComponent(reg.id);
+  });
+};
+
+// O link leva o curso dentro do endereço, para abrir a inscrição sem dado prévio.
+function cursoPublico(c){
+  return {v: 1, id: c.id, nome: c.nome, ch: c.carga_horaria, ini: c.inicio, fim: c.fim, local: c.local, pre: c.prerequisitos || [],
+          ii: c.inscricao_inicio, if: c.inscricao_fim, dirs: Object.keys(c.vagas_por_diretoria || {}), email: EMAIL_GERENCIA};
+}
+function linkInscricao(c){
+  const b = b64url(JSON.stringify(cursoPublico(c)));
+  return location.href.split("#")[0] + "#/inscricao?c=" + b + "." + fnv1a(b);
+}
+function lerCursoDoLink(hash){
+  const m = String(hash).match(/[?&]c=([A-Za-z0-9_-]+)\.([0-9a-f]{8})/);
+  if (!m) return {erro: "O link não traz os dados do curso."};
+  if (fnv1a(m[1]) !== m[2]) return {erro: "O link foi alterado ou cortado. Peça o link de novo à Gerência de Formação."};
+  try { return {curso: JSON.parse(deB64url(m[1]))}; } catch(e){ return {erro: "O link está ilegível."}; }
+}
+function textoDivulgacao(c, link, dirs){
+  const nomeDir = s => dirs.find(d=>d.sigla === s)?.nome || s;
+  return `Assunto: Inscrições abertas: ${c.nome} (${periodo(c)})
+
+Prezados,
+
+Estão abertas as inscrições para o curso ${c.nome}, com carga horária de ${c.carga_horaria} h, de ${periodo(c)}, em ${c.local}.
+
+Vagas por diretoria:
+${Object.entries(c.vagas_por_diretoria).map(([s, v])=>`- ${nomeDir(s)}: ${v} vagas`).join("\n")}
+
+Os servidores interessados se inscrevem pelo link abaixo até ${dataCurtaBR(c.inscricao_fim)}:
+${link}
+${c.prerequisitos?.length ? `\nPré-requisitos: ${c.prerequisitos.join("; ")}.\n` : ""}
+Até ${dataCurtaBR(c.prazo_triagem)}, cada diretoria recebe o arquivo com os inscritos para indicar titulares e cadastro de reserva.
+
+Gerência de Formação Inicial e Continuada`;
+}
+function qrSvg(texto){
+  const qr = qrcode(0, "M"); qr.addData(texto); qr.make();
+  return qr.createSvgTag({cellSize: 3, margin: 2, scalable: true, alt: "QR Code do link de inscrição"});
+}
+teste("link do curso ida e volta", ()=>{
+  const c = {id: "C1", nome: "Curso Ávila", carga_horaria: 8, inicio: "2026-12-01", fim: "2026-12-02", local: "X", vagas_por_diretoria: {DMC: 2}};
+  const r = lerCursoDoLink(linkInscricao(c).split("#")[1]); return r.curso && r.curso.nome === "Curso Ávila";
+});
+teste("link alterado é recusado", ()=>{ const l = linkInscricao({id: "C1", nome: "A", vagas_por_diretoria: {}}); return !!lerCursoDoLink(l.replace(/.$/, l.endsWith("0") ? "1" : "0")).erro; });
+
+TELAS["#/divulgar/:curso"] = async ({curso})=>{
+  const c = await db.get("cursos", curso);
+  if (!c) return `<div class="card vazio">Curso não encontrado. <a href="#/cursos">Voltar</a></div>`;
+  const dirs = await db.list("diretorias"), link = linkInscricao(c);
+  return `<h1>Divulgar · ${esc(c.nome)}</h1><p class="sub">${periodo(c)} · ${totalVagas(c)} vagas · inscrições até ${dataCurtaBR(c.inscricao_fim)}</p>
+    <div class="card"><h2 style="margin-top:0">Link de inscrição</h2>
+      <p class="mono" id="linkInscricao" style="word-break:break-all">${esc(link)}</p>
+      <div class="linha-botoes"><button class="prim" id="btnCopiarLink">Copiar link</button><a class="botao" href="${esc(link)}" target="_blank" rel="noopener">Abrir a inscrição</a></div></div>
+    <div class="card"><h2 style="margin-top:0">QR Code</h2><div id="qr" style="max-width:260px">${qrSvg(link)}</div>
+      <div class="linha-botoes"><button id="btnBaixarQr">Baixar QR Code (.svg)</button></div></div>
+    <div class="card"><h2 style="margin-top:0">Texto para as diretorias</h2>
+      <textarea id="textoDivulgacao" rows="16">${esc(textoDivulgacao(c, link, dirs))}</textarea>
+      <div class="linha-botoes"><button id="btnCopiarTexto">Copiar texto</button></div></div>`;
+};
+TELAS_DEPOIS["#/divulgar/:curso"] = ({curso})=>{
+  if (!$("#btnCopiarLink")) return;  // curso não encontrado
+  const copiar = async (t, msg)=>{ try { await navigator.clipboard.writeText(t); toast(msg); } catch(e){ toast("Selecione e copie com Ctrl+C."); } };
+  $("#btnCopiarLink").addEventListener("click", ()=>copiar($("#linkInscricao").textContent, "Link copiado."));
+  $("#btnCopiarTexto").addEventListener("click", ()=>copiar($("#textoDivulgacao").value, "Texto copiado."));
+  $("#btnBaixarQr").addEventListener("click", ()=>baixar(`qr-${curso}.svg`, $("#qr").innerHTML, "image/svg+xml"));
+};
+
+// Sprint 2: a inscrição já mostra o curso do link. O formulário chega no Sprint 3.
+TELAS["#/inscricao"] = async ()=>{
+  const r = lerCursoDoLink(location.hash);
+  if (r.erro) return `<div class="card pendente"><h1>Inscrição</h1><p>${esc(r.erro)}</p></div>`;
+  const c = r.curso;
+  return `<h1>Inscrição · ${esc(c.nome)}</h1>
+    <div class="card"><p><b>Período:</b> ${dataCurtaBR(c.ini)} a ${dataCurtaBR(c.fim)} · <b>Carga horária:</b> ${esc(c.ch)} h</p>
+      <p><b>Local:</b> ${esc(c.local)}</p><p><b>Inscrições:</b> ${dataCurtaBR(c.ii)} a ${dataCurtaBR(c.if)}</p>
+      ${c.pre.length ? `<p><b>Pré-requisitos:</b></p><ul>${c.pre.map(p=>`<li>${esc(p)}</li>`).join("")}</ul>` : ""}</div>
+    <div class="card pendente">O formulário de inscrição chega no Sprint 3.</div>`;
+};
+
+/* ================= Sprint 3 · Formulário de inscrição (RN01, RN02, RN04) ================= */
+const DOMINIO = "@politec.mt.gov.br";
+// mensagem ao lado do campo
+function erroCampo(id, msg){
+  const el = $("#" + id); if (!el) return;
+  let s = $("#erro-" + id);
+  if (!s){ s = document.createElement("small"); s.id = "erro-" + id; s.className = "erro-txt"; s.setAttribute("role", "alert"); el.after(s); }
+  s.textContent = msg || ""; el.setAttribute("aria-invalid", msg ? "true" : "false");
+  return !msg;
+}
+// RN04: só dentro do período de inscrição do curso
+function periodoAberto(c, hoje = hojeISO()){ return (!c.ii || hoje >= c.ii) && (!c.if || hoje <= c.if); }
+teste("RN04: fora do período fecha a inscrição", ()=> periodoAberto({ii: "2026-11-01", if: "2026-11-10"}, "2026-11-05") && !periodoAberto({ii: "2026-11-01", if: "2026-11-10"}, "2026-11-11"));
+// mesmo cálculo do gerador Python: protocolo = fnv1a(curso|matrícula|quando), 8 caracteres
+const protocoloInscricao = (curso, matricula, quando)=> fnv1a(`${curso}|${matricula}|${quando}`).slice(0, 8).toUpperCase();
+teste("protocolo igual ao do gerador Python", ()=> protocoloInscricao("CURSO-2026-11", "200000", "2026-10-29T08:00:00-04:00") === "1FEF59EC");
+
+TELAS["#/inscricao"] = async ()=>{
+  const r = lerCursoDoLink(location.hash);
+  if (r.erro) return `<div class="card pendente"><h1>Inscrição</h1><p>${esc(r.erro)}</p></div>`;
+  const c = r.curso; estado.cursoLink = c;
+  const topo = `<h1>Inscrição · ${esc(c.nome)}</h1>
+    <div class="card"><p><b>Período:</b> ${dataCurtaBR(c.ini)} a ${dataCurtaBR(c.fim)} · <b>Carga horária:</b> ${esc(c.ch)} h · <b>Local:</b> ${esc(c.local)}</p>
+      <p><b>Inscrições:</b> ${dataCurtaBR(c.ii)} a ${dataCurtaBR(c.if)}</p></div>`;
+  if (!periodoAberto(c)) return topo + `<div class="card pendente" id="foraPeriodo"><b>Inscrições fechadas.</b> O período é de ${dataCurtaBR(c.ii)} a ${dataCurtaBR(c.if)} (RN04).</div>`;
+  return topo + `<form class="card" id="formInscricao" novalidate><h2 style="margin-top:0">Seus dados</h2><div class="campos">
+      ${campo("iMatricula", "Matrícula", {obrigatorio: true, attrs: 'inputmode="numeric" autocomplete="off"'})}
+      ${campo("iNome", "Nome completo", {obrigatorio: true, attrs: 'autocomplete="name"'})}
+      ${campo("iLotacao", "Lotação", {obrigatorio: true})}
+      ${campo("iDiretoria", "Diretoria", {tipo: "select", opcoes: [["", "Escolha"], ...c.dirs], obrigatorio: true})}
+      ${campo("iEmail", "E-mail institucional", {tipo: "email", obrigatorio: true, attrs: `placeholder="nome${DOMINIO}" autocomplete="email"`})}
+      ${campo("iTelefone", "Telefone (opcional)", {tipo: "tel", attrs: 'autocomplete="tel"'})}</div>
+    ${c.pre.length ? `<h2>Pré-requisitos</h2>${c.pre.map((p, i)=>`<fieldset style="border:0;padding:0;margin:8px 0"><legend>${esc(p)}</legend>
+      <label style="display:inline-flex;gap:6px;margin-right:16px"><input type="radio" name="pre${i}" value="sim" style="width:auto"> Atendo</label>
+      <label style="display:inline-flex;gap:6px"><input type="radio" name="pre${i}" value="nao" style="width:auto"> Não atendo</label></fieldset>`).join("")}` : ""}
+    <p class="sub">Seus dados vão só para a Gerência de Formação e para a sua diretoria, para a seleção. Eles são apagados 30 dias depois do fim do curso.</p>
+    <div class="linha-botoes"><button class="prim" type="submit">Enviar inscrição</button></div></form><div id="comprovante"></div>`;
+};
+TELAS_DEPOIS["#/inscricao"] = ()=>{
+  const form = $("#formInscricao"); if (!form) return;
+  const c = estado.cursoLink;
+  const validar = ()=>{
+    const ok = [
+      erroCampo("iMatricula", /^\d{4,}$/.test(valorDe("iMatricula")) ? "" : "Matrícula só com números (RN01)."),
+      erroCampo("iNome", valorDe("iNome").split(/\s+/).length >= 2 ? "" : "Informe o nome completo (RN01)."),
+      erroCampo("iLotacao", valorDe("iLotacao") ? "" : "Informe a lotação (RN01)."),
+      erroCampo("iDiretoria", valorDe("iDiretoria") ? "" : "Escolha a diretoria (RN01)."),
+      erroCampo("iEmail", valorDe("iEmail").toLowerCase().endsWith(DOMINIO) && /^\S+@\S+$/.test(valorDe("iEmail")) ? "" : `Use o e-mail institucional (${DOMINIO}) (RN02).`),
+      erroCampo("iTelefone", !valorDe("iTelefone") || valorDe("iTelefone").replace(/\D/g, "").length >= 10 ? "" : "Telefone com DDD.")
+    ];
+    const semResposta = c.pre.filter((_, i)=>!$(`input[name=pre${i}]:checked`));
+    if (semResposta.length) toast("Responda a todos os pré-requisitos.");
+    return ok.every(Boolean) && !semResposta.length;
+  };
+  ["iMatricula", "iNome", "iLotacao", "iDiretoria", "iEmail", "iTelefone"].forEach(id=>$("#" + id).addEventListener("blur", ()=>{ if ($("#erro-" + id)) validar(); }));
+  form.addEventListener("submit", e=>{
+    e.preventDefault();
+    if (!validar()) return;
+    const quando = new Date().toISOString(), matricula = valorDe("iMatricula");
+    const dados = {p: protocoloInscricao(c.id, matricula, quando), c: c.id, m: matricula, n: valorDe("iNome"), l: valorDe("iLotacao"),
+      d: valorDe("iDiretoria"), e: valorDe("iEmail").toLowerCase(), t: valorDe("iTelefone"),
+      r: c.pre.filter((_, i)=>$(`input[name=pre${i}]:checked`).value === "sim"), s: quando};
+    const bloco = blocoInscricao.gerar(dados);
+    const assunto = `[INSCRICAO] ${c.nome} ${dados.p}`;
+    const corpo = `Inscrição no curso ${c.nome}\nNome: ${dados.n}\nMatrícula: ${dados.m}\nDiretoria: ${dados.d}\nProtocolo: ${dados.p}\n\nNão altere o bloco abaixo; ele é lido pela Gerência de Formação.\n\n${bloco}\n`;
+    form.remove();
+    $("#comprovante").innerHTML = `<div class="card" id="cardComprovante"><h2 style="margin-top:0">Inscrição registrada</h2>
+      <p>Protocolo: <b class="mono" id="protInscricao">${dados.p}</b> · Situação: <span class="selo info">em análise</span></p>
+      <p>Curso: <b>${esc(c.nome)}</b> (${dataCurtaBR(c.ini)} a ${dataCurtaBR(c.fim)})</p>
+      <p><b>Falta um passo:</b> envie o e-mail de inscrição para a Gerência de Formação. Sem o e-mail, a inscrição não chega.</p>
+      <ol><li>Clique em "Enviar e-mail de inscrição" e confirme o envio no seu e-mail.</li>
+        <li>A sua diretoria faz a seleção até o prazo da triagem.</li><li>O resultado chega no seu e-mail institucional.</li></ol>
+      <div class="linha-botoes nao-imprimir"><a class="botao prim" id="lnkEmail" href="mailto:${encodeURIComponent(c.email)}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}">Enviar e-mail de inscrição</a>
+        <button id="btnCopiarBloco">Copiar o texto do e-mail</button><button onclick="window.print()">Imprimir comprovante</button></div>
+      <details class="nao-imprimir"><summary>Se o e-mail não abrir</summary><p>Copie o texto, cole num e-mail novo para <b>${esc(c.email)}</b> com o assunto <span class="mono">${esc(assunto)}</span>.</p>
+        <textarea id="textoEmail" rows="6" readonly>${esc(corpo)}</textarea></details></div>`;
+    $("#btnCopiarBloco").addEventListener("click", async ()=>{ try { await navigator.clipboard.writeText(corpo); toast("Texto copiado."); } catch(err){ $("#textoEmail").select(); toast("Use Ctrl+C."); } });
+  });
+};
+
+
+iniciar();
+</script>
+</body>
+</html>

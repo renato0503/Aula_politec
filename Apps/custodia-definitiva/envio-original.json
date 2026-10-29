@@ -1,0 +1,616 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T15:39:29.069Z",
+  "campos": {
+    "data": "2026-10-27",
+    "aluno": "Edjane Ávila ",
+    "unidade": "Gerência de Custódia Definitiva",
+    "contato": "edjanegasparini@politec.mt.gov.br",
+    "nome_projeto": "Adequação da custódia definitiva de vestígios periciais às exigências legais",
+    "tipo_projeto": "Mapeamento de processo (fluxo, BPMN ou Mermaid)",
+    "resumo": "A proposta consiste na estruturação de uma Unidade de Custódia Definitiva (UCD), com armazenamento organizado por categorias e requisitos específicos de conservação, associado a um sistema de gestão inteligente. ",
+    "problema": "Desafio administrativo e logístico, especialmente diante da necessidade de absorver prospectivamente vestígios pós-processamento, contraprovas e materiais destinados a eventuais contra perícias.",
+    "hoje": "Os vestígios vem para Diretoria de Laboratório Forense através das autoridades policiais, com requisições periciais de exames específicos realizados pela pasta. Lá dentro, após o processamento, eles retornam para as autoridades que fazem a custódia desse material (no caso do laboratório: armas brancas, roupas, balanças, tabletes de droga) nas delegacias respectivas. Nas cidades do interior, tudo o que é processado em definitivo pelas unidades, vem para capital como contraperícia. Por exemplo: em 2025, 12 mil alíquotas de contraprova, proveniente da perícia de entorpecentes, foram encaminhadas ao Laboratório Forense onde ficam hoje armazenadas em uma sala de custódia de contraprovas. Nesta mesma sala é armazenado também as contraprovas produzidas pela região metropolitana em Cuiabá. Ainda existe também todo quantitativo de contraprovas gerado por materiais biológicos da Toxicologia e da Biologia Molecular e que são custodiados em contêiner refrigerado. Esses materiais todos estão hoje sob responsabilidade do Núcleo de Custódia. ",
+    "impacto": "O principal impacto a fragmentação da responsabilidade pela custódia dos vestígios após o processamento pericial, com consequências para a rastreabilidade, a logística, a segurança e a gestão do acervo.",
+    "limite": "Não devem ser integralmente automatizadas a conferência física, a validação da integridade, a transferência de responsabilidade e a autorização de descarte dos vestígios, pois exigem avaliação humana, responsabilidade legal e garantia da cadeia de custódia.",
+    "asis_inicio": "Atualmente, os vestígios são coletados no local de crime, identificados, acondicionados e encaminhados pelas autoridades policiais ao Laboratório Forense, acompanhados de requisição pericial encaminhada no sistema Atena.",
+    "asis_entradas": "1. Vestígios: materiais coletados em locais de crime ou apreendidos pelas autoridades policiais (drogas, armas brancas, roupas, balanças, materiais biológicos etc.).\n2. Requisições periciais: documentos oficiais que solicitam a realização de exames específicos.\n3. Registros de cadeia de custódia: identificação, origem, acondicionamento, lacres e histórico de movimentação dos vestígios.\n4. Autoridades requisitantes: delegados de polícia e demais autoridades legalmente competentes.\n5. Servidores envolvidos: peritos criminais, profissionais responsáveis pelo recebimento e equipe do Núcleo de Custódia.\n6. Informações processuais: número do procedimento, identificação da unidade requisitante, tipo de exame solicitado e dados de referência do vestígio.\n7. Contraprovas provenientes do interior: alíquotas produzidas pelas unidades periciais regionais e encaminhadas ao Laboratório para custódia.\n8. Contraprovas produzidas na capital: alíquotas de entorpecentes e materiais biológicos destinados ao armazenamento.\n9. Solicitações de movimentação: pedidos de retirada, disponibilização para contraprova, transferência ou destinação de materiais.\n10. Registros informatizados: dados inseridos nos sistemas institucionais de controle pericial e movimentação de vestígios.",
+    "asis_fim": "Após o recebimento e processamento técnico, os materiais remanescentes, como armas brancas, roupas, balanças e entorpecentes, são devolvidos às delegacias de origem, responsáveis por sua guarda até o descarte autorizado pelo judiciário.",
+    "asis_saidas": "1. Laudos periciais: resultados dos exames realizados, encaminhados às autoridades requisitantes.\n2. Vestígios processados: materiais remanescentes devolvidos às delegacias de origem para custódia.\n3. Contraprovas de entorpecentes: alíquotas destinadas à sala de custódia do Laboratório Forense.\n4. Contraprovas biológicas: materiais destinados ao armazenamento em contêiner refrigerado.\n5. Registros de movimentação: documentação de recebimento, transferência, devolução e armazenamento dos vestígios.\n6. Materiais disponibilizados para contraprova: vestígios retirados da guarda mediante solicitação e autorização competentes.\n7. Materiais destinados ao descarte: vestígios encaminhados à destinação final, quando legalmente autorizada.",
+    "asis_volume": "1.233 laudos por mês",
+    "asis_duracao": "616,5 horas mensais estimadas de processamento pericial.",
+    "asis_frequencia": "Mensal",
+    "asis_decisoes": "#\tDecisão (gateway)\tCritério\tCaminho SIM\tCaminho NÃO\n1\tDocumentação e lacres estão conformes?\tConferência da requisição, identificação, integridade e registros de custódia.\tReceber e registrar o vestígio.\tRegistrar inconsistência e encaminhar para avaliação do responsável.\n2\tO material está apto ao processamento?\tCondições técnicas, natureza do vestígio e exame solicitado.\tEncaminhar ao setor técnico competente.\tSubmeter à avaliação técnica para providências.\n3\tO exame pericial foi concluído?\tFinalização das análises e validação dos resultados.\tEmitir o laudo e encaminhar os materiais à destinação aplicável.\tManter o material sob controle até a conclusão.\n4\tO material é uma contraprova?\tIdentificação de alíquota ou amostra destinada a eventual contraperícia.\tEncaminhar ao Núcleo de Custódia do Laboratório.\tSeguir o fluxo de devolução dos vestígios remanescentes à autoridade policial, quando aplicável.\n5\tA contraprova exige refrigeração?\tNatureza do material e requisitos de conservação.\tArmazenar em contêiner refrigerado.\tArmazenar em sala de custódia apropriada.\n6\tExiste solicitação autorizada de retirada ou destinação?\tRequisição formal, competência e requisitos legais.\tRegistrar e executar a movimentação autorizada.\tManter o material armazenado.",
+    "asis_excecoes": "O fluxo atual apresenta caminhos alternativos relacionados a inconsistências documentais, violações de lacres, necessidade de exames complementares, atrasos na retirada dos vestígios, condições especiais de conservação e solicitações de contraprova.\nEssas situações exigem registros, avaliações técnicas e, quando aplicável, autorizações específicas, podendo gerar espera, retrabalho e movimentações adicionais.\nDestacam-se como gargalos a dependência da retirada dos vestígios pelas autoridades policiais e a necessidade de gerenciamento de contraprovas em diferentes condições de armazenamento.",
+    "asis_digital": "1. Registro das requisições periciais e identificação dos procedimentos.\n2. Cadastro dos vestígios e informações relacionadas aos exames.\n3. Acompanhamento das etapas periciais e movimentações registradas no sistema.\n4. Elaboração, emissão e disponibilização dos laudos periciais.\n5. Registros de encaminhamento e devolução dos materiais, conforme as funcionalidades utilizadas.\n6. Auto de Entrega da Devolução, é emitido pelo sistema Atena e assinado pela autoridade na entrega e na retirada, com os lacres respectivos. Após a devolução o documento é digitalizado no protocolo correspondente.",
+    "papeis_obs": "O acesso ao sistema Atena deve ser individualizado, mediante autenticação e identificação funcional, respeitando as competências de cada servidor. Os peritos são responsáveis pelos exames e laudos; os servidores do Núcleo de Custódia, pelo recebimento, armazenamento e movimentação autorizada das contraprovas; e as autoridades requisitantes, pela solicitação dos exames e recebimento dos vestígios devolvidos.\nAs movimentações devem preservar a rastreabilidade, com identificação dos responsáveis, datas, horários e lacres. Alterações, retiradas e descartes devem observar as permissões funcionais e autorizações legais, mantendo registros auditáveis para garantir a integridade da cadeia de custódia.",
+    "tobe_visao": "Com a implantação da Central de Custódia Definitiva, a POLITEC/MT deixa de manter a guarda pós-pericial descentralizada entre delegacias e unidades técnicas e passa a centralizar o recebimento, armazenamento e gerenciamento dos vestígios processados e contraprovas, com rastreabilidade, segurança e apoio de inteligência artificial na gestão logística,  bem como no controle e na previsão de elegibilidade para descarte, conforme a natureza de cada vestígio e os requisitos legais aplicáveis, mediante autorização competente.",
+    "tobe_mudanca": "A custódia pós pericial deixa de ser descentralizada e passa a ser realizada pela Central de Custódia Definitiva, com gestão integrada dos vestígios, controle de armazenamento, rastreabilidade e previsão de demanda e descarte, apoiados por inteligência artificial e respeitando as exigências legais.",
+    "tobe_inalterado": "Permanecem inalterados os procedimentos técnicos de coleta, identificação, acondicionamento e processamento pericial dos vestígios, bem como a elaboração e assinatura dos laudos pelos peritos responsáveis. A conferência física, a verificação da integridade dos lacres e a transferência formal de responsabilidade continuam exigindo intervenção humana, assim como as autorizações legais para movimentação e descarte dos materiais.\n",
+    "tobe_restricao": "Devem ser preservadas as exigências legais da cadeia de custódia previstas nos artigos 158-A a 158-F do Código de Processo Penal, garantindo a integridade, autenticidade, rastreabilidade e segurança dos vestígios. Permanecem obrigatórias a identificação dos responsáveis, o registro das movimentações, a observância das condições específicas de conservação e a autorização competente para destinação ou descarte. A inteligência artificial não poderá substituir decisões técnicas, atribuições legais ou a responsabilidade dos servidores e autoridades competentes.",
+    "tobe_piloto": "Realizar projeto-piloto de 90 dias no Núcleo de Custódia do Laboratório Forense da POLITEC/MT, simulando o futuro fluxo da Central de Custódia Definitiva. Testar o cadastro, a classificação, o endereçamento inteligente, a rastreabilidade e a previsão de ocupação dos materiais, utilizando dados históricos e amostras de registros. Comparar os tempos de recebimento, registro e localização antes e depois da intervenção, avaliando a eficiência operacional, a segurança e a viabilidade da implantação.",
+    "entrega": "Protótipo funcional de aplicativo web para gestão inteligente da Central de Custódia Definitiva, com cadastro e classificação de vestígios, endereçamento digital de armazenamento, consulta de localização, painel de ocupação e previsão de capacidade e descarte, com apoio de inteligência artificial. O MVP utilizará dados simulados, terá acesso por perfis de usuários e será acompanhado de manual de utilização em PDF.",
+    "dentro": "Desenvolvimento de protótipo web com cadastro e classificação de vestígios e contraprovas, identificação de lacres, endereçamento digital em contêineres, consulta de localização, registro de movimentações e painel de controle de ocupação. Aplicação de inteligência artificial para previsão da capacidade de armazenamento e sinalização de materiais potencialmente elegíveis para descarte, conforme critérios previamente definidos.",
+    "fora": "Ficam fora do MVP a integração efetiva com o sistema Atena, a implantação de RFID, a movimentação física automatizada dos contêineres, o monitoramento de equipamentos de refrigeração e a execução de descartes. Essas funcionalidades exigem infraestrutura, recursos financeiros, integração com sistemas oficiais e validações técnicas e legais. O protótipo utilizará dados fictícios, sem acesso a informações periciais sigilosas ou realização de operações reais.",
+    "mvp_naofaz": "O MVP não realiza integração com o sistema Atena, leitura RFID, movimentação física de contêineres, monitoramento ambiental ou operações reais de custódia. Não utiliza dados sigilosos, não autoriza transferências ou descartes e não substitui a conferência humana. A previsão de ocupação e os alertas de elegibilidade para descarte serão demonstrados com dados simulados, sem efeitos administrativos ou jurídicos.",
+    "mvp_objetivo": "Demonstrar que é possível cadastrar, classificar e localizar vestígios periciais digitalmente, com endereçamento inteligente e previsão da capacidade de armazenamento da Central de Custódia Definitiva.",
+    "mvp_plataforma": "Site web (abre no navegador)",
+    "mvp_tela_inicial": "Painel inicial da Central de Custódia Definitiva, apresentando indicadores de ocupação dos contêineres, quantidade de vestígios cadastrados, capacidade disponível e acesso às funções de cadastro, classificação e localização de materiais.",
+    "mvp_mock": "Serão simulados o recebimento e cadastro de vestígios, a classificação por categoria, o endereçamento em contêineres, a movimentação dos materiais e a previsão de ocupação. Os dados serão fictícios, sem integração com o Atena, movimentação física real ou autorização de descarte. As recomendações de armazenamento e projeções serão demonstrativas.",
+    "mvp_criterio": "O usuário consegue cadastrar um vestígio fictício, classificá-lo, receber uma sugestão de armazenamento compatível, localizar seu endereço digital e visualizar a atualização da ocupação no painel. O sistema também apresenta uma projeção de capacidade baseada nos dados simulados, sem permitir alocação acima do limite cadastrado.",
+    "mvp_dados": "No mínimo 30 vestígios fictícios, distribuídos entre entorpecentes, armas brancas, roupas, eletrônicos e contraprovas biológicas; 5 contêineres simulados, com capacidades e condições de armazenamento distintas; registros de entrada, localização e movimentação; histórico fictício de 12 meses para projeção de ocupação; e 3 situações de exceção: capacidade esgotada, incompatibilidade de armazenamento e material com pendência documental.",
+    "mvp_reuso": "O sistema Atena, os registros de requisições e movimentações periciais, os procedimentos operacionais do Núcleo de Custódia do Laboratório Forense, os modelos de identificação e controle de contraprovas e os dados históricos de produção pericial. Também poderão ser reaproveitados os fluxogramas e levantamentos logísticos já elaborados, além de bibliotecas gratuitas para desenvolvimento do protótipo web, utilizando exclusivamente dados fictícios.",
+    "dependencias": "Da gestão da POLITEC/MT, para validação das diretrizes e requisitos operacionais; da Coordenadoria de Custódia de Evidências, para definição dos fluxos e regras de armazenamento; da equipe de TI, para desenvolvimento e futura integração ao Atena; da assessoria jurídica, para validação dos requisitos legais de custódia e descarte; e das equipes de infraestrutura e logística, para dimensionamento dos contêineres e das condições de conservação dos vestígios.",
+    "lgpd_dados": "O MVP utilizará exclusivamente dados sintéticos, incluindo identificadores fictícios de servidores, vestígios, protocolos e movimentações. Não serão utilizados nomes reais, matrículas funcionais, dados pessoais de investigados ou informações sigilosas de procedimentos periciais.",
+    "lgpd_base": "O protótipo possui finalidade acadêmica, voltada à demonstração de uma solução tecnológica para gestão da custódia de vestígios. Utilizará dados fictícios, sem tratamento intencional de dados pessoais reais. O projeto institucional futuro deverá observar os artigos 158-A a 158-F do Código de Processo Penal, a legislação aplicável à proteção de dados e as normas de segurança da informação da POLITEC/MT.",
+    "lgpd_retencao": "Os dados fictícios serão mantidos apenas durante a demonstração e avaliação acadêmica do MVP, podendo ser excluídos ou reinicializados ao término dos testes. A versão institucional deverá estabelecer prazos de retenção conforme a legislação aplicável e as políticas de gestão documental e segurança da informação.",
+    "lgpd_acesso": "No MVP, o acesso será demonstrativo, com perfis fictícios de servidor da custódia, gestor e administrador. As operações simuladas de cadastro e movimentação poderão registrar identificador do usuário, data, hora e ação realizada. Na versão institucional, o acesso deverá exigir autenticação individual, controle de permissões e trilha de auditoria, impedindo alterações não autorizadas.",
+    "stack_detalhe": "O MVP será desenvolvido em arquivo HTML único (index.html), com CSS e JavaScript incorporados e dados fictícios armazenados em JSON no próprio arquivo, publicado no GitHub Pages. A aplicação permitirá simular o cadastro, a classificação, o endereçamento e a localização dos vestígios, além de apresentar indicadores e projeções de ocupação dos contêineres, utilizando regras automatizadas e cálculos demonstrativos, sem integração com sistemas oficiais.",
+    "coletar": "É necessário levantar o volume mensal de vestígios processados e devolvidos às delegacias, a quantidade de contraprovas armazenadas por categoria, o tempo gasto com recebimento, conferência, registro, movimentação e localização dos materiais, além da capacidade física disponível e das condições de armazenamento. Também deverão ser coletados dados sobre o crescimento do acervo, a frequência de solicitações de contraperícia e os critérios legais de destinação e descarte, para subsidiar o dimensionamento da futura Central de Custódia Definitiva.",
+    "acesso": "A gestão da POLITEC/MT e a chefia do Laboratório Forense deverão autorizar o acesso aos dados institucionais, com apoio da Coordenadoria de Custódia de Evidências e da equipe de TI, conforme as competências de cada unidade. O levantamento poderá ser realizado após autorização formal, em período inicial de 30 dias. Para o MVP acadêmico, não será necessário acesso aos sistemas oficiais, pois serão utilizados exclusivamente dados fictícios.",
+    "base_periodo": "Período de janeiro a dezembro de 2025, utilizando como referência 12.000 alíquotas de contraprovas de entorpecentes provenientes do interior (média de 1.000/mês), além da produção da capital, estimada em 500 alíquotas mensais por perito. Como indicador complementar, foram registrados 13.558 laudos laboratoriais entre janeiro e novembro de 2025. Os tempos operacionais de custódia ainda precisam ser mensurados.",
+    "campos_data": "O sistema Atena registra informações de tramitação dos procedimentos periciais e permite a emissão dos Autos de Entrega da Devolução, posteriormente assinados e digitalizados. Existem registros de recebimento, encaminhamento e devolução dos materiais, porém é necessário verificar quais possuem data e horário efetivamente disponíveis. Ainda não há confirmação de registros suficientes para calcular o tempo de espera, conferência, localização e armazenamento das contraprovas em horas. Esses tempos deverão ser medidos durante o diagnóstico operacional.",
+    "hospedagem_escolhida": "GitHub Pages, com aplicação em arquivo HTML único, contendo CSS, JavaScript e dados fictícios em JSON. A escolha permite acesso ao protótipo por navegador, sem custos de hospedagem ou necessidade de servidor próprio. É suficiente para demonstrar cadastro, classificação, endereçamento e previsão de ocupação, sem integração com sistemas oficiais. A solução institucional futura exigirá ambiente seguro e infraestrutura própria ou corporativa autorizada.",
+    "conta_quem": "A responsável pelo projeto acadêmico criará ou utilizará uma conta pessoal no GitHub para publicar o protótipo no GitHub Pages, utilizando o endereço gratuito fornecido pela plataforma. O acesso será por link, exclusivamente para demonstração com dados fictícios. A futura implantação institucional dependerá da equipe de TI e das autorizações da gestão da POLITEC/MT, com autenticação individual e controle de permissões.",
+    "orcamento": "Custo estimado de R$ 0,00 para o MVP acadêmico, utilizando HTML, CSS, JavaScript e hospedagem gratuita no GitHub Pages, sem contratação de licenças, servidores ou APIs pagas. O desenvolvimento utilizará ferramentas gratuitas e dados fictícios. A implantação institucional futura exigirá orçamento específico para infraestrutura tecnológica, integração com o Atena, equipamentos, segurança da informação e manutenção.",
+    "restricoes": "A solução deve respeitar os artigos 158-A a 158-F do Código de Processo Penal, os procedimentos institucionais de cadeia de custódia e as exigências específicas de conservação dos vestígios. O acesso a dados e sistemas oficiais depende de autorização institucional. A IA não poderá substituir a conferência física, as decisões técnicas ou as autorizações legais para movimentação e descarte. O MVP utilizará exclusivamente dados fictícios, sem integração com o Atena ou operações reais de custódia. A implantação definitiva dependerá de infraestrutura, orçamento, validação jurídica e segurança da informação.",
+    "hipotese_campo": "A centralização da custódia pós-pericial, associada ao endereçamento inteligente e à previsão de ocupação dos contêineres, reduzirá o tempo de localização e movimentação dos vestígios, melhorando a rastreabilidade e o planejamento da capacidade de armazenamento.",
+    "lacunas": "Ainda não foram identificados dados consolidados sobre o volume total de vestígios pós-processamento devolvidos às delegacias, o tempo médio de recebimento, conferência, localização e movimentação dos materiais, a capacidade atual de armazenamento e os custos logísticos da custódia descentralizada. Também precisam ser definidos os requisitos técnicos de capacidade dos contêineres e validados os critérios legais de destinação por categoria. Os ganhos estimados de automação são hipotéticos e deverão ser avaliados por meio de medições operacionais e testes do MVP.",
+    "apoio": "Preciso do apoio da chefia do Laboratório Forense e da Coordenadoria de Custódia de Evidências para validar o fluxo de custódia, as categorias de vestígios e as necessidades de armazenamento. A equipe de TI poderá orientar sobre segurança, integração futura com o Atena e infraestrutura institucional. Também será necessária a participação de servidores da custódia para medir tempos operacionais, mediante autorização. O MVP acadêmico poderá ser desenvolvido independentemente dessas liberações, utilizando dados fictícios.",
+    "aprendizado": "Preciso aprofundar conhecimentos em modelagem de processos, desenvolvimento básico com HTML, CSS e JavaScript, publicação no GitHub Pages, estruturação de dados em JSON, criação de regras de classificação e endereçamento, indicadores de ocupação e métodos simples de previsão de demanda. Também será necessário aprender a testar o protótipo, identificar erros e avaliar os resultados das métricas propostas.",
+    "frase": "Se o endereçamento inteligente reduzir em 60% o tempo de localização dos vestígios, a Central de Custódia Definitiva poderá agilizar a recuperação dos materiais, melhorar a rastreabilidade e tornar mais eficiente a gestão do acervo pericial.",
+    "provas": "1. O Código de Processo Penal, nos artigos 158-A a 158-F, estabelece requisitos para a cadeia de custódia, incluindo armazenamento e rastreabilidade dos vestígios. 2. Em 2025, o Laboratório Forense recebeu aproximadamente 12.000 alíquotas de contraprovas provenientes do interior, evidenciando demanda expressiva de armazenamento. 3. Atualmente, parte dos materiais pós-periciais é devolvida às delegacias e as contraprovas permanecem sob guarda do Laboratório, demonstrando a descentralização da custódia e a necessidade de planejamento para sua futura centralização.",
+    "piloto": "Realizarei um piloto demonstrativo de 90 dias, utilizando um MVP com dados fictícios para testar cadastro, classificação, endereçamento, localização e previsão de ocupação dos contêineres. Serão comparados os tempos de localização e registro, a precisão das regras de armazenamento e a capacidade de antecipar a saturação. Havendo autorização institucional, serão coletadas medições operacionais reais para comparação com as metas hipotéticas.",
+    "risco_defesa": "O maior risco é a classificação ou o endereçamento inadequado dos vestígios, comprometendo sua conservação e rastreabilidade. Para mitigá-lo, serão estabelecidas regras de compatibilidade por categoria, capacidade e condições de armazenamento, com validação humana obrigatória. O MVP utilizará apenas dados fictícios e não realizará movimentações físicas, transferências ou descartes reais."
+  },
+  "marcados": {
+    "afetado": [
+      "Unidade parceira"
+    ],
+    "evid": [
+      "Entrevista com a equipe",
+      "Pesquisa externa",
+      "Documento ou norma oficial",
+      "Medida feita pela equipe"
+    ],
+    "stack": "HTML único (CSS/JS inline), dados em JSON embutido, GitHub Pages",
+    "req": [
+      "LGPD e dado pessoal",
+      "Segurança e controle de acesso",
+      "Acessibilidade",
+      "Funcionar offline",
+      "Integração com sistema oficial",
+      "Trilha de auditoria"
+    ]
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "etapa": "Coleta do vestígio",
+        "papel": "Perito / agente competente",
+        "entra": "Vestígio no local de crime",
+        "acao": "Coleta, identifica e acondiciona",
+        "sai": "Vestígio lacrado",
+        "sistema": "RNC / registros",
+        "regra": "Preservação e integridade",
+        "espera": "Local de coleta / transporte",
+        "tempo": "0,50",
+        "auto": "Pouco"
+      },
+      {
+        "etapa": "Requisição pericial",
+        "papel": "Autoridade requisitante",
+        "entra": "Vestígio e dados do procedimento",
+        "acao": "Solicita exame específico",
+        "sai": "Requisição e material encaminhado",
+        "sistema": "Requisição / Atena",
+        "regra": "Competência e tipo de exame",
+        "espera": "Unidade requisitante / transporte",
+        "tempo": "0,25",
+        "auto": "Sim, com apoio humano"
+      },
+      {
+        "etapa": "Recebimento",
+        "papel": "Servidor do Laboratório",
+        "entra": "Vestígio e requisição",
+        "acao": "Confere material, lacre e documentos",
+        "sai": "Material recebido ou pendência registrada",
+        "sistema": "Atena / RNC",
+        "regra": "Conformidade da entrega",
+        "espera": "Área de recebimento",
+        "tempo": "0,25",
+        "auto": "Sim, com apoio humano"
+      },
+      {
+        "etapa": "Registro e distribuição",
+        "papel": "Equipe administrativa / técnica",
+        "entra": "Material recebido",
+        "acao": "Registra e encaminha ao setor competente",
+        "sai": "Material distribuído",
+        "sistema": "Atena",
+        "regra": "Especialidade pericial",
+        "espera": "Fila do setor técnico",
+        "tempo": "0,17",
+        "auto": "Sim, com regra clara"
+      },
+      {
+        "etapa": "Processamento pericial",
+        "papel": "Perito criminal",
+        "entra": "Vestígio e requisição",
+        "acao": "Realiza exames e análises",
+        "sai": "Resultado técnico e material remanescente",
+        "sistema": "Registros técnicos / Atena",
+        "regra": "Método e protocolo pericial",
+        "espera": "Fila de exames",
+        "tempo": "0,50",
+        "auto": "Pouco"
+      },
+      {
+        "etapa": "Emissão do laudo",
+        "papel": "Perito criminal",
+        "entra": "Resultados dos exames",
+        "acao": "Elabora, revisa e assina laudo",
+        "sai": "Laudo pericial",
+        "sistema": "Atena / laudo",
+        "regra": "Validação técnica do perito",
+        "espera": "Fila de elaboração / revisão",
+        "tempo": "0,50",
+        "auto": "Sim, com apoio humano"
+      },
+      {
+        "etapa": "Separação pós-exame",
+        "papel": "Equipe técnica",
+        "entra": "Material processado",
+        "acao": "Separa vestígios remanescentes e contraprovas",
+        "sai": "Materiais para destinos distintos",
+        "sistema": "RNC / registros",
+        "regra": "Natureza e destinação",
+        "espera": "Setor técnico",
+        "tempo": "0,17",
+        "auto": "Pouco"
+      },
+      {
+        "etapa": "Preparação da devolução",
+        "papel": "Equipe do Laboratório",
+        "entra": "Vestígios remanescentes",
+        "acao": "Confere, acondiciona e registra saída",
+        "sai": "Material para devolução",
+        "sistema": "Atena / RNC",
+        "regra": "Identificação e integridade",
+        "espera": "Área de expedição",
+        "tempo": "0,25",
+        "auto": "Sim, com apoio humano"
+      },
+      {
+        "etapa": "Devolução à autoridade",
+        "papel": "Servidor / transportador autorizado",
+        "entra": "Vestígio e documentação",
+        "acao": "Entrega e registra transferência",
+        "sai": "Vestígio sob guarda policial",
+        "sistema": "RNC / comprovante",
+        "regra": "Identificação do recebedor",
+        "espera": "Aguarda retirada / transporte",
+        "tempo": "0,25",
+        "auto": "Pouco"
+      },
+      {
+        "etapa": "Preparação da contraprova",
+        "papel": "Perito / equipe técnica",
+        "entra": "Alíquota ou material biológico",
+        "acao": "Identifica e acondiciona",
+        "sai": "Contraprova preparada",
+        "sistema": "Registros / etiquetas",
+        "regra": "Requisitos de conservação",
+        "espera": "Setor técnico",
+        "tempo": "0,17",
+        "auto": "Pouco"
+      },
+      {
+        "etapa": "Recebimento na custódia",
+        "papel": "Núcleo de Custódia",
+        "entra": "Contraprova e registros",
+        "acao": "Confere, registra e recebe",
+        "sai": "Contraprova custodiada",
+        "sistema": "Atena / controles internos",
+        "regra": "Integridade e identificação",
+        "espera": "Fila de recebimento",
+        "tempo": "0,25",
+        "auto": "Sim, com apoio humano"
+      },
+      {
+        "etapa": "Armazenamento",
+        "papel": "Núcleo de Custódia",
+        "entra": "Contraprova recebida",
+        "acao": "Organiza e armazena conforme categoria",
+        "sai": "Material localizado na custódia",
+        "sistema": "Controle de localização",
+        "regra": "Conservação e segurança",
+        "espera": "Sala / contêiner refrigerado",
+        "tempo": "0,17",
+        "auto": "Sim, com apoio humano"
+      }
+    ],
+    "tToBe": [
+      {
+        "etapa": "Coleta e requisição pericial",
+        "muda": "Mantidos os procedimentos legais e técnicos de origem.",
+        "quem": "A pessoa, sem mudança",
+        "beneficio": "Preservação da cadeia de custódia.",
+        "esforco": "Baixo"
+      },
+      {
+        "etapa": "Recebimento e processamento pericial",
+        "muda": "Mantidos os exames, conferências técnicas e emissão dos laudos.",
+        "quem": "A pessoa, sem mudança",
+        "beneficio": "Continuidade e segurança dos procedimentos periciais.",
+        "esforco": "Baixo"
+      },
+      {
+        "etapa": "Preparação pós-processamento",
+        "muda": "Vestígios remanescentes e contraprovas passam a ser destinados à Central, conforme regras aplicáveis.",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Padronização do encaminhamento e redução de inconsistências.",
+        "esforco": "Médio"
+      },
+      {
+        "etapa": "Cadastro e classificação dos materiais",
+        "muda": "Sistema identifica categorias e sugere condições de armazenamento.",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Melhor organização e menor retrabalho.",
+        "esforco": "Médio"
+      },
+      {
+        "etapa": "Encaminhamento à Central",
+        "muda": "Substituição do fluxo rotineiro de devolução às delegacias pelo encaminhamento à Central.",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Concentração da custódia institucional e rastreabilidade.",
+        "esforco": "Alto"
+      },
+      {
+        "etapa": "Recebimento na Central",
+        "muda": "Conferência física e validação dos registros de transferência de custódia.",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Maior controle de entrada e identificação dos responsáveis.",
+        "esforco": "Médio"
+      },
+      {
+        "etapa": "Endereçamento inteligente",
+        "muda": "Sistema sugere contêiner e posição conforme categoria, compatibilidade e capacidade.",
+        "quem": "A máquina (automação)",
+        "beneficio": "Otimização da ocupação e localização dos materiais.",
+        "esforco": "Alto"
+      },
+      {
+        "etapa": "Armazenamento físico",
+        "muda": "Materiais são acondicionados e movimentados em estruturas apropriadas.",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Segurança, conservação e organização logística.",
+        "esforco": "Alto"
+      },
+      {
+        "etapa": "Monitoramento de ocupação",
+        "muda": "Sistema acompanha entradas, saídas, capacidade e tendências de crescimento.",
+        "quem": "A máquina (automação)",
+        "beneficio": "Previsão de saturação e planejamento de expansão.",
+        "esforco": "Alto"
+      },
+      {
+        "etapa": "Localização e consulta",
+        "muda": "Pesquisa digital por identificação, categoria, lacre e endereço.",
+        "quem": "A máquina (automação)",
+        "beneficio": "Redução do tempo de busca e recuperação de informações.",
+        "esforco": "Médio"
+      },
+      {
+        "etapa": "Controle de elegibilidade para descarte",
+        "muda": "Sistema sinaliza materiais potencialmente aptos à destinação conforme critérios legais cadastrados.",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Apoio à gestão do acervo e planejamento da capacidade.",
+        "esforco": "Alto"
+      },
+      {
+        "etapa": "Autorização e execução do descarte",
+        "muda": "Decisão competente e execução supervisionada, com registros de custódia.",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Destinação legalmente adequada e auditável.",
+        "esforco": "Médio"
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "Autoridade requisitante",
+        "quem": "Delegado ou autoridade competente",
+        "ve": "Requisição, protocolo e laudo autorizado",
+        "faz": "Requisita exames, encaminha e retira vestígios",
+        "naofaz": "Alterar laudos ou registros técnicos",
+        "registro": "Requisição, identificação e movimentações"
+      },
+      {
+        "papel": "Recebedor / protocolo",
+        "quem": "Servidor responsável pelo recebimento",
+        "ve": "Requisições, identificação, lacres e situação do material",
+        "faz": "Confere, recebe, registra e encaminha",
+        "naofaz": "Alterar conclusões periciais ou autorizar descarte",
+        "registro": "Recebimento, data, responsável e protocolo"
+      },
+      {
+        "papel": "Perito criminal",
+        "quem": "Profissional responsável pelo exame",
+        "ve": "Requisição, vestígios, exames e registros pertinentes",
+        "faz": "Realiza exames, produz laudo e separa contraprovas",
+        "naofaz": "Alterar registros de custódia sem justificativa ou autorização",
+        "registro": "Exames, laudos, autoria e tramitação"
+      },
+      {
+        "papel": "Núcleo de Custódia",
+        "quem": "Servidores responsáveis pela guarda das contraprovas",
+        "ve": "Identificação, localização, lacres e movimentações",
+        "faz": "Recebe, confere, armazena e disponibiliza material autorizado",
+        "naofaz": "Retirar, transferir ou descartar sem autorização",
+        "registro": "Entradas, saídas, responsáveis e localização"
+      },
+      {
+        "papel": "Responsável pela devolução",
+        "quem": "Servidor designado para entrega",
+        "ve": "Protocolo, vestígios, lacres e Auto de Entrega",
+        "faz": "Confere e entrega o material, coleta assinaturas e digitaliza o auto",
+        "naofaz": "Entregar material sem conferência e identificação do recebedor",
+        "registro": "Auto de Entrega, lacres e documento digitalizado"
+      },
+      {
+        "papel": "Gestor da unidade",
+        "quem": "Chefia ou gerência responsável",
+        "ve": "Indicadores, procedimentos e registros conforme perfil",
+        "faz": "Supervisiona fluxos, acompanha pendências e organiza recursos",
+        "naofaz": "Alterar laudos ou suprimir registros de auditoria",
+        "registro": "Ações de gestão e alterações realizadas"
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "",
+        "rota": "",
+        "objetivo": "",
+        "usuario": "",
+        "dados": "",
+        "acao": "",
+        "regra": "",
+        "tipo": "",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "Vestígio",
+        "representa": "Material pericial cadastrado",
+        "colunas": "id_vestigio: texto, protocolo: texto, lacre: texto, categoria_id: texto, data_entrada: data, status: texto, volume_ocupado: decimal",
+        "chave": "id_vestigio",
+        "volume": "30 registros",
+        "origem": "Cadastro fictício",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "Categoria",
+        "representa": "Classificação e conservação",
+        "colunas": "id_categoria: texto, nome: texto, tipo_conservacao: texto, restricao: texto",
+        "chave": "id_categoria",
+        "volume": "5 categorias",
+        "origem": "Regras técnicas exemplificativas",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "Contêiner",
+        "representa": "Unidade física de armazenamento",
+        "colunas": "id_conteiner: texto, categoria_permitida: texto, capacidade: decimal, ocupacao: decimal, status: texto",
+        "chave": "id_conteiner",
+        "volume": "5 contêineres",
+        "origem": "Estrutura simulada",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "Localização",
+        "representa": "Endereço do vestígio",
+        "colunas": "id_localizacao: texto, vestigio_id: texto, conteiner_id: texto, posicao: texto, data_alocacao: data",
+        "chave": "id_localizacao",
+        "volume": "30 registros",
+        "origem": "Endereçamento simulado",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "Movimentação",
+        "representa": "Histórico de entradas e saídas",
+        "colunas": "id_movimentacao: texto, vestigio_id: texto, tipo: texto, data_hora: data/hora, responsavel_id: texto, origem: texto, destino: texto",
+        "chave": "id_movimentacao",
+        "volume": "60 registros",
+        "origem": "Movimentações fictícias",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "Usuário",
+        "representa": "Perfil de acesso ao sistema",
+        "colunas": "id_usuario: texto, nome: texto, perfil: texto, matricula: texto, ativo: booleano",
+        "chave": "id_usuario",
+        "volume": "5 usuários",
+        "origem": "Identidades fictícias",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "Histórico mensal",
+        "representa": "Base para previsão de ocupação",
+        "colunas": "id_periodo: texto, mes: data, entradas: inteiro, saidas: inteiro, ocupacao_final: decimal",
+        "chave": "id_periodo",
+        "volume": "12 meses",
+        "origem": "Série histórica simulada",
+        "sintetico": "Sim"
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "",
+        "regra": "",
+        "quando": "",
+        "excecao": "",
+        "valida": "",
+        "tipo": "",
+        "rm": ""
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "",
+        "tipo": "",
+        "onde": "",
+        "existe": "",
+        "acesso": "",
+        "linha": "",
+        "volume": "",
+        "historico": "",
+        "campos": "",
+        "atualiza": "",
+        "lgpd": "",
+        "obs": "",
+        "rm": ""
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "",
+        "pergunta": "",
+        "formula": "",
+        "fonte": "",
+        "gran": "",
+        "base": "",
+        "esperado": "",
+        "medir": "",
+        "quem": "",
+        "rm": ""
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "",
+        "tipo": "",
+        "onde": "",
+        "custo": "",
+        "mantem": "",
+        "acesso": "",
+        "banco": "",
+        "escala": "",
+        "limite": "",
+        "rm": ""
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "Concluir diagnóstico e requisitos",
+        "data": "06/11/2026",
+        "resp": "Responsável pelo projeto",
+        "dep": "Formulário e mapeamento AS-IS",
+        "sit": "em andamento"
+      },
+      {
+        "marco": "Preparar dados fictícios e regras",
+        "data": "13/11/2026",
+        "resp": "Responsável pelo projeto",
+        "dep": "Definição de categorias e capacidade",
+        "sit": "planejado"
+      },
+      {
+        "marco": "Desenvolver MVP em HTML",
+        "data": "27/11/2026",
+        "resp": "Responsável pelo projeto",
+        "dep": "Dados e regras definidos",
+        "sit": "planejado"
+      },
+      {
+        "marco": "Publicar protótipo no GitHub Pages",
+        "data": "04/12/2026",
+        "resp": "Responsável pelo projeto",
+        "dep": "MVP funcional e testes básicos",
+        "sit": "planejado"
+      },
+      {
+        "marco": "Testar cadastro, localização e ocupação",
+        "data": "18/12/2026",
+        "resp": "Responsável pelo projeto",
+        "dep": "Protótipo publicado",
+        "sit": "planejado"
+      },
+      {
+        "marco": "Levantar linha de base operacional",
+        "data": "15/01/2027",
+        "resp": "Equipe da custódia, se autorizada",
+        "dep": "Autorização e disponibilidade",
+        "sit": "planejado"
+      },
+      {
+        "marco": "Avaliar resultados e apresentar proposta",
+        "data": "29/01/2027",
+        "resp": "Responsável pelo projeto",
+        "dep": "Testes e indicadores consolidados",
+        "sit": "planejado"
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "Dados operacionais insuficientes",
+        "prob": "Alta",
+        "imp": "Alto",
+        "mit": "Medir amostra de operações e declarar limitações"
+      },
+      {
+        "risco": "Regras de conservação inadequadas",
+        "prob": "Média",
+        "imp": "Alto",
+        "mit": "Validar categorias e restrições com especialistas"
+      },
+      {
+        "risco": "Previsão de ocupação imprecisa",
+        "prob": "Alta",
+        "imp": "Médio",
+        "mit": "Usar cenários fictícios e comparar projeções"
+      },
+      {
+        "risco": "Falhas de cadastro ou endereçamento",
+        "prob": "Média",
+        "imp": "Alto",
+        "mit": "Validar campos, compatibilidade e capacidade"
+      },
+      {
+        "risco": "Exposição de dados institucionais",
+        "prob": "Baixa",
+        "imp": "Alto",
+        "mit": "Usar exclusivamente dados fictícios"
+      },
+      {
+        "risco": "Dificuldade de desenvolvimento",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "Priorizar funcionalidades essenciais em HTML"
+      },
+      {
+        "risco": "Atraso na autorização institucional",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "Separar MVP acadêmico da coleta de dados reais"
+      }
+    ],
+    "tRefs": [
+      {
+        "n": "",
+        "ref": "",
+        "tipo": "",
+        "fonte": "",
+        "ano": "",
+        "dado": "",
+        "uso": "",
+        "conferido": "",
+        "rm": ""
+      }
+    ]
+  }
+}

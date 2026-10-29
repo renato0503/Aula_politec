@@ -1,0 +1,276 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-28T12:35:46.701Z",
+  "campos": {
+    "data": "2026-10-28",
+    "aluno": "João Lucas Nogueira Ponce",
+    "unidade": "Coordenadoria de qualidade  ",
+    "contato": "joaoponce@politec.mt.gov.br",
+    "nome_projeto": "visão geral dos equipamentos no estado com google heart",
+    "tipo_projeto": "Outro",
+    "resumo": "O projeto armazena fotos e dados de equipamentos — incluindo custos e históricos de manutenção —, além de calcular o impacto e o custo de parada por defeito na filial e na diretoria para apoiar a tomada de decisão. A visualização é feita via Google Earth, mapeando o estado e exibindo a localização exata de cada ativo.",
+    "problema": "Nem todos equipamentos possuem contrato de manutenção o intuito dessa solução e mensurar qual e o impacto se esse equipamento que parar precisar de uma manutenção.",
+    "hoje": "acredito que não e feito um acompanhamento via alguma ferramenta.",
+    "impacto": "Tem equipamentos se parar para o setor inteiro.",
+    "limite": "Acredito que não temos esse impedimento para automações ",
+    "asis_inicio": "Não tem ",
+    "asis_fim": "Não tem ",
+    "asis_entradas": "Documentos comprovantes de manutenções ",
+    "asis_saidas": "Laudo e a carteira de identidade ",
+    "asis_duracao": "500",
+    "asis_volume": "200",
+    "asis_frequencia": "Mensal",
+    "coletar": "Bastante coisa não existe ",
+    "acesso": "Sem informação ",
+    "base_periodo": "Sem informação ",
+    "campos_data": "Sem informação ",
+    "hospedagem_escolhida": "sim tem que ser ",
+    "conta_quem": "Sem informação ",
+    "orcamento": "Sem informação ",
+    "restricoes": "Sem informação ",
+    "hipotese_campo": "Sem informação ",
+    "lacunas": "Sem informação ",
+    "apoio": "Minha Coordenadora e bem acessível ",
+    "aprendizado": "Modelagem de processo ",
+    "frase": "Sem informação",
+    "provas": "Sem informação ",
+    "piloto": "Piloto de 30 dias ",
+    "risco_defesa": "Sem informação ",
+    "doc_descricao": "Sem informação ",
+    "doc_faltando": "Sem informação ",
+    "stack_detalhe": "Rodar na minha maquina local ",
+    "lgpd_retencao": "Sem informação ",
+    "lgpd_base": "Sem informação ",
+    "lgpd_acesso": "Sem informação ",
+    "lgpd_dados": "(removido: dado pessoal)",
+    "mvp_reuso": "Sem informação ",
+    "mvp_dados": "sem informação ",
+    "mvp_criterio": "Sem informação ",
+    "mvp_mock": "Sem informação ",
+    "mvp_tela_inicial": "Sem informação ",
+    "mvp_objetivo": "Sem informação ",
+    "mvp_naofaz": "Sem informação ",
+    "fora": "Sem informação ",
+    "dentro": "Sem informação ",
+    "entrega": "Sem informação ",
+    "tobe_piloto": "Sem informação ",
+    "tobe_restricao": "Sem informação ",
+    "tobe_inalterado": "Sem informação ",
+    "tobe_mudanca": "Sem informação ",
+    "tobe_visao": "Sem informação ",
+    "papeis_obs": "Sem informação ",
+    "asis_digital": "Sem informação ",
+    "asis_excecoes": "Sem informação ",
+    "asis_decisoes": "Sem informação "
+  },
+  "marcados": {
+    "afetado": [
+      "Cidadão externo",
+      "Servidor da unidade",
+      "Equipe interna",
+      "Unidade parceira",
+      "Chefia",
+      "Autoridade"
+    ],
+    "evid": [
+      "Entrevista com a equipe"
+    ],
+    "stack": "Python (script, Flask ou similar)",
+    "req": [
+      "Acessibilidade"
+    ]
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "1",
+        "papel": "1",
+        "entra": "1",
+        "acao": "1",
+        "sai": "1",
+        "sistema": "1",
+        "regra": "1",
+        "espera": "1",
+        "tempo": "1",
+        "auto": "Não",
+        "rm": ""
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "1",
+        "muda": "1",
+        "quem": "A máquina (automação)",
+        "beneficio": "1",
+        "esforco": "Baixo",
+        "rm": ""
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "1",
+        "quem": "1",
+        "ve": "1",
+        "faz": "1",
+        "naofaz": "1",
+        "registro": "1",
+        "rm": ""
+      },
+      {
+        "papel": "1",
+        "quem": "1",
+        "ve": "1",
+        "faz": "1",
+        "naofaz": "1",
+        "registro": "1",
+        "rm": ""
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "1",
+        "rota": "1",
+        "objetivo": "1",
+        "usuario": "1",
+        "dados": "1",
+        "acao": "1",
+        "regra": "1",
+        "tipo": "Tela",
+        "verificacao": "1",
+        "mvp": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "1",
+        "rota": "1",
+        "objetivo": "1",
+        "usuario": "1",
+        "dados": "1",
+        "acao": "1",
+        "regra": "1",
+        "tipo": "Tela",
+        "verificacao": "1",
+        "mvp": "",
+        "rm": ""
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "1",
+        "representa": "1",
+        "colunas": "1",
+        "chave": "1",
+        "volume": "1",
+        "origem": "1",
+        "sintetico": "Sim",
+        "rm": ""
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "1",
+        "regra": "1",
+        "quando": "1",
+        "excecao": "1",
+        "valida": "1",
+        "tipo": "Validação",
+        "rm": ""
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "1",
+        "tipo": "Planilha local",
+        "onde": "1",
+        "existe": "Parcialmente",
+        "acesso": "1",
+        "linha": "1",
+        "volume": "1",
+        "historico": "1",
+        "campos": "1",
+        "atualiza": "1",
+        "lgpd": "Não",
+        "obs": "1",
+        "rm": ""
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "1",
+        "pergunta": "1",
+        "formula": "1",
+        "fonte": "1",
+        "gran": "Mês",
+        "base": "1",
+        "esperado": "1",
+        "medir": "",
+        "quem": "1",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "1",
+        "pergunta": "1",
+        "formula": "1",
+        "fonte": "1",
+        "gran": "",
+        "base": "1",
+        "esperado": "1",
+        "medir": "1",
+        "quem": "1",
+        "rm": ""
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "1",
+        "tipo": "Arquivo local",
+        "onde": "1",
+        "custo": "1",
+        "mantem": "1",
+        "acesso": "1",
+        "banco": "1",
+        "escala": "1",
+        "limite": "1",
+        "rm": ""
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "1",
+        "data": "1",
+        "resp": "1",
+        "dep": "1",
+        "sit": "Atrasado",
+        "rm": ""
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "1",
+        "prob": "Alta",
+        "imp": "Baixo",
+        "mit": "1",
+        "rm": ""
+      }
+    ],
+    "tRefs": [
+      {
+        "n": "",
+        "ref": "1",
+        "tipo": "Norma ou lei",
+        "fonte": "1",
+        "ano": "1",
+        "dado": "1",
+        "uso": "1",
+        "conferido": "Sim",
+        "rm": ""
+      }
+    ]
+  }
+}

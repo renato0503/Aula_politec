@@ -211,6 +211,63 @@ Glifos de atividade: `glyph="human"` (pessoa) ou `glyph="bot"` (robo = automatiz
 > **Regra**: ao acrescentar uma figura SVG, confira que nada sai do `viewBox`
 > (texto cortado) e que nenhum rotulo colide. Renderize com Playwright e olhe.
 
+### 3.8 Apps dos grupos (`Apps/`)
+
+A partir da Aula 8, cada projeto entregue no formulario ganha uma pasta em
+`Apps/<slug-do-projeto>/`. O material do curso continua em `Aula N/`; o codigo
+dos mini apps fica em `Apps/`.
+
+Regras:
+
+- uma pasta por grupo, com `README.md`, `PROJETO.md`, `contexto.md`, `sprint.md`,
+  `projeto.json`, `envio-original.json`, `app.json`, `src/` e `exemplos/`;
+- `envio-original.json` nunca e editado; `projeto.json` e a versao completada
+  pelo professor e `PROJETO.md` e gerado a partir dele;
+- app = **um unico `index.html`** (CSS, JS, libs e dados embutidos), offline
+  first, IndexedDB e backup `.json`. A excecao e `agendamento-cin`, servido pelo
+  Google Apps Script porque a agenda publica precisa de fonte unica de vagas;
+- **edite as fontes, nunca o `index.html`**: ele e gerado por
+  `Apps/_base/construir.py` a partir de `_base/base.html` + `_base/js_comum.js`
+  + `<app>/app.json` + `<app>/src/*.js` (o `app.js` primeiro, depois
+  `sprint1.js`, `sprint2.js`...);
+- os dados ficticios tem semente fixa e vivem em `<app>/exemplos/seed.json`,
+  gerados por `<app>/exemplos/gerar_exemplos.py`;
+- bibliotecas de terceiros ficam em `<app>/vendor/`, com versao e SHA-256 em
+  `VERSOES.md`.
+
+Ferramentas (em `Apps/_base/`):
+
+| Arquivo | O que faz |
+|---|---|
+| `base.html` | Base comum: tema claro/escuro, roteador por hash, IndexedDB, perfis, backup, carga dos dados ficticios e a tela `#/testes`. |
+| `construir.py` | Gera o `index.html` de cada app. Uso: `python Apps/_base/construir.py` (todos) ou `python Apps/_base/construir.py <app>`. |
+| `js_comum.js` | Tela de configuracao e testes comuns a todos os apps. |
+| `embutir.py` | Copia `vendor/*.js` e os JSON de dados para dentro do `index.html`, entre os marcadores `<!-- LIB:... -->` e `<!-- DADOS:... -->`. |
+| `testar.py` | Abre cada app no Chromium e confere zero requisicao de rede, `#/testes` 100%, todas as rotas, dados ficticios, persistencia e tema. |
+| `testar_sprints.py` | Um cenario de interface por sprint: usa a tela como uma pessoa usaria e confere o "Pronto quando" do `sprint.md`. Os cenarios do Sprint 3 em diante ficam em `Apps/_base/cenarios/sprintN.py`. |
+| `equipes.py` | Grava o login do GitHub de um aluno em `equipes.json` e refaz a tabela "Equipes e GitHub" do `Apps/README.md`. Uso: `python Apps/_base/equipes.py <app> "<nome>" <login>`. |
+| `equipes.json` | Fonte dos logins (um repositorio por app). |
+| `Aula 8/Entregas/` | Respostas originais dos alunos (JSON/MD) e os `.pbix` da turma. |
+
+Sequencia ao mexer num app:
+
+```powershell
+python Apps/_base/construir.py <app>                  # gera o index.html
+python Apps/_base/testar.py <app>                     # estrutura
+python Apps/_base/testar_sprints.py <app>             # cenario de cada sprint
+node Apps/agendamento-cin/testes/testar_code_gs.js    # apenas o agendamento
+```
+
+Estado (29/10/2026): **19 apps**. Os 12 primeiros estao com os Sprints 1, 2 e 3
+feitos; os 7 novos (`custodia-definitiva`, `passivo-ambiental`,
+`renovacao-contratos-horus`, `documentapolitec`, `gestao-documentos`,
+`controle-aquisicoes` e `distribuicao-casos-dna`) estao com os Sprints 1 e 2.
+Todos tem a parte tecnica do Sprint 0 (dados ficticios, bibliotecas, modelos).
+Os itens do Sprint 0 que dependem de pessoas (autorizacoes, amostras reais,
+linha de base) continuam abertos no `sprint.md` de cada app. Os cenarios do
+Sprint 2 dos apps novos ficam em `Apps/_base/cenarios/sprint2.py`; os do Sprint
+3 em diante, em `cenarios/sprintN.py`. Detalhes em `Apps/README.md`.
+
 ### 3.4 Estado do documento
 
 ```python
@@ -574,6 +631,8 @@ Melhorias pendentes:
 | Aula 7 — gargalo medido, automacao e Antigravity | Criados **5 datasets novos** em `Aula 7/datasets/cenarioN_*/`, com o mesmo schema da Aula 6 (`fato_execucao` = 1 execucao de etapa) e **58.408 execucoes** no total: (1) Apreensao e pericia de armas (11.312, gargalo = prova de fogo, 40,3%), (2) Sinistro de transito (11.336, gargalo = documentos, 35,7%), (3) Credenciamento de peritos (10.152, gargalo = curriculo, 31,3%), (4) Etilometria (12.176, gargalo = auto de infracao, 28,9%), (5) Atendimento e ouvidoria (13.432, gargalo = instrucao, 35,5%). A espera ocupa 92,1% a 97,2% do tempo dos cinco processos. Geradores: `Aula 7/gerar_datasets_aula7.py` (semente fixa 20261027) e `Aula 7/gerar_excel_aula7.py`. Caderno `Aula 7/gerar_caderno_aula7.py` com **68 secoes em 12 partes**: Abertura, 5 cenarios (cada um com 4 secoes: contexto medido, receita de 8 blocos e 96 passos, as 11 medidas DAX e a leitura do painel), analise comparada dos 5 gargalos, gargalo x automacao e digitalizacao (catalogo de 10 intervencoes, matriz, ganho, business case, roadmap), proposta de solucao com TO-BE em Mermaid para cada cenario, **aulão de Antigravity** (11 secoes, botao por botao), **GitHub conectado pelo navegador** (comandos `gh`), 8 labs e fechamento. PDF com **135 paginas** (`python exportar_pdf.py 7`). |
 
 | Aula 8 — fase de ideacao e prototipacao (Firestore, plano Spark) | Criada a pasta `Aula 8/` com o material da fase: `formulario-ideacao.html` (formulario em **14 blocos**: identificacao, problema, **AS-IS** com tabela de etapas — quem faz, o que entra, acao, o que sai, sistema, regra, onde espera, tempo, automatizavel —, **papeis** com o que cada um ve e faz, **TO-BE** com a tabela de etapas futuras (maquina, pessoa assistida ou pessoa), **escopo e MVP minimo** (o que faz e o que nao faz, telas com rota `#/painel`, criterio de aceite, dados de exemplo), **entidades e colunas**, **regras de negocio RN01**, **LGPD**, **stack**, **fontes de dados**, **KPIs** com linha de base e valor esperado, **hospedagem** (opcoes, custo, quem mantem, limitacao), pesquisa de apoio com fontes, marcos e riscos, defesa e **upload de documentos**), `index.html` (o **hub**: um cartao por projeto, busca, filtros, indicadores de completude e CSV), `app.html` (pagina do projeto com 15 secoes, download dos arquivos e **prompts de Mermaid** preenchidos), `prompt-bpmn-mermaid.md` (o papel (role) de Mermaid/BPMN com as convencoes e os tres comandos: AS-IS, TO-BE e TO-BE com automacao), `firestore.rules`, `firebase-config.js` (fallback de versao do SDK), `formulario-ideacao.md` e `template-metricas.md`. O formulario **exporta o `PROJETO.md`** nas 9 secoes (problema, objetivo do MVP, papeis, dados, regras, telas, KPIs, stack, restricoes e LGPD) com os anexos A a E, **importa o `.md` e o `.json`** para continuar de onde parou, e em todas as **12 tabelas** oferece **copiar modelo, copiar tabela e colar tudo de uma vez** (TAB do Excel, ponto e virgula, dois espacos ou tabela Markdown), com distribuicao por nome de coluna. O envio valida: nao envia formulario vazio, avisa as pendencias antes de enviar e oferece **envio por e-mail** quando o Firebase esta bloqueado. Projeto no **plano Spark**: so Firestore, sem Storage; cada arquivo vira um documento na colecao `ideacao_arquivos`, em base64, com limite de 600 KB. Publicado no GitHub Pages (`https://renato0503.github.io/Aula_politec/Aula%208/formulario-ideacao.html` para o aluno e `/Aula%208/` para o professor) e no Firebase Hosting (`https://aulapolitec.web.app/Aula%208/`). O `index.html` da raiz ganhou o card da fase. |
+
+| Aula 8 — apps dos grupos (19 projetos) | Processadas as entregas do formulario da Aula 8 em `Apps/<slug>/`: **19 apps**, cada um com `README.md`, `PROJETO.md`, `contexto.md`, `sprint.md`, `projeto.json`, `envio-original.json`, `app.json`, `src/` e `exemplos/`. Os 12 primeiros chegaram aos Sprints 1, 2 e 3; os 7 novos (`custodia-definitiva`, `passivo-ambiental`, `renovacao-contratos-horus`, `documentapolitec`, `gestao-documentos`, `controle-aquisicoes`, `distribuicao-casos-dna`) chegaram aos Sprints 1 e 2. Criada a base comum `Apps/_base/` (`base.html`, `construir.py`, `embutir.py`, `js_comum.js`, `testar.py`, `testar_sprints.py`, `equipes.py`, `equipes.json`) e os cenarios `_base/cenarios/sprint2.py` e `sprint3.py`. Cada app e um `index.html` gerado, offline first, com IndexedDB, backup `.json`, perfis, dados ficticios com semente fixa e a tela `#/testes`; a excecao e `agendamento-cin` (Google Apps Script). Registrados os logins do GitHub em `Apps/equipes.json`, com a tabela "Equipes e GitHub" gerada por `_base/equipes.py`. |
 
 ---
 

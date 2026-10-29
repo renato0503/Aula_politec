@@ -153,6 +153,32 @@ copiar/colar tabelas; (7) validação do envio e contingência por e-mail;
 
 ---
 
+## Apps dos grupos (Aula 8, fase 2)
+
+Cada entrega do formulário vira uma pasta em `Apps/<slug>/` com a ficha do grupo,
+a especificação completada (`PROJETO.md`), o contexto e o plano de sprints. O app
+em si é **um único `index.html`** (CSS, JS, bibliotecas e dados embutidos), que
+abre com duplo clique, guarda os dados no IndexedDB e funciona sem internet. A
+exceção é o `agendamento-cin`, servido pelo Google Apps Script.
+
+| Situação (29/10/2026) | Apps |
+|---|---|
+| Sprints 1, 2 e 3 | adiantamento, agendamento-cin, agiliza-mais, cin-segunda-via, comissao-etica-denuncias, equipamentos-google-earth, horus-banco-demandas, inscricoes-cursos, mapa-distribuicao-credor, metas-bi-ocr, rnc-nao-conformidade, tap-portfolio-projetos |
+| Sprints 1 e 2 | custodia-definitiva, passivo-ambiental, renovacao-contratos-horus, documentapolitec, gestao-documentos, controle-aquisicoes, distribuicao-casos-dna |
+
+A base comum fica em `Apps/_base/`: `base.html` (tema, rotas, IndexedDB, perfis,
+backup e `#/testes`), `construir.py` (gera o `index.html`), `embutir.py`,
+`testar.py`, `testar_sprints.py` e `equipes.py` (logins do GitHub). O índice
+completo, com contatos e pendências, está em [`Apps/README.md`](./Apps/README.md).
+
+```powershell
+python Apps/_base/construir.py <app>          # gera o index.html
+python Apps/_base/testar.py <app>             # estrutura e testes embutidos
+python Apps/_base/testar_sprints.py <app>     # cenário de cada sprint
+```
+
+---
+
 ## Estrutura do repositorio
 
 ```
@@ -166,7 +192,8 @@ Aula Politec/
 ├── exportar_pdf.py        ← exporta caderno-diaN.html -> "Caderno Dia N - POLITEC.pdf"
 ├── validar.py             ← checa secoes x TOC x h2, tema, erros de console
 ├── gerar_datasets_estrela.py ← monta o modelo estrela (fato_*/dim_*) nas Aulas 2, 3 e 4
-├── Aula 1/ … Aula 7/      ← uma pasta por aula
+├── Aula 1/ … Aula 8/      ← uma pasta por aula
+├── Apps/                  ← mini apps dos grupos (19 projetos, HTML único)
 ```
 
 ---

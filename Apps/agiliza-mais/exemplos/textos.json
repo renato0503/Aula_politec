@@ -1,0 +1,90 @@
+[
+ {
+  "id_texto": "T01",
+  "categoria": "historico",
+  "titulo": "Histórico padrão",
+  "conteudo": "Em atendimento à requisição em epígrafe, foi encaminhado a este Instituto o material descrito a seguir, acondicionado em envelope de segurança lacrado, para exame pericial.",
+  "versao": "1",
+  "ativo": true
+ },
+ {
+  "id_texto": "T02",
+  "categoria": "descricao_objetos",
+  "titulo": "Envelope lacrado",
+  "conteudo": "O material foi recebido em envelope de segurança com lacre íntegro, que foi rompido pelo perito no início dos exames.",
+  "versao": "1",
+  "ativo": true
+ },
+ {
+  "id_texto": "T03",
+  "categoria": "sem_sim",
+  "titulo": "Aparelho sem cartão SIM",
+  "conteudo": "O aparelho não continha cartão SIM no momento do exame.",
+  "versao": "1",
+  "ativo": true
+ },
+ {
+  "id_texto": "T04",
+  "categoria": "exames",
+  "titulo": "Extração lógica",
+  "conteudo": "Foi realizada extração lógica dos dados do aparelho com ferramenta forense, com geração de relatório e cálculo do hash do material extraído.",
+  "versao": "1",
+  "ativo": true
+ },
+ {
+  "id_texto": "T05",
+  "categoria": "exames",
+  "titulo": "Extração física",
+  "conteudo": "Foi realizada extração física da memória do aparelho com ferramenta forense, preservando a integridade do conteúdo original.",
+  "versao": "1",
+  "ativo": true
+ },
+ {
+  "id_texto": "T06",
+  "categoria": "anexos",
+  "titulo": "Mídia de anexos",
+  "conteudo": "Os dados extraídos foram gravados em mídia óptica que acompanha este laudo, identificada pelo valor de hash indicado.",
+  "versao": "1",
+  "ativo": true
+ },
+ {
+  "id_texto": "T07",
+  "categoria": "consideracoes",
+  "titulo": "Considerações padrão",
+  "conteudo": "Nada mais havendo a relatar, encerra-se o presente laudo, que segue assinado digitalmente pelo perito.",
+  "versao": "1",
+  "ativo": true
+ },
+ {
+  "id_texto": "T08",
+  "categoria": "resposta",
+  "titulo": "Resposta: identificação do aparelho",
+  "conteudo": "Sim. O aparelho foi identificado conforme a descrição dos objetos (seção 2).",
+  "versao": "1",
+  "ativo": true
+ },
+ {
+  "id_texto": "T09",
+  "categoria": "resposta",
+  "titulo": "Resposta: cartão SIM",
+  "conteudo": "Sim. Os dados do cartão SIM constam da descrição dos objetos (seção 2).",
+  "versao": "1",
+  "ativo": true
+ },
+ {
+  "id_texto": "T10",
+  "categoria": "resposta",
+  "titulo": "Resposta: extração",
+  "conteudo": "Sim. A extração foi realizada conforme a seção 3.",
+  "versao": "1",
+  "ativo": true
+ },
+ {
+  "id_texto": "T11",
+  "categoria": "resposta",
+  "titulo": "Resposta: integridade",
+  "conteudo": "Sim. A integridade foi garantida pelo cálculo do hash, informado na seção 4.",
+  "versao": "1",
+  "ativo": true
+ }
+]

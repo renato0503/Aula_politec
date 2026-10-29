@@ -1,0 +1,395 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T13:46:37.214Z",
+  "campos": {
+    "data": "2026-10-27",
+    "aluno": "Sabrina",
+    "unidade": "CQUAL",
+    "contato": "sabrinasilva@politec.mt.gov.br",
+    "nome_projeto": "Fluxo elaboração de Registro de não conformidade",
+    "tipo_projeto": "Formulário ou modelo de coleta",
+    "resumo": "Resumo do fluxo de emissão e acompanhamento de RNCs — POLITEC/MT\n\nO processo de Registro de Não Conformidade (RNC) tem como objetivo registrar, tratar e acompanhar ocorrências que apresentem divergências em relação aos requisitos e procedimentos institucionais, promovendo a melhoria contínua dos processos da POLITEC/MT.\n\n1\\. Abertura da RNC: o setor relator registra a ocorrência por meio de formulário eletrônico acessado via QR Code. As informações são integradas automaticamente à planilha de controle e ao Trello, com geração do documento em PDF.\n\n2\\. Análise do registro: a CQUAL analisa as informações recebidas. Caso a RNC não seja aprovada ou necessite de complementação, o setor relator será comunicado para as providências necessárias.\n\n3\\. Notificação do setor responsável: após a aprovação, o setor notificado recebe a comunicação formal e as orientações para elaboração do plano de ação.\n\n4\\. Elaboração e execução do plano de ação: o setor notificado deverá preencher o modelo institucional e encaminhá-lo no prazo de até 30 dias, tendo elaborado o plano e iniciado a execução das ações nesse período. A conclusão integral das ações não é obrigatória dentro desse prazo. Caso necessário, poderá ser solicitada prorrogação mediante justificativa.\n\n5\\. Análise e encaminhamentos: o plano de ação é submetido à análise e aprovação, com posterior encaminhamento às áreas responsáveis pelo tratamento ou apoio, conforme a necessidade identificada.\n\n6\\. Avaliação dos resultados: o setor relator avalia os resultados das ações implementadas, contribuindo para a verificação de sua efetividade e para a prevenção de recorrências.\n\n7\\. Acompanhamento e encerramento: a CQUAL auxilia os setores envolvidos, monitora o andamento das RNCs e acompanha o cumprimento das etapas previstas até a conclusão do processo.\n\n8\\. Melhoria contínua: os dados das RNCs são analisados para identificar recorrências, oportunidades de melhoria e necessidades de capacitação, subsidiando o planejamento de ações educativas e preventivas.\n\nResponsabilidades: o setor relator registra a ocorrência e avalia os resultados; o setor notificado elabora e executa o plano de ação; e a CQUAL atua no apoio, na orientação e no monitoramento do processo, promovendo a participação e a corresponsabilidade dos setores envolvidos.",
+    "problema": "Muita responsabilidade para o setor de Coordenadoria de Qualidade, todas as demandas voltam para o setor.",
+    "hoje": "O processo de emissão e acompanhamento das Não Conformidades (RNCs) é realizado por meio de um fluxo automatizado, integrado ao Google Forms, Google Sheets, Trello e Autocrat.\n\nO setor relator registra a ocorrência por meio de formulário eletrônico acessado via QR Code. Após o envio, as informações são integradas à planilha de controle e ao Trello, com geração automática do documento em PDF. assim é criada o FOR 1\n\nA Coordenadoria da Qualidade (CQUAL) analisa o registro e, após sua aprovação, dá prosseguimento ao fluxo de notificação do setor responsável pelo tratamento. \n\nO setor notificado deve elaborar e encaminhar o plano de ação preenchido no modelo institucional, no prazo de até 30 dias, tendo iniciado a execução das ações propostas dentro desse período. Quando necessário, pode solicitar prorrogação mediante justificativa. enviado o FOR 2\n\nApós a análise e aprovação do plano, são realizados os encaminhamentos pertinentes para tratamento ou apoio. Posteriormente, \n\no setor relator avalia os resultados das ações implementadas FOR 3, enquanto a CQUAL auxilia os envolvidos e monitora o andamento do processo até sua conclusão.\n\nAs informações registradas também são utilizadas para identificar recorrências, oportunidades de melhoria e necessidades de capacitação, subsidiando ações preventivas e o aperfeiçoamento contínuo dos processos institucionais.",
+    "impacto": "Embora o fluxo de emissão e acompanhamento das RNCs seja automatizado, a condução do processo ainda está concentrada na Coordenadoria da Qualidade (CQUAL), que atua nas análises, nos encaminhamentos e no monitoramento das etapas.\n\nEssa centralização gera dependência da CQUAL para o andamento dos registros, aumenta a demanda de acompanhamento das pendências e pode dificultar a agilidade no tratamento das não conformidades. Além disso, a participação dos setores envolvidos no acompanhamento das próprias responsabilidades pode ser ampliada.\n\nDessa forma, identifica-se a oportunidade de fortalecer a corresponsabilidade dos setores relatores e notificados, mantendo a CQUAL como unidade de apoio, orientação e monitoramento. Espera-se, com isso, otimizar o fluxo, dar maior autonomia aos setores e utilizar os dados das RNCs de forma estratégica para identificar recorrências, direcionar capacitações e promover a melhoria contínua dos processos institucionais.",
+    "evid_detalhe": "Planilha do forms ",
+    "limite": "Nada.",
+    "asis_inicio": "Preenchimento do formulário de Registro de não conformidade",
+    "asis_fim": "Finalização da RNC, encaminhamento para corregedoria ou finalização das recorrências das não conformidades ",
+    "asis_entradas": "Formulário de RNC - Planilha com as respostas do FORMS\nGeração autocrat - Formulário 1 (Com as respostas do formulário pelo setor relator)\nFormulário 2 - Modelo preenchido pelo setor notificado \nFormulário 3- Avaliação do resultado preenchido pelo setor relator",
+    "asis_saidas": "Plano de ação e evidencias de melhoria ",
+    "asis_volume": "20 no primeiro mês",
+    "asis_duracao": "Sem média (provavelmente longa duranção)",
+    "asis_frequencia": "Diário",
+    "asis_decisoes": "RNC - formulário 1 - Aprovado ou não \nAvaliação do plano de ação e seus resultados\nDecide se vai ser finalizado ou não",
+    "asis_excecoes": "Se não houver resposta sobre informações complementares em até 5 dias a RNC é anulada.\nEm casos de ocorrências graves são encaminhadas a corregedoria ",
+    "asis_digital": "QR code para entrar no formulário \nAutomatização do planilhas/forms para o trello (acompanhamento da CQUAL) e geração por autocrat dos formulários\n",
+    "papeis_obs": "Sigadoc cada um possui seu perfil. ",
+    "tobe_visao": "Quando o RNC for gerado sera encaminhado para os setores responsáveis e cada uma fara seu papel sendo necessário avaliar apenas a entrada e saída da não conformidade.",
+    "tobe_mudanca": "Encaminhamentos e muito retorno para a CQUAL",
+    "tobe_inalterado": "QR code para formulário (precisa ser fácil para ter adesão)",
+    "entrega": "Indicadores de maiores não conformidades sofridas na politec",
+    "dentro": "Registro de não conformidade",
+    "mvp_naofaz": "Sigadoc não é fácil de integrar (Não sendo necessário a utilização só é o único meio de comunicação auditável para todos os servidores.",
+    "mvp_objetivo": "Métrica das não conformidades",
+    "mvp_plataforma": "Painel de Business Intelligence",
+    "mvp_tela_inicial": "Tela das métricas ",
+    "mvp_criterio": "É possível acompanhar e integrar 3 setores diferentes e preenchimentos em momento diferentes.",
+    "mvp_dados": "Número de não conformidade atualmente o projeto piloto esta sendo feito apenas dentro de uma diretoria porém a nomenclatura sera : DIRETORIA/ANO-NÚMERO SEQUENCIAL",
+    "mvp_reuso": "O processo de emissão e acompanhamento das Não Conformidades (RNCs) é realizado por meio de um fluxo automatizado, integrado ao Google Forms, Google Sheets, Trello e Autocrat.\n\nO setor relator registra a ocorrência por meio de formulário eletrônico acessado via QR Code. Após o envio, as informações são integradas à planilha de controle e ao Trello, com geração automática do documento em PDF. assim é criada o FOR 1\n\nA Coordenadoria da Qualidade (CQUAL) analisa o registro e, após sua aprovação, dá prosseguimento ao fluxo de notificação do setor responsável pelo tratamento. \n\nO setor notificado deve elaborar e encaminhar o plano de ação preenchido no modelo institucional, no prazo de até 30 dias, tendo iniciado a execução das ações propostas dentro desse período. Quando necessário, pode solicitar prorrogação mediante justificativa. enviado o FOR 2\n\nApós a análise e aprovação do plano, são realizados os encaminhamentos pertinentes para tratamento ou apoio. Posteriormente, \n\no setor relator avalia os resultados das ações implementadas FOR 3, enquanto a CQUAL auxilia os envolvidos e monitora o andamento do processo até sua conclusão.\n\nAs informações registradas também são utilizadas para identificar recorrências, oportunidades de melhoria e necessidades de capacitação, subsidiando ações preventivas e o aperfeiçoamento contínuo dos processos institucionais.",
+    "dependencias": "Sem dependência ",
+    "lgpd_retencao": "dados devem ser armazenados ",
+    "lgpd_dados": "Matrícula, nome e dados pessoais dos servidores além de informações sensíveis sobre casos.",
+    "lgpd_acesso": "Todos com o mesmo login mas só pode entrar dentro da RNC se seu setor foi citado/associado",
+    "coletar": "Nome de quem fez a não conformidade e sim apenas setor (isso ja esta sendo alterado)",
+    "acesso": "CQUAL",
+    "campos_data": "tem data e horário ",
+    "aprendizado": "Modelagem do projeto",
+    "doc_descricao": "Esta no titulo de cada um",
+    "frase": "Otimizar o fluxo de RNCs, fortalecendo a corresponsabilidade dos setores e posicionando a CQUAL como unidade de apoio, orientação e monitoramento para a melhoria contínua dos processos da POLITEC/MT.",
+    "provas": "Número de desistências por burocracia e falta de aceite dos setores notificados ",
+    "piloto": "Piloto com a diretoria de laboratório forense 30 dias ",
+    "risco_defesa": "Como é piloto pode haver mudanças durante o caminho",
+    "doc_faltando": "Ainda falta:\nfaltam a visão do TO-BE e a tabela de etapas futuras\nfalta o escopo do MVP, o objetivo e as funcionalidades mínimas\nfaltam as entidades de dados e as regras de negócio\nfaltam duas métricas com fonte, base e hipótese\nfaltam a hospedagem escolhida e a justificativa\nfalta a hipótese de campo"
+  },
+  "marcados": {
+    "afetado": [
+      "Equipe interna"
+    ],
+    "evid": [
+      "Planilha ou controle local"
+    ],
+    "stack": "Ainda não definido",
+    "req": [
+      "Nenhum (protótipo de aula)"
+    ]
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "Identificação da não conformidade",
+        "papel": "Setor Relator",
+        "entra": "RNC",
+        "acao": "Preenchimento do forms",
+        "sai": "Relato da Não conformidade",
+        "sistema": "FORMS",
+        "regra": "",
+        "espera": "sem espera",
+        "tempo": "0",
+        "auto": "Sim, com regra clara",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Encaminhamento de validação",
+        "papel": "CQUAL",
+        "entra": "Formulário 1",
+        "acao": "Confirmação da RNC",
+        "sai": "Formulário 1 aprovado/encmainhado",
+        "sistema": "Aprovação é visualizando/lendo e aprovando tanto enviando email para o setor relator quanto aprovando no trello para maior visualização dos protocolos. ",
+        "regra": "Aprovado ou não ",
+        "espera": "Trello",
+        "tempo": "24",
+        "auto": "Sim, com regra clara",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Encaminha para o setor notificado",
+        "papel": "CQUAL",
+        "entra": "Formulário 1",
+        "acao": "Encaminha a notificação e anexa um modelo de formulário com as informações",
+        "sai": "Formulário 2 com plano de ação e evidencias de melhora",
+        "sistema": "Sigadoc (aberto para ideias)",
+        "regra": "período de 30 dias para responder",
+        "espera": "Trello (para acompanhamento da CQUAL) Sigadoc com prazo",
+        "tempo": "24",
+        "auto": "Sim, com regra clara",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Elaboração e execução ",
+        "papel": "Setor notificado",
+        "entra": "modelo de Formulário 2",
+        "acao": "Elabora o plano de ação, executa e anexa o FOR 2 no sigadoc",
+        "sai": "Formulário 2 preenchido",
+        "sistema": "Sigadoc",
+        "regra": "período de 30 dias para responder",
+        "espera": "Sigadoc",
+        "tempo": "720",
+        "auto": "Pouco",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Avaliação",
+        "papel": "Setor Relator",
+        "entra": "Formulário 2",
+        "acao": "Avaliar se a execução do plano de ação foi adequado e gerou os resultados esperados",
+        "sai": "Formulário 3",
+        "sistema": "Sigadoc",
+        "regra": "Avaliação",
+        "espera": "Sigadoc",
+        "tempo": "48",
+        "auto": "Pouco",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Finalização/encaminhamento",
+        "papel": "CQUAL",
+        "entra": "Formulário 3",
+        "acao": "Verifica o processo inteiro e da conclusão ou encaminha para os setores responsáveis ",
+        "sai": "Métrica dos erros e não conformidades da POLITEC",
+        "sistema": "Sigadoc",
+        "regra": "Decide se vai ser finalizado ou não",
+        "espera": "Sigadoc",
+        "tempo": "48",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "",
+        "muda": "",
+        "quem": "",
+        "beneficio": "",
+        "esforco": "",
+        "rm": ""
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "CQUAL",
+        "quem": "Responsável geral",
+        "ve": "Todas as informações",
+        "faz": "Monitora e audita",
+        "naofaz": "Perder prazos",
+        "registro": "Aprovações e encaminhamentos",
+        "rm": ""
+      },
+      {
+        "papel": "Setor relator",
+        "quem": "Identificador ",
+        "ve": "Não conformidade e plano de ação",
+        "faz": "Relata e avalia resultado",
+        "naofaz": "Deixar de avaliar ",
+        "registro": "Problema enfrentado e avaliçaõ do resultado",
+        "rm": ""
+      },
+      {
+        "papel": "Setor Notificado",
+        "quem": "Causador raiz",
+        "ve": "Relato (sem identificar o servidor e sim o setor)",
+        "faz": "Analisa a não conformidade e planeja melhorias para diminuir os registros de não conformidade",
+        "naofaz": "Não executar as melhorias ",
+        "registro": "Plano de ação e avaliação de melhorias",
+        "rm": ""
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "Tela de métricas",
+        "rota": "Informar e transparencia com as nao conformidades",
+        "objetivo": "TODOS",
+        "usuario": "Métrica das não conformidades",
+        "dados": "",
+        "acao": "",
+        "regra": "",
+        "tipo": "Relatório",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Registro de RNC",
+        "rota": "Preencher o RNC",
+        "objetivo": "Servidores",
+        "usuario": "Formulário para preencher",
+        "dados": "Registrar a não conformidade",
+        "acao": "",
+        "regra": "",
+        "tipo": "",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Alertas de RNC",
+        "rota": "Servidor é alertado quando notificado uma RNC em seu setor",
+        "objetivo": "Servidores",
+        "usuario": "RNC- Formulário 1",
+        "dados": "Notificar ",
+        "acao": "",
+        "regra": "",
+        "tipo": "",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "RNC",
+        "rota": "Leitura da RNC ",
+        "objetivo": "Setor notificado",
+        "usuario": "Formulário 1 preenchido",
+        "dados": "Justificar a Não conformidade e adicionar evidencias ",
+        "acao": "30 dias de resposta",
+        "regra": "",
+        "tipo": "",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Tela de acompanhamento da RNC",
+        "rota": "Acompanhar o andamento ",
+        "objetivo": "CQUAL e setor relator",
+        "usuario": "Andamento ",
+        "dados": "Identificar as melhorias",
+        "acao": "",
+        "regra": "",
+        "tipo": "",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "RNC",
+        "rota": "Leitura da RNC ",
+        "objetivo": "CQUAL ",
+        "usuario": "Todo os registros ",
+        "dados": "Leitura geral do processo ",
+        "acao": "",
+        "regra": "",
+        "tipo": "",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "",
+        "representa": "",
+        "colunas": "",
+        "chave": "",
+        "volume": "",
+        "origem": "",
+        "sintetico": "",
+        "rm": ""
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "",
+        "regra": "",
+        "quando": "",
+        "excecao": "",
+        "valida": "",
+        "tipo": "",
+        "rm": ""
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "Planilha",
+        "tipo": "Planilha local",
+        "onde": "Planilhas google",
+        "existe": "Sim",
+        "acesso": "CQUAL ",
+        "linha": "perguntas no forms",
+        "volume": "atualmente 20 linhas preenchidas ",
+        "historico": "",
+        "campos": "Data de entrada, data de envio, tempo anotado",
+        "atualiza": "Automática conforme é preenchido o forms ",
+        "lgpd": "Sim",
+        "obs": "",
+        "rm": ""
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "Não conformidade",
+        "pergunta": "",
+        "formula": "",
+        "fonte": "",
+        "gran": "Etapa",
+        "base": "",
+        "esperado": "",
+        "medir": "",
+        "quem": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "",
+        "pergunta": "",
+        "formula": "",
+        "fonte": "",
+        "gran": "",
+        "base": "",
+        "esperado": "",
+        "medir": "",
+        "quem": "",
+        "rm": ""
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "",
+        "tipo": "",
+        "onde": "",
+        "custo": "",
+        "mantem": "",
+        "acesso": "",
+        "banco": "",
+        "escala": "",
+        "limite": "",
+        "rm": ""
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "",
+        "data": "",
+        "resp": "",
+        "dep": "",
+        "sit": "",
+        "rm": ""
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "Vazamento de dados sensíveis ",
+        "prob": "Média",
+        "imp": "Alto",
+        "mit": "",
+        "rm": ""
+      }
+    ],
+    "tRefs": [
+      {
+        "n": "",
+        "ref": "",
+        "tipo": "",
+        "fonte": "",
+        "ano": "",
+        "dado": "",
+        "uso": "",
+        "conferido": "",
+        "rm": ""
+      }
+    ]
+  }
+}

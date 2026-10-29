@@ -1,0 +1,8 @@
+Relatório de extração (formato suposto)
+========================================
+Manufacturer: Xiaomi
+Model: 2201117TL
+Color: Branco
+IMEI 1: 358946752774259
+Operating System: Android 13
+Extraction date: 2026-10-21 14:32:10

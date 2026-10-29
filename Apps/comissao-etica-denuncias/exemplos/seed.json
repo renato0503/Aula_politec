@@ -1,0 +1,304 @@
+{
+ "categorias": [
+  {
+   "id": "assedio_moral",
+   "nome": "Assédio moral ou humilhação",
+   "artigos": "a conferir no Código de Ética (LC nº 112/2002)",
+   "palavras": [
+    "humilh",
+    "assédio",
+    "assedio",
+    "constrang",
+    "grit",
+    "xing",
+    "ameaç",
+    "perseguiç"
+   ],
+   "roteiro_base": [
+    "Descreva, com suas palavras, o que aconteceu.",
+    "Quando e onde o fato ocorreu?",
+    "Quem estava presente?",
+    "Existe registro (mensagem, documento, escala) do fato?",
+    "O fato já tinha acontecido antes?"
+   ]
+  },
+  {
+   "id": "desrespeito_publico",
+   "nome": "Tratamento desrespeitoso ao público",
+   "artigos": "a conferir no Código de Ética (LC nº 112/2002)",
+   "palavras": [
+    "cidadão",
+    "atendimento",
+    "grosseir",
+    "mal atendid",
+    "desrespeit",
+    "público",
+    "usuário"
+   ],
+   "roteiro_base": [
+    "Descreva, com suas palavras, o que aconteceu.",
+    "Quando e onde o fato ocorreu?",
+    "Quem estava presente?",
+    "Existe registro (mensagem, documento, escala) do fato?",
+    "O fato já tinha acontecido antes?"
+   ]
+  },
+  {
+   "id": "uso_cargo",
+   "nome": "Uso do cargo em proveito próprio ou de terceiros",
+   "artigos": "a conferir no Código de Ética (LC nº 112/2002)",
+   "palavras": [
+    "favor",
+    "vantagem",
+    "proveito",
+    "parente",
+    "fura fila",
+    "furou a fila",
+    "influência",
+    "propina"
+   ],
+   "roteiro_base": [
+    "Descreva, com suas palavras, o que aconteceu.",
+    "Quando e onde o fato ocorreu?",
+    "Quem estava presente?",
+    "Existe registro (mensagem, documento, escala) do fato?",
+    "O fato já tinha acontecido antes?"
+   ]
+  },
+  {
+   "id": "sigilo",
+   "nome": "Quebra de sigilo funcional",
+   "artigos": "a conferir no Código de Ética (LC nº 112/2002)",
+   "palavras": [
+    "sigilo",
+    "vazou",
+    "vazamento",
+    "divulgou",
+    "compartilhou",
+    "foto do laudo",
+    "informação sigilosa"
+   ],
+   "roteiro_base": [
+    "Descreva, com suas palavras, o que aconteceu.",
+    "Quando e onde o fato ocorreu?",
+    "Quem estava presente?",
+    "Existe registro (mensagem, documento, escala) do fato?",
+    "O fato já tinha acontecido antes?"
+   ]
+  },
+  {
+   "id": "redes_sociais",
+   "nome": "Conduta inadequada em redes sociais e aplicativos",
+   "artigos": "a conferir no Código de Ética (LC nº 112/2002)",
+   "palavras": [
+    "whatsapp",
+    "instagram",
+    "rede social",
+    "grupo",
+    "postou",
+    "publicação",
+    "print"
+   ],
+   "roteiro_base": [
+    "Descreva, com suas palavras, o que aconteceu.",
+    "Quando e onde o fato ocorreu?",
+    "Quem estava presente?",
+    "Existe registro (mensagem, documento, escala) do fato?",
+    "O fato já tinha acontecido antes?"
+   ]
+  },
+  {
+   "id": "assiduidade",
+   "nome": "Descumprimento de escala, plantão ou horário",
+   "artigos": "a conferir no Código de Ética (LC nº 112/2002)",
+   "palavras": [
+    "plantão",
+    "escala",
+    "faltou",
+    "atraso",
+    "ausente",
+    "abandon",
+    "horário"
+   ],
+   "roteiro_base": [
+    "Descreva, com suas palavras, o que aconteceu.",
+    "Quando e onde o fato ocorreu?",
+    "Quem estava presente?",
+    "Existe registro (mensagem, documento, escala) do fato?",
+    "O fato já tinha acontecido antes?"
+   ]
+  },
+  {
+   "id": "conflito_interesses",
+   "nome": "Conflito de interesses",
+   "artigos": "a conferir no Código de Ética (LC nº 112/2002)",
+   "palavras": [
+    "empresa",
+    "contrato",
+    "fornecedor",
+    "sócio",
+    "interesse particular",
+    "consultoria"
+   ],
+   "roteiro_base": [
+    "Descreva, com suas palavras, o que aconteceu.",
+    "Quando e onde o fato ocorreu?",
+    "Quem estava presente?",
+    "Existe registro (mensagem, documento, escala) do fato?",
+    "O fato já tinha acontecido antes?"
+   ]
+  },
+  {
+   "id": "uso_bens",
+   "nome": "Uso indevido de bens e recursos públicos",
+   "artigos": "a conferir no Código de Ética (LC nº 112/2002)",
+   "palavras": [
+    "viatura",
+    "combustível",
+    "equipamento",
+    "material",
+    "uso particular",
+    "computador"
+   ],
+   "roteiro_base": [
+    "Descreva, com suas palavras, o que aconteceu.",
+    "Quando e onde o fato ocorreu?",
+    "Quem estava presente?",
+    "Existe registro (mensagem, documento, escala) do fato?",
+    "O fato já tinha acontecido antes?"
+   ]
+  }
+ ],
+ "denuncias": [
+  {
+   "id": "CE-2026-001",
+   "protocolo": "CE-2026-001",
+   "data_recebimento": "2026-09-01",
+   "canal": "e-mail",
+   "relato": "O chefe do setor gritou com a servidora na frente da equipe e a humilhou repetidas vezes, com ameaças de remoção.",
+   "denunciante": "Denunciante Fictício 1",
+   "denunciado": "Servidor Fictício A",
+   "etapa": "registro",
+   "situacao": "aberto",
+   "categoria_esperada": "assedio_moral",
+   "sigilo": true
+  },
+  {
+   "id": "CE-2026-002",
+   "protocolo": "CE-2026-002",
+   "data_recebimento": "2026-09-06",
+   "canal": "e-mail",
+   "relato": "O cidadão relata que foi mal atendido no balcão, tratado de forma grosseira e sem resposta sobre o laudo.",
+   "denunciante": "Denunciante Fictício 2",
+   "denunciado": "Servidor Fictício B",
+   "etapa": "registro",
+   "situacao": "aberto",
+   "categoria_esperada": "desrespeito_publico",
+   "sigilo": true
+  },
+  {
+   "id": "CE-2026-003",
+   "protocolo": "CE-2026-003",
+   "data_recebimento": "2026-09-11",
+   "canal": "e-mail",
+   "relato": "Servidor teria furado a fila de exames para atender um parente, usando a influência do cargo.",
+   "denunciante": "Denunciante Fictício 3",
+   "denunciado": "Servidor Fictício C",
+   "etapa": "registro",
+   "situacao": "aberto",
+   "categoria_esperada": "uso_cargo",
+   "sigilo": true
+  },
+  {
+   "id": "CE-2026-004",
+   "protocolo": "CE-2026-004",
+   "data_recebimento": "2026-09-16",
+   "canal": "e-mail",
+   "relato": "Foto do laudo de um caso em andamento foi compartilhada fora da instituição; suspeita de vazamento de informação sigilosa.",
+   "denunciante": "Denunciante Fictício 4",
+   "denunciado": "Servidor Fictício D",
+   "etapa": "registro",
+   "situacao": "aberto",
+   "categoria_esperada": "sigilo",
+   "sigilo": true
+  },
+  {
+   "id": "CE-2026-005",
+   "protocolo": "CE-2026-005",
+   "data_recebimento": "2026-09-21",
+   "canal": "e-mail",
+   "relato": "Servidor postou no grupo de WhatsApp da unidade print de conversa com comentários ofensivos sobre colegas.",
+   "denunciante": "Denunciante Fictício 5",
+   "denunciado": "Servidor Fictício E",
+   "etapa": "registro",
+   "situacao": "aberto",
+   "categoria_esperada": "redes_sociais",
+   "sigilo": true
+  },
+  {
+   "id": "CE-2026-006",
+   "protocolo": "CE-2026-006",
+   "data_recebimento": "2026-09-26",
+   "canal": "e-mail",
+   "relato": "Plantonista faltou ao plantão sem aviso e a escala ficou descoberta por seis horas.",
+   "denunciante": "Denunciante Fictício 6",
+   "denunciado": "Servidor Fictício F",
+   "etapa": "registro",
+   "situacao": "aberto",
+   "categoria_esperada": "assiduidade",
+   "sigilo": true
+  },
+  {
+   "id": "CE-2026-007",
+   "protocolo": "CE-2026-007",
+   "data_recebimento": "2026-10-01",
+   "canal": "e-mail",
+   "relato": "Servidor indicou empresa da qual seria sócio para o contrato de manutenção do laboratório.",
+   "denunciante": "Denunciante Fictício 7",
+   "denunciado": "Servidor Fictício G",
+   "etapa": "registro",
+   "situacao": "aberto",
+   "categoria_esperada": "conflito_interesses",
+   "sigilo": true
+  },
+  {
+   "id": "CE-2026-008",
+   "protocolo": "CE-2026-008",
+   "data_recebimento": "2026-10-06",
+   "canal": "e-mail",
+   "relato": "Viatura da unidade foi usada para uso particular no fim de semana, com gasto de combustível.",
+   "denunciante": "Denunciante Fictício 8",
+   "denunciado": "Servidor Fictício H",
+   "etapa": "registro",
+   "situacao": "aberto",
+   "categoria_esperada": "uso_bens",
+   "sigilo": true
+  },
+  {
+   "id": "CE-2026-009",
+   "protocolo": "CE-2026-009",
+   "data_recebimento": "2026-10-11",
+   "canal": "e-mail",
+   "relato": "Colega relata perseguição constante e constrangimento em reuniões, com xingamentos.",
+   "denunciante": "Denunciante Fictício 9",
+   "denunciado": "Servidor Fictício I",
+   "etapa": "registro",
+   "situacao": "aberto",
+   "categoria_esperada": "assedio_moral",
+   "sigilo": true
+  },
+  {
+   "id": "CE-2026-010",
+   "protocolo": "CE-2026-010",
+   "data_recebimento": "2026-10-16",
+   "canal": "e-mail",
+   "relato": "Atrasos repetidos no horário de entrada e abandono do posto antes do fim da escala.",
+   "denunciante": "Denunciante Fictício 10",
+   "denunciado": "Servidor Fictício J",
+   "etapa": "registro",
+   "situacao": "aberto",
+   "categoria_esperada": "assiduidade",
+   "sigilo": true
+  }
+ ]
+}

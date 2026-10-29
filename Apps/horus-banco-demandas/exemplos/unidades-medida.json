@@ -1,0 +1,27 @@
+[
+ {
+  "id": "e09f3cb4-3b2c-4dfc-a8b6-f2abdfb35f1f",
+  "sigla": "UN",
+  "nome": "unidade"
+ },
+ {
+  "id": "5cd409a2-4154-497f-a252-c0de80328ec1",
+  "sigla": "CX",
+  "nome": "caixa"
+ },
+ {
+  "id": "ea4e3086-95cd-4365-b0a5-501aeb7f0575",
+  "sigla": "FR",
+  "nome": "frasco"
+ },
+ {
+  "id": "c5fd1f93-1ac2-4de5-b423-980de69683b0",
+  "sigla": "PCT",
+  "nome": "pacote"
+ },
+ {
+  "id": "a38a1253-5007-4e33-95aa-67323e90995e",
+  "sigla": "KIT",
+  "nome": "kit"
+ }
+]

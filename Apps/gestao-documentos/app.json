@@ -1,0 +1,33 @@
+{
+  "titulo": "Gestão de Documentos",
+  "subtitulo": "POLITEC/MT · processos e prazos do Gabinete de Direção",
+  "descricao": "Cadastro, atribuição e acompanhamento dos processos, com o prazo calculado e o sinal verde, amarelo ou vermelho. Dados fictícios.",
+  "aviso": "Protótipo com dados fictícios. Não cadastre processos, requerentes ou documentos reais.",
+  "db": {
+    "nome": "gestao_documentos_v1",
+    "versao": 1,
+    "stores": {
+      "processos": {"keyPath": "id_processo", "indices": [
+        {"nome": "status", "campo": "status", "unico": false},
+        {"nome": "responsavel", "campo": "responsavel", "unico": false}
+      ]},
+      "documentos": {"keyPath": "id_documento", "indices": [{"nome": "processo_id", "campo": "processo_id", "unico": false}]},
+      "usuarios": {"keyPath": "id_usuario", "indices": []},
+      "log": {"keyPath": "id", "indices": [{"nome": "processo_id", "campo": "processo_id", "unico": false}]}
+    }
+  },
+  "perfis": [
+    {"id": "servidor", "nome": "Servidor da lotação", "descricao": "Cadastra, confere e atribui os processos da unidade."},
+    {"id": "gestor", "nome": "Chefia imediata", "descricao": "Acompanha a fila, os prazos e as cobranças."},
+    {"id": "autoridade", "nome": "Autoridade decisora", "descricao": "Assina e conclui o processo."}
+  ],
+  "rotas": [
+    {"rota": "#/painel", "titulo": "Painel", "sprint": 1, "descricao": "Vencidos, em amarelo e no prazo."},
+    {"rota": "#/processos", "titulo": "Processos", "sprint": 2, "descricao": "Lista com filtros de situação e sinal do prazo."},
+    {"rota": "#/processo/novo", "titulo": "Novo processo", "sprint": 2, "descricao": "Cadastro com validação dos anexos (RN01) e número de autuação (RN02).", "perfis": ["servidor", "gestor"]},
+    {"rota": "#/processo/:id", "titulo": "Processo", "sprint": 2, "descricao": "Ficha, prazo, documentos e histórico."},
+    {"rota": "#/config", "titulo": "Configuração", "sprint": 1, "descricao": ""}
+  ],
+  "libs": [],
+  "dados": [["seed", "exemplos/seed.json"]]
+}

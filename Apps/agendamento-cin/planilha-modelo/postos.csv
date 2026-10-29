@@ -1,0 +1,3 @@
+﻿posto_id,nome,municipio,endereco,email,ativo,documentos_orientacao
+P01,Posto de Identificação Centro (fictício),Cuiabá,"Rua Fictícia, 100",posto.centro@exemplo.gov.br,True,Certidão de nascimento ou casamento original; CPF; comprovante de residência.
+P02,Posto de Identificação Várzea Grande (fictício),Várzea Grande,"Avenida Fictícia, 200",posto.vg@exemplo.gov.br,True,Certidão de nascimento ou casamento original; CPF; comprovante de residência.

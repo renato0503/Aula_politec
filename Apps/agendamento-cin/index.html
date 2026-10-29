@@ -1,0 +1,893 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- Sem CSP: a página é servida pelo Apps Script (HtmlService). -->
+<title>Agendamento CIN</title>
+<meta name="description" content="Agendamento da Carteira de Identidade Nacional nos postos de identificação.">
+<style>
+/* ===================================================================
+   BASE COMUM DOS APPS (Apps/_base/base.html)
+   Tema, layout, componentes. O CSS do app fica no fim deste bloco.
+   =================================================================== */
+:root{
+  --bg:#f6f7f9; --painel:#ffffff; --ink:#1c2430; --ink2:#5b6676; --linha:#dde2e9;
+  --accent:#1f5fae; --accent-ink:#ffffff; --verde:#1d7a46; --ambar:#a86500; --vermelho:#b42318;
+  --sombra:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.10);
+  --raio:10px; --mono:ui-monospace,SFMono-Regular,Consolas,monospace;
+  --ui:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#11161d; --painel:#1a212b; --ink:#e6eaf0; --ink2:#a3adbb; --linha:#2c3542;
+    --accent:#6ea8ff; --accent-ink:#0b1220; --verde:#4cc283; --ambar:#f0b44c; --vermelho:#ff7b72;
+    --sombra:none; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11161d; --painel:#1a212b; --ink:#e6eaf0; --ink2:#a3adbb; --linha:#2c3542;
+  --accent:#6ea8ff; --accent-ink:#0b1220; --verde:#4cc283; --ambar:#f0b44c; --vermelho:#ff7b72;
+  --sombra:none; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--ui)}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.topo{background:var(--painel);border-bottom:1px solid var(--linha);position:sticky;top:0;z-index:5}
+.topo-in{max-width:1200px;margin:0 auto;padding:10px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.marca{font-weight:700;font-size:17px;margin-right:auto}
+.marca small{display:block;font-weight:400;font-size:12px;color:var(--ink2)}
+.aviso-topo{background:var(--accent);color:var(--accent-ink);font-size:13px;text-align:center;padding:4px 16px}
+nav.menu{max-width:1200px;margin:0 auto;padding:0 16px 8px;display:flex;gap:4px;flex-wrap:wrap}
+nav.menu a{padding:6px 10px;border-radius:8px;text-decoration:none;color:var(--ink2);font-size:14px}
+nav.menu a[aria-current="page"]{background:var(--accent);color:var(--accent-ink)}
+main{max-width:1200px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:22px;margin:0 0 4px} h2{font-size:18px;margin:24px 0 8px}
+.sub{color:var(--ink2);margin:0 0 16px}
+.card{background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio);padding:16px;box-shadow:var(--sombra);margin-bottom:16px}
+.grade{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.kpi .v{font-size:26px;font-weight:700} .kpi .r{color:var(--ink2);font-size:13px}
+button,.botao{font:inherit;border:1px solid var(--linha);background:var(--painel);color:var(--ink);padding:7px 12px;border-radius:8px;cursor:pointer}
+button.prim,.botao.prim{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+button.perigo{border-color:var(--vermelho);color:var(--vermelho)}
+button:disabled{opacity:.5;cursor:not-allowed}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--linha);border-radius:8px;padding:7px 9px;width:100%}
+label{display:block;font-size:13px;color:var(--ink2);margin:10px 0 4px}
+.linha-botoes{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tabela-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--linha);vertical-align:top}
+th{color:var(--ink2);font-weight:600}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.selo{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;border:1px solid currentColor}
+.selo.ok{color:var(--verde)} .selo.alerta{color:var(--ambar)} .selo.erro{color:var(--vermelho)} .selo.info{color:var(--accent)}
+.vazio{color:var(--ink2);text-align:center;padding:28px}
+.campos{display:grid;gap:0 16px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.campo small{display:block;margin-top:2px}
+.ok-txt{color:var(--verde)} .erro-txt{color:var(--vermelho)} .alerta-txt{color:var(--ambar)}
+.pendente{border-left:4px solid var(--ambar)}
+code,.mono{font-family:var(--mono);font-size:13px}
+#toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;display:none;z-index:20;max-width:90vw}
+@media (max-width:640px){ .marca{font-size:15px} main{padding:16px 16px 48px} }
+@media print{ .topo,nav.menu,#toast,.nao-imprimir{display:none!important} body{background:#fff;color:#000} .card{box-shadow:none;break-inside:avoid} }
+/* ===== CSS DO APP ===== */
+
+</style>
+</head>
+<body>
+<header class="topo">
+  
+  <div class="topo-in">
+    <div class="marca">Agendamento CIN<small>Postos de identificação · POLITEC/MT</small></div>
+    <span id="perfilAtual" class="selo info" hidden></span>
+    <button id="btnTema" type="button" aria-label="Alternar tema claro e escuro">Tema</button>
+  </div>
+  <nav class="menu" id="menu" aria-label="Telas do app"></nav>
+</header>
+<main id="conteudo" tabindex="-1"></main>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<!-- Bibliotecas e dados embutidos (preenchidos por Apps/_base/embutir.py) -->
+<!-- DADOS:seed:planilha-modelo/seed.json -->
+<script type="application/json" id="seed">{"postos":[{"posto_id":"P01","nome":"Posto de Identificação Centro (fictício)","municipio":"Cuiabá","endereco":"Rua Fictícia, 100","email":"posto.centro@exemplo.gov.br","ativo":true,"documentos_orientacao":"Certidão de nascimento ou casamento original; CPF; comprovante de residência."},{"posto_id":"P02","nome":"Posto de Identificação Várzea Grande (fictício)","municipio":"Várzea Grande","endereco":"Avenida Fictícia, 200","email":"posto.vg@exemplo.gov.br","ativo":true,"documentos_orientacao":"Certidão de nascimento ou casamento original; CPF; comprovante de residência."}],"horarios":[{"horario_id":"P01-2026-11-03-0800","posto_id":"P01","data":"2026-11-03","hora":"08:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-03-0830","posto_id":"P01","data":"2026-11-03","hora":"08:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-03-0900","posto_id":"P01","data":"2026-11-03","hora":"09:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-03-0930","posto_id":"P01","data":"2026-11-03","hora":"09:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-03-1000","posto_id":"P01","data":"2026-11-03","hora":"10:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-03-1030","posto_id":"P01","data":"2026-11-03","hora":"10:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-03-1100","posto_id":"P01","data":"2026-11-03","hora":"11:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-03-1130","posto_id":"P01","data":"2026-11-03","hora":"11:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-03-1200","posto_id":"P01","data":"2026-11-03","hora":"12:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-03-1230","posto_id":"P01","data":"2026-11-03","hora":"12:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-03-1300","posto_id":"P01","data":"2026-11-03","hora":"13:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-03-1330","posto_id":"P01","data":"2026-11-03","hora":"13:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-03-1400","posto_id":"P01","data":"2026-11-03","hora":"14:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-03-1430","posto_id":"P01","data":"2026-11-03","hora":"14:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-03-1500","posto_id":"P01","data":"2026-11-03","hora":"15:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-03-1530","posto_id":"P01","data":"2026-11-03","hora":"15:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-04-0800","posto_id":"P01","data":"2026-11-04","hora":"08:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-04-0830","posto_id":"P01","data":"2026-11-04","hora":"08:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-04-0900","posto_id":"P01","data":"2026-11-04","hora":"09:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-04-0930","posto_id":"P01","data":"2026-11-04","hora":"09:30","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P01-2026-11-04-1000","posto_id":"P01","data":"2026-11-04","hora":"10:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-04-1030","posto_id":"P01","data":"2026-11-04","hora":"10:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-04-1100","posto_id":"P01","data":"2026-11-04","hora":"11:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-04-1130","posto_id":"P01","data":"2026-11-04","hora":"11:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-04-1200","posto_id":"P01","data":"2026-11-04","hora":"12:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-04-1230","posto_id":"P01","data":"2026-11-04","hora":"12:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-04-1300","posto_id":"P01","data":"2026-11-04","hora":"13:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-04-1330","posto_id":"P01","data":"2026-11-04","hora":"13:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-04-1400","posto_id":"P01","data":"2026-11-04","hora":"14:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-04-1430","posto_id":"P01","data":"2026-11-04","hora":"14:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-04-1500","posto_id":"P01","data":"2026-11-04","hora":"15:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-04-1530","posto_id":"P01","data":"2026-11-04","hora":"15:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-05-0800","posto_id":"P01","data":"2026-11-05","hora":"08:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-05-0830","posto_id":"P01","data":"2026-11-05","hora":"08:30","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P01-2026-11-05-0900","posto_id":"P01","data":"2026-11-05","hora":"09:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-05-0930","posto_id":"P01","data":"2026-11-05","hora":"09:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-05-1000","posto_id":"P01","data":"2026-11-05","hora":"10:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-05-1030","posto_id":"P01","data":"2026-11-05","hora":"10:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-05-1100","posto_id":"P01","data":"2026-11-05","hora":"11:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-05-1130","posto_id":"P01","data":"2026-11-05","hora":"11:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-05-1200","posto_id":"P01","data":"2026-11-05","hora":"12:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-05-1230","posto_id":"P01","data":"2026-11-05","hora":"12:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-05-1300","posto_id":"P01","data":"2026-11-05","hora":"13:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-05-1330","posto_id":"P01","data":"2026-11-05","hora":"13:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-05-1400","posto_id":"P01","data":"2026-11-05","hora":"14:00","capacidade":2,"ocupadas":2,"situacao":"aberto"},{"horario_id":"P01-2026-11-05-1430","posto_id":"P01","data":"2026-11-05","hora":"14:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-05-1500","posto_id":"P01","data":"2026-11-05","hora":"15:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-05-1530","posto_id":"P01","data":"2026-11-05","hora":"15:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-06-0800","posto_id":"P01","data":"2026-11-06","hora":"08:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-06-0830","posto_id":"P01","data":"2026-11-06","hora":"08:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-06-0900","posto_id":"P01","data":"2026-11-06","hora":"09:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-06-0930","posto_id":"P01","data":"2026-11-06","hora":"09:30","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P01-2026-11-06-1000","posto_id":"P01","data":"2026-11-06","hora":"10:00","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P01-2026-11-06-1030","posto_id":"P01","data":"2026-11-06","hora":"10:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-06-1100","posto_id":"P01","data":"2026-11-06","hora":"11:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-06-1130","posto_id":"P01","data":"2026-11-06","hora":"11:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-06-1200","posto_id":"P01","data":"2026-11-06","hora":"12:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-06-1230","posto_id":"P01","data":"2026-11-06","hora":"12:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-06-1300","posto_id":"P01","data":"2026-11-06","hora":"13:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-06-1330","posto_id":"P01","data":"2026-11-06","hora":"13:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-06-1400","posto_id":"P01","data":"2026-11-06","hora":"14:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-06-1430","posto_id":"P01","data":"2026-11-06","hora":"14:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-06-1500","posto_id":"P01","data":"2026-11-06","hora":"15:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-06-1530","posto_id":"P01","data":"2026-11-06","hora":"15:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-09-0800","posto_id":"P01","data":"2026-11-09","hora":"08:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-09-0830","posto_id":"P01","data":"2026-11-09","hora":"08:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-09-0900","posto_id":"P01","data":"2026-11-09","hora":"09:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-09-0930","posto_id":"P01","data":"2026-11-09","hora":"09:30","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P01-2026-11-09-1000","posto_id":"P01","data":"2026-11-09","hora":"10:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-09-1030","posto_id":"P01","data":"2026-11-09","hora":"10:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-09-1100","posto_id":"P01","data":"2026-11-09","hora":"11:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-09-1130","posto_id":"P01","data":"2026-11-09","hora":"11:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-09-1200","posto_id":"P01","data":"2026-11-09","hora":"12:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-09-1230","posto_id":"P01","data":"2026-11-09","hora":"12:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-09-1300","posto_id":"P01","data":"2026-11-09","hora":"13:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-09-1330","posto_id":"P01","data":"2026-11-09","hora":"13:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-09-1400","posto_id":"P01","data":"2026-11-09","hora":"14:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-09-1430","posto_id":"P01","data":"2026-11-09","hora":"14:30","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P01-2026-11-09-1500","posto_id":"P01","data":"2026-11-09","hora":"15:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-09-1530","posto_id":"P01","data":"2026-11-09","hora":"15:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-10-0800","posto_id":"P01","data":"2026-11-10","hora":"08:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-10-0830","posto_id":"P01","data":"2026-11-10","hora":"08:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-10-0900","posto_id":"P01","data":"2026-11-10","hora":"09:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-10-0930","posto_id":"P01","data":"2026-11-10","hora":"09:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-10-1000","posto_id":"P01","data":"2026-11-10","hora":"10:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-10-1030","posto_id":"P01","data":"2026-11-10","hora":"10:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-10-1100","posto_id":"P01","data":"2026-11-10","hora":"11:00","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P01-2026-11-10-1130","posto_id":"P01","data":"2026-11-10","hora":"11:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-10-1200","posto_id":"P01","data":"2026-11-10","hora":"12:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-10-1230","posto_id":"P01","data":"2026-11-10","hora":"12:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-10-1300","posto_id":"P01","data":"2026-11-10","hora":"13:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-10-1330","posto_id":"P01","data":"2026-11-10","hora":"13:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-10-1400","posto_id":"P01","data":"2026-11-10","hora":"14:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-10-1430","posto_id":"P01","data":"2026-11-10","hora":"14:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-10-1500","posto_id":"P01","data":"2026-11-10","hora":"15:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-10-1530","posto_id":"P01","data":"2026-11-10","hora":"15:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-11-0800","posto_id":"P01","data":"2026-11-11","hora":"08:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-11-0830","posto_id":"P01","data":"2026-11-11","hora":"08:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-11-0900","posto_id":"P01","data":"2026-11-11","hora":"09:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-11-0930","posto_id":"P01","data":"2026-11-11","hora":"09:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-11-1000","posto_id":"P01","data":"2026-11-11","hora":"10:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-11-1030","posto_id":"P01","data":"2026-11-11","hora":"10:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-11-1100","posto_id":"P01","data":"2026-11-11","hora":"11:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-11-1130","posto_id":"P01","data":"2026-11-11","hora":"11:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-11-1200","posto_id":"P01","data":"2026-11-11","hora":"12:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-11-1230","posto_id":"P01","data":"2026-11-11","hora":"12:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-11-1300","posto_id":"P01","data":"2026-11-11","hora":"13:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-11-1330","posto_id":"P01","data":"2026-11-11","hora":"13:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-11-1400","posto_id":"P01","data":"2026-11-11","hora":"14:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-11-1430","posto_id":"P01","data":"2026-11-11","hora":"14:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-11-1500","posto_id":"P01","data":"2026-11-11","hora":"15:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-11-1530","posto_id":"P01","data":"2026-11-11","hora":"15:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-12-0800","posto_id":"P01","data":"2026-11-12","hora":"08:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-12-0830","posto_id":"P01","data":"2026-11-12","hora":"08:30","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P01-2026-11-12-0900","posto_id":"P01","data":"2026-11-12","hora":"09:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-12-0930","posto_id":"P01","data":"2026-11-12","hora":"09:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-12-1000","posto_id":"P01","data":"2026-11-12","hora":"10:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-12-1030","posto_id":"P01","data":"2026-11-12","hora":"10:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-12-1100","posto_id":"P01","data":"2026-11-12","hora":"11:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-12-1130","posto_id":"P01","data":"2026-11-12","hora":"11:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-12-1200","posto_id":"P01","data":"2026-11-12","hora":"12:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-12-1230","posto_id":"P01","data":"2026-11-12","hora":"12:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-12-1300","posto_id":"P01","data":"2026-11-12","hora":"13:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-12-1330","posto_id":"P01","data":"2026-11-12","hora":"13:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-12-1400","posto_id":"P01","data":"2026-11-12","hora":"14:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-12-1430","posto_id":"P01","data":"2026-11-12","hora":"14:30","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P01-2026-11-12-1500","posto_id":"P01","data":"2026-11-12","hora":"15:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-12-1530","posto_id":"P01","data":"2026-11-12","hora":"15:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-13-0800","posto_id":"P01","data":"2026-11-13","hora":"08:00","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P01-2026-11-13-0830","posto_id":"P01","data":"2026-11-13","hora":"08:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-13-0900","posto_id":"P01","data":"2026-11-13","hora":"09:00","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P01-2026-11-13-0930","posto_id":"P01","data":"2026-11-13","hora":"09:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-13-1000","posto_id":"P01","data":"2026-11-13","hora":"10:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-13-1030","posto_id":"P01","data":"2026-11-13","hora":"10:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-13-1100","posto_id":"P01","data":"2026-11-13","hora":"11:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-13-1130","posto_id":"P01","data":"2026-11-13","hora":"11:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-13-1200","posto_id":"P01","data":"2026-11-13","hora":"12:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-13-1230","posto_id":"P01","data":"2026-11-13","hora":"12:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-13-1300","posto_id":"P01","data":"2026-11-13","hora":"13:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-13-1330","posto_id":"P01","data":"2026-11-13","hora":"13:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-13-1400","posto_id":"P01","data":"2026-11-13","hora":"14:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-13-1430","posto_id":"P01","data":"2026-11-13","hora":"14:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-13-1500","posto_id":"P01","data":"2026-11-13","hora":"15:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-13-1530","posto_id":"P01","data":"2026-11-13","hora":"15:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-16-0800","posto_id":"P01","data":"2026-11-16","hora":"08:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-16-0830","posto_id":"P01","data":"2026-11-16","hora":"08:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-16-0900","posto_id":"P01","data":"2026-11-16","hora":"09:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-16-0930","posto_id":"P01","data":"2026-11-16","hora":"09:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-16-1000","posto_id":"P01","data":"2026-11-16","hora":"10:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-16-1030","posto_id":"P01","data":"2026-11-16","hora":"10:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-16-1100","posto_id":"P01","data":"2026-11-16","hora":"11:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-16-1130","posto_id":"P01","data":"2026-11-16","hora":"11:30","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P01-2026-11-16-1200","posto_id":"P01","data":"2026-11-16","hora":"12:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-16-1230","posto_id":"P01","data":"2026-11-16","hora":"12:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-16-1300","posto_id":"P01","data":"2026-11-16","hora":"13:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-16-1330","posto_id":"P01","data":"2026-11-16","hora":"13:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-16-1400","posto_id":"P01","data":"2026-11-16","hora":"14:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-16-1430","posto_id":"P01","data":"2026-11-16","hora":"14:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-16-1500","posto_id":"P01","data":"2026-11-16","hora":"15:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P01-2026-11-16-1530","posto_id":"P01","data":"2026-11-16","hora":"15:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-03-0800","posto_id":"P02","data":"2026-11-03","hora":"08:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-03-0830","posto_id":"P02","data":"2026-11-03","hora":"08:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-03-0900","posto_id":"P02","data":"2026-11-03","hora":"09:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-03-0930","posto_id":"P02","data":"2026-11-03","hora":"09:30","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P02-2026-11-03-1000","posto_id":"P02","data":"2026-11-03","hora":"10:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-03-1030","posto_id":"P02","data":"2026-11-03","hora":"10:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-03-1100","posto_id":"P02","data":"2026-11-03","hora":"11:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-03-1130","posto_id":"P02","data":"2026-11-03","hora":"11:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-03-1200","posto_id":"P02","data":"2026-11-03","hora":"12:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-03-1230","posto_id":"P02","data":"2026-11-03","hora":"12:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-03-1300","posto_id":"P02","data":"2026-11-03","hora":"13:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-03-1330","posto_id":"P02","data":"2026-11-03","hora":"13:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-03-1400","posto_id":"P02","data":"2026-11-03","hora":"14:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-03-1430","posto_id":"P02","data":"2026-11-03","hora":"14:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-03-1500","posto_id":"P02","data":"2026-11-03","hora":"15:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-03-1530","posto_id":"P02","data":"2026-11-03","hora":"15:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-04-0800","posto_id":"P02","data":"2026-11-04","hora":"08:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-04-0830","posto_id":"P02","data":"2026-11-04","hora":"08:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-04-0900","posto_id":"P02","data":"2026-11-04","hora":"09:00","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P02-2026-11-04-0930","posto_id":"P02","data":"2026-11-04","hora":"09:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-04-1000","posto_id":"P02","data":"2026-11-04","hora":"10:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-04-1030","posto_id":"P02","data":"2026-11-04","hora":"10:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-04-1100","posto_id":"P02","data":"2026-11-04","hora":"11:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-04-1130","posto_id":"P02","data":"2026-11-04","hora":"11:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-04-1200","posto_id":"P02","data":"2026-11-04","hora":"12:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-04-1230","posto_id":"P02","data":"2026-11-04","hora":"12:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-04-1300","posto_id":"P02","data":"2026-11-04","hora":"13:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-04-1330","posto_id":"P02","data":"2026-11-04","hora":"13:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-04-1400","posto_id":"P02","data":"2026-11-04","hora":"14:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-04-1430","posto_id":"P02","data":"2026-11-04","hora":"14:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-04-1500","posto_id":"P02","data":"2026-11-04","hora":"15:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-04-1530","posto_id":"P02","data":"2026-11-04","hora":"15:30","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P02-2026-11-05-0800","posto_id":"P02","data":"2026-11-05","hora":"08:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-05-0830","posto_id":"P02","data":"2026-11-05","hora":"08:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-05-0900","posto_id":"P02","data":"2026-11-05","hora":"09:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-05-0930","posto_id":"P02","data":"2026-11-05","hora":"09:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-05-1000","posto_id":"P02","data":"2026-11-05","hora":"10:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-05-1030","posto_id":"P02","data":"2026-11-05","hora":"10:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-05-1100","posto_id":"P02","data":"2026-11-05","hora":"11:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-05-1130","posto_id":"P02","data":"2026-11-05","hora":"11:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-05-1200","posto_id":"P02","data":"2026-11-05","hora":"12:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-05-1230","posto_id":"P02","data":"2026-11-05","hora":"12:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-05-1300","posto_id":"P02","data":"2026-11-05","hora":"13:00","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P02-2026-11-05-1330","posto_id":"P02","data":"2026-11-05","hora":"13:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-05-1400","posto_id":"P02","data":"2026-11-05","hora":"14:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-05-1430","posto_id":"P02","data":"2026-11-05","hora":"14:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-05-1500","posto_id":"P02","data":"2026-11-05","hora":"15:00","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P02-2026-11-05-1530","posto_id":"P02","data":"2026-11-05","hora":"15:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-06-0800","posto_id":"P02","data":"2026-11-06","hora":"08:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-06-0830","posto_id":"P02","data":"2026-11-06","hora":"08:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-06-0900","posto_id":"P02","data":"2026-11-06","hora":"09:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-06-0930","posto_id":"P02","data":"2026-11-06","hora":"09:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-06-1000","posto_id":"P02","data":"2026-11-06","hora":"10:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-06-1030","posto_id":"P02","data":"2026-11-06","hora":"10:30","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P02-2026-11-06-1100","posto_id":"P02","data":"2026-11-06","hora":"11:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-06-1130","posto_id":"P02","data":"2026-11-06","hora":"11:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-06-1200","posto_id":"P02","data":"2026-11-06","hora":"12:00","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P02-2026-11-06-1230","posto_id":"P02","data":"2026-11-06","hora":"12:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-06-1300","posto_id":"P02","data":"2026-11-06","hora":"13:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-06-1330","posto_id":"P02","data":"2026-11-06","hora":"13:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-06-1400","posto_id":"P02","data":"2026-11-06","hora":"14:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-06-1430","posto_id":"P02","data":"2026-11-06","hora":"14:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-06-1500","posto_id":"P02","data":"2026-11-06","hora":"15:00","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P02-2026-11-06-1530","posto_id":"P02","data":"2026-11-06","hora":"15:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-09-0800","posto_id":"P02","data":"2026-11-09","hora":"08:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-09-0830","posto_id":"P02","data":"2026-11-09","hora":"08:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-09-0900","posto_id":"P02","data":"2026-11-09","hora":"09:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-09-0930","posto_id":"P02","data":"2026-11-09","hora":"09:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-09-1000","posto_id":"P02","data":"2026-11-09","hora":"10:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-09-1030","posto_id":"P02","data":"2026-11-09","hora":"10:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-09-1100","posto_id":"P02","data":"2026-11-09","hora":"11:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-09-1130","posto_id":"P02","data":"2026-11-09","hora":"11:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-09-1200","posto_id":"P02","data":"2026-11-09","hora":"12:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-09-1230","posto_id":"P02","data":"2026-11-09","hora":"12:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-09-1300","posto_id":"P02","data":"2026-11-09","hora":"13:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-09-1330","posto_id":"P02","data":"2026-11-09","hora":"13:30","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P02-2026-11-09-1400","posto_id":"P02","data":"2026-11-09","hora":"14:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-09-1430","posto_id":"P02","data":"2026-11-09","hora":"14:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-09-1500","posto_id":"P02","data":"2026-11-09","hora":"15:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-09-1530","posto_id":"P02","data":"2026-11-09","hora":"15:30","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P02-2026-11-10-0800","posto_id":"P02","data":"2026-11-10","hora":"08:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-10-0830","posto_id":"P02","data":"2026-11-10","hora":"08:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-10-0900","posto_id":"P02","data":"2026-11-10","hora":"09:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-10-0930","posto_id":"P02","data":"2026-11-10","hora":"09:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-10-1000","posto_id":"P02","data":"2026-11-10","hora":"10:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-10-1030","posto_id":"P02","data":"2026-11-10","hora":"10:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-10-1100","posto_id":"P02","data":"2026-11-10","hora":"11:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-10-1130","posto_id":"P02","data":"2026-11-10","hora":"11:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-10-1200","posto_id":"P02","data":"2026-11-10","hora":"12:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-10-1230","posto_id":"P02","data":"2026-11-10","hora":"12:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-10-1300","posto_id":"P02","data":"2026-11-10","hora":"13:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-10-1330","posto_id":"P02","data":"2026-11-10","hora":"13:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-10-1400","posto_id":"P02","data":"2026-11-10","hora":"14:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-10-1430","posto_id":"P02","data":"2026-11-10","hora":"14:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-10-1500","posto_id":"P02","data":"2026-11-10","hora":"15:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-10-1530","posto_id":"P02","data":"2026-11-10","hora":"15:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-11-0800","posto_id":"P02","data":"2026-11-11","hora":"08:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-11-0830","posto_id":"P02","data":"2026-11-11","hora":"08:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-11-0900","posto_id":"P02","data":"2026-11-11","hora":"09:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-11-0930","posto_id":"P02","data":"2026-11-11","hora":"09:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-11-1000","posto_id":"P02","data":"2026-11-11","hora":"10:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-11-1030","posto_id":"P02","data":"2026-11-11","hora":"10:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-11-1100","posto_id":"P02","data":"2026-11-11","hora":"11:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-11-1130","posto_id":"P02","data":"2026-11-11","hora":"11:30","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P02-2026-11-11-1200","posto_id":"P02","data":"2026-11-11","hora":"12:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-11-1230","posto_id":"P02","data":"2026-11-11","hora":"12:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-11-1300","posto_id":"P02","data":"2026-11-11","hora":"13:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-11-1330","posto_id":"P02","data":"2026-11-11","hora":"13:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-11-1400","posto_id":"P02","data":"2026-11-11","hora":"14:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-11-1430","posto_id":"P02","data":"2026-11-11","hora":"14:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-11-1500","posto_id":"P02","data":"2026-11-11","hora":"15:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-11-1530","posto_id":"P02","data":"2026-11-11","hora":"15:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-12-0800","posto_id":"P02","data":"2026-11-12","hora":"08:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-12-0830","posto_id":"P02","data":"2026-11-12","hora":"08:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-12-0900","posto_id":"P02","data":"2026-11-12","hora":"09:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-12-0930","posto_id":"P02","data":"2026-11-12","hora":"09:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-12-1000","posto_id":"P02","data":"2026-11-12","hora":"10:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-12-1030","posto_id":"P02","data":"2026-11-12","hora":"10:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-12-1100","posto_id":"P02","data":"2026-11-12","hora":"11:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-12-1130","posto_id":"P02","data":"2026-11-12","hora":"11:30","capacidade":2,"ocupadas":1,"situacao":"aberto"},{"horario_id":"P02-2026-11-12-1200","posto_id":"P02","data":"2026-11-12","hora":"12:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-12-1230","posto_id":"P02","data":"2026-11-12","hora":"12:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-12-1300","posto_id":"P02","data":"2026-11-12","hora":"13:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-12-1330","posto_id":"P02","data":"2026-11-12","hora":"13:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-12-1400","posto_id":"P02","data":"2026-11-12","hora":"14:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-12-1430","posto_id":"P02","data":"2026-11-12","hora":"14:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-12-1500","posto_id":"P02","data":"2026-11-12","hora":"15:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-12-1530","posto_id":"P02","data":"2026-11-12","hora":"15:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-13-0800","posto_id":"P02","data":"2026-11-13","hora":"08:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-13-0830","posto_id":"P02","data":"2026-11-13","hora":"08:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-13-0900","posto_id":"P02","data":"2026-11-13","hora":"09:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-13-0930","posto_id":"P02","data":"2026-11-13","hora":"09:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-13-1000","posto_id":"P02","data":"2026-11-13","hora":"10:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-13-1030","posto_id":"P02","data":"2026-11-13","hora":"10:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-13-1100","posto_id":"P02","data":"2026-11-13","hora":"11:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-13-1130","posto_id":"P02","data":"2026-11-13","hora":"11:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-13-1200","posto_id":"P02","data":"2026-11-13","hora":"12:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-13-1230","posto_id":"P02","data":"2026-11-13","hora":"12:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-13-1300","posto_id":"P02","data":"2026-11-13","hora":"13:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-13-1330","posto_id":"P02","data":"2026-11-13","hora":"13:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-13-1400","posto_id":"P02","data":"2026-11-13","hora":"14:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-13-1430","posto_id":"P02","data":"2026-11-13","hora":"14:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-13-1500","posto_id":"P02","data":"2026-11-13","hora":"15:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-13-1530","posto_id":"P02","data":"2026-11-13","hora":"15:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-16-0800","posto_id":"P02","data":"2026-11-16","hora":"08:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-16-0830","posto_id":"P02","data":"2026-11-16","hora":"08:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-16-0900","posto_id":"P02","data":"2026-11-16","hora":"09:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-16-0930","posto_id":"P02","data":"2026-11-16","hora":"09:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-16-1000","posto_id":"P02","data":"2026-11-16","hora":"10:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-16-1030","posto_id":"P02","data":"2026-11-16","hora":"10:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-16-1100","posto_id":"P02","data":"2026-11-16","hora":"11:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-16-1130","posto_id":"P02","data":"2026-11-16","hora":"11:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-16-1200","posto_id":"P02","data":"2026-11-16","hora":"12:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-16-1230","posto_id":"P02","data":"2026-11-16","hora":"12:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-16-1300","posto_id":"P02","data":"2026-11-16","hora":"13:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-16-1330","posto_id":"P02","data":"2026-11-16","hora":"13:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-16-1400","posto_id":"P02","data":"2026-11-16","hora":"14:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-16-1430","posto_id":"P02","data":"2026-11-16","hora":"14:30","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-16-1500","posto_id":"P02","data":"2026-11-16","hora":"15:00","capacidade":2,"ocupadas":0,"situacao":"aberto"},{"horario_id":"P02-2026-11-16-1530","posto_id":"P02","data":"2026-11-16","hora":"15:30","capacidade":2,"ocupadas":0,"situacao":"aberto"}],"agendamentos":[{"protocolo":"CIN-100000","posto_id":"P02","horario_id":"P02-2026-11-12-0830","nome":"Katia Ramos","telefone":"(65) 99987-6717","email":"","cpf_final4":"","status":"cancelado","criado_em":"2026-10-27T09:00:00-04:00","cancelado_em":"2026-10-28T09:00:00-04:00","compareceu_em":""},{"protocolo":"CIN-107919","posto_id":"P02","horario_id":"P02-2026-11-09-1330","nome":"Leo Vieira","telefone":"(65) 99402-8511","email":"leo@exemplo.com","cpf_final4":"6948","status":"confirmado","criado_em":"2026-10-27T12:00:00-04:00","cancelado_em":"","compareceu_em":""},{"protocolo":"CIN-115838","posto_id":"P01","horario_id":"P01-2026-11-05-1400","nome":"Leo Vieira","telefone":"(65) 98535-3412","email":"leo@exemplo.com","cpf_final4":"","status":"compareceu","criado_em":"2026-10-27T15:00:00-04:00","cancelado_em":"","compareceu_em":"2026-11-05T14:00:00-04:00"},{"protocolo":"CIN-123757","posto_id":"P02","horario_id":"P02-2026-11-06-1200","nome":"Katia Ramos","telefone":"(65) 98473-9204","email":"","cpf_final4":"2196","status":"ausente","criado_em":"2026-10-27T18:00:00-04:00","cancelado_em":"","compareceu_em":""},{"protocolo":"CIN-131676","posto_id":"P01","horario_id":"P01-2026-11-13-0900","nome":"Jonas Melo","telefone":"(65) 99874-2712","email":"jonas@exemplo.com","cpf_final4":"","status":"confirmado","criado_em":"2026-10-27T21:00:00-04:00","cancelado_em":"","compareceu_em":""},{"protocolo":"CIN-139595","posto_id":"P01","horario_id":"P01-2026-11-12-1430","nome":"Katia Ramos","telefone":"(65) 98573-4201","email":"katia@exemplo.com","cpf_final4":"7204","status":"confirmado","criado_em":"2026-10-28T00:00:00-04:00","cancelado_em":"","compareceu_em":""},{"protocolo":"CIN-147514","posto_id":"P02","horario_id":"P02-2026-11-05-1300","nome":"Iara Costa","telefone":"(65) 99036-2998","email":"","cpf_final4":"","status":"confirmado","criado_em":"2026-10-28T03:00:00-04:00","cancelado_em":"","compareceu_em":""},{"protocolo":"CIN-155433","posto_id":"P01","horario_id":"P01-2026-11-06-0930","nome":"Bruno Lima","telefone":"(65) 98438-8977","email":"bruno@exemplo.com","cpf_final4":"4781","status":"confirmado","criado_em":"2026-10-28T06:00:00-04:00","cancelado_em":"","compareceu_em":""},{"protocolo":"CIN-163352","posto_id":"P02","horario_id":"P02-2026-11-06-1030","nome":"Carla Dias","telefone":"(65) 99107-7949","email":"carla@exemplo.com","cpf_final4":"","status":"ausente","criado_em":"2026-10-28T09:00:00-04:00","cancelado_em":"","compareceu_em":""},{"protocolo":"CIN-171271","posto_id":"P02","horario_id":"P02-2026-11-16-1000","nome":"Jonas Melo","telefone":"(65) 98971-7595","email":"","cpf_final4":"6915","status":"cancelado","criado_em":"2026-10-28T12:00:00-04:00","cancelado_em":"2026-10-29T12:00:00-04:00","compareceu_em":""},{"protocolo":"CIN-179190","posto_id":"P01","horario_id":"P01-2026-11-03-1130","nome":"Otávio Luz","telefone":"(65) 99223-1661","email":"otavio@exemplo.com","cpf_final4":"","status":"cancelado","criado_em":"2026-10-28T15:00:00-04:00","cancelado_em":"2026-10-29T15:00:00-04:00","compareceu_em":""},{"protocolo":"CIN-187109","posto_id":"P02","horario_id":"P02-2026-11-11-1130","nome":"Otávio Luz","telefone":"(65) 99291-5696","email":"otavio@exemplo.com","cpf_final4":"6917","status":"compareceu","criado_em":"2026-10-28T18:00:00-04:00","cancelado_em":"","compareceu_em":"2026-11-11T11:30:00-04:00"},{"protocolo":"CIN-195028","posto_id":"P02","horario_id":"P02-2026-11-09-1530","nome":"Hugo Pires","telefone":"(65) 98903-6037","email":"","cpf_final4":"","status":"confirmado","criado_em":"2026-10-28T21:00:00-04:00","cancelado_em":"","compareceu_em":""},{"protocolo":"CIN-202947","posto_id":"P01","horario_id":"P01-2026-11-10-1100","nome":"Otávio Luz","telefone":"(65) 98756-9802","email":"otavio@exemplo.com","cpf_final4":"1518","status":"compareceu","criado_em":"2026-10-29T00:00:00-04:00","cancelado_em":"","compareceu_em":"2026-11-10T11:00:00-04:00"},{"protocolo":"CIN-210866","posto_id":"P02","horario_id":"P02-2026-11-04-1530","nome":"Elaine Paz","telefone":"(65) 98912-8733","email":"elaine@exemplo.com","cpf_final4":"","status":"ausente","criado_em":"2026-10-29T03:00:00-04:00","cancelado_em":"","compareceu_em":""},{"protocolo":"CIN-218785","posto_id":"P02","horario_id":"P02-2026-11-06-1500","nome":"Gisele Mota","telefone":"(65) 98543-8287","email":"","cpf_final4":"8320","status":"compareceu","criado_em":"2026-10-29T06:00:00-04:00","cancelado_em":"","compareceu_em":"2026-11-06T15:00:00-04:00"},{"protocolo":"CIN-226704","posto_id":"P01","horario_id":"P01-2026-11-16-1130","nome":"Katia Ramos","telefone":"(65) 99995-8065","email":"katia@exemplo.com","cpf_final4":"","status":"confirmado","criado_em":"2026-10-29T09:00:00-04:00","cancelado_em":"","compareceu_em":""},{"protocolo":"CIN-234623","posto_id":"P01","horario_id":"P01-2026-11-12-0830","nome":"Hugo Pires","telefone":"(65) 98542-6576","email":"hugo@exemplo.com","cpf_final4":"5519","status":"compareceu","criado_em":"2026-10-29T12:00:00-04:00","cancelado_em":"","compareceu_em":"2026-11-12T08:30:00-04:00"},{"protocolo":"CIN-242542","posto_id":"P01","horario_id":"P01-2026-11-09-1430","nome":"Iara Costa","telefone":"(65) 99977-8879","email":"","cpf_final4":"","status":"confirmado","criado_em":"2026-10-29T15:00:00-04:00","cancelado_em":"","compareceu_em":""},{"protocolo":"CIN-250461","posto_id":"P01","horario_id":"P01-2026-11-12-1200","nome":"Mara Nunes","telefone":"(65) 99530-7661","email":"mara@exemplo.com","cpf_final4":"9181","status":"cancelado","criado_em":"2026-10-29T18:00:00-04:00","cancelado_em":"2026-10-30T18:00:00-04:00","compareceu_em":""},{"protocolo":"CIN-258380","posto_id":"P01","horario_id":"P01-2026-11-09-0930","nome":"Davi Rocha","telefone":"(65) 99009-6358","email":"davi@exemplo.com","cpf_final4":"","status":"compareceu","criado_em":"2026-10-29T21:00:00-04:00","cancelado_em":"","compareceu_em":"2026-11-09T09:30:00-04:00"},{"protocolo":"CIN-266299","posto_id":"P01","horario_id":"P01-2026-11-04-0930","nome":"Otávio Luz","telefone":"(65) 98717-2091","email":"","cpf_final4":"2996","status":"compareceu","criado_em":"2026-10-30T00:00:00-04:00","cancelado_em":"","compareceu_em":"2026-11-04T09:30:00-04:00"},{"protocolo":"CIN-274218","posto_id":"P01","horario_id":"P01-2026-11-06-1000","nome":"Davi Rocha","telefone":"(65) 98401-2100","email":"davi@exemplo.com","cpf_final4":"","status":"confirmado","criado_em":"2026-10-30T03:00:00-04:00","cancelado_em":"","compareceu_em":""},{"protocolo":"CIN-282137","posto_id":"P01","horario_id":"P01-2026-11-05-1400","nome":"Otávio Luz","telefone":"(65) 99101-8105","email":"otavio@exemplo.com","cpf_final4":"7429","status":"ausente","criado_em":"2026-10-30T06:00:00-04:00","cancelado_em":"","compareceu_em":""},{"protocolo":"CIN-290056","posto_id":"P01","horario_id":"P01-2026-11-05-0830","nome":"Elaine Paz","telefone":"(65) 98387-3316","email":"","cpf_final4":"","status":"ausente","criado_em":"2026-10-30T09:00:00-04:00","cancelado_em":"","compareceu_em":""},{"protocolo":"CIN-297975","posto_id":"P02","horario_id":"P02-2026-11-05-1500","nome":"Nilo Prado","telefone":"(65) 98588-2971","email":"nilo@exemplo.com","cpf_final4":"9969","status":"confirmado","criado_em":"2026-10-30T12:00:00-04:00","cancelado_em":"","compareceu_em":""},{"protocolo":"CIN-305894","posto_id":"P02","horario_id":"P02-2026-11-04-0900","nome":"Ana Souza","telefone":"(65) 99019-4624","email":"ana@exemplo.com","cpf_final4":"","status":"confirmado","criado_em":"2026-10-30T15:00:00-04:00","cancelado_em":"","compareceu_em":""},{"protocolo":"CIN-313813","posto_id":"P02","horario_id":"P02-2026-11-12-1130","nome":"Katia Ramos","telefone":"(65) 99285-1627","email":"","cpf_final4":"1212","status":"compareceu","criado_em":"2026-10-30T18:00:00-04:00","cancelado_em":"","compareceu_em":"2026-11-12T11:30:00-04:00"},{"protocolo":"CIN-321732","posto_id":"P02","horario_id":"P02-2026-11-03-0930","nome":"Nilo Prado","telefone":"(65) 99468-6104","email":"nilo@exemplo.com","cpf_final4":"","status":"compareceu","criado_em":"2026-10-30T21:00:00-04:00","cancelado_em":"","compareceu_em":"2026-11-03T09:30:00-04:00"},{"protocolo":"CIN-329651","posto_id":"P01","horario_id":"P01-2026-11-13-0800","nome":"Nilo Prado","telefone":"(65) 99428-5421","email":"nilo@exemplo.com","cpf_final4":"7575","status":"ausente","criado_em":"2026-10-31T00:00:00-04:00","cancelado_em":"","compareceu_em":""}],"usuarios":[{"usuario_id":"U01","email":"servidor.centro@politec.mt.gov.br","perfil":"posto","posto_id":"P01","ativo":true},{"usuario_id":"U02","email":"servidor.vg@politec.mt.gov.br","perfil":"posto","posto_id":"P02","ativo":true},{"usuario_id":"U03","email":"gestao.identificacao@politec.mt.gov.br","perfil":"gestao","posto_id":"","ativo":true}],"log":[]}</script>
+<!-- /DADOS:seed -->
+
+<script>
+/* ===================================================================
+   BASE COMUM DOS APPS
+   util · db (IndexedDB) · roteador · tema · backup · perfis
+   =================================================================== */
+"use strict";
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => Array.from(el.querySelectorAll(s));
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : "id-" + Date.now().toString(36) + Math.random().toString(36).slice(2));
+const agora = () => new Date().toISOString();
+const dataBR = iso => iso ? new Date(iso).toLocaleString("pt-BR") : "";
+
+function toast(msg, ms=3200){
+  const t = $("#toast"); t.textContent = msg; t.style.display = "block";
+  clearTimeout(toast._t); toast._t = setTimeout(()=>{ t.style.display = "none"; }, ms);
+}
+function baixar(nome, conteudo, tipo="application/octet-stream"){
+  const blob = conteudo instanceof Blob ? conteudo : new Blob([conteudo], {type: tipo});
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = nome;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+}
+function lerArquivoTexto(file){
+  return new Promise((ok, erro)=>{ const r = new FileReader(); r.onload = ()=>ok(r.result); r.onerror = erro; r.readAsText(file); });
+}
+function dadosEmbutidos(id){
+  const el = document.getElementById(id);
+  return el && el.textContent.trim() ? JSON.parse(el.textContent) : null;
+}
+function lerArrayBuffer(file){
+  return new Promise((ok, erro)=>{ const r = new FileReader(); r.onload = ()=>ok(r.result); r.onerror = erro; r.readAsArrayBuffer(file); });
+}
+// sem acento, minúsculo, espaços simples: para casar nomes de colunas, setores e unidades
+const normalizar = s => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+const hojeISO = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); };
+const dataCurtaBR = iso => iso ? iso.slice(0, 10).split("-").reverse().join("/") : "";
+// "29/10/2026", "29/10/2026 09:15:00", "2026-10-29" -> "2026-10-29" (ou com hora: "2026-10-29T09:15:00")
+function dataDeTexto(t){
+  const s = String(t ?? "").trim();
+  let m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);
+  if (m){ const d = `${m[3]}-${m[2].padStart(2, "0")}-${m[1].padStart(2, "0")}`; return m[4] ? `${d}T${m[4].padStart(2, "0")}:${m[5]}:${m[6] || "00"}` : d; }
+  m = s.match(/^(\d{4})-(\d{2})-(\d{2})(T[\d:]+)?/);
+  return m ? m[0] : null;
+}
+
+/* ---------- dinheiro em centavos inteiros (sem erro de arredondamento) ---------- */
+const dinheiro = {
+  // "1.234,56" · "R$ 1.234,5" · "1234.56" · 12.5 -> centavos. Arredonda meio para cima na 3ª casa.
+  de(v){
+    if (v === null || v === undefined || v === "") return null;
+    if (typeof v === "number") return Math.round(v * 100);
+    let s = String(v).trim().replace(/^R\$\s*/, "").replace(/\s/g, "");
+    const neg = s.startsWith("-"); s = s.replace(/^-/, "");
+    if (s.includes(",")) s = s.replace(/\./g, "").replace(",", ".");
+    else if (/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g, "");
+    const [i, d = ""] = s.split(".");
+    if (!/^\d+$/.test(i) || !/^\d*$/.test(d)) return NaN;
+    const c = Number(i) * 100 + Number((d + "00").slice(0, 2)) + (Number(d[2] || 0) >= 5 ? 1 : 0);
+    return neg ? -c : c;
+  },
+  // 123456 -> "R$ 1.234,56"
+  fmt(c){
+    if (c === null || c === undefined || Number.isNaN(c)) return "";
+    const neg = c < 0; c = Math.abs(c);
+    return (neg ? "-" : "") + "R$ " + Math.floor(c / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "," + String(c % 100).padStart(2, "0");
+  },
+  // quantidade (até 3 casas) × valor unitário em centavos, arredondado a 2 casas
+  vezes(qtd, c){ const q = Math.round(qtd * 1000); return Math.floor((q * c + 500) / 1000); },
+  // divide um total em centavos pelos pesos, sem perder centavo (maiores restos)
+  ratear(total, pesos){
+    const soma = pesos.reduce((a, b)=>a + b, 0); if (!soma) return pesos.map(()=>0);
+    const base = pesos.map(p=>Math.floor(total * p / soma)); const falta = total - base.reduce((a, b)=>a + b, 0);
+    pesos.map((p, i)=>({i, r: total * p / soma - base[i]})).sort((a, b)=>b.r - a.r).slice(0, falta).forEach(x=>base[x.i]++);
+    return base;
+  }
+};
+
+/* ---------- documentos ---------- */
+function cpfValido(v){
+  const d = String(v || "").replace(/\D/g, "");
+  if (d.length !== 11 || /^(\d)\1{10}$/.test(d)) return false;
+  for (const t of [9, 10]){
+    let s = 0; for (let i = 0; i < t; i++) s += Number(d[i]) * (t + 1 - i);
+    if (((s * 10) % 11) % 10 !== Number(d[t])) return false;
+  }
+  return true;
+}
+function cnpjValido(v){
+  const d = String(v || "").replace(/\D/g, "");
+  if (d.length !== 14 || /^(\d)\1{13}$/.test(d)) return false;
+  const dv = n => { const pesos = n === 12 ? [5,4,3,2,9,8,7,6,5,4,3,2] : [6,5,4,3,2,9,8,7,6,5,4,3,2];
+    const s = pesos.reduce((a, p, i)=>a + Number(d[i]) * p, 0) % 11; return s < 2 ? 0 : 11 - s; };
+  return dv(12) === Number(d[12]) && dv(13) === Number(d[13]);
+}
+
+/* ---------- CSV: separador detectado (; , ou tab), aspas, BOM ---------- */
+function lerCSV(texto){
+  texto = String(texto).replace(/^﻿/, "");
+  const primeira = texto.split(/\r?\n/, 1)[0];
+  const sep = [";", "\t", ","].map(c=>[c, primeira.split(c).length]).sort((a, b)=>b[1] - a[1])[0][0];
+  const linhas = []; let linha = [], campo = "", aspas = false;
+  for (let i = 0; i < texto.length; i++){
+    const c = texto[i];
+    if (aspas){
+      if (c === '"' && texto[i + 1] === '"'){ campo += '"'; i++; }
+      else if (c === '"') aspas = false; else campo += c;
+    } else if (c === '"') aspas = true;
+    else if (c === sep){ linha.push(campo); campo = ""; }
+    else if (c === "\n" || c === "\r"){
+      if (c === "\r" && texto[i + 1] === "\n") i++;
+      linha.push(campo); campo = ""; if (linha.some(x=>x !== "")) linhas.push(linha); linha = [];
+    } else campo += c;
+  }
+  linha.push(campo); if (linha.some(x=>x !== "")) linhas.push(linha);
+  return linhas;
+}
+// sugere, para cada campo, a coluna do cabeçalho cujo nome contém um dos sinônimos
+function sugerirColunas(cabecalho, sinonimos){
+  const cab = cabecalho.map(normalizar), out = {};
+  for (const [campo, lista] of Object.entries(sinonimos)){
+    const i = cab.findIndex(c=>lista.some(s=>c === normalizar(s))) ;
+    const j = i >= 0 ? i : cab.findIndex(c=>lista.some(s=>c.includes(normalizar(s))));
+    out[campo] = j;
+  }
+  return out;
+}
+
+/* ---------- imagem: reduz no navegador antes de guardar ---------- */
+function reduzirImagem(fonte, max=1280, qualidade=0.75){
+  return new Promise((ok, erro)=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const k = Math.min(1, max / Math.max(img.width, img.height));
+      const cv = document.createElement("canvas"); cv.width = Math.round(img.width * k); cv.height = Math.round(img.height * k);
+      cv.getContext("2d").drawImage(img, 0, 0, cv.width, cv.height);
+      cv.toBlob(b=>{ URL.revokeObjectURL(img.src); b ? ok(b) : erro(new Error("Não consegui reduzir a imagem.")); }, "image/jpeg", qualidade);
+    };
+    img.onerror = ()=>erro(new Error("Arquivo de imagem ilegível."));
+    img.src = fonte instanceof Blob ? URL.createObjectURL(fonte) : fonte;
+  });
+}
+
+/* ---------- formulário ---------- */
+// campo("nome", "Nome", {tipo: "text", valor, obrigatorio, ajuda, attrs})
+function campo(id, rotulo, o={}){
+  const tipo = o.tipo || "text", obr = o.obrigatorio ? " required" : "", v = o.valor ?? "";
+  const ajuda = o.ajuda ? `<small class="sub" id="${id}-ajuda">${esc(o.ajuda)}</small>` : "";
+  const desc = o.ajuda ? ` aria-describedby="${id}-ajuda"` : "";
+  let ctl;
+  if (tipo === "textarea") ctl = `<textarea id="${id}" name="${id}" rows="${o.linhas || 4}"${obr}${desc} ${o.attrs || ""}>${esc(v)}</textarea>`;
+  else if (tipo === "select") ctl = `<select id="${id}" name="${id}"${obr}${desc} ${o.attrs || ""}>${(o.opcoes || []).map(op=>{
+      const [val, txt] = Array.isArray(op) ? op : [op, op];
+      return `<option value="${esc(val)}" ${String(val) === String(v) ? "selected" : ""}>${esc(txt)}</option>`; }).join("")}</select>`;
+  else ctl = `<input id="${id}" name="${id}" type="${tipo}" value="${esc(v)}"${obr}${desc} ${o.attrs || ""}>`;
+  return `<div class="campo"><label for="${id}">${esc(rotulo)}${o.obrigatorio ? " *" : ""}</label>${ctl}${ajuda}</div>`;
+}
+const valorDe = id => ($("#" + id)?.value ?? "").trim();
+function mostrarErros(alvo, erros){
+  const el = typeof alvo === "string" ? $(alvo) : alvo;
+  el.innerHTML = erros.length ? `<div class="card pendente" role="alert"><b>Corrija antes de salvar:</b><ul>${erros.map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>` : "";
+  if (erros.length) el.scrollIntoView({block: "nearest"});
+  return !erros.length;
+}
+
+/* ---------- db: camada fina sobre o IndexedDB ---------- */
+const db = {
+  con: null,
+  abrir(){
+    return new Promise((ok, erro)=>{
+      const req = indexedDB.open(APP.db.nome, APP.db.versao);
+      req.onupgradeneeded = ()=>{
+        const banco = req.result;
+        const stores = Object.assign({meta: {keyPath: "chave"}}, APP.db.stores);
+        for (const [nome, def] of Object.entries(stores)){
+          const st = banco.objectStoreNames.contains(nome) ? req.transaction.objectStore(nome) : banco.createObjectStore(nome, {keyPath: def.keyPath});
+          for (const ix of def.indices || []){
+            if (!st.indexNames.contains(ix.nome)) st.createIndex(ix.nome, ix.campo, {unique: !!ix.unico});
+          }
+        }
+      };
+      req.onsuccess = ()=>{ this.con = req.result; ok(this.con); };
+      req.onerror = ()=>erro(req.error);
+    });
+  },
+  _op(store, modo, fn){
+    return new Promise((ok, erro)=>{
+      const tx = this.con.transaction(store, modo); const r = fn(tx.objectStore(store));
+      tx.oncomplete = ()=>ok(r && "result" in r ? r.result : undefined);
+      tx.onerror = ()=>erro(tx.error); tx.onabort = ()=>erro(tx.error);
+    });
+  },
+  get(store, chave){ return this._op(store, "readonly", s=>s.get(chave)); },
+  list(store){ return this._op(store, "readonly", s=>s.getAll()); },
+  porIndice(store, indice, valor){ return this._op(store, "readonly", s=>s.index(indice).getAll(valor)); },
+  put(store, obj){ return this._op(store, "readwrite", s=>s.put(obj)); },
+  del(store, chave){ return this._op(store, "readwrite", s=>s.delete(chave)); },
+  limpar(store){ return this._op(store, "readwrite", s=>s.clear()); },
+  async meta(chave, valor){
+    if (valor === undefined){ const r = await this.get("meta", chave); return r ? r.valor : undefined; }
+    return this.put("meta", {chave, valor});
+  },
+  async exportar(){
+    const dados = {};
+    for (const nome of Object.keys(APP.db.stores)) dados[nome] = await this.list(nome);
+    return {app: APP.id, versao: APP.db.versao, exportado_em: agora(), dados};
+  },
+  async importar(pacote, substituir=true){
+    if (!pacote || pacote.app !== APP.id) throw new Error("Este arquivo não é um backup deste app.");
+    for (const [nome, linhas] of Object.entries(pacote.dados || {})){
+      if (!APP.db.stores[nome]) continue;
+      if (substituir) await this.limpar(nome);
+      for (const l of linhas) await this.put(nome, l);
+    }
+  }
+};
+async function registrar(acao, detalhe={}){
+  const store = APP.db.log || "log";
+  if (!APP.db.stores[store]) return;
+  await db.put(store, {id: uuid(), data_hora: agora(), perfil: estado.perfil || "", acao, ...detalhe});
+}
+
+/* ---------- tema ---------- */
+function aplicarTema(t){ if (t) document.documentElement.dataset.theme = t; else delete document.documentElement.dataset.theme; }
+function iniciarTema(){
+  let t = null; try { t = localStorage.getItem(APP.id + ":tema"); } catch(e){}
+  aplicarTema(t);
+  $("#btnTema").addEventListener("click", ()=>{
+    const escuro = document.documentElement.dataset.theme === "dark" ||
+      (!document.documentElement.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches);
+    const novo = escuro ? "light" : "dark"; aplicarTema(novo);
+    try { localStorage.setItem(APP.id + ":tema", novo); } catch(e){}
+  });
+}
+
+/* ---------- roteador por hash ---------- */
+const estado = {perfil: null, rota: null};
+function casarRota(hash){
+  const partes = hash.replace(/^#\/?/, "").split("?")[0].split("/").filter(Boolean);
+  for (const r of APP.rotas){
+    const molde = r.rota.replace(/^#\/?/, "").split("/").filter(Boolean);
+    if (molde.length !== partes.length) continue;
+    const params = {}; let ok = true;
+    molde.forEach((m, i)=>{ if (m.startsWith(":")) params[m.slice(1)] = decodeURIComponent(partes[i]); else if (m !== partes[i]) ok = false; });
+    if (ok) return {r, params};
+  }
+  return null;
+}
+function rotaPermitida(r){ return !r.perfis || !estado.perfil || r.perfis.includes(estado.perfil); }
+function montarMenu(){
+  $("#menu").innerHTML = APP.rotas.filter(r=>r.menu !== false && !r.publica && !r.rota.includes(":") && rotaPermitida(r))
+    .map(r=>`<a href="${r.rota}" data-rota="${r.rota}">${esc(r.titulo)}</a>`).join("");
+  const p = $("#perfilAtual");
+  if (APP.perfis && estado.perfil){ p.hidden = false; p.textContent = "Perfil: " + estado.perfil; } else p.hidden = true;
+}
+async function navegar(){
+  if (APP.perfis && !estado.perfil && !["#/testes", ...(APP.rotaSemPerfil || [])].some(x=>location.hash.startsWith(x))){
+    if (APP.perfilDoServidor){
+      $("#conteudo").innerHTML = `<div class="card pendente"><h1>Acesso restrito</h1><p>Esta área é só para servidores cadastrados. Entre com a conta institucional.</p></div>`;
+      return;
+    }
+    return telaEscolherPerfil();
+  }
+  const hash = location.hash || APP.rotas[0].rota;
+  const achou = hash.startsWith("#/testes") ? {r: {rota: "#/testes", titulo: "Testes", publica: false}, params: {}} : casarRota(hash);
+  const alvo = $("#conteudo");
+  $$("#menu a").forEach(a=>a.removeAttribute("aria-current"));
+  if (!achou){ alvo.innerHTML = `<div class="card vazio">Tela não encontrada: <code>${esc(hash)}</code></div>`; return; }
+  if (!rotaPermitida(achou.r)){ alvo.innerHTML = `<div class="card vazio">O perfil <b>${esc(estado.perfil)}</b> não usa esta tela.</div>`; return; }
+  $("#menu").hidden = !!achou.r.publica;
+  const link = $(`#menu a[data-rota="${achou.r.rota}"]`); if (link) link.setAttribute("aria-current", "page");
+  estado.rota = achou.r.rota;
+  document.title = achou.r.titulo + " · " + APP.titulo;
+  const fn = TELAS[achou.r.rota] || telaPendente(achou.r);
+  try { alvo.innerHTML = await fn(achou.params); if (TELAS_DEPOIS[achou.r.rota]) await TELAS_DEPOIS[achou.r.rota](achou.params); }
+  catch(e){ console.error(e); alvo.innerHTML = `<div class="card pendente"><b>Erro nesta tela.</b><p class="mono">${esc(e.message)}</p></div>`; }
+  alvo.focus({preventScroll: true});
+}
+function telaPendente(r){
+  return async ()=>`<h1>${esc(r.titulo)}</h1><p class="sub">${esc(r.descricao || "")}</p>
+    <div class="card pendente">Esta tela é construída no <b>Sprint ${esc(r.sprint)}</b> (ver <code>sprint.md</code>).</div>`;
+}
+
+/* ---------- perfis (o perfil escolhe as telas; não é controle de segurança) ---------- */
+function telaEscolherPerfil(){
+  $("#menu").hidden = true;
+  $("#conteudo").innerHTML = `<h1>Escolha o perfil desta cópia</h1>
+    <p class="sub">O perfil define quais telas aparecem neste computador. Ele pode ser trocado em Configuração.</p>
+    <div class="grade">${APP.perfis.map(p=>`<button class="card" data-perfil="${esc(p.id)}" style="text-align:left"><b>${esc(p.nome)}</b><br><span class="sub">${esc(p.descricao)}</span></button>`).join("")}</div>`;
+  $$("[data-perfil]").forEach(b=>b.addEventListener("click", async ()=>{
+    estado.perfil = b.dataset.perfil; await db.meta("perfil", estado.perfil); await registrar("perfil escolhido", {detalhe: estado.perfil});
+    montarMenu(); location.hash = APP.rotas.find(rotaPermitida).rota; navegar();
+  }));
+}
+
+/* ---------- configuração comum: backup, dados fictícios, perfil, limpeza ---------- */
+async function blocoConfigComum(){
+  const usado = navigator.storage && navigator.storage.estimate ? await navigator.storage.estimate() : null;
+  const persist = navigator.storage && navigator.storage.persisted ? await navigator.storage.persisted() : false;
+  return `<div class="card"><h2 style="margin-top:0">Backup</h2>
+      <p class="sub">Os dados ficam só neste navegador. Exporte o backup toda semana.</p>
+      <div class="linha-botoes"><button class="prim" id="btnExportar">Exportar backup (.json)</button>
+      <label class="botao" style="margin:0">Importar backup<input type="file" id="arqBackup" accept=".json" hidden></label></div>
+      <p class="sub" style="margin-top:10px">Armazenamento: ${usado ? (usado.usage/1048576).toFixed(1) + " MB usados" : "não informado"} ·
+      ${persist ? '<span class="selo ok">persistente</span>' : '<span class="selo alerta">pode ser apagado pelo navegador</span>'}</p></div>
+    ${dadosEmbutidos("seed") ? `<div class="card"><h2 style="margin-top:0">Dados fictícios</h2>
+      <p class="sub">Carrega o conjunto de exemplo para testar. Substitui os dados atuais.</p>
+      <button id="btnSeed">Carregar dados fictícios</button></div>` : ""}
+    ${APP.perfis ? `<div class="card"><h2 style="margin-top:0">Perfil desta cópia</h2>
+      <p class="sub">Atual: <b>${esc(estado.perfil || "nenhum")}</b></p><button id="btnTrocarPerfil">Trocar perfil</button></div>` : ""}
+    <div class="card"><h2 style="margin-top:0">Apagar tudo</h2>
+      <p class="sub">Remove todos os dados deste app neste navegador.</p><button class="perigo" id="btnApagar">Apagar todos os dados</button></div>`;
+}
+function ligarConfigComum(){
+  $("#btnExportar")?.addEventListener("click", async ()=>{
+    baixar(`${APP.id}-backup-${new Date().toISOString().slice(0,10)}.json`, JSON.stringify(await db.exportar(), null, 2), "application/json");
+    await registrar("backup exportado");
+  });
+  $("#arqBackup")?.addEventListener("change", async e=>{
+    const f = e.target.files[0]; if (!f) return;
+    try { await db.importar(JSON.parse(await lerArquivoTexto(f))); await registrar("backup importado", {detalhe: f.name}); toast("Backup importado."); navegar(); }
+    catch(err){ toast("Não consegui importar: " + err.message, 5000); }
+  });
+  $("#btnSeed")?.addEventListener("click", async ()=>{
+    if (!confirm("Substituir os dados atuais pelos dados fictícios?")) return;
+    await db.importar({app: APP.id, dados: dadosEmbutidos("seed")}); await registrar("dados fictícios carregados");
+    toast("Dados fictícios carregados."); navegar();
+  });
+  $("#btnTrocarPerfil")?.addEventListener("click", async ()=>{ estado.perfil = null; await db.meta("perfil", null); montarMenu(); telaEscolherPerfil(); });
+  $("#btnApagar")?.addEventListener("click", async ()=>{
+    if (!confirm("Apagar todos os dados deste app neste navegador?")) return;
+    for (const nome of Object.keys(APP.db.stores)) await db.limpar(nome);
+    toast("Dados apagados."); navegar();
+  });
+}
+
+/* ---------- testes embutidos (#/testes) ---------- */
+const TESTES = [];
+function teste(nome, fn){ TESTES.push({nome, fn}); }
+async function telaTestes(){
+  const res = [];
+  for (const t of TESTES){
+    try { const r = await t.fn(); res.push({nome: t.nome, ok: r !== false, msg: r === true || r === undefined ? "" : String(r)}); }
+    catch(e){ res.push({nome: t.nome, ok: false, msg: e.message}); }
+  }
+  window.__testes = res;
+  const ok = res.filter(r=>r.ok).length;
+  return `<h1>Testes</h1><p class="sub" id="resumoTestes">${ok} de ${res.length} passaram</p>
+    <div class="card tabela-wrap"><table><tr><th>Teste</th><th>Resultado</th></tr>${res.map(r=>`<tr><td>${esc(r.nome)}</td>
+    <td>${r.ok ? '<span class="selo ok">ok</span>' : '<span class="selo erro">falhou</span> <span class="mono">' + esc(r.msg) + "</span>"}</td></tr>`).join("")}</table></div>`;
+}
+
+/* ---------- partida ---------- */
+const TELAS = {"#/testes": telaTestes}, TELAS_DEPOIS = {};
+async function iniciar(){
+  iniciarTema();
+  await db.abrir();
+  if (navigator.storage && navigator.storage.persist) { try { await navigator.storage.persist(); } catch(e){} }
+  if (APP.perfis) estado.perfil = (await db.meta("perfil")) || null;
+  if (typeof iniciarApp === "function") await iniciarApp();
+  montarMenu();
+  window.addEventListener("hashchange", navegar);
+  await navegar();
+}
+</script>
+
+<script>
+/* ===================================================================
+   APP: Agendamento CIN
+   Configuração (rotas, banco, perfis) e telas. Os sprints editam daqui
+   para baixo.
+   =================================================================== */
+"use strict";
+const APP = {
+  "id": "agendamento-cin",
+  "titulo": "Agendamento CIN",
+  "db": {
+    "nome": "agendamento_cin_v1",
+    "versao": 1,
+    "stores": {
+      "postos": {
+        "keyPath": "posto_id",
+        "indices": []
+      },
+      "horarios": {
+        "keyPath": "horario_id",
+        "indices": [
+          {
+            "nome": "posto_id",
+            "campo": "posto_id",
+            "unico": false
+          }
+        ]
+      },
+      "agendamentos": {
+        "keyPath": "protocolo",
+        "indices": [
+          {
+            "nome": "posto_id",
+            "campo": "posto_id",
+            "unico": false
+          }
+        ]
+      },
+      "usuarios": {
+        "keyPath": "usuario_id",
+        "indices": []
+      },
+      "log": {
+        "keyPath": "id",
+        "indices": []
+      },
+      "fila": {
+        "keyPath": "id",
+        "indices": []
+      }
+    }
+  },
+  "rotas": [
+    {
+      "rota": "#/agendar",
+      "titulo": "Agendar",
+      "sprint": 3,
+      "descricao": "Posto, data e horário com vaga.",
+      "publica": true
+    },
+    {
+      "rota": "#/agendar/dados",
+      "titulo": "Seus dados",
+      "sprint": 3,
+      "descricao": "Nome, telefone ou e-mail, CPF opcional.",
+      "publica": true
+    },
+    {
+      "rota": "#/comprovante/:protocolo",
+      "titulo": "Comprovante",
+      "sprint": 3,
+      "descricao": "Protocolo e orientações.",
+      "publica": true
+    },
+    {
+      "rota": "#/consultar",
+      "titulo": "Consultar reserva",
+      "sprint": 5,
+      "descricao": "Consultar ou cancelar pelo protocolo.",
+      "publica": true
+    },
+    {
+      "rota": "#/posto",
+      "titulo": "Agenda do posto",
+      "sprint": 6,
+      "descricao": "Agenda do dia, comparecimento e cancelamento.",
+      "perfis": [
+        "posto"
+      ]
+    },
+    {
+      "rota": "#/posto/horarios",
+      "titulo": "Horários",
+      "sprint": 2,
+      "descricao": "Grade de horários e bloqueios.",
+      "perfis": [
+        "posto"
+      ]
+    },
+    {
+      "rota": "#/gestao",
+      "titulo": "Gestão",
+      "sprint": 7,
+      "descricao": "Indicadores, postos e usuários.",
+      "perfis": [
+        "gestao"
+      ]
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": "",
+      "perfis": [
+        "posto",
+        "gestao"
+      ]
+    }
+  ],
+  "perfis": [
+    {
+      "id": "posto",
+      "nome": "Servidor do posto (teste local)",
+      "descricao": "Agenda do posto, comparecimento e horários."
+    },
+    {
+      "id": "gestao",
+      "nome": "Gestão (teste local)",
+      "descricao": "Indicadores, postos e usuários."
+    }
+  ],
+  "rotaSemPerfil": [
+    "#/agendar",
+    "#/comprovante",
+    "#/consultar"
+  ]
+};
+
+/* ---------- comum a todos os apps (Sprint 1) ---------- */
+TELAS["#/config"] = async ()=> `<h1>Configuração</h1><p class="sub">Backup, dados de exemplo e perfil desta cópia.</p>` +
+  (typeof configExtra === "function" ? await configExtra() : "") + await blocoConfigComum();
+TELAS_DEPOIS["#/config"] = async ()=>{ ligarConfigComum(); if (typeof ligarConfigExtra === "function") await ligarConfigExtra(); };
+async function resumoBase(stores){
+  const linhas = [];
+  for (const s of stores) linhas.push(`<div class="card kpi"><div class="v">${(await db.list(s)).length}</div><div class="r">${esc(s)}</div></div>`);
+  return `<div class="grade">${linhas.join("")}</div>`;
+}
+teste("IndexedDB grava e lê", async ()=>{ await db.meta("teste", 42); return (await db.meta("teste")) === 42; });
+teste("Todas as rotas têm título e sprint", ()=> APP.rotas.every(r=>r.titulo && r.sprint !== undefined));
+teste("lerCSV: ponto e vírgula, aspas e BOM", ()=>{ const r = lerCSV('﻿a;b\n"x;1";2\n'); return r.length === 2 && r[1][0] === "x;1" && r[1][1] === "2"; });
+teste("cnpjValido e cpfValido", ()=> cnpjValido("11.222.333/0001-81") && !cnpjValido("11222333000182") && cpfValido("529.982.247-25") && !cpfValido("52998224726"));
+teste("dataDeTexto('29/10/2026 09:05:00')", ()=> dataDeTexto("29/10/2026 09:05:00") === "2026-10-29T09:05:00");
+
+/* Agendamento CIN · código do app (o construir.py junta com a base comum) */
+"use strict";
+/* ---------- grade de horários (a mesma regra está no Code.gs) ---------- */
+// grade = {de, ate, dias: [1..5] (0 = domingo), inicio: "08:00", fim: "16:00", intervalo: 30, vagas: 2}
+function horariosDaGrade(postoId, g){
+  const out = [], [hi, mi] = g.inicio.split(":").map(Number), [hf, mf] = g.fim.split(":").map(Number);
+  for (let t = Date.UTC(...g.de.split("-").map((n, i)=>i === 1 ? n - 1 : +n)); ; t += 86400000){
+    const d = new Date(t), data = d.toISOString().slice(0, 10); if (data > g.ate) break;
+    if (!g.dias.includes(d.getUTCDay())) continue;
+    for (let m = hi * 60 + mi; m < hf * 60 + mf; m += g.intervalo){
+      const hora = String(Math.floor(m / 60)).padStart(2, "0") + ":" + String(m % 60).padStart(2, "0");
+      out.push({horario_id: `${postoId}-${data}-${hora.replace(":", "")}`, posto_id: postoId, data, hora, capacidade: g.vagas, ocupadas: 0, situacao: "aberto"});
+    }
+  }
+  return out;
+}
+teste("grade de 2 semanas úteis, 08h às 16h de 30 em 30 = 160 horários", ()=>
+  horariosDaGrade("P01", {de: "2026-11-16", ate: "2026-11-27", dias: [1, 2, 3, 4, 5], inicio: "08:00", fim: "16:00", intervalo: 30, vagas: 2}).length === 160);
+teste("grade não inclui sábado e domingo", ()=>
+  horariosDaGrade("P01", {de: "2026-11-21", ate: "2026-11-22", dias: [1, 2, 3, 4, 5], inicio: "08:00", fim: "09:00", intervalo: 30, vagas: 1}).length === 0);
+
+/* ---------- API: Apps Script quando publicado, IndexedDB no teste local ---------- */
+const NO_APPS_SCRIPT = typeof google !== "undefined" && google.script && google.script.run;
+// RN05 no modo local: mesma conferência que o Code.gs faz no servidor
+async function exigirPosto(postoId){
+  const eu = await api.quemSou();
+  if (eu.perfil === "gestao") return eu;
+  if (eu.perfil !== "posto" || eu.posto_id !== postoId) throw new Error(`Sem permissão para o posto ${postoId} (RN05).`);
+  return eu;
+}
+async function exigirGestao(){ const eu = await api.quemSou(); if (eu.perfil !== "gestao") throw new Error("Só a gestão cadastra postos."); return eu; }
+const api = NO_APPS_SCRIPT ? new Proxy({}, {
+  get: (_, fn)=>(...args)=>new Promise((ok, erro)=>google.script.run.withSuccessHandler(ok).withFailureHandler(erro)[fn](...args))
+}) : {
+  // Modo local: as mesmas funções do Code.gs, sobre os dados fictícios da planilha modelo.
+  async listarPostos(){ return (await db.list("postos")).filter(p=>p.ativo === true || p.ativo === "TRUE"); },
+  async listarHorarios(posto_id){ return (await db.porIndice("horarios", "posto_id", posto_id)).filter(h=>h.situacao === "aberto"); },
+  async quemSou(){ return {email: "teste.local", perfil: (await db.meta("perfil")) || null, posto_id: (await db.meta("posto_id")) || "P01"}; },
+  async listarTodosPostos(){ await exigirGestao(); return db.list("postos"); },
+  async salvarPosto(p){
+    await exigirGestao();
+    if (!p.posto_id || !p.nome || !p.municipio) throw new Error("Informe código, nome e município do posto.");
+    await db.put("postos", {...(await db.get("postos", p.posto_id) || {}), ...p}); await registrar("posto salvo", {detalhe: p.posto_id}); return true;
+  },
+  async listarHorariosPosto(posto_id, de, ate){
+    await exigirPosto(posto_id);
+    return (await db.porIndice("horarios", "posto_id", posto_id)).filter(h=>h.data >= de && h.data <= ate).sort((a, b)=>(a.data + a.hora).localeCompare(b.data + b.hora));
+  },
+  async gerarHorarios(posto_id, grade){
+    await exigirPosto(posto_id);
+    let criados = 0, existentes = 0;
+    for (const h of horariosDaGrade(posto_id, grade)){
+      if (await db.get("horarios", h.horario_id)) existentes++; else { await db.put("horarios", h); criados++; }
+    }
+    await registrar("horários gerados", {detalhe: `${posto_id}: ${criados} novos`}); return {criados, existentes};
+  },
+  async bloquear(posto_id, alvo, bloquear){
+    await exigirPosto(posto_id);
+    const hs = (await db.porIndice("horarios", "posto_id", posto_id)).filter(h=>alvo.horario_id ? h.horario_id === alvo.horario_id : h.data === alvo.data);
+    for (const h of hs) await db.put("horarios", {...h, situacao: bloquear ? "bloqueado" : "aberto"});
+    await registrar(bloquear ? "bloqueio" : "desbloqueio", {detalhe: alvo.horario_id || `${posto_id} ${alvo.data}`}); return hs.length;
+  }
+};
+async function iniciarApp(){
+  if (NO_APPS_SCRIPT){
+    APP.perfilDoServidor = true;
+    const eu = await api.quemSou(); estado.perfil = eu.perfil; estado.posto_id = eu.posto_id;
+  } else {
+    if (!(await db.list("postos")).length) await db.importar({app: APP.id, dados: dadosEmbutidos("seed")}, true);
+    estado.posto_id = (await db.meta("posto_id")) || "P01";
+  }
+}
+teste("Modo local carrega 2 postos ativos", async ()=> (await api.listarPostos()).length === 2);
+teste("Horários abertos do posto P01", async ()=> (await api.listarHorarios("P01")).length > 0);
+
+// No teste local, a configuração escolhe de qual posto é esta cópia.
+async function configExtra(){
+  if (NO_APPS_SCRIPT) return "";
+  const postos = await db.list("postos");
+  return `<div class="card"><h2 style="margin-top:0">Posto desta cópia (teste local)</h2>
+    ${campo("cfgPosto", "Posto", {tipo: "select", opcoes: postos.map(p=>[p.posto_id, `${p.posto_id} · ${p.nome}`]), valor: estado.posto_id})}</div>`;
+}
+async function ligarConfigExtra(){
+  $("#cfgPosto")?.addEventListener("change", async e=>{ await db.meta("posto_id", e.target.value); estado.posto_id = e.target.value; toast("Posto da cópia: " + e.target.value); });
+}
+
+TELAS["#/agendar"] = async ()=>{
+  const postos = await api.listarPostos();
+  return `<h1>Agendar a Carteira de Identidade</h1><p class="sub">Escolha o posto. O calendário com as vagas chega no Sprint 3.</p>
+    ${NO_APPS_SCRIPT ? "" : `<p class="selo alerta">Modo de teste local, com dados fictícios</p>`}
+    <div class="grade">${postos.map(p=>`<div class="card"><b>${esc(p.nome)}</b><br><span class="sub">${esc(p.municipio)} · ${esc(p.endereco)}</span></div>`).join("")}</div>
+    <p class="sub"><a href="#/consultar">Consultar ou cancelar uma reserva</a>${NO_APPS_SCRIPT ? "" : ` · <a href="#/posto">Área do posto (teste)</a>`}</p>`;
+};
+
+/* ================= Sprint 2 · Postos e horários ================= */
+const DIAS = [["1", "seg"], ["2", "ter"], ["3", "qua"], ["4", "qui"], ["5", "sex"], ["6", "sáb"], ["0", "dom"]];
+const somarDias = (iso, n)=> new Date(Date.UTC(...iso.split("-").map((x, i)=>i === 1 ? x - 1 : +x)) + n * 86400000).toISOString().slice(0, 10);
+const proximaSegunda = ()=>{ const h = hojeISO(), d = new Date(h + "T12:00:00Z").getUTCDay(); return somarDias(h, ((8 - d) % 7) || 7); };
+
+TELAS["#/posto/horarios"] = async ()=>{
+  const de = proximaSegunda(), ate = somarDias(de, 11);
+  const posto = (await api.listarPostos()).find(p=>p.posto_id === estado.posto_id);
+  return `<h1>Horários · ${esc(posto?.nome || estado.posto_id)}</h1><p class="sub">Monte a grade da semana e gere os horários do período. Horário que já existe não é duplicado.</p>
+    <form class="card" id="formGrade"><h2 style="margin-top:0">Grade</h2><div class="campos">
+      ${campo("gDe", "De", {tipo: "date", valor: de, obrigatorio: true})}${campo("gAte", "Até", {tipo: "date", valor: ate, obrigatorio: true})}
+      ${campo("gInicio", "Primeiro horário", {tipo: "time", valor: "08:00"})}${campo("gFim", "Encerra às", {tipo: "time", valor: "16:00"})}
+      ${campo("gIntervalo", "Intervalo (min)", {tipo: "number", valor: 30, attrs: 'min="5" step="5"'})}${campo("gVagas", "Vagas por horário", {tipo: "number", valor: 2, attrs: 'min="1"'})}</div>
+      <p>Dias: ${DIAS.map(([v, n])=>`<label style="display:inline-flex;gap:4px;margin-right:10px"><input type="checkbox" data-dia="${v}" style="width:auto" ${+v >= 1 && +v <= 5 ? "checked" : ""}>${n}</label>`).join("")}</p>
+      <div id="errosGrade"></div><div class="linha-botoes"><button class="prim" type="submit">Gerar horários</button></div></form>
+    <div class="card"><h2 style="margin-top:0">Agenda do período</h2><div class="campos">
+      ${campo("vDe", "De", {tipo: "date", valor: de})}${campo("vAte", "Até", {tipo: "date", valor: ate})}</div><div id="agendaPosto"></div></div>`;
+};
+async function desenharAgendaPosto(){
+  const hs = await api.listarHorariosPosto(estado.posto_id, valorDe("vDe"), valorDe("vAte"));
+  const porDia = {}; hs.forEach(h=>(porDia[h.data] = porDia[h.data] || []).push(h));
+  $("#agendaPosto").innerHTML = Object.keys(porDia).length ? Object.entries(porDia).map(([data, lista])=>{
+    const todos = lista.every(h=>h.situacao === "bloqueado");
+    return `<div style="margin:10px 0"><b>${dataCurtaBR(data)}</b> <button data-dia-bloq="${data}" data-acao="${todos ? 0 : 1}">${todos ? "Desbloquear o dia" : "Bloquear o dia"}</button>
+      <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">${lista.map(h=>`<button data-hor="${h.horario_id}" data-acao="${h.situacao === "bloqueado" ? 0 : 1}"
+        class="selo ${h.situacao === "bloqueado" ? "erro" : "ok"}" title="${h.ocupadas}/${h.capacidade} ocupadas">${h.hora}</button>`).join("")}</div></div>`;
+  }).join("") : `<p class="sub">Nenhum horário no período.</p>`;
+  $$("[data-hor]").forEach(b=>b.addEventListener("click", async ()=>{ await api.bloquear(estado.posto_id, {horario_id: b.dataset.hor}, b.dataset.acao === "1"); desenharAgendaPosto(); }));
+  $$("[data-dia-bloq]").forEach(b=>b.addEventListener("click", async ()=>{ await api.bloquear(estado.posto_id, {data: b.dataset.diaBloq}, b.dataset.acao === "1"); desenharAgendaPosto(); }));
+}
+TELAS_DEPOIS["#/posto/horarios"] = async ()=>{
+  $("#formGrade").addEventListener("submit", async e=>{
+    e.preventDefault();
+    const g = {de: valorDe("gDe"), ate: valorDe("gAte"), inicio: valorDe("gInicio"), fim: valorDe("gFim"), intervalo: Number(valorDe("gIntervalo")),
+               vagas: Number(valorDe("gVagas")), dias: $$("[data-dia]").filter(c=>c.checked).map(c=>Number(c.dataset.dia))};
+    const erros = [];
+    if (!g.de || !g.ate || g.ate < g.de) erros.push("O fim do período deve ser depois do início.");
+    if (g.ate && g.de && (new Date(g.ate) - new Date(g.de)) / 86400000 > 62) erros.push("Gere no máximo 2 meses de cada vez.");
+    if (!g.inicio || !g.fim || g.fim <= g.inicio) erros.push("O encerramento deve ser depois do primeiro horário.");
+    if (!(g.intervalo >= 5)) erros.push("Intervalo mínimo de 5 minutos.");
+    if (!(g.vagas >= 1)) erros.push("Ao menos 1 vaga por horário.");
+    if (!g.dias.length) erros.push("Escolha ao menos um dia da semana.");
+    if (!mostrarErros("#errosGrade", erros)) return;
+    try { const r = await api.gerarHorarios(estado.posto_id, g); toast(`${r.criados} horários criados, ${r.existentes} já existiam.`); }
+    catch(err){ return mostrarErros("#errosGrade", [err.message]); }
+    $("#vDe").value = g.de; $("#vAte").value = g.ate; desenharAgendaPosto();
+  });
+  ["vDe", "vAte"].forEach(i=>$("#" + i).addEventListener("change", desenharAgendaPosto));
+  await desenharAgendaPosto();
+};
+
+TELAS["#/gestao"] = async ()=>{
+  const postos = await api.listarTodosPostos();
+  return `<h1>Gestão</h1><p class="sub">Postos de identificação. Os indicadores chegam no Sprint 7.</p>
+    <div class="card tabela-wrap"><table><tr><th>Código</th><th>Posto</th><th>Município</th><th>Situação</th><th></th></tr>
+      ${postos.map(p=>{ const at = p.ativo === true || p.ativo === "TRUE"; return `<tr><td>${esc(p.posto_id)}</td><td>${esc(p.nome)}</td><td>${esc(p.municipio)}</td>
+        <td><span class="selo ${at ? "ok" : "erro"}">${at ? "ativo" : "inativo"}</span></td>
+        <td><button data-ativo="${esc(p.posto_id)}" data-valor="${at ? 0 : 1}">${at ? "Desativar" : "Ativar"}</button></td></tr>`; }).join("")}</table></div>
+    <form class="card" id="formPosto"><h2 style="margin-top:0">Novo posto</h2><div class="campos">
+      ${campo("pId", "Código", {obrigatorio: true, attrs: 'placeholder="P03"'})}${campo("pNome", "Nome", {obrigatorio: true})}
+      ${campo("pMunicipio", "Município", {obrigatorio: true})}${campo("pEndereco", "Endereço")}${campo("pEmail", "E-mail do posto", {tipo: "email"})}</div>
+      ${campo("pDocs", "Documentos que o cidadão deve levar", {tipo: "textarea", linhas: 2})}
+      <div id="errosPosto"></div><div class="linha-botoes"><button class="prim" type="submit">Salvar posto</button></div></form>`;
+};
+TELAS_DEPOIS["#/gestao"] = ()=>{
+  $$("[data-ativo]").forEach(b=>b.addEventListener("click", async ()=>{
+    const p = (await api.listarTodosPostos()).find(x=>x.posto_id === b.dataset.ativo);
+    await api.salvarPosto({...p, ativo: b.dataset.valor === "1"}); navegar();
+  }));
+  $("#formPosto").addEventListener("submit", async e=>{
+    e.preventDefault();
+    try {
+      await api.salvarPosto({posto_id: valorDe("pId").toUpperCase(), nome: valorDe("pNome"), municipio: valorDe("pMunicipio"), endereco: valorDe("pEndereco"),
+                             email: valorDe("pEmail"), documentos_orientacao: valorDe("pDocs"), ativo: true});
+      toast("Posto salvo."); navegar();
+    } catch(err){ mostrarErros("#errosPosto", [err.message]); }
+  });
+};
+
+/* ================= Sprint 3 · Agendamento do cidadão (RN02, RN03, RN09) ================= */
+// Mesmas regras do Code.gs (listarVagas, reservar, comprovante). A trava contra reserva simultânea entra no Sprint 4.
+const JANELA = {min: 1, max: 30};  // RN09: de 1 a 30 dias de antecedência
+function dentroDaJanela(data, hoje = hojeISO()){ return data >= somarDias(hoje, JANELA.min) && data <= somarDias(hoje, JANELA.max); }
+teste("RN09: hoje não pode, amanhã pode, 31 dias não pode", ()=> !dentroDaJanela("2026-10-29", "2026-10-29") && dentroDaJanela("2026-10-30", "2026-10-29") && !dentroDaJanela("2026-11-29", "2026-10-29"));
+const novoProtocoloCin = ()=> "CIN-" + Array.from(crypto.getRandomValues(new Uint8Array(6)), b=>"ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[b % 32]).join("");
+
+if (!NO_APPS_SCRIPT) Object.assign(api, {
+  async listarVagas(posto_id){
+    return (await db.porIndice("horarios", "posto_id", posto_id))
+      .filter(h=>h.situacao === "aberto" && Number(h.ocupadas) < Number(h.capacidade) && dentroDaJanela(h.data))
+      .sort((a, b)=>(a.data + a.hora).localeCompare(b.data + b.hora));
+  },
+  async reservar(d){
+    const h = await db.get("horarios", d.horario_id);
+    if (!h || h.situacao !== "aberto" || !dentroDaJanela(h.data)) throw new Error("Este horário não está disponível.");
+    if (Number(h.ocupadas) >= Number(h.capacidade)) throw new Error("Este horário acabou de ser preenchido. Escolha outro.");
+    let protocolo; do { protocolo = novoProtocoloCin(); } while (await db.get("agendamentos", protocolo));
+    await db.put("horarios", {...h, ocupadas: Number(h.ocupadas) + 1});
+    await db.put("agendamentos", {protocolo, posto_id: h.posto_id, horario_id: h.horario_id, nome: d.nome, telefone: d.telefone || "", email: d.email || "",
+      cpf_final4: d.cpf ? d.cpf.slice(-4) : "", status: "confirmado", criado_em: agora(), cancelado_em: "", compareceu_em: ""});
+    return {protocolo};
+  },
+  async comprovante(protocolo){
+    const a = await db.get("agendamentos", protocolo); if (!a) return null;
+    const h = await db.get("horarios", a.horario_id), p = await db.get("postos", a.posto_id);
+    return {protocolo, primeiro_nome: a.nome.split(" ")[0], data: h?.data, hora: h?.hora, status: a.status, posto: p?.nome, endereco: p?.endereco, documentos: p?.documentos_orientacao};
+  }
+});
+
+TELAS["#/agendar"] = async ()=>{
+  const postos = await api.listarPostos(), escolhido = estado.agPosto && postos.find(p=>p.posto_id === estado.agPosto);
+  let corpo = "";
+  if (escolhido){
+    const vagas = await api.listarVagas(escolhido.posto_id), dias = {};
+    vagas.forEach(h=>(dias[h.data] = dias[h.data] || []).push(h));
+    const dia = estado.agDia && dias[estado.agDia] ? estado.agDia : null;
+    corpo = `<div class="card"><h2 style="margin-top:0">2. Dia</h2>${Object.keys(dias).length ? `<div style="display:flex;flex-wrap:wrap;gap:6px">${Object.entries(dias).map(([d, hs])=>
+        `<button data-dia="${d}" ${d === dia ? 'class="prim"' : ""}>${dataCurtaBR(d)}<br><small>${hs.length} horários</small></button>`).join("")}</div>`
+      : '<p class="sub">Sem vagas nos próximos 30 dias neste posto.</p>'}</div>
+      ${dia ? `<div class="card"><h2 style="margin-top:0">3. Horário · ${dataCurtaBR(dia)}</h2><div style="display:flex;flex-wrap:wrap;gap:6px">
+        ${dias[dia].map(h=>`<button data-horario="${h.horario_id}" data-hora="${h.hora}">${h.hora}</button>`).join("")}</div></div>` : ""}`;
+  }
+  return `<h1>Agendar a Carteira de Identidade</h1><p class="sub">Escolha o posto, o dia e o horário. Agendamento de 1 a 30 dias à frente.</p>
+    ${NO_APPS_SCRIPT ? "" : `<p class="selo alerta">Modo de teste local, com dados fictícios</p>`}
+    <div class="card"><h2 style="margin-top:0">1. Posto</h2><div class="grade">${postos.map(p=>`<button class="card" data-posto="${esc(p.posto_id)}" style="text-align:left;${p.posto_id === estado.agPosto ? "border-color:var(--accent);border-width:2px" : ""}">
+      <b>${esc(p.nome)}</b><br><span class="sub">${esc(p.municipio)} · ${esc(p.endereco)}</span></button>`).join("")}</div></div>${corpo}
+    <p class="sub"><a href="#/consultar">Consultar ou cancelar uma reserva</a>${NO_APPS_SCRIPT ? "" : ` · <a href="#/posto">Área do posto (teste)</a>`}</p>`;
+};
+TELAS_DEPOIS["#/agendar"] = ()=>{
+  $$("[data-posto]").forEach(b=>b.addEventListener("click", ()=>{ estado.agPosto = b.dataset.posto; estado.agDia = null; navegar(); }));
+  $$("[data-dia]").forEach(b=>b.addEventListener("click", ()=>{ estado.agDia = b.dataset.dia; navegar(); }));
+  $$("[data-horario]").forEach(b=>b.addEventListener("click", ()=>{
+    estado.agReserva = {posto_id: estado.agPosto, horario_id: b.dataset.horario, data: estado.agDia, hora: b.dataset.hora}; location.hash = "#/agendar/dados";
+  }));
+};
+
+TELAS["#/agendar/dados"] = async ()=>{
+  const r = estado.agReserva;
+  if (!r) return `<div class="card vazio">Escolha primeiro o posto, o dia e o horário. <a href="#/agendar">Agendar</a></div>`;
+  const p = (await api.listarPostos()).find(x=>x.posto_id === r.posto_id);
+  return `<h1>Seus dados</h1><p class="sub">${esc(p?.nome || "")} · <b>${dataCurtaBR(r.data)} às ${esc(r.hora)}</b> · <a href="#/agendar">trocar</a></p>
+    <form class="card" id="formAgDados" novalidate><div class="campos">
+      ${campo("aNome", "Nome completo", {obrigatorio: true, attrs: 'autocomplete="name"'})}
+      ${campo("aTel", "Telefone com DDD", {tipo: "tel", attrs: 'autocomplete="tel"', ajuda: "Informe telefone ou e-mail."})}
+      ${campo("aEmail", "E-mail", {tipo: "email", attrs: 'autocomplete="email"', ajuda: "Recebe a confirmação (a partir do Sprint 4)."})}
+      ${campo("aCpf", "CPF (opcional)", {attrs: 'inputmode="numeric" autocomplete="off"', ajuda: "Guardamos só os 4 últimos dígitos, para consultar a reserva."})}</div>
+    <label style="display:flex;gap:8px;align-items:flex-start;margin-top:12px"><input type="checkbox" id="aAviso" style="width:auto;margin-top:4px">
+      <span>Li o aviso: os dados servem só para organizar o atendimento da CIN e são apagados 90 dias depois do atendimento.</span></label>
+    <div id="errosAg"></div><div class="linha-botoes"><button class="prim" type="submit">Confirmar agendamento</button></div></form>`;
+};
+TELAS_DEPOIS["#/agendar/dados"] = ()=>{
+  $("#formAgDados")?.addEventListener("submit", async e=>{
+    e.preventDefault();
+    const d = {nome: valorDe("aNome"), telefone: valorDe("aTel"), email: valorDe("aEmail"), cpf: valorDe("aCpf").replace(/\D/g, ""), horario_id: estado.agReserva.horario_id};
+    const erros = [];
+    if (d.nome.split(/\s+/).length < 2) erros.push("Informe o nome completo.");
+    if (!d.telefone && !d.email) erros.push("Informe um telefone ou um e-mail.");
+    if (d.telefone && d.telefone.replace(/\D/g, "").length < 10) erros.push("Telefone com DDD (10 ou 11 dígitos).");
+    if (d.email && !/^\S+@\S+\.\S+$/.test(d.email)) erros.push("E-mail inválido.");
+    if (d.cpf && !cpfValido(d.cpf)) erros.push("CPF inválido. Corrija ou deixe em branco.");
+    if (!$("#aAviso").checked) erros.push("Confirme que leu o aviso de privacidade.");
+    if (!mostrarErros("#errosAg", erros)) return;
+    try { const r = await api.reservar(d); estado.agReserva = null; location.hash = "#/comprovante/" + encodeURIComponent(r.protocolo); }
+    catch(err){ mostrarErros("#errosAg", [err.message]); }
+  });
+};
+
+TELAS["#/comprovante/:protocolo"] = async ({protocolo})=>{
+  const c = await api.comprovante(protocolo);
+  if (!c) return `<div class="card vazio">Protocolo não encontrado.</div>`;
+  return `<h1>Agendamento confirmado</h1><div class="card" id="cardComprovanteCin">
+    <p>Protocolo: <b class="mono" id="protCin">${esc(c.protocolo)}</b></p>
+    <p><b>${esc(c.primeiro_nome)}</b>, seu atendimento é em <b>${dataCurtaBR(c.data)} às ${esc(c.hora)}</b>.</p>
+    <p><b>Posto:</b> ${esc(c.posto)}<br>${esc(c.endereco || "")}</p>
+    <h2>Documentos para levar</h2><p>${esc(c.documentos || "Consulte o posto.")}</p>
+    <p class="sub">Chegue 10 minutos antes. Depois de 15 minutos de atraso, o horário é liberado.</p>
+    <div class="linha-botoes nao-imprimir"><button onclick="window.print()">Imprimir</button><a class="botao" href="#/consultar">Consultar ou cancelar</a></div></div>`;
+};
+
+
+iniciar();
+</script>
+</body>
+</html>

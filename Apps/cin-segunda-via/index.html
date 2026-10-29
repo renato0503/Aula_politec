@@ -1,0 +1,781 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: blob:; connect-src 'none'; img-src 'self' data: blob:; media-src 'self' blob: mediastream:; worker-src blob:">
+<title>Segunda via da CIN</title>
+<meta name="description" content="Pedido da segunda via da Carteira de Identidade Nacional a distância, com conferência pelo servidor.">
+<style>
+/* ===================================================================
+   BASE COMUM DOS APPS (Apps/_base/base.html)
+   Tema, layout, componentes. O CSS do app fica no fim deste bloco.
+   =================================================================== */
+:root{
+  --bg:#f6f7f9; --painel:#ffffff; --ink:#1c2430; --ink2:#5b6676; --linha:#dde2e9;
+  --accent:#1f5fae; --accent-ink:#ffffff; --verde:#1d7a46; --ambar:#a86500; --vermelho:#b42318;
+  --sombra:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.10);
+  --raio:10px; --mono:ui-monospace,SFMono-Regular,Consolas,monospace;
+  --ui:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#11161d; --painel:#1a212b; --ink:#e6eaf0; --ink2:#a3adbb; --linha:#2c3542;
+    --accent:#6ea8ff; --accent-ink:#0b1220; --verde:#4cc283; --ambar:#f0b44c; --vermelho:#ff7b72;
+    --sombra:none; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11161d; --painel:#1a212b; --ink:#e6eaf0; --ink2:#a3adbb; --linha:#2c3542;
+  --accent:#6ea8ff; --accent-ink:#0b1220; --verde:#4cc283; --ambar:#f0b44c; --vermelho:#ff7b72;
+  --sombra:none; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--ui)}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.topo{background:var(--painel);border-bottom:1px solid var(--linha);position:sticky;top:0;z-index:5}
+.topo-in{max-width:1200px;margin:0 auto;padding:10px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.marca{font-weight:700;font-size:17px;margin-right:auto}
+.marca small{display:block;font-weight:400;font-size:12px;color:var(--ink2)}
+.aviso-topo{background:var(--accent);color:var(--accent-ink);font-size:13px;text-align:center;padding:4px 16px}
+nav.menu{max-width:1200px;margin:0 auto;padding:0 16px 8px;display:flex;gap:4px;flex-wrap:wrap}
+nav.menu a{padding:6px 10px;border-radius:8px;text-decoration:none;color:var(--ink2);font-size:14px}
+nav.menu a[aria-current="page"]{background:var(--accent);color:var(--accent-ink)}
+main{max-width:1200px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:22px;margin:0 0 4px} h2{font-size:18px;margin:24px 0 8px}
+.sub{color:var(--ink2);margin:0 0 16px}
+.card{background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio);padding:16px;box-shadow:var(--sombra);margin-bottom:16px}
+.grade{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.kpi .v{font-size:26px;font-weight:700} .kpi .r{color:var(--ink2);font-size:13px}
+button,.botao{font:inherit;border:1px solid var(--linha);background:var(--painel);color:var(--ink);padding:7px 12px;border-radius:8px;cursor:pointer}
+button.prim,.botao.prim{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+button.perigo{border-color:var(--vermelho);color:var(--vermelho)}
+button:disabled{opacity:.5;cursor:not-allowed}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--linha);border-radius:8px;padding:7px 9px;width:100%}
+label{display:block;font-size:13px;color:var(--ink2);margin:10px 0 4px}
+.linha-botoes{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tabela-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--linha);vertical-align:top}
+th{color:var(--ink2);font-weight:600}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.selo{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;border:1px solid currentColor}
+.selo.ok{color:var(--verde)} .selo.alerta{color:var(--ambar)} .selo.erro{color:var(--vermelho)} .selo.info{color:var(--accent)}
+.vazio{color:var(--ink2);text-align:center;padding:28px}
+.campos{display:grid;gap:0 16px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.campo small{display:block;margin-top:2px}
+.ok-txt{color:var(--verde)} .erro-txt{color:var(--vermelho)} .alerta-txt{color:var(--ambar)}
+.pendente{border-left:4px solid var(--ambar)}
+code,.mono{font-family:var(--mono);font-size:13px}
+#toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;display:none;z-index:20;max-width:90vw}
+@media (max-width:640px){ .marca{font-size:15px} main{padding:16px 16px 48px} }
+@media print{ .topo,nav.menu,#toast,.nao-imprimir{display:none!important} body{background:#fff;color:#000} .card{box-shadow:none;break-inside:avoid} }
+/* ===== CSS DO APP ===== */
+
+</style>
+</head>
+<body>
+<header class="topo">
+  <div class="aviso-topo">Protótipo com dados fictícios. Não envie dados ou fotos reais.</div>
+  <div class="topo-in">
+    <div class="marca">Segunda via da CIN<small>POLITEC/MT · Identificação Civil</small></div>
+    <span id="perfilAtual" class="selo info" hidden></span>
+    <button id="btnTema" type="button" aria-label="Alternar tema claro e escuro">Tema</button>
+  </div>
+  <nav class="menu" id="menu" aria-label="Telas do app"></nav>
+</header>
+<main id="conteudo" tabindex="-1"></main>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<!-- Bibliotecas e dados embutidos (preenchidos por Apps/_base/embutir.py) -->
+<!-- DADOS:seed:exemplos/seed.json -->
+<script type="application/json" id="seed">{"pedidos":[{"protocolo":"2V-20261020-001","nome":"Dario Modelo","cpf":"00000001082","nascimento":"2000-06-15","numero_cin":"00000001082","validade_cin":"2033-05-10","mudou_dados":false,"contato":"teste1@exemplo.com","criado_em":"2026-10-20T08:00:00","situacao":"recusado","motivo":"Foto ilegível","caso_teste":"elegível"},{"protocolo":"2V-20261020-002","nome":"Cora Fictícia","cpf":"00000001163","nascimento":"2006-11-15","numero_cin":"00000001163","validade_cin":"2030-07-21","mudou_dados":false,"contato":"teste2@exemplo.com","criado_em":"2026-10-20T15:00:00","situacao":"recebido","motivo":"","caso_teste":"elegível"},{"protocolo":"2V-20261020-003","nome":"Bento Exemplo","cpf":"00000001244","nascimento":"1977-12-09","numero_cin":"00000001244","validade_cin":"2032-02-17","mudou_dados":false,"contato":"teste3@exemplo.com","criado_em":"2026-10-20T22:00:00","situacao":"recebido","motivo":"","caso_teste":"elegível"},{"protocolo":"2V-20261021-004","nome":"Gaia Protótipo","cpf":"00000001325","nascimento":"2002-04-17","numero_cin":"00000001325","validade_cin":"2029-01-09","mudou_dados":false,"contato":"teste4@exemplo.com","criado_em":"2026-10-21T05:00:00","situacao":"recebido","motivo":"","caso_teste":"elegível"},{"protocolo":"2V-20261021-005","nome":"Fausto Simulado","cpf":"00000001406","nascimento":"1997-02-25","numero_cin":"00000001406","validade_cin":"2028-11-16","mudou_dados":false,"contato":"teste5@exemplo.com","criado_em":"2026-10-21T12:00:00","situacao":"recusado","motivo":"Foto ilegível","caso_teste":"elegível"},{"protocolo":"2V-20261021-006","nome":"Bento Exemplo","cpf":"00000001597","nascimento":"1980-11-09","numero_cin":"00000001597","validade_cin":"2030-02-11","mudou_dados":false,"contato":"teste6@exemplo.com","criado_em":"2026-10-21T19:00:00","situacao":"recebido","motivo":"","caso_teste":"elegível"},{"protocolo":"2V-20261022-007","nome":"Ivo Ensaio","cpf":"00000001678","nascimento":"1985-04-07","numero_cin":"00000001678","validade_cin":"2029-07-25","mudou_dados":false,"contato":"teste7@exemplo.com","criado_em":"2026-10-22T02:00:00","situacao":"recebido","motivo":"","caso_teste":"elegível"},{"protocolo":"2V-20261022-008","nome":"Bento Exemplo","cpf":"00000001759","nascimento":"1966-03-10","numero_cin":"00000001759","validade_cin":"2033-03-28","mudou_dados":false,"contato":"teste8@exemplo.com","criado_em":"2026-10-22T09:00:00","situacao":"recebido","motivo":"","caso_teste":"elegível"},{"protocolo":"2V-20261022-009","nome":"Ivo Ensaio","cpf":"00000001830","nascimento":"1978-07-05","numero_cin":"00000001830","validade_cin":"2028-07-07","mudou_dados":false,"contato":"teste9@exemplo.com","criado_em":"2026-10-22T16:00:00","situacao":"aceito","motivo":"","caso_teste":"elegível"},{"protocolo":"2V-20261022-010","nome":"Gaia Protótipo","cpf":"00000001910","nascimento":"1998-08-20","numero_cin":"00000001910","validade_cin":"2028-11-22","mudou_dados":false,"contato":"teste10@exemplo.com","criado_em":"2026-10-22T23:00:00","situacao":"recebido","motivo":"","caso_teste":"elegível"},{"protocolo":"2V-20261023-011","nome":"Gaia Protótipo","cpf":"00000002054","nascimento":"1987-01-16","numero_cin":"00000002054","validade_cin":"2032-09-09","mudou_dados":false,"contato":"teste11@exemplo.com","criado_em":"2026-10-23T06:00:00","situacao":"recebido","motivo":"","caso_teste":"elegível"},{"protocolo":"2V-20261023-012","nome":"Alice Teste","cpf":"00000002135","nascimento":"1992-10-21","numero_cin":"00000002135","validade_cin":"2034-01-27","mudou_dados":false,"contato":"teste12@exemplo.com","criado_em":"2026-10-23T13:00:00","situacao":"recebido","motivo":"","caso_teste":"elegível"},{"protocolo":"2V-20261023-013","nome":"Gaia Protótipo","cpf":"00000002216","nascimento":"1989-06-05","numero_cin":"00000002216","validade_cin":"2034-06-11","mudou_dados":false,"contato":"teste13@exemplo.com","criado_em":"2026-10-23T20:00:00","situacao":"recusado","motivo":"Foto ilegível","caso_teste":"elegível"},{"protocolo":"2V-20261024-014","nome":"Ivo Ensaio","cpf":"00000002305","nascimento":"2001-05-24","numero_cin":"00000002305","validade_cin":"2032-04-13","mudou_dados":false,"contato":"teste14@exemplo.com","criado_em":"2026-10-24T03:00:00","situacao":"recebido","motivo":"","caso_teste":"elegível"},{"protocolo":"2V-20261024-015","nome":"Fausto Simulado","cpf":"00000002488","nascimento":"2004-09-25","numero_cin":"00000002488","validade_cin":"2029-04-07","mudou_dados":false,"contato":"teste15@exemplo.com","criado_em":"2026-10-24T10:00:00","situacao":"recebido","motivo":"","caso_teste":"elegível"},{"protocolo":"2V-20261024-016","nome":"Fausto Simulado","cpf":"00000002569","nascimento":"1980-05-15","numero_cin":"00000002569","validade_cin":"2028-05-30","mudou_dados":false,"contato":"teste16@exemplo.com","criado_em":"2026-10-24T17:00:00","situacao":"recebido","motivo":"","caso_teste":"elegível"},{"protocolo":"2V-20261025-017","nome":"Gaia Protótipo","cpf":"00000002640","nascimento":"1976-11-23","numero_cin":"00000002640","validade_cin":"2032-08-31","mudou_dados":false,"contato":"teste17@exemplo.com","criado_em":"2026-10-25T00:00:00","situacao":"recusado","motivo":"Foto ilegível","caso_teste":"elegível"},{"protocolo":"2V-20261025-018","nome":"Eva Amostra","cpf":"00000002720","nascimento":"1970-01-22","numero_cin":"00000002720","validade_cin":"2032-05-11","mudou_dados":false,"contato":"teste18@exemplo.com","criado_em":"2026-10-25T07:00:00","situacao":"recebido","motivo":"","caso_teste":"elegível"},{"protocolo":"2V-20261025-019","nome":"Dario Modelo","cpf":"00000002801","nascimento":"1998-08-09","numero_cin":"00000002801","validade_cin":"2026-03-13","mudou_dados":false,"contato":"teste19@exemplo.com","criado_em":"2026-10-25T14:00:00","situacao":"recebido","motivo":"","caso_teste":"CIN vencida"},{"protocolo":"2V-20261025-020","nome":"Fausto Simulado","cpf":"00000002992","nascimento":"1969-05-17","numero_cin":"00000002992","validade_cin":"2026-04-28","mudou_dados":false,"contato":"teste20@exemplo.com","criado_em":"2026-10-25T21:00:00","situacao":"recebido","motivo":"","caso_teste":"CIN vencida"},{"protocolo":"2V-20261026-021","nome":"Gaia Protótipo","cpf":"00000003026","nascimento":"1995-12-28","numero_cin":"00000003026","validade_cin":"2026-02-15","mudou_dados":false,"contato":"teste21@exemplo.com","criado_em":"2026-10-26T04:00:00","situacao":"aceito","motivo":"","caso_teste":"CIN vencida"},{"protocolo":"2V-20261026-022","nome":"Dario Modelo","cpf":"00000003107","nascimento":"1991-06-25","numero_cin":"00000003107","validade_cin":"2026-08-13","mudou_dados":false,"contato":"teste22@exemplo.com","criado_em":"2026-10-26T11:00:00","situacao":"recebido","motivo":"","caso_teste":"CIN vencida"},{"protocolo":"2V-20261026-023","nome":"Gaia Protótipo","cpf":"00000003298","nascimento":"1982-11-24","numero_cin":"00000003298","validade_cin":"2026-09-30","mudou_dados":false,"contato":"teste23@exemplo.com","criado_em":"2026-10-26T18:00:00","situacao":"recebido","motivo":"","caso_teste":"CIN vencida"},{"protocolo":"2V-20261027-024","nome":"Cora Fictícia","cpf":"00000003379","nascimento":"1966-01-26","numero_cin":"00000003379","validade_cin":"2028-02-13","mudou_dados":true,"contato":"teste24@exemplo.com","criado_em":"2026-10-27T01:00:00","situacao":"recebido","motivo":"","caso_teste":"mudança de dados"},{"protocolo":"2V-20261027-025","nome":"Bento Exemplo","cpf":"00000003450","nascimento":"1965-06-18","numero_cin":"00000003450","validade_cin":"2029-07-26","mudou_dados":true,"contato":"teste25@exemplo.com","criado_em":"2026-10-27T08:00:00","situacao":"aceito","motivo":"","caso_teste":"mudança de dados"},{"protocolo":"2V-20261027-026","nome":"Ivo Ensaio","cpf":"00000003530","nascimento":"2004-02-23","numero_cin":"00000003530","validade_cin":"2032-03-27","mudou_dados":true,"contato":"teste26@exemplo.com","criado_em":"2026-10-27T15:00:00","situacao":"recebido","motivo":"","caso_teste":"mudança de dados"},{"protocolo":"2V-20261027-027","nome":"Dario Modelo","cpf":"00000003611","nascimento":"1969-07-10","numero_cin":"00000003611","validade_cin":"2030-08-25","mudou_dados":true,"contato":"teste27@exemplo.com","criado_em":"2026-10-27T22:00:00","situacao":"recebido","motivo":"","caso_teste":"mudança de dados"},{"protocolo":"2V-20261028-028","nome":"Eva Amostra","cpf":"00000003700","nascimento":"1967-10-12","numero_cin":"00000003700","validade_cin":"2033-07-19","mudou_dados":false,"contato":"teste28@exemplo.com","criado_em":"2026-10-28T05:00:00","situacao":"recebido","motivo":"Foto ilegível","caso_teste":"foto ilegível"},{"protocolo":"2V-20261028-029","nome":"Ivo Ensaio","cpf":"00000003883","nascimento":"1974-09-21","numero_cin":"00000003883","validade_cin":"2027-05-26","mudou_dados":false,"contato":"teste29@exemplo.com","criado_em":"2026-10-28T12:00:00","situacao":"aceito","motivo":"Foto ilegível","caso_teste":"foto ilegível"},{"protocolo":"2V-20261028-030","nome":"Alice Teste","cpf":"00000003964","nascimento":"1964-06-25","numero_cin":"00000003964","validade_cin":"2030-02-13","mudou_dados":false,"contato":"teste30@exemplo.com","criado_em":"2026-10-28T19:00:00","situacao":"recebido","motivo":"Foto ilegível","caso_teste":"foto ilegível"}]}</script>
+<!-- /DADOS:seed -->
+
+<script>
+/* ===================================================================
+   BASE COMUM DOS APPS
+   util · db (IndexedDB) · roteador · tema · backup · perfis
+   =================================================================== */
+"use strict";
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => Array.from(el.querySelectorAll(s));
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : "id-" + Date.now().toString(36) + Math.random().toString(36).slice(2));
+const agora = () => new Date().toISOString();
+const dataBR = iso => iso ? new Date(iso).toLocaleString("pt-BR") : "";
+
+function toast(msg, ms=3200){
+  const t = $("#toast"); t.textContent = msg; t.style.display = "block";
+  clearTimeout(toast._t); toast._t = setTimeout(()=>{ t.style.display = "none"; }, ms);
+}
+function baixar(nome, conteudo, tipo="application/octet-stream"){
+  const blob = conteudo instanceof Blob ? conteudo : new Blob([conteudo], {type: tipo});
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = nome;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+}
+function lerArquivoTexto(file){
+  return new Promise((ok, erro)=>{ const r = new FileReader(); r.onload = ()=>ok(r.result); r.onerror = erro; r.readAsText(file); });
+}
+function dadosEmbutidos(id){
+  const el = document.getElementById(id);
+  return el && el.textContent.trim() ? JSON.parse(el.textContent) : null;
+}
+function lerArrayBuffer(file){
+  return new Promise((ok, erro)=>{ const r = new FileReader(); r.onload = ()=>ok(r.result); r.onerror = erro; r.readAsArrayBuffer(file); });
+}
+// sem acento, minúsculo, espaços simples: para casar nomes de colunas, setores e unidades
+const normalizar = s => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+const hojeISO = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); };
+const dataCurtaBR = iso => iso ? iso.slice(0, 10).split("-").reverse().join("/") : "";
+// "29/10/2026", "29/10/2026 09:15:00", "2026-10-29" -> "2026-10-29" (ou com hora: "2026-10-29T09:15:00")
+function dataDeTexto(t){
+  const s = String(t ?? "").trim();
+  let m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);
+  if (m){ const d = `${m[3]}-${m[2].padStart(2, "0")}-${m[1].padStart(2, "0")}`; return m[4] ? `${d}T${m[4].padStart(2, "0")}:${m[5]}:${m[6] || "00"}` : d; }
+  m = s.match(/^(\d{4})-(\d{2})-(\d{2})(T[\d:]+)?/);
+  return m ? m[0] : null;
+}
+
+/* ---------- dinheiro em centavos inteiros (sem erro de arredondamento) ---------- */
+const dinheiro = {
+  // "1.234,56" · "R$ 1.234,5" · "1234.56" · 12.5 -> centavos. Arredonda meio para cima na 3ª casa.
+  de(v){
+    if (v === null || v === undefined || v === "") return null;
+    if (typeof v === "number") return Math.round(v * 100);
+    let s = String(v).trim().replace(/^R\$\s*/, "").replace(/\s/g, "");
+    const neg = s.startsWith("-"); s = s.replace(/^-/, "");
+    if (s.includes(",")) s = s.replace(/\./g, "").replace(",", ".");
+    else if (/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g, "");
+    const [i, d = ""] = s.split(".");
+    if (!/^\d+$/.test(i) || !/^\d*$/.test(d)) return NaN;
+    const c = Number(i) * 100 + Number((d + "00").slice(0, 2)) + (Number(d[2] || 0) >= 5 ? 1 : 0);
+    return neg ? -c : c;
+  },
+  // 123456 -> "R$ 1.234,56"
+  fmt(c){
+    if (c === null || c === undefined || Number.isNaN(c)) return "";
+    const neg = c < 0; c = Math.abs(c);
+    return (neg ? "-" : "") + "R$ " + Math.floor(c / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "," + String(c % 100).padStart(2, "0");
+  },
+  // quantidade (até 3 casas) × valor unitário em centavos, arredondado a 2 casas
+  vezes(qtd, c){ const q = Math.round(qtd * 1000); return Math.floor((q * c + 500) / 1000); },
+  // divide um total em centavos pelos pesos, sem perder centavo (maiores restos)
+  ratear(total, pesos){
+    const soma = pesos.reduce((a, b)=>a + b, 0); if (!soma) return pesos.map(()=>0);
+    const base = pesos.map(p=>Math.floor(total * p / soma)); const falta = total - base.reduce((a, b)=>a + b, 0);
+    pesos.map((p, i)=>({i, r: total * p / soma - base[i]})).sort((a, b)=>b.r - a.r).slice(0, falta).forEach(x=>base[x.i]++);
+    return base;
+  }
+};
+
+/* ---------- documentos ---------- */
+function cpfValido(v){
+  const d = String(v || "").replace(/\D/g, "");
+  if (d.length !== 11 || /^(\d)\1{10}$/.test(d)) return false;
+  for (const t of [9, 10]){
+    let s = 0; for (let i = 0; i < t; i++) s += Number(d[i]) * (t + 1 - i);
+    if (((s * 10) % 11) % 10 !== Number(d[t])) return false;
+  }
+  return true;
+}
+function cnpjValido(v){
+  const d = String(v || "").replace(/\D/g, "");
+  if (d.length !== 14 || /^(\d)\1{13}$/.test(d)) return false;
+  const dv = n => { const pesos = n === 12 ? [5,4,3,2,9,8,7,6,5,4,3,2] : [6,5,4,3,2,9,8,7,6,5,4,3,2];
+    const s = pesos.reduce((a, p, i)=>a + Number(d[i]) * p, 0) % 11; return s < 2 ? 0 : 11 - s; };
+  return dv(12) === Number(d[12]) && dv(13) === Number(d[13]);
+}
+
+/* ---------- CSV: separador detectado (; , ou tab), aspas, BOM ---------- */
+function lerCSV(texto){
+  texto = String(texto).replace(/^﻿/, "");
+  const primeira = texto.split(/\r?\n/, 1)[0];
+  const sep = [";", "\t", ","].map(c=>[c, primeira.split(c).length]).sort((a, b)=>b[1] - a[1])[0][0];
+  const linhas = []; let linha = [], campo = "", aspas = false;
+  for (let i = 0; i < texto.length; i++){
+    const c = texto[i];
+    if (aspas){
+      if (c === '"' && texto[i + 1] === '"'){ campo += '"'; i++; }
+      else if (c === '"') aspas = false; else campo += c;
+    } else if (c === '"') aspas = true;
+    else if (c === sep){ linha.push(campo); campo = ""; }
+    else if (c === "\n" || c === "\r"){
+      if (c === "\r" && texto[i + 1] === "\n") i++;
+      linha.push(campo); campo = ""; if (linha.some(x=>x !== "")) linhas.push(linha); linha = [];
+    } else campo += c;
+  }
+  linha.push(campo); if (linha.some(x=>x !== "")) linhas.push(linha);
+  return linhas;
+}
+// sugere, para cada campo, a coluna do cabeçalho cujo nome contém um dos sinônimos
+function sugerirColunas(cabecalho, sinonimos){
+  const cab = cabecalho.map(normalizar), out = {};
+  for (const [campo, lista] of Object.entries(sinonimos)){
+    const i = cab.findIndex(c=>lista.some(s=>c === normalizar(s))) ;
+    const j = i >= 0 ? i : cab.findIndex(c=>lista.some(s=>c.includes(normalizar(s))));
+    out[campo] = j;
+  }
+  return out;
+}
+
+/* ---------- imagem: reduz no navegador antes de guardar ---------- */
+function reduzirImagem(fonte, max=1280, qualidade=0.75){
+  return new Promise((ok, erro)=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const k = Math.min(1, max / Math.max(img.width, img.height));
+      const cv = document.createElement("canvas"); cv.width = Math.round(img.width * k); cv.height = Math.round(img.height * k);
+      cv.getContext("2d").drawImage(img, 0, 0, cv.width, cv.height);
+      cv.toBlob(b=>{ URL.revokeObjectURL(img.src); b ? ok(b) : erro(new Error("Não consegui reduzir a imagem.")); }, "image/jpeg", qualidade);
+    };
+    img.onerror = ()=>erro(new Error("Arquivo de imagem ilegível."));
+    img.src = fonte instanceof Blob ? URL.createObjectURL(fonte) : fonte;
+  });
+}
+
+/* ---------- formulário ---------- */
+// campo("nome", "Nome", {tipo: "text", valor, obrigatorio, ajuda, attrs})
+function campo(id, rotulo, o={}){
+  const tipo = o.tipo || "text", obr = o.obrigatorio ? " required" : "", v = o.valor ?? "";
+  const ajuda = o.ajuda ? `<small class="sub" id="${id}-ajuda">${esc(o.ajuda)}</small>` : "";
+  const desc = o.ajuda ? ` aria-describedby="${id}-ajuda"` : "";
+  let ctl;
+  if (tipo === "textarea") ctl = `<textarea id="${id}" name="${id}" rows="${o.linhas || 4}"${obr}${desc} ${o.attrs || ""}>${esc(v)}</textarea>`;
+  else if (tipo === "select") ctl = `<select id="${id}" name="${id}"${obr}${desc} ${o.attrs || ""}>${(o.opcoes || []).map(op=>{
+      const [val, txt] = Array.isArray(op) ? op : [op, op];
+      return `<option value="${esc(val)}" ${String(val) === String(v) ? "selected" : ""}>${esc(txt)}</option>`; }).join("")}</select>`;
+  else ctl = `<input id="${id}" name="${id}" type="${tipo}" value="${esc(v)}"${obr}${desc} ${o.attrs || ""}>`;
+  return `<div class="campo"><label for="${id}">${esc(rotulo)}${o.obrigatorio ? " *" : ""}</label>${ctl}${ajuda}</div>`;
+}
+const valorDe = id => ($("#" + id)?.value ?? "").trim();
+function mostrarErros(alvo, erros){
+  const el = typeof alvo === "string" ? $(alvo) : alvo;
+  el.innerHTML = erros.length ? `<div class="card pendente" role="alert"><b>Corrija antes de salvar:</b><ul>${erros.map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>` : "";
+  if (erros.length) el.scrollIntoView({block: "nearest"});
+  return !erros.length;
+}
+
+/* ---------- db: camada fina sobre o IndexedDB ---------- */
+const db = {
+  con: null,
+  abrir(){
+    return new Promise((ok, erro)=>{
+      const req = indexedDB.open(APP.db.nome, APP.db.versao);
+      req.onupgradeneeded = ()=>{
+        const banco = req.result;
+        const stores = Object.assign({meta: {keyPath: "chave"}}, APP.db.stores);
+        for (const [nome, def] of Object.entries(stores)){
+          const st = banco.objectStoreNames.contains(nome) ? req.transaction.objectStore(nome) : banco.createObjectStore(nome, {keyPath: def.keyPath});
+          for (const ix of def.indices || []){
+            if (!st.indexNames.contains(ix.nome)) st.createIndex(ix.nome, ix.campo, {unique: !!ix.unico});
+          }
+        }
+      };
+      req.onsuccess = ()=>{ this.con = req.result; ok(this.con); };
+      req.onerror = ()=>erro(req.error);
+    });
+  },
+  _op(store, modo, fn){
+    return new Promise((ok, erro)=>{
+      const tx = this.con.transaction(store, modo); const r = fn(tx.objectStore(store));
+      tx.oncomplete = ()=>ok(r && "result" in r ? r.result : undefined);
+      tx.onerror = ()=>erro(tx.error); tx.onabort = ()=>erro(tx.error);
+    });
+  },
+  get(store, chave){ return this._op(store, "readonly", s=>s.get(chave)); },
+  list(store){ return this._op(store, "readonly", s=>s.getAll()); },
+  porIndice(store, indice, valor){ return this._op(store, "readonly", s=>s.index(indice).getAll(valor)); },
+  put(store, obj){ return this._op(store, "readwrite", s=>s.put(obj)); },
+  del(store, chave){ return this._op(store, "readwrite", s=>s.delete(chave)); },
+  limpar(store){ return this._op(store, "readwrite", s=>s.clear()); },
+  async meta(chave, valor){
+    if (valor === undefined){ const r = await this.get("meta", chave); return r ? r.valor : undefined; }
+    return this.put("meta", {chave, valor});
+  },
+  async exportar(){
+    const dados = {};
+    for (const nome of Object.keys(APP.db.stores)) dados[nome] = await this.list(nome);
+    return {app: APP.id, versao: APP.db.versao, exportado_em: agora(), dados};
+  },
+  async importar(pacote, substituir=true){
+    if (!pacote || pacote.app !== APP.id) throw new Error("Este arquivo não é um backup deste app.");
+    for (const [nome, linhas] of Object.entries(pacote.dados || {})){
+      if (!APP.db.stores[nome]) continue;
+      if (substituir) await this.limpar(nome);
+      for (const l of linhas) await this.put(nome, l);
+    }
+  }
+};
+async function registrar(acao, detalhe={}){
+  const store = APP.db.log || "log";
+  if (!APP.db.stores[store]) return;
+  await db.put(store, {id: uuid(), data_hora: agora(), perfil: estado.perfil || "", acao, ...detalhe});
+}
+
+/* ---------- tema ---------- */
+function aplicarTema(t){ if (t) document.documentElement.dataset.theme = t; else delete document.documentElement.dataset.theme; }
+function iniciarTema(){
+  let t = null; try { t = localStorage.getItem(APP.id + ":tema"); } catch(e){}
+  aplicarTema(t);
+  $("#btnTema").addEventListener("click", ()=>{
+    const escuro = document.documentElement.dataset.theme === "dark" ||
+      (!document.documentElement.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches);
+    const novo = escuro ? "light" : "dark"; aplicarTema(novo);
+    try { localStorage.setItem(APP.id + ":tema", novo); } catch(e){}
+  });
+}
+
+/* ---------- roteador por hash ---------- */
+const estado = {perfil: null, rota: null};
+function casarRota(hash){
+  const partes = hash.replace(/^#\/?/, "").split("?")[0].split("/").filter(Boolean);
+  for (const r of APP.rotas){
+    const molde = r.rota.replace(/^#\/?/, "").split("/").filter(Boolean);
+    if (molde.length !== partes.length) continue;
+    const params = {}; let ok = true;
+    molde.forEach((m, i)=>{ if (m.startsWith(":")) params[m.slice(1)] = decodeURIComponent(partes[i]); else if (m !== partes[i]) ok = false; });
+    if (ok) return {r, params};
+  }
+  return null;
+}
+function rotaPermitida(r){ return !r.perfis || !estado.perfil || r.perfis.includes(estado.perfil); }
+function montarMenu(){
+  $("#menu").innerHTML = APP.rotas.filter(r=>r.menu !== false && !r.publica && !r.rota.includes(":") && rotaPermitida(r))
+    .map(r=>`<a href="${r.rota}" data-rota="${r.rota}">${esc(r.titulo)}</a>`).join("");
+  const p = $("#perfilAtual");
+  if (APP.perfis && estado.perfil){ p.hidden = false; p.textContent = "Perfil: " + estado.perfil; } else p.hidden = true;
+}
+async function navegar(){
+  if (APP.perfis && !estado.perfil && !["#/testes", ...(APP.rotaSemPerfil || [])].some(x=>location.hash.startsWith(x))){
+    if (APP.perfilDoServidor){
+      $("#conteudo").innerHTML = `<div class="card pendente"><h1>Acesso restrito</h1><p>Esta área é só para servidores cadastrados. Entre com a conta institucional.</p></div>`;
+      return;
+    }
+    return telaEscolherPerfil();
+  }
+  const hash = location.hash || APP.rotas[0].rota;
+  const achou = hash.startsWith("#/testes") ? {r: {rota: "#/testes", titulo: "Testes", publica: false}, params: {}} : casarRota(hash);
+  const alvo = $("#conteudo");
+  $$("#menu a").forEach(a=>a.removeAttribute("aria-current"));
+  if (!achou){ alvo.innerHTML = `<div class="card vazio">Tela não encontrada: <code>${esc(hash)}</code></div>`; return; }
+  if (!rotaPermitida(achou.r)){ alvo.innerHTML = `<div class="card vazio">O perfil <b>${esc(estado.perfil)}</b> não usa esta tela.</div>`; return; }
+  $("#menu").hidden = !!achou.r.publica;
+  const link = $(`#menu a[data-rota="${achou.r.rota}"]`); if (link) link.setAttribute("aria-current", "page");
+  estado.rota = achou.r.rota;
+  document.title = achou.r.titulo + " · " + APP.titulo;
+  const fn = TELAS[achou.r.rota] || telaPendente(achou.r);
+  try { alvo.innerHTML = await fn(achou.params); if (TELAS_DEPOIS[achou.r.rota]) await TELAS_DEPOIS[achou.r.rota](achou.params); }
+  catch(e){ console.error(e); alvo.innerHTML = `<div class="card pendente"><b>Erro nesta tela.</b><p class="mono">${esc(e.message)}</p></div>`; }
+  alvo.focus({preventScroll: true});
+}
+function telaPendente(r){
+  return async ()=>`<h1>${esc(r.titulo)}</h1><p class="sub">${esc(r.descricao || "")}</p>
+    <div class="card pendente">Esta tela é construída no <b>Sprint ${esc(r.sprint)}</b> (ver <code>sprint.md</code>).</div>`;
+}
+
+/* ---------- perfis (o perfil escolhe as telas; não é controle de segurança) ---------- */
+function telaEscolherPerfil(){
+  $("#menu").hidden = true;
+  $("#conteudo").innerHTML = `<h1>Escolha o perfil desta cópia</h1>
+    <p class="sub">O perfil define quais telas aparecem neste computador. Ele pode ser trocado em Configuração.</p>
+    <div class="grade">${APP.perfis.map(p=>`<button class="card" data-perfil="${esc(p.id)}" style="text-align:left"><b>${esc(p.nome)}</b><br><span class="sub">${esc(p.descricao)}</span></button>`).join("")}</div>`;
+  $$("[data-perfil]").forEach(b=>b.addEventListener("click", async ()=>{
+    estado.perfil = b.dataset.perfil; await db.meta("perfil", estado.perfil); await registrar("perfil escolhido", {detalhe: estado.perfil});
+    montarMenu(); location.hash = APP.rotas.find(rotaPermitida).rota; navegar();
+  }));
+}
+
+/* ---------- configuração comum: backup, dados fictícios, perfil, limpeza ---------- */
+async function blocoConfigComum(){
+  const usado = navigator.storage && navigator.storage.estimate ? await navigator.storage.estimate() : null;
+  const persist = navigator.storage && navigator.storage.persisted ? await navigator.storage.persisted() : false;
+  return `<div class="card"><h2 style="margin-top:0">Backup</h2>
+      <p class="sub">Os dados ficam só neste navegador. Exporte o backup toda semana.</p>
+      <div class="linha-botoes"><button class="prim" id="btnExportar">Exportar backup (.json)</button>
+      <label class="botao" style="margin:0">Importar backup<input type="file" id="arqBackup" accept=".json" hidden></label></div>
+      <p class="sub" style="margin-top:10px">Armazenamento: ${usado ? (usado.usage/1048576).toFixed(1) + " MB usados" : "não informado"} ·
+      ${persist ? '<span class="selo ok">persistente</span>' : '<span class="selo alerta">pode ser apagado pelo navegador</span>'}</p></div>
+    ${dadosEmbutidos("seed") ? `<div class="card"><h2 style="margin-top:0">Dados fictícios</h2>
+      <p class="sub">Carrega o conjunto de exemplo para testar. Substitui os dados atuais.</p>
+      <button id="btnSeed">Carregar dados fictícios</button></div>` : ""}
+    ${APP.perfis ? `<div class="card"><h2 style="margin-top:0">Perfil desta cópia</h2>
+      <p class="sub">Atual: <b>${esc(estado.perfil || "nenhum")}</b></p><button id="btnTrocarPerfil">Trocar perfil</button></div>` : ""}
+    <div class="card"><h2 style="margin-top:0">Apagar tudo</h2>
+      <p class="sub">Remove todos os dados deste app neste navegador.</p><button class="perigo" id="btnApagar">Apagar todos os dados</button></div>`;
+}
+function ligarConfigComum(){
+  $("#btnExportar")?.addEventListener("click", async ()=>{
+    baixar(`${APP.id}-backup-${new Date().toISOString().slice(0,10)}.json`, JSON.stringify(await db.exportar(), null, 2), "application/json");
+    await registrar("backup exportado");
+  });
+  $("#arqBackup")?.addEventListener("change", async e=>{
+    const f = e.target.files[0]; if (!f) return;
+    try { await db.importar(JSON.parse(await lerArquivoTexto(f))); await registrar("backup importado", {detalhe: f.name}); toast("Backup importado."); navegar(); }
+    catch(err){ toast("Não consegui importar: " + err.message, 5000); }
+  });
+  $("#btnSeed")?.addEventListener("click", async ()=>{
+    if (!confirm("Substituir os dados atuais pelos dados fictícios?")) return;
+    await db.importar({app: APP.id, dados: dadosEmbutidos("seed")}); await registrar("dados fictícios carregados");
+    toast("Dados fictícios carregados."); navegar();
+  });
+  $("#btnTrocarPerfil")?.addEventListener("click", async ()=>{ estado.perfil = null; await db.meta("perfil", null); montarMenu(); telaEscolherPerfil(); });
+  $("#btnApagar")?.addEventListener("click", async ()=>{
+    if (!confirm("Apagar todos os dados deste app neste navegador?")) return;
+    for (const nome of Object.keys(APP.db.stores)) await db.limpar(nome);
+    toast("Dados apagados."); navegar();
+  });
+}
+
+/* ---------- testes embutidos (#/testes) ---------- */
+const TESTES = [];
+function teste(nome, fn){ TESTES.push({nome, fn}); }
+async function telaTestes(){
+  const res = [];
+  for (const t of TESTES){
+    try { const r = await t.fn(); res.push({nome: t.nome, ok: r !== false, msg: r === true || r === undefined ? "" : String(r)}); }
+    catch(e){ res.push({nome: t.nome, ok: false, msg: e.message}); }
+  }
+  window.__testes = res;
+  const ok = res.filter(r=>r.ok).length;
+  return `<h1>Testes</h1><p class="sub" id="resumoTestes">${ok} de ${res.length} passaram</p>
+    <div class="card tabela-wrap"><table><tr><th>Teste</th><th>Resultado</th></tr>${res.map(r=>`<tr><td>${esc(r.nome)}</td>
+    <td>${r.ok ? '<span class="selo ok">ok</span>' : '<span class="selo erro">falhou</span> <span class="mono">' + esc(r.msg) + "</span>"}</td></tr>`).join("")}</table></div>`;
+}
+
+/* ---------- partida ---------- */
+const TELAS = {"#/testes": telaTestes}, TELAS_DEPOIS = {};
+async function iniciar(){
+  iniciarTema();
+  await db.abrir();
+  if (navigator.storage && navigator.storage.persist) { try { await navigator.storage.persist(); } catch(e){} }
+  if (APP.perfis) estado.perfil = (await db.meta("perfil")) || null;
+  if (typeof iniciarApp === "function") await iniciarApp();
+  montarMenu();
+  window.addEventListener("hashchange", navegar);
+  await navegar();
+}
+</script>
+
+<script>
+/* ===================================================================
+   APP: Segunda via da CIN
+   Configuração (rotas, banco, perfis) e telas. Os sprints editam daqui
+   para baixo.
+   =================================================================== */
+"use strict";
+const APP = {
+  "id": "cin-segunda-via",
+  "titulo": "Segunda via da CIN",
+  "db": {
+    "nome": "cin_segunda_via_v1",
+    "versao": 1,
+    "stores": {
+      "pedidos": {
+        "keyPath": "protocolo",
+        "indices": [
+          {
+            "nome": "situacao",
+            "campo": "situacao",
+            "unico": false
+          }
+        ]
+      },
+      "fotos": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "protocolo",
+            "campo": "protocolo",
+            "unico": false
+          }
+        ]
+      },
+      "decisoes": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "protocolo",
+            "campo": "protocolo",
+            "unico": false
+          }
+        ]
+      },
+      "log": {
+        "keyPath": "id",
+        "indices": []
+      }
+    }
+  },
+  "rotas": [
+    {
+      "rota": "#/pedido",
+      "titulo": "Pedir a segunda via",
+      "sprint": 2,
+      "descricao": "Elegibilidade, dados, fotos e protocolo.",
+      "publica": true
+    },
+    {
+      "rota": "#/protocolo/:id",
+      "titulo": "Protocolo",
+      "sprint": 4,
+      "descricao": "Situação e motivo.",
+      "publica": true
+    },
+    {
+      "rota": "#/fila",
+      "titulo": "Fila",
+      "sprint": 3,
+      "descricao": "Pedidos para conferir.",
+      "perfis": [
+        "servidor"
+      ]
+    },
+    {
+      "rota": "#/pedido/:id/resumo",
+      "titulo": "Resumo para o sistema",
+      "sprint": 3,
+      "descricao": "Dados no formato do cadastro.",
+      "perfis": [
+        "servidor"
+      ]
+    },
+    {
+      "rota": "#/indicadores",
+      "titulo": "Indicadores",
+      "sprint": 5,
+      "descricao": "Pedidos, elegíveis, aceitos e recusados.",
+      "perfis": [
+        "gestao"
+      ]
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": "",
+      "perfis": [
+        "servidor",
+        "gestao"
+      ]
+    }
+  ],
+  "perfis": [
+    {
+      "id": "servidor",
+      "nome": "Servidor",
+      "descricao": "Confere os pedidos e gera o resumo para o sistema."
+    },
+    {
+      "id": "gestao",
+      "nome": "Gestão",
+      "descricao": "Indicadores do piloto."
+    }
+  ],
+  "rotaSemPerfil": [
+    "#/pedido",
+    "#/protocolo"
+  ]
+};
+
+/* ---------- comum a todos os apps (Sprint 1) ---------- */
+TELAS["#/config"] = async ()=> `<h1>Configuração</h1><p class="sub">Backup, dados de exemplo e perfil desta cópia.</p>` +
+  (typeof configExtra === "function" ? await configExtra() : "") + await blocoConfigComum();
+TELAS_DEPOIS["#/config"] = async ()=>{ ligarConfigComum(); if (typeof ligarConfigExtra === "function") await ligarConfigExtra(); };
+async function resumoBase(stores){
+  const linhas = [];
+  for (const s of stores) linhas.push(`<div class="card kpi"><div class="v">${(await db.list(s)).length}</div><div class="r">${esc(s)}</div></div>`);
+  return `<div class="grade">${linhas.join("")}</div>`;
+}
+teste("IndexedDB grava e lê", async ()=>{ await db.meta("teste", 42); return (await db.meta("teste")) === 42; });
+teste("Todas as rotas têm título e sprint", ()=> APP.rotas.every(r=>r.titulo && r.sprint !== undefined));
+teste("lerCSV: ponto e vírgula, aspas e BOM", ()=>{ const r = lerCSV('﻿a;b\n"x;1";2\n'); return r.length === 2 && r[1][0] === "x;1" && r[1][1] === "2"; });
+teste("cnpjValido e cpfValido", ()=> cnpjValido("11.222.333/0001-81") && !cnpjValido("11222333000182") && cpfValido("529.982.247-25") && !cpfValido("52998224726"));
+teste("dataDeTexto('29/10/2026 09:05:00')", ()=> dataDeTexto("29/10/2026 09:05:00") === "2026-10-29T09:05:00");
+
+/* Segunda via da CIN · código do app (o construir.py junta com a base comum) */
+"use strict";
+teste("RN01: CPF de teste válido", ()=> cpfValido(dadosEmbutidos("seed").pedidos[0].cpf));
+teste("RN01: CPF com dígito errado é recusado", ()=> !cpfValido("00000001029") && !cpfValido("11111111111"));
+teste("Todos os CPFs do exemplo são válidos", ()=> dadosEmbutidos("seed").pedidos.every(p=>cpfValido(p.cpf)));
+
+/* ================= Sprint 2 · Pedido do cidadão ================= */
+const LINK_AGENDAMENTO = "../agendamento-cin/index.html#/agendar";
+const fotosDoPedido = {rosto: null, documento: null};  // Blob reduzido (até 800 px)
+
+// Foto de teste gerada no navegador: o MVP não usa foto de pessoa real (LGPD, art. 11).
+function fotoDeTeste(tipo){
+  return new Promise(ok=>{
+    const cv = document.createElement("canvas"); cv.width = 600; cv.height = tipo === "rosto" ? 800 : 400;
+    const g = cv.getContext("2d");
+    g.fillStyle = tipo === "rosto" ? "#c9d6e8" : "#e8e2c9"; g.fillRect(0, 0, cv.width, cv.height);
+    g.fillStyle = "#1c2430"; g.font = "bold 36px sans-serif"; g.textAlign = "center";
+    g.fillText("FOTO DE TESTE", cv.width / 2, cv.height / 2 - 20);
+    g.font = "24px sans-serif"; g.fillText(tipo === "rosto" ? "rosto (fictício)" : "documento (fictício)", cv.width / 2, cv.height / 2 + 24);
+    cv.toBlob(ok, "image/jpeg", 0.8);
+  });
+}
+// RN03: só segue a distância com a CIN válida e sem mudança de dados
+const elegivel = (valida, mudou)=> valida === "sim" && mudou === "nao";
+teste("RN03: CIN vencida não é elegível", ()=> !elegivel("nao", "nao") && !elegivel("sim", "sim") && elegivel("sim", "nao"));
+function validarPedido(p, fotos){
+  const e = [];
+  if (p.nome.split(/\s+/).length < 2) e.push("Informe o nome completo.");
+  if (!cpfValido(p.cpf)) e.push("CPF inválido (RN01).");
+  if (!p.nascimento || p.nascimento > hojeISO()) e.push("Informe a data de nascimento.");
+  if (!p.validade_cin) e.push("Informe a validade da CIN.");
+  else if (p.validade_cin < hojeISO()) e.push("A CIN está vencida: o pedido é feito no posto (RN03).");
+  if (!/^\S+@\S+\.\S+$/.test(p.contato) && p.contato.replace(/\D/g, "").length < 10) e.push("Informe um e-mail ou um telefone com DDD para contato.");
+  if (!fotos.rosto) e.push("Falta a foto do rosto (RN02).");
+  if (!fotos.documento) e.push("Falta a foto do documento (RN02).");
+  return e;
+}
+const novoProtocolo = ()=> "2V-" + hojeISO().replace(/-/g, "") + "-" + Math.random().toString(16).slice(2, 6).toUpperCase();
+
+TELAS["#/pedido"] = async ()=> `<h1>Pedir a segunda via da Carteira de Identidade</h1>
+  <p class="sub">Sem ir ao posto, quando a primeira via ainda está válida e nenhum dado mudou.</p>
+  <form class="card" id="formElegivel"><h2 style="margin-top:0">1. Antes de começar</h2>
+    <fieldset style="border:0;padding:0"><legend>Sua Carteira de Identidade (primeira via) está dentro da validade?</legend>
+      <label style="display:inline-flex;gap:6px;margin-right:16px"><input type="radio" name="valida" value="sim" style="width:auto"> Sim</label>
+      <label style="display:inline-flex;gap:6px"><input type="radio" name="valida" value="nao" style="width:auto"> Não</label></fieldset>
+    <fieldset style="border:0;padding:0;margin-top:10px"><legend>Algum dado mudou desde a emissão (nome, estado civil, filiação)?</legend>
+      <label style="display:inline-flex;gap:6px;margin-right:16px"><input type="radio" name="mudou" value="sim" style="width:auto"> Sim</label>
+      <label style="display:inline-flex;gap:6px"><input type="radio" name="mudou" value="nao" style="width:auto"> Não</label></fieldset>
+    <div class="linha-botoes"><button class="prim" type="submit">Continuar</button></div></form>
+  <div id="naoElegivel"></div><div id="etapaDados"></div>`;
+
+function formDados(){
+  return `<form class="card" id="formPedido"><h2 style="margin-top:0">2. Seus dados</h2><div class="campos">
+      ${campo("cNome", "Nome completo", {obrigatorio: true, attrs: 'autocomplete="name"'})}
+      ${campo("cCpf", "CPF (é o número da CIN)", {obrigatorio: true, attrs: 'inputmode="numeric" autocomplete="off" placeholder="000.000.000-00"'})}
+      ${campo("cNasc", "Data de nascimento", {tipo: "date", obrigatorio: true})}
+      ${campo("cValidade", "Validade da CIN", {tipo: "date", obrigatorio: true})}
+      ${campo("cContato", "E-mail ou telefone para contato", {obrigatorio: true})}</div>
+    <h2>3. Fotos</h2><p class="sub">Protótipo: use as fotos de teste. Não envie fotos reais.</p>
+    <div class="grade">${["rosto", "documento"].map(t=>`<div class="card"><b>${t === "rosto" ? "Foto do rosto" : "Foto do documento"}</b>
+      <div id="prev-${t}" style="margin:8px 0;min-height:60px" class="sub">Sem foto.</div>
+      <label class="botao">Tirar ou escolher foto<input type="file" accept="image/*" capture="${t === "rosto" ? "user" : "environment"}" data-foto="${t}" hidden></label>
+      <button type="button" data-teste="${t}">Usar foto de teste</button></div>`).join("")}</div>
+    <div id="errosPedido"></div>
+    <div class="linha-botoes"><button class="prim" type="submit">Enviar pedido</button></div></form>`;
+}
+async function definirFoto(tipo, blob){
+  fotosDoPedido[tipo] = await reduzirImagem(blob, 800, 0.8);
+  $(`#prev-${tipo}`).innerHTML = `<img src="${URL.createObjectURL(fotosDoPedido[tipo])}" alt="Foto do ${tipo}" style="max-width:120px;border-radius:6px">
+    <br><small>${(fotosDoPedido[tipo].size / 1024).toFixed(0)} KB</small>`;
+}
+TELAS_DEPOIS["#/pedido"] = ()=>{
+  fotosDoPedido.rosto = fotosDoPedido.documento = null;
+  $("#formElegivel").addEventListener("submit", e=>{
+    e.preventDefault();
+    const valida = $("input[name=valida]:checked")?.value, mudou = $("input[name=mudou]:checked")?.value;
+    if (!valida || !mudou) return toast("Responda às duas perguntas.");
+    if (!elegivel(valida, mudou)){
+      $("#etapaDados").innerHTML = "";
+      $("#naoElegivel").innerHTML = `<div class="card pendente" id="avisoPosto"><h2 style="margin-top:0">Este pedido é feito no posto</h2>
+        <p>${valida === "nao" ? "Com a CIN vencida" : "Com mudança de dados"}, a segunda via precisa de nova coleta no posto de identificação.</p>
+        <a class="botao prim" href="${LINK_AGENDAMENTO}">Agendar atendimento no posto</a></div>`;
+      return;
+    }
+    $("#naoElegivel").innerHTML = ""; $("#etapaDados").innerHTML = formDados(); ligarPedido();
+  });
+};
+function ligarPedido(){
+  $$("[data-foto]").forEach(inp=>inp.addEventListener("change", async e=>{
+    const f = e.target.files[0]; if (!f) return;
+    try { await definirFoto(e.target.dataset.foto, f); } catch(err){ toast(err.message); }
+  }));
+  $$("[data-teste]").forEach(b=>b.addEventListener("click", async ()=>definirFoto(b.dataset.teste, await fotoDeTeste(b.dataset.teste))));
+  $("#formPedido").addEventListener("submit", async e=>{
+    e.preventDefault();
+    const p = {nome: valorDe("cNome"), cpf: valorDe("cCpf").replace(/\D/g, ""), nascimento: valorDe("cNasc"), validade_cin: valorDe("cValidade"), contato: valorDe("cContato")};
+    if (!mostrarErros("#errosPedido", validarPedido(p, fotosDoPedido))) return;
+    const protocolo = novoProtocolo();
+    await db.put("pedidos", {protocolo, ...p, numero_cin: p.cpf, mudou_dados: false, criado_em: agora(), situacao: "recebido", motivo: ""});
+    for (const t of ["rosto", "documento"]) await db.put("fotos", {id: `${protocolo}-${t}`, protocolo, tipo: t, conteudo: fotosDoPedido[t]});
+    await registrar("pedido enviado", {protocolo});
+    $("#etapaDados").innerHTML = `<div class="card" id="protocoloGerado"><h2 style="margin-top:0">Pedido recebido</h2>
+      <p>Protocolo: <b class="mono" id="numProtocolo">${protocolo}</b></p><p>Guarde o número. O servidor confere o pedido e a situação aparece no protocolo.</p>
+      <a class="botao" href="#/protocolo/${encodeURIComponent(protocolo)}">Acompanhar o pedido</a></div>`;
+    $("#formElegivel").remove();
+  });
+}
+
+/* ================= Sprint 3 · Fila do servidor (RN05) ================= */
+const MOTIVOS_RECUSA = ["Foto ilegível", "CIN vencida", "Mudança de dados", "Dados divergentes do cadastro", "Outro"];
+const SITUACOES = ["recebido", "aceito", "recusado"];
+const fmtCpf = c => String(c || "").replace(/^(\d{3})(\d{3})(\d{3})(\d{2})$/, "$1.$2.$3-$4");
+// elegibilidade conferida de novo pelo servidor (RN03)
+const eleg = p => ({validade: !!p.validade_cin && p.validade_cin >= hojeISO(), dados: !p.mudou_dados, cpf: cpfValido(p.cpf)});
+
+function filtroFila(){ return estado.filtroFila || (estado.filtroFila = {situacao: "recebido"}); }
+TELAS["#/fila"] = async ()=>{
+  const f = filtroFila(), todos = await db.list("pedidos");
+  const lista = todos.filter(p=>!f.situacao || p.situacao === f.situacao).sort((a, b)=>a.criado_em.localeCompare(b.criado_em));
+  const sel = estado.pedidoSel && await db.get("pedidos", estado.pedidoSel);
+  let ficha = "";
+  if (sel){
+    const fotos = await db.porIndice("fotos", "protocolo", sel.protocolo), e = eleg(sel);
+    const decs = (await db.porIndice("decisoes", "protocolo", sel.protocolo)).sort((a, b)=>b.data.localeCompare(a.data));
+    ficha = `<div class="card" id="fichaPedido"><h2 style="margin-top:0">Pedido ${esc(sel.protocolo)} <span class="selo info" id="sitPedido">${esc(sel.situacao)}</span></h2>
+      <p><b>${esc(sel.nome)}</b> · CPF ${esc(fmtCpf(sel.cpf))} · nascimento ${dataCurtaBR(sel.nascimento)} · contato ${esc(sel.contato)}</p>
+      <p>Elegibilidade: <span class="selo ${e.validade ? "ok" : "erro"}">CIN ${e.validade ? "válida até " + dataCurtaBR(sel.validade_cin) : "vencida"}</span>
+        <span class="selo ${e.dados ? "ok" : "erro"}">${e.dados ? "sem mudança de dados" : "dados mudaram"}</span>
+        <span class="selo ${e.cpf ? "ok" : "erro"}">CPF ${e.cpf ? "válido" : "inválido"}</span></p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">${fotos.map(ft=>`<figure style="margin:0"><img src="${URL.createObjectURL(ft.conteudo)}" alt="Foto: ${esc(ft.tipo)}" style="max-width:200px;border-radius:8px"><figcaption class="sub">${esc(ft.tipo)}</figcaption></figure>`).join("")
+        || '<p class="sub">Sem fotos (pedido do exemplo).</p>'}</div>
+      ${sel.situacao === "recebido" ? `<div class="campos">${campo("fMotivo", "Motivo da recusa", {tipo: "select", opcoes: [["", "Escolha"], ...MOTIVOS_RECUSA]})}${campo("fObs", "Observação")}</div>
+        <div id="errosFila"></div><div class="linha-botoes"><button class="prim" id="btnAceitar">Aceitar</button><button class="perigo" id="btnRecusar">Recusar</button>
+        <a class="botao" href="#/pedido/${encodeURIComponent(sel.protocolo)}/resumo">Resumo para o sistema</a></div>`
+      : `<p>${sel.motivo ? `Motivo: <b>${esc(sel.motivo)}</b>` : ""}</p><a class="botao" href="#/pedido/${encodeURIComponent(sel.protocolo)}/resumo">Resumo para o sistema</a>`}
+      ${decs.length ? `<p class="sub">Decisões: ${decs.map(d=>`${dataBR(d.data)} · ${esc(d.resultado)}${d.motivo ? " (" + esc(d.motivo) + ")" : ""} · ${esc(d.servidor)}`).join("<br>")}</p>` : ""}</div>`;
+  }
+  return `<h1>Fila de pedidos</h1><div class="linha-botoes" style="margin-top:0">${["", ...SITUACOES].map(s=>`<button data-sit="${s}" ${s === f.situacao ? 'class="prim"' : ""}>
+    ${s || "todos"} (<span data-qtd="${s || "todos"}">${s ? todos.filter(p=>p.situacao === s).length : todos.length}</span>)</button>`).join("")}</div>
+    ${ficha}
+    <div class="card tabela-wrap"><table><tr><th>Protocolo</th><th>Pedido em</th><th>Nome</th><th>Elegível</th><th>Situação</th></tr>
+      ${lista.map(p=>{ const e = eleg(p), ok = e.validade && e.dados && e.cpf; return `<tr><td><a href="#" data-sel="${esc(p.protocolo)}">${esc(p.protocolo)}</a></td>
+        <td>${dataBR(p.criado_em)}</td><td>${esc(p.nome)}</td><td>${ok ? '<span class="selo ok">sim</span>' : '<span class="selo erro">não</span>'}</td><td>${esc(p.situacao)}</td></tr>`; }).join("")
+        || '<tr><td colspan="5" class="vazio">Nenhum pedido nesta situação.</td></tr>'}</table></div>`;
+};
+TELAS_DEPOIS["#/fila"] = ()=>{
+  $$("[data-sit]").forEach(b=>b.addEventListener("click", ()=>{ filtroFila().situacao = b.dataset.sit; navegar(); }));
+  $$("[data-sel]").forEach(a=>a.addEventListener("click", e=>{ e.preventDefault(); estado.pedidoSel = a.dataset.sel; navegar(); }));
+  const decidir = resultado => async ()=>{
+    const p = await db.get("pedidos", estado.pedidoSel), motivo = valorDe("fMotivo"), obs = valorDe("fObs");
+    if (resultado === "recusado" && !motivo) return mostrarErros("#errosFila", ["A recusa precisa de motivo (RN05)."]);
+    if (resultado === "recusado" && motivo === "Outro" && !obs) return mostrarErros("#errosFila", ["Descreva o motivo na observação."]);
+    const servidor = (await db.meta("servidor_nome")) || estado.perfil;
+    const texto = resultado === "recusado" ? (motivo === "Outro" ? obs : motivo + (obs ? ": " + obs : "")) : "";
+    await db.put("decisoes", {id: uuid(), protocolo: p.protocolo, resultado, motivo: texto, servidor, data: agora()});
+    await db.put("pedidos", {...p, situacao: resultado, motivo: texto, decidido_em: agora()});
+    await registrar("pedido " + resultado, {protocolo: p.protocolo, detalhe: texto});
+    toast(`Pedido ${resultado}.`); navegar();
+  };
+  $("#btnAceitar")?.addEventListener("click", decidir("aceito")); $("#btnRecusar")?.addEventListener("click", decidir("recusado"));
+};
+
+TELAS["#/pedido/:id/resumo"] = async ({id})=>{
+  const p = await db.get("pedidos", id);
+  if (!p) return `<div class="card vazio">Pedido não encontrado.</div>`;
+  const linhas = [["Protocolo", p.protocolo], ["Nome", p.nome], ["CPF", fmtCpf(p.cpf)], ["Data de nascimento", dataCurtaBR(p.nascimento)],
+    ["Número da CIN", fmtCpf(p.numero_cin)], ["Validade da CIN", dataCurtaBR(p.validade_cin)], ["Contato", p.contato], ["Pedido em", dataBR(p.criado_em)],
+    ["Situação", p.situacao + (p.motivo ? " · " + p.motivo : "")], ["Serviço", "Segunda via da CIN, sem nova coleta (dados sem mudança)"]];
+  const texto = linhas.map(([k, v])=>`${k}: ${v}`).join("\n");
+  return `<h1>Resumo para o sistema de identificação civil</h1><p class="sub">Confira e lance no sistema. O envio automático não faz parte do MVP.</p>
+    <div class="card tabela-wrap"><table id="tabelaResumo">${linhas.map(([k, v])=>`<tr><th>${esc(k)}</th><td>${esc(v)}</td></tr>`).join("")}</table>
+    <textarea id="textoResumo" hidden>${esc(texto)}</textarea>
+    <div class="linha-botoes nao-imprimir"><button class="prim" id="btnCopiarResumo">Copiar</button><button onclick="window.print()">Imprimir</button><a class="botao" href="#/fila">Voltar à fila</a></div></div>`;
+};
+TELAS_DEPOIS["#/pedido/:id/resumo"] = ()=>{
+  $("#btnCopiarResumo")?.addEventListener("click", async ()=>{ try { await navigator.clipboard.writeText($("#textoResumo").value); toast("Resumo copiado."); } catch(e){ toast("Não consegui copiar."); } });
+};
+
+
+iniciar();
+</script>
+</body>
+</html>

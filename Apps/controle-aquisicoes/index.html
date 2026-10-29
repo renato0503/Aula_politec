@@ -1,0 +1,750 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: blob:; connect-src 'none'; img-src 'self' data: blob:; media-src 'self' blob: mediastream:; worker-src blob:">
+<title>Controle do Processo de Aquisição</title>
+<meta name="description" content="Painel das aquisições da POLITEC, com etapas, documentos exigidos, responsáveis, prazos e pendências. Dados fictícios.">
+<style>
+/* ===================================================================
+   BASE COMUM DOS APPS (Apps/_base/base.html)
+   Tema, layout, componentes. O CSS do app fica no fim deste bloco.
+   =================================================================== */
+:root{
+  --bg:#f6f7f9; --painel:#ffffff; --ink:#1c2430; --ink2:#5b6676; --linha:#dde2e9;
+  --accent:#1f5fae; --accent-ink:#ffffff; --verde:#1d7a46; --ambar:#a86500; --vermelho:#b42318;
+  --sombra:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.10);
+  --raio:10px; --mono:ui-monospace,SFMono-Regular,Consolas,monospace;
+  --ui:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#11161d; --painel:#1a212b; --ink:#e6eaf0; --ink2:#a3adbb; --linha:#2c3542;
+    --accent:#6ea8ff; --accent-ink:#0b1220; --verde:#4cc283; --ambar:#f0b44c; --vermelho:#ff7b72;
+    --sombra:none; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11161d; --painel:#1a212b; --ink:#e6eaf0; --ink2:#a3adbb; --linha:#2c3542;
+  --accent:#6ea8ff; --accent-ink:#0b1220; --verde:#4cc283; --ambar:#f0b44c; --vermelho:#ff7b72;
+  --sombra:none; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--ui)}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.topo{background:var(--painel);border-bottom:1px solid var(--linha);position:sticky;top:0;z-index:5}
+.topo-in{max-width:1200px;margin:0 auto;padding:10px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.marca{font-weight:700;font-size:17px;margin-right:auto}
+.marca small{display:block;font-weight:400;font-size:12px;color:var(--ink2)}
+.aviso-topo{background:var(--accent);color:var(--accent-ink);font-size:13px;text-align:center;padding:4px 16px}
+nav.menu{max-width:1200px;margin:0 auto;padding:0 16px 8px;display:flex;gap:4px;flex-wrap:wrap}
+nav.menu a{padding:6px 10px;border-radius:8px;text-decoration:none;color:var(--ink2);font-size:14px}
+nav.menu a[aria-current="page"]{background:var(--accent);color:var(--accent-ink)}
+main{max-width:1200px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:22px;margin:0 0 4px} h2{font-size:18px;margin:24px 0 8px}
+.sub{color:var(--ink2);margin:0 0 16px}
+.card{background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio);padding:16px;box-shadow:var(--sombra);margin-bottom:16px}
+.grade{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.kpi .v{font-size:26px;font-weight:700} .kpi .r{color:var(--ink2);font-size:13px}
+button,.botao{font:inherit;border:1px solid var(--linha);background:var(--painel);color:var(--ink);padding:7px 12px;border-radius:8px;cursor:pointer}
+button.prim,.botao.prim{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+button.perigo{border-color:var(--vermelho);color:var(--vermelho)}
+button:disabled{opacity:.5;cursor:not-allowed}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--linha);border-radius:8px;padding:7px 9px;width:100%}
+label{display:block;font-size:13px;color:var(--ink2);margin:10px 0 4px}
+.linha-botoes{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tabela-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--linha);vertical-align:top}
+th{color:var(--ink2);font-weight:600}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.selo{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;border:1px solid currentColor}
+.selo.ok{color:var(--verde)} .selo.alerta{color:var(--ambar)} .selo.erro{color:var(--vermelho)} .selo.info{color:var(--accent)}
+.vazio{color:var(--ink2);text-align:center;padding:28px}
+.campos{display:grid;gap:0 16px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.campo small{display:block;margin-top:2px}
+.ok-txt{color:var(--verde)} .erro-txt{color:var(--vermelho)} .alerta-txt{color:var(--ambar)}
+.pendente{border-left:4px solid var(--ambar)}
+code,.mono{font-family:var(--mono);font-size:13px}
+#toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;display:none;z-index:20;max-width:90vw}
+@media (max-width:640px){ .marca{font-size:15px} main{padding:16px 16px 48px} }
+@media print{ .topo,nav.menu,#toast,.nao-imprimir{display:none!important} body{background:#fff;color:#000} .card{box-shadow:none;break-inside:avoid} }
+/* ===== CSS DO APP ===== */
+
+</style>
+</head>
+<body>
+<header class="topo">
+  <div class="aviso-topo">Protótipo com dados fictícios. Não registre processos, matrículas ou documentos reais.</div>
+  <div class="topo-in">
+    <div class="marca">Controle do Processo de Aquisição<small>POLITEC/MT · etapas, documentos, prazos e pendências</small></div>
+    <span id="perfilAtual" class="selo info" hidden></span>
+    <button id="btnTema" type="button" aria-label="Alternar tema claro e escuro">Tema</button>
+  </div>
+  <nav class="menu" id="menu" aria-label="Telas do app"></nav>
+</header>
+<main id="conteudo" tabindex="-1"></main>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<!-- Bibliotecas e dados embutidos (preenchidos por Apps/_base/embutir.py) -->
+<!-- DADOS:seed:exemplos/seed.json -->
+<script type="application/json" id="seed">{"processos":[{"id_processo":"AQ-0001","numero_sigadoc":"2026.1000-SD","numero_siag":"SIAG-2026-0001","objeto":"Aquisição de 40 notebooks","unidade":"Gabinete de Direção","responsavel":"Servidor Fictício A","data_abertura":"2026-10-24","prazo_dias":30,"etapa":"DFD","status":"em andamento","criado_em":"2026-10-24T09:00:00"},{"id_processo":"AQ-0002","numero_sigadoc":"2026.1001-SD","numero_siag":"SIAG-2026-0002","objeto":"Contratação de link de internet","unidade":"Laboratório Forense","responsavel":"Servidor Fictício B","data_abertura":"2026-10-11","prazo_dias":30,"etapa":"ETP","status":"em andamento","criado_em":"2026-10-11T09:00:00"},{"id_processo":"AQ-0003","numero_sigadoc":"2026.1002-SD","numero_siag":"SIAG-2026-0003","objeto":"Compra de reagentes laboratoriais","unidade":"Identificação Civil","responsavel":"Servidor Fictício C","data_abertura":"2026-09-24","prazo_dias":30,"etapa":"Análise de riscos","status":"em andamento","criado_em":"2026-09-24T09:00:00"},{"id_processo":"AQ-0004","numero_sigadoc":"2026.1003-SD","numero_siag":"SIAG-2026-0004","objeto":"Locação de veículos","unidade":"Custódia Definitiva","responsavel":"Servidor Fictício D","data_abertura":"2026-09-19","prazo_dias":30,"etapa":"TR","status":"em andamento","criado_em":"2026-09-19T09:00:00"},{"id_processo":"AQ-0005","numero_sigadoc":"2026.1004-SD","numero_siag":"SIAG-2026-0005","objeto":"Serviço de manutenção predial","unidade":"Aquisições e Contratos","responsavel":"Servidor Fictício E","data_abertura":"2026-10-17","prazo_dias":30,"etapa":"Pesquisa de preços","status":"em andamento","criado_em":"2026-10-17T09:00:00"},{"id_processo":"AQ-0006","numero_sigadoc":"2026.1005-SD","numero_siag":"SIAG-2026-0006","objeto":"Aquisição de câmaras frias","unidade":"Gabinete de Direção","responsavel":"Servidor Fictício F","data_abertura":"2026-10-04","prazo_dias":30,"etapa":"SIGADOC e SIAG","status":"em andamento","criado_em":"2026-10-04T09:00:00"},{"id_processo":"AQ-0007","numero_sigadoc":"2026.1006-SD","numero_siag":"SIAG-2026-0007","objeto":"Contratação de serviço gráfico","unidade":"Laboratório Forense","responsavel":"Servidor Fictício G","data_abertura":"2026-09-09","prazo_dias":30,"etapa":"Análise técnica","status":"em andamento","criado_em":"2026-09-09T09:00:00"},{"id_processo":"AQ-0008","numero_sigadoc":"2026.1007-SD","numero_siag":"SIAG-2026-0008","objeto":"Compra de mobiliário","unidade":"Identificação Civil","responsavel":"Servidor Fictício H","data_abertura":"2026-10-21","prazo_dias":30,"etapa":"Análise jurídica","status":"em andamento","criado_em":"2026-10-21T09:00:00"},{"id_processo":"AQ-0009","numero_sigadoc":"2026.1008-SD","numero_siag":"SIAG-2026-0009","objeto":"Assinatura de software de gestão","unidade":"Custódia Definitiva","responsavel":"Servidor Fictício I","data_abertura":"2026-09-29","prazo_dias":30,"etapa":"Modalidade definida","status":"em andamento","criado_em":"2026-09-29T09:00:00"},{"id_processo":"AQ-0010","numero_sigadoc":"2026.1009-SD","numero_siag":"SIAG-2026-0010","objeto":"Aquisição de equipamentos de proteção","unidade":"Aquisições e Contratos","responsavel":"Servidor Fictício J","data_abertura":"2026-10-07","prazo_dias":30,"etapa":"DFD","status":"em andamento","criado_em":"2026-10-07T09:00:00"}],"documentos":[{"id_documento":"AQ-0001-DFD","processo_id":"AQ-0001","tipo_documento":"DFD","nome":"DFD-AQ-0001.pdf","data":"2026-10-25T10:00:00"},{"id_documento":"AQ-0002-DFD","processo_id":"AQ-0002","tipo_documento":"DFD","nome":"DFD-AQ-0002.pdf","data":"2026-10-12T10:00:00"},{"id_documento":"AQ-0002-ETP","processo_id":"AQ-0002","tipo_documento":"ETP","nome":"ETP-AQ-0002.pdf","data":"2026-10-13T10:00:00"},{"id_documento":"AQ-0003-DFD","processo_id":"AQ-0003","tipo_documento":"DFD","nome":"DFD-AQ-0003.pdf","data":"2026-09-25T10:00:00"},{"id_documento":"AQ-0003-ETP","processo_id":"AQ-0003","tipo_documento":"ETP","nome":"ETP-AQ-0003.pdf","data":"2026-09-26T10:00:00"},{"id_documento":"AQ-0003-Análise de riscos","processo_id":"AQ-0003","tipo_documento":"Análise de riscos","nome":"Análise de riscos-AQ-0003.pdf","data":"2026-09-27T10:00:00"},{"id_documento":"AQ-0004-DFD","processo_id":"AQ-0004","tipo_documento":"DFD","nome":"DFD-AQ-0004.pdf","data":"2026-09-20T10:00:00"},{"id_documento":"AQ-0004-ETP","processo_id":"AQ-0004","tipo_documento":"ETP","nome":"ETP-AQ-0004.pdf","data":"2026-09-21T10:00:00"},{"id_documento":"AQ-0004-Análise de riscos","processo_id":"AQ-0004","tipo_documento":"Análise de riscos","nome":"Análise de riscos-AQ-0004.pdf","data":"2026-09-22T10:00:00"},{"id_documento":"AQ-0005-DFD","processo_id":"AQ-0005","tipo_documento":"DFD","nome":"DFD-AQ-0005.pdf","data":"2026-10-18T10:00:00"},{"id_documento":"AQ-0005-ETP","processo_id":"AQ-0005","tipo_documento":"ETP","nome":"ETP-AQ-0005.pdf","data":"2026-10-19T10:00:00"},{"id_documento":"AQ-0005-Análise de riscos","processo_id":"AQ-0005","tipo_documento":"Análise de riscos","nome":"Análise de riscos-AQ-0005.pdf","data":"2026-10-20T10:00:00"},{"id_documento":"AQ-0005-TR","processo_id":"AQ-0005","tipo_documento":"TR","nome":"TR-AQ-0005.pdf","data":"2026-10-21T10:00:00"},{"id_documento":"AQ-0005-Pesquisa de preços","processo_id":"AQ-0005","tipo_documento":"Pesquisa de preços","nome":"Pesquisa de preços-AQ-0005.pdf","data":"2026-10-22T10:00:00"},{"id_documento":"AQ-0006-DFD","processo_id":"AQ-0006","tipo_documento":"DFD","nome":"DFD-AQ-0006.pdf","data":"2026-10-05T10:00:00"},{"id_documento":"AQ-0006-ETP","processo_id":"AQ-0006","tipo_documento":"ETP","nome":"ETP-AQ-0006.pdf","data":"2026-10-06T10:00:00"},{"id_documento":"AQ-0006-Análise de riscos","processo_id":"AQ-0006","tipo_documento":"Análise de riscos","nome":"Análise de riscos-AQ-0006.pdf","data":"2026-10-07T10:00:00"},{"id_documento":"AQ-0006-TR","processo_id":"AQ-0006","tipo_documento":"TR","nome":"TR-AQ-0006.pdf","data":"2026-10-08T10:00:00"},{"id_documento":"AQ-0006-Pesquisa de preços","processo_id":"AQ-0006","tipo_documento":"Pesquisa de preços","nome":"Pesquisa de preços-AQ-0006.pdf","data":"2026-10-09T10:00:00"},{"id_documento":"AQ-0007-DFD","processo_id":"AQ-0007","tipo_documento":"DFD","nome":"DFD-AQ-0007.pdf","data":"2026-09-10T10:00:00"},{"id_documento":"AQ-0007-ETP","processo_id":"AQ-0007","tipo_documento":"ETP","nome":"ETP-AQ-0007.pdf","data":"2026-09-11T10:00:00"},{"id_documento":"AQ-0007-Análise de riscos","processo_id":"AQ-0007","tipo_documento":"Análise de riscos","nome":"Análise de riscos-AQ-0007.pdf","data":"2026-09-12T10:00:00"},{"id_documento":"AQ-0007-TR","processo_id":"AQ-0007","tipo_documento":"TR","nome":"TR-AQ-0007.pdf","data":"2026-09-13T10:00:00"},{"id_documento":"AQ-0007-Pesquisa de preços","processo_id":"AQ-0007","tipo_documento":"Pesquisa de preços","nome":"Pesquisa de preços-AQ-0007.pdf","data":"2026-09-14T10:00:00"},{"id_documento":"AQ-0008-DFD","processo_id":"AQ-0008","tipo_documento":"DFD","nome":"DFD-AQ-0008.pdf","data":"2026-10-22T10:00:00"},{"id_documento":"AQ-0008-ETP","processo_id":"AQ-0008","tipo_documento":"ETP","nome":"ETP-AQ-0008.pdf","data":"2026-10-23T10:00:00"},{"id_documento":"AQ-0008-Análise de riscos","processo_id":"AQ-0008","tipo_documento":"Análise de riscos","nome":"Análise de riscos-AQ-0008.pdf","data":"2026-10-24T10:00:00"},{"id_documento":"AQ-0008-TR","processo_id":"AQ-0008","tipo_documento":"TR","nome":"TR-AQ-0008.pdf","data":"2026-10-25T10:00:00"},{"id_documento":"AQ-0008-Pesquisa de preços","processo_id":"AQ-0008","tipo_documento":"Pesquisa de preços","nome":"Pesquisa de preços-AQ-0008.pdf","data":"2026-10-26T10:00:00"},{"id_documento":"AQ-0009-DFD","processo_id":"AQ-0009","tipo_documento":"DFD","nome":"DFD-AQ-0009.pdf","data":"2026-09-30T10:00:00"},{"id_documento":"AQ-0009-ETP","processo_id":"AQ-0009","tipo_documento":"ETP","nome":"ETP-AQ-0009.pdf","data":"2026-10-01T10:00:00"},{"id_documento":"AQ-0009-Análise de riscos","processo_id":"AQ-0009","tipo_documento":"Análise de riscos","nome":"Análise de riscos-AQ-0009.pdf","data":"2026-10-02T10:00:00"},{"id_documento":"AQ-0009-TR","processo_id":"AQ-0009","tipo_documento":"TR","nome":"TR-AQ-0009.pdf","data":"2026-10-03T10:00:00"},{"id_documento":"AQ-0009-Pesquisa de preços","processo_id":"AQ-0009","tipo_documento":"Pesquisa de preços","nome":"Pesquisa de preços-AQ-0009.pdf","data":"2026-10-04T10:00:00"},{"id_documento":"AQ-0010-DFD","processo_id":"AQ-0010","tipo_documento":"DFD","nome":"DFD-AQ-0010.pdf","data":"2026-10-08T10:00:00"}],"pendencias":[{"id_pendencia":"AQ-0003-P1","processo_id":"AQ-0003","motivo":"Aguardando assinatura","aberta_em":"2026-09-29","resolvida_em":null},{"id_pendencia":"AQ-0007-P1","processo_id":"AQ-0007","motivo":"Pesquisa de preços insuficiente","aberta_em":"2026-09-14","resolvida_em":null}],"log":[{"id":"L-AQ-0001","processo_id":"AQ-0001","acao":"processo registrado","perfil":"compras","data_hora":"2026-10-24T09:00:00"},{"id":"L-AQ-0002","processo_id":"AQ-0002","acao":"processo registrado","perfil":"compras","data_hora":"2026-10-11T09:00:00"},{"id":"L-AQ-0003","processo_id":"AQ-0003","acao":"processo registrado","perfil":"compras","data_hora":"2026-09-24T09:00:00"},{"id":"L-AQ-0004","processo_id":"AQ-0004","acao":"processo registrado","perfil":"compras","data_hora":"2026-09-19T09:00:00"},{"id":"L-AQ-0005","processo_id":"AQ-0005","acao":"processo registrado","perfil":"compras","data_hora":"2026-10-17T09:00:00"},{"id":"L-AQ-0006","processo_id":"AQ-0006","acao":"processo registrado","perfil":"compras","data_hora":"2026-10-04T09:00:00"},{"id":"L-AQ-0007","processo_id":"AQ-0007","acao":"processo registrado","perfil":"compras","data_hora":"2026-09-09T09:00:00"},{"id":"L-AQ-0008","processo_id":"AQ-0008","acao":"processo registrado","perfil":"compras","data_hora":"2026-10-21T09:00:00"},{"id":"L-AQ-0009","processo_id":"AQ-0009","acao":"processo registrado","perfil":"compras","data_hora":"2026-09-29T09:00:00"},{"id":"L-AQ-0010","processo_id":"AQ-0010","acao":"processo registrado","perfil":"compras","data_hora":"2026-10-07T09:00:00"}]}</script>
+<!-- /DADOS:seed -->
+
+<script>
+/* ===================================================================
+   BASE COMUM DOS APPS
+   util · db (IndexedDB) · roteador · tema · backup · perfis
+   =================================================================== */
+"use strict";
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => Array.from(el.querySelectorAll(s));
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : "id-" + Date.now().toString(36) + Math.random().toString(36).slice(2));
+const agora = () => new Date().toISOString();
+const dataBR = iso => iso ? new Date(iso).toLocaleString("pt-BR") : "";
+
+function toast(msg, ms=3200){
+  const t = $("#toast"); t.textContent = msg; t.style.display = "block";
+  clearTimeout(toast._t); toast._t = setTimeout(()=>{ t.style.display = "none"; }, ms);
+}
+function baixar(nome, conteudo, tipo="application/octet-stream"){
+  const blob = conteudo instanceof Blob ? conteudo : new Blob([conteudo], {type: tipo});
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = nome;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+}
+function lerArquivoTexto(file){
+  return new Promise((ok, erro)=>{ const r = new FileReader(); r.onload = ()=>ok(r.result); r.onerror = erro; r.readAsText(file); });
+}
+function dadosEmbutidos(id){
+  const el = document.getElementById(id);
+  return el && el.textContent.trim() ? JSON.parse(el.textContent) : null;
+}
+function lerArrayBuffer(file){
+  return new Promise((ok, erro)=>{ const r = new FileReader(); r.onload = ()=>ok(r.result); r.onerror = erro; r.readAsArrayBuffer(file); });
+}
+// sem acento, minúsculo, espaços simples: para casar nomes de colunas, setores e unidades
+const normalizar = s => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+const hojeISO = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); };
+const dataCurtaBR = iso => iso ? iso.slice(0, 10).split("-").reverse().join("/") : "";
+// "29/10/2026", "29/10/2026 09:15:00", "2026-10-29" -> "2026-10-29" (ou com hora: "2026-10-29T09:15:00")
+function dataDeTexto(t){
+  const s = String(t ?? "").trim();
+  let m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);
+  if (m){ const d = `${m[3]}-${m[2].padStart(2, "0")}-${m[1].padStart(2, "0")}`; return m[4] ? `${d}T${m[4].padStart(2, "0")}:${m[5]}:${m[6] || "00"}` : d; }
+  m = s.match(/^(\d{4})-(\d{2})-(\d{2})(T[\d:]+)?/);
+  return m ? m[0] : null;
+}
+
+/* ---------- dinheiro em centavos inteiros (sem erro de arredondamento) ---------- */
+const dinheiro = {
+  // "1.234,56" · "R$ 1.234,5" · "1234.56" · 12.5 -> centavos. Arredonda meio para cima na 3ª casa.
+  de(v){
+    if (v === null || v === undefined || v === "") return null;
+    if (typeof v === "number") return Math.round(v * 100);
+    let s = String(v).trim().replace(/^R\$\s*/, "").replace(/\s/g, "");
+    const neg = s.startsWith("-"); s = s.replace(/^-/, "");
+    if (s.includes(",")) s = s.replace(/\./g, "").replace(",", ".");
+    else if (/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g, "");
+    const [i, d = ""] = s.split(".");
+    if (!/^\d+$/.test(i) || !/^\d*$/.test(d)) return NaN;
+    const c = Number(i) * 100 + Number((d + "00").slice(0, 2)) + (Number(d[2] || 0) >= 5 ? 1 : 0);
+    return neg ? -c : c;
+  },
+  // 123456 -> "R$ 1.234,56"
+  fmt(c){
+    if (c === null || c === undefined || Number.isNaN(c)) return "";
+    const neg = c < 0; c = Math.abs(c);
+    return (neg ? "-" : "") + "R$ " + Math.floor(c / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "," + String(c % 100).padStart(2, "0");
+  },
+  // quantidade (até 3 casas) × valor unitário em centavos, arredondado a 2 casas
+  vezes(qtd, c){ const q = Math.round(qtd * 1000); return Math.floor((q * c + 500) / 1000); },
+  // divide um total em centavos pelos pesos, sem perder centavo (maiores restos)
+  ratear(total, pesos){
+    const soma = pesos.reduce((a, b)=>a + b, 0); if (!soma) return pesos.map(()=>0);
+    const base = pesos.map(p=>Math.floor(total * p / soma)); const falta = total - base.reduce((a, b)=>a + b, 0);
+    pesos.map((p, i)=>({i, r: total * p / soma - base[i]})).sort((a, b)=>b.r - a.r).slice(0, falta).forEach(x=>base[x.i]++);
+    return base;
+  }
+};
+
+/* ---------- documentos ---------- */
+function cpfValido(v){
+  const d = String(v || "").replace(/\D/g, "");
+  if (d.length !== 11 || /^(\d)\1{10}$/.test(d)) return false;
+  for (const t of [9, 10]){
+    let s = 0; for (let i = 0; i < t; i++) s += Number(d[i]) * (t + 1 - i);
+    if (((s * 10) % 11) % 10 !== Number(d[t])) return false;
+  }
+  return true;
+}
+function cnpjValido(v){
+  const d = String(v || "").replace(/\D/g, "");
+  if (d.length !== 14 || /^(\d)\1{13}$/.test(d)) return false;
+  const dv = n => { const pesos = n === 12 ? [5,4,3,2,9,8,7,6,5,4,3,2] : [6,5,4,3,2,9,8,7,6,5,4,3,2];
+    const s = pesos.reduce((a, p, i)=>a + Number(d[i]) * p, 0) % 11; return s < 2 ? 0 : 11 - s; };
+  return dv(12) === Number(d[12]) && dv(13) === Number(d[13]);
+}
+
+/* ---------- CSV: separador detectado (; , ou tab), aspas, BOM ---------- */
+function lerCSV(texto){
+  texto = String(texto).replace(/^﻿/, "");
+  const primeira = texto.split(/\r?\n/, 1)[0];
+  const sep = [";", "\t", ","].map(c=>[c, primeira.split(c).length]).sort((a, b)=>b[1] - a[1])[0][0];
+  const linhas = []; let linha = [], campo = "", aspas = false;
+  for (let i = 0; i < texto.length; i++){
+    const c = texto[i];
+    if (aspas){
+      if (c === '"' && texto[i + 1] === '"'){ campo += '"'; i++; }
+      else if (c === '"') aspas = false; else campo += c;
+    } else if (c === '"') aspas = true;
+    else if (c === sep){ linha.push(campo); campo = ""; }
+    else if (c === "\n" || c === "\r"){
+      if (c === "\r" && texto[i + 1] === "\n") i++;
+      linha.push(campo); campo = ""; if (linha.some(x=>x !== "")) linhas.push(linha); linha = [];
+    } else campo += c;
+  }
+  linha.push(campo); if (linha.some(x=>x !== "")) linhas.push(linha);
+  return linhas;
+}
+// sugere, para cada campo, a coluna do cabeçalho cujo nome contém um dos sinônimos
+function sugerirColunas(cabecalho, sinonimos){
+  const cab = cabecalho.map(normalizar), out = {};
+  for (const [campo, lista] of Object.entries(sinonimos)){
+    const i = cab.findIndex(c=>lista.some(s=>c === normalizar(s))) ;
+    const j = i >= 0 ? i : cab.findIndex(c=>lista.some(s=>c.includes(normalizar(s))));
+    out[campo] = j;
+  }
+  return out;
+}
+
+/* ---------- imagem: reduz no navegador antes de guardar ---------- */
+function reduzirImagem(fonte, max=1280, qualidade=0.75){
+  return new Promise((ok, erro)=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const k = Math.min(1, max / Math.max(img.width, img.height));
+      const cv = document.createElement("canvas"); cv.width = Math.round(img.width * k); cv.height = Math.round(img.height * k);
+      cv.getContext("2d").drawImage(img, 0, 0, cv.width, cv.height);
+      cv.toBlob(b=>{ URL.revokeObjectURL(img.src); b ? ok(b) : erro(new Error("Não consegui reduzir a imagem.")); }, "image/jpeg", qualidade);
+    };
+    img.onerror = ()=>erro(new Error("Arquivo de imagem ilegível."));
+    img.src = fonte instanceof Blob ? URL.createObjectURL(fonte) : fonte;
+  });
+}
+
+/* ---------- formulário ---------- */
+// campo("nome", "Nome", {tipo: "text", valor, obrigatorio, ajuda, attrs})
+function campo(id, rotulo, o={}){
+  const tipo = o.tipo || "text", obr = o.obrigatorio ? " required" : "", v = o.valor ?? "";
+  const ajuda = o.ajuda ? `<small class="sub" id="${id}-ajuda">${esc(o.ajuda)}</small>` : "";
+  const desc = o.ajuda ? ` aria-describedby="${id}-ajuda"` : "";
+  let ctl;
+  if (tipo === "textarea") ctl = `<textarea id="${id}" name="${id}" rows="${o.linhas || 4}"${obr}${desc} ${o.attrs || ""}>${esc(v)}</textarea>`;
+  else if (tipo === "select") ctl = `<select id="${id}" name="${id}"${obr}${desc} ${o.attrs || ""}>${(o.opcoes || []).map(op=>{
+      const [val, txt] = Array.isArray(op) ? op : [op, op];
+      return `<option value="${esc(val)}" ${String(val) === String(v) ? "selected" : ""}>${esc(txt)}</option>`; }).join("")}</select>`;
+  else ctl = `<input id="${id}" name="${id}" type="${tipo}" value="${esc(v)}"${obr}${desc} ${o.attrs || ""}>`;
+  return `<div class="campo"><label for="${id}">${esc(rotulo)}${o.obrigatorio ? " *" : ""}</label>${ctl}${ajuda}</div>`;
+}
+const valorDe = id => ($("#" + id)?.value ?? "").trim();
+function mostrarErros(alvo, erros){
+  const el = typeof alvo === "string" ? $(alvo) : alvo;
+  el.innerHTML = erros.length ? `<div class="card pendente" role="alert"><b>Corrija antes de salvar:</b><ul>${erros.map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>` : "";
+  if (erros.length) el.scrollIntoView({block: "nearest"});
+  return !erros.length;
+}
+
+/* ---------- db: camada fina sobre o IndexedDB ---------- */
+const db = {
+  con: null,
+  abrir(){
+    return new Promise((ok, erro)=>{
+      const req = indexedDB.open(APP.db.nome, APP.db.versao);
+      req.onupgradeneeded = ()=>{
+        const banco = req.result;
+        const stores = Object.assign({meta: {keyPath: "chave"}}, APP.db.stores);
+        for (const [nome, def] of Object.entries(stores)){
+          const st = banco.objectStoreNames.contains(nome) ? req.transaction.objectStore(nome) : banco.createObjectStore(nome, {keyPath: def.keyPath});
+          for (const ix of def.indices || []){
+            if (!st.indexNames.contains(ix.nome)) st.createIndex(ix.nome, ix.campo, {unique: !!ix.unico});
+          }
+        }
+      };
+      req.onsuccess = ()=>{ this.con = req.result; ok(this.con); };
+      req.onerror = ()=>erro(req.error);
+    });
+  },
+  _op(store, modo, fn){
+    return new Promise((ok, erro)=>{
+      const tx = this.con.transaction(store, modo); const r = fn(tx.objectStore(store));
+      tx.oncomplete = ()=>ok(r && "result" in r ? r.result : undefined);
+      tx.onerror = ()=>erro(tx.error); tx.onabort = ()=>erro(tx.error);
+    });
+  },
+  get(store, chave){ return this._op(store, "readonly", s=>s.get(chave)); },
+  list(store){ return this._op(store, "readonly", s=>s.getAll()); },
+  porIndice(store, indice, valor){ return this._op(store, "readonly", s=>s.index(indice).getAll(valor)); },
+  put(store, obj){ return this._op(store, "readwrite", s=>s.put(obj)); },
+  del(store, chave){ return this._op(store, "readwrite", s=>s.delete(chave)); },
+  limpar(store){ return this._op(store, "readwrite", s=>s.clear()); },
+  async meta(chave, valor){
+    if (valor === undefined){ const r = await this.get("meta", chave); return r ? r.valor : undefined; }
+    return this.put("meta", {chave, valor});
+  },
+  async exportar(){
+    const dados = {};
+    for (const nome of Object.keys(APP.db.stores)) dados[nome] = await this.list(nome);
+    return {app: APP.id, versao: APP.db.versao, exportado_em: agora(), dados};
+  },
+  async importar(pacote, substituir=true){
+    if (!pacote || pacote.app !== APP.id) throw new Error("Este arquivo não é um backup deste app.");
+    for (const [nome, linhas] of Object.entries(pacote.dados || {})){
+      if (!APP.db.stores[nome]) continue;
+      if (substituir) await this.limpar(nome);
+      for (const l of linhas) await this.put(nome, l);
+    }
+  }
+};
+async function registrar(acao, detalhe={}){
+  const store = APP.db.log || "log";
+  if (!APP.db.stores[store]) return;
+  await db.put(store, {id: uuid(), data_hora: agora(), perfil: estado.perfil || "", acao, ...detalhe});
+}
+
+/* ---------- tema ---------- */
+function aplicarTema(t){ if (t) document.documentElement.dataset.theme = t; else delete document.documentElement.dataset.theme; }
+function iniciarTema(){
+  let t = null; try { t = localStorage.getItem(APP.id + ":tema"); } catch(e){}
+  aplicarTema(t);
+  $("#btnTema").addEventListener("click", ()=>{
+    const escuro = document.documentElement.dataset.theme === "dark" ||
+      (!document.documentElement.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches);
+    const novo = escuro ? "light" : "dark"; aplicarTema(novo);
+    try { localStorage.setItem(APP.id + ":tema", novo); } catch(e){}
+  });
+}
+
+/* ---------- roteador por hash ---------- */
+const estado = {perfil: null, rota: null};
+function casarRota(hash){
+  const partes = hash.replace(/^#\/?/, "").split("?")[0].split("/").filter(Boolean);
+  for (const r of APP.rotas){
+    const molde = r.rota.replace(/^#\/?/, "").split("/").filter(Boolean);
+    if (molde.length !== partes.length) continue;
+    const params = {}; let ok = true;
+    molde.forEach((m, i)=>{ if (m.startsWith(":")) params[m.slice(1)] = decodeURIComponent(partes[i]); else if (m !== partes[i]) ok = false; });
+    if (ok) return {r, params};
+  }
+  return null;
+}
+function rotaPermitida(r){ return !r.perfis || !estado.perfil || r.perfis.includes(estado.perfil); }
+function montarMenu(){
+  $("#menu").innerHTML = APP.rotas.filter(r=>r.menu !== false && !r.publica && !r.rota.includes(":") && rotaPermitida(r))
+    .map(r=>`<a href="${r.rota}" data-rota="${r.rota}">${esc(r.titulo)}</a>`).join("");
+  const p = $("#perfilAtual");
+  if (APP.perfis && estado.perfil){ p.hidden = false; p.textContent = "Perfil: " + estado.perfil; } else p.hidden = true;
+}
+async function navegar(){
+  if (APP.perfis && !estado.perfil && !["#/testes", ...(APP.rotaSemPerfil || [])].some(x=>location.hash.startsWith(x))){
+    if (APP.perfilDoServidor){
+      $("#conteudo").innerHTML = `<div class="card pendente"><h1>Acesso restrito</h1><p>Esta área é só para servidores cadastrados. Entre com a conta institucional.</p></div>`;
+      return;
+    }
+    return telaEscolherPerfil();
+  }
+  const hash = location.hash || APP.rotas[0].rota;
+  const achou = hash.startsWith("#/testes") ? {r: {rota: "#/testes", titulo: "Testes", publica: false}, params: {}} : casarRota(hash);
+  const alvo = $("#conteudo");
+  $$("#menu a").forEach(a=>a.removeAttribute("aria-current"));
+  if (!achou){ alvo.innerHTML = `<div class="card vazio">Tela não encontrada: <code>${esc(hash)}</code></div>`; return; }
+  if (!rotaPermitida(achou.r)){ alvo.innerHTML = `<div class="card vazio">O perfil <b>${esc(estado.perfil)}</b> não usa esta tela.</div>`; return; }
+  $("#menu").hidden = !!achou.r.publica;
+  const link = $(`#menu a[data-rota="${achou.r.rota}"]`); if (link) link.setAttribute("aria-current", "page");
+  estado.rota = achou.r.rota;
+  document.title = achou.r.titulo + " · " + APP.titulo;
+  const fn = TELAS[achou.r.rota] || telaPendente(achou.r);
+  try { alvo.innerHTML = await fn(achou.params); if (TELAS_DEPOIS[achou.r.rota]) await TELAS_DEPOIS[achou.r.rota](achou.params); }
+  catch(e){ console.error(e); alvo.innerHTML = `<div class="card pendente"><b>Erro nesta tela.</b><p class="mono">${esc(e.message)}</p></div>`; }
+  alvo.focus({preventScroll: true});
+}
+function telaPendente(r){
+  return async ()=>`<h1>${esc(r.titulo)}</h1><p class="sub">${esc(r.descricao || "")}</p>
+    <div class="card pendente">Esta tela é construída no <b>Sprint ${esc(r.sprint)}</b> (ver <code>sprint.md</code>).</div>`;
+}
+
+/* ---------- perfis (o perfil escolhe as telas; não é controle de segurança) ---------- */
+function telaEscolherPerfil(){
+  $("#menu").hidden = true;
+  $("#conteudo").innerHTML = `<h1>Escolha o perfil desta cópia</h1>
+    <p class="sub">O perfil define quais telas aparecem neste computador. Ele pode ser trocado em Configuração.</p>
+    <div class="grade">${APP.perfis.map(p=>`<button class="card" data-perfil="${esc(p.id)}" style="text-align:left"><b>${esc(p.nome)}</b><br><span class="sub">${esc(p.descricao)}</span></button>`).join("")}</div>`;
+  $$("[data-perfil]").forEach(b=>b.addEventListener("click", async ()=>{
+    estado.perfil = b.dataset.perfil; await db.meta("perfil", estado.perfil); await registrar("perfil escolhido", {detalhe: estado.perfil});
+    montarMenu(); location.hash = APP.rotas.find(rotaPermitida).rota; navegar();
+  }));
+}
+
+/* ---------- configuração comum: backup, dados fictícios, perfil, limpeza ---------- */
+async function blocoConfigComum(){
+  const usado = navigator.storage && navigator.storage.estimate ? await navigator.storage.estimate() : null;
+  const persist = navigator.storage && navigator.storage.persisted ? await navigator.storage.persisted() : false;
+  return `<div class="card"><h2 style="margin-top:0">Backup</h2>
+      <p class="sub">Os dados ficam só neste navegador. Exporte o backup toda semana.</p>
+      <div class="linha-botoes"><button class="prim" id="btnExportar">Exportar backup (.json)</button>
+      <label class="botao" style="margin:0">Importar backup<input type="file" id="arqBackup" accept=".json" hidden></label></div>
+      <p class="sub" style="margin-top:10px">Armazenamento: ${usado ? (usado.usage/1048576).toFixed(1) + " MB usados" : "não informado"} ·
+      ${persist ? '<span class="selo ok">persistente</span>' : '<span class="selo alerta">pode ser apagado pelo navegador</span>'}</p></div>
+    ${dadosEmbutidos("seed") ? `<div class="card"><h2 style="margin-top:0">Dados fictícios</h2>
+      <p class="sub">Carrega o conjunto de exemplo para testar. Substitui os dados atuais.</p>
+      <button id="btnSeed">Carregar dados fictícios</button></div>` : ""}
+    ${APP.perfis ? `<div class="card"><h2 style="margin-top:0">Perfil desta cópia</h2>
+      <p class="sub">Atual: <b>${esc(estado.perfil || "nenhum")}</b></p><button id="btnTrocarPerfil">Trocar perfil</button></div>` : ""}
+    <div class="card"><h2 style="margin-top:0">Apagar tudo</h2>
+      <p class="sub">Remove todos os dados deste app neste navegador.</p><button class="perigo" id="btnApagar">Apagar todos os dados</button></div>`;
+}
+function ligarConfigComum(){
+  $("#btnExportar")?.addEventListener("click", async ()=>{
+    baixar(`${APP.id}-backup-${new Date().toISOString().slice(0,10)}.json`, JSON.stringify(await db.exportar(), null, 2), "application/json");
+    await registrar("backup exportado");
+  });
+  $("#arqBackup")?.addEventListener("change", async e=>{
+    const f = e.target.files[0]; if (!f) return;
+    try { await db.importar(JSON.parse(await lerArquivoTexto(f))); await registrar("backup importado", {detalhe: f.name}); toast("Backup importado."); navegar(); }
+    catch(err){ toast("Não consegui importar: " + err.message, 5000); }
+  });
+  $("#btnSeed")?.addEventListener("click", async ()=>{
+    if (!confirm("Substituir os dados atuais pelos dados fictícios?")) return;
+    await db.importar({app: APP.id, dados: dadosEmbutidos("seed")}); await registrar("dados fictícios carregados");
+    toast("Dados fictícios carregados."); navegar();
+  });
+  $("#btnTrocarPerfil")?.addEventListener("click", async ()=>{ estado.perfil = null; await db.meta("perfil", null); montarMenu(); telaEscolherPerfil(); });
+  $("#btnApagar")?.addEventListener("click", async ()=>{
+    if (!confirm("Apagar todos os dados deste app neste navegador?")) return;
+    for (const nome of Object.keys(APP.db.stores)) await db.limpar(nome);
+    toast("Dados apagados."); navegar();
+  });
+}
+
+/* ---------- testes embutidos (#/testes) ---------- */
+const TESTES = [];
+function teste(nome, fn){ TESTES.push({nome, fn}); }
+async function telaTestes(){
+  const res = [];
+  for (const t of TESTES){
+    try { const r = await t.fn(); res.push({nome: t.nome, ok: r !== false, msg: r === true || r === undefined ? "" : String(r)}); }
+    catch(e){ res.push({nome: t.nome, ok: false, msg: e.message}); }
+  }
+  window.__testes = res;
+  const ok = res.filter(r=>r.ok).length;
+  return `<h1>Testes</h1><p class="sub" id="resumoTestes">${ok} de ${res.length} passaram</p>
+    <div class="card tabela-wrap"><table><tr><th>Teste</th><th>Resultado</th></tr>${res.map(r=>`<tr><td>${esc(r.nome)}</td>
+    <td>${r.ok ? '<span class="selo ok">ok</span>' : '<span class="selo erro">falhou</span> <span class="mono">' + esc(r.msg) + "</span>"}</td></tr>`).join("")}</table></div>`;
+}
+
+/* ---------- partida ---------- */
+const TELAS = {"#/testes": telaTestes}, TELAS_DEPOIS = {};
+async function iniciar(){
+  iniciarTema();
+  await db.abrir();
+  if (navigator.storage && navigator.storage.persist) { try { await navigator.storage.persist(); } catch(e){} }
+  if (APP.perfis) estado.perfil = (await db.meta("perfil")) || null;
+  if (typeof iniciarApp === "function") await iniciarApp();
+  montarMenu();
+  window.addEventListener("hashchange", navegar);
+  await navegar();
+}
+</script>
+
+<script>
+/* ===================================================================
+   APP: Controle do Processo de Aquisição
+   Configuração (rotas, banco, perfis) e telas. Os sprints editam daqui
+   para baixo.
+   =================================================================== */
+"use strict";
+const APP = {
+  "id": "controle-aquisicoes",
+  "titulo": "Controle do Processo de Aquisição",
+  "db": {
+    "nome": "controle_aquisicoes_v1",
+    "versao": 1,
+    "stores": {
+      "processos": {
+        "keyPath": "id_processo",
+        "indices": [
+          {
+            "nome": "etapa",
+            "campo": "etapa",
+            "unico": false
+          },
+          {
+            "nome": "status",
+            "campo": "status",
+            "unico": false
+          }
+        ]
+      },
+      "documentos": {
+        "keyPath": "id_documento",
+        "indices": [
+          {
+            "nome": "processo_id",
+            "campo": "processo_id",
+            "unico": false
+          }
+        ]
+      },
+      "pendencias": {
+        "keyPath": "id_pendencia",
+        "indices": [
+          {
+            "nome": "processo_id",
+            "campo": "processo_id",
+            "unico": false
+          }
+        ]
+      },
+      "log": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "processo_id",
+            "campo": "processo_id",
+            "unico": false
+          }
+        ]
+      }
+    }
+  },
+  "rotas": [
+    {
+      "rota": "#/painel",
+      "titulo": "Painel",
+      "sprint": 1,
+      "descricao": "Processos por etapa, atrasados e pendências."
+    },
+    {
+      "rota": "#/processos",
+      "titulo": "Processos",
+      "sprint": 2,
+      "descricao": "Lista com filtros de etapa, situação e busca."
+    },
+    {
+      "rota": "#/processo/novo",
+      "titulo": "Nova aquisição",
+      "sprint": 2,
+      "descricao": "Registro com SIGADOC e SIAG (RN01).",
+      "perfis": [
+        "requisitante",
+        "compras"
+      ]
+    },
+    {
+      "rota": "#/processo/:id",
+      "titulo": "Processo",
+      "sprint": 2,
+      "descricao": "Etapas, documentos, pendências e histórico."
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": ""
+    }
+  ],
+  "perfis": [
+    {
+      "id": "requisitante",
+      "nome": "Unidade requisitante",
+      "descricao": "Registra a necessidade e acompanha o processo."
+    },
+    {
+      "id": "compras",
+      "nome": "Equipe de aquisições",
+      "descricao": "Instrui o processo, anexa documentos e conclui etapas."
+    },
+    {
+      "id": "gestor",
+      "nome": "Chefia",
+      "descricao": "Acompanha prazos, pendências e aprovações."
+    }
+  ]
+};
+
+/* ---------- comum a todos os apps (Sprint 1) ---------- */
+TELAS["#/config"] = async ()=> `<h1>Configuração</h1><p class="sub">Backup, dados de exemplo e perfil desta cópia.</p>` +
+  (typeof configExtra === "function" ? await configExtra() : "") + await blocoConfigComum();
+TELAS_DEPOIS["#/config"] = async ()=>{ ligarConfigComum(); if (typeof ligarConfigExtra === "function") await ligarConfigExtra(); };
+async function resumoBase(stores){
+  const linhas = [];
+  for (const s of stores) linhas.push(`<div class="card kpi"><div class="v">${(await db.list(s)).length}</div><div class="r">${esc(s)}</div></div>`);
+  return `<div class="grade">${linhas.join("")}</div>`;
+}
+teste("IndexedDB grava e lê", async ()=>{ await db.meta("teste", 42); return (await db.meta("teste")) === 42; });
+teste("Todas as rotas têm título e sprint", ()=> APP.rotas.every(r=>r.titulo && r.sprint !== undefined));
+teste("lerCSV: ponto e vírgula, aspas e BOM", ()=>{ const r = lerCSV('﻿a;b\n"x;1";2\n'); return r.length === 2 && r[1][0] === "x;1" && r[1][1] === "2"; });
+teste("cnpjValido e cpfValido", ()=> cnpjValido("11.222.333/0001-81") && !cnpjValido("11222333000182") && cpfValido("529.982.247-25") && !cpfValido("52998224726"));
+teste("dataDeTexto('29/10/2026 09:05:00')", ()=> dataDeTexto("29/10/2026 09:05:00") === "2026-10-29T09:05:00");
+
+/* Controle do Processo de Aquisição · código do app (Sprints 1 e 2) */
+"use strict";
+const CA_ETAPAS = ["DFD", "ETP", "Análise de riscos", "TR", "Pesquisa de preços", "SIGADOC e SIAG", "Análise técnica", "Análise jurídica", "Modalidade definida"];
+const CA_DOCS = {"DFD": ["DFD"], "ETP": ["ETP"], "Análise de riscos": ["Análise de riscos"], "TR": ["TR"],
+                 "Pesquisa de preços": ["Pesquisa de preços"], "SIGADOC e SIAG": [], "Análise técnica": [], "Análise jurídica": [], "Modalidade definida": []};
+const CA_ATRAS = ["Documento incompleto", "Pesquisa de preços insuficiente", "Aguardando assinatura", "Aguardando análise jurídica", "Aguardando análise técnica"];
+const caDias = (a, b = hojeISO())=> Math.round((new Date(b + "T12:00:00") - new Date(a + "T12:00:00")) / 86400000);
+function caAtrasado(p, hoje = hojeISO()){ return p.status !== "concluido" && caDias(p.data_abertura, hoje) > Number(p.prazo_dias || 30); }
+teste("Processo com prazo 30 e 40 dias está atrasado; concluído não", ()=>{
+  const p = {data_abertura: "2026-09-19", prazo_dias: 30, status: "em andamento"}, hoje = "2026-10-29";
+  return caAtrasado(p, hoje) && !caAtrasado({...p, data_abertura: "2026-10-10"}, hoje) && !caAtrasado({...p, status: "concluido"}, hoje);
+});
+// RN02: só conclui a etapa com os documentos exigidos por ela
+function caFaltando(etapa, docs){ return (CA_DOCS[etapa] || []).filter(d=>!docs.some(x=>x.tipo_documento === d)); }
+teste("RN02: ETP sem o documento fica faltando; etapa sem exigência não", ()=> caFaltando("ETP", []).join() === "ETP" && caFaltando("SIGADOC e SIAG", []).length === 0);
+teste("Exemplo com 10 processos", ()=> dadosEmbutidos("seed").processos.length === 10);
+
+TELAS["#/painel"] = async ()=>{
+  const ps = await db.list("processos"), pends = await db.list("pendencias"), hoje = hojeISO();
+  const ativos = ps.filter(p=>p.status !== "concluido"), atras = ativos.filter(p=>caAtrasado(p, hoje));
+  const porEtapa = CA_ETAPAS.map(e=>({e, n: ativos.filter(p=>p.etapa === e).length}));
+  return `<h1>Painel de Aquisições</h1><p class="sub">${ativos.length} processos em andamento. <a href="#/processo/novo">Nova aquisição</a></p>
+    <div class="grade"><div class="card kpi"><div class="v">${ativos.length}</div><div class="r">em andamento</div></div>
+      <div class="card kpi"><div class="v" data-atrasados>${atras.length}</div><div class="r">fora do prazo</div></div>
+      <div class="card kpi"><div class="v">${pends.filter(x=>!x.resolvida_em).length}</div><div class="r">pendências abertas</div></div>
+      <div class="card kpi"><div class="v">${ps.filter(p=>p.status === "concluido").length}</div><div class="r">concluídos</div></div></div>
+    <div class="card tabela-wrap"><h2 style="margin-top:0">Processos por etapa</h2><table><tr><th>Etapa</th><th class="num">Processos</th></tr>
+      ${porEtapa.map(x=>`<tr><td>${esc(x.e)}</td><td class="num">${x.n}</td></tr>`).join("")}</table></div>
+    <div class="card tabela-wrap"><h2 style="margin-top:0">Fora do prazo</h2><table><tr><th>Processo</th><th>Objeto</th><th>Etapa</th><th class="num">Dias</th></tr>
+      ${atras.sort((a, b)=>a.data_abertura.localeCompare(b.data_abertura)).map(p=>`<tr><td><a href="#/processo/${encodeURIComponent(p.id_processo)}">${esc(p.numero_sigadoc)}</a></td>
+        <td>${esc(p.objeto)}</td><td>${esc(p.etapa)}</td><td class="num">${caDias(p.data_abertura)}</td></tr>`).join("")
+        || '<tr><td colspan="4" class="vazio">Nenhum processo fora do prazo.</td></tr>'}</table></div>`;
+};
+
+function caFiltros(){ return estado.caFiltros || (estado.caFiltros = {etapa: "", status: "", busca: ""}); }
+TELAS["#/processos"] = async ()=>{
+  const f = caFiltros(), ps = await db.list("processos"), hoje = hojeISO(), b = normalizar(f.busca);
+  const lista = ps.filter(p=>(!f.etapa || p.etapa === f.etapa) && (!f.status || p.status === f.status)
+    && (!b || normalizar(`${p.numero_sigadoc} ${p.numero_siag} ${p.objeto} ${p.unidade}`).includes(b)))
+    .sort((a, b2)=>b2.data_abertura.localeCompare(a.data_abertura));
+  return `<h1>Processos <span class="sub">(${lista.length})</span></h1><p class="sub"><a href="#/processo/novo">Nova aquisição</a></p>
+    <div class="card"><div class="campos">
+      ${campo("caBusca", "Busca por número, objeto ou unidade", {valor: f.busca})}
+      ${campo("caEtapa", "Etapa", {tipo: "select", opcoes: [["", "Todas"], ...CA_ETAPAS.map(e=>[e, e])], valor: f.etapa})}
+      ${campo("caStatus", "Situação", {tipo: "select", opcoes: [["", "Todas"], ["em andamento", "Em andamento"], ["concluido", "Concluído"]], valor: f.status})}</div></div>
+    <div class="card tabela-wrap"><table><tr><th>SIGADOC</th><th>SIAG</th><th>Objeto</th><th>Etapa</th><th class="num">Dias</th><th>Situação</th></tr>
+      ${lista.map(p=>`<tr><td><a href="#/processo/${encodeURIComponent(p.id_processo)}">${esc(p.numero_sigadoc)}</a></td><td class="mono">${esc(p.numero_siag)}</td>
+        <td>${esc(p.objeto)}</td><td>${esc(p.etapa)}</td><td class="num">${caDias(p.data_abertura)}</td>
+        <td>${p.status === "concluido" ? '<span class="selo info">concluído</span>' : caAtrasado(p, hoje) ? '<span class="selo erro">atrasado</span>' : '<span class="selo ok">em prazo</span>'}</td></tr>`).join("")
+        || '<tr><td colspan="6" class="vazio">Nenhum processo com estes filtros.</td></tr>'}</table></div>`;
+};
+TELAS_DEPOIS["#/processos"] = ()=>{
+  const f = caFiltros();
+  [["caBusca", "busca", "change"], ["caEtapa", "etapa", "input"], ["caStatus", "status", "input"]].forEach(([id, k, ev])=>
+    $("#" + id).addEventListener(ev, e=>{ f[k] = e.target.value; navegar(); }));
+};
+
+TELAS["#/processo/novo"] = async ()=> `<h1>Nova aquisição</h1><p class="sub">O processo começa no DFD. Os números do SIGADOC e do SIAG são obrigatórios e únicos (RN01).</p>
+  <form class="card" id="formCaNovo" novalidate><div class="campos">
+    ${campo("caSigadoc", "Número no SIGADOC", {obrigatorio: true})}
+    ${campo("caSiag", "Número no SIAG", {obrigatorio: true})}
+    ${campo("caData", "Data de abertura", {tipo: "date", valor: hojeISO(), obrigatorio: true})}
+    ${campo("caPrazo", "Prazo (dias corridos)", {tipo: "number", valor: 30, attrs: 'min="1" step="1"', obrigatorio: true})}
+    ${campo("caUnidade", "Unidade requisitante", {obrigatorio: true})}
+    ${campo("caResponsavel", "Responsável pela instrução", {obrigatorio: true})}</div>
+  ${campo("caObjeto", "Objeto da aquisição", {tipo: "textarea", linhas: 2, obrigatorio: true})}
+  ${campo("caDFD", "Documento DFD já anexado?", {tipo: "select", opcoes: [["sim", "Sim"], ["nao", "Não"]], ajuda: "Sem o DFD o processo não avança do DFD (RN02)."})}
+  <div id="caErros"></div><div class="linha-botoes"><button class="prim" type="submit">Registrar aquisição</button></div></form>`;
+TELAS_DEPOIS["#/processo/novo"] = ()=>{
+  $("#formCaNovo").addEventListener("submit", async e=>{
+    e.preventDefault();
+    const ps = await db.list("processos");
+    const d = {numero_sigadoc: valorDe("caSigadoc"), numero_siag: valorDe("caSiag"), data_abertura: valorDe("caData"), prazo_dias: Number(valorDe("caPrazo")),
+      unidade: valorDe("caUnidade"), responsavel: valorDe("caResponsavel"), objeto: valorDe("caObjeto")};
+    const erros = [];
+    if (!d.numero_sigadoc) erros.push("Informe o número no SIGADOC (RN01).");
+    else if (ps.some(p=>normalizar(p.numero_sigadoc) === normalizar(d.numero_sigadoc))) erros.push("Este processo já está cadastrado (RN01).");
+    if (!d.numero_siag) erros.push("Informe o número no SIAG (RN01).");
+    if (!d.data_abertura || d.data_abertura > hojeISO()) erros.push("Informe a data de abertura (não pode ser futura).");
+    if (!(d.prazo_dias > 0)) erros.push("O prazo precisa ser de pelo menos 1 dia.");
+    if (!d.unidade) erros.push("Informe a unidade requisitante.");
+    if (!d.responsavel) erros.push("Informe o responsável pela instrução.");
+    if (!d.objeto) erros.push("Informe o objeto da aquisição.");
+    if (!mostrarErros("#caErros", erros)) return;
+    const id = "AQ-" + String(ps.length + 1).padStart(4, "0");
+    await db.put("processos", {id_processo: id, ...d, etapa: "DFD", status: "em andamento", criado_em: agora()});
+    if (valorDe("caDFD") === "sim") await db.put("documentos", {id_documento: uuid(), processo_id: id, tipo_documento: "DFD", data: agora()});
+    await db.put("log", {id: uuid(), processo_id: id, acao: "processo registrado", perfil: estado.perfil || "", data_hora: agora()});
+    await registrar("aquisição registrada", {detalhe: d.numero_sigadoc});
+    toast(`Processo ${id} registrado na etapa DFD.`); location.hash = "#/processo/" + encodeURIComponent(id);
+  });
+};
+
+TELAS["#/processo/:id"] = async ({id})=>{
+  const p = await db.get("processos", id);
+  if (!p) return `<div class="card vazio">Processo não encontrado. <a href="#/processos">Voltar</a></div>`;
+  const docs = await db.porIndice("documentos", "processo_id", id), pends = (await db.porIndice("pendencias", "processo_id", id)).sort((a, b)=>b.aberta_em.localeCompare(a.aberta_em));
+  const ls = (await db.porIndice("log", "processo_id", id)).sort((a, b)=>b.data_hora.localeCompare(a.data_hora));
+  const i = CA_ETAPAS.indexOf(p.etapa), falta = caFaltando(p.etapa, docs), abertas = pends.filter(x=>!x.resolvida_em);
+  const pode = p.status !== "concluido";
+  return `<h1>${esc(p.numero_sigadoc)} · ${esc(p.etapa)} ${p.status === "concluido" ? '<span class="selo info">concluído</span>' : ''}</h1>
+    <p class="sub">SIAG ${esc(p.numero_siag)} · ${esc(p.unidade)} · responsável ${esc(p.responsavel)} · aberto em ${dataCurtaBR(p.data_abertura)}</p>
+    <div class="grade"><div class="card kpi"><div class="v">${caDias(p.data_abertura)}</div><div class="r">dias desde a abertura (prazo ${p.prazo_dias})</div></div>
+      <div class="card kpi"><div class="v">${i + 1}/${CA_ETAPAS.length}</div><div class="r">etapa atual</div></div>
+      <div class="card kpi"><div class="v">${docs.length}</div><div class="r">documentos anexados</div></div>
+      <div class="card kpi"><div class="v">${abertas.length}</div><div class="r">pendências abertas</div></div></div>
+    <div class="card"><h2 style="margin-top:0">Objeto</h2><p>${esc(p.objeto)}</p>
+      <h2>Etapas</h2><ol class="linha-tempo">${CA_ETAPAS.map((e, k)=>`<li class="${k < i ? "etapa-feita" : k === i ? "etapa-atual" : "etapa-futura"}"><b>${k + 1}. ${esc(e)}</b>${k === i ? " · atual" : ""}</li>`).join("")}</ol>
+      ${pode ? `<p class="sub">Documentos exigidos nesta etapa: ${(CA_DOCS[p.etapa] || []).join(", ") || "nenhum"}. ${falta.length ? `<b class="erro-txt">Falta: ${falta.map(esc).join(", ")}</b>` : '<b class="ok-txt">Completo</b>'}</p>` : ""}</div>
+    ${pode ? `<form class="card" id="formCaDoc"><h2 style="margin-top:0">Anexar documento</h2><div class="campos">
+        ${campo("caTipo", "Tipo", {tipo: "select", opcoes: [["", "Escolha"], ...Object.keys(CA_DOCS).map(x=>[x, x])]})}
+        ${campo("caNome", "Nome do arquivo (fictício)", {ajuda: "Ex.: DFD-assinado.pdf"})}</div>
+      <div id="caErrosDoc"></div><div class="linha-botoes"><button class="prim" type="submit">Anexar</button></div></form>` : ""}
+    <div class="card tabela-wrap"><h2 style="margin-top:0">Documentos (${docs.length})</h2><table><tr><th>Tipo</th><th>Nome</th><th>Data</th></tr>
+      ${docs.map(d=>`<tr><td>${esc(d.tipo_documento)}</td><td>${esc(d.nome || "—")}</td><td>${dataCurtaBR(d.data)}</td></tr>`).join("") || '<tr><td colspan="3" class="vazio">Nenhum documento.</td></tr>'}</table></div>
+    ${pode ? `<form class="card" id="formCaPend"><h2 style="margin-top:0">Registrar pendência</h2>${campo("caMotivo", "Motivo", {tipo: "select", opcoes: [["", "Escolha"], ...CA_ATRAS.map(x=>[x, x])]})}
+      <div id="caErrosPend"></div><div class="linha-botoes"><button id="btnCaPend">Abrir pendência</button><button class="prim" type="button" id="btnCaAvancar">Concluir a etapa ${esc(p.etapa)}</button></div></form>` : ""}
+    <div class="card tabela-wrap"><h2 style="margin-top:0">Pendências</h2><table><tr><th>Motivo</th><th>Aberta em</th><th>Situação</th></tr>
+      ${pends.map(x=>`<tr><td>${esc(x.motivo)}</td><td>${dataCurtaBR(x.aberta_em)}</td><td>${x.resolvida_em ? "resolvida em " + dataCurtaBR(x.resolvida_em) : '<span class="selo erro">aberta</span>'}</td></tr>`).join("") || '<tr><td colspan="3" class="vazio">Nenhuma pendência.</td></tr>'}</table></div>
+    <div class="card tabela-wrap"><h2 style="margin-top:0">Histórico</h2><table id="caHistorico"><tr><th>Data e hora</th><th>Ação</th></tr>
+      ${ls.map(x=>`<tr><td>${dataBR(x.data_hora)}</td><td>${esc(x.acao)}</td></tr>`).join("")}</table></div>`;
+};
+TELAS_DEPOIS["#/processo/:id"] = ({id})=>{
+  $("#formCaDoc")?.addEventListener("submit", async e=>{
+    e.preventDefault();
+    const tipo = valorDe("caTipo"), p = await db.get("processos", id), erros = [];
+    if (!tipo) erros.push("Escolha o tipo de documento.");
+    if (!mostrarErros("#caErrosDoc", erros)) return;
+    await db.put("documentos", {id_documento: uuid(), processo_id: id, tipo_documento: tipo, nome: valorDe("caNome"), data: agora()});
+    await db.put("log", {id: uuid(), processo_id: id, acao: `documento anexado: ${tipo}`, perfil: estado.perfil || "", data_hora: agora()});
+    toast(`${tipo} anexado.`); navegar();
+  });
+  $("#btnCaPend")?.addEventListener("click", async ()=>{
+    const motivo = valorDe("caMotivo");
+    if (!motivo) return mostrarErros("#caErrosPend", ["Escolha o motivo da pendência."]);
+    await db.put("pendencias", {id_pendencia: uuid(), processo_id: id, motivo, aberta_em: hojeISO(), resolvida_em: null});
+    await db.put("log", {id: uuid(), processo_id: id, acao: `pendência: ${motivo}`, perfil: estado.perfil || "", data_hora: agora()});
+    toast("Pendência registrada."); navegar();
+  });
+  $("#btnCaAvancar")?.addEventListener("click", async ()=>{
+    const p = await db.get("processos", id), docs = await db.porIndice("documentos", "processo_id", id), pends = await db.porIndice("pendencias", "processo_id", id);
+    const falta = caFaltando(p.etapa, docs), abertas = pends.filter(x=>!x.resolvida_em).length, erros = [];
+    if (falta.length) erros.push(`Anexe antes de avançar: ${falta.join(", ")} (RN02).`);
+    if (abertas) erros.push(`Resolva as ${abertas} pendência(s) abertas antes de avançar (RN03).`);
+    if (!mostrarErros("#caErrosPend", erros)) return;
+    const i = CA_ETAPAS.indexOf(p.etapa), fim = i === CA_ETAPAS.length - 1;
+    await db.put("processos", {...p, etapa: fim ? p.etapa : CA_ETAPAS[i + 1], status: fim ? "concluido" : p.status});
+    await db.put("log", {id: uuid(), processo_id: id, acao: fim ? "processo concluído" : `etapa concluída: ${p.etapa}`, perfil: estado.perfil || "", data_hora: agora()});
+    toast(fim ? "Processo concluído." : `Avançou para ${CA_ETAPAS[i + 1]}.`); navegar();
+  });
+};
+
+
+iniciar();
+</script>
+</body>
+</html>

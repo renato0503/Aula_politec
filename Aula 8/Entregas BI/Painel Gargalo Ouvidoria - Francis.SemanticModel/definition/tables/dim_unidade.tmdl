@@ -1,0 +1,50 @@
+table dim_unidade
+	lineageTag: 48522e38-ce5d-57cc-a24c-0bcc1af70d30
+
+	column unidade_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7e5a72d6-7545-5827-9f94-f18539766d0c
+		summarizeBy: none
+		sourceColumn: unidade_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column unidade
+		dataType: string
+		lineageTag: 9f7755e6-8db7-574c-a91e-2c18a4b83fb2
+		summarizeBy: none
+		sourceColumn: unidade
+
+		annotation SummarizationSetBy = Automatic
+
+	column tipo
+		dataType: string
+		lineageTag: eb589943-1c9a-5492-9b9d-4e5d6f7a6051
+		summarizeBy: none
+		sourceColumn: tipo
+
+		annotation SummarizationSetBy = Automatic
+
+	column unidade_curta
+		dataType: string
+		lineageTag: 106ff8a2-f7f6-504f-bb0e-c98c53f59d86
+		summarizeBy: none
+		sourceColumn: unidade_curta
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_unidade = m
+		mode: import
+		source =
+				let
+					Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(
+					"i4421FEKCFLQVTjcWJSaqBByeGVyXmZyopKOkk9iUn5RYkl+UWY+kIcmHasTbQTV6FhUWJpZBlLjWJAPVgsTASoyhikqSc1LycxNzStBUYgkClRsAlXsnpiUmZdakoqkEi4EVGYKVeZfWpaZAnReIpI6hFhsLAA=",
+						BinaryEncoding.Base64), Compression.Deflate)), {"unidade_key", "unidade", "tipo", "unidade_curta"}),
+					Tipos = Table.TransformColumnTypes(Fonte, {{"unidade_key", Int64.Type}, {"unidade", type text}, {"tipo", type text}, {"unidade_curta", type text}}, "en-US")
+				in
+					Tipos
+
+	annotation PBI_ResultType = Table
+

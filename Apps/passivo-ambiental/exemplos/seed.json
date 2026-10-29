@@ -1,0 +1,296 @@
+{
+ "requisicoes": [
+  {
+   "id_requisicao": "REQ-0001",
+   "numero_processo": "2026.000001-1",
+   "orgao": "Delegacia de Polícia de Cuiabá",
+   "data_requisicao": "2025-09-24",
+   "tipo_infracao": "desmatamento",
+   "prazo_dias": 10,
+   "local": "Fazenda Santa Rita, município de Sinop",
+   "coordenadas": "-12.9743, -55.8255",
+   "status": "laudo",
+   "criado_em": "2025-09-24T08:00:00"
+  },
+  {
+   "id_requisicao": "REQ-0002",
+   "numero_processo": "2026.000002-2",
+   "orgao": "Delegacia de Polícia de Sinop",
+   "data_requisicao": "2025-05-27",
+   "tipo_infracao": "queimada",
+   "prazo_dias": 10,
+   "local": "Área de preservação do Rio Cuiabá",
+   "coordenadas": "-12.6717, -55.8539",
+   "status": "laudo",
+   "criado_em": "2025-05-27T08:00:00"
+  },
+  {
+   "id_requisicao": "REQ-0003",
+   "numero_processo": "2026.000003-3",
+   "orgao": "Delegacia de Polícia de Rondonópolis",
+   "data_requisicao": "2025-01-27",
+   "tipo_infracao": "extração irregular de madeira",
+   "prazo_dias": 10,
+   "local": "Assentamento Nova Esperança",
+   "coordenadas": "-12.3967, -55.8511",
+   "status": "laudo",
+   "criado_em": "2025-01-27T08:00:00"
+  },
+  {
+   "id_requisicao": "REQ-0004",
+   "numero_processo": "2026.000004-4",
+   "orgao": "Delegacia Especializada do Meio Ambiente",
+   "data_requisicao": "2024-09-29",
+   "tipo_infracao": "ocupação irregular de área de preservação",
+   "prazo_dias": 10,
+   "local": "Reserva legal da Fazenda Boa Vista",
+   "coordenadas": "-12.7948, -55.2425",
+   "status": "laudo",
+   "criado_em": "2024-09-29T08:00:00"
+  },
+  {
+   "id_requisicao": "REQ-0005",
+   "numero_processo": "2026.000005-5",
+   "orgao": "Ministério Público Estadual",
+   "data_requisicao": "2024-06-01",
+   "tipo_infracao": "poluição de curso d'água",
+   "prazo_dias": 10,
+   "local": "Margem do Rio Araguaia",
+   "coordenadas": "-12.5287, -55.3412",
+   "status": "laudo",
+   "criado_em": "2024-06-01T08:00:00"
+  },
+  {
+   "id_requisicao": "REQ-0006",
+   "numero_processo": "2026.000006-6",
+   "orgao": "Delegacia de Polícia de Cáceres",
+   "data_requisicao": "2024-02-02",
+   "tipo_infracao": "mineração irregular",
+   "prazo_dias": 10,
+   "local": "Área rural de Cáceres",
+   "coordenadas": "-12.4787, -55.9204",
+   "status": "laudo",
+   "criado_em": "2024-02-02T08:00:00"
+  },
+  {
+   "id_requisicao": "REQ-0007",
+   "numero_processo": "2026.000007-7",
+   "orgao": "Delegacia de Polícia de Cuiabá",
+   "data_requisicao": "2023-10-05",
+   "tipo_infracao": "desmatamento",
+   "prazo_dias": 10,
+   "local": "Fazenda Santa Rita, município de Sinop",
+   "coordenadas": "-12.5181, -55.6941",
+   "status": "laudo",
+   "criado_em": "2023-10-05T08:00:00"
+  },
+  {
+   "id_requisicao": "REQ-0008",
+   "numero_processo": "2026.000008-8",
+   "orgao": "Delegacia de Polícia de Sinop",
+   "data_requisicao": "2026-10-02",
+   "tipo_infracao": "queimada",
+   "prazo_dias": 10,
+   "local": "Área de preservação do Rio Cuiabá",
+   "coordenadas": "-12.2712, -55.5004",
+   "status": "laudo",
+   "criado_em": "2026-10-02T08:00:00"
+  },
+  {
+   "id_requisicao": "REQ-0009",
+   "numero_processo": "2026.000009-9",
+   "orgao": "Delegacia de Polícia de Rondonópolis",
+   "data_requisicao": "2026-10-01",
+   "tipo_infracao": "extração irregular de madeira",
+   "prazo_dias": 10,
+   "local": "Assentamento Nova Esperança",
+   "coordenadas": "-12.6121, -55.5588",
+   "status": "laudo",
+   "criado_em": "2026-10-01T08:00:00"
+  },
+  {
+   "id_requisicao": "REQ-0010",
+   "numero_processo": "2026.000010-1",
+   "orgao": "Delegacia Especializada do Meio Ambiente",
+   "data_requisicao": "2026-09-30",
+   "tipo_infracao": "ocupação irregular de área de preservação",
+   "prazo_dias": 10,
+   "local": "Reserva legal da Fazenda Boa Vista",
+   "coordenadas": "-12.8204, -55.7491",
+   "status": "laudo",
+   "criado_em": "2026-09-30T08:00:00"
+  },
+  {
+   "id_requisicao": "REQ-0011",
+   "numero_processo": "2026.000011-2",
+   "orgao": "Ministério Público Estadual",
+   "data_requisicao": "2026-09-04",
+   "tipo_infracao": "poluição de curso d'água",
+   "prazo_dias": 10,
+   "local": "Margem do Rio Araguaia",
+   "coordenadas": "-12.4256, -55.9571",
+   "status": "concluida",
+   "criado_em": "2026-09-04T08:00:00"
+  },
+  {
+   "id_requisicao": "REQ-0012",
+   "numero_processo": "2026.000012-3",
+   "orgao": "Delegacia de Polícia de Cáceres",
+   "data_requisicao": "2026-09-03",
+   "tipo_infracao": "mineração irregular",
+   "prazo_dias": 10,
+   "local": "Área rural de Cáceres",
+   "coordenadas": "-12.9289, -55.2998",
+   "status": "concluida",
+   "criado_em": "2026-09-03T08:00:00"
+  }
+ ],
+ "laudos": [
+  {
+   "id_laudo": "L-REQ-0001",
+   "requisicao_id": "REQ-0001",
+   "status": "rascunho",
+   "local": "Fazenda Santa Rita, município de Sinop",
+   "coordenadas": "-12.9743, -55.8255",
+   "tipo_infracao": "desmatamento",
+   "horas_trabalhadas": 0,
+   "criado_em": "2025-09-24T09:00:00"
+  },
+  {
+   "id_laudo": "L-REQ-0002",
+   "requisicao_id": "REQ-0002",
+   "status": "rascunho",
+   "local": "Área de preservação do Rio Cuiabá",
+   "coordenadas": "-12.6717, -55.8539",
+   "tipo_infracao": "queimada",
+   "horas_trabalhadas": 4,
+   "criado_em": "2025-05-27T09:00:00"
+  },
+  {
+   "id_laudo": "L-REQ-0003",
+   "requisicao_id": "REQ-0003",
+   "status": "rascunho",
+   "local": "Assentamento Nova Esperança",
+   "coordenadas": "-12.3967, -55.8511",
+   "tipo_infracao": "extração irregular de madeira",
+   "horas_trabalhadas": 8,
+   "criado_em": "2025-01-27T09:00:00"
+  },
+  {
+   "id_laudo": "L-REQ-0004",
+   "requisicao_id": "REQ-0004",
+   "status": "rascunho",
+   "local": "Reserva legal da Fazenda Boa Vista",
+   "coordenadas": "-12.7948, -55.2425",
+   "tipo_infracao": "ocupação irregular de área de preservação",
+   "horas_trabalhadas": 4,
+   "criado_em": "2024-09-29T09:00:00"
+  },
+  {
+   "id_laudo": "L-REQ-0005",
+   "requisicao_id": "REQ-0005",
+   "status": "rascunho",
+   "local": "Margem do Rio Araguaia",
+   "coordenadas": "-12.5287, -55.3412",
+   "tipo_infracao": "poluição de curso d'água",
+   "horas_trabalhadas": 4,
+   "criado_em": "2024-06-01T09:00:00"
+  },
+  {
+   "id_laudo": "L-REQ-0006",
+   "requisicao_id": "REQ-0006",
+   "status": "rascunho",
+   "local": "Área rural de Cáceres",
+   "coordenadas": "-12.4787, -55.9204",
+   "tipo_infracao": "mineração irregular",
+   "horas_trabalhadas": 0,
+   "criado_em": "2024-02-02T09:00:00"
+  },
+  {
+   "id_laudo": "L-REQ-0007",
+   "requisicao_id": "REQ-0007",
+   "status": "rascunho",
+   "local": "Fazenda Santa Rita, município de Sinop",
+   "coordenadas": "-12.5181, -55.6941",
+   "tipo_infracao": "desmatamento",
+   "horas_trabalhadas": 8,
+   "criado_em": "2023-10-05T09:00:00"
+  },
+  {
+   "id_laudo": "L-REQ-0008",
+   "requisicao_id": "REQ-0008",
+   "status": "rascunho",
+   "local": "Área de preservação do Rio Cuiabá",
+   "coordenadas": "-12.2712, -55.5004",
+   "tipo_infracao": "queimada",
+   "horas_trabalhadas": 0,
+   "criado_em": "2026-10-02T09:00:00"
+  },
+  {
+   "id_laudo": "L-REQ-0009",
+   "requisicao_id": "REQ-0009",
+   "status": "rascunho",
+   "local": "Assentamento Nova Esperança",
+   "coordenadas": "-12.6121, -55.5588",
+   "tipo_infracao": "extração irregular de madeira",
+   "horas_trabalhadas": 0,
+   "criado_em": "2026-10-01T09:00:00"
+  },
+  {
+   "id_laudo": "L-REQ-0010",
+   "requisicao_id": "REQ-0010",
+   "status": "rascunho",
+   "local": "Reserva legal da Fazenda Boa Vista",
+   "coordenadas": "-12.8204, -55.7491",
+   "tipo_infracao": "ocupação irregular de área de preservação",
+   "horas_trabalhadas": 0,
+   "criado_em": "2026-09-30T09:00:00"
+  },
+  {
+   "id_laudo": "L-REQ-0011",
+   "requisicao_id": "REQ-0011",
+   "status": "concluido",
+   "local": "Margem do Rio Araguaia",
+   "coordenadas": "-12.4256, -55.9571",
+   "tipo_infracao": "poluição de curso d'água",
+   "horas_trabalhadas": 16,
+   "criado_em": "2026-09-04T09:00:00"
+  },
+  {
+   "id_laudo": "L-REQ-0012",
+   "requisicao_id": "REQ-0012",
+   "status": "concluido",
+   "local": "Área rural de Cáceres",
+   "coordenadas": "-12.9289, -55.2998",
+   "tipo_infracao": "mineração irregular",
+   "horas_trabalhadas": 16,
+   "criado_em": "2026-09-03T09:00:00"
+  }
+ ],
+ "mapas": [
+  {
+   "id_mapa": "L-REQ-0011-M1",
+   "laudo_id": "L-REQ-0011",
+   "modelo": "Modelo de delimitação do dano 1",
+   "criado_em": "2026-09-04T11:00:00"
+  },
+  {
+   "id_mapa": "L-REQ-0011-M2",
+   "laudo_id": "L-REQ-0011",
+   "modelo": "Modelo de delimitação do dano 2",
+   "criado_em": "2026-09-04T11:00:00"
+  },
+  {
+   "id_mapa": "L-REQ-0012-M1",
+   "laudo_id": "L-REQ-0012",
+   "modelo": "Modelo de delimitação do dano 1",
+   "criado_em": "2026-09-03T11:00:00"
+  },
+  {
+   "id_mapa": "L-REQ-0012-M2",
+   "laudo_id": "L-REQ-0012",
+   "modelo": "Modelo de delimitação do dano 2",
+   "criado_em": "2026-09-03T11:00:00"
+  }
+ ]
+}

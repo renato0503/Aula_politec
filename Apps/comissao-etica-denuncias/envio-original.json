@@ -1,0 +1,609 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T15:19:54.244Z",
+  "campos": {
+    "data": "2026-10-27",
+    "aluno": "Letícia e Thiago",
+    "unidade": "Comissão de Ética",
+    "contato": "leticiamesquita@politec.mt.gov.br",
+    "nome_projeto": "Classificação da denúncia",
+    "tipo_projeto": "Automação de script ou rotina",
+    "resumo": "Uso de IA para agilizar a classificação da denúncia recebida, seguindo o Código de Ética Funcional do Servidor Público Civil do Estado de Mato Grosso",
+    "problema": "Morosidade na análise da denúncia e recomendações, que é feita em reunião com a comissão",
+    "hoje": "Após o recebimento de denúncia, é realizado agendamento de reunião com a comissão, que depende da disponibilidade dos membros, quando realizada reunião é feita a análise do teor da denúncia para verificação se a mesma será acatada, caso infrinja o código de ética. O processo de classificação é feito nessa reunião, após a classificação são realizadas oitivas para averiguação dos fatos. Após ouvir as partes envolvidas, as recomendações são elaboradas e enviadas aos envolvidos, encerrando o processo.  ",
+    "impacto": "A dificuldade de conciliar agenda dos membros, e tempo de duração da reunião em média 1 hora por denúncia com a comissão e 1 hora por oitiva. O tempo demandado é o principal gargalo, uma vez que existe acúmulo de funções, pois os membros todos desenvolvem outras atividades. ",
+    "evid_detalhe": "Planilha de denúncias recebidas, atas das reuniões e oitivas e ofícios de recomendações",
+    "limite": "A conferência da classificação, o aceite da denúncia, a oitiva com os envolvidos e conferência das recomendações. ",
+    "asis_inicio": "Recebimento de denúncia",
+    "asis_fim": "Documento de recebimento das recomendações por parte do denunciado",
+    "asis_entradas": "E-mail, relato, provas como prints de WhatsApp, escala de plantão  ",
+    "asis_saidas": "Ata de reunião, ata de oitiva, recomendações",
+    "asis_volume": "2 casos mês",
+    "asis_duracao": "10 horas",
+    "asis_frequencia": "Mensal",
+    "asis_decisoes": "Três vias: se a denúncia for acatada vai para reunião, pode não ser acatada por não enquadramento no código de ética ou ser encaminhada para outra instância, caso necessite de correição (corregedoria).",
+    "asis_excecoes": "Caso falte provas para analisar a denúncia, as mesmas são solicitadas ao denunciante e fica aguardando sua resposta",
+    "asis_digital": "A denúncia é recebida via e-mail, as atas são registradas no Sigadoc, assim como os relatórios de recomendação.",
+    "papeis_obs": "O sistema deverá respeitar o sigilo das informações, a proteção de dados pessoais e as competências da Comissão de Ética. O acesso aos processos e documentos será restrito conforme o perfil do usuário e a necessidade funcional. As etapas deverão contemplar o registro da denúncia, a análise de admissibilidade, as deliberações colegiadas, as oitivas, os encaminhamentos, a elaboração de pareceres e o encerramento. Todas as movimentações e decisões deverão possuir registro de autoria, data e histórico, assegurando rastreabilidade e integridade das informações. A disponibilização de documentos às partes deverá ocorrer mediante avaliação e autorização da Comissão, observadas as normas aplicáveis e as orientações jurídicas pertinentes.",
+    "tobe_visao": "Quando o processo da Comissão de Ética for automatizado, os integrantes deixarão de depender de controles manuais, documentos dispersos e acompanhamento individual de prazos e passarão a utilizar um sistema centralizado para gerenciar as denúncias, acompanhar as etapas e registrar as deliberações com segurança e rastreabilidade.",
+    "tobe_mudanca": "O controle manual das denúncias, dos documentos, dos prazos e dos encaminhamentos será substituído por um sistema que organize o fluxo processual, automatize tarefas administrativas repetitivas, emita notificações e gere registros e documentos padronizados. A inteligência artificial (IA) poderá auxiliar na classificação inicial das denúncias, na identificação de elementos relevantes e na elaboração de roteiros personalizados para as oitivas, com base nos fatos relatados e nos objetivos da apuração ética. A análise de admissibilidade, a avaliação dos fatos e as deliberações permanecerão sob responsabilidade da Comissão de Ética, cabendo aos seus membros revisar e validar os conteúdos gerados pela IA, de modo a assegurar a imparcialidade, o sigilo e a observância das normas aplicáveis.",
+    "tobe_inalterado": "A competência da Comissão de Ética, a análise de admissibilidade, a avaliação dos fatos, a realização das oitivas, as deliberações colegiadas e a elaboração e validação dos pareceres e das orientações permanecem sob responsabilidade dos membros da Comissão. A inteligência artificial poderá atuar como ferramenta de apoio à classificação das denúncias, à organização das informações e à elaboração de roteiros de oitivas, cabendo aos membros revisar e validar os conteúdos gerados, sem transferir à tecnologia o poder de decisão.",
+    "tobe_restricao": "A automação e o uso da inteligência artificial não poderão substituir as competências legais e regimentais da Comissão de Ética, tomar decisões sobre admissibilidade ou responsabilidade ética, nem comprometer a imparcialidade, o sigilo, a proteção de dados pessoais e a rastreabilidade dos atos. As classificações, sugestões e os roteiros gerados pela IA deverão ser tratados como subsídios sujeitos à revisão humana, observando-se o Código de Ética, as normas institucionais e as orientações jurídicas aplicáveis.",
+    "tobe_piloto": "Piloto de 30 dias",
+    "entrega": "Protótipo funcional de um sistema web para gerenciamento dos processos da Comissão de Ética da POLITEC/MT, contemplando registro de denúncias, classificação inicial assistida por inteligência artificial, acompanhamento das etapas e dos prazos, geração de roteiros de oitivas e modelos padronizados de documentos, com demonstração do fluxo desde o recebimento até o encerramento do processo.",
+    "dentro": "Registro e organização das denúncias; classificação inicial assistida por IA; fluxo de análise de admissibilidade; controle das etapas, dos responsáveis e dos prazos; geração assistida de roteiros de oitivas; modelos de comunicações e documentos; registro das deliberações humanas; acompanhamento da tramitação; e demonstração do encerramento do processo. O protótipo utilizará casos fictícios e permitirá validar as funcionalidades e o fluxo proposto.",
+    "fora": "A integração com sistemas institucionais, o uso de denúncias reais, a implantação oficial, o envio automático de comunicações, a autenticação institucional e o armazenamento de documentos sigilosos em ambiente de produção ficam fora do MVP. Essas funcionalidades dependem de avaliação técnica, autorização institucional, definição dos requisitos de segurança e proteção de dados e, quando necessário, integração com sistemas existentes. A classificação por IA e a elaboração de roteiros serão testadas em ambiente controlado, sem substituir a análise e as decisões da Comissão.",
+    "mvp_naofaz": "O MVP não recebe denúncias reais, não acessa sistemas institucionais, não envia notificações oficiais, não realiza autenticação institucional, não mantém histórico oficial de processos e não armazena documentos sigilosos em ambiente de produção. A IA não decide sobre admissibilidade, não determina responsabilidade ética e não substitui as deliberações da Comissão. As funcionalidades serão demonstradas com dados fictícios, para validar o fluxo e a viabilidade da solução.",
+    "mvp_objetivo": "Validar a viabilidade de um sistema para automatizar etapas dos processos da Comissão de Ética da POLITEC/MT, utilizando IA para auxiliar na classificação inicial das denúncias e na elaboração de roteiros de oitivas, mantendo as decisões sob responsabilidade humana.",
+    "mvp_plataforma": "Programa de desktop",
+    "mvp_tela_inicial": "tela de login para seleção do perfil de usuário",
+    "mvp_mock": "Será simulado desde o registro e a organização inicial das denúncias, a classificação automatizada assistida por inteligência artificial para apoio à triagem e o fluxo de análise de admissibilidade. Além disso, o protótipo apresentará o controle de etapas, responsáveis e prazos, a geração assistida de roteiros para as oitivas, a emissão de modelos padronizados de comunicações e documentos, o registro das deliberações humanas dos membros da comissão, o acompanhamento visual da tramitação do processo e a demonstração final do encerramento com a emissão de relatórios. O envio oficial de e-mails, a autenticação institucional e o armazenamento de documentos sigilosos em ambiente de produção não funcionam de verdade e serão apenas simulados em ambiente controlado com dados de exemplo.",
+    "mvp_criterio": "O usuário consegue registrar uma denúncia fictícia, obter a sugestão de classificação assistida por IA, registrar a deliberação de admissibilidade e gerar um roteiro de oitiva com minutas de documentos, demonstrando o fluxo completo do recebimento ao encerramento do processo sem erros.",
+    "mvp_dados": "No mínimo 10 casos fictícios de denúncias contendo relatos, partes envolvidas simuladas, categorização da infração ética, ata de reunião simulada, roteiro de oitiva gerado e minuta do parecer final de recomendação.",
+    "mvp_reuso": "O Código de Ética Funcional do Servidor Público Civil do Estado de Mato Grosso (como base legislativa), os modelos de atas de reuniões, oitivas e ofícios de recomendações em uso pela comissão.",
+    "dependencias": "Depende dos membros da Comissão de Ética para revisão e validação das regras do fluxo e das minutas.",
+    "lgpd_acesso": "O acesso é feito por meio de perfis simulados (Presidente, Membro, Secretário-executivo), onde o sistema registra perfil, data, hora, alteração realizada e justificativa em um histórico simulado no navegador.",
+    "lgpd_dados": "Nomes, e-mails, matrículas e relatos de partes envolvidas (denunciante e denunciado).",
+    "lgpd_base": "Código de Ética do Servidor Público de MT LC 112 de 2002",
+    "lgpd_retencao": "Os dados fictícios do MVP ficam armazenados localmente apenas no navegador (LocalStorage) e são descartados ou apagados ao limpar o cache/navegador.",
+    "stack_detalhe": "Arquitetura da aplicação e tecnologias ainda em definição",
+    "coletar": "Hoje não há registro automatizado do tempo exato decorrido entre o recebimento da denúncia por e-mail e a sua classificação inicial, nem métricas consolidadas sobre o tempo gasto na elaboração de roteiros para oitivas. Proposta: registrar a data/hora de entrada do e-mail e a data/hora da validação da classificação pela comissão no sistema durante o piloto de 30 dias para mensurar os ganhos de celeridade.",
+    "acesso": "A Presidência da Comissão de Ética autoriza a consulta à planilha local e às atas no Sigadoc até ao início dos testes do MVP. O docente/coordenador aprova a utilização do protótipo com dados estritamente fictícios na plataforma GitHub Pages durante o período da capacitação.",
+    "base_periodo": "Todos os registros de denúncias recebidas no período de 12 meses: média de 24 casos por ano (2 casos por mês), com demandas estimadas em 10 horas de trabalho mensal por processo (compreendendo reuniões de classificação e oitivas).",
+    "campos_data": "A planilha local e as atas possuem apenas a data do recebimento da denúncia e as datas de realização das reuniões e oitivas, sem o registro dos horários. Por isso, a linha de base do processo atual é estimada por duração de reuniões e oitivas, e a medição no protótipo passará a registar a data e a hora exatas das validações.",
+    "hospedagem_escolhida": "GitHub Pages com arquivo web estático, pois permite publicar o protótipo funcional sem custos de infraestrutura, roda diretamente no navegador sem depender de servidores ou orçamento inicial de TI, sendo ideal para validar o fluxo e as funcionalidades do MVP com dados fictícios.",
+    "orcamento": "Sem custo financeiro,  utilizando serviços e plataformas gratuitas.",
+    "conta_quem": "Equipe responsável cria o repositório no GitHub para publicação no GitHub Pages, disponibilizando o link de acesso ao professor e à equipe para testes e avaliação.",
+    "restricoes": "O sistema deve respeitar rigorosamente o sigilo das informações e a proteção de dados pessoais (LGPD). Não é permitido tomar decisões automáticas de admissibilidade ou responsabilidade ética via IA. Toda alteração e movimentação deve manter registro de autoria e histórico.",
+    "hipotese_campo": "O maior gargalo na apuração ética não é a análise humana em si, mas o tempo gasto em reuniões presenciais para triagem manual, controle disperso de prazos e elaboração do zero dos roteiros de oitivas.",
+    "lacunas": "Não foi possível acessar dados históricos consolidados e estruturados sobre o tempo exato gasto individualmente em cada oitiva e na elaboração das minutas finais, uma vez que tais registros atualmente ocorrem de forma descentralizada em atas e arquivos locais.",
+    "apoio": "Preciso da validação da Presidência da Comissão de Ética sobre a estrutura das minutas e regras do fluxo, além da orientação do professor/orientador para ajuste dos prompts de IA e publicação no GitHub Pages.",
+    "aprendizado": "Engenharia de prompt para classificação de textos jurídicos/normativos, manipulação de arrays JSON em JavaScript no navegador e publicação/gestão de repositórios no GitHub Pages.",
+    "frase": "Se o tempo de triagem e preparação passar de 1 hora para 20 minutos por processo, a Comissão de Ética deixa de depender de reuniões presenciais demoradas e controles manuais.",
+    "provas": "Reuniões manuais para análise de denúncias e oitivas demandam em média 1 hora cada e causam gargalos por acúmulo de funções dos membros. 2. O processo atual depende de planilhas locais e documentos dispersos sem controle automatizado de prazos. 3. Existe previsão de cerca de 24 casos por ano gerando aproximadamente 10 horas mensais de trabalho manual reprimido.",
+    "piloto": "Piloto de 30 dias com casos e dados fictícios, medindo o tempo gasto na validação da triagem com IA e o tempo de preparação de roteiros para oitivas.",
+    "risco_defesa": "A IA gerar classificações ou roteiros de oitivas imprecisos. Mitigação: manter a revisão e validação humana obrigatória pelos membros da Comissão antes de qualquer deliberação ou avanço de etapa no sistema.",
+    "doc_descricao": "Resolução tramite do processo; LC do Código de Ética; Código em linguagem simples; Lei de carreira da POLITEC.",
+    "doc_faltando": "Falta modelo de ata e relatórios."
+  },
+  "marcados": {
+    "afetado": [
+      "Equipe interna",
+      "Servidor da unidade"
+    ],
+    "evid": [
+      "Planilha ou controle local",
+      "Documento ou norma oficial"
+    ],
+    "stack": "Ainda não definido",
+    "req": [
+      "LGPD e dado pessoal",
+      "Segurança e controle de acesso",
+      "Trilha de auditoria",
+      "Funcionar offline"
+    ]
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "Recebimento denúncia",
+        "papel": "Presidente",
+        "entra": "Denúncia",
+        "acao": "leitura e-mail",
+        "sai": "registro da ocorrência",
+        "sistema": "e-mail",
+        "regra": " agendamento de reunião",
+        "espera": "e-mail",
+        "tempo": "2",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Reunião",
+        "papel": "Todos membros",
+        "entra": "Denúncia (s)",
+        "acao": "Deliberação, formação de tríade",
+        "sai": "Ata de reunião",
+        "sistema": "Sistema",
+        "regra": "Classificação",
+        "espera": "pasta compartilhada",
+        "tempo": "2",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Oitivas",
+        "papel": "Tríade",
+        "entra": "Ata de reunião",
+        "acao": "Escuta",
+        "sai": "Ata da oitiva",
+        "sistema": "Sistema",
+        "regra": "Consolidação",
+        "espera": "pasta compartilhada",
+        "tempo": "4",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Reunião Tríade",
+        "papel": "Tríade",
+        "entra": "Relatório de consolidação",
+        "acao": "Deliberação",
+        "sai": "Relatório de Recomendações",
+        "sistema": "Sistema",
+        "regra": "Recomendações",
+        "espera": "pasta compartilhada",
+        "tempo": "2",
+        "auto": "Não",
+        "rm": ""
+      }
+    ],
+    "tToBe": [
+      {
+        "etapa": "Recebimento e registro da denúncia",
+        "muda": "O sistema registra a manifestação, gera protocolo e organiza os documentos anexados.",
+        "quem": "A máquina (automação)",
+        "beneficio": "Padronização e redução de registros manuais.",
+        "esforco": "Médio"
+      },
+      {
+        "etapa": "Classificação inicial da denúncia",
+        "muda": "A IA analisa as informações apresentadas e sugere categorias, temas e elementos relevantes para subsidiar a triagem.",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Agilidade na triagem e melhor organização das informações.",
+        "esforco": "Alto"
+      },
+      {
+        "etapa": "Análise de admissibilidade",
+        "muda": "A Comissão avalia a denúncia e delibera sobre seu acolhimento ou não, registrando a decisão no sistema.",
+        "quem": "A pessoa, sem mudança",
+        "beneficio": "Decisão fundamentada e preservação da competência institucional.",
+        "esforco": "Médio"
+      },
+      {
+        "etapa": "Comunicação da decisão de admissibilidade",
+        "muda": "O sistema gera a minuta da comunicação com base na decisão registrada, para revisão e envio conforme as permissões estabelecidas.",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Padronização e agilidade nas comunicações.",
+        "esforco": "Baixo"
+      },
+      {
+        "etapa": "Distribuição e acompanhamento do caso",
+        "muda": "O sistema registra os responsáveis, controla as etapas e os prazos e emite alertas de pendências.",
+        "quem": "A máquina (automação)",
+        "beneficio": "Melhor controle dos prazos e das responsabilidades.",
+        "esforco": "Médio"
+      },
+      {
+        "etapa": "Preparação das oitivas",
+        "muda": "A IA utiliza as informações do caso para sugerir roteiros de perguntas individualizados, sujeitos à revisão e ao ajuste pelos membros responsáveis.",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Redução do tempo de preparação e maior direcionamento das oitivas.",
+        "esforco": "Alto"
+      },
+      {
+        "etapa": "Realização e registro das oitivas",
+        "muda": "Os membros conduzem as oitivas, registram as declarações e organizam os documentos correspondentes no sistema.",
+        "quem": "A pessoa, sem mudança",
+        "beneficio": "Organização dos registros e facilidade de consulta autorizada.",
+        "esforco": "Médio"
+      },
+      {
+        "etapa": "Análise dos fatos e deliberação",
+        "muda": "Os membros analisam as informações e os documentos, discutem o caso e registram as deliberações colegiadas.",
+        "quem": "A pessoa, sem mudança",
+        "beneficio": "Maior rastreabilidade e segurança dos registros decisórios.",
+        "esforco": "Alto"
+      },
+      {
+        "etapa": "Elaboração de parecer ou orientação",
+        "muda": "O sistema disponibiliza modelos padronizados e poderá utilizar IA para auxiliar na elaboração de minutas, sujeitas à revisão e validação dos membros.",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Redução do tempo de elaboração e padronização documental.",
+        "esforco": "Alto"
+      },
+      {
+        "etapa": "Comunicação dos encaminhamentos",
+        "muda": "O sistema prepara as comunicações decorrentes das deliberações e registra seu envio aos destinatários autorizados.",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Agilidade e comprovação dos encaminhamentos.",
+        "esforco": "Médio"
+      },
+      {
+        "etapa": "Encerramento e arquivamento",
+        "muda": "O sistema verifica os campos obrigatórios, registra o encerramento e organiza os documentos e o histórico do caso.",
+        "quem": "A máquina (automação)",
+        "beneficio": "Integridade documental e rastreabilidade.",
+        "esforco": "Médio"
+      },
+      {
+        "etapa": "Geração de relatórios gerenciais",
+        "muda": "O sistema consolida dados sobre denúncias recebidas, classificação, etapas, prazos e encerramentos, preservando as informações pessoais.",
+        "quem": "A máquina (automação)",
+        "beneficio": "Apoio à gestão e identificação de gargalos.",
+        "esforco": "Médio"
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "Administrador do sistema",
+        "quem": "Servidor responsável pela configuração técnica da solução, se houver essa função específica.",
+        "ve": "Configurações, usuários, perfis e registros técnicos necessários à administração.",
+        "faz": "Gerencia acessos, configura perfis e mantém o funcionamento do sistema.",
+        "naofaz": "Alterar decisões da Comissão ou acessar o conteúdo sigiloso sem autorização funcional.",
+        "registro": "Alterações de configuração, concessões de acesso e registros técnicos."
+      },
+      {
+        "papel": "Presidente da Comissão",
+        "quem": "Presidente formalmente designado.",
+        "ve": "Denúncias, documentos, tramitação, prazos e deliberações, conforme suas atribuições.",
+        "faz": "Coordena a análise de admissibilidade, convoca reuniões, distribui atividades e acompanha os processos.",
+        "naofaz": "Decidir isoladamente questões que dependam de deliberação colegiada ou alterar registros sem rastreabilidade.",
+        "registro": "Encaminhamentos, despachos, decisões e movimentações realizadas."
+      },
+      {
+        "papel": "Membro da Comissão",
+        "quem": "Integrante formalmente designado.",
+        "ve": "Denúncias e documentos dos casos distribuídos ou submetidos à Comissão, conforme autorização.",
+        "faz": "Analisa os casos, participa das reuniões, realiza oitivas quando designado e contribui para pareceres e deliberações.",
+        "naofaz": "Acessar casos sem necessidade funcional, compartilhar informações sigilosas ou deliberar individualmente em matérias colegiadas.",
+        "registro": "Análises, manifestações, participação nas deliberações e atividades realizadas."
+      },
+      {
+        "papel": "Secretário(a)-executivo(a)",
+        "quem": "Servidor responsável pelo apoio administrativo e documental.",
+        "ve": "Dados necessários à tramitação, documentos, prazos, agendas, atas e comunicações.",
+        "faz": "Registra denúncias, organiza documentos, agenda reuniões, elabora atas e acompanha prazos e encaminhamentos.",
+        "naofaz": "Alterar o conteúdo de decisões colegiadas, deliberar sobre admissibilidade ou divulgar informações sem autorização.",
+        "registro": "Protocolos, documentos inseridos, atas, notificações e movimentações processuais."
+      },
+      {
+        "papel": "Denunciante",
+        "quem": "Servidor ou pessoa que apresenta uma denúncia à Comissão.",
+        "ve": "Dados da própria manifestação e informações sobre seu recebimento e andamento que possam ser disponibilizadas.",
+        "faz": "Registra a denúncia, apresenta informações e documentos e acompanha os retornos autorizados.",
+        "naofaz": "Acessar documentos sigilosos, dados pessoais de terceiros ou informações restritas sobre a tramitação.",
+        "registro": "Data do envio, conteúdo apresentado, documentos anexados e comunicações recebidas."
+      },
+      {
+        "papel": "Denunciado(a)",
+        "quem": "Pessoa cuja conduta é objeto de análise ética.",
+        "ve": "Comunicações dirigidas a si e informações e documentos disponibilizados formalmente pela Comissão, conforme a fase e as regras aplicáveis.",
+        "faz": "Apresenta esclarecimentos, manifesta sua versão dos fatos e encaminha informações solicitadas.",
+        "naofaz": "Acessar irrestritamente os registros internos, dados de terceiros ou informações protegidas sem autorização.",
+        "registro": "Notificações, respostas, documentos apresentados e registros de ciência."
+      }
+    ],
+    "tArtefatos": [
+      {
+        "nome": "Registro da denúncia",
+        "rota": "Registrar e organizar a manifestação.",
+        "objetivo": "Secretário(a)-executivo(a)",
+        "usuario": "Identificação fictícia, relato, data e documentos simulados.",
+        "dados": "Cadastrar denúncia.",
+        "acao": "Campos obrigatórios devem ser preenchidos.",
+        "regra": "Registrar um caso fictício e visualizar seus dados.",
+        "tipo": "Formulário funcional.",
+        "verificacao": "",
+        "mvp": ""
+      },
+      {
+        "nome": "Classificação assistida por IA",
+        "rota": "Auxiliar na triagem inicial.",
+        "objetivo": "Comissão de Ética",
+        "usuario": "Relato, categorias sugeridas e elementos relevantes.",
+        "dados": "Solicitar classificação.",
+        "acao": "A IA apenas sugere; a classificação não determina a admissibilidade.",
+        "regra": "Apresentar um caso fictício e visualizar a sugestão gerada.",
+        "tipo": "Classificação demonstrável por IA ou simulação documentada.",
+        "verificacao": "",
+        "mvp": ""
+      },
+      {
+        "nome": "Análise de admissibilidade",
+        "rota": "Registrar a decisão da Comissão.",
+        "objetivo": "Presidente e membros",
+        "usuario": "Denúncia, informações organizadas e classificação sugerida.",
+        "dados": "Registrar decisão e justificativa.",
+        "acao": "A decisão é humana e deve ser registrada.",
+        "regra": "Selecionar uma decisão e verificar o registro correspondente.",
+        "tipo": "Tela de decisão com justificativa.",
+        "verificacao": "",
+        "mvp": ""
+      },
+      {
+        "nome": "Controle de tramitação",
+        "rota": "Visualizar o andamento do processo.",
+        "objetivo": "Presidente e secretário(a)-executivo(a)",
+        "usuario": "Etapa atual, responsável, prazo e pendências.",
+        "dados": "Atualizar etapa e acompanhar prazos.",
+        "acao": "A movimentação deve respeitar a sequência definida no fluxo.",
+        "regra": "Avançar o processo e visualizar a nova etapa.",
+        "tipo": "Painel de acompanhamento.",
+        "verificacao": "",
+        "mvp": ""
+      },
+      {
+        "nome": "Preparação de oitivas",
+        "rota": "Apoiar a preparação das perguntas.",
+        "objetivo": "Membros responsáveis",
+        "usuario": "Relato fictício, fatos relevantes e objetivo da oitiva.",
+        "dados": "Gerar roteiro de perguntas.",
+        "acao": "A IA sugere perguntas que devem ser revisadas pelos membros.",
+        "regra": "Gerar um roteiro para um caso fictício e avaliar sua pertinência.",
+        "tipo": "Gerador de roteiro assistido por IA.",
+        "verificacao": "",
+        "mvp": ""
+      },
+      {
+        "nome": "Documentos e comunicações",
+        "rota": "Padronizar os registros do processo.",
+        "objetivo": "Secretário(a)-executivo(a) e membros autorizados",
+        "usuario": "Dados do caso, decisões e modelos institucionais.",
+        "dados": "Gerar minuta de documento.",
+        "acao": "O documento deve ser revisado antes de sua utilização oficial.",
+        "regra": "Gerar e conferir uma minuta com dados fictícios.",
+        "tipo": "Modelo preenchido automaticamente.",
+        "verificacao": "",
+        "mvp": ""
+      },
+      {
+        "nome": "Encerramento do processo",
+        "rota": "Demonstrar a conclusão do fluxo.",
+        "objetivo": "Presidente e secretário(a)-executivo(a)",
+        "usuario": "Etapa final, decisão, encaminhamentos e pendências.",
+        "dados": "Registrar encerramento.",
+        "acao": "O encerramento depende da conclusão das etapas obrigatórias.",
+        "regra": "Concluir um caso de teste e verificar seu status final.",
+        "tipo": "Registro demonstrativo de encerramento.",
+        "verificacao": "",
+        "mvp": ""
+      },
+      {
+        "nome": "Relatório gerencial",
+        "rota": "Demonstrar os ganhos potenciais da automação.",
+        "objetivo": "Presidente e Comissão",
+        "usuario": "Quantidade de casos fictícios por etapa, prazos e status.",
+        "dados": "Consultar indicadores.",
+        "acao": "Exibir dados consolidados sem exposição indevida de informações pessoais.",
+        "regra": "Visualizar os indicadores dos casos simulados.",
+        "tipo": "Painel simples de indicadores.",
+        "verificacao": "",
+        "mvp": ""
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "tb_denuncia",
+        "representa": "Registro e dados da denúncia recebida",
+        "colunas": "id_denuncia: texto, protocolo: texto, data_recebimento: data, relato_fatos: texto, status_etapa: texto, id_denunciante: texto, id_denunciado: texto",
+        "chave": "id_denuncia",
+        "volume": "2 casos/mês",
+        "origem": "Formulário do protótipo",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "tb_classificacao_ia",
+        "representa": "Categorizações e sugestões geradas pela IA",
+        "colunas": "id_classificacao: texto, id_denuncia: texto, categorias_sugeridas: texto, artigos_codigo_etica: texto, resumo_ia: texto, data_geracao: data",
+        "chave": "id_classificacao",
+        "volume": "24 registros/ano",
+        "origem": "Módulo de IA / Algoritmo",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "tb_deliberacao",
+        "representa": "Registros de decisões colegiadas da Comissão",
+        "colunas": "id_deliberacao: texto, id_denuncia: texto, tipo_decisao: texto, justificativa: texto, data_deliberacao: data, membros_presentes: texto",
+        "chave": "id_deliberacao",
+        "volume": "24 registros/ano",
+        "origem": "Comissão de Ética",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "tb_oitiva",
+        "representa": "Roteiros gerados por IA e atas das oitivas",
+        "colunas": "id_oitiva: texto, id_denuncia: texto, pessoa_ouvida: texto, data_oitiva: data, roteiro_perguntas_ia: texto, termo_oitiva: texto",
+        "chave": "id_oitiva",
+        "volume": "48 registros/ano",
+        "origem": "Tríade / Membros",
+        "sintetico": "Sim"
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "RN01",
+        "regra": "O acesso ao processo e documentos é restrito conforme o perfil do usuário (Secretário, Presidente, Membros).",
+        "quando": "Ao tentar visualizar qualquer processo ou documento no sistema.",
+        "excecao": "Denunciante e denunciado acessam apenas minutas e comunicações formalmente liberadas pela Comissão.",
+        "valida": "Sistema / Autenticação do protótipo",
+        "tipo": "Trava de Acesso"
+      },
+      {
+        "id": "RN02",
+        "regra": "As sugestões da IA (classificação e roteiros) têm caráter estritamente assistencial e exigem confirmação e revisão humana obrigatória.",
+        "quando": "Nas etapas de triagem inicial e preparação de oitivas.",
+        "excecao": "Nenhuma; o sistema não permite transição de etapa sem a validação formal do membro.",
+        "valida": "Membro / Presidente da Comissão",
+        "tipo": "Interface / Processual"
+      },
+      {
+        "id": "RN03",
+        "regra": "O processo só pode avançar para as fases de oitiva ou deliberação após o registro da Análise de Admissibilidade.",
+        "quando": "Na movimentação e transição das etapas processuais.",
+        "excecao": "Caso a denúncia seja rejeitada liminarmente ou encaminhada para a Corregedoria.",
+        "valida": "Presidente / Secretário-executivo",
+        "tipo": "Validação do Sistema"
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "Planilha de controle de denúncias",
+        "tipo": "Planilha local",
+        "onde": "Pasta compartilhada / Controle loca",
+        "existe": "Sim",
+        "acesso": "Membros da Comissão de Ética",
+        "linha": "Um registro de denúncia ou ocorrência ética",
+        "volume": "~2 casos/mês (24/ano)   ",
+        "historico": "Histórico de processos anteriores",
+        "campos": "Data do recebimento e data das reuniões",
+        "atualiza": "Manual / Eventual",
+        "lgpd": "Sim",
+        "obs": "Fonte principal de evidência e controle interno da comissão   ",
+        "rm": ""
+      },
+      {
+        "fonte": "Atas de reuniões e oitivas",
+        "tipo": "Relatório",
+        "onde": "Sigadoc / Pasta compartilhada",
+        "existe": "Sim",
+        "acesso": "Membros da Comissão de Ética",
+        "linha": "Uma ata de deliberação ou depoimento coletado",
+        "volume": "~4 a 6 atas por mês",
+        "historico": "Processos arquivados no Sigadoc",
+        "campos": "Data da reunião, data da oitiva",
+        "atualiza": "A cada reunião/oitiva realizada",
+        "lgpd": "Sim",
+        "obs": "Contém registo detalhado das declarações e deliberações",
+        "rm": ""
+      },
+      {
+        "fonte": "Código de Ética Funcional do Servidor Civil",
+        "tipo": "Relatório",
+        "onde": "Diário Oficial / Legislação Estadual",
+        "existe": "Sim",
+        "acesso": "Público / Acesso livre",
+        "linha": "Um artigo, inciso ou dever funcional",
+        "volume": "1 código normativo vigente",
+        "historico": "Legislação consolidada",
+        "campos": "Data de publicação/vigência",
+        "atualiza": "Conforme atualização lega",
+        "lgpd": "Não",
+        "obs": "Base de conhecimento legal utilizada pela IA para classificação   ",
+        "rm": ""
+      }
+    ],
+    "tMetricas": [
+      {
+        "nome": "Tempo de triagem e classificação",
+        "pergunta": "Quanto tempo a IA economiza na triagem inicial das denúncias?",
+        "formula": "(Tempo As-Is - Tempo To-Be) / Tempo As-Is",
+        "fonte": "Planilha de denúncias recebidas",
+        "gran": "Por denúncia",
+        "base": "1 hora",
+        "esperado": "20 minutos",
+        "medir": "Registrar data/hora do recebimento do e-mail e data/hora da validação da triagem no sistema",
+        "quem": "Secretário-executivo"
+      },
+      {
+        "nome": "Tempo de preparação das oitivas",
+        "pergunta": "Qual a redução no tempo de elaboração dos roteiros para oitivas com o apoio da IA?",
+        "formula": "Tempo total de elaboração manual - Tempo de revisão do roteiro IA",
+        "fonte": "Atas das oitivas",
+        "gran": "Por oitiva",
+        "base": "2 horas",
+        "esperado": "20 minutos",
+        "medir": "Registrar o tempo gasto na revisão e ajuste do roteiro gerado pela IA antes da oitiva",
+        "quem": "Membro da Comissão"
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "GitHub Pages",
+        "tipo": "Estática e gratuita",
+        "onde": "Navegador / Nuvem do GitHub",
+        "custo": "Gratuito (R$ 0)",
+        "mantem": "Equipe do projeto (alunos)",
+        "acesso": "Público via URL do GitHub",
+        "banco": "Sem banco (dados fictícios em JSON local)",
+        "escala": "Demonstração do MVP e testes de fluxo",
+        "limite": "Não suporta persistência de dados reais nem banco corporativo"
+      },
+      {
+        "opcao": "Servidor Institucional (Produção futura)",
+        "tipo": "Nuvem corporativa",
+        "onde": "Data Center / Cloud da POLITEC/MT",
+        "custo": "Depende da infraestrutura existente da TI",
+        "mantem": "Equipe de TI da POLITEC/MT",
+        "acesso": "Restrito aos servidores da Comissão via intranet",
+        "banco": "Banco relacional seguro (PostgreSQL/SQL Server)",
+        "escala": "Uso oficial da Comissão de Ética",
+        "limite": "Exige aprovação institucional, orçamento de TI e integrações"
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "Mapeamento de Requisitos e Protótipo de Telas",
+        "data": "29/10/2026",
+        "resp": "Letícia e Thiago",
+        "dep": "Definição do fluxo To-Be da Comissão",
+        "sit": "Feito"
+      },
+      {
+        "marco": "Desenvolvimento do Módulo de Registro e Classificação por IA",
+        "data": "10/11/2026",
+        "resp": "Equipe de Dev / Alunos",
+        "dep": "Validação dos prompts de IA com o Código de Ética",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Módulo de Admissibilidade, Oitivas e Emissão de Minutas",
+        "data": "17/11/2026",
+        "resp": "Equipe de Dev / Alunos",
+        "dep": "Testes dos modelos de ata e roteiros",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Testes com Casos Fictícios e Homologação do Piloto",
+        "data": "24/11/2026",
+        "resp": "Comissão de Ética / Alunos",
+        "dep": "Finalização das telas no GitHub Pages",
+        "sit": "Planejado"
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "IA gerar classificações imprecisas ou inadequadas das denúncias",
+        "prob": "Média",
+        "imp": "Alto",
+        "mit": "Revisão e validação humana obrigatória pelos membros da Comissão antes de qualquer deliberação"
+      },
+      {
+        "risco": "Exposição de dados sensíveis ou informações de envolvidos",
+        "prob": "Baixa",
+        "imp": "Altíssimo",
+        "mit": "Utilização exclusiva de dados 100% fictícios durante a prototipagem e simulação"
+      },
+      {
+        "risco": "Resistência dos membros à utilização da ferramenta automatizada",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "Desenvolvimento de interface simples e intuitiva focada na redução de carga de trabalho manual"
+      }
+    ],
+    "tRefs": [
+      {
+        "ref": "Código de Ética Funcional do Servidor Público Civil do Estado de Mato Grosso",
+        "tipo": "Norma ou lei",
+        "fonte": "Site da POLITEC",
+        "ano": "2002",
+        "dado": "Regras de conduta, infrações éticas e trâmite processual das comissões",
+        "uso": "Definir as categorias de classificação e parâmetros legais utilizados no prompt de IA",
+        "conferido": "Sim"
+      },
+      {
+        "ref": "Mapeamento de Processos As-Is da Comissão de Ética",
+        "tipo": "Documento interno",
+        "fonte": "POLITEC/MT",
+        "ano": "2026",
+        "dado": "Gargalo de 1h por reunião de classificação e 4h por oitiva, além de fluxo 100% manual",
+        "uso": "Justificar a necessidade de automação e estabelecer a linha de base de tempo das métricas",
+        "conferido": "Sim"
+      }
+    ]
+  }
+}

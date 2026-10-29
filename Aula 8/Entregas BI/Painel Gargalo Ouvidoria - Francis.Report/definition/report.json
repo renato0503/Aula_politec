@@ -1,0 +1,39 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/report/1.2.0/schema.json",
+  "themeCollection": {
+    "customTheme": {
+      "name": "PolitecMarinhoOuro.json",
+      "reportVersionAtImport": "5.68",
+      "type": "RegisteredResources"
+    }
+  },
+  "layoutOptimization": "None",
+  "resourcePackages": [
+    {
+      "name": "RegisteredResources",
+      "type": "RegisteredResources",
+      "items": [
+        {
+          "name": "PolitecMarinhoOuro.json",
+          "path": "PolitecMarinhoOuro.json",
+          "type": "CustomTheme"
+        },
+        {
+          "name": "bg_claro.png",
+          "path": "bg_claro.png",
+          "type": "Image"
+        },
+        {
+          "name": "logo_politec.png",
+          "path": "logo_politec.png",
+          "type": "Image"
+        }
+      ]
+    }
+  ],
+  "settings": {
+    "useStylableVisualContainerHeader": true,
+    "defaultDrillFilterOtherVisuals": true,
+    "useEnhancedTooltips": true
+  }
+}

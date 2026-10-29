@@ -1,0 +1,109 @@
+{
+  "titulo": "Controle de Adiantamentos",
+  "subtitulo": "POLITEC/MT · DAS",
+  "descricao": "Acompanhamento dos adiantamentos, do pedido com 3 orçamentos à prestação de contas, com prazos e pendências.",
+  "aviso": "Protótipo, sem validade administrativa. O SICAD é o sistema oficial.",
+  "db": {
+    "nome": "adiantamento_v1",
+    "versao": 1,
+    "stores": {
+      "processos": {
+        "keyPath": "id",
+        "indices": []
+      },
+      "orcamentos": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "processo_id",
+            "campo": "processo_id",
+            "unico": false
+          }
+        ]
+      },
+      "etapas": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "processo_id",
+            "campo": "processo_id",
+            "unico": false
+          }
+        ]
+      },
+      "pendencias": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "processo_id",
+            "campo": "processo_id",
+            "unico": false
+          }
+        ]
+      },
+      "notas": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "processo_id",
+            "campo": "processo_id",
+            "unico": false
+          }
+        ]
+      },
+      "feriados": {
+        "keyPath": "data",
+        "indices": []
+      },
+      "log": {
+        "keyPath": "id",
+        "indices": []
+      }
+    }
+  },
+  "rotas": [
+    {
+      "rota": "#/painel",
+      "titulo": "Painel",
+      "sprint": 6,
+      "descricao": "Processos por situação, prazos e tempo por etapa."
+    },
+    {
+      "rota": "#/pedido/novo",
+      "titulo": "Novo pedido",
+      "sprint": 2,
+      "descricao": "Pedido com 3 orçamentos e justificativa (RN01)."
+    },
+    {
+      "rota": "#/processo/:id",
+      "titulo": "Processo",
+      "sprint": 3,
+      "descricao": "Linha do tempo, pendências e prazos."
+    },
+    {
+      "rota": "#/processo/:id/prestacao",
+      "titulo": "Prestação de contas",
+      "sprint": 5,
+      "descricao": "Notas fiscais e valor concedido (RN06)."
+    },
+    {
+      "rota": "#/relatorio",
+      "titulo": "Relatório",
+      "sprint": 6,
+      "descricao": "Tempo por etapa, devoluções e CSV."
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": ""
+    }
+  ],
+  "libs": [],
+  "dados": [
+    [
+      "seed",
+      "exemplos/seed.json"
+    ]
+  ]
+}

@@ -1,0 +1,265 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T15:47:40.351Z",
+  "campos": {
+    "data": "2026-10-27",
+    "aluno": "Aline Xavier dos Passos",
+    "unidade": "Coordenadoria de Patrimônio e Serviços",
+    "contato": "alinepassos@politec.mt.gov.br",
+    "nome_projeto": "DOCUMENTAPOLITEC",
+    "tipo_projeto": "Aplicativo (app) para cidadão, servidor ou equipe",
+    "resumo": "Preciso criar um aplicativo para controlar os prontuários civis que serão encaminhados para o arquivo central",
+    "problema": "Não há espaço físico e precisamos utilizar outra estrutura para guarda de prontuários e laudos periciais",
+    "hoje": "Hoje os prontuários são digitalizados, e são arquivados em sala cofre. Precisamos criar um app que faça a conferencia da relação dos prontuários que estão em determinada caixa para que a mesma seja alocada em novo setor, sem prejuízo de informação equivocada. estamos falando de um montante de 1000 (mil) caixas box.",
+    "impacto": "Falta de espaço de armazenamento e risco de extravio",
+    "limite": "A conferência dos dados e  quantitativo e o campo de assinatura de quem está lacrando a caixa.",
+    "asis_inicio": "Entrada do Prontuário no arquivo corrente",
+    "asis_fim": "saída do arquivo corrente para a guarda permanente",
+    "asis_entradas": "digitalização do prontuário, conferência, e lacramento.",
+    "asis_saidas": "Guarda permanente em nova estrutura",
+    "asis_volume": "2.500.000",
+    "asis_frequencia": "Por demanda",
+    "asis_decisoes": "Se os dados conferem, segue para arquivo permanente",
+    "asis_excecoes": "",
+    "asis_digital": "a digitalização dos prontuários",
+    "papeis_obs": "O Papiloscopista que atesta a veracidade, confere e lista os números dos prontuários, bem como é o agente que lacra a caixa para ser encaminhada para o arquivo permanente.",
+    "tobe_visao": "a conferência dos prontuários físicos com os arquivos digitalizados por meio de compara automatizado, e posterior busca por nome do cidadão para identificar numero da caixa que o fisico está aquivado",
+    "tobe_mudanca": "automatizar essa conferência, sem a necessidade de conferir um por um, após a digitalização.",
+    "tobe_inalterado": "A organização e conferência inicial permanece a cargo do servidor indicado pela DMIT",
+    "tobe_restricao": "os dados e informações constantes nos prontuários",
+    "tobe_piloto": "Piloto de 30 dias, com 2400 prontuários",
+    "entrega": "aplicativo ou sistema de conferência",
+    "dentro": "leitura do arquivo digitalizado",
+    "fora": "o armazenamento de  dados sensíveis pela IA",
+    "mvp_tela_inicial": "tela de login",
+    "mvp_criterio": "O papiloscopista vai mostrar a integridade dos arquivos físicos com os digitalizados",
+    "mvp_dados": "Histórico de busca",
+    "mvp_reuso": "melhor reiniciar do 0",
+    "dependencias": "Servidores e gestão documental e especificação das caixas\n",
+    "lgpd_dados": "numero do prontuário ",
+    "lgpd_acesso": "versão com login e senha, para apenas servidores indicados.",
+    "coletar": "Digitalização",
+    "acesso": "A DMIT",
+    "base_periodo": "todos os 2.500.000 prontuários",
+    "campos_data": "Não se aplica",
+    "hospedagem_escolhida": "Aplicativo, para facilitar o acesso pelo celular ou na web na rede funcional",
+    "apoio": "Preciso reunir novamente com a equipe para definir modelo de dígitos dos prontuários",
+    "aprendizado": "modelagem de processo, antigravity, leitura para tomada de decisões",
+    "frase": "Digitalização que abre espaço para o novo",
+    "provas": "Atualmente os prontuários são automaticamente gerados dentro do SIC; os prontuários fisicos são de anos anteriores há 2019 e estão ocupando espaço fisico, a digitalização controlada e íntegra, permitirá que a guarda em estrutura adequado, liberando espaço para novos serviços e setores",
+    "piloto": "teste por 30 dias.",
+    "risco_defesa": "A DMIT não validar",
+    "doc_descricao": "planilha teste com relação de 850 prontuários",
+    "doc_faltando": ""
+  },
+  "marcados": {
+    "afetado": [
+      "Servidor da unidade",
+      "Equipe interna",
+      "Chefia"
+    ],
+    "evid": [
+      "Entrevista com a equipe"
+    ],
+    "stack": "Aplicativo web com framework (React, Vite, TypeScript)",
+    "req": [
+      "LGPD e dado pessoal",
+      "Segurança e controle de acesso",
+      "Funcionar offline",
+      "Trilha de auditoria"
+    ]
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "",
+        "papel": "",
+        "entra": "",
+        "acao": "",
+        "sai": "",
+        "sistema": "",
+        "regra": "",
+        "espera": "",
+        "tempo": "",
+        "auto": "",
+        "rm": ""
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "Arquivo Permanente",
+        "muda": "Conferência automatizada",
+        "quem": "A máquina (automação)",
+        "beneficio": "mais ganho de tempo e menos retrabalho",
+        "esforco": "Médio",
+        "rm": ""
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "",
+        "quem": "",
+        "ve": "",
+        "faz": "",
+        "naofaz": "",
+        "registro": "",
+        "rm": ""
+      },
+      {
+        "papel": "",
+        "quem": "",
+        "ve": "",
+        "faz": "",
+        "naofaz": "",
+        "registro": "",
+        "rm": ""
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "",
+        "rota": "",
+        "objetivo": "",
+        "usuario": "",
+        "dados": "",
+        "acao": "",
+        "regra": "",
+        "tipo": "",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "",
+        "rota": "",
+        "objetivo": "",
+        "usuario": "",
+        "dados": "",
+        "acao": "",
+        "regra": "",
+        "tipo": "",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "",
+        "representa": "",
+        "colunas": "",
+        "chave": "",
+        "volume": "",
+        "origem": "",
+        "sintetico": "",
+        "rm": ""
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "",
+        "regra": "",
+        "quando": "",
+        "excecao": "",
+        "valida": "",
+        "tipo": "",
+        "rm": ""
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "não",
+        "tipo": "",
+        "onde": "",
+        "existe": "",
+        "acesso": "",
+        "linha": "",
+        "volume": "",
+        "historico": "",
+        "campos": "",
+        "atualiza": "",
+        "lgpd": "",
+        "obs": "",
+        "rm": ""
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "",
+        "pergunta": "",
+        "formula": "",
+        "fonte": "",
+        "gran": "",
+        "base": "",
+        "esperado": "",
+        "medir": "",
+        "quem": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "",
+        "pergunta": "",
+        "formula": "",
+        "fonte": "",
+        "gran": "",
+        "base": "",
+        "esperado": "",
+        "medir": "",
+        "quem": "",
+        "rm": ""
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "",
+        "tipo": "Aplicativo instalado",
+        "onde": "",
+        "custo": "",
+        "mantem": "",
+        "acesso": "",
+        "banco": "",
+        "escala": "",
+        "limite": "celular funcional",
+        "rm": ""
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "Inicial",
+        "data": "29/10",
+        "resp": "Aline",
+        "dep": "execução",
+        "sit": "Planejado",
+        "rm": ""
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "incompatibilidade",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "",
+        "rm": ""
+      }
+    ],
+    "tRefs": [
+      {
+        "n": "",
+        "ref": "",
+        "tipo": "",
+        "fonte": "",
+        "ano": "",
+        "dado": "",
+        "uso": "",
+        "conferido": "",
+        "rm": ""
+      }
+    ]
+  }
+}

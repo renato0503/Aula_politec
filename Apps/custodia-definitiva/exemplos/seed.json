@@ -1,0 +1,796 @@
+{
+ "categorias": [
+  {
+   "id_categoria": "entorpecentes",
+   "nome": "Entorpecentes e contraprovas",
+   "tipo_conservacao": "ambiente seco, longe de umidade",
+   "restricao": "lacre e identificação"
+  },
+  {
+   "id_categoria": "armas-brancas",
+   "nome": "Armas brancas",
+   "tipo_conservacao": "ambiente seco",
+   "restricao": "integridade do fio e do cabo"
+  },
+  {
+   "id_categoria": "roupas",
+   "nome": "Roupas e têxteis",
+   "tipo_conservacao": "ambiente seco e ventilado",
+   "restricao": "proteção contra mofo"
+  },
+  {
+   "id_categoria": "eletronicos",
+   "nome": "Eletrônicos e mídias",
+   "tipo_conservacao": "ambiente seco, sem campo magnético",
+   "restricao": "proteção eletrostática"
+  },
+  {
+   "id_categoria": "biologicos",
+   "nome": "Materiais biológicos",
+   "tipo_conservacao": "refrigeração entre 2 e 8 graus",
+   "restricao": "controle de temperatura"
+  }
+ ],
+ "conteineres": [
+  {
+   "id_conteiner": "C-01",
+   "categoria_permitida": "entorpecentes",
+   "capacidade": 200,
+   "tipo_conservacao": "ambiente seco",
+   "localizacao_fisica": "Sala de custódia, prateleira A",
+   "status": "ativo"
+  },
+  {
+   "id_conteiner": "C-02",
+   "categoria_permitida": "armas-brancas",
+   "capacidade": 80,
+   "tipo_conservacao": "ambiente seco",
+   "localizacao_fisica": "Sala de custódia, armário B",
+   "status": "ativo"
+  },
+  {
+   "id_conteiner": "C-03",
+   "categoria_permitida": "roupas",
+   "capacidade": 60,
+   "tipo_conservacao": "ambiente seco e ventilado",
+   "localizacao_fisica": "Sala de custódia, prateleira C",
+   "status": "ativo"
+  },
+  {
+   "id_conteiner": "C-04",
+   "categoria_permitida": "eletronicos",
+   "capacidade": 40,
+   "tipo_conservacao": "ambiente seco",
+   "localizacao_fisica": "Sala de custódia, armário D",
+   "status": "ativo"
+  },
+  {
+   "id_conteiner": "C-05",
+   "categoria_permitida": "biologicos",
+   "capacidade": 50,
+   "tipo_conservacao": "refrigerado de 2 a 8 graus",
+   "localizacao_fisica": "Contêiner refrigerado, doca 5",
+   "status": "ativo"
+  }
+ ],
+ "vestigios": [
+  {
+   "id_vestigio": "V-0001",
+   "protocolo": "PROC-2026-001",
+   "lacre": "LC-20260001",
+   "categoria_id": "entorpecentes",
+   "volume_ocupado": 5,
+   "data_entrada": "2025-11-03",
+   "status": "armazenado",
+   "descricao": "5 alíquotas/unidades de entorpecentes e contraprovas.",
+   "conteiner_id": "C-01",
+   "posicao": "P005"
+  },
+  {
+   "id_vestigio": "V-0002",
+   "protocolo": "PROC-2026-002",
+   "lacre": "LC-20260002",
+   "categoria_id": "armas-brancas",
+   "volume_ocupado": 3,
+   "data_entrada": "2025-11-14",
+   "status": "armazenado",
+   "descricao": "3 alíquotas/unidades de armas brancas.",
+   "conteiner_id": "C-02",
+   "posicao": "P003"
+  },
+  {
+   "id_vestigio": "V-0003",
+   "protocolo": "PROC-2026-003",
+   "lacre": "LC-20260003",
+   "categoria_id": "roupas",
+   "volume_ocupado": 4,
+   "data_entrada": "2025-11-25",
+   "status": "armazenado",
+   "descricao": "4 alíquotas/unidades de roupas e têxteis.",
+   "conteiner_id": "C-03",
+   "posicao": "P004"
+  },
+  {
+   "id_vestigio": "V-0004",
+   "protocolo": "PROC-2026-004",
+   "lacre": "LC-20260004",
+   "categoria_id": "eletronicos",
+   "volume_ocupado": 25,
+   "data_entrada": "2025-12-06",
+   "status": "armazenado",
+   "descricao": "5 alíquotas/unidades de eletrônicos e mídias.",
+   "conteiner_id": "C-04",
+   "posicao": "P005"
+  },
+  {
+   "id_vestigio": "V-0005",
+   "protocolo": "PROC-2026-005",
+   "lacre": "LC-20260005",
+   "categoria_id": "biologicos",
+   "volume_ocupado": 4,
+   "data_entrada": "2025-12-17",
+   "status": "armazenado",
+   "descricao": "4 alíquotas/unidades de materiais biológicos.",
+   "conteiner_id": "C-05",
+   "posicao": "P004"
+  },
+  {
+   "id_vestigio": "V-0006",
+   "protocolo": "PROC-2026-006",
+   "lacre": "LC-20260006",
+   "categoria_id": "entorpecentes",
+   "volume_ocupado": 3,
+   "data_entrada": "2025-12-28",
+   "status": "armazenado",
+   "descricao": "3 alíquotas/unidades de entorpecentes e contraprovas.",
+   "conteiner_id": "C-01",
+   "posicao": "P008"
+  },
+  {
+   "id_vestigio": "V-0007",
+   "protocolo": "PROC-2026-007",
+   "lacre": "LC-20260007",
+   "categoria_id": "armas-brancas",
+   "volume_ocupado": 5,
+   "data_entrada": "2026-01-08",
+   "status": "armazenado",
+   "descricao": "5 alíquotas/unidades de armas brancas.",
+   "conteiner_id": "C-02",
+   "posicao": "P008"
+  },
+  {
+   "id_vestigio": "V-0008",
+   "protocolo": "PROC-2026-008",
+   "lacre": "LC-20260008",
+   "categoria_id": "roupas",
+   "volume_ocupado": 5,
+   "data_entrada": "2026-01-19",
+   "status": "pendencia",
+   "descricao": "Material separado para conferência documental; sem endereço até a regularização.",
+   "conteiner_id": null,
+   "posicao": null
+  },
+  {
+   "id_vestigio": "V-0009",
+   "protocolo": "PROC-2026-009",
+   "lacre": "LC-20260009",
+   "categoria_id": "eletronicos",
+   "volume_ocupado": 2,
+   "data_entrada": "2026-01-30",
+   "status": "armazenado",
+   "descricao": "2 alíquotas/unidades de eletrônicos e mídias.",
+   "conteiner_id": "C-04",
+   "posicao": "P007"
+  },
+  {
+   "id_vestigio": "V-0010",
+   "protocolo": "PROC-2026-010",
+   "lacre": "LC-20260010",
+   "categoria_id": "biologicos",
+   "volume_ocupado": 4,
+   "data_entrada": "2026-02-10",
+   "status": "armazenado",
+   "descricao": "4 alíquotas/unidades de materiais biológicos.",
+   "conteiner_id": "C-05",
+   "posicao": "P008"
+  },
+  {
+   "id_vestigio": "V-0011",
+   "protocolo": "PROC-2026-011",
+   "lacre": "LC-20260011",
+   "categoria_id": "entorpecentes",
+   "volume_ocupado": 4,
+   "data_entrada": "2026-02-21",
+   "status": "armazenado",
+   "descricao": "4 alíquotas/unidades de entorpecentes e contraprovas.",
+   "conteiner_id": "C-01",
+   "posicao": "P012"
+  },
+  {
+   "id_vestigio": "V-0012",
+   "protocolo": "PROC-2026-012",
+   "lacre": "LC-20260012",
+   "categoria_id": "armas-brancas",
+   "volume_ocupado": 3,
+   "data_entrada": "2026-03-04",
+   "status": "armazenado",
+   "descricao": "3 alíquotas/unidades de armas brancas.",
+   "conteiner_id": "C-02",
+   "posicao": "P011"
+  },
+  {
+   "id_vestigio": "V-0013",
+   "protocolo": "PROC-2026-013",
+   "lacre": "LC-20260013",
+   "categoria_id": "roupas",
+   "volume_ocupado": 5,
+   "data_entrada": "2026-03-15",
+   "status": "armazenado",
+   "descricao": "5 alíquotas/unidades de roupas e têxteis.",
+   "conteiner_id": "C-03",
+   "posicao": "P009"
+  },
+  {
+   "id_vestigio": "V-0014",
+   "protocolo": "PROC-2026-014",
+   "lacre": "LC-20260014",
+   "categoria_id": "eletronicos",
+   "volume_ocupado": 3,
+   "data_entrada": "2026-03-26",
+   "status": "armazenado",
+   "descricao": "3 alíquotas/unidades de eletrônicos e mídias.",
+   "conteiner_id": "C-04",
+   "posicao": "P010"
+  },
+  {
+   "id_vestigio": "V-0015",
+   "protocolo": "PROC-2026-015",
+   "lacre": "LC-20260015",
+   "categoria_id": "biologicos",
+   "volume_ocupado": 3,
+   "data_entrada": "2026-04-06",
+   "status": "armazenado",
+   "descricao": "3 alíquotas/unidades de materiais biológicos.",
+   "conteiner_id": "C-05",
+   "posicao": "P011"
+  },
+  {
+   "id_vestigio": "V-0016",
+   "protocolo": "PROC-2026-016",
+   "lacre": "LC-20260016",
+   "categoria_id": "entorpecentes",
+   "volume_ocupado": 4,
+   "data_entrada": "2026-04-17",
+   "status": "armazenado",
+   "descricao": "4 alíquotas/unidades de entorpecentes e contraprovas.",
+   "conteiner_id": "C-01",
+   "posicao": "P016"
+  },
+  {
+   "id_vestigio": "V-0017",
+   "protocolo": "PROC-2026-017",
+   "lacre": "LC-20260017",
+   "categoria_id": "armas-brancas",
+   "volume_ocupado": 4,
+   "data_entrada": "2026-04-28",
+   "status": "armazenado",
+   "descricao": "4 alíquotas/unidades de armas brancas.",
+   "conteiner_id": "C-02",
+   "posicao": "P015"
+  },
+  {
+   "id_vestigio": "V-0018",
+   "protocolo": "PROC-2026-018",
+   "lacre": "LC-20260018",
+   "categoria_id": "roupas",
+   "volume_ocupado": 2,
+   "data_entrada": "2026-05-09",
+   "status": "armazenado",
+   "descricao": "2 alíquotas/unidades de roupas e têxteis.",
+   "conteiner_id": "C-03",
+   "posicao": "P011"
+  },
+  {
+   "id_vestigio": "V-0019",
+   "protocolo": "PROC-2026-019",
+   "lacre": "LC-20260019",
+   "categoria_id": "eletronicos",
+   "volume_ocupado": 3,
+   "data_entrada": "2026-05-20",
+   "status": "armazenado",
+   "descricao": "3 alíquotas/unidades de eletrônicos e mídias.",
+   "conteiner_id": "C-04",
+   "posicao": "P013"
+  },
+  {
+   "id_vestigio": "V-0020",
+   "protocolo": "PROC-2026-020",
+   "lacre": "LC-20260020",
+   "categoria_id": "biologicos",
+   "volume_ocupado": 2,
+   "data_entrada": "2026-05-31",
+   "status": "armazenado",
+   "descricao": "2 alíquotas/unidades de materiais biológicos.",
+   "conteiner_id": "C-05",
+   "posicao": "P013"
+  },
+  {
+   "id_vestigio": "V-0021",
+   "protocolo": "PROC-2026-021",
+   "lacre": "LC-20260021",
+   "categoria_id": "entorpecentes",
+   "volume_ocupado": 4,
+   "data_entrada": "2026-06-11",
+   "status": "armazenado",
+   "descricao": "4 alíquotas/unidades de entorpecentes e contraprovas.",
+   "conteiner_id": "C-01",
+   "posicao": "P020"
+  },
+  {
+   "id_vestigio": "V-0022",
+   "protocolo": "PROC-2026-022",
+   "lacre": "LC-20260022",
+   "categoria_id": "armas-brancas",
+   "volume_ocupado": 4,
+   "data_entrada": "2026-06-22",
+   "status": "armazenado",
+   "descricao": "4 alíquotas/unidades de armas brancas.",
+   "conteiner_id": "C-02",
+   "posicao": "P019"
+  },
+  {
+   "id_vestigio": "V-0023",
+   "protocolo": "PROC-2026-023",
+   "lacre": "LC-20260023",
+   "categoria_id": "roupas",
+   "volume_ocupado": 3,
+   "data_entrada": "2026-07-03",
+   "status": "armazenado",
+   "descricao": "3 alíquotas/unidades de roupas e têxteis.",
+   "conteiner_id": "C-03",
+   "posicao": "P014"
+  },
+  {
+   "id_vestigio": "V-0024",
+   "protocolo": "PROC-2026-024",
+   "lacre": "LC-20260024",
+   "categoria_id": "eletronicos",
+   "volume_ocupado": 5,
+   "data_entrada": "2026-07-14",
+   "status": "armazenado",
+   "descricao": "5 alíquotas/unidades de eletrônicos e mídias.",
+   "conteiner_id": "C-04",
+   "posicao": "P018"
+  },
+  {
+   "id_vestigio": "V-0025",
+   "protocolo": "PROC-2026-025",
+   "lacre": "LC-20260025",
+   "categoria_id": "biologicos",
+   "volume_ocupado": 5,
+   "data_entrada": "2026-07-25",
+   "status": "armazenado",
+   "descricao": "5 alíquotas/unidades de materiais biológicos.",
+   "conteiner_id": "C-05",
+   "posicao": "P018"
+  },
+  {
+   "id_vestigio": "V-0026",
+   "protocolo": "PROC-2026-026",
+   "lacre": "LC-20260026",
+   "categoria_id": "entorpecentes",
+   "volume_ocupado": 3,
+   "data_entrada": "2026-08-05",
+   "status": "armazenado",
+   "descricao": "3 alíquotas/unidades de entorpecentes e contraprovas.",
+   "conteiner_id": "C-01",
+   "posicao": "P023"
+  },
+  {
+   "id_vestigio": "V-0027",
+   "protocolo": "PROC-2026-027",
+   "lacre": "LC-20260027",
+   "categoria_id": "armas-brancas",
+   "volume_ocupado": 3,
+   "data_entrada": "2026-08-16",
+   "status": "armazenado",
+   "descricao": "3 alíquotas/unidades de armas brancas.",
+   "conteiner_id": "C-02",
+   "posicao": "P022"
+  },
+  {
+   "id_vestigio": "V-0028",
+   "protocolo": "PROC-2026-028",
+   "lacre": "LC-20260028",
+   "categoria_id": "roupas",
+   "volume_ocupado": 2,
+   "data_entrada": "2026-08-27",
+   "status": "armazenado",
+   "descricao": "2 alíquotas/unidades de roupas e têxteis.",
+   "conteiner_id": "C-03",
+   "posicao": "P016"
+  },
+  {
+   "id_vestigio": "V-0029",
+   "protocolo": "PROC-2026-029",
+   "lacre": "LC-20260029",
+   "categoria_id": "eletronicos",
+   "volume_ocupado": 2,
+   "data_entrada": "2026-09-07",
+   "status": "armazenado",
+   "descricao": "2 alíquotas/unidades de eletrônicos e mídias.",
+   "conteiner_id": "C-04",
+   "posicao": "P020"
+  },
+  {
+   "id_vestigio": "V-0030",
+   "protocolo": "PROC-2026-030",
+   "lacre": "LC-20260030",
+   "categoria_id": "biologicos",
+   "volume_ocupado": 3,
+   "data_entrada": "2026-09-18",
+   "status": "armazenado",
+   "descricao": "3 alíquotas/unidades de materiais biológicos.",
+   "conteiner_id": "C-05",
+   "posicao": "P021"
+  }
+ ],
+ "movimentacoes": [
+  {
+   "id_movimentacao": "M-V-0001",
+   "vestigio_id": "V-0001",
+   "tipo": "entrada",
+   "data_hora": "2025-11-03T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-01 · P005"
+  },
+  {
+   "id_movimentacao": "M-V-0002",
+   "vestigio_id": "V-0002",
+   "tipo": "entrada",
+   "data_hora": "2025-11-14T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-02 · P003"
+  },
+  {
+   "id_movimentacao": "M-V-0003",
+   "vestigio_id": "V-0003",
+   "tipo": "entrada",
+   "data_hora": "2025-11-25T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-03 · P004"
+  },
+  {
+   "id_movimentacao": "M-V-0004",
+   "vestigio_id": "V-0004",
+   "tipo": "entrada",
+   "data_hora": "2025-12-06T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-04 · P005"
+  },
+  {
+   "id_movimentacao": "M-V-0005",
+   "vestigio_id": "V-0005",
+   "tipo": "entrada",
+   "data_hora": "2025-12-17T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-05 · P004"
+  },
+  {
+   "id_movimentacao": "M-V-0006",
+   "vestigio_id": "V-0006",
+   "tipo": "entrada",
+   "data_hora": "2025-12-28T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-01 · P008"
+  },
+  {
+   "id_movimentacao": "M-V-0007",
+   "vestigio_id": "V-0007",
+   "tipo": "entrada",
+   "data_hora": "2026-01-08T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-02 · P008"
+  },
+  {
+   "id_movimentacao": "M-V-0008",
+   "vestigio_id": "V-0008",
+   "tipo": "entrada",
+   "data_hora": "2026-01-19T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "sem endereço"
+  },
+  {
+   "id_movimentacao": "M-V-0009",
+   "vestigio_id": "V-0009",
+   "tipo": "entrada",
+   "data_hora": "2026-01-30T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-04 · P007"
+  },
+  {
+   "id_movimentacao": "M-V-0010",
+   "vestigio_id": "V-0010",
+   "tipo": "entrada",
+   "data_hora": "2026-02-10T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-05 · P008"
+  },
+  {
+   "id_movimentacao": "M-V-0011",
+   "vestigio_id": "V-0011",
+   "tipo": "entrada",
+   "data_hora": "2026-02-21T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-01 · P012"
+  },
+  {
+   "id_movimentacao": "M-V-0012",
+   "vestigio_id": "V-0012",
+   "tipo": "entrada",
+   "data_hora": "2026-03-04T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-02 · P011"
+  },
+  {
+   "id_movimentacao": "M-V-0013",
+   "vestigio_id": "V-0013",
+   "tipo": "entrada",
+   "data_hora": "2026-03-15T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-03 · P009"
+  },
+  {
+   "id_movimentacao": "M-V-0014",
+   "vestigio_id": "V-0014",
+   "tipo": "entrada",
+   "data_hora": "2026-03-26T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-04 · P010"
+  },
+  {
+   "id_movimentacao": "M-V-0015",
+   "vestigio_id": "V-0015",
+   "tipo": "entrada",
+   "data_hora": "2026-04-06T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-05 · P011"
+  },
+  {
+   "id_movimentacao": "M-V-0016",
+   "vestigio_id": "V-0016",
+   "tipo": "entrada",
+   "data_hora": "2026-04-17T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-01 · P016"
+  },
+  {
+   "id_movimentacao": "M-V-0017",
+   "vestigio_id": "V-0017",
+   "tipo": "entrada",
+   "data_hora": "2026-04-28T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-02 · P015"
+  },
+  {
+   "id_movimentacao": "M-V-0018",
+   "vestigio_id": "V-0018",
+   "tipo": "entrada",
+   "data_hora": "2026-05-09T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-03 · P011"
+  },
+  {
+   "id_movimentacao": "M-V-0019",
+   "vestigio_id": "V-0019",
+   "tipo": "entrada",
+   "data_hora": "2026-05-20T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-04 · P013"
+  },
+  {
+   "id_movimentacao": "M-V-0020",
+   "vestigio_id": "V-0020",
+   "tipo": "entrada",
+   "data_hora": "2026-05-31T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-05 · P013"
+  },
+  {
+   "id_movimentacao": "M-V-0021",
+   "vestigio_id": "V-0021",
+   "tipo": "entrada",
+   "data_hora": "2026-06-11T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-01 · P020"
+  },
+  {
+   "id_movimentacao": "M-V-0022",
+   "vestigio_id": "V-0022",
+   "tipo": "entrada",
+   "data_hora": "2026-06-22T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-02 · P019"
+  },
+  {
+   "id_movimentacao": "M-V-0023",
+   "vestigio_id": "V-0023",
+   "tipo": "entrada",
+   "data_hora": "2026-07-03T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-03 · P014"
+  },
+  {
+   "id_movimentacao": "M-V-0024",
+   "vestigio_id": "V-0024",
+   "tipo": "entrada",
+   "data_hora": "2026-07-14T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-04 · P018"
+  },
+  {
+   "id_movimentacao": "M-V-0025",
+   "vestigio_id": "V-0025",
+   "tipo": "entrada",
+   "data_hora": "2026-07-25T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-05 · P018"
+  },
+  {
+   "id_movimentacao": "M-V-0026",
+   "vestigio_id": "V-0026",
+   "tipo": "entrada",
+   "data_hora": "2026-08-05T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-01 · P023"
+  },
+  {
+   "id_movimentacao": "M-V-0027",
+   "vestigio_id": "V-0027",
+   "tipo": "entrada",
+   "data_hora": "2026-08-16T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-02 · P022"
+  },
+  {
+   "id_movimentacao": "M-V-0028",
+   "vestigio_id": "V-0028",
+   "tipo": "entrada",
+   "data_hora": "2026-08-27T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-03 · P016"
+  },
+  {
+   "id_movimentacao": "M-V-0029",
+   "vestigio_id": "V-0029",
+   "tipo": "entrada",
+   "data_hora": "2026-09-07T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-04 · P020"
+  },
+  {
+   "id_movimentacao": "M-V-0030",
+   "vestigio_id": "V-0030",
+   "tipo": "entrada",
+   "data_hora": "2026-09-18T09:00:00",
+   "responsavel": "custodia",
+   "origem": "recebimento",
+   "destino": "C-05 · P021"
+  }
+ ],
+ "historico_mensal": [
+  {
+   "id_periodo": "2025-11",
+   "mes": "2025-11-01",
+   "entradas": 260,
+   "saidas": 180,
+   "ocupacao_final": 202
+  },
+  {
+   "id_periodo": "2025-12",
+   "mes": "2025-12-01",
+   "entradas": 267,
+   "saidas": 191,
+   "ocupacao_final": 278
+  },
+  {
+   "id_periodo": "2026-01",
+   "mes": "2026-01-01",
+   "entradas": 274,
+   "saidas": 202,
+   "ocupacao_final": 350
+  },
+  {
+   "id_periodo": "2026-02",
+   "mes": "2026-02-01",
+   "entradas": 281,
+   "saidas": 213,
+   "ocupacao_final": 418
+  },
+  {
+   "id_periodo": "2026-03",
+   "mes": "2026-03-01",
+   "entradas": 288,
+   "saidas": 224,
+   "ocupacao_final": 482
+  },
+  {
+   "id_periodo": "2026-04",
+   "mes": "2026-04-01",
+   "entradas": 295,
+   "saidas": 235,
+   "ocupacao_final": 542
+  },
+  {
+   "id_periodo": "2026-05",
+   "mes": "2026-05-01",
+   "entradas": 302,
+   "saidas": 246,
+   "ocupacao_final": 598
+  },
+  {
+   "id_periodo": "2026-06",
+   "mes": "2026-06-01",
+   "entradas": 309,
+   "saidas": 187,
+   "ocupacao_final": 720
+  },
+  {
+   "id_periodo": "2026-07",
+   "mes": "2026-07-01",
+   "entradas": 316,
+   "saidas": 198,
+   "ocupacao_final": 838
+  },
+  {
+   "id_periodo": "2026-08",
+   "mes": "2026-08-01",
+   "entradas": 323,
+   "saidas": 209,
+   "ocupacao_final": 952
+  },
+  {
+   "id_periodo": "2026-09",
+   "mes": "2026-09-01",
+   "entradas": 330,
+   "saidas": 220,
+   "ocupacao_final": 1062
+  },
+  {
+   "id_periodo": "2026-10",
+   "mes": "2026-10-01",
+   "entradas": 337,
+   "saidas": 231,
+   "ocupacao_final": 1168
+  }
+ ]
+}

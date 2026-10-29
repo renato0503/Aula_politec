@@ -1,0 +1,424 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T14:49:58.191Z",
+  "campos": {
+    "data": "2026-10-27",
+    "aluno": "Danielle Marques de Almeida Trevizan",
+    "contato": "daniellealmeida@politec.mt.gov.br",
+    "resumo": "O projeto visa estruturar e padronizar o fluxo de recebimento, análise técnica, validação estratégica, priorização e captação de recursos para os projetos da POLITEC, consolidando o Portfólio de Projetos Estratégicos e garantindo alinhamento institucional, viabilidade técnica e financeira, governança e direcionamento eficiente dos recursos para a execução das iniciativas prioritárias.",
+    "problema": "Necessidade de padronizar e simplificar o preenchimento do Termo de Abertura de Projeto (TAP), devido à falta de uniformidade nas informações recebidas, gera retrabalho dificultando a automatização de etapas e a manutenção atualizada do Portfólio de Projetos Estratégicos. Torna-se essencial simplificar e automatizar etapas do processo e manter o Portfólio de Projetos Estratégicos atualizado e confiável.",
+    "hoje": "Atualmente, o servidor encaminha a proposta de projeto por meio de formulários preenchidos fora do padrão estabelecido, frequentemente com informações incompletas e documentos pendentes, exigindo solicitações de ajustes e complementações pela equipe antes de iniciar as etapas de análise e validação.",
+    "impacto": "Retrabalho.",
+    "limite": "A conferência do texto do projeto.",
+    "asis_inicio": "Recebimento de uma proposta de projeto encaminhada pelo servidor ou pela unidade demandante.",
+    "asis_fim": "Captação de recursos concluída e execução do projeto liberada, ou necessidade de readequação da proposta para nova oportunidade de financiamento.",
+    "asis_entradas": "Formulário TAP, descrição dos objetivos e justificativa, vínculo com os objetivos estratégicos da SESP/POLITEC, documentos obrigatórios, pesquisa de preços e demais informações necessárias à análise técnica e à captação de recursos.",
+    "asis_saidas": "Projeto analisado e validado, TAP e documentação regularizados, projeto aprovado técnica e estrategicamente, Portfólio de Projetos Estratégicos atualizado e priorizado, justificativas de priorização registradas e proposta submetida à captação de recursos, quando aplicável.",
+    "asis_frequencia": "Por demanda",
+    "asis_duracao": "Não mensurada atualmente.",
+    "asis_volume": "Não mensurada atualmente.",
+    "asis_decisoes": "A proposta é avaliada quanto ao preenchimento do TAP, à documentação obrigatória, ao alinhamento com os objetivos estratégicos e à viabilidade técnica. Caso existam pendências ou inconsistências, retorna ao demandante para ajustes e complementações; se estiver adequada, segue para análise técnica e validação. Após a aprovação, o projeto é incluído no Portfólio de Projetos Estratégicos e encaminhado para priorização e captação de recursos.",
+    "asis_excecoes": "Propostas com TAP preenchido fora do padrão, informações incompletas ou documentos pendentes retornam ao demandante para regularização, podendo gerar retrabalho e atrasos. Projetos sem alinhamento estratégico ou sem viabilidade técnica precisam ser readequados ou não prosseguem para aprovação. Caso não haja aprovação da captação de recursos, o plano pode ser ajustado para nova oportunidade de financiamento.",
+    "asis_digital": "O recebimento das propostas e o encaminhamento de documentos podem ocorrer por meios digitais, porém o preenchimento do TAP, a conferência das informações, a verificação documental e o controle das pendências ainda dependem de atividades manuais. A atualização e o acompanhamento do Portfólio de Projetos Estratégicos também exigem intervenção da equipe, evidenciando oportunidades de padronização, validação automática e integração das informações.",
+    "papeis_obs": "O acesso ao sistema deve ser definido conforme as atribuições de cada perfil, garantindo que o demandante consiga cadastrar e acompanhar suas propostas, a equipe responsável possa analisar e manter atualizado o Portfólio de Projetos Estratégicos e as autoridades competentes formalizem as decisões de aprovação. O sistema deve manter histórico das alterações, documentos, pendências e decisões, assegurando rastreabilidade, segurança das informações e segregação de responsabilidades.",
+    "tobe_visao": "Quando o fluxo digital estiver implantado, o demandante deixará de encaminhar propostas em formatos variados e passará a preencher um TAP padronizado, orientado e validado, enquanto a equipe receberá propostas mais completas e poderá concentrar seu trabalho na análise técnica e estratégica.",
+    "tobe_mudanca": "Implantar um formulário único e guiado para o TAP, com campos obrigatórios, orientações de preenchimento, checklist documental e sinalização automática de pendências antes do envio.",
+    "tobe_inalterado": "A equipe continuará realizando a análise de alinhamento estratégico, a avaliação técnica e de viabilidade. As aprovações e a priorização continuarão sob responsabilidade das instâncias competentes.",
+    "tobe_restricao": "As competências institucionais, os critérios e documentos oficiais exigidos, as responsabilidades decisórias e as regras de governança. A automação não deve aprovar ou rejeitar projetos de forma autônoma.",
+    "tobe_piloto": "Realizar piloto com um conjunto definido de propostas por 60 a 90 dias (prazo a validar), comparando com o processo anterior: proporção de TAPs completos no primeiro envio, número médio de devoluções e tempo entre recebimento e documentação completa.",
+    "entrega": "Formulário digital padronizado para o TAP, com checklist de documentos, validação de campos obrigatórios, registro de status e pendências e estrutura de dados para apoiar a atualização do Portfólio de Projetos Estratégicos. Definir com a TI a plataforma institucional adequada.",
+    "dentro": "Modelo único de TAP com instruções de preenchimento.\n\nCampos obrigatórios e validação de formatos/regras objetivas.\n\nChecklist de anexos e sinalização de documentos ausentes.\n\nRegistro de envio, status, pendências e histórico de ajustes.\n\nVisão da equipe para triagem e acompanhamento das propostas.\n\nExportação/relatório dos dados para apoiar a atualização do portfólio.",
+    "fora": "Automatizar decisões técnicas, estratégicas ou de aprovação; integração com sistemas ainda não autorizados ou não definidos; cálculo automático de prioridade antes da validação formal dos critérios pela governança.",
+    "mvp_naofaz": "Não aprova nem rejeita projetos; não substitui parecer técnico; não define prioridade institucional sozinho; não submete automaticamente projetos a financiadores. O MVP valida apenas campos e documentos conforme regras previamente definidas.",
+    "mvp_objetivo": "Demonstrar que o TAP padronizado e a validação automática conseguem reduzir o envio de propostas incompletas e o retrabalho documental, sem substituir a análise humana.",
+    "mvp_plataforma": "Site web (abre no navegador)",
+    "lgpd_dados": "nome institucional, unidade, contato e identificação do responsável, somente na medida necessária ao processo.",
+    "lgpd_base": "validar com a área jurídica",
+    "frase": "Se aumentarmos a proporção de TAPs completos no primeiro envio e reduzirmos as devoluções para ajuste, a equipe poderá dedicar menos tempo à regularização documental e mais tempo à análise técnica, à gestão do portfólio e à captação de recursos.",
+    "provas": "Quantidade de propostas recebidas e percentual de TAPs completos no primeiro envio.\n\nNúmero médio de devoluções e principais motivos de pendência.\n\nTempo entre o recebimento da proposta e a conclusão da triagem documental.",
+    "piloto": "Executar um piloto com unidades demandantes selecionadas, comparar os indicadores antes e depois da implantação e registrar os resultados por um período previamente definido, preferencialmente de 60 a 90 dias, conforme volume de propostas e autorização institucional.",
+    "risco_defesa": "O maior risco é padronizar o formulário sem refletir todos os requisitos institucionais ou tornar o preenchimento excessivamente complexo. Mitigação: validar o modelo e o checklist com a área competente, testar com usuários, manter controle de versões e revisar as regras após o piloto.",
+    "apoio": "Apoio da chefia e da área responsável para validar o TAP, os campos obrigatórios, os documentos exigidos e os critérios de priorização; apoio da TI para definir plataforma, segurança, acesso e manutenção; participação de servidores demandantes para testar a clareza do formulário.",
+    "aprendizado": "Mapeamento e melhoria de processos; desenho de formulários; definição de regras de validação; indicadores de processo e medição de linha de base; requisitos de segurança e proteção de dados; noções da plataforma escolhida.",
+    "coletar": "Se ainda não houver controle consolidado, registrar durante pelo menos quatro semanas: data do primeiro recebimento, data em que a documentação fica completa, número de devoluções, motivo de cada pendência, data da conclusão da análise e status final.",
+    "acesso": "A definir com a chefia e os responsáveis pelos sistemas/arquivos. Registrar responsável e prazo após confirmação institucional.",
+    "mvp_tela_inicial": " formulário guiado de cadastro do projeto/TAP",
+    "mvp_mock": "usar projetos e documentos fictícios, sem dados sigilosos. ",
+    "mvp_criterio": "validação correta dos campos e checklist, com registro claro das pendências. ",
+    "mvp_dados": "propostas fictícias completas e incompletas.",
+    "mvp_reuso": "modelo atual do TAP, lista oficial de documentos exigidos e critérios institucionais existentes. ",
+    "dependencias": "validação do TAP e dos documentos obrigatórios pela área responsável, aprovação da chefia e apoio da TI.",
+    "lgpd_acesso": "",
+    "lgpd_retencao": "encarregado de dados",
+    "hospedagem_escolhida": "A DEFINIR com a TI",
+    "conta_quem": "A solução deve observar segurança institucional, controle de acesso, armazenamento dos anexos, trilha de auditoria, manutenção e integração com as ferramentas já autorizadas. Evitar decidir por hospedagem pública ou conta pessoal antes da avaliação da TI.",
+    "orcamento": "A LEVANTAR com a TI após escolha da plataforma. Incluir eventual custo de desenvolvimento, hospedagem, armazenamento, suporte e manutenção.",
+    "restricoes": "O formulário deve respeitar o modelo e os documentos oficiais aprovados pela instituição, as competências das unidades e autoridades, as regras de acesso e a disponibilidade da infraestrutura tecnológica. Requisitos específicos ainda precisam ser confirmados com as áreas competentes.",
+    "hipotese_campo": "A maior parte do retrabalho ocorre antes da análise técnica, porque o TAP chega fora do padrão, incompleto ou sem todos os documentos necessários; um formulário guiado com validações objetivas tende a aumentar a completude no primeiro envio e reduzir as devoluções.",
+    "lacunas": "Fontes internas prioritárias: modelo vigente do TAP, checklist oficial de documentos, normas institucionais de aprovação e priorização, registros do portfólio e histórico de propostas devolvidas. Inserir título, unidade responsável, versão/data e link ou localização documental após conferência. Lacunas: volume de propostas, tempo de triagem, quantidade de devoluções, critérios oficiais de priorização e requisitos de hospedagem ainda precisam ser levantados/confirmados."
+  },
+  "marcados": {
+    "afetado": [
+      "Servidor da unidade",
+      "Equipe interna",
+      "Chefia"
+    ],
+    "evid": [
+      "Entrevista com a equipe"
+    ],
+    "stack": "HTML único (CSS/JS inline), dados em JSON embutido, GitHub Pages",
+    "req": [
+      "Segurança e controle de acesso",
+      "LGPD e dado pessoal",
+      "Trilha de auditoria",
+      "Acessibilidade",
+      "Impressão em formato oficial"
+    ]
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "Recebimento da demanda",
+        "papel": "Servidor / unidade demandante",
+        "entra": "",
+        "acao": "Encaminha a proposta de projeto",
+        "sai": "",
+        "sistema": "",
+        "regra": "",
+        "espera": "Recebimento de propostas em formatos diferentes",
+        "tempo": "",
+        "auto": "Sim, com regra clara",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Preenchimento do TAP",
+        "papel": "Servidor / unidade demandante",
+        "entra": "",
+        "acao": "Preenche o formulário com informações do projeto, objetivos e alinhamento estratégico",
+        "sai": "",
+        "sistema": "",
+        "regra": "",
+        "espera": "Dificuldade de compreensão e preenchimento do modelo",
+        "tempo": "",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Anexação de documentos",
+        "papel": "Servidor / unidade demandante",
+        "entra": "",
+        "acao": "Anexa documentos obrigatórios e pesquisa de preços",
+        "sai": "",
+        "sistema": "",
+        "regra": "",
+        "espera": "Documentos ausentes ou incompletos",
+        "tempo": "",
+        "auto": "Sim, com regra clara",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Triagem documental",
+        "papel": "Equipe responsável",
+        "entra": "",
+        "acao": "Confere o preenchimento e a documentação recebida",
+        "sai": "",
+        "sistema": "",
+        "regra": "",
+        "espera": "Conferência manual e identificação tardia de pendências",
+        "tempo": "",
+        "auto": "Sim, com regra clara",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Solicitação de ajustes",
+        "papel": "Equipe responsável e demandante",
+        "entra": "",
+        "acao": "Solicita correções e complementações no TAP e nos documentos",
+        "sai": "",
+        "sistema": "",
+        "regra": "",
+        "espera": "Retorno da proposta ao demandante e retrabalho",
+        "tempo": "",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Análise técnica e estratégica",
+        "papel": "Equipe responsável",
+        "entra": "",
+        "acao": "Verifica requisitos, alinhamento estratégico e viabilidade técnica",
+        "sai": "",
+        "sistema": "",
+        "regra": "",
+        "espera": "Informações inconsistentes podem atrasar a análise",
+        "tempo": "",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Aprovação e inclusão no portfólio",
+        "papel": "Instância responsável / equipe de projetos",
+        "entra": "",
+        "acao": "Formaliza a aprovação e registra o projeto no Portfólio de Projetos Estratégicos",
+        "sai": "",
+        "sistema": "",
+        "regra": "",
+        "espera": "Necessidade de manter as informações atualizadas",
+        "tempo": "",
+        "auto": "Sim, com regra clara",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Priorização dos projetos",
+        "papel": "Equipe responsável / governança",
+        "entra": "",
+        "acao": "Avalia critérios, classifica os projetos e registra justificativas",
+        "sai": "",
+        "sistema": "",
+        "regra": "",
+        "espera": "Consolidação e atualização das informações",
+        "tempo": "",
+        "auto": "Sim, com regra clara",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Mapeamento e submissão para captação",
+        "papel": "Equipe responsável",
+        "entra": "",
+        "acao": "Identifica fontes financeiras e submete propostas",
+        "sai": "",
+        "sistema": "",
+        "regra": "",
+        "espera": "Dependência de editais e oportunidades disponíveis",
+        "tempo": "",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Avaliação da captação e readequação",
+        "papel": "Equipe responsável / financiador",
+        "entra": "",
+        "acao": "Verifica a aprovação dos recursos e readequa o plano quando necessário",
+        "sai": "",
+        "sistema": "",
+        "regra": "",
+        "espera": "Dependência do retorno do financiador e de novas oportunidades",
+        "tempo": "",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "",
+        "muda": "",
+        "quem": "",
+        "beneficio": "",
+        "esforco": "",
+        "rm": ""
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "Demandante / Servidor",
+        "quem": "Servidor ou unidade que propõe o projeto",
+        "ve": "Seus projetos, formulário TAP, documentos e pendências",
+        "faz": "Cadastra a proposta, preenche o TAP, anexa documentos e realiza ajustes solicitados",
+        "naofaz": "Aprovar o próprio projeto ou alterar análises e decisões da equipe responsável",
+        "registro": "",
+        "rm": ""
+      },
+      {
+        "papel": "Equipe de Projetos Estratégicos",
+        "quem": "Equipe responsável pela gestão e análise das propostas",
+        "ve": "Todas as propostas recebidas, TAPs, documentos, pendências e portfólio",
+        "faz": "Confere o preenchimento, solicita ajustes, realiza análises técnicas e estratégicas, atualiza o portfólio e acompanha a captação",
+        "naofaz": "Registrar aprovação de competência exclusiva de outra instância ou alterar decisões já formalizadas sem justificativa",
+        "registro": "",
+        "rm": ""
+      },
+      {
+        "papel": "Gestor / Autoridade aprovadora",
+        "quem": "Gestor ou instância com competência para aprovar projetos",
+        "ve": "Propostas analisadas, pareceres, prioridades e informações necessárias à decisão",
+        "faz": "Aprova, rejeita ou solicita readequações conforme sua competência",
+        "naofaz": "Alterar documentos ou pareceres técnicos sem manter o histórico das modificações",
+        "registro": "",
+        "rm": ""
+      },
+      {
+        "papel": "Responsável pela captação de recursos",
+        "quem": "Servidor ou equipe responsável por identificar fontes de financiamento",
+        "ve": "Projetos aprovados e priorizados, informações orçamentárias e oportunidades de captação",
+        "faz": "Identifica fontes de recursos, prepara submissões e acompanha os resultados",
+        "naofaz": "Submeter propostas sem os requisitos exigidos ou alterar informações validadas sem registro",
+        "registro": "",
+        "rm": ""
+      },
+      {
+        "papel": "Administrador do sistema",
+        "quem": "Responsável pela configuração e manutenção da solução",
+        "ve": "Cadastros, perfis de acesso, parâmetros e registros técnicos",
+        "faz": "Gerencia usuários, permissões, formulários e regras de validação",
+        "naofaz": "Aprovar projetos apenas por possuir acesso administrativo, sem competência formal",
+        "registro": "",
+        "rm": ""
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "",
+        "rota": "",
+        "objetivo": "",
+        "usuario": "",
+        "dados": "",
+        "acao": "",
+        "regra": "",
+        "tipo": "",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "",
+        "rota": "",
+        "objetivo": "",
+        "usuario": "",
+        "dados": "",
+        "acao": "",
+        "regra": "",
+        "tipo": "",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "",
+        "representa": "",
+        "colunas": "",
+        "chave": "",
+        "volume": "",
+        "origem": "",
+        "sintetico": "",
+        "rm": ""
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "",
+        "regra": "",
+        "quando": "",
+        "excecao": "",
+        "valida": "",
+        "tipo": "",
+        "rm": ""
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "",
+        "tipo": "",
+        "onde": "",
+        "existe": "",
+        "acesso": "",
+        "linha": "",
+        "volume": "",
+        "historico": "",
+        "campos": "",
+        "atualiza": "",
+        "lgpd": "",
+        "obs": "",
+        "rm": ""
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "",
+        "pergunta": "",
+        "formula": "",
+        "fonte": "",
+        "gran": "",
+        "base": "",
+        "esperado": "",
+        "medir": "",
+        "quem": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "",
+        "pergunta": "",
+        "formula": "",
+        "fonte": "",
+        "gran": "",
+        "base": "",
+        "esperado": "",
+        "medir": "",
+        "quem": "",
+        "rm": ""
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "",
+        "tipo": "",
+        "onde": "",
+        "custo": "",
+        "mantem": "",
+        "acesso": "",
+        "banco": "",
+        "escala": "",
+        "limite": "",
+        "rm": ""
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "",
+        "data": "",
+        "resp": "",
+        "dep": "",
+        "sit": "",
+        "rm": ""
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "",
+        "prob": "",
+        "imp": "",
+        "mit": "",
+        "rm": ""
+      }
+    ],
+    "tRefs": [
+      {
+        "n": "",
+        "ref": "",
+        "tipo": "",
+        "fonte": "",
+        "ano": "",
+        "dado": "",
+        "uso": "",
+        "conferido": "",
+        "rm": ""
+      }
+    ]
+  }
+}

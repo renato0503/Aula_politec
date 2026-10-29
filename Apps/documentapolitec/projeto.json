@@ -1,0 +1,503 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T15:47:40.351Z",
+  "campos": {
+    "data": "2026-10-27",
+    "aluno": "Aline Xavier dos Passos",
+    "unidade": "Coordenadoria de Patrimônio e Serviços",
+    "contato": "alinepassos@politec.mt.gov.br",
+    "nome_projeto": "DOCUMENTAPOLITEC",
+    "tipo_projeto": "Aplicativo (app) para cidadão, servidor ou equipe",
+    "resumo": "Preciso criar um aplicativo para controlar os prontuários civis que serão encaminhados para o arquivo central",
+    "problema": "Não há espaço físico e precisamos utilizar outra estrutura para guarda de prontuários e laudos periciais",
+    "hoje": "Hoje os prontuários são digitalizados, e são arquivados em sala cofre. Precisamos criar um app que faça a conferencia da relação dos prontuários que estão em determinada caixa para que a mesma seja alocada em novo setor, sem prejuízo de informação equivocada. estamos falando de um montante de 1000 (mil) caixas box.",
+    "impacto": "Falta de espaço de armazenamento e risco de extravio",
+    "limite": "A conferência dos dados e  quantitativo e o campo de assinatura de quem está lacrando a caixa.",
+    "asis_inicio": "Entrada do Prontuário no arquivo corrente",
+    "asis_fim": "saída do arquivo corrente para a guarda permanente",
+    "asis_entradas": "digitalização do prontuário, conferência, e lacramento.",
+    "asis_saidas": "Guarda permanente em nova estrutura",
+    "asis_volume": "2.500.000",
+    "asis_frequencia": "Por demanda",
+    "asis_decisoes": "Se os dados conferem, segue para arquivo permanente",
+    "asis_excecoes": "Prontuário sem correspondência no arquivo digital, relação repetida, caixa com lacre violado e prontuário de outra caixa. Todos exigem conferência humana e registro antes de seguir.",
+    "asis_digital": "a digitalização dos prontuários",
+    "papeis_obs": "O Papiloscopista que atesta a veracidade, confere e lista os números dos prontuários, bem como é o agente que lacra a caixa para ser encaminhada para o arquivo permanente.",
+    "tobe_visao": "a conferência dos prontuários físicos com os arquivos digitalizados por meio de compara automatizado, e posterior busca por nome do cidadão para identificar numero da caixa que o fisico está aquivado",
+    "tobe_mudanca": "automatizar essa conferência, sem a necessidade de conferir um por um, após a digitalização.",
+    "tobe_inalterado": "A organização e conferência inicial permanece a cargo do servidor indicado pela DMIT",
+    "tobe_restricao": "os dados e informações constantes nos prontuários",
+    "tobe_piloto": "Piloto de 30 dias, com 2400 prontuários",
+    "entrega": "aplicativo ou sistema de conferência",
+    "dentro": "leitura do arquivo digitalizado",
+    "fora": "o armazenamento de  dados sensíveis pela IA",
+    "mvp_tela_inicial": "tela de login",
+    "mvp_criterio": "O papiloscopista vai mostrar a integridade dos arquivos físicos com os digitalizados",
+    "mvp_dados": "Histórico de busca",
+    "mvp_reuso": "melhor reiniciar do 0",
+    "dependencias": "Servidores e gestão documental e especificação das caixas\n",
+    "lgpd_dados": "numero do prontuário ",
+    "lgpd_acesso": "versão com login e senha, para apenas servidores indicados.",
+    "coletar": "Digitalização",
+    "acesso": "A DMIT",
+    "base_periodo": "todos os 2.500.000 prontuários",
+    "campos_data": "Não se aplica",
+    "hospedagem_escolhida": "Aplicativo, para facilitar o acesso pelo celular ou na web na rede funcional",
+    "apoio": "Preciso reunir novamente com a equipe para definir modelo de dígitos dos prontuários",
+    "aprendizado": "modelagem de processo, antigravity, leitura para tomada de decisões",
+    "frase": "Digitalização que abre espaço para o novo",
+    "provas": "Atualmente os prontuários são automaticamente gerados dentro do SIC; os prontuários fisicos são de anos anteriores há 2019 e estão ocupando espaço fisico, a digitalização controlada e íntegra, permitirá que a guarda em estrutura adequado, liberando espaço para novos serviços e setores",
+    "piloto": "teste por 30 dias.",
+    "risco_defesa": "A DMIT não validar",
+    "doc_descricao": "planilha teste com relação de 850 prontuários",
+    "doc_faltando": "Planilha de teste com a relação de 850 prontuários; modelo dos dígitos do prontuário; amostra do PDF digitalizado.",
+    "mvp_plataforma": "Site web (abre no navegador)",
+    "stack_detalhe": "Um único index.html (HTML, CSS e JS embutidos), com dados no IndexedDB do navegador e backup .json, publicado no GitHub Pages. A conferência do arquivo digitalizado é simulada no MVP; a leitura do PDF e a integração com o SIC ficam fora do protótipo.",
+    "mvp_objetivo": "Demonstrar que a relação de prontuários de cada caixa pode ser conferida com o arquivo digital, que a caixa pode ser lacrada com responsável e que o prontuário pode ser localizado pelo número."
+  },
+  "marcados": {
+    "afetado": [
+      "Servidor da unidade",
+      "Equipe interna",
+      "Chefia"
+    ],
+    "evid": [
+      "Entrevista com a equipe"
+    ],
+    "stack": "Aplicativo web com framework (React, Vite, TypeScript)",
+    "req": [
+      "LGPD e dado pessoal",
+      "Segurança e controle de acesso",
+      "Funcionar offline",
+      "Trilha de auditoria"
+    ]
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "1. Digitalização",
+        "papel": "Papiloscopista",
+        "entra": "Prontuário físico",
+        "acao": "Digitaliza e arquiva o PDF",
+        "sai": "PDF no repositório",
+        "sistema": "SIC / repositório",
+        "regra": "Integridade do arquivo",
+        "espera": "Arquivo corrente",
+        "tempo": "2 min",
+        "auto": "Pouco"
+      },
+      {
+        "n": "",
+        "etapa": "2. Conferência da relação",
+        "papel": "Papiloscopista",
+        "entra": "Relação de prontuários da caixa",
+        "acao": "Confere um por um com o digital",
+        "sai": "Relação conferida",
+        "sistema": "Planilha",
+        "regra": "Se os dados conferem, segue (RN02)",
+        "espera": "Sala cofre",
+        "tempo": "4 h por caixa",
+        "auto": "Não"
+      },
+      {
+        "n": "",
+        "etapa": "3. Lacre",
+        "papel": "Papiloscopista",
+        "entra": "Caixa conferida",
+        "acao": "Lacra e assina o lacre",
+        "sai": "Caixa lacrada",
+        "sistema": "Presencial",
+        "regra": "Responsável identificado",
+        "espera": "Sala cofre",
+        "tempo": "20 min",
+        "auto": "Não"
+      },
+      {
+        "n": "",
+        "etapa": "4. Transferência",
+        "papel": "Equipe de patrimônio",
+        "entra": "Caixa lacrada",
+        "acao": "Transporta para o arquivo central",
+        "sai": "Caixa na guarda permanente",
+        "sistema": "Presencial",
+        "regra": "Integridade do lacre",
+        "espera": "Aguarda transporte",
+        "tempo": "1 h",
+        "auto": "Não"
+      },
+      {
+        "n": "",
+        "etapa": "5. Busca do prontuário",
+        "papel": "Servidor da unidade",
+        "entra": "Número do prontuário",
+        "acao": "Procura na planilha e na sala",
+        "sai": "Localização do físico",
+        "sistema": "Planilha",
+        "regra": "—",
+        "espera": "Sala cofre",
+        "tempo": "20 min",
+        "auto": "Não"
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "Arquivo Permanente",
+        "muda": "Conferência automatizada",
+        "quem": "A máquina (automação)",
+        "beneficio": "mais ganho de tempo e menos retrabalho",
+        "esforco": "Médio",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Conferência da relação",
+        "muda": "Comparação automática da relação com o arquivo digital",
+        "quem": "A máquina (automação)",
+        "beneficio": "Menos retrabalho e menos conferência manual",
+        "esforco": "Médio"
+      },
+      {
+        "n": "",
+        "etapa": "Busca do prontuário",
+        "muda": "Consulta pelo número devolve a caixa e o setor",
+        "quem": "A máquina (automação)",
+        "beneficio": "Menos tempo de busca",
+        "esforco": "Baixo"
+      },
+      {
+        "n": "",
+        "etapa": "Lacre",
+        "muda": "Registro do responsável, da data e da relação no app",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Rastreabilidade do lacre",
+        "esforco": "Baixo"
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "Papiloscopista",
+        "quem": "Servidor da DMIT designado",
+        "ve": "Relação da caixa, arquivo digital e lacre",
+        "faz": "Confere, atesta a veracidade, lacra e registra",
+        "naofaz": "Lacrar sem conferência ou sem assinatura",
+        "registro": "Conferência, lacre, responsável e data"
+      },
+      {
+        "papel": "Gestor documental",
+        "quem": "Chefia da Coordenadoria de Patrimônio",
+        "ve": "Caixas conferidas, pendentes e divergências",
+        "faz": "Acompanha o acervo e libera a transferência",
+        "naofaz": "Alterar a relação sem justificativa",
+        "registro": "Ações de gestão"
+      },
+      {
+        "papel": "Servidor da unidade",
+        "quem": "Qualquer servidor autorizado",
+        "ve": "Número do prontuário e caixa",
+        "faz": "Consulta onde está o prontuário físico",
+        "naofaz": "Retirar prontuário sem registro",
+        "registro": "Consultas realizadas"
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "Nova caixa",
+        "rota": "#/caixa/nova",
+        "objetivo": "Registrar a caixa e a relação de prontuários",
+        "usuario": "Papiloscopista",
+        "dados": "Identificação da caixa, setor, responsável e relação",
+        "acao": "Colar a relação e salvar",
+        "regra": "RN01: prontuário único",
+        "tipo": "Tela",
+        "verificacao": "Caixa criada com a relação completa",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Caixa e conferência",
+        "rota": "#/caixa/:id",
+        "objetivo": "Conferir a relação e lacrar",
+        "usuario": "Papiloscopista",
+        "dados": "Prontuários, correspondência digital e lacre",
+        "acao": "Conferir e lacrar",
+        "regra": "RN02: só lacra sem divergência",
+        "tipo": "Tela",
+        "verificacao": "Caixa conferida e lacrada com responsável",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Busca",
+        "rota": "#/busca",
+        "objetivo": "Localizar a caixa do prontuário",
+        "usuario": "Servidor",
+        "dados": "Número do prontuário",
+        "acao": "Buscar",
+        "regra": "RN03: devolve a caixa",
+        "tipo": "Tela",
+        "verificacao": "Resultado com a caixa e o setor",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Painel",
+        "rota": "#/painel",
+        "objetivo": "Acompanhar caixas conferidas e pendentes",
+        "usuario": "Gestor",
+        "dados": "Contagens e divergências",
+        "acao": "Consultar",
+        "regra": "—",
+        "tipo": "Tela",
+        "verificacao": "Indicadores conferem com a base",
+        "mvp": "Sim"
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "Caixa",
+        "representa": "Caixa box com a relação de prontuários",
+        "colunas": "id_caixa; setor_origem; responsavel; data; qtd; status; lacrada_por; lacrada_em",
+        "chave": "id_caixa",
+        "volume": "1.000 caixas",
+        "origem": "Planilha e cadastro",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "Prontuário",
+        "representa": "Prontuário civil da relação",
+        "colunas": "numero; caixa_id; conferido; digital",
+        "chave": "numero",
+        "volume": "2,5 milhões",
+        "origem": "Relação de cada caixa",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "Log",
+        "representa": "Trilha de conferência e lacre",
+        "colunas": "id; caixa_id; acao; perfil; data_hora; detalhe",
+        "chave": "id",
+        "volume": "—",
+        "origem": "App",
+        "sintetico": "Sim"
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "RN01",
+        "regra": "O mesmo prontuário não pode estar em duas caixas nem repetido na relação",
+        "quando": "No cadastro da caixa",
+        "excecao": "Nenhuma",
+        "valida": "Sistema",
+        "tipo": "Validação"
+      },
+      {
+        "id": "RN02",
+        "regra": "A caixa só é conferida e lacrada quando todos os prontuários conferem com o arquivo digital e há responsável",
+        "quando": "Na conferência",
+        "excecao": "Divergência fica pendente",
+        "valida": "Papiloscopista",
+        "tipo": "Negócio"
+      },
+      {
+        "id": "RN03",
+        "regra": "A busca devolve a caixa onde o prontuário físico está arquivado",
+        "quando": "Na busca",
+        "excecao": "Prontuário fora do acervo",
+        "valida": "Sistema",
+        "tipo": "Negócio"
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "Relação de prontuários",
+        "tipo": "Planilha",
+        "onde": "DMIT",
+        "existe": "Sim",
+        "acesso": "Equipe da DMIT",
+        "linha": "Um prontuário por linha, com o número",
+        "volume": "850 na planilha de teste; 2,5 milhões no acervo",
+        "historico": "Anos anteriores a 2019",
+        "campos": "numero",
+        "atualiza": "Por demanda",
+        "lgpd": "Sim",
+        "obs": "No MVP a relação é colada como texto."
+      },
+      {
+        "fonte": "Prontuários digitalizados",
+        "tipo": "Sistema oficial",
+        "onde": "SIC e repositório",
+        "existe": "Sim",
+        "acesso": "Papiloscopista",
+        "linha": "Um PDF por prontuário",
+        "volume": "2,5 milhões",
+        "historico": "Desde a digitalização",
+        "campos": "numero, caixa, data",
+        "atualiza": "Contínua",
+        "lgpd": "Sim",
+        "obs": "A leitura do PDF fica para o Sprint 3."
+      },
+      {
+        "fonte": "Caixas físicas",
+        "tipo": "Cadastro interno",
+        "onde": "Sala cofre",
+        "existe": "Parcial",
+        "acesso": "Equipe da DMIT",
+        "linha": "Uma caixa com etiqueta",
+        "volume": "1.000",
+        "historico": "—",
+        "campos": "id_caixa, setor, lacre",
+        "atualiza": "Por demanda",
+        "lgpd": "Não",
+        "obs": ""
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "Tempo de conferência por caixa",
+        "pergunta": "Quanto tempo o papiloscopista gasta para conferir a relação de uma caixa?",
+        "formula": "Soma do tempo de conferência / número de caixas",
+        "fonte": "Registro do app",
+        "gran": "Caixa",
+        "base": "4 h por caixa (estimado)",
+        "esperado": "30 min por caixa",
+        "medir": "Cronometrar 10 caixas antes e depois",
+        "quem": "Papiloscopista"
+      },
+      {
+        "n": "",
+        "nome": "Tempo de busca do prontuário",
+        "pergunta": "Quanto tempo se leva para localizar o prontuário físico?",
+        "formula": "Soma do tempo de busca / número de buscas",
+        "fonte": "Registro do app",
+        "gran": "Busca",
+        "base": "20 min",
+        "esperado": "2 min",
+        "medir": "Cronometrar 10 buscas",
+        "quem": "Servidor da unidade"
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "Arquivo HTML local",
+        "tipo": "Arquivo local",
+        "onde": "Computador da unidade",
+        "custo": "Zero",
+        "mantem": "Equipe do projeto",
+        "acesso": "Quem recebe o arquivo",
+        "banco": "IndexedDB do navegador",
+        "escala": "Uma cópia por setor",
+        "limite": "Backup manual em .json"
+      },
+      {
+        "opcao": "GitHub Pages",
+        "tipo": "Estática e gratuita",
+        "onde": "github.io",
+        "custo": "Zero",
+        "mantem": "Equipe do projeto",
+        "acesso": "Link do protótipo",
+        "banco": "Não tem",
+        "escala": "Baixa",
+        "limite": "Só o app, nunca os dados"
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "Inicial",
+        "data": "29/10",
+        "resp": "Aline",
+        "dep": "execução",
+        "sit": "Planejado",
+        "rm": ""
+      },
+      {
+        "marco": "Formato das caixas e do número do prontuário",
+        "data": "06/11/2026",
+        "resp": "Aline e DMIT",
+        "dep": "Reunião com a equipe",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Planilha de 850 prontuários recebida",
+        "data": "13/11/2026",
+        "resp": "DMIT",
+        "dep": "Autorização e exportação",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Conferência e lacre no protótipo",
+        "data": "27/11/2026",
+        "resp": "Aline",
+        "dep": "Dados e regras definidos",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Leitura do PDF digitalizado",
+        "data": "11/12/2026",
+        "resp": "Aline",
+        "dep": "Amostra real do PDF",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Piloto de 30 dias",
+        "data": "29/01/2027",
+        "resp": "DMIT",
+        "dep": "Aceite da chefia",
+        "sit": "Planejado"
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "incompatibilidade",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "Testar o app no navegador da rede funcional e manter cópia local.",
+        "rm": ""
+      },
+      {
+        "risco": "Prontuário sem correspondência no arquivo digital",
+        "prob": "Alta",
+        "imp": "Alto",
+        "mit": "A conferência para a caixa e mostra a divergência antes do lacre (RN02)"
+      },
+      {
+        "risco": "Formato do número do prontuário ambíguo",
+        "prob": "Alta",
+        "imp": "Médio",
+        "mit": "Confirmar os dígitos no Sprint 0 e validar na importação"
+      },
+      {
+        "risco": "Volume de 2,5 milhões de prontuários",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "Trabalhar por caixa e paginar a lista; a busca usa índice"
+      }
+    ],
+    "tRefs": [
+      {
+        "n": "",
+        "ref": "Lei nº 8.159/1991",
+        "tipo": "Norma ou lei",
+        "fonte": "Política nacional de arquivos públicos e privados",
+        "ano": "1991",
+        "dado": "Guarda, classificação e destinação de documentos",
+        "uso": "Sustenta a separação entre arquivo corrente e guarda permanente",
+        "conferido": "Não"
+      },
+      {
+        "n": "",
+        "ref": "Lei nº 13.709/2018 (LGPD)",
+        "tipo": "Norma ou lei",
+        "fonte": "Planalto",
+        "ano": "2018",
+        "dado": "Tratamento de dados pessoais",
+        "uso": "Justifica o acesso restrito e a busca por nome só com base legal",
+        "conferido": "Sim"
+      }
+    ]
+  },
+  "completado_em": "2026-10-29"
+}

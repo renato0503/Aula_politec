@@ -1,0 +1,33 @@
+{
+  "titulo": "Distribuição de Casos de DNA",
+  "subtitulo": "POLITEC/MT · rodada da placa de análise",
+  "descricao": "Monta a rodada, distribui os casos ordinários a um perito em rotação, separa a fila de cobranças e mede o tempo até a distribuição. Dados fictícios.",
+  "aviso": "Protótipo com dados fictícios. Não cadastre protocolos, amostras ou peritos reais.",
+  "db": {
+    "nome": "distribuicao_casos_dna_v1",
+    "versao": 1,
+    "stores": {
+      "rodadas": {"keyPath": "id_rodada", "indices": [{"nome": "status", "campo": "status", "unico": false}]},
+      "casos": {"keyPath": "id_caso", "indices": [
+        {"nome": "rodada_id", "campo": "rodada_id", "unico": false},
+        {"nome": "tipo", "campo": "tipo", "unico": false}
+      ]},
+      "peritos": {"keyPath": "id_perito", "indices": []},
+      "log": {"keyPath": "id", "indices": [{"nome": "rodada_id", "campo": "rodada_id", "unico": false}]}
+    }
+  },
+  "perfis": [
+    {"id": "coordenador", "nome": "Coordenador", "descricao": "Distribui as rodadas e as cobranças, acompanha prazos e peritos."},
+    {"id": "perito", "nome": "Perito", "descricao": "Recebe a rodada e acompanha os casos sob sua responsabilidade."},
+    {"id": "tecnico", "nome": "Técnico administrativo", "descricao": "Cadastra protocolos, confere documentos e monta a rodada."}
+  ],
+  "rotas": [
+    {"rota": "#/painel", "titulo": "Painel", "sprint": 1, "descricao": "Casos sem perito, rodadas e tempo até a distribuição."},
+    {"rota": "#/rodadas", "titulo": "Rodadas", "sprint": 2, "descricao": "Lista das rodadas e situação da distribuição."},
+    {"rota": "#/rodada/nova", "titulo": "Nova rodada", "sprint": 2, "descricao": "Monta a placa com ordinários e cobranças.", "perfis": ["tecnico", "coordenador"]},
+    {"rota": "#/rodada/:id", "titulo": "Rodada", "sprint": 2, "descricao": "Casos, distribuição e histórico."},
+    {"rota": "#/config", "titulo": "Configuração", "sprint": 1, "descricao": ""}
+  ],
+  "libs": [],
+  "dados": [["seed", "exemplos/seed.json"]]
+}

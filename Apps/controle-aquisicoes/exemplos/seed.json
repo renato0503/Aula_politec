@@ -1,0 +1,469 @@
+{
+ "processos": [
+  {
+   "id_processo": "AQ-0001",
+   "numero_sigadoc": "2026.1000-SD",
+   "numero_siag": "SIAG-2026-0001",
+   "objeto": "Aquisição de 40 notebooks",
+   "unidade": "Gabinete de Direção",
+   "responsavel": "Servidor Fictício A",
+   "data_abertura": "2026-10-24",
+   "prazo_dias": 30,
+   "etapa": "DFD",
+   "status": "em andamento",
+   "criado_em": "2026-10-24T09:00:00"
+  },
+  {
+   "id_processo": "AQ-0002",
+   "numero_sigadoc": "2026.1001-SD",
+   "numero_siag": "SIAG-2026-0002",
+   "objeto": "Contratação de link de internet",
+   "unidade": "Laboratório Forense",
+   "responsavel": "Servidor Fictício B",
+   "data_abertura": "2026-10-11",
+   "prazo_dias": 30,
+   "etapa": "ETP",
+   "status": "em andamento",
+   "criado_em": "2026-10-11T09:00:00"
+  },
+  {
+   "id_processo": "AQ-0003",
+   "numero_sigadoc": "2026.1002-SD",
+   "numero_siag": "SIAG-2026-0003",
+   "objeto": "Compra de reagentes laboratoriais",
+   "unidade": "Identificação Civil",
+   "responsavel": "Servidor Fictício C",
+   "data_abertura": "2026-09-24",
+   "prazo_dias": 30,
+   "etapa": "Análise de riscos",
+   "status": "em andamento",
+   "criado_em": "2026-09-24T09:00:00"
+  },
+  {
+   "id_processo": "AQ-0004",
+   "numero_sigadoc": "2026.1003-SD",
+   "numero_siag": "SIAG-2026-0004",
+   "objeto": "Locação de veículos",
+   "unidade": "Custódia Definitiva",
+   "responsavel": "Servidor Fictício D",
+   "data_abertura": "2026-09-19",
+   "prazo_dias": 30,
+   "etapa": "TR",
+   "status": "em andamento",
+   "criado_em": "2026-09-19T09:00:00"
+  },
+  {
+   "id_processo": "AQ-0005",
+   "numero_sigadoc": "2026.1004-SD",
+   "numero_siag": "SIAG-2026-0005",
+   "objeto": "Serviço de manutenção predial",
+   "unidade": "Aquisições e Contratos",
+   "responsavel": "Servidor Fictício E",
+   "data_abertura": "2026-10-17",
+   "prazo_dias": 30,
+   "etapa": "Pesquisa de preços",
+   "status": "em andamento",
+   "criado_em": "2026-10-17T09:00:00"
+  },
+  {
+   "id_processo": "AQ-0006",
+   "numero_sigadoc": "2026.1005-SD",
+   "numero_siag": "SIAG-2026-0006",
+   "objeto": "Aquisição de câmaras frias",
+   "unidade": "Gabinete de Direção",
+   "responsavel": "Servidor Fictício F",
+   "data_abertura": "2026-10-04",
+   "prazo_dias": 30,
+   "etapa": "SIGADOC e SIAG",
+   "status": "em andamento",
+   "criado_em": "2026-10-04T09:00:00"
+  },
+  {
+   "id_processo": "AQ-0007",
+   "numero_sigadoc": "2026.1006-SD",
+   "numero_siag": "SIAG-2026-0007",
+   "objeto": "Contratação de serviço gráfico",
+   "unidade": "Laboratório Forense",
+   "responsavel": "Servidor Fictício G",
+   "data_abertura": "2026-09-09",
+   "prazo_dias": 30,
+   "etapa": "Análise técnica",
+   "status": "em andamento",
+   "criado_em": "2026-09-09T09:00:00"
+  },
+  {
+   "id_processo": "AQ-0008",
+   "numero_sigadoc": "2026.1007-SD",
+   "numero_siag": "SIAG-2026-0008",
+   "objeto": "Compra de mobiliário",
+   "unidade": "Identificação Civil",
+   "responsavel": "Servidor Fictício H",
+   "data_abertura": "2026-10-21",
+   "prazo_dias": 30,
+   "etapa": "Análise jurídica",
+   "status": "em andamento",
+   "criado_em": "2026-10-21T09:00:00"
+  },
+  {
+   "id_processo": "AQ-0009",
+   "numero_sigadoc": "2026.1008-SD",
+   "numero_siag": "SIAG-2026-0009",
+   "objeto": "Assinatura de software de gestão",
+   "unidade": "Custódia Definitiva",
+   "responsavel": "Servidor Fictício I",
+   "data_abertura": "2026-09-29",
+   "prazo_dias": 30,
+   "etapa": "Modalidade definida",
+   "status": "em andamento",
+   "criado_em": "2026-09-29T09:00:00"
+  },
+  {
+   "id_processo": "AQ-0010",
+   "numero_sigadoc": "2026.1009-SD",
+   "numero_siag": "SIAG-2026-0010",
+   "objeto": "Aquisição de equipamentos de proteção",
+   "unidade": "Aquisições e Contratos",
+   "responsavel": "Servidor Fictício J",
+   "data_abertura": "2026-10-07",
+   "prazo_dias": 30,
+   "etapa": "DFD",
+   "status": "em andamento",
+   "criado_em": "2026-10-07T09:00:00"
+  }
+ ],
+ "documentos": [
+  {
+   "id_documento": "AQ-0001-DFD",
+   "processo_id": "AQ-0001",
+   "tipo_documento": "DFD",
+   "nome": "DFD-AQ-0001.pdf",
+   "data": "2026-10-25T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0002-DFD",
+   "processo_id": "AQ-0002",
+   "tipo_documento": "DFD",
+   "nome": "DFD-AQ-0002.pdf",
+   "data": "2026-10-12T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0002-ETP",
+   "processo_id": "AQ-0002",
+   "tipo_documento": "ETP",
+   "nome": "ETP-AQ-0002.pdf",
+   "data": "2026-10-13T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0003-DFD",
+   "processo_id": "AQ-0003",
+   "tipo_documento": "DFD",
+   "nome": "DFD-AQ-0003.pdf",
+   "data": "2026-09-25T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0003-ETP",
+   "processo_id": "AQ-0003",
+   "tipo_documento": "ETP",
+   "nome": "ETP-AQ-0003.pdf",
+   "data": "2026-09-26T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0003-Análise de riscos",
+   "processo_id": "AQ-0003",
+   "tipo_documento": "Análise de riscos",
+   "nome": "Análise de riscos-AQ-0003.pdf",
+   "data": "2026-09-27T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0004-DFD",
+   "processo_id": "AQ-0004",
+   "tipo_documento": "DFD",
+   "nome": "DFD-AQ-0004.pdf",
+   "data": "2026-09-20T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0004-ETP",
+   "processo_id": "AQ-0004",
+   "tipo_documento": "ETP",
+   "nome": "ETP-AQ-0004.pdf",
+   "data": "2026-09-21T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0004-Análise de riscos",
+   "processo_id": "AQ-0004",
+   "tipo_documento": "Análise de riscos",
+   "nome": "Análise de riscos-AQ-0004.pdf",
+   "data": "2026-09-22T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0005-DFD",
+   "processo_id": "AQ-0005",
+   "tipo_documento": "DFD",
+   "nome": "DFD-AQ-0005.pdf",
+   "data": "2026-10-18T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0005-ETP",
+   "processo_id": "AQ-0005",
+   "tipo_documento": "ETP",
+   "nome": "ETP-AQ-0005.pdf",
+   "data": "2026-10-19T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0005-Análise de riscos",
+   "processo_id": "AQ-0005",
+   "tipo_documento": "Análise de riscos",
+   "nome": "Análise de riscos-AQ-0005.pdf",
+   "data": "2026-10-20T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0005-TR",
+   "processo_id": "AQ-0005",
+   "tipo_documento": "TR",
+   "nome": "TR-AQ-0005.pdf",
+   "data": "2026-10-21T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0005-Pesquisa de preços",
+   "processo_id": "AQ-0005",
+   "tipo_documento": "Pesquisa de preços",
+   "nome": "Pesquisa de preços-AQ-0005.pdf",
+   "data": "2026-10-22T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0006-DFD",
+   "processo_id": "AQ-0006",
+   "tipo_documento": "DFD",
+   "nome": "DFD-AQ-0006.pdf",
+   "data": "2026-10-05T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0006-ETP",
+   "processo_id": "AQ-0006",
+   "tipo_documento": "ETP",
+   "nome": "ETP-AQ-0006.pdf",
+   "data": "2026-10-06T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0006-Análise de riscos",
+   "processo_id": "AQ-0006",
+   "tipo_documento": "Análise de riscos",
+   "nome": "Análise de riscos-AQ-0006.pdf",
+   "data": "2026-10-07T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0006-TR",
+   "processo_id": "AQ-0006",
+   "tipo_documento": "TR",
+   "nome": "TR-AQ-0006.pdf",
+   "data": "2026-10-08T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0006-Pesquisa de preços",
+   "processo_id": "AQ-0006",
+   "tipo_documento": "Pesquisa de preços",
+   "nome": "Pesquisa de preços-AQ-0006.pdf",
+   "data": "2026-10-09T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0007-DFD",
+   "processo_id": "AQ-0007",
+   "tipo_documento": "DFD",
+   "nome": "DFD-AQ-0007.pdf",
+   "data": "2026-09-10T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0007-ETP",
+   "processo_id": "AQ-0007",
+   "tipo_documento": "ETP",
+   "nome": "ETP-AQ-0007.pdf",
+   "data": "2026-09-11T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0007-Análise de riscos",
+   "processo_id": "AQ-0007",
+   "tipo_documento": "Análise de riscos",
+   "nome": "Análise de riscos-AQ-0007.pdf",
+   "data": "2026-09-12T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0007-TR",
+   "processo_id": "AQ-0007",
+   "tipo_documento": "TR",
+   "nome": "TR-AQ-0007.pdf",
+   "data": "2026-09-13T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0007-Pesquisa de preços",
+   "processo_id": "AQ-0007",
+   "tipo_documento": "Pesquisa de preços",
+   "nome": "Pesquisa de preços-AQ-0007.pdf",
+   "data": "2026-09-14T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0008-DFD",
+   "processo_id": "AQ-0008",
+   "tipo_documento": "DFD",
+   "nome": "DFD-AQ-0008.pdf",
+   "data": "2026-10-22T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0008-ETP",
+   "processo_id": "AQ-0008",
+   "tipo_documento": "ETP",
+   "nome": "ETP-AQ-0008.pdf",
+   "data": "2026-10-23T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0008-Análise de riscos",
+   "processo_id": "AQ-0008",
+   "tipo_documento": "Análise de riscos",
+   "nome": "Análise de riscos-AQ-0008.pdf",
+   "data": "2026-10-24T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0008-TR",
+   "processo_id": "AQ-0008",
+   "tipo_documento": "TR",
+   "nome": "TR-AQ-0008.pdf",
+   "data": "2026-10-25T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0008-Pesquisa de preços",
+   "processo_id": "AQ-0008",
+   "tipo_documento": "Pesquisa de preços",
+   "nome": "Pesquisa de preços-AQ-0008.pdf",
+   "data": "2026-10-26T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0009-DFD",
+   "processo_id": "AQ-0009",
+   "tipo_documento": "DFD",
+   "nome": "DFD-AQ-0009.pdf",
+   "data": "2026-09-30T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0009-ETP",
+   "processo_id": "AQ-0009",
+   "tipo_documento": "ETP",
+   "nome": "ETP-AQ-0009.pdf",
+   "data": "2026-10-01T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0009-Análise de riscos",
+   "processo_id": "AQ-0009",
+   "tipo_documento": "Análise de riscos",
+   "nome": "Análise de riscos-AQ-0009.pdf",
+   "data": "2026-10-02T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0009-TR",
+   "processo_id": "AQ-0009",
+   "tipo_documento": "TR",
+   "nome": "TR-AQ-0009.pdf",
+   "data": "2026-10-03T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0009-Pesquisa de preços",
+   "processo_id": "AQ-0009",
+   "tipo_documento": "Pesquisa de preços",
+   "nome": "Pesquisa de preços-AQ-0009.pdf",
+   "data": "2026-10-04T10:00:00"
+  },
+  {
+   "id_documento": "AQ-0010-DFD",
+   "processo_id": "AQ-0010",
+   "tipo_documento": "DFD",
+   "nome": "DFD-AQ-0010.pdf",
+   "data": "2026-10-08T10:00:00"
+  }
+ ],
+ "pendencias": [
+  {
+   "id_pendencia": "AQ-0003-P1",
+   "processo_id": "AQ-0003",
+   "motivo": "Aguardando assinatura",
+   "aberta_em": "2026-09-29",
+   "resolvida_em": null
+  },
+  {
+   "id_pendencia": "AQ-0007-P1",
+   "processo_id": "AQ-0007",
+   "motivo": "Pesquisa de preços insuficiente",
+   "aberta_em": "2026-09-14",
+   "resolvida_em": null
+  }
+ ],
+ "log": [
+  {
+   "id": "L-AQ-0001",
+   "processo_id": "AQ-0001",
+   "acao": "processo registrado",
+   "perfil": "compras",
+   "data_hora": "2026-10-24T09:00:00"
+  },
+  {
+   "id": "L-AQ-0002",
+   "processo_id": "AQ-0002",
+   "acao": "processo registrado",
+   "perfil": "compras",
+   "data_hora": "2026-10-11T09:00:00"
+  },
+  {
+   "id": "L-AQ-0003",
+   "processo_id": "AQ-0003",
+   "acao": "processo registrado",
+   "perfil": "compras",
+   "data_hora": "2026-09-24T09:00:00"
+  },
+  {
+   "id": "L-AQ-0004",
+   "processo_id": "AQ-0004",
+   "acao": "processo registrado",
+   "perfil": "compras",
+   "data_hora": "2026-09-19T09:00:00"
+  },
+  {
+   "id": "L-AQ-0005",
+   "processo_id": "AQ-0005",
+   "acao": "processo registrado",
+   "perfil": "compras",
+   "data_hora": "2026-10-17T09:00:00"
+  },
+  {
+   "id": "L-AQ-0006",
+   "processo_id": "AQ-0006",
+   "acao": "processo registrado",
+   "perfil": "compras",
+   "data_hora": "2026-10-04T09:00:00"
+  },
+  {
+   "id": "L-AQ-0007",
+   "processo_id": "AQ-0007",
+   "acao": "processo registrado",
+   "perfil": "compras",
+   "data_hora": "2026-09-09T09:00:00"
+  },
+  {
+   "id": "L-AQ-0008",
+   "processo_id": "AQ-0008",
+   "acao": "processo registrado",
+   "perfil": "compras",
+   "data_hora": "2026-10-21T09:00:00"
+  },
+  {
+   "id": "L-AQ-0009",
+   "processo_id": "AQ-0009",
+   "acao": "processo registrado",
+   "perfil": "compras",
+   "data_hora": "2026-09-29T09:00:00"
+  },
+  {
+   "id": "L-AQ-0010",
+   "processo_id": "AQ-0010",
+   "acao": "processo registrado",
+   "perfil": "compras",
+   "data_hora": "2026-10-07T09:00:00"
+  }
+ ]
+}

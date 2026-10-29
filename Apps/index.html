@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Apps dos grupos · POLITEC/MT</title>
+<meta name="description" content="Mini apps construídos pelos grupos da Capacitação POLITEC/MT: 19 projetos, offline first, com dados fictícios.">
+<style>
+:root{--bg:#f6f4ef;--surface:#fff;--ink:#1c1a17;--soft:#5c574f;--line:#e2ddd2;--accent:#0f766e}
+@media (prefers-color-scheme:dark){:root{--bg:#141412;--surface:#1d1c19;--ink:#f2efe8;--soft:#b5afa3;--line:#33302a;--accent:#2dd4bf}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 system-ui,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:1120px;margin:0 auto;padding:40px 20px 60px}
+.kicker{color:var(--accent);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:12px}
+h1{font-size:clamp(28px,4vw,44px);line-height:1.1;margin:8px 0 12px;letter-spacing:-.02em}
+.sub{color:var(--soft);max-width:760px;margin:0 0 8px}
+.meta{color:var(--soft);font-size:14px;margin:18px 0 28px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.card{display:flex;flex-direction:column;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;text-decoration:none;color:inherit;border-top:4px solid var(--accent)}
+.card:hover{border-color:var(--accent)}
+.card .dia{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent)}
+.card h3{margin:0;font-size:19px;letter-spacing:-.01em}
+.card p{margin:0;color:var(--soft);font-size:14.5px}
+.card small{color:var(--soft);font-size:12.5px}
+.abrir{margin-top:auto;font-weight:700;font-size:14px;color:var(--accent)}
+footer{margin-top:36px;color:var(--soft);font-size:13.5px;border-top:1px solid var(--line);padding-top:18px}
+a{color:var(--accent)}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="kicker">Capacitação POLITEC/MT · fase 2</div>
+  <h1>Apps dos grupos</h1>
+  <p class="sub">Cada projeto saiu do formulário da Aula 8 e virou um app de um único arquivo:
+    abre no navegador, funciona sem internet, guarda os dados no próprio computador e usa
+    apenas dados fictícios. As decisões continuam com as pessoas.</p>
+  <p class="meta"><a href="../index.html">&larr; Voltar ao hub do curso</a> · 19 projetos ·
+    fonte dos contatos e logins: <code>Apps/equipes.json</code></p>
+  <div class="grid">
+    <a class="card" href="adiantamento/index.html">
+      <span class="dia">Sprints 1-3 · 6 rotas</span>
+      <h3>Controle de Adiantamentos</h3>
+      <p>Acompanhamento dos adiantamentos, do pedido com 3 orçamentos à prestação de contas, com prazos e pendências.</p>
+      <small>Jaqueline, Linicker</small>
+      <span class="abrir">Abrir o app &rarr;</span>
+    </a>
+    <a class="card" href="agendamento-cin/index.html">
+      <span class="dia">Sprints 1-3 · 8 rotas</span>
+      <h3>Agendamento CIN</h3>
+      <p>Agendamento da Carteira de Identidade Nacional nos postos de identificação.</p>
+      <small>Elthon</small>
+      <span class="abrir">Abrir o app &rarr;</span>
+    </a>
+    <a class="card" href="agiliza-mais/index.html">
+      <span class="dia">Sprints 1-3 · 10 rotas</span>
+      <h3>Agiliza +</h3>
+      <p>Lê a pasta do caso, mostra os dados para conferência e gera o laudo Word a partir do modelo institucional.</p>
+      <small>Diego Costa, Francineide da Silva, Andreia Cristina</small>
+      <span class="abrir">Abrir o app &rarr;</span>
+    </a>
+    <a class="card" href="cin-segunda-via/index.html">
+      <span class="dia">Sprints 1-3 · 6 rotas</span>
+      <h3>Segunda via da CIN</h3>
+      <p>Pedido da segunda via da Carteira de Identidade Nacional a distância, com conferência pelo servidor.</p>
+      <small>André, Flávia, Glauce</small>
+      <span class="abrir">Abrir o app &rarr;</span>
+    </a>
+    <a class="card" href="comissao-etica-denuncias/index.html">
+      <span class="dia">Sprints 1-3 · 10 rotas</span>
+      <h3>Comissão de Ética</h3>
+      <p>Controle dos processos da Comissão de Ética, com classificação assistida, roteiro de oitiva e minutas. As decisões são da Comissão.</p>
+      <small>Letícia, Thiago</small>
+      <span class="abrir">Abrir o app &rarr;</span>
+    </a>
+    <a class="card" href="controle-aquisicoes/index.html">
+      <span class="dia">Sprints 1-2 · 5 rotas</span>
+      <h3>Controle do Processo de Aquisição</h3>
+      <p>Painel das aquisições da POLITEC, com etapas, documentos exigidos, responsáveis, prazos e pendências. Dados fictícios.</p>
+      <small>Kasteline Gonçalves</small>
+      <span class="abrir">Abrir o app &rarr;</span>
+    </a>
+    <a class="card" href="custodia-definitiva/index.html">
+      <span class="dia">Sprints 1-2 · 6 rotas</span>
+      <h3>Custódia Definitiva</h3>
+      <p>Cadastro, classificação, endereçamento e localização de vestígios e contraprovas, com painel de ocupação. Dados fictícios.</p>
+      <small>Edjane Ávila</small>
+      <span class="abrir">Abrir o app &rarr;</span>
+    </a>
+    <a class="card" href="distribuicao-casos-dna/index.html">
+      <span class="dia">Sprints 1-2 · 5 rotas</span>
+      <h3>Distribuição de Casos de DNA</h3>
+      <p>Monta a rodada, distribui os casos ordinários a um perito em rotação, separa a fila de cobranças e mede o tempo até a distribuição. Dados fictícios.</p>
+      <small>Nelson, Luciana</small>
+      <span class="abrir">Abrir o app &rarr;</span>
+    </a>
+    <a class="card" href="documentapolitec/index.html">
+      <span class="dia">Sprints 1-2 · 6 rotas</span>
+      <h3>DOCUMENTAPOLITEC</h3>
+      <p>Conferência da relação de prontuários de cada caixa com o arquivo digital, lacre e busca do prontuário. Dados fictícios.</p>
+      <small>Aline Xavier dos Passos</small>
+      <span class="abrir">Abrir o app &rarr;</span>
+    </a>
+    <a class="card" href="equipamentos-google-earth/index.html">
+      <span class="dia">Sprints 1-3 · 10 rotas</span>
+      <h3>Mapa de Equipamentos</h3>
+      <p>Equipamentos, contratos, manutenções e custo de parada no mapa de Mato Grosso, com exportação para o Google Earth.</p>
+      <small>João Lucas Nogueira Ponce</small>
+      <span class="abrir">Abrir o app &rarr;</span>
+    </a>
+    <a class="card" href="gestao-documentos/index.html">
+      <span class="dia">Sprints 1-2 · 5 rotas</span>
+      <h3>Gestão de Documentos</h3>
+      <p>Cadastro, atribuição e acompanhamento dos processos, com o prazo calculado e o sinal verde, amarelo ou vermelho. Dados fictícios.</p>
+      <small>Vitória Araújo Dias</small>
+      <span class="abrir">Abrir o app &rarr;</span>
+    </a>
+    <a class="card" href="horus-banco-demandas/index.html">
+      <span class="dia">Sprints 1-3 · 10 rotas</span>
+      <h3>Banco de Demandas</h3>
+      <p>Repositório de demandas de contratação reutilizáveis, com manifestação de interesse e aprovação para o ciclo do PCA.</p>
+      <small>Iohan Camões de Albuquerque</small>
+      <span class="abrir">Abrir o app &rarr;</span>
+    </a>
+    <a class="card" href="inscricoes-cursos/index.html">
+      <span class="dia">Sprints 1-3 · 9 rotas</span>
+      <h3>Inscrições em Cursos</h3>
+      <p>Inscrição padronizada, triagem pelas diretorias e convocação, sem redigitação.</p>
+      <small>Edilaura Rondon</small>
+      <span class="abrir">Abrir o app &rarr;</span>
+    </a>
+    <a class="card" href="mapa-distribuicao-credor/index.html">
+      <span class="dia">Sprints 1-3 · 10 rotas</span>
+      <h3>Mapa de Distribuição</h3>
+      <p>Gera o mapa de distribuição por credor e a distribuição orçamentária a partir das planilhas, sem redigitação.</p>
+      <small>Igor Henrique de Menezes Costa</small>
+      <span class="abrir">Abrir o app &rarr;</span>
+    </a>
+    <a class="card" href="metas-bi-ocr/index.html">
+      <span class="dia">Sprints 1-3 · 5 rotas</span>
+      <h3>Metas pelo BI</h3>
+      <p>Lê o relatório mensal do Power BI 1, confere os números e gera o arquivo da planilha de monitoramento.</p>
+      <small>Karine Assunção</small>
+      <span class="abrir">Abrir o app &rarr;</span>
+    </a>
+    <a class="card" href="passivo-ambiental/index.html">
+      <span class="dia">Sprints 1-2 · 5 rotas</span>
+      <h3>Passivo Ambiental</h3>
+      <p>Controle das requisições periciais ambientais e dos laudos, com cabeçalho preenchido a partir da requisição. Dados fictícios.</p>
+      <small>Fábio</small>
+      <span class="abrir">Abrir o app &rarr;</span>
+    </a>
+    <a class="card" href="renovacao-contratos-horus/index.html">
+      <span class="dia">Sprints 1-2 · 5 rotas</span>
+      <h3>Renovação de Contratos · Hórus</h3>
+      <p>Painel de vencimentos com semáforo de seis faixas, cadastro de contratos e registro do termo aditivo de prorrogação. Dados fictícios.</p>
+      <small>Rodrigo Neves Ribeiro</small>
+      <span class="abrir">Abrir o app &rarr;</span>
+    </a>
+    <a class="card" href="rnc-nao-conformidade/index.html">
+      <span class="dia">Sprints 1-3 · 6 rotas</span>
+      <h3>Não Conformidades</h3>
+      <p>Acompanhamento das RNCs por setor, com prazos e indicadores de recorrência.</p>
+      <small>Sabrina Ellen</small>
+      <span class="abrir">Abrir o app &rarr;</span>
+    </a>
+    <a class="card" href="tap-portfolio-projetos/index.html">
+      <span class="dia">Sprints 1-3 · 7 rotas</span>
+      <h3>TAP Digital</h3>
+      <p>TAP guiado com checklist de documentos, triagem pela equipe e Portfólio de Projetos Estratégicos.</p>
+      <small>Danielle Marques de Almeida Trevizan</small>
+      <span class="abrir">Abrir o app &rarr;</span>
+    </a>
+  </div>
+  <footer>Para editar um app, mexa nas fontes (<code>app.json</code>, <code>src/</code>)
+    e rode <code>python Apps/_base/construir.py &lt;app&gt;</code>. O <code>index.html</code> é gerado.
+    Guia completo em <a href="README.md">Apps/README.md</a>.</footer>
+</main>
+</body>
+</html>

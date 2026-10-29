@@ -1,0 +1,131 @@
+{
+  "titulo": "Não Conformidades",
+  "subtitulo": "POLITEC/MT · CQUAL",
+  "descricao": "Acompanhamento das RNCs por setor, com prazos e indicadores de recorrência.",
+  "aviso": "",
+  "db": {
+    "nome": "rnc_v1",
+    "versao": 1,
+    "stores": {
+      "rncs": {
+        "keyPath": "numero",
+        "indices": [
+          {
+            "nome": "setor_notificado",
+            "campo": "setor_notificado",
+            "unico": false
+          },
+          {
+            "nome": "setor_relator",
+            "campo": "setor_relator",
+            "unico": false
+          }
+        ]
+      },
+      "etapas": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "rnc",
+            "campo": "rnc",
+            "unico": false
+          }
+        ]
+      },
+      "planos": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "rnc",
+            "campo": "rnc",
+            "unico": false
+          }
+        ]
+      },
+      "avaliacoes": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "rnc",
+            "campo": "rnc",
+            "unico": false
+          }
+        ]
+      },
+      "setores": {
+        "keyPath": "sigla",
+        "indices": []
+      },
+      "log": {
+        "keyPath": "id",
+        "indices": []
+      }
+    }
+  },
+  "perfis": [
+    {
+      "id": "cqual",
+      "nome": "CQUAL",
+      "descricao": "Base completa: importa, valida e acompanha."
+    },
+    {
+      "id": "setor",
+      "nome": "Setor",
+      "descricao": "Vê as RNCs em que é relator ou notificado."
+    }
+  ],
+  "rotas": [
+    {
+      "rota": "#/painel",
+      "titulo": "Painel",
+      "sprint": 5,
+      "descricao": "Setores, categorias, recorrência e vencidas."
+    },
+    {
+      "rota": "#/minhas",
+      "titulo": "Minhas RNCs",
+      "sprint": 4,
+      "descricao": "RNCs do setor.",
+      "perfis": [
+        "setor"
+      ]
+    },
+    {
+      "rota": "#/rnc/:id",
+      "titulo": "RNC",
+      "sprint": 3,
+      "descricao": "Etapas, prazos, FOR 1, 2 e 3."
+    },
+    {
+      "rota": "#/importar",
+      "titulo": "Importar",
+      "sprint": 2,
+      "descricao": "CSV da planilha do Forms.",
+      "perfis": [
+        "cqual"
+      ]
+    },
+    {
+      "rota": "#/exportar",
+      "titulo": "Arquivo do setor",
+      "sprint": 4,
+      "descricao": "RNCs de cada setor.",
+      "perfis": [
+        "cqual"
+      ]
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": ""
+    }
+  ],
+  "libs": [],
+  "dados": [
+    [
+      "seed",
+      "exemplos/seed.json"
+    ]
+  ]
+}

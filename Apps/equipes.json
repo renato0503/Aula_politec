@@ -1,0 +1,238 @@
+{
+  "descricao": "Integrantes de cada app e o login do GitHub, para criar um repositório por app e dar acesso à equipe. github = null: login ainda não informado.",
+  "atualizado_em": "2026-10-29",
+  "apps": {
+    "adiantamento": {
+      "projeto": "Controle de Adiantamentos",
+      "alunos": [
+        {
+          "nome": "Jaqueline",
+          "email": "jaquelineaguiar@politec.mt.gov.br",
+          "github": "jaquelineaguiar-prog"
+        },
+        {
+          "nome": "Linicker",
+          "email": null,
+          "github": "Linickeraraujo-sd"
+        }
+      ]
+    },
+    "agendamento-cin": {
+      "projeto": "Agendamento CIN",
+      "alunos": [
+        {
+          "nome": "Elthon",
+          "email": "elthonteixeira@politec.mt.gov.br",
+          "github": "Elthonteix-debug"
+        }
+      ]
+    },
+    "agiliza-mais": {
+      "projeto": "Agiliza +",
+      "alunos": [
+        {
+          "nome": "Diego Costa",
+          "email": "diego.n.costa@aluno.senai.br",
+          "github": "diegocosta-dotcom"
+        },
+        {
+          "nome": "Francineide da Silva",
+          "email": null,
+          "github": "francineidesilva-sys"
+        },
+        {
+          "nome": "Andreia Cristina",
+          "email": null,
+          "github": "andreiamunzlinger-web"
+        }
+      ]
+    },
+    "cin-segunda-via": {
+      "projeto": "Segunda via da CIN a distância",
+      "alunos": [
+        {
+          "nome": "André",
+          "email": null,
+          "github": "andresilva-papi"
+        },
+        {
+          "nome": "Flávia",
+          "email": null,
+          "github": "flaviasilva-oss"
+        },
+        {
+          "nome": "Glauce",
+          "email": "glaucesilva@politec.mt.gov.br",
+          "github": null
+        }
+      ]
+    },
+    "comissao-etica-denuncias": {
+      "projeto": "Classificação da denúncia (Comissão de Ética)",
+      "alunos": [
+        {
+          "nome": "Letícia",
+          "email": "leticiamesquita@politec.mt.gov.br",
+          "github": null
+        },
+        {
+          "nome": "Thiago",
+          "email": null,
+          "github": "thiagouchaki"
+        }
+      ]
+    },
+    "controle-aquisicoes": {
+      "projeto": "Controle do processo de aquisição",
+      "alunos": [
+        {
+          "nome": "Kasteline Gonçalves",
+          "email": "kastelinesilva@politec.mt.gov.br",
+          "github": "kastelinesilva-netizen"
+        }
+      ]
+    },
+    "custodia-definitiva": {
+      "projeto": "Adequação da custódia definitiva de vestígios periciais",
+      "alunos": [
+        {
+          "nome": "Edjane Ávila",
+          "email": "edjanegasparini@politec.mt.gov.br",
+          "github": "edjaneavila-cyber"
+        }
+      ]
+    },
+    "distribuicao-casos-dna": {
+      "projeto": "Distribuição de casos de DNA por rodada da placa de análise",
+      "alunos": [
+        {
+          "nome": "Nelson",
+          "email": "nelsonyoshitake@politec.mt.gov.br",
+          "github": "nelsonyoshitake"
+        },
+        {
+          "nome": "Luciana",
+          "email": null,
+          "github": null
+        }
+      ]
+    },
+    "documentapolitec": {
+      "projeto": "DOCUMENTAPOLITEC (controle de prontuários civis ao arquivo central)",
+      "alunos": [
+        {
+          "nome": "Aline Xavier dos Passos",
+          "email": "alinepassos@politec.mt.gov.br",
+          "github": "alinepassos-source"
+        }
+      ]
+    },
+    "equipamentos-google-earth": {
+      "projeto": "Visão geral dos equipamentos no estado com Google Earth",
+      "alunos": [
+        {
+          "nome": "João Lucas Nogueira Ponce",
+          "email": "joaoponce@politec.mt.gov.br",
+          "github": "Jopolite"
+        }
+      ]
+    },
+    "gestao-documentos": {
+      "projeto": "Gestão de Documentos (processos e prazos do Gabinete de Direção)",
+      "alunos": [
+        {
+          "nome": "Vitória Araújo Dias",
+          "email": "vitoriadias@politec.mt.gov.br",
+          "github": "Vitoriadias-droide"
+        }
+      ]
+    },
+    "horus-banco-demandas": {
+      "projeto": "Hórus · Banco de Demandas",
+      "alunos": [
+        {
+          "nome": "Iohan Camões de Albuquerque",
+          "email": "iohan.camoes@gmail.com",
+          "github": null
+        }
+      ]
+    },
+    "inscricoes-cursos": {
+      "projeto": "Gestão Dinâmica de Inscrições em Cursos",
+      "alunos": [
+        {
+          "nome": "Edilaura Rondon",
+          "email": "capacitacao@politec.mt.gov.br",
+          "github": "edilaurarondon-hash"
+        }
+      ]
+    },
+    "mapa-distribuicao-credor": {
+      "projeto": "Mapa de Distribuição por Credor e Distribuição Orçamentária",
+      "alunos": [
+        {
+          "nome": "Igor Henrique de Menezes Costa",
+          "email": "izgdreyar@gmail.com",
+          "github": "izgdreyar-arch"
+        }
+      ]
+    },
+    "metas-bi-ocr": {
+      "projeto": "Monitoramento de Metas pelo BI",
+      "alunos": [
+        {
+          "nome": "Karine Assunção",
+          "email": "karineassuncao@politec.mt.gov.br",
+          "github": "karineassuncao-hub"
+        }
+      ]
+    },
+    "passivo-ambiental": {
+      "projeto": "Passivo Ambiental (laudos periciais ambientais atrasados)",
+      "alunos": [
+        {
+          "nome": "Fábio",
+          "email": "fabioconceicao@politec.mt.gov.br",
+          "github": "fabioconceicao-fxc"
+        }
+      ]
+    },
+    "renovacao-contratos-horus": {
+      "projeto": "Fluxo de Renovação de Contratos apoiado pelo Hórus",
+      "alunos": [
+        {
+          "nome": "Rodrigo Neves Ribeiro",
+          "email": "rodrigoribeiro@politec.mt.gov.br",
+          "github": "Rodrigoribeiro-cloud"
+        }
+      ]
+    },
+    "rnc-nao-conformidade": {
+      "projeto": "Registro de Não Conformidade (RNC)",
+      "alunos": [
+        {
+          "nome": "Sabrina Ellen",
+          "email": "sabrinasilva@politec.mt.gov.br",
+          "github": "Sabrinaelllen1209"
+        }
+      ]
+    },
+    "tap-portfolio-projetos": {
+      "projeto": "TAP Digital e Portfólio de Projetos Estratégicos",
+      "alunos": [
+        {
+          "nome": "Danielle Marques de Almeida Trevizan",
+          "email": "daniellealmeida@politec.mt.gov.br",
+          "github": "daniellealmeida-sudo"
+        }
+      ]
+    }
+  },
+  "sem_projeto": [
+    {
+      "nome": "Francis Souza",
+      "github": "francissouza-pixel",
+      "obs": "Login informado em 29/10/2026 sem nome de projeto; não confundir com Francineide (francineidesilva-sys). Confirmar a equipe."
+    }
+  ]
+}

@@ -1,0 +1,139 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 916.56446451386466,
+            "y": 280.289035198179
+          },
+          "nodeIndex": "_Medidas",
+          "nodeLineageTag": "387d321b-5c29-5c98-b9af-00da34ded7a3",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 642.48853265639445,
+            "y": 543.32857243428111
+          },
+          "nodeIndex": "dim_calendario",
+          "nodeLineageTag": "115c0ba2-ec65-58d4-85fc-f72aa5334ceb",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 535.90227084180242,
+            "y": -10
+          },
+          "nodeIndex": "dim_etapa",
+          "nodeLineageTag": "22c438bd-6568-56d8-a514-24b414df7558",
+          "size": {
+            "height": 224,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 358.26989003629376,
+            "y": 698.57807039635816
+          },
+          "nodeIndex": "dim_projeto",
+          "nodeLineageTag": "44c3f4b1-d9e1-5d0a-9574-50ccf7cedb1e",
+          "size": {
+            "height": 152,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 10,
+            "y": 264.13677112518241
+          },
+          "nodeIndex": "dim_sistema",
+          "nodeLineageTag": "0235f222-0428-540e-938c-fa5a281f788f",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 74.085706397478248,
+            "y": 533.18036262712963
+          },
+          "nodeIndex": "dim_status_execucao",
+          "nodeLineageTag": "083fc2b3-bfda-507c-803b-da52d8426c1b",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 642.56446451386466,
+            "y": 295.04423038310915
+          },
+          "nodeIndex": "dim_tipo_atividade",
+          "nodeLineageTag": "b51c5a0b-58a3-50e4-95f1-8e70d7cd6690",
+          "size": {
+            "height": 128,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 239.88896399540522,
+            "y": 37.9849589937495
+          },
+          "nodeIndex": "dim_unidade",
+          "nodeLineageTag": "48522e38-ce5d-57cc-a24c-0bcc1af70d30",
+          "size": {
+            "height": 176,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 358.30445360691772,
+            "y": 264.23257536175055
+          },
+          "nodeIndex": "fato",
+          "nodeLineageTag": "28b30327-c0a3-54ea-8e90-1b883ec6e07e",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "Todas as tabelas",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "Todas as tabelas",
+  "defaultDiagram": "Todas as tabelas"
+}

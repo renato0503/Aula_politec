@@ -1,0 +1,618 @@
+{
+ "rodadas": [
+  {
+   "id_rodada": "RD-001",
+   "placa": "PL-2026-11",
+   "data": "2026-09-17",
+   "perito_id": "P1",
+   "status": "distribuida",
+   "criado_em": "2026-09-17T08:00:00"
+  },
+  {
+   "id_rodada": "RD-002",
+   "placa": "PL-2026-12",
+   "data": "2026-09-24",
+   "perito_id": "P2",
+   "status": "distribuida",
+   "criado_em": "2026-09-24T08:00:00"
+  },
+  {
+   "id_rodada": "RD-003",
+   "placa": "PL-2026-13",
+   "data": "2026-10-01",
+   "perito_id": null,
+   "status": "aberta",
+   "criado_em": "2026-10-01T08:00:00"
+  },
+  {
+   "id_rodada": "RD-004",
+   "placa": "PL-2026-14",
+   "data": "2026-10-08",
+   "perito_id": null,
+   "status": "aberta",
+   "criado_em": "2026-10-08T08:00:00"
+  },
+  {
+   "id_rodada": "RD-005",
+   "placa": "PL-2026-15",
+   "data": "2026-10-15",
+   "perito_id": null,
+   "status": "aberta",
+   "criado_em": "2026-10-15T08:00:00"
+  },
+  {
+   "id_rodada": "RD-006",
+   "placa": "PL-2026-16",
+   "data": "2026-10-22",
+   "perito_id": null,
+   "status": "aberta",
+   "criado_em": "2026-10-22T08:00:00"
+  }
+ ],
+ "casos": [
+  {
+   "id_caso": "RD-001-01",
+   "rodada_id": "RD-001",
+   "protocolo": "2026.000001",
+   "tipo": "ordinario",
+   "status": "distribuido",
+   "data_processamento": "2026-09-18",
+   "perito_id": "P1",
+   "distribuido_em": "2026-09-20T10:00:00"
+  },
+  {
+   "id_caso": "RD-001-02",
+   "rodada_id": "RD-001",
+   "protocolo": "2026.000002",
+   "tipo": "ordinario",
+   "status": "distribuido",
+   "data_processamento": "2026-09-18",
+   "perito_id": "P1",
+   "distribuido_em": "2026-09-19T10:00:00"
+  },
+  {
+   "id_caso": "RD-001-03",
+   "rodada_id": "RD-001",
+   "protocolo": "2026.000003",
+   "tipo": "ordinario",
+   "status": "distribuido",
+   "data_processamento": "2026-09-18",
+   "perito_id": "P1",
+   "distribuido_em": "2026-09-18T10:00:00"
+  },
+  {
+   "id_caso": "RD-001-04",
+   "rodada_id": "RD-001",
+   "protocolo": "2026.000004",
+   "tipo": "ordinario",
+   "status": "distribuido",
+   "data_processamento": "2026-09-18",
+   "perito_id": "P1",
+   "distribuido_em": "2026-09-20T10:00:00"
+  },
+  {
+   "id_caso": "RD-001-05",
+   "rodada_id": "RD-001",
+   "protocolo": "2026.000005",
+   "tipo": "ordinario",
+   "status": "distribuido",
+   "data_processamento": "2026-09-18",
+   "perito_id": "P1",
+   "distribuido_em": "2026-09-19T10:00:00"
+  },
+  {
+   "id_caso": "RD-001-06",
+   "rodada_id": "RD-001",
+   "protocolo": "2026.000006",
+   "tipo": "ordinario",
+   "status": "distribuido",
+   "data_processamento": "2026-09-18",
+   "perito_id": "P1",
+   "distribuido_em": "2026-09-19T10:00:00"
+  },
+  {
+   "id_caso": "RD-001-07",
+   "rodada_id": "RD-001",
+   "protocolo": "2026.000007",
+   "tipo": "cobranca",
+   "status": "distribuido",
+   "data_processamento": "2026-09-18",
+   "perito_id": "P1",
+   "distribuido_em": "2026-09-19T10:00:00"
+  },
+  {
+   "id_caso": "RD-001-08",
+   "rodada_id": "RD-001",
+   "protocolo": "2026.000008",
+   "tipo": "cobranca",
+   "status": "distribuido",
+   "data_processamento": "2026-09-18",
+   "perito_id": "P1",
+   "distribuido_em": "2026-09-18T10:00:00"
+  },
+  {
+   "id_caso": "RD-002-01",
+   "rodada_id": "RD-002",
+   "protocolo": "2026.000009",
+   "tipo": "ordinario",
+   "status": "distribuido",
+   "data_processamento": "2026-09-25",
+   "perito_id": "P2",
+   "distribuido_em": "2026-09-27T10:00:00"
+  },
+  {
+   "id_caso": "RD-002-02",
+   "rodada_id": "RD-002",
+   "protocolo": "2026.000010",
+   "tipo": "ordinario",
+   "status": "distribuido",
+   "data_processamento": "2026-09-25",
+   "perito_id": "P2",
+   "distribuido_em": "2026-09-27T10:00:00"
+  },
+  {
+   "id_caso": "RD-002-03",
+   "rodada_id": "RD-002",
+   "protocolo": "2026.000011",
+   "tipo": "ordinario",
+   "status": "distribuido",
+   "data_processamento": "2026-09-25",
+   "perito_id": "P2",
+   "distribuido_em": "2026-09-26T10:00:00"
+  },
+  {
+   "id_caso": "RD-002-04",
+   "rodada_id": "RD-002",
+   "protocolo": "2026.000012",
+   "tipo": "ordinario",
+   "status": "distribuido",
+   "data_processamento": "2026-09-25",
+   "perito_id": "P2",
+   "distribuido_em": "2026-09-27T10:00:00"
+  },
+  {
+   "id_caso": "RD-002-05",
+   "rodada_id": "RD-002",
+   "protocolo": "2026.000013",
+   "tipo": "ordinario",
+   "status": "distribuido",
+   "data_processamento": "2026-09-25",
+   "perito_id": "P2",
+   "distribuido_em": "2026-09-26T10:00:00"
+  },
+  {
+   "id_caso": "RD-002-06",
+   "rodada_id": "RD-002",
+   "protocolo": "2026.000014",
+   "tipo": "ordinario",
+   "status": "distribuido",
+   "data_processamento": "2026-09-25",
+   "perito_id": "P2",
+   "distribuido_em": "2026-09-25T10:00:00"
+  },
+  {
+   "id_caso": "RD-002-07",
+   "rodada_id": "RD-002",
+   "protocolo": "2026.000015",
+   "tipo": "cobranca",
+   "status": "distribuido",
+   "data_processamento": "2026-09-25",
+   "perito_id": "P2",
+   "distribuido_em": "2026-09-26T10:00:00"
+  },
+  {
+   "id_caso": "RD-002-08",
+   "rodada_id": "RD-002",
+   "protocolo": "2026.000016",
+   "tipo": "cobranca",
+   "status": "distribuido",
+   "data_processamento": "2026-09-25",
+   "perito_id": "P2",
+   "distribuido_em": "2026-09-27T10:00:00"
+  },
+  {
+   "id_caso": "RD-003-01",
+   "rodada_id": "RD-003",
+   "protocolo": "2026.000017",
+   "tipo": "ordinario",
+   "status": "processado",
+   "data_processamento": "2026-10-02",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-003-02",
+   "rodada_id": "RD-003",
+   "protocolo": "2026.000018",
+   "tipo": "ordinario",
+   "status": "processado",
+   "data_processamento": "2026-10-02",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-003-03",
+   "rodada_id": "RD-003",
+   "protocolo": "2026.000019",
+   "tipo": "ordinario",
+   "status": "processado",
+   "data_processamento": "2026-10-02",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-003-04",
+   "rodada_id": "RD-003",
+   "protocolo": "2026.000020",
+   "tipo": "ordinario",
+   "status": "processado",
+   "data_processamento": "2026-10-02",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-003-05",
+   "rodada_id": "RD-003",
+   "protocolo": "2026.000021",
+   "tipo": "ordinario",
+   "status": "processado",
+   "data_processamento": "2026-10-02",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-003-06",
+   "rodada_id": "RD-003",
+   "protocolo": "2026.000022",
+   "tipo": "ordinario",
+   "status": "processado",
+   "data_processamento": "2026-10-02",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-003-07",
+   "rodada_id": "RD-003",
+   "protocolo": "2026.000023",
+   "tipo": "cobranca",
+   "status": "processado",
+   "data_processamento": "2026-10-02",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-003-08",
+   "rodada_id": "RD-003",
+   "protocolo": "2026.000024",
+   "tipo": "cobranca",
+   "status": "processado",
+   "data_processamento": "2026-10-02",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-004-01",
+   "rodada_id": "RD-004",
+   "protocolo": "2026.000025",
+   "tipo": "ordinario",
+   "status": "processado",
+   "data_processamento": "2026-10-09",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-004-02",
+   "rodada_id": "RD-004",
+   "protocolo": "2026.000026",
+   "tipo": "ordinario",
+   "status": "processado",
+   "data_processamento": "2026-10-09",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-004-03",
+   "rodada_id": "RD-004",
+   "protocolo": "2026.000027",
+   "tipo": "ordinario",
+   "status": "processado",
+   "data_processamento": "2026-10-09",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-004-04",
+   "rodada_id": "RD-004",
+   "protocolo": "2026.000028",
+   "tipo": "ordinario",
+   "status": "processado",
+   "data_processamento": "2026-10-09",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-004-05",
+   "rodada_id": "RD-004",
+   "protocolo": "2026.000029",
+   "tipo": "ordinario",
+   "status": "processado",
+   "data_processamento": "2026-10-09",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-004-06",
+   "rodada_id": "RD-004",
+   "protocolo": "2026.000030",
+   "tipo": "ordinario",
+   "status": "processado",
+   "data_processamento": "2026-10-09",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-004-07",
+   "rodada_id": "RD-004",
+   "protocolo": "2026.000031",
+   "tipo": "cobranca",
+   "status": "processado",
+   "data_processamento": "2026-10-09",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-004-08",
+   "rodada_id": "RD-004",
+   "protocolo": "2026.000032",
+   "tipo": "cobranca",
+   "status": "processado",
+   "data_processamento": "2026-10-09",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-005-01",
+   "rodada_id": "RD-005",
+   "protocolo": "2026.000033",
+   "tipo": "ordinario",
+   "status": "aguardando",
+   "data_processamento": null,
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-005-02",
+   "rodada_id": "RD-005",
+   "protocolo": "2026.000034",
+   "tipo": "ordinario",
+   "status": "aguardando",
+   "data_processamento": null,
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-005-03",
+   "rodada_id": "RD-005",
+   "protocolo": "2026.000035",
+   "tipo": "ordinario",
+   "status": "aguardando",
+   "data_processamento": null,
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-005-04",
+   "rodada_id": "RD-005",
+   "protocolo": "2026.000036",
+   "tipo": "ordinario",
+   "status": "aguardando",
+   "data_processamento": null,
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-005-05",
+   "rodada_id": "RD-005",
+   "protocolo": "2026.000037",
+   "tipo": "ordinario",
+   "status": "aguardando",
+   "data_processamento": null,
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-005-06",
+   "rodada_id": "RD-005",
+   "protocolo": "2026.000038",
+   "tipo": "ordinario",
+   "status": "aguardando",
+   "data_processamento": null,
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-005-07",
+   "rodada_id": "RD-005",
+   "protocolo": "2026.000039",
+   "tipo": "cobranca",
+   "status": "processado",
+   "data_processamento": "2026-10-16",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-005-08",
+   "rodada_id": "RD-005",
+   "protocolo": "2026.000040",
+   "tipo": "cobranca",
+   "status": "processado",
+   "data_processamento": "2026-10-16",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-006-01",
+   "rodada_id": "RD-006",
+   "protocolo": "2026.000041",
+   "tipo": "ordinario",
+   "status": "processado",
+   "data_processamento": "2026-10-23",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-006-02",
+   "rodada_id": "RD-006",
+   "protocolo": "2026.000042",
+   "tipo": "ordinario",
+   "status": "processado",
+   "data_processamento": "2026-10-23",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-006-03",
+   "rodada_id": "RD-006",
+   "protocolo": "2026.000043",
+   "tipo": "ordinario",
+   "status": "processado",
+   "data_processamento": "2026-10-23",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-006-04",
+   "rodada_id": "RD-006",
+   "protocolo": "2026.000044",
+   "tipo": "ordinario",
+   "status": "processado",
+   "data_processamento": "2026-10-23",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-006-05",
+   "rodada_id": "RD-006",
+   "protocolo": "2026.000045",
+   "tipo": "ordinario",
+   "status": "processado",
+   "data_processamento": "2026-10-23",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-006-06",
+   "rodada_id": "RD-006",
+   "protocolo": "2026.000046",
+   "tipo": "ordinario",
+   "status": "processado",
+   "data_processamento": "2026-10-23",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-006-07",
+   "rodada_id": "RD-006",
+   "protocolo": "2026.000047",
+   "tipo": "cobranca",
+   "status": "processado",
+   "data_processamento": "2026-10-23",
+   "perito_id": null,
+   "distribuido_em": null
+  },
+  {
+   "id_caso": "RD-006-08",
+   "rodada_id": "RD-006",
+   "protocolo": "2026.000048",
+   "tipo": "cobranca",
+   "status": "processado",
+   "data_processamento": "2026-10-23",
+   "perito_id": null,
+   "distribuido_em": null
+  }
+ ],
+ "peritos": [
+  {
+   "id_perito": "P1",
+   "nome": "Perito Fictício A",
+   "especialidade": "crime sexual",
+   "ativo": true
+  },
+  {
+   "id_perito": "P2",
+   "nome": "Perito Fictício B",
+   "especialidade": "identificação humana",
+   "ativo": true
+  },
+  {
+   "id_perito": "P3",
+   "nome": "Perito Fictício C",
+   "especialidade": "local de crime",
+   "ativo": true
+  },
+  {
+   "id_perito": "P4",
+   "nome": "Perito Fictício D",
+   "especialidade": "crime sexual",
+   "ativo": true
+  }
+ ],
+ "log": [
+  {
+   "id": "L-RD-001",
+   "rodada_id": "RD-001",
+   "acao": "rodada criada",
+   "perfil": "coordenador",
+   "data_hora": "2026-09-17T08:00:00"
+  },
+  {
+   "id": "L-RD-001-d",
+   "rodada_id": "RD-001",
+   "acao": "rodada distribuída (6 ordinários)",
+   "perfil": "coordenador",
+   "data_hora": "2026-09-18T10:00:00"
+  },
+  {
+   "id": "L-RD-002",
+   "rodada_id": "RD-002",
+   "acao": "rodada criada",
+   "perfil": "coordenador",
+   "data_hora": "2026-09-24T08:00:00"
+  },
+  {
+   "id": "L-RD-002-d",
+   "rodada_id": "RD-002",
+   "acao": "rodada distribuída (6 ordinários)",
+   "perfil": "coordenador",
+   "data_hora": "2026-09-25T10:00:00"
+  },
+  {
+   "id": "L-RD-003",
+   "rodada_id": "RD-003",
+   "acao": "rodada criada",
+   "perfil": "coordenador",
+   "data_hora": "2026-10-01T08:00:00"
+  },
+  {
+   "id": "L-RD-004",
+   "rodada_id": "RD-004",
+   "acao": "rodada criada",
+   "perfil": "coordenador",
+   "data_hora": "2026-10-08T08:00:00"
+  },
+  {
+   "id": "L-RD-005",
+   "rodada_id": "RD-005",
+   "acao": "rodada criada",
+   "perfil": "coordenador",
+   "data_hora": "2026-10-15T08:00:00"
+  },
+  {
+   "id": "L-RD-006",
+   "rodada_id": "RD-006",
+   "acao": "rodada criada",
+   "perfil": "coordenador",
+   "data_hora": "2026-10-22T08:00:00"
+  }
+ ]
+}

@@ -1,0 +1,28 @@
+relationship 075f1461-5012-57c6-93f8-dae9c4a27b7a
+	fromColumn: fato.etapa_key
+	toColumn: dim_etapa.etapa_key
+
+relationship ed794bc2-e7c8-5523-9547-ea67674e8542
+	fromColumn: fato.unidade_key
+	toColumn: dim_unidade.unidade_key
+
+relationship fb22a551-ac46-517a-a809-3e90bbfa3996
+	fromColumn: fato.sistema_key
+	toColumn: dim_sistema.sistema_key
+
+relationship 16bb09f6-299f-52fb-bf22-ab034d1136a1
+	fromColumn: fato.tipo_atividade_key
+	toColumn: dim_tipo_atividade.tipo_atividade_key
+
+relationship 416fef36-4666-5cd8-bfb0-9e28c335baed
+	fromColumn: fato.status_execucao_key
+	toColumn: dim_status_execucao.status_execucao_key
+
+relationship 7df701ff-1d36-57b0-8de5-b116f7be194d
+	fromColumn: fato.projeto_key
+	toColumn: dim_projeto.projeto_key
+
+relationship 3f468f29-981d-5c0a-b198-7649b3b697fd
+	fromColumn: fato.data_inicio_key
+	toColumn: dim_calendario.data_key
+

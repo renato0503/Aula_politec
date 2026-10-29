@@ -1,0 +1,3 @@
+Arquivo: OBJ01_extracao_002.zip
+Algoritmo: SHA-256
+Hash: 9fd1cec51aad480109e6194880341461cda78333ae198f539659fe829c185c58

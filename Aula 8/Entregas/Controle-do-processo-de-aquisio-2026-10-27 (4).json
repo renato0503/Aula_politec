@@ -1,0 +1,218 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T16:48:31.063Z",
+  "campos": {
+    "aluno": "Kasteline Gonçalves",
+    "unidade": "Aquisição",
+    "contato": "kastelinesilva@politec.mt.gov.br",
+    "nome_projeto": "Controle do processo de aquisição",
+    "tipo_projeto": "Painel de Business Intelligence (dashboard)",
+    "data": "2026-10-27",
+    "resumo": "Criar o número do processo no SIGADOC e no SIAG",
+    "problema": "A falta de controle no processo de aquisição pode gerar atrasos, compras inadequadas, custos excessivos",
+    "impacto": "jurídicas e na correção de pendências pode prolongar as contratações e comprometer o atendimento das demandas institucionais. Além disso, inconsistências nos documentos, como DFD, ETP e TR, podem gerar devoluções e retrabalho, enquanto falhas na pesquisa de preços podem comprometer a estimativa de custos e a economicidade da contratação. Esses impactos devem ser comprovados por evidências, como os registros de tramitação no SIGADOC e no SIAG, o histórico de devoluções e correções, os pareceres técnicos e jurídicos e a comparação entre os preços estimados e os contratados",
+    "hoje": "Na prática, o processo de aquisição da POLITEC começa com a identificação da necessidade pela unidade requisitante, seguida da elaboração do DFD e da assinatura do diretor-geral. Depois, são elaborados o ETP, a análise de riscos, quando aplicável, e o TR. Em seguida, realiza-se a pesquisa de preços em plataformas como o Compras.gov.br, formaliza-se o processo no SIGADOC e no SIAG, verifica-se a disponibilidade orçamentária e providenciam-se as análises técnicas e jurídicas necessárias. Por fim, define-se a modalidade de contratação, por licitação ou contratação direta, conforme a legislação. O tempo costuma se perder na elaboração e revisão dos documentos, na coleta e validação de preços, nas assinaturas, nas análises dos setores envolvidos e na correção de pendências processuais.",
+    "evid_detalhe": "Planilha de conferência controle de processos.",
+    "limite": "A decisão final deve permanecer com os agentes públicos responsáveis.",
+    "mvp_objetivo": "Validar um fluxo padronizado de aquisição na POLITEC, com controle de etapas, documentos, responsáveis, prazos e pendências, reduzindo o retrabalho e melhorando a rastreabilidade do processo.",
+    "entrega": "O entregável final é um processo de aquisição padronizado e automatizado para a POLITEC, com fluxo de etapas definido, documentos organizados, responsabilidades estabelecidas, aprovações rastreáveis e acompanhamento de prazos e pendências, visando reduzir o tempo de tramitação, o retrabalho e as falhas processuais.",
+    "dentro": "O escopo contempla o mapeamento, a padronização e a automatização do processo de aquisição da POLITEC, desde a identificação da necessidade pela unidade requisitante até a definição da modalidade de contratação. Inclui a formalização da demanda (DFD), a elaboração do ETP, do TR e da análise de riscos, quando aplicável, a pesquisa de preços, a verificação orçamentária, a instrução processual nos sistemas SIGADOC e SIAG, as análises técnicas e jurídicas, as aprovações necessárias e o acompanhamento de prazos, responsáveis e pendências, visando reduzir o retrabalho, aumentar a transparência e melhorar o controle das aquisições.",
+    "fora": "Ficam fora do escopo inicial a execução completa de licitações e contratações diretas, a gestão e fiscalização de contratos, a substituição dos sistemas oficiais SIGADOC e SIAG, a integração automática com todas as plataformas governamentais e a tomada de decisões técnicas, jurídicas e administrativas pela ferramenta. Esses itens ficam de fora para manter o MVP viável, reduzir a complexidade da implementação, respeitar as competências dos servidores e validar primeiro o controle do fluxo, dos documentos, dos prazos e das pendências do processo de aquisição da POLITEC.",
+    "mvp_plataforma": "Programa de desktop",
+    "mvp_tela_inicial": "A primeira tela é um painel de controle de aquisições da POLITEC, com a lista de processos em andamento, suas etapas, responsáveis, prazos, status das aprovações e pendências, além da opção de iniciar uma nova solicitação de aquisição.",
+    "mvp_mock": "No MVP, será simulado o fluxo de aquisição da POLITEC desde a identificação da necessidade até a instrução processual e definição da modalidade de contratação, incluindo o preenchimento do DFD, a elaboração do ETP e do TR, a pesquisa de preços, as etapas de aprovação, a verificação de pendências e o acompanhamento de prazos e responsáveis, sem integração real com o SIGADOC e o SIAG ou execução efetiva da contratação.",
+    "mvp_criterio": "O MVP será considerado funcional quando permitir registrar e acompanhar um processo de aquisição da POLITEC do início ao fim do fluxo proposto, visualizar as etapas, os documentos, os responsáveis, os prazos e as pendências, registrar as aprovações e identificar etapas incompletas, garantindo a rastreabilidade das ações e a redução de falhas e retrabalho durante os testes com os usuários.",
+    "mvp_reuso": "Podem ser reaproveitados os modelos institucionais de DFD, ETP, TR e análise de riscos da POLITEC, os procedimentos e fluxos de aquisição já utilizados, as normas e orientações legais aplicáveis, os registros de processos anteriores, as pesquisas de preços e os sistemas existentes, como SIGADOC e SIAG. Também podem ser aproveitados os critérios de aprovação, as responsabilidades dos setores e os documentos padronizados, reduzindo o esforço de desenvolvimento do MVP e garantindo maior aderência à rotina institucional.",
+    "dependencias": "Liberação da TI",
+    "papeis_obs": "Os papéis devem ter responsabilidades bem definidas, com acesso às informações e aos documentos conforme suas atribuições e permissões. A unidade requisitante é responsável por justificar a necessidade; a equipe de planejamento, por elaborar os documentos; o setor de compras, por conduzir a instrução processual; os setores técnico, orçamentário e jurídico, por realizar as análises de sua competência; e o diretor-geral e demais autoridades competentes, pelas aprovações cabíveis. A automação deve facilitar a comunicação, o acompanhamento de prazos e a rastreabilidade das ações, sem substituir a responsabilidade dos agentes públicos pelas decisões e aprovações",
+    "coletar": "Marcar por 2 semanas",
+    "acesso": "Chefia imediata",
+    "base_periodo": "Todos os registros dede 2024",
+    "campos_data": "Entrada e data de envio",
+    "hospedagem_escolhida": "fluxo padronizado, acompanhamento de etapas, documentos, responsáveis, prazos e pendências, por ser uma solução viável para testar rapidamente, reduzir o retrabalho e melhorar a rastreabilidade sem exigir, inicialmente",
+    "orcamento": "Sem custos",
+    "conta_quem": "o próprio servidor",
+    "restricoes": "As principais restrições conhecidas são o cumprimento obrigatório da legislação de compras públicas, a necessidade de manter as decisões e aprovações sob responsabilidade dos agentes públicos competentes, a dependência dos sistemas institucionais SIGADOC e SIAG, a necessidade de respeitar as permissões de acesso e a segurança das informações. No MVP, também há a limitação de não realizar integrações completas com os sistemas oficiais nem executar contratações reais, concentrando-se na simulação do fluxo, no controle de documentos, prazos, responsáveis e pendências.",
+    "lgpd_dados": "Matrícula funcional",
+    "lgpd_base": "Lei nº. 14.133",
+    "lgpd_acesso": "Login",
+    "asis_inicio": "E-mail enviado pelo Diretor de Administração Sistêmica",
+    "asis_fim": "O processo se encerra com a definição e formalização da contratação, após a conclusão das etapas administrativas, técnicas, orçamentárias e jurídicas necessárias, estando o processo devidamente instruído e apto à execução da aquisição ou contratação.",
+    "asis_entradas": "O Documento de Formalização da Demanda (DFD), as informações do planejamento anual de contratações, o Estudo Técnico Preliminar (ETP), a análise de riscos, quando aplicável, o Termo de Referência (TR), as pesquisas e estimativas de preços, a comprovação de disponibilidade orçamentária e os demais documentos, registros e pareceres necessários à instrução e definição da modalidade de contratação.",
+    "asis_saidas": "Contratação de serviço ou aquisição de bem e serviço.",
+    "asis_volume": "10",
+    "asis_duracao": "8 horas",
+    "asis_frequencia": "Semanal",
+    "asis_decisoes": "DFD pelo diretor-geral da POLITEC, a avaliação e aprovação, ETP e TR pelo coordenador de aquisições e contratos.",
+    "asis_digital": "Todo o sistema no SIAG",
+    "tobe_visao": "A POLITEC passará a contar com um processo de aquisição integrado, padronizado e rastreável, reduzindo prazos, retrabalho e falhas, com maior transparência e segurança nas contratações públicas.",
+    "tobe_mudanca": "A centralização e automatização do fluxo de aquisições da POLITEC, permitindo acompanhar todas as etapas, documentos, responsáveis, aprovações e prazos em um único processo integrado, reduzindo atrasos, falhas e retrabalho.",
+    "tobe_inalterado": "Permanecem inalterados o cumprimento da legislação vigente, as etapas obrigatórias da contratação pública, as competências dos setores envolvidos, a responsabilidade dos servidores e das autoridades pelas decisões e aprovações, bem como os princípios da legalidade, transparência, economicidade e controle dos atos administrativos.",
+    "tobe_restricao": "Devem ser mantidos o cumprimento da legislação vigente, a transparência, a rastreabilidade dos atos administrativos, a segregação de funções, a segurança das informações e a responsabilidade dos servidores e das autoridades competentes pelas análises, decisões e aprovações do processo de aquisição da POLITEC.",
+    "tobe_piloto": "O TO-BE será testado inicialmente em ambiente controlado na POLITEC, com um projeto-piloto utilizando processos de aquisição de menor complexidade, por meio da simulação das etapas, dos documentos, das aprovações e do acompanhamento de prazos. Participarão servidores das unidades requisitantes, da equipe de compras e dos setores técnico, orçamentário e jurídico. Serão avaliados o tempo de tramitação, a redução de retrabalho, a identificação de pendências e a rastreabilidade das informações, para validar o novo fluxo antes de sua implantação definitiva.",
+    "hipotese_campo": "A principal hipótese é que a padronização e o acompanhamento centralizado das etapas, dos documentos, dos responsáveis e dos prazos reduzirão o retrabalho e o tempo de tramitação dos processos de aquisição da POLITEC.",
+    "apoio": "É necessário o apoio da direção-geral da POLITEC para autorizar o projeto piloto, dos setores de compras e planejamento para validar o fluxo e os documentos, das áreas técnica, orçamentária e jurídica para verificar os requisitos, e da equipe de tecnologia da informação para avaliar a viabilidade técnica, a segurança dos dados e as possíveis integrações com o SIGADOC e o SIAG.",
+    "aprendizado": "É necessário aprofundar o conhecimento sobre o fluxo real de aquisições da POLITEC, a legislação vigente de compras públicas, os procedimentos e modelos de DFD, ETP e TR, as funcionalidades do SIGADOC e do SIAG, as possibilidades de automação de processos, a segurança da informação e os critérios para medir prazos, retrabalho e eficiência, além de aprender a desenvolver e testar o MVP com os servidores envolvidos.",
+    "frase": "A automatização e a padronização do processo de aquisição da POLITEC reduzirão o retrabalho, aumentarão a transparência e melhorarão o controle e a eficiência das contratações públicas.",
+    "provas": "1. Demora na tramitação: necessidade de analisar os prazos de cada etapa nos registros do SIGADOC e do SIAG para identificar gargalos.",
+    "piloto": "A proposta será testada por meio de um projeto-piloto com processos de aquisição simulados da POLITEC, comparando o fluxo atual com o fluxo automatizado do MVP. Serão avaliados o tempo de execução das etapas, a quantidade de erros e correções documentais, o número de pendências identificadas e a facilidade de acompanhamento dos processos pelos servidores, verificando se a solução reduz o retrabalho e melhora a rastreabilidade das informações.",
+    "risco_defesa": "O maior risco é a resistência dos servidores à mudança e a dificuldade de integrar o novo fluxo aos sistemas SIGADOC e SIAG; para mitigá-lo, será realizado um projeto-piloto com dados fictícios, capacitação dos usuários e validação gradual do processo, mantendo as aprovações sob responsabilidade dos agentes públicos competentes.",
+    "doc_descricao": "Fluxo de trabalho na aquisição:",
+    "doc_faltando": "Para desenvolver o MVP, ainda são necessários os modelos oficiais de DFD, ETP e TR utilizados pela POLITEC, o fluxo real de tramitação das aquisições, a definição dos responsáveis e das permissões de acesso, os critérios de aprovação e os prazos de cada etapa. Também é necessário validar com os setores envolvidos quais funcionalidades são prioritárias, obter exemplos de processos concluídos sem dados sensíveis e definir os recursos tecnológicos disponíveis para construir e testar o protótipo."
+  },
+  "marcados": {
+    "afetado": [
+      "Equipe interna"
+    ],
+    "evid": [
+      "Planilha ou controle local"
+    ],
+    "req": [
+      "Acessibilidade"
+    ],
+    "stack": "Planilha com automação"
+  },
+  "tabelas": {
+    "tPapeis": [
+      {
+        "papel": "Fazer o DFD",
+        "quem": "quem faz",
+        "ve": "",
+        "faz": "Identificar o que vai ser comprado",
+        "naofaz": "",
+        "registro": "Número do processo"
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "POLITEC",
+        "representa": "",
+        "colunas": "NÚMERO DO PROCESSO",
+        "chave": "",
+        "volume": "",
+        "origem": "",
+        "sintetico": "Não"
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "Matrícula",
+        "regra": "não",
+        "quando": "",
+        "excecao": "",
+        "valida": "",
+        "tipo": "Acesso"
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "",
+        "rota": "",
+        "objetivo": "",
+        "usuario": "",
+        "dados": "",
+        "acao": "",
+        "regra": "",
+        "tipo": "",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      }
+    ],
+    "tMetricas": [
+      {
+        "nome": "Número do processo",
+        "pergunta": "",
+        "formula": "",
+        "fonte": "",
+        "base": "",
+        "esperado": "",
+        "medir": ""
+      }
+    ],
+    "tAsIs": [
+      {
+        "etapa": "SIGADOC",
+        "papel": "Servidor da aquisição",
+        "entra": "Criar DFD",
+        "acao": "",
+        "sai": "",
+        "sistema": "",
+        "regra": "",
+        "espera": "",
+        "tempo": "1",
+        "auto": "Pouco"
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "",
+        "muda": "",
+        "quem": "",
+        "beneficio": "",
+        "esforco": "",
+        "rm": ""
+      }
+    ],
+    "tRefs": [
+      {
+        "ref": "Processos de 2025",
+        "tipo": "Documento interno",
+        "fonte": "DSI",
+        "ano": "2024",
+        "dado": "",
+        "uso": "",
+        "conferido": "Sim"
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "INÍCIO DA AQUISIÇÃO",
+        "data": "05/12/2026",
+        "resp": "Kasteline Goncalves",
+        "dep": "CADA SETOR",
+        "sit": "Em andamento"
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "Não aceite pelos outros servidores",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": ""
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "",
+        "tipo": "",
+        "onde": "",
+        "existe": "",
+        "acesso": "",
+        "linha": "",
+        "volume": "",
+        "historico": "",
+        "campos": "",
+        "atualiza": "",
+        "lgpd": "",
+        "obs": "",
+        "rm": ""
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "Caixa de texto",
+        "tipo": "Plataforma como serviço",
+        "onde": "Na rede da POLITEC",
+        "custo": "Zero",
+        "mantem": "Servidores",
+        "acesso": "Rede",
+        "banco": "",
+        "escala": "",
+        "limite": ""
+      }
+    ]
+  }
+}

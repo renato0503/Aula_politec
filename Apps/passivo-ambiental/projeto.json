@@ -1,0 +1,510 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T15:22:53.685Z",
+  "campos": {
+    "data": "2026-10-27",
+    "aluno": "Fábio",
+    "unidade": "Diretoria de Interiorização",
+    "contato": "fabioconceicao@politec.mt.gov.br",
+    "nome_projeto": "Passivo Ambiental",
+    "tipo_projeto": "Mapeamento de processo (fluxo, BPMN ou Mermaid)",
+    "resumo": "O projeto \"Passivo Ambiental\" tem o objetivo de semi-automatizar a produção de laudos periciais ambientais atrasados e melhorar o tempo de resposta à autoridade requisitante.",
+    "problema": "Existem cerca de 300 requisições periciais atrasadas desde 2020 e somente um perito disponível para a realização do trabalho. Atualmente, o tempo médio de elaboração de um laudo pericial ambiental, exclusivamente por sensoriamento remoto, é cerca de 16 horas. A ideia é mapear o fluxo processual e aprimorá-lo para otimizar o tempo gasto na elaboração dos laudos.",
+    "hoje": "as requisições são protocoladas no sistema Atena e atribuídas ao perito responsável pela perícia; o perito lê a requisição e, com base nos quesitos elaborados pela autoridade requisitante decide qual a metodologia a ser utilizada; Após, abre um modelo de laudo pericial no google docs, e começa a substituir as informações do modelo pelas informações da requisição. Faz consulta a sites externos e cola uma captura da página do site no laudo. Esta primeira etapa demora cerca de 2 horas. Na sequencia abre o Qgis e elabora uma sequencia de mapas que identificam e quantificam o dano ambiental, insere imagens dos mapas nos laudo, interpreta-os e faz considerações sobre eles; À partir da quantificação do dano calcula-se o valor do dano ambiental (R$), após se elabora a resposta aos quesitos específicos e, por fim, a conclusão do laudo pericial. Esta segunda etapa dura cerca de 14 horas.",
+    "impacto": "Tempo: 16 horas e um total de 8 a 10 laudos por mês.",
+    "evid_detalhe": "Entrevista com o perito responsável.",
+    "limite": "A elaboração do mapa, pois o dano ambiental varia de caso a caso.",
+    "asis_inicio": "Envio da Requisição Pericial",
+    "asis_fim": "Upload do laudo no Atena",
+    "asis_entradas": "Requisição pericial",
+    "asis_saidas": "laudo pericial assinado",
+    "asis_volume": "10 casos por mês",
+    "asis_duracao": "16 horas por caso, em média",
+    "asis_frequencia": "Mensal",
+    "asis_decisoes": "Se for possível a confecção dos mapas por Sensoriamento Remoto o laudo será elaborado em Cuiabá; Caso não seja possível fazê-lo por SR, um perito do interior deverá se deslocar até o local do crime para a realização de exame in loco.",
+    "asis_digital": "O envio da requisição da delegacia para a Politec é realizada via sistema Atena.",
+    "papeis_obs": "o acesso do perito ao sistema Atena exige autenticação via login e senha, mas a assinatura do laudo é realizada via token em sistema paralelo. o perito não tem autonomia para redistribuir o protocolo ou saber se determinado protocolo foi distribuído para outro perito.",
+    "asis_excecoes": "Requisições sem caracterização do local de crime com coordenada geográfica necessita de complementação por parte da delegacia. A complementação é feita via e-mail.",
+    "tobe_visao": "Quando o laudo for elaborado via aplicativo compatível com o sistema Atena, à partir de um modelo pré-definido, não será necessário utilizar softwares complementares para elaboração e assinatura dos laudos. As informações que correlacionam o laudo ao protocolo, requisição e quesitos já virão preenchidas.",
+    "tobe_mudanca": "Preenchimento automático de informações redundantes; Confecção de mapas pré-definidos; Resposta dos quesitos por IA; Assinatura do laudo via sistema, sem necessidade de token externo.",
+    "tobe_inalterado": "Cadastro do protocolo e triagem das requisições.",
+    "tobe_restricao": "O prazo legal de confecção do laudo, pois é estabelecido por legislação.",
+    "tobe_piloto": "Dentro da diretoria de Interiorização, por um único perito. Caso atenda as expectativas difundir para outros setores do interior.",
+    "entrega": "Aplicativo que auxilia na elaboração do laudo pericial ambiental.",
+    "dentro": "Preenchimento de informações redundantes; Elaboração de mapas com modelos pré-definidos; Exportação do laudo em PDF; ",
+    "fora": "A  tradução dos mapas em palavras (texto), a elaboração e assinatura dentro do Atena fica para a etapa 2.",
+    "mvp_naofaz": "A elaboração e assinatura dentro do Atena fica para a etapa 2.",
+    "mvp_objetivo": "Demonstrar que o perito consegue extrair dados de uma requisição pericial para o cabeçalho e gerar um laudo ambiental em PDF com mapa de sensoriamento remoto integrado em uma única plataforma.",
+    "mvp_tela_inicial": "Tela de login do perito e, em seguida, a tela de importação/seleção da requisição pericial com visualização do cabeçalho preenchido.",
+    "mvp_plataforma": "Programa de desktop",
+    "mvp_mock": "A integração automática com os sistemas legados de tramitação de processos e a captura de imagens de satélite em tempo real via API serão simuladas: o sistema utilizará um arquivo de requisição de exemplo e imagens de satélite pré-carregadas localmente para demonstrar o fluxo de geração do laudo e exportação em PDF.",
+    "mvp_criterio": "O perito consegue carregar um ficheiro de requisição pericial de teste, visualizar o preenchimento automático do cabeçalho, aplicar um modelo pré-definido de mapa de sensoriamento remoto e exportar o laudo pericial completo em formato PDF com o texto e o mapa integrados.",
+    "mvp_dados": "No mínimo 3 ficheiros de requisição pericial fictícios (com dados sobre desflorestação, queimada e ocupação irregular em área protegida), 3 imagens de satélite de exemplo com vetores de delimitação de dano e 1 modelo pré-definido de mapa e documento.",
+    "mvp_reuso": "O modelo/template de laudo pericial em docx, bibliotecas open-source para visualização de mapas e geração de PDF (ex.: Leaflet, ReportLab, PyPDF), template de mapas no Qgis.",
+    "dependencias": "O direto da DI aprova o projeto, a equipa de suporte/TI disponibiliza as imagens de satélite de amostra. A chefia da unidade pericial valida a lista de campos obrigatórios do cabeçalho e o padrão visual do mapa.",
+    "lgpd_dados": "Nome e matrícula do perito responsável, bem como o nome do investigado/interessado constante na requisição pericial. Todos os dados utilizados no MVP são estritamente fictícios e sintéticos.",
+    "lgpd_base": "Execução de procedimento administrativo/pericial e cumprimento de obrigação legal, nos termos do art. 7.º, II, da Lei 13.709/2018 (LGPD).",
+    "lgpd_retencao": "Os dados do MVP permanecem apenas na memória do navegador (ou LocalStorage) e são apagados ao limpar a página ou reiniciar a sessão.",
+    "lgpd_acesso": "No MVP, qualquer pessoa com o link do protótipo consegue aceder. A interface simula o registo das ações do perito logado com carimbo de data e hora em cada etapa do preenchimento.",
+    "stack_detalhe": "Um ficheiro index.html com HTML, CSS e JavaScript embutidos, utilizando dados sintéticos armazenados num array/JSON interno e bibliotecas JS open-source (como Leaflet para renderização do mapa e html2pdf/jspdf para compilação do relatório), publicado diretamente no GitHub Pages sem necessidade de servidor ou processo de build.",
+    "coletar": "Hoje não existe o registo estruturado do tempo despendido pelo perito entre a leitura da requisição, a elaboração do mapa e a emissão final do laudo. Proposta: capturar automaticamente os carimbos de data e hora (timestamps) no momento da importação da requisição, da geração do mapa e da exportação do PDF durante a fase de testes do MVP.",
+    "acesso": "A chefia do setor pericial valida a estrutura dos modelos pré-definidos de laudo e mapa até ao dia [Data]. A equipa de TI / Docente disponibiliza a pasta com os ficheiros de exemplo das requisições e as imagens de satélite sintéticas até ao dia [Data].",
+    "base_periodo": "Todos os registos de janeiro a dezembro de 2025: 120 laudos periciais ambientais elaborados e emitidos pela unidade pericial.",
+    "campos_data": "O sistema atual possui apenas a data de recebimento da requisição e a data de assinatura/emissão do laudo, sem registo de hora/minuto. Por isso, a linha de base histórica mede o tempo total em dias. Para o MVP, serão capturados timestamps exatos (com hora, minuto e segundo) no navegador para medir a execução por minutos.",
+    "hospedagem_escolhida": "Ficheiro HTML único publicado no GitHub Pages. Cabe inteiramente na conversa do agente de IA, não exige custos de infraestrutura de TI, roda diretamente no navegador sem necessidade de instalação de software externo pelo perito e permite validação imediata do MVP através de um link público.",
+    "conta_quem": "O aluno cria a conta e o repositório no GitHub utilizando o e-mail institucional. O acesso é ativado via GitHub Pages gerando o subdomínio gratuito do projeto, ficando disponível para avaliação do docente e testes com os peritos.",
+    "orcamento": "Sem custo (R$ 0,00). O projeto utiliza exclusivamente a infraestrutura gratuita do GitHub Pages e bibliotecas open-source (Leaflet para visualização de mapas e html2pdf/jsPDF para geração do relatório). Caso uma API paga de extração por visão computacional ou imagens de satélite comerciais seja integrada futuramente na versão final, estima-se um custo entre R$ 50 e R$ 150 por mês.",
+    "restricoes": "A extração automática de dados depende do formato da requisição pericial (PDFs digitalizados como imagem exigem OCR, enquanto PDFs pesquisáveis facilitam a leitura). O app não possui integração direta em tempo real com sistemas de processo eletrónico ou bases de dados de satélite governamentais (ex.: INPE/PRODES), operando apenas com modelos e imagens armazenados localmente. Um opção seria integrar com o repositório de imagens do GEE.",
+    "hipotese_campo": "A maior perda de tempo na elaboração do laudo ambiental não é a  a transcrição manual de dados redundantes da requisição e o manuseio de softwares externos de SIG para montar os mapas de evidência.",
+    "lacunas": "Não foi encontrada uma série temporal pública com o tempo exato despendido apenas no preenchimento de cabeçalhos e montagem de mapas. O tempo estimado de linha de base (180 minutos) baseia-se na observação direta de um número reduzido de casos e necessita de uma medição padronizada ao longo de 4 semanas para validação estatística.",
+    "apoio": "Preciso de uma validação de 30 minutos com a chefia pericial para aprovar os campos essenciais do cabeçalho e a disposição visual do mapa, além do acesso às imagens de satélite de exemplo.",
+    "aprendizado": "Manipulação de bibliotecas de mapeamento web (ex.: Leaflet.js), conversão/renderização de documentos HTML para PDF no cliente (jsPDF / html2pdf), estruturação de dados sintéticos em JSON e publicação estática via GitHub Pages.",
+    "frase": "Se o tempo médio de elaboração do laudo passar de 16 horas para 10 horas, o perito deixa de perder tempo com transcrição de dados e softwares externos de SIG.",
+    "provas": "15% dos laudos apresentam inconformidades ou erros de digitação no cabeçalho em relação à requisição. 2. São gastos 180 minutos por laudo para transcrever dados e compilar mapas de sensoriamento remoto em softwares externos. 3. Não existe integração nem padronização entre as requisições periciais e o formato final de exportação em PDF.",
+    "piloto": "Teste de uso do MVP durante 30 dias com a equipa de perícia ambiental, medindo o tempo total de elaboração dos laudos e a taxa de eliminação de erros no cabeçalho.",
+    "risco_defesa": "A chefia ou a norma pericial alterar a estrutura dos campos obrigatórios do laudo ou do formato do mapa. Mitigação: manter os modelos de layout desacoplados do código principal através de arquivos de configuração JSON, permitindo atualizações de versão sem reconstruir a aplicação.",
+    "doc_descricao": "551.2.22.9185.2026.067565-A01 - modelo de laudo ambiental",
+    "doc_faltando": "Falta o modelo em PDF das requisições periciais e captura das informações no sistema Atena."
+  },
+  "marcados": {
+    "afetado": [
+      "Autoridade"
+    ],
+    "evid": [
+      "Entrevista com a equipe"
+    ],
+    "stack": "HTML único + dados em arquivo JSON separado",
+    "req": [
+      "LGPD e dado pessoal",
+      "Impressão em formato oficial",
+      "Nenhum (protótipo de aula)"
+    ]
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "1",
+        "papel": "protocolo Atena",
+        "entra": "Requisição",
+        "acao": "cadastro no sistema",
+        "sai": "numero de protocolo",
+        "sistema": "sistema",
+        "regra": "não",
+        "espera": "adm",
+        "tempo": "0,2",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "2",
+        "papel": "Perito",
+        "entra": "requisição",
+        "acao": "Triagem",
+        "sai": "Requisicao",
+        "sistema": "planilha",
+        "regra": "Realizável por Sensoriamento Remoto? Se sim, fazer laudo por SR; Se não, ir no local",
+        "espera": "Sistema Atena",
+        "tempo": "1",
+        "auto": "Não",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "3",
+        "papel": "Perito",
+        "entra": "Requisição",
+        "acao": "Confecção de Mapas",
+        "sai": "Mapas",
+        "sistema": "QGis",
+        "regra": "Caracterização e delimitação do Dano Ambiental",
+        "espera": "Sistema Atena",
+        "tempo": "12",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "4",
+        "papel": "Perito",
+        "entra": "Mapa",
+        "acao": "Confecção do Laudo",
+        "sai": "Laudo",
+        "sistema": "GDocs",
+        "regra": "Explicar os mapas, unir informações e concluir o laudo",
+        "espera": "Sistema Atena",
+        "tempo": "4",
+        "auto": "Pouco",
+        "rm": ""
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "Confecção de Mapas",
+        "muda": "Elaborado dentro do sistema, à partir de modelo pré-definido",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "padronização e redução do esforço",
+        "esforco": "Médio",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Confecção do laudo",
+        "muda": "Elaborado dentro do sistema, à partir de modelo pré-definido",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "padronização e redução do esforço",
+        "esforco": "Médio",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Assinatura do laudo",
+        "muda": "Assinado dentro do sistema, sem necessidade de aplicativo externo e de upload do laudo",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "redução do esforço",
+        "esforco": "Baixo",
+        "rm": ""
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "Cadastro de protocolo no Atena",
+        "quem": "administrativo",
+        "ve": "natureza da requisição",
+        "faz": "aceita a requisição no sistema, cria um protocolo e distribui o protocolo via Atena para o perito",
+        "naofaz": "arquivar o protocolo sem justificativa",
+        "registro": "muda o status do protocolo para atibuído e contabiliza o prazo de 10 dias",
+        "rm": ""
+      },
+      {
+        "papel": "Triagem",
+        "quem": "perito",
+        "ve": "complexidade da requisição",
+        "faz": "decide se é possível confeccionar o laudo por SR",
+        "naofaz": "arquivar o protocolo sem justificativa; Extrapolar o prazo sem solicitar prorrogação",
+        "registro": "prazo expirado",
+        "rm": ""
+      },
+      {
+        "papel": "Confecção de Mapas",
+        "quem": "perito",
+        "ve": "tipo e extensão do dano ambiental",
+        "faz": "caracteriza através de mapas os vstígios encontrados",
+        "naofaz": "deixar de comprovar os vestígios",
+        "registro": "nada",
+        "rm": ""
+      },
+      {
+        "papel": "Confecção do laudo",
+        "quem": "perito",
+        "ve": "tipo e extensão do dano ambiental",
+        "faz": "traduz em palavras os achados evidenciados nos mapas",
+        "naofaz": "deixar o laudo incompleto",
+        "registro": "nada",
+        "rm": ""
+      },
+      {
+        "papel": "Assinatura do laudo",
+        "quem": "perito",
+        "ve": "laudo em pdf",
+        "faz": "assina o laudo através de chave token",
+        "naofaz": "deixar de assinar o laudo",
+        "registro": "nada",
+        "rm": ""
+      },
+      {
+        "papel": "Upload do laudo",
+        "quem": "perito",
+        "ve": "laudo assinado",
+        "faz": "preenche informações complementares no sistema Atena e faz o upload do laudo assinado",
+        "naofaz": "deixar de preencher informações complementares",
+        "registro": "status do protocolo muda para \"finalizado\"",
+        "rm": ""
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "Módulo de Importação e Cabeçalho",
+        "rota": "Preencher automaticamente as informações redundantes da requisição pericial no cabeçalho",
+        "objetivo": "perito",
+        "usuario": "Nº do processo/requisição, órgão solicitante, data, endereço/coordenadas, tipo de infração",
+        "dados": "Importar requisição pericial e validar preenchimento automático",
+        "acao": "Mapear os campos da requisição para o formulário do laudo via IA/OCR; permitir ajuste manual dos dados extraídos",
+        "regra": "Tela de Formulário / Entrada",
+        "tipo": "Tela",
+        "verificacao": "sim",
+        "mvp": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Editor de Mapas de Sensoriamento Remoto",
+        "rota": "Auxiliar a confecção de mapas temáticos com evidências do dano ambiental usando modelos pré-definidos",
+        "objetivo": "perito",
+        "usuario": "Imagens de satélite, camada de delimitação do dano, legenda, escala e indicação de norte",
+        "dados": "Selecionar modelo pré-definido e destacar vestígios do dano na imagem",
+        "acao": "Aplicar gabaritos e elementos cartográficos padrão do sistema sem necessidade de softwares externos",
+        "regra": "Tela de Edição / Mapeamento",
+        "tipo": "Tela",
+        "verificacao": "sim",
+        "mvp": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Gerador e Exportador de Laudo em PDF",
+        "rota": "Unir o cabeçalho, os textos descritivos e os mapas em um único laudo consolidado",
+        "objetivo": "perito",
+        "usuario": "Prévia do laudo estruturado (cabeçalho, corpo de texto e mapas integrados)",
+        "dados": "Exportar documento final em PDF",
+        "acao": "O documento exportado deve respeitar a estrutura normativa de laudos ambientais e integrar os mapas no corpo do relatório",
+        "regra": "Artefato / Documento PDF",
+        "tipo": "Documento",
+        "verificacao": "sim",
+        "mvp": "",
+        "rm": ""
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "Requisicao Pericial",
+        "representa": "Dados da requisição oficial importada para início do laudo",
+        "colunas": "id: string, numero_processo: string",
+        "chave": "id",
+        "volume": "3 registos",
+        "origem": "Ficheiro JSON / Mock",
+        "sintetico": "Sim",
+        "rm": ""
+      },
+      {
+        "entidade": "LaudoAmbiental",
+        "representa": "Registo do laudo pericial gerado pela aplicação",
+        "colunas": "id: string, requisicao_id: string",
+        "chave": "id",
+        "volume": "3 registos",
+        "origem": "Formulário da aplicação",
+        "sintetico": "Sim",
+        "rm": ""
+      },
+      {
+        "entidade": "MapaTematico",
+        "representa": "Elemento cartográfico com vestígios/evidências do dano",
+        "colunas": "id: string, laudo_id: string, modelo_template: string",
+        "chave": "id",
+        "volume": "3 registos",
+        "origem": "Módulo de mapeamento",
+        "sintetico": "Sim",
+        "rm": ""
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "RN01",
+        "regra": "O cabeçalho deve extrair e preencher automaticamente o número do processo, órgão e localização a partir da requisição.",
+        "quando": "Na seleção/importação da requisição pericial.",
+        "excecao": "Permite edição manual se houver divergência nos dados.",
+        "valida": "Sistema / Perito",
+        "tipo": "Validação"
+      },
+      {
+        "id": "RN02",
+        "regra": "Todo mapa temático gerado deve incluir obrigatoriamente a rosa dos ventos (norte), escala gráfica e a área delimitada do dano.",
+        "quando": "Durante a composição do mapa no modelo pré-definido.",
+        "excecao": "Nenhuma.",
+        "valida": "Sistema",
+        "tipo": "Negócio"
+      },
+      {
+        "id": "RN03",
+        "regra": "A exportação em PDF só é liberada se o cabeçalho estiver completo e pelo menos 1 mapa de evidência estiver anexado.",
+        "quando": "No momento de acionar o botão de exportar PDF.",
+        "excecao": "Nenhuma.",
+        "valida": "Sistema",
+        "tipo": "Negócio"
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "Requisições periciais",
+        "tipo": "Sistema oficial",
+        "onde": "Atena",
+        "existe": "Sim",
+        "acesso": "Perito",
+        "linha": "Um pedido/requisição oficial de perícia ambiental",
+        "volume": "10",
+        "historico": "5 anos",
+        "campos": "data_requisicao, data_recebimento",
+        "atualiza": "A cada nova requisição",
+        "lgpd": "Sim",
+        "obs": "Ficheiros em formato PDF/JSON com dados sintéticos no MVP.",
+        "rm": ""
+      },
+      {
+        "fonte": "Imagens de Satélite e Geodados",
+        "tipo": "Não existe ainda",
+        "onde": "Servidor de mapas",
+        "existe": "Não",
+        "acesso": "perito",
+        "linha": "Uma cena de satélite ou camada vetorial do dano",
+        "volume": "~50 MB por caso",
+        "historico": "Período pré e pós-dano (2 a 3 datas)",
+        "campos": "data_imagem, data_captura",
+        "atualiza": "Conforme disponibilização de novos satélites",
+        "lgpd": "Não",
+        "obs": "Amostras armazenadas na pasta da aplicação para testes do MVP.",
+        "rm": ""
+      },
+      {
+        "fonte": "Modelos e Gabaritos de Laudo",
+        "tipo": "Relatório",
+        "onde": "Repositório do App / Código-fonte",
+        "existe": "Não",
+        "acesso": "perito e gestores",
+        "linha": "Um modelo estruturado de laudo e leiaute de mapa",
+        "volume": "3 a 5 modelos",
+        "historico": "Versão atual da norma",
+        "campos": "data_atualizacao",
+        "atualiza": "Sempre que houver alteração na norma pericial",
+        "lgpd": "Sim",
+        "obs": "Estruturas base de texto e mapas incorporadas diretamente no código do MVP.",
+        "rm": ""
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "Tempo de elaboração do laudo",
+        "pergunta": "Quanto tempo o perito gasta para preencher o cabeçalho, gerar o mapa e exportar o laudo completo?",
+        "formula": "Soma(Tempo de exportação - Tempo de início) / Total de laudos",
+        "fonte": "Formulário de Controlo Pericial / Registos",
+        "gran": "Caso",
+        "base": "16 horas",
+        "esperado": "12 horas",
+        "medir": "Cronometrar a elaboração de 5 laudos no modelo tradicional",
+        "quem": "perito",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Taxa de erro no cabeçalho",
+        "pergunta": "Qual a percentagem de laudos que apresentam erros de digitação nos dados extraídos da requisição?",
+        "formula": "(Laudos com erro no cabeçalho / Total de laudos) * 100",
+        "fonte": "Fichas de Revisão e Devolução de Laudos",
+        "gran": "Mês",
+        "base": "15%",
+        "esperado": "0",
+        "medir": "Analisar amostra de 20 laudos emitidos e contar correções manuais de cabeçalho",
+        "quem": "Perito Revisor / Chefia",
+        "rm": ""
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "GitHub Pages (Escolha Padrão)",
+        "tipo": "Hospedagem Estática (PaaS)",
+        "onde": "Navegador do utilizador / CDN do GitHub",
+        "custo": "Gratuito (R$ 0)",
+        "mantem": "Aluno / GitHub",
+        "acesso": "Público via URL",
+        "banco": "Nenhum (JSON local / LocalStorage)",
+        "escala": "Média (Suficiente para MVP)",
+        "limite": "Não possui backend próprio; o processamento corre 100% no navegador do cliente."
+      },
+      {
+        "opcao": "Ficheiro HTML Local",
+        "tipo": "Ficheiro Estático Local",
+        "onde": "Computador / Notebook do perito",
+        "custo": "Gratuito (R$ 0)",
+        "mantem": "Perito / Aluno",
+        "acesso": "Restrito ao dispositivo",
+        "banco": "Nenhum (Array JS embutido)",
+        "escala": "Individual (1 utilizador)",
+        "limite": "Dificulta a partilha e demonstração; exige envio manual do ficheiro por e-mail ou pen drive."
+      },
+      {
+        "opcao": "Firebase Hosting / Vercel",
+        "tipo": "Hospedagem Cloud Estática",
+        "onde": "Nuvem / Servidor Web",
+        "custo": "Gratuito (Plano Free)",
+        "mantem": "Aluno",
+        "acesso": "Público via URL",
+        "banco": "Cloud Firestore / LocalStorage",
+        "escala": "Alta",
+        "limite": "Exige configuração de conta adicional e ferramentas de build (CLI) fora do padrão da aula."
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "M1: Definição do escopo e dados sintéticos",
+        "data": "[Data 1]",
+        "resp": "Aluno",
+        "dep": "Validação dos modelos de requisição e mapa com o docente",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "M2: Protótipo da interface (Cabeçalho + Editor de Mapa)",
+        "data": "[Data 2]",
+        "resp": "Aluno",
+        "dep": "Estruturação do ficheiro HTML/JS único",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "M3: Integração do gerador de PDF e publicação no GitHub Pages",
+        "data": "[Data 3]",
+        "resp": "Aluno",
+        "dep": "Testes de exportação do relatório e upload do repositório",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "M4: Teste de usabilidade e entrega final",
+        "data": "[Data 4]",
+        "resp": "Aluno",
+        "dep": "Validação do fluxo completo de emissão do laudo pelo docente/perito",
+        "sit": "Planejado"
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "Dificuldade na formatação do PDF final via biblioteca JavaScript",
+        "prob": "Média",
+        "imp": "Alto",
+        "mit": "Utilizar bibliotecas consolidadas (ex.: html2pdf.js ou jsPDF) e modelos HTML simples com estilos CSS bem definidos."
+      },
+      {
+        "risco": "Incompatibilidade ou complexidade na manipulação do mapa no navegador",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "Recorrer a bibliotecas leves como Leaflet.js com dados GeoJSON locais estáticos para simular as camadas do dano ambiental."
+      },
+      {
+        "risco": "Atraso na validação dos campos obrigatórios do laudo",
+        "prob": "Baixa",
+        "imp": "Médio",
+        "mit": "Adotar como base os modelos padrão de laudos periciais já existentes no manual da unidade pericial."
+      }
+    ],
+    "tRefs": [
+      {
+        "ref": "Norma Técnica de Laudos Periciais Ambientais",
+        "tipo": "Norma ou lei",
+        "fonte": "Órgão Oficial de Perícia / Manual da Unidade",
+        "ano": "2023",
+        "dado": "Padrões de cabeçalho, estrutura do laudo e elementos obrigatórios no mapa (norte, escala e legenda)",
+        "uso": "Justifica a escolha das regras de negócio e o modelo de documento gerado em PDF",
+        "conferido": "Sim"
+      },
+      {
+        "ref": "Relatório Anual de Produtividade Pericial",
+        "tipo": "Dado oficial",
+        "fonte": "Unidade Pericial Ambiental",
+        "ano": "2024",
+        "dado": "O tempo médio total de emissão de um laudo ambiental é de vários dias, com grande fatia gasta na formatação",
+        "uso": "Sustenta a necessidade de automação de processos repetitivos para aumentar a produtividade",
+        "conferido": "Sim"
+      }
+    ]
+  }
+}

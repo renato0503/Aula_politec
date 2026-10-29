@@ -1,0 +1,85 @@
+{
+  "titulo": "Metas pelo BI",
+  "subtitulo": "POLITEC/MT · CQUAL · NIINS",
+  "descricao": "Lê o relatório mensal do Power BI 1, confere os números e gera o arquivo da planilha de monitoramento.",
+  "aviso": "",
+  "db": {
+    "nome": "metas_bi_v1",
+    "versao": 1,
+    "stores": {
+      "relatorios": {
+        "keyPath": "id",
+        "indices": []
+      },
+      "pendencias": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "mes_ref",
+            "campo": "mes_ref",
+            "unico": false
+          }
+        ]
+      },
+      "correcoes": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "pendencia_id",
+            "campo": "pendencia_id",
+            "unico": false
+          }
+        ]
+      },
+      "unidades": {
+        "keyPath": "nome",
+        "indices": []
+      },
+      "log": {
+        "keyPath": "id",
+        "indices": []
+      }
+    }
+  },
+  "rotas": [
+    {
+      "rota": "#/importar",
+      "titulo": "Importar o mês",
+      "sprint": 2,
+      "descricao": "Arquivo do Power BI 1 (CSV, Excel ou PDF)."
+    },
+    {
+      "rota": "#/conferencia/:mes",
+      "titulo": "Conferência",
+      "sprint": 3,
+      "descricao": "Lido, mês anterior, variação e alertas."
+    },
+    {
+      "rota": "#/exportar/:mes",
+      "titulo": "Gerar planilha",
+      "sprint": 4,
+      "descricao": "Arquivo no layout da planilha do Google."
+    },
+    {
+      "rota": "#/historico",
+      "titulo": "Histórico",
+      "sprint": 3,
+      "descricao": "Meses importados e aprovados."
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": ""
+    }
+  ],
+  "libs": [
+    "xlsx.full.min.js"
+  ],
+  "dados": [
+    [
+      "seed",
+      "exemplos/seed.json"
+    ]
+  ]
+}

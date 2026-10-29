@@ -1,0 +1,33 @@
+{
+  "titulo": "Controle do Processo de Aquisição",
+  "subtitulo": "POLITEC/MT · etapas, documentos, prazos e pendências",
+  "descricao": "Painel das aquisições da POLITEC, com etapas, documentos exigidos, responsáveis, prazos e pendências. Dados fictícios.",
+  "aviso": "Protótipo com dados fictícios. Não registre processos, matrículas ou documentos reais.",
+  "db": {
+    "nome": "controle_aquisicoes_v1",
+    "versao": 1,
+    "stores": {
+      "processos": {"keyPath": "id_processo", "indices": [
+        {"nome": "etapa", "campo": "etapa", "unico": false},
+        {"nome": "status", "campo": "status", "unico": false}
+      ]},
+      "documentos": {"keyPath": "id_documento", "indices": [{"nome": "processo_id", "campo": "processo_id", "unico": false}]},
+      "pendencias": {"keyPath": "id_pendencia", "indices": [{"nome": "processo_id", "campo": "processo_id", "unico": false}]},
+      "log": {"keyPath": "id", "indices": [{"nome": "processo_id", "campo": "processo_id", "unico": false}]}
+    }
+  },
+  "perfis": [
+    {"id": "requisitante", "nome": "Unidade requisitante", "descricao": "Registra a necessidade e acompanha o processo."},
+    {"id": "compras", "nome": "Equipe de aquisições", "descricao": "Instrui o processo, anexa documentos e conclui etapas."},
+    {"id": "gestor", "nome": "Chefia", "descricao": "Acompanha prazos, pendências e aprovações."}
+  ],
+  "rotas": [
+    {"rota": "#/painel", "titulo": "Painel", "sprint": 1, "descricao": "Processos por etapa, atrasados e pendências."},
+    {"rota": "#/processos", "titulo": "Processos", "sprint": 2, "descricao": "Lista com filtros de etapa, situação e busca."},
+    {"rota": "#/processo/novo", "titulo": "Nova aquisição", "sprint": 2, "descricao": "Registro com SIGADOC e SIAG (RN01).", "perfis": ["requisitante", "compras"]},
+    {"rota": "#/processo/:id", "titulo": "Processo", "sprint": 2, "descricao": "Etapas, documentos, pendências e histórico."},
+    {"rota": "#/config", "titulo": "Configuração", "sprint": 1, "descricao": ""}
+  ],
+  "libs": [],
+  "dados": [["seed", "exemplos/seed.json"]]
+}

@@ -1,0 +1,627 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T13:08:04.440Z",
+  "campos": {
+    "data": "2026-10-27",
+    "aluno": "Elthon",
+    "unidade": "Identificação Civil",
+    "contato": "elthonteixeira@politec.mt.gov.br",
+    "nome_projeto": "Agendamento CIN",
+    "tipo_projeto": "Aplicativo web / portal",
+    "resumo": "Sistema de agendamento aos postos de identificação ( postos próprios) por meio do google script.",
+    "problema": "Hoje o sistema de agendamento existente é fragmentado e não padronizado, cada unidade utiliza o google agendas.",
+    "hoje": "O cidadão liga para a unidade e a enviado a pessoa um link que dá acesso ao google agendas, e a equipe não tem acesso fácil ao sistema de informações do agendamento e o cidadão não um sistema intuito e moderno. ",
+    "impacto": "o processo demora varios minutos alem de nao entregar muito informação para equipe, como a taxa de cancelamento ou comparecimento ",
+    "evid_detalhe": "Informação retirada de conversa com a equipe de uma unidade do interior do estado",
+    "limite": "a parte de analise documental e solicitação, devido a complexidade, porem a parte de agendamento pode ser melhorada.",
+    "asis_inicio": "solicitação de agendamento",
+    "asis_fim": "Requerente compareceu",
+    "asis_entradas": "entra informações do cidadão básica: nome, telefone, e-mail ( se houver)",
+    "asis_saidas": "Data e horário do agendamento",
+    "asis_volume": "100 por dia",
+    "asis_frequencia": "Diário",
+    "asis_duracao": "2,5 por hora",
+    "asis_decisoes": "disponibilidade de agenda/data",
+    "asis_excecoes": "caso a data esteja ocupado, a pessoa poderá escolher outra data",
+    "asis_digital": "o processo é digital",
+    "tobe_visao": "Implantar um sistema centralizado de agendamento da CIN",
+    "tobe_mudanca": "O agendamento passa a ser digital, permitindo ao cidadão escolher o posto, a data e o horário disponíveis por meio de um link, enquanto o sistema automatiza o controle de vagas e confirmações.",
+    "tobe_inalterado": "As regras oficiais para emissão da CIN e o atendimento presencial permanecem inalterados, assim como as responsabilidades dos servidores dos postos.",
+    "tobe_restricao": "As exigências legais para emissão da CIN, as normas institucionais, a proteção dos dados pessoais e as atribuições oficiais dos servidores devem ser respeitadas.",
+    "tobe_piloto": "Realizar um piloto de 30 dias em um ou dois postos",
+    "entrega": "Protótipo funcional de agendamento da CIN, desenvolvido com Google Apps Script e Google Planilhas, para um ou dois postos, expansível para até 10",
+    "dentro": "Cadastro de postos, horários e vagas.\nCalendário público para agendamento.\nFormulário com CPF e e-mail opcionais.\nGeração de protocolo e confirmação por e-mail.\nPainel do posto para gerenciar reservas e registrar comparecimento.\nPainel da Gestão com indicadores básicos",
+    "fora": "Integração com sistemas oficiais da Politec, por depender de autorização e acesso técnico.\nEnvio de SMS ou WhatsApp, para reduzir custos.\nImplantação simultânea nos 10 postos, pois o piloto será gradual.\nAplicativo móvel próprio (site), porque o acesso será pelo navegador",
+    "mvp_naofaz": "Não integra automaticamente com o SIC ou outros sistemas oficiais.\nNão valida documentos nem emite a CIN\nNão oferece análises avançadas ou relatórios gerenciais complexos.\n",
+    "mvp_objetivo": "Comprovar que o cidadão consegue agendar a CIN e que o posto consegue gerenciar a agenda de forma simples e segura.",
+    "mvp_plataforma": "Site web (abre no navegador)",
+    "mvp_tela_inicial": "Página pública para selecionar posto, data e horário disponíveis.",
+    "mvp_mock": "Dados fictícios de cidadãos e postos",
+    "mvp_criterio": "O cidadão consegue concluir um agendamento e o posto consegue visualizar a reserva, cancelar ",
+    "mvp_dados": "Pelo menos 10 agendamentos fictícios, incluindo casos de cancelamento, ausência e comparecimento.",
+    "mvp_reuso": "Apenas o google agenda, será feito do zero o sistema sem reaproveitamento",
+    "dependencias": "das diretorias de identificação e interiorização",
+    "lgpd_dados": "Nome completo e, opcionalmente, CPF, e-mail e telefone do cidadão. Também serão tratados e-mails institucionais e registros de ações dos servidores.",
+    "lgpd_base": "organizar o agendamento de atendimentos da CIN. A base legal aplicável deverá ser validada pela instituição e pelo encarregado de proteção de dados antes do uso real.",
+    "lgpd_retencao": "Durante o piloto, utilizar dados fictícios. Para produção, estabelecer prazo de retenção e descarte conforme as normas institucionais, obrigações legais e orientações do encarregado de dados.",
+    "lgpd_acesso": "Cidadão: realiza o agendamento e acessa apenas informações autorizadas sobre sua reserva.\nPosto: consulta e gerencia os agendamentos de sua unidade.\nGestão: administra os postos e consulta indicadores consolidados.\nSistema: registra operações relevantes, data, hora e usuário responsável.",
+    "stack_detalhe": "o projeto será desenvolvido com Google Planilhas e Google Apps Script, permitindo uma aplicação web com calendário público, área restrita dos postos e painel da Gestão.",
+    "coletar": "Atualmente, o sistema de agendamento ainda não possui uma base consolidada de horários, vagas, reservas e comparecimento. Proposta: criar uma planilha central e registrar os agendamentos, cancelamentos e comparecimentos durante quatro semanas de piloto, utilizando inicialmente um ou dois postos.",
+    "acesso": "A equipe de TI institucional deverá autorizar o uso das ferramentas e a publicação do sistema. A Gestão indicará os postos participantes e os servidores autorizados antes do início do piloto. O acesso será validado antes da utilização de dados reais, começando os testes com dados fictícios.",
+    "base_periodo": "O projeto-piloto do Sistema de Agendamento da Carteira de Identidade Nacional (CIN) ainda não possui uma base histórica consolidada de agendamentos, ocupação de vagas e comparecimento dos cidadãos.\n\nA linha de base será estabelecida a partir da coleta de dados durante a primeira semana de funcionamento do piloto, inicialmente em um ou dois postos de identificação. Serão registrados o número de vagas disponibilizadas, agendamentos realizados, cancelamentos e comparecimentos.\nOs resultados das quatro semanas de teste permitirão avaliar a utilização do sistema e estabelecer parâmetros para uma possível expansão a outros postos de identificação de Mato Grosso.",
+    "campos_data": "No projeto-piloto do Sistema de Agendamento da CIN, serão previstos campos de data e horário para registrar as etapas do agendamento. A estrutura proposta contempla a data e o horário agendados, a data e hora da criação da reserva, a data e hora de eventuais cancelamentos e o registro do comparecimento do cidadão.\n\nEsses dados serão armazenados no Google Sheets e gerenciados pelo Google Apps Script. Como o sistema ainda será desenvolvido, esses campos precisam ser implementados e validados durante os testes.\nCom esses registros, será possível medir a quantidade de agendamentos por período, a ocupação das vagas, os cancelamentos, o comparecimento e o tempo entre o agendamento e a data prevista para o atendimento. A medição do tempo efetivo de espera no posto exigirá também o registro do horário de chegada do cidadão e do início do atendimento.",
+    "hospedagem_escolhida": "opção escolhida é Google Apps Script integrado ao Google Sheets, por permitir desenvolver e disponibilizar o Sistema de Agendamento da CIN como uma aplicação web acessível por link, sem necessidade de contratar inicialmente um servidor ou banco de dados externo.",
+    "conta_quem": "A criação ou disponibilização da conta institucional, a autorização para uso do Google Apps Script e do Google Sheets e a definição das permissões de publicação deverão ser realizadas ou autorizadas pela equipe institucional de TI da Politec/MT, conforme as políticas de segurança vigentes.",
+    "orcamento": "O projeto-piloto utilizará o Google Apps Script e o Google Sheets, ferramentas que podem ser utilizadas sem custo adicional de licenciamento, desde que a instituição disponha de contas compatíveis e o uso permaneça dentro das cotas e dos limites aplicáveis.",
+    "restricoes": "Limites do Google: cotas de execução, envio de e-mails e acessos simultâneos.\nInternet: necessária para cidadãos e servidores acessarem o sistema.\nSegurança e LGPD: controle de acesso e proteção dos dados pessoais.\nEscopo: início em um ou dois postos, com expansão condicionada aos testes.\nRegras oficiais: validação dos procedimentos de agendamento pela Gestão",
+    "hipotese_campo": "A implantação do sistema de agendamento da CIN em um ou dois postos deverá reduzir o trabalho manual, facilitar o acesso dos cidadãos às vagas e melhorar o controle dos agendamentos e comparecimentos.",
+    "lacunas": "A pesquisa ainda não dispõe de dados consolidados sobre demanda, ocupação de vagas, cancelamentos, faltas e tempo de espera nos postos. Esses indicadores serão coletados durante o piloto de quatro semanas, inicialmente em um ou dois postos. Os resultados serão limitados ao período e às unidades avaliadas, não permitindo generalização para todos os postos de Mato Grosso",
+    "apoio": "Gestão: aprovação das regras e indicação dos postos participantes.",
+    "aprendizado": "- Google Apps Script e JavaScript: desenvolvimento das funcionalidades.\n- Google Sheets: estruturação e gerenciamento dos dados.\n- HTML e CSS: criação da interface para cidadãos e servidores.\n- Segurança e LGPD: controle de acesso e proteção dos dados pessoais.\n- Testes: validação de agendamentos simultâneos, permissões e envio de e-mails.\n- Publicação: configuração do acesso e implantação com apoio da TI institucional.",
+    "frase": "Desenvolver um sistema digital de agendamento da CIN para modernizar o atendimento ao cidadão, otimizar a gestão de vagas e melhorar o controle dos atendimentos nos postos de identificação de Mato Grosso.",
+    "provas": "1-Volume de atendimento: Mato Grosso emitiu mais de 429 mil CIN em 2025, demonstrando a relevância do serviço de identificação.\n\n2. Necessidade de organização: o piloto permitirá centralizar horários, vagas, agendamentos, cancelamentos e comparecimentos.\n\n3. Viabilidade técnica: Google Apps Script e Google Sheets permitem desenvolver um protótipo de baixo custo, sujeito à autorização da TI e aos testes de segurança e desempenho.",
+    "piloto": "Desenvolver um protótipo e testá-lo durante quatro semanas em um ou dois postos de identificação, utilizando inicialmente dados fictícios. Serão avaliados o funcionamento dos agendamentos, o controle de vagas, os cancelamentos, o comparecimento e a facilidade de uso, com análise dos resultados ao final do piloto.",
+    "risco_defesa": "O maior risco é a falta de autorização institucional para publicar o sistema e utilizar dados reais"
+  },
+  "marcados": {
+    "afetado": [
+      "Cidadão externo",
+      "Servidor da unidade",
+      "Chefia"
+    ],
+    "evid": [
+      "Entrevista com a equipe"
+    ],
+    "stack": "Planilha com automação",
+    "req": [
+      "Segurança e controle de acesso",
+      "Acessibilidade",
+      "LGPD e dado pessoal"
+    ]
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "etapa": "Consulta de vagas",
+        "papel": "Cidadão",
+        "entra": "Posto desejado",
+        "acao": "Consulta datas e horários disponíveis",
+        "sai": "Opção de agendamento",
+        "sistema": "Site ou atendimento presencial",
+        "regra": "Deve haver vaga disponível",
+        "espera": "Até encontrar horário disponível",
+        "tempo": "A medir",
+        "auto": "Sim, com regra clara"
+      },
+      {
+        "etapa": "Solicitação de agendamento",
+        "papel": "Cidadão",
+        "entra": "Dados pessoais e horário",
+        "acao": "Preenche e envia formulário",
+        "sai": "Solicitação registrada",
+        "sistema": "Formulário ou papel",
+        "regra": "Campos obrigatórios preenchidos",
+        "espera": "Durante o preenchimento",
+        "tempo": "A medir",
+        "auto": "Pouco"
+      },
+      {
+        "etapa": "Verificação da vaga",
+        "papel": "Sistema ou servidor",
+        "entra": "Solicitação recebida",
+        "acao": "Confere disponibilidade",
+        "sai": "Agendamento validado",
+        "sistema": "Planilha ou conferência manual",
+        "regra": "Não exceder a capacidade",
+        "espera": "Até a conferência",
+        "tempo": "A medir",
+        "auto": "Sim, com regra clara"
+      },
+      {
+        "etapa": "Confirmação",
+        "papel": "Servidor ou sistema",
+        "entra": "Solicitação validada",
+        "acao": "Confirma data e horário",
+        "sai": "Protocolo de agendamento",
+        "sistema": "E-mail ou comunicação manual",
+        "regra": "Vaga confirmada",
+        "espera": "Até o envio da confirmação",
+        "tempo": "A medir",
+        "auto": "Sim, com regra clara"
+      },
+      {
+        "etapa": "Comparecimento",
+        "papel": "Cidadão",
+        "entra": "Confirmação do agendamento",
+        "acao": "Comparece ao posto na data marcada",
+        "sai": "Cidadão presente ou ausência",
+        "sistema": "Atendimento presencial",
+        "regra": "Data e horário agendados",
+        "espera": "Na chegada ao posto",
+        "tempo": "A medir",
+        "auto": "Não"
+      },
+      {
+        "etapa": "Registro do atendimento",
+        "papel": "Servidor do posto",
+        "entra": "Agendamento e cidadão presente",
+        "acao": "Registra comparecimento e atendimento",
+        "sai": "Situação atualizada",
+        "sistema": "Planilha ou sistema",
+        "regra": "Registrar presença ou ausência",
+        "espera": "Até o registro pelo servidor",
+        "tempo": "A medir",
+        "auto": "Pouco"
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "configurar agenda",
+        "muda": "definir postos, horarios e vagas",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "padronização",
+        "esforco": "Médio",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "consultar horario",
+        "muda": "exibir vagas disponiveis",
+        "quem": "A máquina (automação)",
+        "beneficio": "agilidade",
+        "esforco": "Baixo",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "agendar atendimento",
+        "muda": "cidadao escolhe",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "faciidade ",
+        "esforco": "Baixo",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "gerar indicadores",
+        "muda": "consolidar dados",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "melhor gestao",
+        "esforco": "Médio",
+        "rm": ""
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "cidadao ",
+        "quem": "pessoa que solicita o atendimento",
+        "ve": "postos, horarios",
+        "faz": "agendar e consultar a sua reserva",
+        "naofaz": "acessar dados de terceiros",
+        "registro": "agendamento e protocolo",
+        "rm": ""
+      },
+      {
+        "papel": "posto",
+        "quem": "servidor",
+        "ve": "agenda e agendamentos ",
+        "faz": "configurar os horarios e administrar",
+        "naofaz": "acessar dados de outros postos sem o perfil",
+        "registro": "alteracoes e cancelmentos",
+        "rm": ""
+      },
+      {
+        "papel": "gestao",
+        "quem": "responsavel pela administracao do sistema",
+        "ve": "dados operacionais",
+        "faz": "gerenciar postos",
+        "naofaz": "alterar registros",
+        "registro": "alterar administracoes",
+        "rm": ""
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "agenda ",
+        "rota": "reservar horario",
+        "objetivo": "cidadao",
+        "usuario": "escolher posto, data e horario",
+        "dados": "selecionar vaga",
+        "acao": "exbir somente vagas disponiveis",
+        "regra": "tela",
+        "tipo": "Regra",
+        "verificacao": "sim",
+        "mvp": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "confirmar",
+        "rota": "registar rserva",
+        "objetivo": "cidadao",
+        "usuario": "nome, CPF.email como opcional",
+        "dados": "confimar vaga",
+        "acao": "gerar protocolo",
+        "regra": "tela",
+        "tipo": "Regra",
+        "verificacao": "sim",
+        "mvp": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "painel do posto",
+        "rota": "administar agenda",
+        "objetivo": "servidor",
+        "usuario": "horarios e agendamento da unidade",
+        "dados": "criar horarios, cancelar",
+        "acao": "acesso restristo",
+        "regra": "tela",
+        "tipo": "Regra",
+        "verificacao": "sim",
+        "mvp": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "painel de gestao",
+        "rota": "acompanhar unidades",
+        "objetivo": "gestao",
+        "usuario": "postos, reservas",
+        "dados": "consultar indicadores",
+        "acao": "acesso autorizado",
+        "regra": "tela",
+        "tipo": "Regra",
+        "verificacao": "sim",
+        "mvp": "",
+        "rm": ""
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "postos",
+        "representa": "unidade de atendimento",
+        "colunas": "posto_id: texto, nome: texto, município: texto, endereço: texto, e-mail: texto, ativo: booleano",
+        "chave": "posto_id",
+        "volume": "2 a 10",
+        "origem": "Cadastro de teste",
+        "sintetico": "Parcialmente",
+        "rm": ""
+      },
+      {
+        "entidade": "Disponibilidade",
+        "representa": "Horários e vagas",
+        "colunas": "horario_id: texto, posto_id: texto, data: data, hora: hora, capacidade: inteiro, situação: texto",
+        "chave": "horario_id",
+        "volume": "50 a 200",
+        "origem": "Gerado para testes",
+        "sintetico": "Sim",
+        "rm": ""
+      },
+      {
+        "entidade": "Agendamentos",
+        "representa": "Reservas dos cidadãos",
+        "colunas": "protocolo: texto, posto_id: texto, horário_id: texto, nome: texto, CPF: texto opcional, e-mail: texto opcional, status: texto",
+        "chave": "protocolo",
+        "volume": "10 a 100",
+        "origem": "Dados fictícios",
+        "sintetico": "Sim",
+        "rm": ""
+      },
+      {
+        "entidade": "Usuários",
+        "representa": "Servidores e perfis",
+        "colunas": "usuario_id: texto, e-mail: texto, perfil: texto, posto_id: texto, ativo: booleano",
+        "chave": "usuario_id",
+        "volume": "2 a 15",
+        "origem": "Usuários de teste",
+        "sintetico": "Sim",
+        "rm": ""
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "RN01",
+        "regra": "Só exibir postos ativos.",
+        "quando": "Seleção de posto",
+        "excecao": "Nenhuma",
+        "valida": "Sistema",
+        "tipo": "Validação",
+        "rm": ""
+      },
+      {
+        "id": "RN02",
+        "regra": "Exibir somente horários abertos e com vagas.",
+        "quando": "Consulta de calendário",
+        "excecao": "Nenhuma",
+        "valida": "Sistema",
+        "tipo": "Negócio",
+        "rm": ""
+      },
+      {
+        "id": "RN03",
+        "regra": "Gerar protocolo único para cada reserva",
+        "quando": "Confirmação",
+        "excecao": "Nenhuma",
+        "valida": "Sistema",
+        "tipo": "Validação",
+        "rm": ""
+      },
+      {
+        "id": "RN04",
+        "regra": "Impedir reservas acima da capacidade.",
+        "quando": "Confirmação da reserva",
+        "excecao": "Nenhuma",
+        "valida": "Sistema",
+        "tipo": "Validação",
+        "rm": ""
+      },
+      {
+        "id": "RN05",
+        "regra": "O posto só gerencia sua própria agenda.",
+        "quando": "Área restrita",
+        "excecao": "Gestão conforme autorização",
+        "valida": "Sistema",
+        "tipo": "Acesso",
+        "rm": ""
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "Agendamentos",
+        "tipo": "Planilha digital",
+        "onde": "Google Sheets (a criar)",
+        "existe": "Não",
+        "acesso": "Gestão e servidores autorizados",
+        "linha": "Um agendamento",
+        "volume": "A coletar",
+        "historico": "Não há",
+        "campos": "Data e horário agendados; criação e cancelamento",
+        "atualiza": "A cada agendamento",
+        "lgpd": "Sim",
+        "obs": "Coletar durante o piloto"
+      },
+      {
+        "fonte": "Disponibilidade",
+        "tipo": "Planilha digital",
+        "onde": "Google Sheets (a criar)",
+        "existe": "Não",
+        "acesso": "Gestão e responsáveis pelos postos",
+        "linha": "Um horário por posto",
+        "volume": "A coletar",
+        "historico": "Não há",
+        "campos": "Data, hora inicial e final",
+        "atualiza": "Conforme configuração da agenda",
+        "lgpd": "Duvidaso",
+        "obs": "Registrar vagas e bloqueios"
+      },
+      {
+        "fonte": "Comparecimento",
+        "tipo": "Registro digital",
+        "onde": "Google Sheets (a criar)",
+        "existe": "Não",
+        "acesso": "Gestão e servidores autorizados",
+        "linha": "Um atendimento agendado",
+        "volume": "A coletar",
+        "historico": "Não há",
+        "campos": "Data agendada e data/hora do registro de presença",
+        "atualiza": "A cada atendimento",
+        "lgpd": "Sim",
+        "obs": "Registrar presença e ausência"
+      },
+      {
+        "fonte": "Postos e usuários",
+        "tipo": "Cadastro digital",
+        "onde": "Google Sheets (a criar)",
+        "existe": "Não",
+        "acesso": "TI e Gestão autorizadas",
+        "linha": "Um posto ou usuário",
+        "volume": "A coletar",
+        "historico": "Não há",
+        "campos": "Criação e atualização do cadastro",
+        "atualiza": "Quando houver alteração",
+        "lgpd": "Duvidaso",
+        "obs": "Cadastrar unidades e controlar permissões"
+      }
+    ],
+    "tMetricas": [
+      {
+        "nome": "Taxa de ocupação das vagas",
+        "pergunta": "Qual percentual das vagas disponibilizadas foi ocupado?",
+        "formula": "(Agendamentos confirmados ÷ Vagas disponibilizadas) × 100",
+        "fonte": "Planilha de disponibilidade e agendamentos",
+        "gran": "Mês",
+        "base": "A levantar na semana 1",
+        "esperado": "≥ 70% das vagas ocupadas",
+        "medir": "Comparar o total de vagas abertas com os agendamentos confirmados no período",
+        "quem": "Responsável pelo posto"
+      },
+      {
+        "nome": "Taxa de comparecimento",
+        "pergunta": "Qual percentual dos cidadãos agendados compareceu?",
+        "formula": "(Agendamentos com comparecimento registrado ÷ Agendamentos com atendimento previsto no período) × 100",
+        "fonte": "Planilha de agendamentos e registro de comparecimento",
+        "gran": "Mês",
+        "base": "A levantar na semana 1",
+        "esperado": "≥ 85% de comparecimento",
+        "medir": "Registrar os cidadãos que compareceram e os que não compareceram, calculando o percentual ao final da semana",
+        "quem": "Responsável pelo posto"
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "Google Apps Script + Google Sheets",
+        "tipo": "Plataforma como serviço",
+        "onde": "Infraestrutura em nuvem do Google",
+        "custo": "Sem custo adicional inicial, sujeito a cotas e limites",
+        "mantem": "Desenvolvedor e equipe institucional de TI",
+        "acesso": "Link público para cidadãos e acesso restrito para servidores",
+        "banco": "Google Sheets",
+        "escala": "Adequada para piloto de 1 a 2 postos, expansível para até 10 após testes",
+        "limite": "Limites de execução, cotas, concorrência e dependência das permissões institucionais"
+      },
+      {
+        "opcao": "Firebase + aplicação web",
+        "tipo": "Plataforma como serviço",
+        "onde": "Infraestrutura Firebase/Google Cloud",
+        "custo": "Plano gratuito limitado; custos podem surgir conforme o uso",
+        "mantem": "Desenvolvedor e equipe de TI",
+        "acesso": "Acesso público e autenticação de servidores",
+        "banco": "Cloud Firestore",
+        "escala": "Maior potencial de expansão",
+        "limite": "Exige autorização institucional para criação do projeto, configuração de segurança e possível cobrança"
+      },
+      {
+        "opcao": "Hospedagem web tradicional",
+        "tipo": "Plataforma como serviço",
+        "onde": "Servidor contratado ou institucional",
+        "custo": "Variável, conforme infraestrutura",
+        "mantem": "Equipe de TI ou fornecedor",
+        "acesso": "Link público e área restrita",
+        "banco": "Banco de dados contratado ou institucional",
+        "escala": "Depende dos recursos contratados",
+        "limite": "Exige configuração, manutenção, segurança e administração do servidor"
+      },
+      {
+        "opcao": "GitHub Pages",
+        "tipo": "Plataforma como serviço",
+        "onde": "Infraestrutura do GitHub",
+        "custo": "Gratuito para uso compatível com o serviço",
+        "mantem": "Desenvolvedor",
+        "acesso": "Link público",
+        "banco": "Não possui banco de dados próprio",
+        "escala": "Adequada para páginas estáticas",
+        "limite": "Não executa diretamente a lógica de reservas nem protege operações administrativas sem um backend externo"
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "Definir requisitos e regras do sistema",
+        "data": "A definir",
+        "resp": "Responsável pelo projeto e Gestão",
+        "dep": "Validação das regras de agendamento",
+        "sit": "Em andamento"
+      },
+      {
+        "marco": "Criar planilha e estrutura de dados",
+        "data": "A definir",
+        "resp": "Responsável pelo projeto",
+        "dep": "Requisitos definidos",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Desenvolver o sistema em Apps Script",
+        "data": "A definir",
+        "resp": "Responsável pelo projeto",
+        "dep": "Estrutura de dados pronta",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Realizar testes com dados fictícios",
+        "data": "A definir",
+        "resp": "Responsável pelo projeto",
+        "dep": "Protótipo funcional",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Validar com a equipe de TI",
+        "data": "A definir",
+        "resp": "TI institucional",
+        "dep": "Análise de segurança e publicação",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Executar piloto em 1 ou 2 postos",
+        "data": "A definir",
+        "resp": "Gestão e postos participantes",
+        "dep": "Autorização institucional",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Avaliar resultados após 4 semanas",
+        "data": "A definir",
+        "resp": "Responsável pelo projeto e Gestão",
+        "dep": "Dados coletados no piloto",
+        "sit": "Planejado"
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "Falta de autorização da TI",
+        "prob": "Média",
+        "imp": "Alto",
+        "mit": "Solicitar aprovação antes da publicação."
+      },
+      {
+        "risco": "Acesso indevido a dados pessoais",
+        "prob": "Média",
+        "imp": "Alto",
+        "mit": "Implementar controle de acesso e validar a segurança."
+      },
+      {
+        "risco": "Limites do Google Apps Script",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "Realizar testes de desempenho e concorrência."
+      },
+      {
+        "risco": "Agendamentos duplicados",
+        "prob": "Média",
+        "imp": "Alto",
+        "mit": "Validar vagas e impedir reservas simultâneas."
+      },
+      {
+        "risco": "Baixa adesão dos postos",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "Orientar servidores e acompanhar o piloto."
+      },
+      {
+        "risco": "Falhas no envio de e-mails",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "Exibir protocolo na tela e permitir consulta do agendamento."
+      }
+    ],
+    "tRefs": [
+      {
+        "ref": "Lei Geral de Proteção de Dados — Lei nº 13.709",
+        "tipo": "Norma ou lei",
+        "fonte": "Planalto",
+        "ano": "2018",
+        "dado": "Regras para tratamento de dados pessoais",
+        "uso": "Fundamentar a proteção dos dados dos cidadãos",
+        "conferido": "Não"
+      },
+      {
+        "ref": "Lei do Governo Digital — Lei nº 14.129",
+        "tipo": "Norma ou lei",
+        "fonte": "Planalto",
+        "ano": "2021",
+        "dado": "Digitalização e eficiência dos serviços públicos",
+        "uso": "Justificar a proposta de agendamento digital",
+        "conferido": "Não"
+      },
+      {
+        "ref": "Agendamento nos postos de identificação",
+        "tipo": "Documento interno",
+        "fonte": "Politec-MT",
+        "ano": "A consultar",
+        "dado": "Existem diferentes orientações e formas de agendamento por posto",
+        "uso": "Demonstrar a relevância de avaliar uma solução centralizada",
+        "conferido": "Não"
+      },
+      {
+        "ref": "Mais de 420 mil CIN emitidas em Mato Grosso em 2025",
+        "tipo": "Notícia",
+        "fonte": "Politec-MT",
+        "ano": "2026",
+        "dado": "429.378 CIN emitidas em 2025",
+        "uso": "Contextualizar o volume de atendimento e a importância do serviço",
+        "conferido": "Não"
+      }
+    ]
+  }
+}

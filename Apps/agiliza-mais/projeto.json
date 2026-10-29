@@ -1,0 +1,1059 @@
+{
+  "versao": 3,
+  "gerado_em": "2026-10-27T20:41:03.583Z",
+  "campos": {
+    "aluno": "Diego Costa, Francineide da Silva e Andreia Cristina",
+    "unidade": "POLITEC no geral",
+    "contato": "diego.n.costa@aluno.senai.br",
+    "nome_projeto": "Agiliza +",
+    "tipo_projeto": "Automação de script ou rotina",
+    "resumo": "Desenvolver um gerador em Python que automatize a criação de laudos periciais em Word, aproveitando dados e textos padronizados, com revisão final pelo perito.",
+    "problema": "A elaboração manual de laudos de exames periciais menos complexos consome tempo com tarefas repetitivas, preenchimento de dados e adaptação de textos padronizados, aumentando o risco de erros e retrabalho.",
+    "hoje": "Atualmente, o perito reúne os dados da requisição e dos arquivos gerados durante o exame, utiliza um laudo anterior como base e preenche ou adapta manualmente as informações e os textos padronizados no Word, revisando o documento antes de finalizá-lo.",
+    "impacto": "O processo manual consome tempo e aumenta a probabilidade de erros humanos, como falhas no preenchimento de dados, omissões de informações e inconsistências nos textos, gerando retrabalho na elaboração dos laudos de exames periciais menos complexos.",
+    "limite": "A análise técnica dos vestígios, a interpretação dos resultados, a avaliação das evidências e a elaboração das conclusões periciais devem permanecer sob responsabilidade do perito, pois exigem conhecimento especializado, julgamento técnico e validação humana. A automação deve atuar como ferramenta de apoio, cabendo ao perito conferir os dados, revisar os textos e aprovar o laudo final.",
+    "asis_inicio": "Envio do Ofício Requisitório pela autoridade requisitante",
+    "asis_fim": "Entrega do Laudo",
+    "asis_entradas": "Informações do cadastro, da Requisição de Perícia, os relatórios da extração dos dispositivos",
+    "asis_saidas": "Laudo Pericial assinado",
+    "asis_volume": "40",
+    "asis_duracao": "200",
+    "asis_frequencia": "Mensal",
+    "asis_decisoes": "Durante a elaboração do laudo, o perito verifica se todos os arquivos necessários estão disponíveis e se os dados extraídos estão corretos, realizando correções manuais quando necessário. Em seguida, seleciona os textos padronizados adequados à situação do exame e confere se os quesitos foram respondidos de acordo com os resultados periciais. Ao final, revisa o laudo completo. Se identificar erros ou informações faltantes, realiza as correções e revisa novamente. Se estiver correto e completo, aprova o documento e salva a versão final.",
+    "asis_excecoes": "Se houver falhas na leitura do PDF, arquivos ausentes ou dados inconsistentes, o perito deverá corrigir ou inserir as informações manualmente. Na ausência de cartão SIM ou de texto padronizado adequado, o sistema adaptará o documento ou permitirá o preenchimento manual. Erros identificados na revisão deverão ser corrigidos antes da aprovação final.",
+    "asis_digital": "A digitação é no sistema/computador",
+    "tobe_visao": "Quando esse processo existir, os peritos deixarão de elaborar manualmente laudos de exames periciais menos complexos e passarão a gerar documentos padronizados com mais agilidade, reduzindo erros humanos e retrabalho, mantendo a revisão e a validação técnica sob sua responsabilidade.",
+    "tobe_mudanca": "Substituir o preenchimento manual e repetitivo dos laudos por uma geração automatizada de documentos Word a partir de dados e textos padronizados, com conferência e validação final pelo perito.",
+    "tobe_inalterado": "A responsabilidade técnica do perito, a análise dos vestígios, a interpretação dos resultados, a elaboração das conclusões e a revisão e validação final do laudo permanecem inalteradas, assim como os procedimentos e padrões institucionais vigentes.",
+    "tobe_restricao": "Devem ser preservadas as normas legais e institucionais aplicáveis à atividade pericial, os procedimentos oficiais, a integridade e a rastreabilidade das informações e a responsabilidade exclusiva do perito pela análise técnica, pelas conclusões e pela validação final do laudo. A automação deverá apenas auxiliar na elaboração documental, sem substituir o julgamento técnico ou alterar atribuições legais.",
+    "tobe_piloto": "Testar em computador da Gerência, com autorização, utilizando cópias de laudos e arquivos de exames concluídos, preferencialmente anonimizados, para avaliar a precisão dos dados, a formatação do Word, a redução do tempo de elaboração e a necessidade de correções, sem conexão automática com o ATENA.",
+    "entrega": "Um gerador de laudos periciais em Python, capaz de automatizar o preenchimento e a formatação de documentos Word a partir de dados e textos padronizados, com conferência e validação final pelo perito.",
+    "dentro": "Desenvolvimento de um sistema local em Python para leitura de requisições em PDF por OCR, extração de dados de arquivos TXT e HTML, reutilização de textos padronizados, organização de quesitos e respostas, preenchimento e formatação de laudos Word, conferência automática de campos e revisão final pelo perito.",
+    "fora": "Ficam fora do escopo inicial a conexão automática com o ATENA, a realização de exames periciais, a análise técnica dos vestígios, a elaboração automática de conclusões periciais e o atendimento a exames complexos, pois o projeto prioriza a automatização documental de exames menos complexos, mantendo a responsabilidade técnica com o perito.",
+    "mvp_naofaz": "O MVP não realizará conexão automática com o ATENA, não atenderá exames periciais complexos, não analisará tecnicamente os vestígios, não elaborará conclusões periciais automaticamente, não gerenciará múltiplos usuários nem substituirá a revisão e a validação final do perito. O foco inicial será gerar laudos de exames menos complexos em Word, utilizando arquivos fornecidos pelo perito e textos padronizados.",
+    "mvp_objetivo": "Validar a viabilidade de gerar automaticamente laudos Word de exames periciais menos complexos, reduzindo o preenchimento manual e os erros humanos, com revisão final pelo perito.",
+    "mvp_plataforma": "Site web (abre no navegador)",
+    "mvp_tela_inicial": "A tela principal do gerador de laudos, com a opção de selecionar a pasta do caso criada pelo perito, localizar automaticamente os arquivos necessários e escolher o modelo institucional ou um laudo anterior em Word para gerar o novo documento.",
+    "mvp_mock": "No MVP, a análise automática por OCR de PDFs, a identificação inteligente de quesitos e a sugestão automática de respostas poderão ser simuladas com dados fictícios, caso ainda não estejam implementadas. A geração do Word, a leitura dos arquivos TXT e HTML e a seleção da pasta do caso deverão funcionar de verdade, permitindo validar o fluxo básico do sistema.",
+    "mvp_criterio": "O MVP será considerado funcional quando o perito conseguir selecionar a pasta do caso, importar e conferir os dados, gerar um laudo Word com a estrutura e os textos esperados, corrigir informações manualmente e salvar o documento sem alterar os arquivos originais, mantendo a revisão e a aprovação final sob sua responsabilidade.",
+    "mvp_dados": "O MVP deverá conter uma pasta de caso fictícia, com requisição em PDF (preferencialmente digitalizada), arquivos DEVICE INFO.txt e HASHDOHASH.txt, arquivos HTML com dados de um ou mais cartões SIM, modelo Word institucional, laudo anterior de exemplo, textos padronizados para os exames e exemplos de quesitos e respostas. Todos os dados deverão ser fictícios ou anonimizados, permitindo testar a extração, o preenchimento, a geração do Word e a conferência de erros sem expor informações reais.",
+    "mvp_reuso": "Já existem o modelo Word do laudo pericial, arquivos TXT e HTML utilizados para obter dados dos exames, textos padronizados da Gerência e exemplos de quesitos e respostas. Esses materiais poderão ser reaproveitados no MVP, após organização e validação, sem necessidade de criar tudo do zero. O código Python do gerador ainda precisará ser desenvolvido.",
+    "lgpd_dados": "O MVP poderá tratar dados pessoais presentes na requisição pericial e no laudo, como nomes de autoridades e peritos, além de números de processos e outras informações de identificação eventualmente presentes nos documentos. Também poderá processar identificadores técnicos dos aparelhos, como IMEIs e ICCIDs. Os testes iniciais utilizarão dados fictícios ou anonimizados. O sistema deverá limitar o acesso aos arquivos, evitar armazenamento desnecessário e observar a LGPD e as normas institucionais aplicáveis.",
+    "lgpd_base": "Finalidade: auxiliar na elaboração e conferência de laudos periciais, reduzindo o tempo de produção e os erros humanos, contribuindo para o cumprimento dos prazos.  Base legal: deverá ser validada pela instituição conforme a LGPD (arts. 7º e 23). Como referência, o art. 465 do CPC prevê que o juiz fixe o prazo para entrega do laudo pericial.  Os testes utilizarão dados fictícios ou anonimizados. O uso de dados reais seguirá as normas institucionais aplicáveis.",
+    "lgpd_retencao": "Prazo de retenção: os arquivos utilizados pelo MVP serão mantidos apenas pelo tempo necessário à geração e conferência do laudo. Após isso, eventuais cópias temporárias deverão ser eliminadas, respeitando as normas institucionais e os prazos oficiais de guarda documental, conforme os arts. 15 e 16 da LGPD",
+    "lgpd_acesso": "Quem acessa: inicialmente, apenas o perito responsável, em ambiente local. O acesso por outros usuários dependerá de autorização institucional.\n\nRegistro: o sistema poderá registrar a data e hora de geração do laudo, os arquivos utilizados, as conferências realizadas e o status da revisão final, sem armazenar dados desnecessários. O acesso aos arquivos deverá seguir as normas institucionais de segurança e a LGPD, especialmente os arts. 37 e 46",
+    "stack_detalhe": "Um único arquivo index.html (HTML, CSS e JS embutidos) aberto no Edge ou no Chrome, sem instalação. Bibliotecas embutidas: pdf.js (ler o PDF), PizZip e docxtemplater (preencher o modelo .docx). Dados no IndexedDB do navegador e backup em .json. O grupo propôs Python; a troca evita a instalação no computador institucional.",
+    "coletar": "Atualmente, não há registros sistemáticos sobre o tempo gasto na elaboração dos laudos, os erros e retrabalhos. Para avaliar os resultados do MVP, será criada uma planilha para registrar o tempo de elaboração, as correções necessárias, o sucesso da geração e a satisfação dos peritos, utilizando dados fictícios ou anonimizados nos testes iniciais.",
+    "acesso": "O acesso a documentos reais e sistemas institucionais dependerá de autorização da chefia responsável e das áreas competentes, antes do início dos testes com esses dados. O desenvolvimento inicial poderá ocorrer com arquivos fictícios ou anonimizados, sem acesso ao ATENA.",
+    "base_periodo": "Período da linha de base: duas semanas, com coleta do tempo de elaboração e das correções necessárias nos laudos produzidos manualmente.\n\nVolume: a definir conforme a quantidade de casos disponíveis no período. Se possível, utilizar os mesmos casos ou casos fictícios equivalentes na comparação com o MVP, garantindo condições semelhantes de avaliação.",
+    "campos_data": "Nos arquivos atuais, existe a possibilidade de identificar a data da solicitação na requisição pericial, mas não foram confirmados campos que registrem o início e o término da elaboração do laudo.\n\nPara medir o tempo de execução, será necessário registrar manualmente a data e hora de início e de conclusão de cada laudo em uma planilha de controle. Assim, será possível comparar o tempo de elaboração antes e depois do uso do MVP.",
+    "hospedagem_escolhida": "Arquivo HTML único, aberto no Edge ou no Chrome do computador da Gerência, sem servidor e sem instalação. A opção do grupo era aplicativo instalado no Windows.",
+    "conta_quem": "Conta e acesso: no MVP, não será necessária conta em plataforma externa, domínio ou hospedagem. O aplicativo será executado localmente no Windows, pelo perito responsável.\n\nImplantação futura: caso seja disponibilizado para outros usuários, a criação de contas, a definição de acessos e eventual hospedagem em servidor deverão ser avaliadas e autorizadas pela instituição, com apoio da equipe de TI.",
+    "orcamento": "Orçamento previsto: baixo ou sem custo adicional no MVP, utilizando Python e bibliotecas gratuitas ou de código aberto. Poderá haver custos com licença do Microsoft Word, caso não exista licença institucional disponível, e com suporte técnico, instalação ou implantação futura. O desenvolvimento e os testes iniciais serão realizados localmente, sem custos de hospedagem ou domínio.",
+    "restricoes": "O MVP deverá funcionar localmente em computadores Windows, sem conexão automática com o ATENA. O desenvolvimento está limitado ao tempo disponível e à necessidade de manter a estrutura e a formatação do modelo oficial de laudo. O uso de dados reais depende das autorizações e normas institucionais aplicáveis. A extração de informações de PDFs digitalizados por OCR poderá exigir correção manual, e todo laudo gerado deverá passar pela conferência e aprovação final do perito.",
+    "hipotese_campo": "A elaboração manual de laudos periciais menos complexos consome tempo com tarefas repetitivas e aumenta o risco de erros e retrabalho, podendo ser reduzida com a geração automatizada de documentos e a revisão final pelo perito.",
+    "lacunas": "A pesquisa ainda não identificou dados quantitativos sobre o tempo médio de elaboração de laudos na Gerência, nem estudos que comprovem a redução de tempo e erros com esta solução específica. Será necessário medir o processo atual, testar o MVP com casos fictícios ou anonimizados e verificar os requisitos institucionais de segurança, autorização e compatibilidade com o modelo oficial de laudo.",
+    "apoio": "Chefia da Gerência: autorizar o piloto e aprovar os textos padronizados. TI: confirmar que o Edge do computador institucional permite abrir a pasta do caso (File System Access API). Peritos participantes: medir a linha de base e testar o MVP.",
+    "aprendizado": "Para executar o projeto, preciso aprender e praticar Python básico, leitura de arquivos PDF, TXT e HTML, extração de texto por OCR, geração e formatação de documentos Word com Python, validação de dados e criação de uma interface simples para Windows. Também preciso aprender a testar o sistema, tratar erros e aplicar boas práticas de segurança e proteção de dados. O desenvolvimento será gradual, começando pela leitura dos arquivos e geração do Word, avançando depois para OCR e funcionalidades mais complexas.",
+    "frase": "Se o tempo médio de elaboração dos laudos for reduzido em 30% em relação à linha de base medida, os peritos deixarão de gastar tanto tempo com preenchimentos repetitivos, reduzindo o retrabalho sem abrir mão da revisão técnica final.",
+    "provas": "1. Processo atual: a elaboração manual exige reunir dados de diferentes arquivos, preencher o Word e adaptar textos padronizados, gerando tarefas repetitivas e possibilidade de erros.\n\n2. Viabilidade técnica: já existem arquivos TXT, HTML e modelos Word que podem servir de base para automatizar parte do preenchimento e da geração dos laudos.\n\n3. Validação por métricas: o piloto comparará o tempo de elaboração e a necessidade de correções antes e depois do MVP, verificando se a redução de 30% no tempo é alcançável.",
+    "piloto": "O MVP será testado com casos fictícios ou anonimizados, comparando a elaboração manual com a geração automatizada. Serão medidos o tempo gasto, a quantidade de correções necessárias e a qualidade da formatação do Word. Os resultados serão analisados para verificar se o sistema reduz o tempo em pelo menos 30%, mantendo a precisão das informações e a revisão técnica final pelo perito.",
+    "risco_defesa": "O maior risco é a geração de laudos com informações incorretas ou formatação inadequada, comprometendo a confiabilidade do documento. Para mitigá-lo, o MVP será testado com dados fictícios ou anonimizados, incluirá validações dos campos obrigatórios e exigirá a conferência e aprovação final do perito antes da utilização do laudo.",
+    "doc_descricao": "Tabelas do fluxo AS-IS, do TO-BE, das telas, das entidades, das regras, das fontes, das métricas, da hospedagem, das referências e dos marcos. O conteúdo foi movido para as tabelas do formulário.",
+    "doc_faltando": "Modelo Word com os marcadores; amostras anonimizadas de DEVICE INFO.txt, HASHDOHASH.txt e dos HTML dos SIMs; requisição em PDF fictícia (com texto e digitalizada); textos padronizados sem dados pessoais.",
+    "data": "2026-10-27",
+    "evid_detalhe": "Entrevista com os peritos da Gerência sobre a elaboração de laudos de celular; o grupo descreveu as 14 etapas atuais com base no próprio trabalho.",
+    "papeis_obs": "O perito é o único usuário do MVP. A Gerência entra só na aprovação dos textos padronizados, e o responsável pelos testes, só no piloto.",
+    "dependencias": "Modelo Word institucional do laudo; textos padronizados da Gerência; amostras anonimizadas de DEVICE INFO.txt, HASHDOHASH.txt e dos HTML dos SIMs; autorização da chefia para o piloto no computador da Gerência."
+  },
+  "marcados": {
+    "afetado": [
+      "Servidor da unidade"
+    ],
+    "evid": [
+      "Entrevista com a equipe"
+    ],
+    "req": [
+      "Funcionar offline",
+      "Impressão em formato oficial",
+      "LGPD e dado pessoal",
+      "Trilha de auditoria"
+    ],
+    "stack": "HTML único (CSS/JS inline), dados em JSON embutido, GitHub Pages"
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "Obter a requisição",
+        "papel": "Perito",
+        "entra": "Requisição do exame",
+        "acao": "Baixa a requisição em PDF no ATENA e salva na pasta do protocolo",
+        "sai": "PDF da requisição organizado",
+        "sistema": "ATENA e computador",
+        "regra": "Identificar o protocolo correto",
+        "espera": "Não identificado",
+        "tempo": "A medir",
+        "auto": "Pouco"
+      },
+      {
+        "n": "",
+        "etapa": "Organizar os arquivos",
+        "papel": "Perito",
+        "entra": "Pastas do exame, arquivos TXT, HTML e PDF",
+        "acao": "Confere e organiza os arquivos necessários à elaboração do laudo",
+        "sai": "Arquivos disponíveis para consulta",
+        "sistema": "Explorador de arquivos",
+        "regra": "Verificar se os arquivos necessários estão disponíveis",
+        "espera": "Possível, se houver arquivos faltantes",
+        "tempo": "A medir",
+        "auto": "Sim, com apoio humano"
+      },
+      {
+        "n": "",
+        "etapa": "Consultar os dados do aparelho",
+        "papel": "Perito",
+        "entra": "DEVICE INFO.txt",
+        "acao": "Consulta marca, modelo e IMEIs do celular",
+        "sai": "Dados do aparelho identificados",
+        "sistema": "Arquivo TXT",
+        "regra": "Conferir e corrigir dados, se necessário",
+        "espera": "Possível, se houver divergências",
+        "tempo": "A medir",
+        "auto": "Sim, com apoio humano"
+      },
+      {
+        "n": "",
+        "etapa": "Consultar o hash",
+        "papel": "Perito",
+        "entra": "HASHDOHASH.txt",
+        "acao": "Localiza e confere o valor SHA-256",
+        "sai": "Hash identificado",
+        "sistema": "Arquivo TXT",
+        "regra": "Conferir se o valor corresponde ao arquivo do exame",
+        "espera": "Possível, se houver inconsistência",
+        "tempo": "A medir",
+        "auto": "Sim, com apoio humano"
+      },
+      {
+        "n": "",
+        "etapa": "Consultar dados dos cartões SIM",
+        "papel": "Perito",
+        "entra": "Arquivos HTML das pastas OBJ 01-A, OBJ 01-B etc.",
+        "acao": "Consulta ICCID e operadora de cada cartão SIM",
+        "sai": "Dados dos cartões SIM identificados",
+        "sistema": "Arquivos HTML",
+        "regra": "Verificar quantos cartões SIM existem",
+        "espera": "Possível, se houver arquivos faltantes",
+        "tempo": "A medir",
+        "auto": "Sim, com apoio humano"
+      },
+      {
+        "n": "",
+        "etapa": "Reutilizar um laudo anterior",
+        "papel": "Perito",
+        "entra": "Laudo anterior em Word ou modelo institucional",
+        "acao": "Abre, renomeia e utiliza o documento como base",
+        "sai": "Documento inicial para o novo laudo",
+        "sistema": "Microsoft Word",
+        "regra": "Escolher um documento adequado e preservar o modelo",
+        "espera": "Não identificado",
+        "tempo": "A medir",
+        "auto": "Sim, com apoio humano"
+      },
+      {
+        "n": "",
+        "etapa": "Preencher os dados iniciais",
+        "papel": "Perito",
+        "entra": "Requisição e dados dos arquivos",
+        "acao": "Transfere manualmente os dados para o Word",
+        "sai": "Laudo com dados iniciais preenchidos",
+        "sistema": "Microsoft Word",
+        "regra": "Conferir números, datas, nomes e demais identificadores",
+        "espera": "Não identificado",
+        "tempo": "A medir",
+        "auto": "Sim, com apoio humano"
+      },
+      {
+        "n": "",
+        "etapa": "Elaborar a descrição dos objetos",
+        "papel": "Perito",
+        "entra": "Dados do celular, envelope de segurança e cartões SIM",
+        "acao": "Redige ou adapta a descrição dos objetos examinados",
+        "sai": "Seção de descrição dos objetos",
+        "sistema": "Microsoft Word e textos de referência",
+        "regra": "Adequar a descrição aos objetos efetivamente recebidos",
+        "espera": "Não identificado",
+        "tempo": "A medir",
+        "auto": "Sim, com apoio humano"
+      },
+      {
+        "n": "",
+        "etapa": "Elaborar a seção dos exames",
+        "papel": "Perito",
+        "entra": "Informações do exame e textos padronizados",
+        "acao": "Seleciona e adapta os textos relativos aos procedimentos realizados",
+        "sai": "Seção dos exames preenchida",
+        "sistema": "Microsoft Word e arquivo de textos padronizados",
+        "regra": "Selecionar o texto compatível com a situação real",
+        "espera": "Não identificado",
+        "tempo": "A medir",
+        "auto": "Sim, com apoio humano"
+      },
+      {
+        "n": "",
+        "etapa": "Elaborar a seção de anexos",
+        "papel": "Perito",
+        "entra": "Hash e informações dos arquivos digitais",
+        "acao": "Preenche a seção e as tabelas de anexos",
+        "sai": "Seção de mídias e anexos preenchida",
+        "sistema": "Microsoft Word",
+        "regra": "Conferir os dados dos arquivos apresentados",
+        "espera": "Não identificado",
+        "tempo": "A medir",
+        "auto": "Sim, com apoio humano"
+      },
+      {
+        "n": "",
+        "etapa": "Responder aos quesitos",
+        "papel": "Perito",
+        "entra": "Quesitos da autoridade e textos de respostas padronizadas",
+        "acao": "Transcreve os quesitos e elabora ou adapta as respostas",
+        "sai": "Quesitos numerados e respondidos",
+        "sistema": "PDF da requisição, eventualmente ATENA, e Word de referência",
+        "regra": "A resposta deve corresponder ao quesito e aos resultados do exame",
+        "espera": "Não identificado",
+        "tempo": "A medir",
+        "auto": "Sim, com apoio humano"
+      },
+      {
+        "n": "",
+        "etapa": "Elaborar as considerações",
+        "papel": "Perito",
+        "entra": "Informações específicas do caso",
+        "acao": "Redige ou adapta as considerações finais",
+        "sai": "Seção de considerações preenchida",
+        "sistema": "Microsoft Word",
+        "regra": "Manter conclusões compatíveis com os resultados periciais",
+        "espera": "Não identificado",
+        "tempo": "A medir",
+        "auto": "Sim, com apoio humano"
+      },
+      {
+        "n": "",
+        "etapa": "Revisar o laudo",
+        "papel": "Perito",
+        "entra": "Documento Word preenchido",
+        "acao": "Confere dados, textos, quesitos, formatação e possíveis omissões",
+        "sai": "Laudo revisado",
+        "sistema": "Microsoft Word",
+        "regra": "Corrigir erros antes da finalização",
+        "espera": "Se houver necessidade de correções",
+        "tempo": "A medir",
+        "auto": "Sim, com apoio humano"
+      },
+      {
+        "n": "",
+        "etapa": "Salvar a versão final",
+        "papel": "Perito",
+        "entra": "Laudo revisado",
+        "acao": "Salva o documento final na pasta correspondente",
+        "sai": "Laudo pericial em Word finalizado",
+        "sistema": "Computador e Microsoft Word",
+        "regra": "Confirmar nome e local de salvamento",
+        "espera": "Não identificado",
+        "tempo": "A medir",
+        "auto": "Sim, com apoio humano"
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "Selecionar os arquivos do caso",
+        "muda": "O perito seleciona a requisição e os arquivos já produzidos durante o exame.",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Centralização das informações",
+        "esforco": "Baixo"
+      },
+      {
+        "n": "",
+        "etapa": "Extrair dados dos arquivos",
+        "muda": "O sistema lê o PDF por OCR e identifica dados nos arquivos TXT e HTML.",
+        "quem": "A máquina (automação)",
+        "beneficio": "Redução de digitação manual",
+        "esforco": "Alto"
+      },
+      {
+        "n": "",
+        "etapa": "Conferir os dados extraídos",
+        "muda": "O perito verifica e corrige os dados identificados pelo sistema.",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Prevenção de erros humanos",
+        "esforco": "Médio"
+      },
+      {
+        "n": "",
+        "etapa": "Selecionar o documento-base",
+        "muda": "O perito escolhe o modelo institucional ou um laudo anterior em Word.",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Aproveitamento de documentos existentes",
+        "esforco": "Baixo"
+      },
+      {
+        "n": "",
+        "etapa": "Montar a descrição dos objetos",
+        "muda": "O sistema organiza os dados do celular e dos cartões SIM conforme as informações disponíveis.",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Padronização e agilidade",
+        "esforco": "Médio"
+      },
+      {
+        "n": "",
+        "etapa": "Inserir textos dos exames",
+        "muda": "O sistema sugere ou insere textos padronizados conforme as opções selecionadas pelo perito.",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Menos retrabalho na redação",
+        "esforco": "Médio"
+      },
+      {
+        "n": "",
+        "etapa": "Organizar quesitos e respostas",
+        "muda": "O sistema identifica e numera os quesitos e auxilia na seleção das respostas padronizadas.",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Melhor organização e menor esforço repetitivo",
+        "esforco": "Alto"
+      },
+      {
+        "n": "",
+        "etapa": "Gerar o documento Word",
+        "muda": "O sistema preenche e formata o laudo, preservando o documento-base escolhido quando aplicável.",
+        "quem": "A máquina (automação)",
+        "beneficio": "Redução do tempo de elaboração",
+        "esforco": "Médio"
+      },
+      {
+        "n": "",
+        "etapa": "Executar conferência automática",
+        "muda": "O sistema verifica campos vazios, dados inconsistentes e itens obrigatórios ausentes.",
+        "quem": "A máquina (automação)",
+        "beneficio": "Identificação antecipada de falhas",
+        "esforco": "Médio"
+      },
+      {
+        "n": "",
+        "etapa": "Revisar e validar o laudo",
+        "muda": "O perito confere o conteúdo, os resultados técnicos, as respostas e a formatação.",
+        "quem": "A pessoa, sem mudança",
+        "beneficio": "Manutenção da responsabilidade técnica",
+        "esforco": "Médio"
+      },
+      {
+        "n": "",
+        "etapa": "Corrigir e gerar a versão final",
+        "muda": "O perito solicita ou realiza ajustes e salva a versão final aprovada.",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Menos erros e maior eficiência",
+        "esforco": "Baixo"
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "Perito",
+        "quem": "Profissional responsável pelo exame e pelo laudo",
+        "ve": "Dados do caso, arquivos importados, textos padronizados e documento gerado",
+        "faz": "mporta arquivos, confere dados, seleciona e edita textos, responde aos quesitos, revisa e salva o laudo",
+        "naofaz": "Aprovar automaticamente conclusões técnicas ou dispensar a própria revisão",
+        "registro": "Arquivos utilizados, alterações realizadas e data de geração do documento",
+        "rm": ""
+      },
+      {
+        "papel": "Gerência (chefia)",
+        "quem": "Gerente responsável pelos textos padronizados",
+        "ve": "Biblioteca de textos e respostas-modelo",
+        "faz": "Aprova e versiona os textos padronizados e as respostas-modelo",
+        "naofaz": "Alterar laudo de outro perito",
+        "registro": "Versão e data de aprovação de cada texto"
+      },
+      {
+        "papel": "Responsável pelos testes",
+        "quem": "Integrante do grupo que conduz o piloto",
+        "ve": "Casos fictícios, tempos e correções",
+        "faz": "Roda os casos de teste e registra tempo e correções",
+        "naofaz": "Usar dados reais sem autorização",
+        "registro": "Planilha de testes do MVP"
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "Tela principal",
+        "objetivo": "Iniciar a elaboração do laudo",
+        "usuario": "Perito",
+        "dados": "Opções de arquivo e modelo",
+        "acao": "Iniciar novo laudo",
+        "regra": "Permitir selecionar modelo institucional ou laudo anterior",
+        "tipo": "Tela",
+        "verificacao": "Abrir a tela e iniciar um caso",
+        "mvp": "Sim",
+        "rota": "#/inicio"
+      },
+      {
+        "n": "",
+        "nome": "Seleção de arquivos",
+        "objetivo": "Reunir os dados do exame",
+        "usuario": "Perito",
+        "dados": "PDF, TXT e HTML",
+        "acao": "Selecionar arquivos",
+        "regra": "Não avançar sem os arquivos obrigatórios",
+        "tipo": "Tela",
+        "verificacao": "Importar arquivos de teste",
+        "mvp": "Sim",
+        "rota": "#/arquivos"
+      },
+      {
+        "n": "",
+        "nome": "Extração de dados",
+        "objetivo": "Identificar informações nos arquivos",
+        "usuario": "Sistema",
+        "dados": "Dados da requisição, aparelho, IMEIs, hash e cartões SIM",
+        "acao": "Extrair dados",
+        "regra": "Permitir correção manual quando a extração falhar",
+        "tipo": "Automação",
+        "verificacao": "Comparar dados extraídos com os originais",
+        "mvp": "Sim",
+        "rota": "(automação)"
+      },
+      {
+        "n": "",
+        "nome": "Conferência dos dados",
+        "objetivo": "Evitar erros de preenchimento",
+        "usuario": "Perito",
+        "dados": "Dados extraídos e campos editáveis",
+        "acao": "Confirmar ou corrigir",
+        "regra": "Exigir conferência dos identificadores essenciais",
+        "tipo": "Tela",
+        "verificacao": "Corrigir um dado e confirmar o resultado",
+        "mvp": "Sim",
+        "rota": "#/dados"
+      },
+      {
+        "n": "",
+        "nome": "Seleção de textos padronizados",
+        "objetivo": "Padronizar a redação",
+        "usuario": "Perito",
+        "dados": "Textos para descrição dos objetos e exames",
+        "acao": "Selecionar e adaptar textos",
+        "regra": "Permitir edição e redação manual quando necessário",
+        "tipo": "Tela",
+        "verificacao": "Selecionar um texto e verificar sua inserção",
+        "mvp": "Sim",
+        "rota": "#/textos"
+      },
+      {
+        "n": "",
+        "nome": "Quesitos e respostas",
+        "objetivo": "Organizar perguntas e respostas",
+        "usuario": "Perito, com apoio do sistema",
+        "dados": "Quesitos identificados e respostas sugeridas",
+        "acao": "Conferir e editar respostas",
+        "regra": "Não aprovar respostas técnicas automaticamente",
+        "tipo": "Tela",
+        "verificacao": "Conferir numeração e edição dos quesitos",
+        "mvp": "Sim",
+        "rota": "#/quesitos"
+      },
+      {
+        "n": "",
+        "nome": "Geração do laudo Word",
+        "objetivo": "Montar o documento completo",
+        "usuario": "Sistema",
+        "dados": "Dados confirmados e textos selecionados",
+        "acao": "Gerar documento",
+        "regra": "Preservar a estrutura e a formatação do modelo escolhido",
+        "tipo": "Automação",
+        "verificacao": "Abrir o Word gerado e conferir as seis seções",
+        "mvp": "Sim",
+        "rota": "#/gerar"
+      },
+      {
+        "n": "",
+        "nome": "Conferência automática",
+        "objetivo": "Identificar omissões e inconsistências",
+        "usuario": "Sistema",
+        "dados": "Campos obrigatórios e dados do documento",
+        "acao": "Executar validação",
+        "regra": "Alertar sobre campos vazios ou divergentes",
+        "tipo": "Automação",
+        "verificacao": "Testar com dados faltantes e inconsistentes",
+        "mvp": "Sim",
+        "rota": "#/gerar"
+      },
+      {
+        "n": "",
+        "nome": "Revisão final",
+        "objetivo": "Garantir a validação humana",
+        "usuario": "Perito",
+        "dados": "Laudo completo",
+        "acao": "Revisar e corrigir",
+        "regra": "A aprovação técnica é responsabilidade do perito",
+        "tipo": "Documento",
+        "verificacao": "Conferir o laudo e registrar as correções necessárias",
+        "mvp": "Sim",
+        "rota": "#/revisao"
+      },
+      {
+        "n": "",
+        "nome": "Salvamento do laudo",
+        "objetivo": "Armazenar a versão final",
+        "usuario": "Perito",
+        "dados": "Documento revisado",
+        "acao": "Salvar arquivo",
+        "regra": "Não sobrescrever automaticamente o laudo anterior",
+        "tipo": "Ação",
+        "rota": "#/revisao",
+        "verificacao": "Salvar e conferir que o laudo anterior não foi sobrescrito",
+        "mvp": "Sim"
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "CasoPericial",
+        "representa": "Identificação do caso em elaboração",
+        "colunas": "id_caso: texto, numero_protocolo: texto, data_solicitacao: data, numero_oficio: texto, autoridade_solicitante: texto, numero_processo: texto",
+        "chave": "id_caso",
+        "volume": "1 por laudo",
+        "origem": "Pasta do caso e PDF",
+        "sintetico": "Parcialmente"
+      },
+      {
+        "entidade": "DadosAparelho",
+        "representa": "Informações do celular examinado",
+        "colunas": "id_aparelho: texto, marca: texto, modelo: texto, imei_1: texto, imei_2: texto, cor: texto",
+        "chave": "id_aparelho",
+        "volume": "1 por laudo no MVP",
+        "origem": "DEVICE INFO.txt e conferência do perito",
+        "sintetico": "Parcialmente"
+      },
+      {
+        "entidade": "CartaoSIM",
+        "representa": "Informações de cada cartão SIM",
+        "colunas": "id_sim: texto, identificador_objeto: texto, iccid: texto, operadora: texto",
+        "chave": "id_sim",
+        "volume": "0 a vários por laudo",
+        "origem": "Arquivos HTML das pastas dos objetos",
+        "sintetico": "Parcialmente"
+      },
+      {
+        "entidade": "ArquivoHash",
+        "representa": "Hash do material digital",
+        "colunas": "id_hash: texto, algoritmo: texto, valor_hash: texto",
+        "chave": "id_hash",
+        "volume": "1 ou mais por caso, conforme a regra definida",
+        "origem": "HASHDOHASH.txt",
+        "sintetico": "Parcialmente"
+      },
+      {
+        "entidade": "TextoPadronizado",
+        "representa": "Textos aprovados para reutilização",
+        "colunas": "id_texto: texto, categoria: texto, titulo: texto, conteudo: texto, versao: texto, ativo: lógico",
+        "chave": "id_texto",
+        "volume": "Vários",
+        "origem": "Biblioteca de textos da Gerência",
+        "sintetico": "Parcialmente"
+      },
+      {
+        "entidade": "Quesito",
+        "representa": "Perguntas apresentadas pela autoridade",
+        "colunas": "id_quesito: texto, id_caso: texto, numero_quesito: inteiro, enunciado: texto, resposta: texto, status_conferencia: texto",
+        "chave": "id_quesito",
+        "volume": "0 a vários por caso",
+        "origem": "PDF da requisição e revisão do perito",
+        "sintetico": "Parcialmente"
+      },
+      {
+        "entidade": "ModeloWord",
+        "representa": "Modelo usado para gerar o documento",
+        "colunas": "id_modelo: texto, nome: texto, caminho_arquivo: texto, tipo_modelo: texto",
+        "chave": "id_modelo",
+        "volume": "1 ou mais",
+        "origem": "Template institucional ou Word escolhido pelo perito",
+        "sintetico": "Não"
+      },
+      {
+        "entidade": "LaudoGerado",
+        "representa": "Documento produzido pelo sistema",
+        "colunas": "id_laudo: texto, id_caso: texto, caminho_saida: texto, data_geracao: data_hora, status_revisao: texto",
+        "chave": "id_laudo",
+        "volume": "1 ou mais por caso",
+        "origem": "Gerador Python",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "RegistroConferencia",
+        "representa": "Resultado das conferências automáticas e humanas",
+        "colunas": "id_registro: texto, id_caso: texto, campo_verificado: texto, resultado: texto, observacao: texto, data_hora: data_hora",
+        "chave": "id_registro",
+        "volume": "Vários por caso",
+        "origem": "Sistema e perito",
+        "sintetico": "Sim"
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "RN01",
+        "regra": "O sistema deve permitir selecionar a pasta do caso criada pelo perito.",
+        "quando": "Início do processo",
+        "excecao": "Nenhuma",
+        "valida": "Sistema",
+        "tipo": "Validação"
+      },
+      {
+        "id": "RN02",
+        "regra": "O sistema deve verificar a existência dos arquivos necessários antes de iniciar a geração.",
+        "quando": "Importação dos arquivos",
+        "excecao": "Arquivo ausente pode ser informado manualmente, quando possível",
+        "valida": "Sistema e perito",
+        "tipo": "Validação"
+      },
+      {
+        "id": "RN03",
+        "regra": "Os IMEIs e ICCIDs devem ser tratados como texto, preservando todos os dígitos.",
+        "quando": "Leitura e preenchimento dos dados",
+        "excecao": "Nenhuma",
+        "valida": "Sistema",
+        "tipo": "Validação"
+      },
+      {
+        "id": "RN04",
+        "regra": "Os dados extraídos automaticamente devem ser apresentados ao perito para conferência antes da geração do laudo.",
+        "quando": "Após a extração",
+        "excecao": "Dados não extraídos podem ser preenchidos manualmente",
+        "valida": "Perito",
+        "tipo": "Negócio"
+      },
+      {
+        "id": "RN05",
+        "regra": "Cada laudo do MVP deve corresponder a um único aparelho celular.",
+        "quando": "Montagem do documento",
+        "excecao": "Outros tipos de exame ficam fora do MVP",
+        "valida": "Perito",
+        "tipo": "Negócio"
+      },
+      {
+        "id": "RN06",
+        "regra": "O sistema deve permitir nenhum, um ou vários cartões SIM, conforme os arquivos disponíveis.",
+        "quando": "Descrição dos objetos",
+        "excecao": "Na ausência de SIM, a descrição deve refletir essa condição após confirmação do perito",
+        "valida": "Perito",
+        "tipo": "Negócio"
+      },
+      {
+        "id": "RN07",
+        "regra": "Cada cartão SIM deve ser associado ao identificador correto do objeto, como 01-A ou 01-B.",
+        "quando": "Leitura dos arquivos HTML",
+        "excecao": "Dados ambíguos exigem conferência manual",
+        "valida": "Perito",
+        "tipo": "Validação"
+      },
+      {
+        "id": "RN08",
+        "regra": "O sistema deve inserir somente textos padronizados compatíveis com as opções selecionadas e os dados confirmados.",
+        "quando": "Montagem do laudo",
+        "excecao": "O perito pode editar ou redigir o texto manualmente",
+        "valida": "Perito",
+        "tipo": "Negócio"
+      },
+      {
+        "id": "RN09",
+        "regra": "Os quesitos devem ser numerados sequencialmente e associados às respectivas respostas.",
+        "quando": "Montagem da seção de quesitos",
+        "excecao": "Quesitos não identificados automaticamente devem ser inseridos ou corrigidos manualmente",
+        "valida": "Perito",
+        "tipo": "Validação"
+      },
+      {
+        "id": "RN10",
+        "regra": "O sistema não deve elaborar nem aprovar conclusões técnicas de forma autônoma.",
+        "quando": "Elaboração e revisão do laudo",
+        "excecao": "Nenhuma",
+        "valida": "Perito",
+        "tipo": "Negócio"
+      },
+      {
+        "id": "RN11",
+        "regra": "O sistema deve alertar sobre campos obrigatórios vazios ou inconsistentes antes de gerar a versão final.",
+        "quando": "Conferência automática",
+        "excecao": "O perito pode corrigir os dados e repetir a conferência",
+        "valida": "Sistema e perito",
+        "tipo": "Validação"
+      },
+      {
+        "id": "RN12",
+        "regra": "O documento gerado deve preservar a estrutura e a formatação do modelo escolhido, dentro das limitações técnicas identificadas.",
+        "quando": "Geração do Word",
+        "excecao": "Ajustes de formatação podem exigir intervenção manual",
+        "valida": "Perito",
+        "tipo": "Validação"
+      },
+      {
+        "id": "RN13",
+        "regra": "O sistema deve salvar o novo laudo em arquivo separado, sem sobrescrever o modelo ou laudo anterior.",
+        "quando": "Salvamento",
+        "excecao": "Sobrescrita somente mediante ação explícita e controlada, se futuramente permitida",
+        "valida": "Perito",
+        "tipo": "Negócio"
+      },
+      {
+        "id": "RN14",
+        "regra": "O laudo somente será considerado finalizado após a revisão e validação do perito.",
+        "quando": "Encerramento do processo",
+        "excecao": "Nenhuma",
+        "valida": "Perito",
+        "tipo": "Negócio"
+      },
+      {
+        "id": "RN15",
+        "regra": "O MVP deve funcionar localmente, sem conexão automática com o ATENA.",
+        "quando": "Em todas as etapas",
+        "excecao": "Integrações futuras dependem de avaliação e autorização específicas",
+        "valida": "Responsável pelo projeto",
+        "tipo": "Acesso"
+      },
+      {
+        "id": "RN16",
+        "regra": "Os testes iniciais devem utilizar dados fictícios ou documentos devidamente anonimizados.",
+        "quando": "Desenvolvimento e testes",
+        "excecao": "Uso de dados reais depende das autorizações e regras institucionais aplicáveis",
+        "valida": "Responsável pelos testes",
+        "tipo": "LGPD"
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "Requisição pericial",
+        "tipo": "Sistema oficial",
+        "onde": "Pasta do caso, baixada do ATENA",
+        "existe": "Sim",
+        "acesso": "Perito autorizado",
+        "linha": "Uma requisição",
+        "volume": "Variável",
+        "historico": "Por caso",
+        "campos": "Data da solicitação; prazo, se disponível",
+        "atualiza": "A cada caso",
+        "lgpd": "Sim",
+        "obs": "Formato: Documento PDF. PDF digitalizado; requer OCR e conferência"
+      },
+      {
+        "fonte": "Dados do aparelho",
+        "tipo": "Relatório",
+        "onde": "Pasta do caso",
+        "existe": "Sim",
+        "acesso": "Perito autorizado",
+        "linha": "Um aparelho",
+        "volume": "Um por laudo no MVP",
+        "historico": "Por caso",
+        "campos": "Não identificado",
+        "atualiza": "A cada exame",
+        "lgpd": "Sim",
+        "obs": "Formato: Arquivo TXT. Contém marca, modelo e IMEIs"
+      },
+      {
+        "fonte": "Dados dos cartões SIM",
+        "tipo": "Relatório",
+        "onde": "Subpastas OBJ 01-A, OBJ 01-B etc.",
+        "existe": "Sim",
+        "acesso": "Perito autorizado",
+        "linha": "Um cartão SIM",
+        "volume": "Zero ou vários por caso",
+        "historico": "Por caso",
+        "campos": "Não identificado",
+        "atualiza": "A cada exame",
+        "lgpd": "Sim",
+        "obs": "Formato: Arquivo HTML. Contém ICCID e operadora"
+      },
+      {
+        "fonte": "Hash dos arquivos",
+        "tipo": "Relatório",
+        "onde": "Pasta do caso",
+        "existe": "Sim",
+        "acesso": "Perito autorizado",
+        "linha": "Um registro de hash",
+        "volume": "Variável",
+        "historico": "Por caso",
+        "campos": "Não identificado",
+        "atualiza": "A cada exame",
+        "lgpd": "Duvidaso",
+        "obs": "Formato: Arquivo TXT. Utilizar o valor SHA-256 necessário ao laudo"
+      },
+      {
+        "fonte": "Modelo de laudo",
+        "tipo": "Documento em papel",
+        "onde": "Arquivo institucional ou pasta local",
+        "existe": "Sim",
+        "acesso": "Perito autorizado",
+        "linha": "Um modelo",
+        "volume": "Um ou mais",
+        "historico": "Conforme versões disponíveis",
+        "campos": "Não se aplica",
+        "atualiza": "Quando houver alteração",
+        "lgpd": "Duvidaso",
+        "obs": "Formato: Documento Word. Priorizar modelo oficial ou documento autorizado"
+      },
+      {
+        "fonte": "Textos padronizados",
+        "tipo": "Documento em papel",
+        "onde": "Arquivo local da Gerência",
+        "existe": "Sim",
+        "acesso": "Peritos autorizados",
+        "linha": "Um texto padronizado",
+        "volume": "Variável",
+        "historico": "Conforme versões disponíveis",
+        "campos": "Não se aplica",
+        "atualiza": "Quando houver revisão",
+        "lgpd": "Duvidaso",
+        "obs": "Formato: Documento Word. Organizar por categoria e manter revisão humana"
+      },
+      {
+        "fonte": "Controle de tempo de elaboração",
+        "tipo": "Não existe ainda",
+        "onde": "A definir",
+        "existe": "Não",
+        "acesso": "A definir",
+        "linha": "Um laudo acompanhado",
+        "volume": "Ainda não levantado",
+        "historico": "Ainda não levantado",
+        "campos": "Início, fim e duração da elaboração",
+        "atualiza": "A cada laudo acompanhado",
+        "lgpd": "Duvidaso",
+        "obs": "Formato: Planilha de controle. Necessário coletar dados para medir o tempo atual e comparar com o MVP"
+      },
+      {
+        "fonte": "Registro de testes do MVP",
+        "tipo": "Não existe ainda",
+        "onde": "A criar no projeto",
+        "existe": "Não",
+        "acesso": "Responsável pelos testes",
+        "linha": "Um teste de geração",
+        "volume": "A definir",
+        "historico": "Desde o início dos testes",
+        "campos": "Data, duração e resultado do teste",
+        "atualiza": "A cada teste",
+        "lgpd": "Não",
+        "obs": "Formato: Planilha ou arquivo local. Registrar falhas, correções e sucesso da geração"
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "Tempo de elaboração do laudo",
+        "pergunta": "O sistema reduz o tempo de elaboração?",
+        "formula": "Tempo final − tempo inicial",
+        "fonte": "Registro de testes e controle de tempo",
+        "gran": "Caso",
+        "base": "A MEDIR",
+        "esperado": "Redução de 30%",
+        "medir": "Cronometrar a elaboração manual de laudos comparáveis",
+        "quem": "Perito participante"
+      },
+      {
+        "n": "",
+        "nome": "Taxa de correções após geração",
+        "pergunta": "O sistema reduz erros e retrabalho?",
+        "formula": "(Laudos que exigiram correção ÷ total de laudos) × 100",
+        "fonte": "Registro de testes e conferência dos laudos",
+        "gran": "Caso",
+        "base": "A MEDIR",
+        "esperado": "Redução de 30%",
+        "medir": "Registrar correções necessárias em laudos manuais e gerados pelo MVP",
+        "quem": "Perito participante"
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "Arquivo HTML único (offline first)",
+        "tipo": "Arquivo local",
+        "onde": "Edge ou Chrome do computador da Gerência",
+        "custo": "Zero",
+        "mantem": "Grupo do projeto",
+        "acesso": "Perito que abre o arquivo",
+        "banco": "IndexedDB do navegador",
+        "escala": "Um perito por computador",
+        "limite": "Os dados ficam no computador; backup por arquivo .json"
+      },
+      {
+        "opcao": "Arquivo local",
+        "tipo": "Arquivo local",
+        "onde": "Pasta do computador",
+        "custo": "Baixo",
+        "mantem": "Desenvolvedor",
+        "acesso": "Um usuário por vez",
+        "banco": "Não necessário no MVP",
+        "escala": "Baixa",
+        "limite": "Depende do computador e da instalação local"
+      },
+      {
+        "opcao": "Aplicativo instalado",
+        "tipo": "Aplicativo instalado",
+        "onde": "Computador Windows",
+        "custo": "Baixo a moderado",
+        "mantem": "Desenvolvedor e suporte de TI",
+        "acesso": "Usuários autorizados por instalação",
+        "banco": "Não necessário no MVP",
+        "escala": "Média",
+        "limite": "Atualizações e instalações precisam ser gerenciadas"
+      },
+      {
+        "opcao": "Servidor interno",
+        "tipo": "Servidor interno",
+        "onde": "Infraestrutura da instituição",
+        "custo": "A definir",
+        "mantem": "Equipe de TI institucional",
+        "acesso": "Conforme permissões",
+        "banco": "Opcional",
+        "escala": "Alta",
+        "limite": "Depende de aprovação, infraestrutura e manutenção institucional"
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "1. Consolidar requisitos e escopo do MVP",
+        "data": "A definir",
+        "resp": "Idealizador do projeto",
+        "dep": "Conclusão do planejamento",
+        "sit": "Em andamento"
+      },
+      {
+        "marco": "2. Reunir modelo Word e textos padronizados fictícios ou autorizados",
+        "data": "A definir",
+        "resp": "Idealizador do projeto",
+        "dep": "Disponibilidade dos arquivos",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "3. Desenvolver a leitura dos arquivos TXT e HTML",
+        "data": "A definir",
+        "resp": "Desenvolvedor",
+        "dep": "Requisitos definidos",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "4. Implementar a geração do laudo em Word",
+        "data": "A definir",
+        "resp": "Desenvolvedor",
+        "dep": "Modelo Word definido",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "5. Implementar OCR e conferência dos dados extraídos",
+        "data": "A definir",
+        "resp": "Desenvolvedor",
+        "dep": "Amostras fictícias de PDF",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "6. Testar o sistema com casos fictícios ou anonimizados",
+        "data": "A definir",
+        "resp": "Idealizador e peritos participantes",
+        "dep": "MVP funcional",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "7. Medir tempo, correções e resultados do piloto",
+        "data": "A definir",
+        "resp": "Idealizador e peritos participantes",
+        "dep": "Testes concluídos",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "8. Documentar resultados e propor próximos passos",
+        "data": "A definir",
+        "resp": "Idealizador do projeto",
+        "dep": "Análise dos resultados",
+        "sit": "Planejado"
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "Falhas na extração de dados por OCR",
+        "prob": "Alta",
+        "imp": "Médio",
+        "mit": "Exigir conferência e correção manual dos dados extraídos."
+      },
+      {
+        "risco": "Erros na leitura dos arquivos TXT e HTML",
+        "prob": "Média",
+        "imp": "Alto",
+        "mit": "Validar os campos e alertar sobre informações ausentes ou inconsistentes."
+      },
+      {
+        "risco": "Alteração da formatação do modelo oficial Word",
+        "prob": "Média",
+        "imp": "Alto",
+        "mit": "Testar a geração e comparar o documento com o modelo institucional."
+      },
+      {
+        "risco": "Inserção de texto padronizado inadequado",
+        "prob": "Média",
+        "imp": "Alto",
+        "mit": "Permitir seleção e edição pelo perito antes da finalização."
+      },
+      {
+        "risco": "Exposição de dados pessoais ou periciais",
+        "prob": "Baixa",
+        "imp": "Alto",
+        "mit": "Usar dados fictícios ou anonimizados nos testes e manter os arquivos em ambiente local protegido."
+      },
+      {
+        "risco": "Indisponibilidade de tempo para desenvolvimento",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "Priorizar as funcionalidades essenciais do MVP e desenvolver por etapas."
+      },
+      {
+        "risco": "Geração de laudo com informações incorretas",
+        "prob": "Média",
+        "imp": "Alto",
+        "mit": "Implementar validações obrigatórias e exigir revisão e aprovação final do perito."
+      },
+      {
+        "risco": "Dificuldade de instalação ou execução em computadores institucionais",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "Validar os requisitos com a equipe de TI antes de uma implantação institucional."
+      }
+    ],
+    "tRefs": [
+      {
+        "n": "",
+        "ref": "Código de Processo Civil, art. 465",
+        "tipo": "Norma ou lei",
+        "fonte": "Lei nº 13.105/2015, Planalto",
+        "ano": "2015",
+        "dado": "O juiz fixa o prazo para entrega do laudo pericial",
+        "uso": "Justificar a organização da elaboração dos laudos e o cumprimento dos prazos",
+        "conferido": "Sim"
+      },
+      {
+        "n": "",
+        "ref": "Lei Geral de Proteção de Dados",
+        "tipo": "Norma ou lei",
+        "fonte": "Lei nº 13.709/2018, Planalto",
+        "ano": "2018",
+        "dado": "Princípios e regras para o tratamento de dados pessoais",
+        "uso": "Fundamentar os cuidados com documentos, identificadores e informações tratados pelo app",
+        "conferido": "Sim"
+      },
+      {
+        "n": "",
+        "ref": "Código de Processo Penal, arts. 158-A a 158-F (cadeia de custódia)",
+        "tipo": "Norma ou lei",
+        "fonte": "Decreto-Lei nº 3.689/1941, com a redação da Lei nº 13.964/2019, Planalto",
+        "ano": "2019",
+        "dado": "Registro e rastreabilidade do vestígio, incluindo o material digital",
+        "uso": "Justificar a conferência obrigatória do hash e dos identificadores no laudo",
+        "conferido": "Não"
+      }
+    ]
+  },
+  "completado_em": "2026-10-29"
+}

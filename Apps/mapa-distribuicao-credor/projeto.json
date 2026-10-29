@@ -1,0 +1,787 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T13:04:00.396Z",
+  "campos": {
+    "data": "2026-10-29",
+    "aluno": "Igor Henrique de Menezes Costa",
+    "unidade": "Setor de Licitações – POLITEC/MT",
+    "contato": "izgdreyar@gmail.com",
+    "nome_projeto": "Automação do Mapa de Distribuição por Credor e da Distribuição Orçamentária",
+    "resumo": "Rotina automatizada que lê os relatórios do pregoeiro e o anexo de distribuição do TR e gera o Mapa de Distribuição por credor e a tabela de distribuição orçamentária por órgão, no lugar das planilhas Excel preenchidas e conferidas manualmente.",
+    "problema": "A equipe de licitações monta à mão, em várias planilhas Excel, o mapa de distribuição por órgão e por credor, redigitando os mesmos dados a cada etapa, o que causa retrabalho, erros de cálculo e atraso na distribuição da dotação orçamentária.",
+    "hoje": "1) Cada unidade demandante preenche no Excel a distribuição de itens por órgão. 2) A equipe compõe por grupo, item, código, descrição, unidade, quantidade, valor unitário e total, e passa para uma planilha à parte de controle. 3) Aguarda os relatórios do pregoeiro e preenche empresa vencedora e valor homologado. 4) Separa os grupos homologados, fracassados e desertos. 5) Cria colunas de resultado geral e por órgão. 6) Monta tabela por empresa e por órgão participante. 7) Monta outra tabela com valor total, para conferência. 8) Monta a tabela de distribuição orçamentária por credor e órgão (processo, dotação, custeio 3 / investimento 4, CNPJ, valores, ano seguinte quando a dotação não comporta). Tudo é copiado e digitado entre planilhas.",
+    "impacto": "Retrabalho e digitação duplicada em cada etapa; risco de divergência entre planilhas e entre valores estimados e homologados; demora na distribuição orçamentária. ",
+    "evid_detalhe": "Descrição do fluxo atual feita pela equipe na Aula 7 (27/10/2026), com exemplos das planilhas de cada etapa (exemplos 1 a 8).",
+    "limite": "Não se automatiza: a assinatura e a responsabilidade legal e a conferência final dos valores continua com a equipe.",
+    "tipo_projeto": "Automação de script ou rotina",
+    "asis_inicio": "Unidades demandantes enviam a distribuição de itens por órgão (Excel)",
+    "asis_fim": "Tabela de distribuição orçamentária por credor e órgão pronta para a dotação",
+    "asis_entradas": "Planilhas de distribuição de itens por órgão (unidades demandantes); anexo de distribuição do TR; relatórios do pregoeiro (empresa vencedora e valor homologado); dotação orçamentária validada por órgão.",
+    "asis_saidas": "Mapa de distribuição por credor; tabelas por empresa e órgão; tabela de conferência; tabela de distribuição orçamentária por credor e órgão participante (com CNPJ e valores por dotação).",
+    "asis_volume": "A MEDIR: nº de processos, grupos e itens por mês",
+    "asis_duracao": "A MEDIR (do recebimento das planilhas à distribuição orçamentária)",
+    "asis_decisoes": "Grupo teve empresa homologada, foi fracassado ou deserto (define a observação); a dotação validada suporta todo o valor no ano corrente? Se não, cria coluna para o ano seguinte; item custeio (3) ou investimento (4).",
+    "asis_excecoes": "Grupos fracassados e desertos (mantêm as colunas, só muda a observação); valor homologado diferente do estimado; dotação insuficiente no ano corrente.",
+    "asis_digital": "Tudo em planilhas Excel; os relatórios do pregoeiro vêm do sistema de licitação; não há integração entre os arquivos.",
+    "asis_frequencia": "Por demanda",
+    "papeis_obs": "Os papéis do MVP são internos; não há acesso de cidadão.",
+    "tobe_visao": "Quando este processo existir, a equipe de licitações deixa de redigitar e conferir planilhas à mão e passa a gerar o mapa de distribuição e a tabela orçamentária automaticamente a partir dos relatórios do pregoeiro e do anexo do TR.",
+    "tobe_mudanca": "Os dados são lidos uma única vez dos relatórios do pregoeiro e do anexo de distribuição do TR, e todas as tabelas (por empresa, por órgão, conferência e distribuição orçamentária) são geradas automaticamente, com rastreabilidade até o arquivo de origem.",
+    "tobe_inalterado": "As unidades demandantes continuam enviando a distribuição de itens; o pregoeiro continua homologando; a validação da dotação e a decisão final continuam com pessoas.",
+    "tobe_restricao": "Lei de licitações, regras de dotação orçamentária (custeio 3 / investimento 4) e procedimento oficial do processo.",
+    "tobe_piloto": "Em um processo já encerrado, comparando o resultado gerado pela automação com o mapa feito manualmente, usando dados sintéticos ou sem dado pessoal.",
+    "entrega": "Protótipo (HTML único) que importa planilhas de exemplo, gera o mapa de distribuição por credor, a tabela de conferência e a distribuição orçamentária, e aponta divergências.",
+    "dentro": "Leitura de planilha de distribuição por órgão e de relatório do pregoeiro (exemplo); cálculo de totais por grupo, órgão e empresa; separação em homologado, fracassado e deserto; tabela de distribuição orçamentária por credor; alerta de divergência.",
+    "fora": "Integração direta com o sistema oficial de licitação e de orçamento; assinatura eletrônica; decisão sobre dotação. Ficam fora por dependerem de autorização.",
+    "mvp_naofaz": "Não busca dados em sistema oficial; não valida a dotação; não gera documento oficial; não grava no sistema de orçamento.",
+    "mvp_objetivo": "Provar que, a partir de uma planilha de distribuição e de um relatório do pregoeiro de exemplo, é possível gerar o mapa por credor e a tabela orçamentária sem redigitação.",
+    "mvp_tela_inicial": "Tela de importação dos arquivos (distribuição por órgão e relatório do pregoeiro) com resumo do que foi lido.",
+    "mvp_mock": "Planilhas, relatório do pregoeiro, CNPJs e valores de dotação serão dados sintéticos de exemplo.",
+    "mvp_criterio": "Os totais gerados batem com a planilha manual de referência (diferença zero) e as divergências propositalmente inseridas são apontadas.",
+    "mvp_dados": "3 órgãos, 6 grupos (2 com empresa, 1 fracassado, 1 deserto, 2 mistos), 4 empresas fictícias com CNPJ fictício e dotações de custeio e investimento.",
+    "mvp_reuso": "Planilhas de exemplo 1 a 8 do documento do workflow e as fórmulas Excel já usadas pela equipe.",
+    "dependencias": "Equipe de licitações (regras e planilhas); pregoeiro (relatórios) e; setor de orçamento (dotação).",
+    "lgpd_dados": "Nenhum dado pessoal de cidadão. Apenas dados de órgãos, itens, valores e empresas (razão social e CNPJ, dados de pessoa jurídica). No MVP, tudo sintético.",
+    "lgpd_base": "Execução de atribuição legal de licitação e controle orçamentário (Lei 14.133/2021 e Lei nº 4.320/1964). Finalidade: distribuir e conferir a aquisição por órgão e credor.",
+    "lgpd_retencao": "Conforme a tabela de temporalidade da unidade para processos licitatórios; no MVP, nenhum dado é guardado fora do navegador.",
+    "lgpd_acesso": "Somente servidores da licitação e do orçamento; cada importação e edição registra usuário, data e arquivo de origem.",
+    "stack_detalhe": "HTML único com JS embutido, rodando no navegador e publicado no GitHub Pages, com dados de exemplo em JSON.",
+    "coletar": "Relatórios do pregoeiro de processos anteriores, anexo de distribuição do TR, planilhas de controle e tempos de cada etapa.",
+    "acesso": "Analista de licitações libera os relatórios e planilhas; setor de orçamento libera a dotação. Prazo: A DEFINIR.",
+    "base_periodo": "A MEDIR: últimos 3 a 6 processos encerrados, com nº de grupos, itens e horas gastas.",
+    "campos_data": "A verificar nos relatórios do pregoeiro (data de homologação) e nas planilhas (datas de recebimento). Sem data hoje, a espera é medida por cronômetro na semana 1.",
+    "hospedagem_escolhida": "GitHub Pages: gratuito, sem servidor e sem banco, suficiente para o protótipo com dados sintéticos.",
+    "conta_quem": "O próprio aluno cria a conta no GitHub; domínio padrão github.io.",
+    "orcamento": "Custo zero no protótipo; produção futura depende de decisão da TI.",
+    "restricoes": "Não pode usar dado pessoal; depende de liberação dos relatórios; integração com sistema oficial exige TI; dotação é validada por pessoa.",
+    "hipotese_campo": "A maior parte do tempo se perde em redigitar e conferir entre planilhas, não em decidir.",
+    "lacunas": "Sem medição de tempo atual; sem levantamento de erros históricos; falta pesquisa externa sobre mapas de distribuição em outros órgãos.",
+    "apoio": "Equipe de licitações (regras e exemplos), setor de orçamento (dotação), professor (construção do MVP).",
+    "aprendizado": "Ler e cruzar planilhas com script, regras de dotação orçamentária e publicação no GitHub Pages.",
+    "frase": "Se o tempo de montagem do mapa passar de A MEDIR horas para uma fração disso, a equipe de licitações deixa de redigitar e conferir planilhas à mão.",
+    "provas": "1) Descrição do fluxo atual em 8 etapas, com exemplos reais das planilhas. 2) Etapas repetitivas e com regra clara (cálculos, separação, conferência). 3) Teste com dados de exemplo comparando manual x automático.",
+    "piloto": "Rodar um processo já encerrado na ferramenta e comparar totais e tempo com o mapa manual, medindo as duas versões.",
+    "risco_defesa": "Relatórios do pregoeiro em formato variável; tratar com um modelo padrão de importação e validação de colunas.",
+    "doc_descricao": "WorkFlow.docx: descrição do fluxo atual do Mapa de Distribuição, com exemplos 1 a 8 das planilhas.",
+    "doc_faltando": "WorkFlow.docx (exemplos 1 a 8), planilhas de exemplo sem dado pessoal, relatório do pregoeiro de amostra, mapa manual de um processo encerrado (gabarito) e medição de tempo das etapas.",
+    "mvp_plataforma": "Site web (abre no navegador)"
+  },
+  "marcados": {
+    "afetado": [
+      "Servidor da unidade",
+      "Equipe interna",
+      "Chefia"
+    ],
+    "evid": [
+      "Planilha ou controle local",
+      "Relatório de sistema",
+      "Medida feita pela equipe"
+    ],
+    "req": [
+      "LGPD e dado pessoal",
+      "Segurança e controle de acesso",
+      "Integração com sistema oficial",
+      "Trilha de auditoria"
+    ],
+    "stack": "HTML único (CSS/JS inline), dados em JSON embutido, GitHub Pages"
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "Receber distribuição de itens por órgão",
+        "papel": "Unidade demandante / Licitações",
+        "entra": "Planilha Excel da unidade",
+        "acao": "Aguardar e conferir o preenchimento",
+        "sai": "Planilha recebida",
+        "sistema": "Excel / e-mail",
+        "regra": "Cada item com sua unidade de medida",
+        "espera": "Espera as unidades preencherem",
+        "tempo": "A medir",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Compor mapa por grupo e item",
+        "papel": "Licitações",
+        "entra": "Planilha das unidades",
+        "acao": "Compor grupo, item, código, descrição, unidade, quantidade, valor unitário e total, e valor estimado por órgão",
+        "sai": "Planilha de controle",
+        "sistema": "Excel",
+        "regra": "Valores vêm da pesquisa de preço",
+        "espera": "Digitação duplicada",
+        "tempo": "A medir",
+        "auto": "Sim, com regra clara",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Preencher valores homologados",
+        "papel": "Licitações",
+        "entra": "Relatórios do pregoeiro",
+        "acao": "Digitar empresa vencedora e valor homologado",
+        "sai": "Planilha com valores homologados",
+        "sistema": "Excel / sistema de licitação",
+        "regra": "Valor homologado substitui o estimado",
+        "espera": "Espera o relatório do pregoeiro",
+        "tempo": "A medir",
+        "auto": "Sim, com regra clara",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Separar homologados, fracassados e desertos",
+        "papel": "Licitações",
+        "entra": "Planilha preenchida",
+        "acao": "Separar os grupos e registrar a observação conforme o caso",
+        "sai": "Planilha separada por situação",
+        "sistema": "Excel",
+        "regra": "Situação do grupo define a observação",
+        "espera": "Retrabalho de cópia",
+        "tempo": "A medir",
+        "auto": "Sim, com regra clara",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Gerar resultado geral e por órgão",
+        "papel": "Licitações",
+        "entra": "Planilha separada",
+        "acao": "Criar colunas de resultado geral e por órgão",
+        "sai": "Planilha com resultados",
+        "sistema": "Excel",
+        "regra": "Soma por órgão e total geral",
+        "espera": "Cálculo manual",
+        "tempo": "A medir",
+        "auto": "Sim, com regra clara",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Montar tabela por empresa e órgão",
+        "papel": "Licitações",
+        "entra": "Planilha com resultados",
+        "acao": "Montar tabela das empresas vencedoras por órgão participante",
+        "sai": "Tabela por empresa e órgão",
+        "sistema": "Excel",
+        "regra": "Grupos ganhos por empresa",
+        "espera": "Redigitação",
+        "tempo": "A medir",
+        "auto": "Sim, com regra clara",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Montar tabela de conferência",
+        "papel": "Licitações",
+        "entra": "Tabela por empresa e órgão",
+        "acao": "Criar tabela com valor total para conferir a planilha anterior",
+        "sai": "Tabela de totais conferida",
+        "sistema": "Excel",
+        "regra": "Totais devem bater com a planilha base",
+        "espera": "Divergências só são vistas no fim",
+        "tempo": "A medir",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Montar distribuição orçamentária por credor e órgão",
+        "papel": "Licitações / Orçamento",
+        "entra": "Tabelas e dotação validada",
+        "acao": "Montar tabela com processo, dotação por órgão e grupo (3 custeio / 4 investimento), CNPJ e valores por credor; coluna do ano seguinte se faltar dotação",
+        "sai": "Tabela de distribuição orçamentária",
+        "sistema": "Excel",
+        "regra": "Dotação não suporta o valor: nova coluna para o ano seguinte",
+        "espera": "Espera a validação da dotação",
+        "tempo": "A medir",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "Receber planilhas das unidades",
+        "muda": "Importar para a ferramenta",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Menos digitação",
+        "esforco": "Baixo",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Importar relatório do pregoeiro",
+        "muda": "Leitura automática de empresa e valor homologado",
+        "quem": "A máquina (automação)",
+        "beneficio": "Fim da redigitação",
+        "esforco": "Médio",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Gerar mapa por grupo, órgão e empresa",
+        "muda": "Cálculos padronizados automáticos",
+        "quem": "A máquina (automação)",
+        "beneficio": "Menos erros e tempo",
+        "esforco": "Médio",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Separar homologados, fracassados e desertos",
+        "muda": "Classificação automática com observação",
+        "quem": "A máquina (automação)",
+        "beneficio": "Padronização",
+        "esforco": "Baixo",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Conferir divergências",
+        "muda": "Alerta antes da distribuição orçamentária",
+        "quem": "A máquina (automação)",
+        "beneficio": "Erros achados cedo",
+        "esforco": "Médio",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Validar dotação e distribuir",
+        "muda": "Tabela por credor e órgão gerada; ano seguinte quando faltar dotação",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Menos retrabalho",
+        "esforco": "Alto",
+        "rm": ""
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "Analista de licitações",
+        "quem": "Servidor que monta o mapa",
+        "ve": "Planilhas, relatórios e tabelas geradas",
+        "faz": "Importa arquivos, confere e exporta o mapa",
+        "naofaz": "Alterar valor homologado sem registro",
+        "registro": "Importação, edições e conferência",
+        "rm": ""
+      },
+      {
+        "papel": "Unidade demandante",
+        "quem": "Órgão que pede os itens",
+        "ve": "Sua própria distribuição de itens",
+        "faz": "Envia a planilha de distribuição",
+        "naofaz": "Ver dados de outros órgãos",
+        "registro": "Envio e data",
+        "rm": ""
+      },
+      {
+        "papel": "Pregoeiro",
+        "quem": "Responsável pelo preenchimento",
+        "ve": "Resultado de grupos",
+        "faz": "Fornece relatório com vencedores e valores",
+        "naofaz": "Alterar o mapa",
+        "registro": "Relatório fornecido",
+        "rm": ""
+      },
+      {
+        "papel": "Analista de licitações / Orçamento",
+        "quem": "Valida a distribuição",
+        "ve": "Tabela orçamentária e divergências",
+        "faz": "Valida dotação e aprova",
+        "naofaz": "Alterar dados de origem",
+        "registro": "Validação e aprovação",
+        "rm": ""
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "Tela de importação",
+        "rota": "#/importar/:proc",
+        "objetivo": "Carregar arquivos de origem",
+        "usuario": "Analista",
+        "dados": "Arquivos lidos e linhas",
+        "acao": "Importar",
+        "regra": "Arquivo com colunas obrigatórias",
+        "tipo": "Tela",
+        "verificacao": "Importar exemplo e ver o resumo",
+        "mvp": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Mapa por grupo e órgão",
+        "rota": "#/mapa/:proc",
+        "objetivo": "Consolidar valores",
+        "usuario": "Analista",
+        "dados": "Grupo, item, quantidade, valores",
+        "acao": "Gerar mapa",
+        "regra": "Total = quantidade x valor unitário",
+        "tipo": "Relatório",
+        "verificacao": "Totais batem com a planilha manual",
+        "mvp": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Situação dos grupos",
+        "rota": "#/resultado/:proc",
+        "objetivo": "Separar homologado, fracassado e deserto",
+        "usuario": "Analista",
+        "dados": "Grupo e situação",
+        "acao": "Classificar",
+        "regra": "Situação vem do relatório do pregoeiro",
+        "tipo": "Regra",
+        "verificacao": "Casos de teste classificados corretamente",
+        "mvp": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Conferência e divergências",
+        "rota": "#/conferencia/:proc",
+        "objetivo": "Apontar diferenças",
+        "usuario": "Analista e chefia",
+        "dados": "Estimado x homologado e totais",
+        "acao": "Conferir",
+        "regra": "Totais devem bater",
+        "tipo": "Automação",
+        "verificacao": "Divergência inserida é apontada",
+        "mvp": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Distribuição orçamentária por credor",
+        "rota": "#/orcamento/:proc",
+        "objetivo": "Distribuir por dotação",
+        "usuario": "Analista e orçamento",
+        "dados": "Processo, dotação, CNPJ, valores",
+        "acao": "Gerar tabela",
+        "regra": "Se a dotação não suportar, usar ano seguinte",
+        "tipo": "Documento",
+        "verificacao": "Tabela confere com a manual",
+        "mvp": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Tabela por empresa e órgão",
+        "rota": "#/empresas/:proc",
+        "objetivo": "Ver os grupos ganhos por empresa em cada órgão",
+        "usuario": "Analista",
+        "dados": "Empresa, CNPJ, grupos, valores por órgão",
+        "acao": "Gerar tabela",
+        "regra": "Só grupos homologados",
+        "tipo": "Relatório",
+        "verificacao": "Tabela confere com o exemplo 6",
+        "mvp": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Exportação para Excel",
+        "rota": "#/exportar/:proc",
+        "objetivo": "Entregar o mapa no formato da equipe",
+        "usuario": "Analista",
+        "dados": "As 8 tabelas do fluxo",
+        "acao": "Baixar .xlsx",
+        "regra": "Valores como número",
+        "tipo": "Documento",
+        "verificacao": "Arquivo abre no Excel com 8 abas",
+        "mvp": "Sim",
+        "rm": ""
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "Processo",
+        "representa": "Processo licitatório",
+        "colunas": "id_processo: texto, nome: texto",
+        "chave": "id_processo",
+        "volume": "3 por teste",
+        "origem": "Exemplo sintético",
+        "sintetico": "Sim",
+        "rm": ""
+      },
+      {
+        "entidade": "Grupo/Item",
+        "representa": "Item licitado por grupo",
+        "colunas": "grupo, item, código: texto, descrição: texto, unidade: texto, quantidade: número, valor_unitário: número",
+        "chave": "grupo+item",
+        "volume": "30",
+        "origem": "Planilha de exemplo",
+        "sintetico": "Sim",
+        "rm": ""
+      },
+      {
+        "entidade": "Distribuição por órgão",
+        "representa": "Quantidade por órgão",
+        "colunas": "órgão: texto, item: texto, quantidade: número",
+        "chave": "órgão+item",
+        "volume": "90",
+        "origem": "Planilha de exemplo",
+        "sintetico": "Sim",
+        "rm": ""
+      },
+      {
+        "entidade": "Resultado do pregoeiro",
+        "representa": "Vencedor e valor homologado",
+        "colunas": "grupo, situação: texto, empresa: texto, cnpj: texto, valor_homologado: número",
+        "chave": "grupo",
+        "volume": "6",
+        "origem": "Relatório de exemplo",
+        "sintetico": "Sim",
+        "rm": ""
+      },
+      {
+        "entidade": "Dotação",
+        "representa": "Dotação por órgão e tipo",
+        "colunas": "órgão, tipo (3 custeio / 4 investimento), valor: número, ano: número",
+        "chave": "órgão+tipo+ano",
+        "volume": "6",
+        "origem": "Exemplo sintético",
+        "sintetico": "Sim",
+        "rm": ""
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "RN01",
+        "regra": "Total do item = quantidade x valor unitário",
+        "quando": "Ao importar a planilha",
+        "excecao": "Nenhuma",
+        "valida": "Analista",
+        "tipo": "Cálculo",
+        "rm": ""
+      },
+      {
+        "id": "RN02",
+        "regra": "Grupo sem empresa é fracassado ou deserto, conforme o relatório",
+        "quando": "Ao ler o relatório do pregoeiro",
+        "excecao": "Nenhuma",
+        "valida": "Analista",
+        "tipo": "Negócio",
+        "rm": ""
+      },
+      {
+        "id": "RN03",
+        "regra": "Valor homologado substitui o valor estimado",
+        "quando": "Após o relatório",
+        "excecao": "Grupo fracassado ou deserto",
+        "valida": "Analista",
+        "tipo": "Negócio",
+        "rm": ""
+      },
+      {
+        "id": "RN04",
+        "regra": "Soma por órgão deve igualar o total do grupo",
+        "quando": "Na conferência",
+        "excecao": "Nenhuma; diferença vira alerta",
+        "valida": "Analista",
+        "tipo": "Validação",
+        "rm": ""
+      },
+      {
+        "id": "RN05",
+        "regra": "Se a dotação não suporta o valor no ano corrente, o excedente vai para o ano seguinte",
+        "quando": "Na distribuição orçamentária",
+        "excecao": "Valor validado pela chefia",
+        "valida": "Analista",
+        "tipo": "Cálculo",
+        "rm": ""
+      },
+      {
+        "id": "RN06",
+        "regra": "Dotação do tipo 3 (custeio) ou 4 (investimento) por grupo",
+        "quando": "Na distribuição",
+        "excecao": "Nenhuma",
+        "valida": "Analista/Orçamento",
+        "tipo": "Negócio",
+        "rm": ""
+      },
+      {
+        "id": "RN07",
+        "regra": "CNPJ deve ter 14 dígitos",
+        "quando": "Ao importar o relatório",
+        "excecao": "Nenhuma",
+        "valida": "Analista",
+        "tipo": "Validação",
+        "rm": ""
+      },
+      {
+        "id": "RN08",
+        "regra": "O valor homologado é usado por item; se o relatório trouxer só o total do grupo, aplica-se a todos os itens o mesmo desconto (homologado ÷ estimado do grupo)",
+        "quando": "Após o relatório do pregoeiro",
+        "excecao": "Equipe pode informar o valor de cada item",
+        "valida": "Analista",
+        "tipo": "Cálculo",
+        "rm": ""
+      },
+      {
+        "id": "RN09",
+        "regra": "Valor unitário com 2 casas; total do item = quantidade × valor unitário, arredondado a 2 casas; somas feitas em centavos",
+        "quando": "Em todos os cálculos",
+        "excecao": "Nenhuma",
+        "valida": "Analista",
+        "tipo": "Cálculo",
+        "rm": ""
+      },
+      {
+        "id": "RN10",
+        "regra": "A dotação de cada órgão e tipo é consumida na ordem dos grupos do processo; o que não couber vai para o ano seguinte",
+        "quando": "Na distribuição orçamentária",
+        "excecao": "Ordem definida pelo orçamento",
+        "valida": "Orçamento",
+        "tipo": "Negócio",
+        "rm": ""
+      },
+      {
+        "id": "RN11",
+        "regra": "Grupo misto (itens adjudicados a empresas diferentes) é tratado item a item",
+        "quando": "Ao ler o relatório do pregoeiro",
+        "excecao": "Nenhuma",
+        "valida": "Analista",
+        "tipo": "Negócio",
+        "rm": ""
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "Planilha de distribuição por órgão",
+        "tipo": "Planilha local",
+        "onde": "Máquina da unidade",
+        "existe": "Sim",
+        "acesso": "Equipe de licitações",
+        "linha": "Um item por órgão",
+        "volume": "A medir",
+        "historico": "Data de envio",
+        "campos": "Por processo",
+        "atualiza": "Sim",
+        "lgpd": "Não",
+        "obs": "Fonte principal",
+        "rm": ""
+      },
+      {
+        "fonte": "Relatório do pregoeiro",
+        "tipo": "Relatório",
+        "onde": "Sistema de licitação",
+        "existe": "Sim",
+        "acesso": "Pregoeiro",
+        "linha": "Um grupo",
+        "volume": "A medir",
+        "historico": "Data da homologação",
+        "campos": "Por processo",
+        "atualiza": "Sim",
+        "lgpd": "Não",
+        "obs": "Traz empresa e valor homologado",
+        "rm": ""
+      },
+      {
+        "fonte": "Anexo de distribuição do TR",
+        "tipo": "Documento em papel",
+        "onde": "Processo",
+        "existe": "Sim",
+        "acesso": "Licitações",
+        "linha": "Um item",
+        "volume": "A medir",
+        "historico": "Data do TR",
+        "campos": "Por processo",
+        "atualiza": "Sim",
+        "lgpd": "Não",
+        "obs": "Origem dos itens",
+        "rm": ""
+      },
+      {
+        "fonte": "Dotação validada por órgão",
+        "tipo": "Planilha local",
+        "onde": "Setor de orçamento",
+        "existe": "Sim",
+        "acesso": "Setor de orçamento",
+        "linha": "Uma dotação por órgão, tipo e ano",
+        "volume": "A medir",
+        "historico": "Por exercício",
+        "campos": "Ano",
+        "atualiza": "A cada processo",
+        "lgpd": "Não",
+        "obs": "Entrada da etapa 8",
+        "rm": ""
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "Tempo de montagem do mapa",
+        "pergunta": "Quanto tempo leva do recebimento à tabela final?",
+        "formula": "Hora final - hora inicial",
+        "fonte": "Etapas 1 a 8 do AS-IS",
+        "gran": "Caso",
+        "base": "A MEDIR",
+        "esperado": "Fração do atual (hipótese)",
+        "medir": "Cronometrar um processo",
+        "quem": "Equipe de licitações",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Divergências por processo",
+        "pergunta": "Quantos erros são achados na conferência?",
+        "formula": "Nº de divergências / processo",
+        "fonte": "Planilha de conferência",
+        "gran": "Caso",
+        "base": "A MEDIR",
+        "esperado": "Zero ao final (hipótese)",
+        "medir": "Contar nos 3 últimos processos",
+        "quem": "Equipe de licitações",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Retrabalho de digitação",
+        "pergunta": "Quantas vezes o mesmo dado é redigitado?",
+        "formula": "Nº de planilhas que repetem o dado",
+        "fonte": "Fluxo AS-IS",
+        "gran": "Caso",
+        "base": "Cerca de 6 (estimativa)",
+        "esperado": "1 (hipótese)",
+        "medir": "Contar as planilhas de um processo",
+        "quem": "Equipe de licitações",
+        "rm": ""
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "GitHub Pages",
+        "tipo": "Estática e gratuita",
+        "onde": "Servidores do GitHub",
+        "custo": "Grátis",
+        "mantem": "O aluno",
+        "acesso": "Público por link",
+        "banco": "Não tem",
+        "escala": "Baixa",
+        "limite": "Sem dados sensíveis e sem banco",
+        "rm": ""
+      },
+      {
+        "opcao": "Arquivo HTML único",
+        "tipo": "Arquivo local",
+        "onde": "Computador do usuário",
+        "custo": "Grátis",
+        "mantem": "O aluno",
+        "acesso": "Só quem recebe o arquivo",
+        "banco": "Não tem",
+        "escala": "Baixa",
+        "limite": "Difícil de atualizar",
+        "rm": ""
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "Medir tempo do fluxo atual",
+        "data": "",
+        "resp": "Equipe",
+        "dep": "Acesso às planilhas",
+        "sit": "Planejado",
+        "rm": ""
+      },
+      {
+        "marco": "Montar dados de exemplo",
+        "data": "",
+        "resp": "Aluno",
+        "dep": "Planilhas",
+        "sit": "Planejado",
+        "rm": ""
+      },
+      {
+        "marco": "MVP funcional",
+        "data": "",
+        "resp": "Professor e aluno",
+        "dep": "Dados de exemplo",
+        "sit": "Planejado",
+        "rm": ""
+      },
+      {
+        "marco": "Teste comparativo",
+        "data": "",
+        "resp": "Equipe",
+        "dep": "MVP",
+        "sit": "Planejado",
+        "rm": ""
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "Relatórios com formato variável",
+        "prob": "Média",
+        "imp": "Alto",
+        "mit": "Modelo padrão de importação",
+        "rm": ""
+      },
+      {
+        "risco": "Falta de liberação dos dados",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "Usar dados sintéticos",
+        "rm": ""
+      },
+      {
+        "risco": "Resistência à mudança",
+        "prob": "Baixa",
+        "imp": "Médio",
+        "mit": "Envolver a equipe no piloto",
+        "rm": ""
+      },
+      {
+        "risco": "Arredondamento diferente da planilha manual",
+        "prob": "Média",
+        "imp": "Alto",
+        "mit": "Teste de diferença zero contra o gabarito (RN09)",
+        "rm": ""
+      },
+      {
+        "risco": "Regra da dotação não escrita",
+        "prob": "Média",
+        "imp": "Alto",
+        "mit": "Escrever a RN10 com o orçamento antes do sprint de distribuição",
+        "rm": ""
+      }
+    ],
+    "tRefs": [
+      {
+        "n": "",
+        "ref": "Lei nº 4.320, de 17 de Março de 1964",
+        "tipo": "Norma ou lei",
+        "fonte": "Planalto.gov.br",
+        "ano": "1964",
+        "dado": "Classificação da despesa por categoria econômica: 3 (despesas correntes) e 4 (despesas de capital)",
+        "uso": "Fundamentar a separação entre custeio (3) e investimento (4) na distribuição orçamentária",
+        "conferido": "Não",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "ref": "Documento WorkFlow (Aula 7)",
+        "tipo": "Documento interno",
+        "fonte": "Anexo do projeto",
+        "ano": "2026",
+        "dado": "Descrição das 8 etapas do fluxo",
+        "uso": "Base do AS-IS",
+        "conferido": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "ref": "Lei nº 14.133/2021, art. 71 (homologação)",
+        "tipo": "Norma ou lei",
+        "fonte": "Planalto",
+        "ano": "2021",
+        "dado": "Encerrado o julgamento, a autoridade homologa o resultado",
+        "uso": "Mostrar de onde vem o valor homologado que substitui o estimado",
+        "conferido": "Não",
+        "rm": ""
+      }
+    ]
+  },
+  "completado_em": "2026-10-29"
+}

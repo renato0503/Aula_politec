@@ -1,0 +1,484 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T14:14:53.711Z",
+  "campos": {
+    "data": "2026-10-27",
+    "aluno": "Karine Assunção",
+    "unidade": "CQUAL",
+    "contato": "karineassuncao@politec.mt.gov.br",
+    "nome_projeto": "Automação do monitoramento de metas pelo BI",
+    "tipo_projeto": "Automação de script ou rotina",
+    "resumo": "Desenvolver uma automação mensal de extração por OCR, validação dos dados e atualização controlada da planilha.",
+    "problema": "Extração manual dos dados.",
+    "hoje": "o fluxo atual é realizado através da consulta dos dados no Power BI 1, transferência manual para o Google planilhas e esse google planilhas alimenta um novo Power BI de monitoramento, teria como automatizar essa função de alimentar manualmente o Google Planilhas.",
+    "impacto": "O fluxo atual exige a transferência manual dos dados extraídos do Power BI 1 para o Google Planilhas, tornando o processo de monitoramento das metas mais demorado e operacionalmente dependente da intervenção humana. Essa atividade aumenta o risco de erros de digitação, inconsistências nos indicadores e divergências nos resultados apresentados no Power BI de monitoramento, além de dificultar a rastreabilidade e a padronização das atualizações mensais.",
+    "evid_detalhe": "Tempo gasto com a conferência dos dados",
+    "limite": "O acesso ao API do Power BI 1",
+    "asis_inicio": "Solicitação de demanda ",
+    "asis_fim": "Reunião mensal",
+    "asis_entradas": "Consulta dos dados do Power BI 1",
+    "asis_saidas": "Visualização e monitoramento das metas",
+    "asis_volume": "2",
+    "asis_duracao": "8h",
+    "asis_frequencia": "Mensal",
+    "asis_decisoes": "A principal bifurcação do fluxo ocorre após a conferência dos dados extraídos do Power BI 1 e inseridos manualmente no Google Planilhas.",
+    "asis_excecoes": "Sim: prosseguir com a atualização da base de dados e disponibilização dos indicadores no Power BI de monitoramento.\nNão: revisar e corrigir os dados na planilha, confrontando-os com o relatório original do Power BI 1, antes de prosseguir.",
+    "asis_digital": "Os dados iniciais são todos digitalizados.",
+    "papeis_obs": "Extração e conferência dos dados",
+    "tobe_visao": "Automatizar a extração, validação e transferência dos dados do Power BI 1 para o Google Planilhas, garantindo maior agilidade, confiabilidade e padronização no monitoramento mensal das metas institucionais da POLITEC, com atualização dos indicadores no Power BI de monitoramento e redução de falhas operacionais.",
+    "tobe_mudanca": "Substituir o preenchimento manual do Google Planilhas por um processo automatizado de extração e validação dos dados do PDF emitido pelo Power BI 1,",
+    "tobe_inalterado": "Permanecem inalterados o Power BI 1 como fonte dos dados, a emissão mensal do relatório em PDF, o Google Planilhas como base de armazenamento dos indicadores.",
+    "tobe_restricao": "Permanecem inalterados o Power BI 1 como fonte dos dados.",
+    "tobe_piloto": "A validação deverá comparar os dados extraídos com o relatório original, verificar possíveis erros de reconhecimento, duplicidades e inconsistências.",
+    "entrega": "App em um único HTML que lê o relatório do Power BI 1, confere os números e gera o arquivo para atualizar a planilha do Google, com manual de uso em PDF.",
+    "dentro": "Ler o relatório mensal do Power BI 1 (PDF ou, se permitido, exportação em CSV/Excel); extrair os laudos pendentes por unidade e mês; validar (mês de referência, totais, unidades conhecidas, variação brusca); mostrar a conferência lado a lado; gerar o arquivo no layout da planilha do Google; guardar o histórico dos meses.",
+    "fora": "A base dados original (API)",
+    "mvp_naofaz": "O MVP não integra com a base de dados original do Power BI 1.",
+    "mvp_objetivo": "Validar a viabilidade da extração automatizada de dados do PDF do Power BI 1 por OCR e sua transferência para o Google Planilhas, reduzindo o trabalho manual e garantindo a confiabilidade dos indicadores no Power BI de Monitoramento.",
+    "mvp_tela_inicial": "Tela de importação: escolher o arquivo do mês (PDF ou CSV exportado do Power BI 1) e ver o mês de referência e o resumo do que foi lido.",
+    "mvp_mock": "Se o PDF for só imagem, o OCR roda no navegador (Tesseract.js); o MVP aceita digitação assistida nos campos que o OCR não ler.",
+    "mvp_criterio": "Nos 3 meses do piloto, os números gerados pelo app são iguais aos digitados à mão (diferença zero), e as divergências plantadas no teste são apontadas.",
+    "mvp_dados": "Quantitativo de laudos pendentes (passivo) por unidade e mês; 3 relatórios mensais com números fictícios para o teste.",
+    "mvp_reuso": "o PDF que será inserido na pasta de entrada no Google DriveSS",
+    "dependencias": "Acesso ao Power BI 1",
+    "lgpd_dados": "Nenhum dado pessoal: quantitativos de laudos por unidade e mês.",
+    "lgpd_base": "Tratamento de dados destinado ao monitoramento das metas institucionais da POLITEC, com a finalidade de automatizar a extração",
+    "lgpd_retencao": "Os arquivos e dados utilizados no MVP serão mantidos durante o período de testes, pelo tempo estritamente necessário à validação da solução",
+    "lgpd_acesso": "O acesso ao MVP será restrito aos servidores e colaboradores autorizados envolvidos no desenvolvimento, teste e validação da solução. ",
+    "stack_detalhe": "Um único index.html com pdf.js (texto do PDF), Tesseract.js (OCR, só se o PDF for imagem) e SheetJS (gerar o .xlsx/.csv), tudo embutido. Dados no IndexedDB. A atualização da planilha do Google é feita importando o arquivo gerado (ou colando), sem credencial no app.",
+    "coletar": "Os dados já estão disponíveis",
+    "acesso": "O acesso é permitido através de link e liberado pelo chefe de núcleo",
+    "base_periodo": "Período disponível para análise comparativa",
+    "campos_data": "mês e ano",
+    "conta_quem": "Chefe de núcleo",
+    "hospedagem_escolhida": "Arquivo HTML único, aberto no navegador do núcleo, sem servidor e sem enviar o relatório para fora; o arquivo gerado é importado na planilha do Google.",
+    "orcamento": "R$0",
+    "restricoes": "PDF predominantemente em imagem e Permissões e segurança institucional:",
+    "hipotese_campo": "Os dados serem transferidos erroneamente.",
+    "lacunas": "Não foram confirmadas a disponibilidade e as permissões necessárias para utilização do Google Apps Script e dos serviços de OCR no ambiente institucional da POLITEC. ",
+    "apoio": "Equipe de TI da POLITEC (Responsável pelo Power BI 1)",
+    "aprendizado": "OCR",
+    "frase": "Automatizar a extração e validação dos dados do Power BI 1 para reduzir o trabalho manual, aumentar a confiabilidade das informações e tornar o monitoramento das metas da POLITEC mais ágil e eficiente.",
+    "provas": "Existência de atividade manual recorrente, Risco de erros e inconsistências e Viabilidade técnica da automação",
+    "piloto": "3 meses comparando os dados",
+    "risco_defesa": "Erros de reconhecimento do OCR na extração dos dados do PDF, comprometendo a precisão dos indicadores e o monitoramento das metas da POLITEC.",
+    "doc_faltando": "OCR",
+    "mvp_plataforma": "Site web (abre no navegador)",
+    "doc_descricao": "Nenhum documento enviado. Falta uma amostra do PDF do Power BI 1 com números fictícios."
+  },
+  "marcados": {
+    "afetado": [
+      "Autoridade"
+    ],
+    "evid": [
+      "Medida feita pela equipe"
+    ],
+    "stack": "HTML único (CSS/JS inline), dados em JSON embutido, GitHub Pages",
+    "req": [
+      "Segurança e controle de acesso",
+      "Trilha de auditoria",
+      "Funcionar offline"
+    ]
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "Receber a demanda do mês",
+        "papel": "NIINS",
+        "entra": "Calendário da reunião mensal",
+        "acao": "Inicia a coleta",
+        "sai": "Demanda aberta",
+        "sistema": "E-mail",
+        "regra": "Mensal",
+        "espera": "Não identificado",
+        "tempo": "0,5",
+        "auto": "Sim, com regra clara"
+      },
+      {
+        "n": "",
+        "etapa": "Consultar o Power BI 1",
+        "papel": "NIINS",
+        "entra": "Painel do Power BI 1",
+        "acao": "Consulta os laudos pendentes por unidade",
+        "sai": "Números do mês",
+        "sistema": "Power BI 1",
+        "regra": "Mês de referência",
+        "espera": "Acesso ao painel",
+        "tempo": "1",
+        "auto": "Sim, com regra clara"
+      },
+      {
+        "n": "",
+        "etapa": "Digitar na planilha",
+        "papel": "NIINS",
+        "entra": "Números do mês",
+        "acao": "Digita no Google Planilhas",
+        "sai": "Planilha atualizada",
+        "sistema": "Google Planilhas",
+        "regra": "Uma linha por unidade e mês",
+        "espera": "Não identificado",
+        "tempo": "4",
+        "auto": "Sim, com regra clara"
+      },
+      {
+        "n": "",
+        "etapa": "Conferir",
+        "papel": "Chefe de núcleo",
+        "entra": "Planilha e Power BI 1",
+        "acao": "Compara os números e corrige",
+        "sai": "Planilha conferida",
+        "sistema": "Google Planilhas",
+        "regra": "Números iguais aos do Power BI 1",
+        "espera": "Correções",
+        "tempo": "2",
+        "auto": "Sim, com apoio humano"
+      },
+      {
+        "n": "",
+        "etapa": "Atualizar o painel e reunir",
+        "papel": "NIINS",
+        "entra": "Planilha conferida",
+        "acao": "Atualiza o Power BI de monitoramento",
+        "sai": "Indicadores do mês",
+        "sistema": "Power BI de monitoramento",
+        "regra": "Atualização antes da reunião",
+        "espera": "Reunião mensal",
+        "tempo": "0,5",
+        "auto": "Sim, com regra clara"
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "Exportar o relatório",
+        "muda": "Baixa o PDF (ou o CSV) do Power BI 1",
+        "quem": "A pessoa, sem mudança",
+        "beneficio": "Fonte única do mês",
+        "esforco": "Baixo"
+      },
+      {
+        "n": "",
+        "etapa": "Ler e extrair",
+        "muda": "O app lê o arquivo e extrai os números por unidade",
+        "quem": "A máquina (automação)",
+        "beneficio": "Fim da digitação",
+        "esforco": "Médio"
+      },
+      {
+        "n": "",
+        "etapa": "Conferir",
+        "muda": "O app compara totais, mês e variação, e a pessoa confirma",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Erro achado antes do painel",
+        "esforco": "Baixo"
+      },
+      {
+        "n": "",
+        "etapa": "Gerar a planilha",
+        "muda": "O app gera o arquivo no layout da planilha do Google",
+        "quem": "A máquina (automação)",
+        "beneficio": "Atualização em minutos",
+        "esforco": "Baixo"
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "NIINS (operador)",
+        "quem": "Servidor do núcleo",
+        "ve": "Relatório do mês e conferência",
+        "faz": "Importa o relatório e gera a planilha",
+        "naofaz": "Alterar número sem registro",
+        "registro": "Importação e correções"
+      },
+      {
+        "papel": "Chefe de núcleo",
+        "quem": "Chefia",
+        "ve": "Conferência e histórico",
+        "faz": "Aprova o mês",
+        "naofaz": "Aprovar mês com divergência aberta",
+        "registro": "Aprovação do mês"
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "Importar o mês",
+        "rota": "#/importar",
+        "objetivo": "Ler o relatório do Power BI 1",
+        "usuario": "NIINS",
+        "dados": "Arquivo, mês, unidades lidas",
+        "acao": "Importar",
+        "regra": "RN01",
+        "tipo": "Tela",
+        "verificacao": "Mês lido e 100% das unidades",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Conferência",
+        "rota": "#/conferencia/:mes",
+        "objetivo": "Comparar e corrigir",
+        "usuario": "NIINS e chefe",
+        "dados": "Número lido, número anterior, variação, alerta",
+        "acao": "Confirmar ou corrigir",
+        "regra": "RN02 a RN04",
+        "tipo": "Tela",
+        "verificacao": "Divergência plantada é apontada",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Gerar planilha",
+        "rota": "#/exportar/:mes",
+        "objetivo": "Atualizar o Google Planilhas",
+        "usuario": "NIINS",
+        "dados": "Linhas no layout da planilha",
+        "acao": "Baixar .xlsx/.csv ou copiar",
+        "regra": "RN05",
+        "tipo": "Ação",
+        "verificacao": "Arquivo importa sem ajuste",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Histórico",
+        "rota": "#/historico",
+        "objetivo": "Ver os meses",
+        "usuario": "Chefe",
+        "dados": "Meses, totais, quem aprovou",
+        "acao": "Consultar",
+        "regra": "",
+        "tipo": "Relatório",
+        "verificacao": "Mostra os 3 meses do piloto",
+        "mvp": "Sim"
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "RelatorioMensal",
+        "representa": "Arquivo do Power BI 1 de um mês",
+        "colunas": "id: texto, mes_ref: texto (AAAA-MM), arquivo: texto, tipo: texto (pdf, csv), importado_em: data, aprovado_por: texto",
+        "chave": "id",
+        "volume": "1 por mês",
+        "origem": "Power BI 1",
+        "sintetico": "Parcialmente"
+      },
+      {
+        "entidade": "Pendencia",
+        "representa": "Laudos pendentes de uma unidade no mês",
+        "colunas": "id: texto, mes_ref: texto, unidade: texto, pendentes: inteiro, origem: texto (pdf, ocr, digitado), confianca: número",
+        "chave": "id",
+        "volume": "Uma por unidade e mês",
+        "origem": "Extração",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "Correcao",
+        "representa": "Número alterado na conferência",
+        "colunas": "id: texto, pendencia_id: texto, valor_lido: inteiro, valor_final: inteiro, motivo: texto, data: data",
+        "chave": "id",
+        "volume": "Poucas por mês",
+        "origem": "Conferência",
+        "sintetico": "Sim"
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "RN01",
+        "regra": "O relatório deve possuir um mês de referência válido.",
+        "quando": "Toda importação",
+        "excecao": "Relatório sem período identificável é rejeitado.",
+        "valida": "Automação",
+        "tipo": "Validação",
+        "rm": ""
+      },
+      {
+        "id": "RN02",
+        "regra": "A soma das unidades tem que bater com o total do relatório",
+        "quando": "Na conferência",
+        "excecao": "Diferença vira bloqueio",
+        "valida": "Sistema",
+        "tipo": "Validação"
+      },
+      {
+        "id": "RN03",
+        "regra": "Unidade não cadastrada vira alerta",
+        "quando": "Na extração",
+        "excecao": "A pessoa associa ou cadastra",
+        "valida": "NIINS",
+        "tipo": "Validação"
+      },
+      {
+        "id": "RN04",
+        "regra": "Variação acima de 30% em relação ao mês anterior vira alerta",
+        "quando": "Na conferência",
+        "excecao": "Confirmada pela pessoa",
+        "valida": "NIINS",
+        "tipo": "Validação"
+      },
+      {
+        "id": "RN05",
+        "regra": "Mês aprovado não muda; correção gera nova versão com motivo",
+        "quando": "Depois da aprovação",
+        "excecao": "Nenhuma",
+        "valida": "Chefe de núcleo",
+        "tipo": "Negócio"
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "Relatório do Power BI 1",
+        "tipo": "Relatório",
+        "onde": "Power BI 1 (TI)",
+        "existe": "Sim",
+        "acesso": "Limitado, por link",
+        "linha": "Uma unidade no mês",
+        "volume": "1 relatório por mês",
+        "historico": "Anual",
+        "campos": "Mês e ano",
+        "atualiza": "Mensal",
+        "lgpd": "Não",
+        "obs": "PDF predominantemente em imagem"
+      },
+      {
+        "fonte": "Planilha de monitoramento",
+        "tipo": "Planilha local",
+        "onde": "Google Drive",
+        "existe": "Sim",
+        "acesso": "NIINS",
+        "linha": "Uma unidade no mês",
+        "volume": "Unidades × meses",
+        "historico": "Desde o início do monitoramento",
+        "campos": "Mês e ano",
+        "atualiza": "Mensal",
+        "lgpd": "Não",
+        "obs": "Destino do arquivo gerado"
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "Tempo mensal de atualização",
+        "pergunta": "Quanto tempo leva para atualizar o mês?",
+        "formula": "Hora da aprovação − hora do início",
+        "fonte": "Cronômetro",
+        "gran": "Mês",
+        "base": "8 h (informado)",
+        "esperado": "Menos de 1 h",
+        "medir": "Cronometrar o mês atual",
+        "quem": "Chefe de núcleo"
+      },
+      {
+        "n": "",
+        "nome": "Divergências na conferência",
+        "pergunta": "Os dados estão corretos?",
+        "formula": "Números corrigidos ÷ números do mês",
+        "fonte": "Correções do app",
+        "gran": "Mês",
+        "base": "A medir no mês atual",
+        "esperado": "Zero após a conferência",
+        "medir": "Comparar a planilha digitada com o Power BI 1",
+        "quem": "Chefe de núcleo"
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "Arquivo HTML único",
+        "tipo": "Arquivo local",
+        "onde": "Navegador do computador da unidade",
+        "custo": "Zero",
+        "mantem": "Equipe do projeto",
+        "acesso": "Quem recebe o arquivo",
+        "banco": "IndexedDB do navegador",
+        "escala": "Uma cópia por setor; consolidação por arquivo .json",
+        "limite": "Os dados ficam no computador; backup semanal"
+      },
+      {
+        "opcao": "Google Apps Script + Drive",
+        "tipo": "Nuvem corporativa",
+        "onde": "Conta institucional Google",
+        "custo": "Zero",
+        "mantem": "NIINS",
+        "acesso": "Conta institucional",
+        "banco": "Google Planilhas",
+        "escala": "Mensal",
+        "limite": "Depende da autorização da TI e das cotas de OCR"
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "Amostra do PDF e da planilha (números fictícios)",
+        "data": "Semana 1",
+        "resp": "Karine",
+        "dep": "TI do Power BI 1",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Leitura do PDF e conferência",
+        "data": "Semana 3",
+        "resp": "Karine",
+        "dep": "Amostra",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "OCR para PDF em imagem",
+        "data": "Semana 5",
+        "resp": "Karine",
+        "dep": "Leitura",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Piloto de 3 meses",
+        "data": "Mês 1 a 3",
+        "resp": "Karine e chefe de núcleo",
+        "dep": "Aceite",
+        "sit": "Planejado"
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "Erros de reconhecimento do OCR",
+        "prob": "Alta",
+        "imp": "Alto",
+        "mit": "Conferência obrigatória (RN02 a RN04) e preferência pela exportação CSV do Power BI 1"
+      },
+      {
+        "risco": "Layout do relatório muda",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "Modelo de leitura configurável por coluna"
+      },
+      {
+        "risco": "Sem permissão para exportar dados do Power BI 1",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "Seguir com o PDF e o OCR"
+      }
+    ],
+    "tRefs": [
+      {
+        "n": "",
+        "ref": "Power BI",
+        "tipo": "Documento interno",
+        "fonte": "Link",
+        "ano": "2026",
+        "dado": "Pendentes",
+        "uso": "",
+        "conferido": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "ref": "Power BI: exportar dados de visuais",
+        "tipo": "Documento interno",
+        "fonte": "Documentação da Microsoft",
+        "ano": "2026",
+        "dado": "Exportação em CSV/Excel quando o administrador permite",
+        "uso": "Mostrar a alternativa ao OCR",
+        "conferido": "Não"
+      }
+    ]
+  },
+  "completado_em": "2026-10-29"
+}

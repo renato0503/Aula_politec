@@ -1,0 +1,727 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T12:47:19.425Z",
+  "campos": {
+    "data": "2026-10-27",
+    "aluno": "Iohan Camões de Albuquerque",
+    "unidade": "POLITEC/MT — Planejamento de Contratações (PCA)",
+    "contato": "iohan.camoes@gmail.com",
+    "nome_projeto": "Hórus — Banco de Demandas (repositório de demandas de contratação reutilizáveis)",
+    "tipo_projeto": "Aplicativo web / portal",
+    "resumo": "Repositório global de demandas de contratação em que cada unidade cadastra um item uma única vez (com especificação, valor, quantidade e orçamento), podendo ser reaproveitado por outras unidades da mesma Diretoria e aprovado para o ciclo orçamentário anual.",
+    "problema": "As demandas de contratação ficam dispersas em planilhas por unidade, são recadastradas a cada ciclo e não há reaproveitamento entre unidades, gerando retrabalho e inconsistência de valores/especificações.",
+    "hoje": "Cada unidade mantém planilhas locais com itens que deseja contratar. No PCA, essas listas são reenviadas e redigitadas; especificação técnica, valor unitário e orçamento vêm em formatos distintos e muitas vezes sem anexo de referência. A consolidação por Diretoria é manual.",
+    "impacto": "Retrabalho de recadastro a cada ciclo; divergência de especificação e preço do mesmo item entre unidades; perda de histórico e de orçamentos de referência; dificuldade de consolidar valor global por grupo (custeio/investimento) e por unidade.",
+    "asis_inicio": "Unidade identifica a necessidade de um item/serviço para o ano.",
+    "asis_fim": "Item consolidado (ou não) no PCA da Diretoria.",
+    "asis_entradas": "Necessidade da unidade, especificação, estimativa de preço, orçamentos.",
+    "asis_saidas": "Lista de demandas por unidade, consolidada manualmente por Diretoria.",
+    "asis_frequencia": "Por demanda",
+    "asis_decisoes": "Aprovação da chefia (Diretor/Coordenador) sobre o que entra no ciclo.",
+    "asis_digital": "Planilhas e e-mails (sem base de dados única nem reaproveitamento).",
+    "entrega": "Módulo web \"Banco de Demandas\" integrado ao PCA do Hórus.",
+    "dentro": "Cadastro/edição/exclusão de demanda; anexo de PDF de orçamento; preview Open Graph de links; manifestação de interesse; aprovação para o ciclo ativo; reabrir item; relatórios PDF (Geral e Aprovadas); isolamento por Diretoria/órgão (RLS).",
+    "limite": "A decisão de aprovar a demanda para o ciclo é da chefia (Diretor/Coordenador) — é ato de gestão e permanece humano. A redação da especificação técnica e da justificativa também é responsabilidade da unidade (requisito de qualidade mínima).",
+    "asis_volume": "Dezenas a centenas de itens por ciclo, por Diretoria.",
+    "asis_duracao": "Dias a semanas (coleta + consolidação manual).",
+    "asis_excecoes": "Itens duplicados entre unidades; itens sem orçamento; itens que mudam de valor entre ciclos.",
+    "papeis_obs": "Edição de um card específico é do criador (ou ADM/Diretor). Visibilidade é isolada por Diretoria dentro do órgão via RLS; ADM é global.",
+    "tobe_visao": "Toda demanda é cadastrada uma vez num banco único, reaproveitável e rastreável, e aprovada para o ciclo com um clique.",
+    "tobe_mudanca": "Sai a planilha dispersa; entra um repositório com validação, anexo de orçamento, preview de links, manifestação de interesse entre unidades e aprovação que injeta a demanda direto no ciclo (Kanban/PTA).",
+    "tobe_inalterado": "A decisão de aprovação continua humana (chefia); a especificação/justificativa continua sendo escrita pela unidade.",
+    "tobe_restricao": "Isolamento por Diretoria/órgão (LGPD/segregação); exigência de ciclo ativo para aprovar; rastreabilidade de autor e aprovador.",
+    "tobe_piloto": "Em ambiente do Hórus com um ciclo orçamentário ATIVO: cadastrar uma demanda, manifestar interesse por outra unidade e aprovar; conferir que surge no Kanban como APROVADO e no relatório \"Aprovadas\".",
+    "fora": "Workflow de aprovação com múltiplas etapas (o cadastro é livre; \"aprovar\" = copiar para o ciclo); dashboard dedicado; métrica de tempo de atendimento.",
+    "mvp_naofaz": "Não substitui o Kanban/Acompanhamento do ciclo (apenas injeta a demanda nele); não faz cotação automática de preços.",
+    "mvp_objetivo": "Cadastrar uma demanda válida e aprová-la para o ciclo ativo, com relatório PDF consolidado.",
+    "mvp_plataforma": "Site web (abre no navegador)",
+    "mvp_tela_inicial": "Grade de cards \"Banco de Demandas · repositório global (N)\".",
+    "mvp_mock": "Um órgão/Diretoria com unidades fictícias, um ciclo ATIVO e demandas sintéticas (custeio e investimento).",
+    "mvp_criterio": "Dado um ciclo ATIVO, ao aprovar uma demanda do banco ela aparece como APROVADO no Kanban e no relatório \"Aprovadas\", e o item fica marcado \"Aprovada no ciclo\".",
+    "mvp_dados": "10–15 demandas sintéticas (ex.: reagentes, EPIs, equipamentos de laboratório), com valores, quantidades e links de referência.",
+    "mvp_reuso": "Autenticação, RBAC, unidades, unidades de medida, módulo de ciclos/quadros (PCA) e o gerador de PDF (jsPDF) do Hórus.",
+    "dependencias": "Da existência de um ciclo orçamentário ativo (módulo PCA) e do cadastro de unidades/unidades de medida.",
+    "lgpd_dados": "Apenas identificação do servidor autor (vínculo criado_por → perfil). Sem dado pessoal sensível. No exercício, usar dados sintéticos.",
+    "lgpd_base": "Execução de política pública de planejamento de contratações (PCA). Finalidade: registrar e consolidar demandas de contratação do órgão.",
+    "lgpd_retencao": "Vinculado ao ciclo de planejamento/execução orçamentária (anual, conforme norma do órgão).",
+    "lgpd_acesso": "Acesso por perfil (RBAC) e isolamento por Diretoria/órgão (RLS). Registra-se autor (criado_por) e aprovador (aprovado_por na demanda do ciclo).",
+    "stack_detalhe": "TanStack Start/React + Supabase/Postgres",
+    "coletar": "Nada novo para o MVP — tudo é sintético, gerado no exercício.",
+    "acesso": "Administrador do Hórus (perfis/RBAC) e habilitação do módulo PCA para o órgão.",
+    "base_periodo": "Um ciclo (exercício), com 10–15 demandas sintéticas.",
+    "campos_data": "created_at e updated_at nas três tabelas; created_at nas inclusões e manifestações.",
+    "hospedagem_escolhida": "Vercel (deploy do app) + Supabase (Postgres/Auth/Storage/RLS) — já é a stack de produção do Hórus, baixo custo operacional e RLS nativo.",
+    "conta_quem": "Equipe do Hórus (administração do projeto).",
+    "orcamento": "Planos atuais de Vercel e Supabase do projeto; sem licenças adicionais para o MVP.",
+    "restricoes": "Isolamento obrigatório por Diretoria/órgão (RLS); aprovação exige ciclo ativo; PDF ≤ 10 MB; edição restrita ao criador.",
+    "hipotese_campo": "Centralizar e reaproveitar demandas reduz recadastro e divergência de preço/especificação entre unidades.",
+    "lacunas": "Exercício com dados sintéticos; não mede tempo de atendimento; não cobre integração com sistemas externos de compras.",
+    "apoio": "Administração do Hórus para habilitar o módulo PCA e criar um ciclo de teste.",
+    "aprendizado": "RLS do Postgres e integração do banco de demandas com o Kanban do ciclo.",
+    "frase": "Não se aplica (exercício prático, sem defesa).",
+    "doc_descricao": "relatorio-demandas-geral.pdf: exemplo de relatório gerado pelo módulo · tela-banco-demandas.png: print da grade de cards",
+    "doc_faltando": "Dados sintéticos empacotados e prints da tela."
+  },
+  "marcados": {
+    "afetado": [
+      "Servidor da unidade",
+      "Equipe interna",
+      "Unidade parceira",
+      "Chefia"
+    ],
+    "evid": [
+      "Planilha ou controle local",
+      "Relatório de sistema",
+      "Documento ou norma oficial"
+    ],
+    "stack": "Aplicativo web com framework (React, Vite, TypeScript)",
+    "req": [
+      "LGPD e dado pessoal",
+      "Segurança e controle de acesso",
+      "Trilha de auditoria"
+    ]
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "Levantar necessidade",
+        "papel": "Servidor da unidade",
+        "entra": "Necessidade",
+        "acao": "Lista itens em planilha",
+        "sai": "Planilha local",
+        "sistema": "Planilha",
+        "regra": "—",
+        "espera": "—",
+        "tempo": "4",
+        "auto": "Sim, com regra clara",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Cotar preço",
+        "papel": "Servidor",
+        "entra": "Item",
+        "acao": "Pesquisa preço/orçamento",
+        "sai": "Valor + PDF",
+        "sistema": "E-mail/planilha",
+        "regra": "Mínimo de 1 orçamento",
+        "espera": "Fornecedores",
+        "tempo": "8",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Enviar à chefia",
+        "papel": "Servidor",
+        "entra": "Planilha",
+        "acao": "Envia por e-mail",
+        "sai": "E-mail",
+        "sistema": "E-mail",
+        "regra": "—",
+        "espera": "Caixa da chefia",
+        "tempo": "1",
+        "auto": "Sim, com regra clara",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Consolidar",
+        "papel": "Coordenador/Diretor",
+        "entra": "Planilhas de várias unidades",
+        "acao": "Junta e padroniza",
+        "sai": "Lista da Diretoria",
+        "sistema": "Planilha",
+        "regra": "Agrupar por grupo (custeio/investimento)",
+        "espera": "—",
+        "tempo": "6",
+        "auto": "Sim, com regra clara",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Aprovar para o ciclo",
+        "papel": "Diretor/Coordenador",
+        "entra": "Lista consolidada",
+        "acao": "Decide o que entra",
+        "sai": "Demandas aprovadas",
+        "sistema": "Planilha",
+        "regra": "Ciclo ativo",
+        "espera": "—",
+        "tempo": "2",
+        "auto": "Não",
+        "rm": ""
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "Cadastrar demanda",
+        "muda": "Formulário validado + PDF + preview de link",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Padronização, sem recadastro",
+        "esforco": "Baixo",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Disponibilizar no banco",
+        "muda": "Card no repositório da Diretoria",
+        "quem": "A máquina (automação)",
+        "beneficio": "Reuso e transparência",
+        "esforco": "Baixo",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Manifestar interesse",
+        "muda": "Outra unidade adere (quantidade + justificativa)",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Elimina item duplicado",
+        "esforco": "Baixo",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Aprovar para o ciclo",
+        "muda": "1 clique cria a demanda APROVADO no ciclo",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Entrada direta no PTA",
+        "esforco": "Baixo",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Acompanhar",
+        "muda": "Demanda vai ao Kanban do ciclo",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Rastreio ponta a ponta",
+        "esforco": "Médio",
+        "rm": ""
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "ADM",
+        "quem": "Administrador do sistema",
+        "ve": "Todos os órgãos/Diretorias (acesso total)",
+        "faz": "Tudo: cria, edita, exclui, aprova, gera relatórios",
+        "naofaz": "—",
+        "registro": "Todas as ações",
+        "rm": ""
+      },
+      {
+        "papel": "DIRETOR",
+        "quem": "Diretor da unidade",
+        "ve": "Banco da sua Diretoria",
+        "faz": "Cria, edita qualquer card, aprova, gera relatórios",
+        "naofaz": "Ver outra Diretoria (salvo ADM)",
+        "registro": "Autor e aprovador",
+        "rm": ""
+      },
+      {
+        "papel": "COORDENADOR",
+        "quem": "Coordenador",
+        "ve": "Banco da Diretoria",
+        "faz": "Cria; aprova demandas das unidades que gerencia; gera relatórios",
+        "naofaz": "Aprovar fora das unidades que gerencia",
+        "registro": "Autor e aprovador",
+        "rm": ""
+      },
+      {
+        "papel": "GERENTE",
+        "quem": "Gerente de unidade",
+        "ve": "Banco da Diretoria",
+        "faz": "Cria/edita os próprios itens; manifesta interesse",
+        "naofaz": "Aprovar; editar item de terceiro",
+        "registro": "Autor",
+        "rm": ""
+      },
+      {
+        "papel": "USUARIO_SETORIAL",
+        "quem": "Servidor do setor",
+        "ve": "Banco da Diretoria",
+        "faz": "Cria/edita os próprios itens; manifesta interesse",
+        "naofaz": "Aprovar; editar item de terceiro",
+        "registro": "Autor",
+        "rm": ""
+      },
+      {
+        "papel": "INVENTARIANTE",
+        "quem": "Inventariante",
+        "ve": "Banco (somente leitura)",
+        "faz": "Visualiza",
+        "naofaz": "Criar, editar ou aprovar",
+        "registro": "—",
+        "rm": ""
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "Grade de cards",
+        "rota": "",
+        "objetivo": "Ver o repositório",
+        "usuario": "Todos (conforme RLS)",
+        "dados": "Itens da Diretoria",
+        "acao": "Navegar/filtrar",
+        "regra": "Isolamento por Diretoria",
+        "tipo": "Tela",
+        "verificacao": "Card aparece na grade",
+        "mvp": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Formulário \"Nova Demanda\"",
+        "rota": "",
+        "objetivo": "Cadastrar item",
+        "usuario": "Servidor/Gerente",
+        "dados": "Especificação, valor, quantidade, links, PDF",
+        "acao": "Salvar",
+        "regra": "Validações mínimas (R1–R6)",
+        "tipo": "Tela",
+        "verificacao": "Item criado e visível no card",
+        "mvp": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Manifestar interesse",
+        "rota": "",
+        "objetivo": "Aderir a item de outra unidade",
+        "usuario": "Outra unidade",
+        "dados": "Quantidade + justificativa",
+        "acao": "Salvar",
+        "regra": "1 manifestação por unidade",
+        "tipo": "Tela",
+        "verificacao": "Interesse listado no card",
+        "mvp": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Aprovar demanda",
+        "rota": "",
+        "objetivo": "Injetar a demanda no ciclo",
+        "usuario": "Diretor/Coordenador",
+        "dados": "Item + ciclo ativo",
+        "acao": "Aprovar",
+        "regra": "Exige ciclo ATIVO",
+        "tipo": "Ação",
+        "verificacao": "Demanda APROVADO aparece no Kanban",
+        "mvp": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Relatório PDF",
+        "rota": "",
+        "objetivo": "Consolidar demandas",
+        "usuario": "Coordenador/Diretor/ADM",
+        "dados": "KPIs + ficha por demanda",
+        "acao": "Gerar PDF",
+        "regra": "—",
+        "tipo": "Relatório",
+        "verificacao": "PDF baixado",
+        "mvp": "Sim",
+        "rm": ""
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "banco_demandas",
+        "representa": "Item do catálogo",
+        "colunas": "id:uuid; grupo:text(CUSTEIO/INVESTIMENTO); unidade_id:uuid; especificacao_tecnica:text(≥50); valor_unitario:numeric(12,2)>0; quantidade:numeric(10,3)>0; unidade_medida_id:uuid; valor_global:numeric(15,2) GENERATED; links_referencia:text[]; justificativa:text(≥100); arquivo_pdf_url:text; preview_image/title:text; criado_por:uuid; diretoria_id:uuid; orgao_id:uuid; created_at/updated_at:timestamptz",
+        "chave": "id (PK)",
+        "volume": "Dezenas a centenas",
+        "origem": "Cadastro da unidade",
+        "sintetico": "Sim",
+        "rm": ""
+      },
+      {
+        "entidade": "banco_demanda_inclusoes",
+        "representa": "Em quais ciclos o item entrou",
+        "colunas": "id:uuid; banco_demanda_id:uuid; quadro_id:uuid; demanda_id:uuid (ON DELETE SET NULL); criado_por:uuid; orgao_id:uuid; created_at:timestamptz",
+        "chave": "id (PK); unique(banco_demanda_id, quadro_id)",
+        "volume": "1 por ciclo",
+        "origem": "Aprovação",
+        "sintetico": "Sim",
+        "rm": ""
+      },
+      {
+        "entidade": "banco_demanda_manifestacoes",
+        "representa": "Interesse de outra unidade",
+        "colunas": "id:uuid; banco_demanda_id:uuid; unidade_id:uuid; quantidade:numeric(10,3)>0; justificativa:text(≥50); criado_por:uuid; orgao_id:uuid; diretoria_id:uuid; created_at:timestamptz",
+        "chave": "id (PK); unique(banco_demanda_id, unidade_id)",
+        "volume": "Poucas por item",
+        "origem": "Outra unidade",
+        "sintetico": "Sim",
+        "rm": ""
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "R1",
+        "regra": "Especificação técnica ≥ 50 caracteres",
+        "quando": "No cadastro/edição",
+        "excecao": "—",
+        "valida": "Formulário + check no banco",
+        "tipo": "Validação",
+        "rm": ""
+      },
+      {
+        "id": "R2",
+        "regra": "Justificativa ≥ 100 caracteres",
+        "quando": "No cadastro/edição",
+        "excecao": "—",
+        "valida": "Formulário + check no banco",
+        "tipo": "Validação",
+        "rm": ""
+      },
+      {
+        "id": "R3",
+        "regra": "valor_unitario > 0 e quantidade > 0",
+        "quando": "No cadastro",
+        "excecao": "—",
+        "valida": "Formulário + check no banco",
+        "tipo": "Validação",
+        "rm": ""
+      },
+      {
+        "id": "R4",
+        "regra": "valor_global = valor_unitario × quantidade",
+        "quando": "Sempre",
+        "excecao": "—",
+        "valida": "Coluna GENERATED (banco)",
+        "tipo": "Cálculo",
+        "rm": ""
+      },
+      {
+        "id": "R5",
+        "regra": "Pelo menos 1 link de referência iniciando com http",
+        "quando": "No cadastro",
+        "excecao": "—",
+        "valida": "Formulário",
+        "tipo": "Validação",
+        "rm": ""
+      },
+      {
+        "id": "R6",
+        "regra": "PDF de orçamento ≤ 10 MB",
+        "quando": "No upload",
+        "excecao": "Anexo é opcional",
+        "valida": "Formulário/Storage",
+        "tipo": "Validação",
+        "rm": ""
+      },
+      {
+        "id": "R7",
+        "regra": "Aprovar exige ciclo orçamentário ATIVO",
+        "quando": "Na aprovação",
+        "excecao": "—",
+        "valida": "Serviço (buscarCicloAtivo)",
+        "tipo": "Negócio",
+        "rm": ""
+      },
+      {
+        "id": "R8",
+        "regra": "Editar card: só o criador (ou ADM/Diretor)",
+        "quando": "Na edição",
+        "excecao": "ADM/Diretor",
+        "valida": "RLS + interface",
+        "tipo": "Acesso",
+        "rm": ""
+      },
+      {
+        "id": "R9",
+        "regra": "Manifestação: só de outra unidade, 1 por unidade",
+        "quando": "Na manifestação",
+        "excecao": "—",
+        "valida": "RLS + restrição unique",
+        "tipo": "Negócio",
+        "rm": ""
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "banco_demandas",
+        "tipo": "Banco de dados",
+        "onde": "Supabase (Postgres)",
+        "existe": "Sim",
+        "acesso": "RBAC + RLS",
+        "linha": "Uma demanda de contratação",
+        "volume": "Dezenas a centenas",
+        "historico": "Desde a criação",
+        "campos": "created_at / updated_at",
+        "atualiza": "A cada cadastro",
+        "lgpd": "Duvidaso",
+        "obs": "Núcleo; guarda apenas o autor (baixo risco)",
+        "rm": ""
+      },
+      {
+        "fonte": "banco_demanda_inclusoes",
+        "tipo": "Banco de dados",
+        "onde": "Supabase (Postgres)",
+        "existe": "Sim",
+        "acesso": "RBAC + RLS",
+        "linha": "Vínculo entre item e ciclo",
+        "volume": "1 por ciclo",
+        "historico": "Por aprovação",
+        "campos": "created_at",
+        "atualiza": "A cada aprovação",
+        "lgpd": "Não",
+        "obs": "Rastreio de em quais ciclos o item entrou",
+        "rm": ""
+      },
+      {
+        "fonte": "banco_demanda_manifestacoes",
+        "tipo": "Banco de dados",
+        "onde": "Supabase (Postgres)",
+        "existe": "Sim",
+        "acesso": "RBAC + RLS",
+        "linha": "Interesse de uma unidade em um item",
+        "volume": "Poucas por item",
+        "historico": "Por adesão",
+        "campos": "created_at",
+        "atualiza": "A cada adesão",
+        "lgpd": "Duvidaso",
+        "obs": "Reuso entre unidades; guarda apenas o autor (baixo risco)",
+        "rm": ""
+      },
+      {
+        "fonte": "demandas (ciclo)",
+        "tipo": "Banco de dados",
+        "onde": "Supabase (Postgres)",
+        "existe": "Sim",
+        "acesso": "RBAC + RLS",
+        "linha": "Demanda no Kanban do ciclo",
+        "volume": "—",
+        "historico": "Por ciclo",
+        "campos": "created_at",
+        "atualiza": "A cada aprovação",
+        "lgpd": "Não",
+        "obs": "Destino da aprovação",
+        "rm": ""
+      },
+      {
+        "fonte": "Storage demandas-docs",
+        "tipo": "Documento em papel",
+        "onde": "Supabase Storage (bucket)",
+        "existe": "Sim",
+        "acesso": "URL assinada (300 s)",
+        "linha": "PDF de orçamento",
+        "volume": "1 por demanda",
+        "historico": "—",
+        "campos": "—",
+        "atualiza": "A cada upload",
+        "lgpd": "Não",
+        "obs": "Anexo de orçamento; arquivo digital em bucket",
+        "rm": ""
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "Total de demandas",
+        "pergunta": "Quantas demandas há?",
+        "formula": "count(banco_demandas)",
+        "fonte": "banco_demandas",
+        "gran": "Unidade",
+        "base": "0",
+        "esperado": "Crescente",
+        "medir": "Contar os cards",
+        "quem": "Coordenador/Diretor",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Valor global total",
+        "pergunta": "Quanto somam as demandas?",
+        "formula": "Σ valor_global",
+        "fonte": "banco_demandas",
+        "gran": "Unidade",
+        "base": "R$ 0",
+        "esperado": "—",
+        "medir": "Somatório no relatório",
+        "quem": "Coordenador/Diretor",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Valor por grupo",
+        "pergunta": "Custeio vs. Investimento?",
+        "formula": "Σ valor_global por grupo",
+        "fonte": "banco_demandas",
+        "gran": "Registro",
+        "base": "—",
+        "esperado": "—",
+        "medir": "KPI do PDF",
+        "quem": "Coordenador/Diretor",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Demandas aprovadas",
+        "pergunta": "Quantas entraram no ciclo?",
+        "formula": "count(inclusões ativas)",
+        "fonte": "banco_demanda_inclusoes",
+        "gran": "Registro",
+        "base": "0",
+        "esperado": "≥ 1 no teste",
+        "medir": "Relatório \"Aprovadas\"",
+        "quem": "Coordenador/Diretor",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Unidades distintas",
+        "pergunta": "Quantas unidades participam?",
+        "formula": "count(distinct unidade)",
+        "fonte": "banco_demandas",
+        "gran": "Unidade",
+        "base": "—",
+        "esperado": "—",
+        "medir": "KPI do PDF",
+        "quem": "Coordenador/Diretor",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Reuso (manifestações)",
+        "pergunta": "Houve reaproveitamento?",
+        "formula": "count(manifestações)",
+        "fonte": "banco_demanda_manifestacoes",
+        "gran": "Registro",
+        "base": "0",
+        "esperado": "≥ 1 no teste",
+        "medir": "Contar no card",
+        "quem": "Coordenador/Diretor",
+        "rm": ""
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "Vercel + Supabase",
+        "tipo": "Plataforma como serviço",
+        "onde": "Nuvem",
+        "custo": "Plano atual do projeto",
+        "mantem": "Equipe Hórus",
+        "acesso": "Web autenticado",
+        "banco": "Supabase/Postgres",
+        "escala": "Boa",
+        "limite": "Dependência de nuvem",
+        "rm": ""
+      },
+      {
+        "opcao": "Servidor próprio",
+        "tipo": "Servidor interno",
+        "onde": "Datacenter do órgão",
+        "custo": "Custo de infraestrutura",
+        "mantem": "TI do órgão",
+        "acesso": "Rede interna",
+        "banco": "Postgres local",
+        "escala": "Média",
+        "limite": "Mais operação",
+        "rm": ""
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "Modelo de dados (3 tabelas + RLS)",
+        "data": "",
+        "resp": "Equipe",
+        "dep": "Supabase",
+        "sit": "Feito",
+        "rm": ""
+      },
+      {
+        "marco": "Tela + formulário de cadastro",
+        "data": "",
+        "resp": "Equipe",
+        "dep": "Modelo de dados",
+        "sit": "Feito",
+        "rm": ""
+      },
+      {
+        "marco": "Manifestação de interesse",
+        "data": "",
+        "resp": "Equipe",
+        "dep": "Tela",
+        "sit": "Feito",
+        "rm": ""
+      },
+      {
+        "marco": "Aprovação → ciclo",
+        "data": "",
+        "resp": "Equipe",
+        "dep": "Módulo PCA",
+        "sit": "Feito",
+        "rm": ""
+      },
+      {
+        "marco": "Relatório PDF",
+        "data": "",
+        "resp": "Equipe",
+        "dep": "Dados",
+        "sit": "Feito",
+        "rm": ""
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "Aprovar sem ciclo ativo",
+        "prob": "Média",
+        "imp": "Alto",
+        "mit": "Bloqueio por buscarCicloAtivo",
+        "rm": ""
+      },
+      {
+        "risco": "Vazamento entre Diretorias",
+        "prob": "Baixa",
+        "imp": "Alto",
+        "mit": "RLS (órgão + Diretoria)",
+        "rm": ""
+      },
+      {
+        "risco": "Item sem orçamento/qualidade baixa",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "Validações mínimas (especificação, justificativa, links)",
+        "rm": ""
+      },
+      {
+        "risco": "PDF grande demais",
+        "prob": "Baixa",
+        "imp": "Baixo",
+        "mit": "Limite de 10 MB + envio alternativo",
+        "rm": ""
+      }
+    ],
+    "tRefs": [
+      {
+        "n": "",
+        "ref": "Lei nº 14.133/2021 (Nova Lei de Licitações)",
+        "tipo": "Norma ou lei",
+        "fonte": "planalto.gov.br",
+        "ano": "2021",
+        "dado": "Exigência de planejamento e do PCA",
+        "uso": "Fundamenta o PCA",
+        "conferido": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "ref": "Norma interna de PCA do órgão",
+        "tipo": "Documento interno",
+        "fonte": "POLITEC/MT",
+        "ano": "—",
+        "dado": "Fluxo de consolidação",
+        "uso": "Base do AS-IS",
+        "conferido": "Não",
+        "rm": ""
+      }
+    ]
+  }
+}

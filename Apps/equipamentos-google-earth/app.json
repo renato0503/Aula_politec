@@ -1,0 +1,190 @@
+{
+  "titulo": "Mapa de Equipamentos",
+  "subtitulo": "POLITEC/MT · Coordenadoria de qualidade",
+  "descricao": "Equipamentos, contratos, manutenções e custo de parada no mapa de Mato Grosso, com exportação para o Google Earth.",
+  "aviso": "",
+  "db": {
+    "nome": "equipamentos_politec_v1",
+    "versao": 1,
+    "stores": {
+      "diretorias": {
+        "keyPath": "id",
+        "indices": []
+      },
+      "unidades": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "diretoria_id",
+            "campo": "diretoria_id",
+            "unico": false
+          }
+        ]
+      },
+      "equipamentos": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "unidade_id",
+            "campo": "unidade_id",
+            "unico": false
+          },
+          {
+            "nome": "patrimonio",
+            "campo": "patrimonio",
+            "unico": false
+          }
+        ]
+      },
+      "contratos": {
+        "keyPath": "id",
+        "indices": []
+      },
+      "manutencoes": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "equipamento_id",
+            "campo": "equipamento_id",
+            "unico": false
+          }
+        ]
+      },
+      "paradas": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "equipamento_id",
+            "campo": "equipamento_id",
+            "unico": false
+          }
+        ]
+      },
+      "arquivos": {
+        "keyPath": "id",
+        "indices": []
+      },
+      "parametros": {
+        "keyPath": "chave",
+        "indices": []
+      },
+      "log": {
+        "keyPath": "id",
+        "indices": []
+      }
+    }
+  },
+  "perfis": [
+    {
+      "id": "coordenadoria",
+      "nome": "Coordenadoria",
+      "descricao": "Consolida as unidades, define parâmetros, exporta para o Google Earth."
+    },
+    {
+      "id": "unidade",
+      "nome": "Unidade",
+      "descricao": "Cadastra os equipamentos da unidade e registra paradas."
+    },
+    {
+      "id": "diretoria",
+      "nome": "Diretoria",
+      "descricao": "Consulta o painel consolidado."
+    }
+  ],
+  "rotas": [
+    {
+      "rota": "#/mapa",
+      "titulo": "Mapa",
+      "sprint": 6,
+      "descricao": "Pinos por risco e filtros."
+    },
+    {
+      "rota": "#/painel",
+      "titulo": "Painel",
+      "sprint": 7,
+      "descricao": "KPIs por unidade e diretoria.",
+      "perfis": [
+        "coordenadoria",
+        "diretoria"
+      ]
+    },
+    {
+      "rota": "#/equipamentos",
+      "titulo": "Equipamentos",
+      "sprint": 3,
+      "descricao": "Lista, busca e filtros.",
+      "perfis": [
+        "coordenadoria",
+        "unidade"
+      ]
+    },
+    {
+      "rota": "#/equipamento/:id",
+      "titulo": "Ficha do equipamento",
+      "sprint": 3,
+      "descricao": "Fotos, contrato, manutenções, paradas e custo."
+    },
+    {
+      "rota": "#/unidades",
+      "titulo": "Unidades",
+      "sprint": 2,
+      "descricao": "Unidades, município e coordenadas.",
+      "perfis": [
+        "coordenadoria"
+      ]
+    },
+    {
+      "rota": "#/contratos",
+      "titulo": "Contratos",
+      "sprint": 4,
+      "descricao": "Cobertura e vencimento.",
+      "perfis": [
+        "coordenadoria"
+      ]
+    },
+    {
+      "rota": "#/paradas",
+      "titulo": "Paradas",
+      "sprint": 5,
+      "descricao": "Abrir e fechar paradas, registrar manutenção.",
+      "perfis": [
+        "coordenadoria",
+        "unidade"
+      ]
+    },
+    {
+      "rota": "#/importar",
+      "titulo": "Importar",
+      "sprint": 9,
+      "descricao": "Planilha atual e arquivos das unidades.",
+      "perfis": [
+        "coordenadoria"
+      ]
+    },
+    {
+      "rota": "#/exportar",
+      "titulo": "Exportar",
+      "sprint": 8,
+      "descricao": "Google Earth (.kmz), .json, .csv e relatório."
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": ""
+    }
+  ],
+  "libs": [
+    "jszip.min.js"
+  ],
+  "dados": [
+    [
+      "municipios",
+      "dados-base/mt-municipios.json"
+    ],
+    [
+      "seed",
+      "exemplos/seed.json"
+    ]
+  ]
+}

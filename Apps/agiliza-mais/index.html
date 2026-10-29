@@ -1,0 +1,883 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: blob:; connect-src 'none'; img-src 'self' data: blob:; media-src 'self' blob: mediastream:; worker-src blob:">
+<title>Agiliza +</title>
+<meta name="description" content="Lê a pasta do caso, mostra os dados para conferência e gera o laudo Word a partir do modelo institucional.">
+<style>
+/* ===================================================================
+   BASE COMUM DOS APPS (Apps/_base/base.html)
+   Tema, layout, componentes. O CSS do app fica no fim deste bloco.
+   =================================================================== */
+:root{
+  --bg:#f6f7f9; --painel:#ffffff; --ink:#1c2430; --ink2:#5b6676; --linha:#dde2e9;
+  --accent:#1f5fae; --accent-ink:#ffffff; --verde:#1d7a46; --ambar:#a86500; --vermelho:#b42318;
+  --sombra:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.10);
+  --raio:10px; --mono:ui-monospace,SFMono-Regular,Consolas,monospace;
+  --ui:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#11161d; --painel:#1a212b; --ink:#e6eaf0; --ink2:#a3adbb; --linha:#2c3542;
+    --accent:#6ea8ff; --accent-ink:#0b1220; --verde:#4cc283; --ambar:#f0b44c; --vermelho:#ff7b72;
+    --sombra:none; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#11161d; --painel:#1a212b; --ink:#e6eaf0; --ink2:#a3adbb; --linha:#2c3542;
+  --accent:#6ea8ff; --accent-ink:#0b1220; --verde:#4cc283; --ambar:#f0b44c; --vermelho:#ff7b72;
+  --sombra:none; color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--ui)}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.topo{background:var(--painel);border-bottom:1px solid var(--linha);position:sticky;top:0;z-index:5}
+.topo-in{max-width:1200px;margin:0 auto;padding:10px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.marca{font-weight:700;font-size:17px;margin-right:auto}
+.marca small{display:block;font-weight:400;font-size:12px;color:var(--ink2)}
+.aviso-topo{background:var(--accent);color:var(--accent-ink);font-size:13px;text-align:center;padding:4px 16px}
+nav.menu{max-width:1200px;margin:0 auto;padding:0 16px 8px;display:flex;gap:4px;flex-wrap:wrap}
+nav.menu a{padding:6px 10px;border-radius:8px;text-decoration:none;color:var(--ink2);font-size:14px}
+nav.menu a[aria-current="page"]{background:var(--accent);color:var(--accent-ink)}
+main{max-width:1200px;margin:0 auto;padding:20px 16px 60px}
+h1{font-size:22px;margin:0 0 4px} h2{font-size:18px;margin:24px 0 8px}
+.sub{color:var(--ink2);margin:0 0 16px}
+.card{background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio);padding:16px;box-shadow:var(--sombra);margin-bottom:16px}
+.grade{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.kpi .v{font-size:26px;font-weight:700} .kpi .r{color:var(--ink2);font-size:13px}
+button,.botao{font:inherit;border:1px solid var(--linha);background:var(--painel);color:var(--ink);padding:7px 12px;border-radius:8px;cursor:pointer}
+button.prim,.botao.prim{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+button.perigo{border-color:var(--vermelho);color:var(--vermelho)}
+button:disabled{opacity:.5;cursor:not-allowed}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--linha);border-radius:8px;padding:7px 9px;width:100%}
+label{display:block;font-size:13px;color:var(--ink2);margin:10px 0 4px}
+.linha-botoes{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.tabela-wrap{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--linha);vertical-align:top}
+th{color:var(--ink2);font-weight:600}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+.selo{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;border:1px solid currentColor}
+.selo.ok{color:var(--verde)} .selo.alerta{color:var(--ambar)} .selo.erro{color:var(--vermelho)} .selo.info{color:var(--accent)}
+.vazio{color:var(--ink2);text-align:center;padding:28px}
+.campos{display:grid;gap:0 16px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
+.campo small{display:block;margin-top:2px}
+.ok-txt{color:var(--verde)} .erro-txt{color:var(--vermelho)} .alerta-txt{color:var(--ambar)}
+.pendente{border-left:4px solid var(--ambar)}
+code,.mono{font-family:var(--mono);font-size:13px}
+#toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;display:none;z-index:20;max-width:90vw}
+@media (max-width:640px){ .marca{font-size:15px} main{padding:16px 16px 48px} }
+@media print{ .topo,nav.menu,#toast,.nao-imprimir{display:none!important} body{background:#fff;color:#000} .card{box-shadow:none;break-inside:avoid} }
+/* ===== CSS DO APP ===== */
+
+</style>
+</head>
+<body>
+<header class="topo">
+  <div class="aviso-topo">Apoio à elaboração. A revisão e a aprovação são do perito.</div>
+  <div class="topo-in">
+    <div class="marca">Agiliza +<small>Gerador de laudos de exame em celular</small></div>
+    <span id="perfilAtual" class="selo info" hidden></span>
+    <button id="btnTema" type="button" aria-label="Alternar tema claro e escuro">Tema</button>
+  </div>
+  <nav class="menu" id="menu" aria-label="Telas do app"></nav>
+</header>
+<main id="conteudo" tabindex="-1"></main>
+<div id="toast" role="status" aria-live="polite"></div>
+
+<!-- Bibliotecas e dados embutidos (preenchidos por Apps/_base/embutir.py) -->
+<!-- DADOS:seed:exemplos/seed.json -->
+<script type="application/json" id="seed">{"textos":[{"id_texto":"T01","categoria":"historico","titulo":"Histórico padrão","conteudo":"Em atendimento à requisição em epígrafe, foi encaminhado a este Instituto o material descrito a seguir, acondicionado em envelope de segurança lacrado, para exame pericial.","versao":"1","ativo":true},{"id_texto":"T02","categoria":"descricao_objetos","titulo":"Envelope lacrado","conteudo":"O material foi recebido em envelope de segurança com lacre íntegro, que foi rompido pelo perito no início dos exames.","versao":"1","ativo":true},{"id_texto":"T03","categoria":"sem_sim","titulo":"Aparelho sem cartão SIM","conteudo":"O aparelho não continha cartão SIM no momento do exame.","versao":"1","ativo":true},{"id_texto":"T04","categoria":"exames","titulo":"Extração lógica","conteudo":"Foi realizada extração lógica dos dados do aparelho com ferramenta forense, com geração de relatório e cálculo do hash do material extraído.","versao":"1","ativo":true},{"id_texto":"T05","categoria":"exames","titulo":"Extração física","conteudo":"Foi realizada extração física da memória do aparelho com ferramenta forense, preservando a integridade do conteúdo original.","versao":"1","ativo":true},{"id_texto":"T06","categoria":"anexos","titulo":"Mídia de anexos","conteudo":"Os dados extraídos foram gravados em mídia óptica que acompanha este laudo, identificada pelo valor de hash indicado.","versao":"1","ativo":true},{"id_texto":"T07","categoria":"consideracoes","titulo":"Considerações padrão","conteudo":"Nada mais havendo a relatar, encerra-se o presente laudo, que segue assinado digitalmente pelo perito.","versao":"1","ativo":true},{"id_texto":"T08","categoria":"resposta","titulo":"Resposta: identificação do aparelho","conteudo":"Sim. O aparelho foi identificado conforme a descrição dos objetos (seção 2).","versao":"1","ativo":true},{"id_texto":"T09","categoria":"resposta","titulo":"Resposta: cartão SIM","conteudo":"Sim. Os dados do cartão SIM constam da descrição dos objetos (seção 2).","versao":"1","ativo":true},{"id_texto":"T10","categoria":"resposta","titulo":"Resposta: extração","conteudo":"Sim. A extração foi realizada conforme a seção 3.","versao":"1","ativo":true},{"id_texto":"T11","categoria":"resposta","titulo":"Resposta: integridade","conteudo":"Sim. A integridade foi garantida pelo cálculo do hash, informado na seção 4.","versao":"1","ativo":true}]}</script>
+<!-- /DADOS:seed -->
+
+<script>
+/* ===================================================================
+   BASE COMUM DOS APPS
+   util · db (IndexedDB) · roteador · tema · backup · perfis
+   =================================================================== */
+"use strict";
+const $ = (s, el=document) => el.querySelector(s);
+const $$ = (s, el=document) => Array.from(el.querySelectorAll(s));
+const esc = v => String(v ?? "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uuid = () => (crypto.randomUUID ? crypto.randomUUID() : "id-" + Date.now().toString(36) + Math.random().toString(36).slice(2));
+const agora = () => new Date().toISOString();
+const dataBR = iso => iso ? new Date(iso).toLocaleString("pt-BR") : "";
+
+function toast(msg, ms=3200){
+  const t = $("#toast"); t.textContent = msg; t.style.display = "block";
+  clearTimeout(toast._t); toast._t = setTimeout(()=>{ t.style.display = "none"; }, ms);
+}
+function baixar(nome, conteudo, tipo="application/octet-stream"){
+  const blob = conteudo instanceof Blob ? conteudo : new Blob([conteudo], {type: tipo});
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = nome;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(a.href), 2000);
+}
+function lerArquivoTexto(file){
+  return new Promise((ok, erro)=>{ const r = new FileReader(); r.onload = ()=>ok(r.result); r.onerror = erro; r.readAsText(file); });
+}
+function dadosEmbutidos(id){
+  const el = document.getElementById(id);
+  return el && el.textContent.trim() ? JSON.parse(el.textContent) : null;
+}
+function lerArrayBuffer(file){
+  return new Promise((ok, erro)=>{ const r = new FileReader(); r.onload = ()=>ok(r.result); r.onerror = erro; r.readAsArrayBuffer(file); });
+}
+// sem acento, minúsculo, espaços simples: para casar nomes de colunas, setores e unidades
+const normalizar = s => String(s ?? "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase().replace(/\s+/g, " ").trim();
+const hojeISO = () => { const d = new Date(); return new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10); };
+const dataCurtaBR = iso => iso ? iso.slice(0, 10).split("-").reverse().join("/") : "";
+// "29/10/2026", "29/10/2026 09:15:00", "2026-10-29" -> "2026-10-29" (ou com hora: "2026-10-29T09:15:00")
+function dataDeTexto(t){
+  const s = String(t ?? "").trim();
+  let m = s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})(?:[ T](\d{1,2}):(\d{2})(?::(\d{2}))?)?$/);
+  if (m){ const d = `${m[3]}-${m[2].padStart(2, "0")}-${m[1].padStart(2, "0")}`; return m[4] ? `${d}T${m[4].padStart(2, "0")}:${m[5]}:${m[6] || "00"}` : d; }
+  m = s.match(/^(\d{4})-(\d{2})-(\d{2})(T[\d:]+)?/);
+  return m ? m[0] : null;
+}
+
+/* ---------- dinheiro em centavos inteiros (sem erro de arredondamento) ---------- */
+const dinheiro = {
+  // "1.234,56" · "R$ 1.234,5" · "1234.56" · 12.5 -> centavos. Arredonda meio para cima na 3ª casa.
+  de(v){
+    if (v === null || v === undefined || v === "") return null;
+    if (typeof v === "number") return Math.round(v * 100);
+    let s = String(v).trim().replace(/^R\$\s*/, "").replace(/\s/g, "");
+    const neg = s.startsWith("-"); s = s.replace(/^-/, "");
+    if (s.includes(",")) s = s.replace(/\./g, "").replace(",", ".");
+    else if (/^\d{1,3}(\.\d{3})+$/.test(s)) s = s.replace(/\./g, "");
+    const [i, d = ""] = s.split(".");
+    if (!/^\d+$/.test(i) || !/^\d*$/.test(d)) return NaN;
+    const c = Number(i) * 100 + Number((d + "00").slice(0, 2)) + (Number(d[2] || 0) >= 5 ? 1 : 0);
+    return neg ? -c : c;
+  },
+  // 123456 -> "R$ 1.234,56"
+  fmt(c){
+    if (c === null || c === undefined || Number.isNaN(c)) return "";
+    const neg = c < 0; c = Math.abs(c);
+    return (neg ? "-" : "") + "R$ " + Math.floor(c / 100).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + "," + String(c % 100).padStart(2, "0");
+  },
+  // quantidade (até 3 casas) × valor unitário em centavos, arredondado a 2 casas
+  vezes(qtd, c){ const q = Math.round(qtd * 1000); return Math.floor((q * c + 500) / 1000); },
+  // divide um total em centavos pelos pesos, sem perder centavo (maiores restos)
+  ratear(total, pesos){
+    const soma = pesos.reduce((a, b)=>a + b, 0); if (!soma) return pesos.map(()=>0);
+    const base = pesos.map(p=>Math.floor(total * p / soma)); const falta = total - base.reduce((a, b)=>a + b, 0);
+    pesos.map((p, i)=>({i, r: total * p / soma - base[i]})).sort((a, b)=>b.r - a.r).slice(0, falta).forEach(x=>base[x.i]++);
+    return base;
+  }
+};
+
+/* ---------- documentos ---------- */
+function cpfValido(v){
+  const d = String(v || "").replace(/\D/g, "");
+  if (d.length !== 11 || /^(\d)\1{10}$/.test(d)) return false;
+  for (const t of [9, 10]){
+    let s = 0; for (let i = 0; i < t; i++) s += Number(d[i]) * (t + 1 - i);
+    if (((s * 10) % 11) % 10 !== Number(d[t])) return false;
+  }
+  return true;
+}
+function cnpjValido(v){
+  const d = String(v || "").replace(/\D/g, "");
+  if (d.length !== 14 || /^(\d)\1{13}$/.test(d)) return false;
+  const dv = n => { const pesos = n === 12 ? [5,4,3,2,9,8,7,6,5,4,3,2] : [6,5,4,3,2,9,8,7,6,5,4,3,2];
+    const s = pesos.reduce((a, p, i)=>a + Number(d[i]) * p, 0) % 11; return s < 2 ? 0 : 11 - s; };
+  return dv(12) === Number(d[12]) && dv(13) === Number(d[13]);
+}
+
+/* ---------- CSV: separador detectado (; , ou tab), aspas, BOM ---------- */
+function lerCSV(texto){
+  texto = String(texto).replace(/^﻿/, "");
+  const primeira = texto.split(/\r?\n/, 1)[0];
+  const sep = [";", "\t", ","].map(c=>[c, primeira.split(c).length]).sort((a, b)=>b[1] - a[1])[0][0];
+  const linhas = []; let linha = [], campo = "", aspas = false;
+  for (let i = 0; i < texto.length; i++){
+    const c = texto[i];
+    if (aspas){
+      if (c === '"' && texto[i + 1] === '"'){ campo += '"'; i++; }
+      else if (c === '"') aspas = false; else campo += c;
+    } else if (c === '"') aspas = true;
+    else if (c === sep){ linha.push(campo); campo = ""; }
+    else if (c === "\n" || c === "\r"){
+      if (c === "\r" && texto[i + 1] === "\n") i++;
+      linha.push(campo); campo = ""; if (linha.some(x=>x !== "")) linhas.push(linha); linha = [];
+    } else campo += c;
+  }
+  linha.push(campo); if (linha.some(x=>x !== "")) linhas.push(linha);
+  return linhas;
+}
+// sugere, para cada campo, a coluna do cabeçalho cujo nome contém um dos sinônimos
+function sugerirColunas(cabecalho, sinonimos){
+  const cab = cabecalho.map(normalizar), out = {};
+  for (const [campo, lista] of Object.entries(sinonimos)){
+    const i = cab.findIndex(c=>lista.some(s=>c === normalizar(s))) ;
+    const j = i >= 0 ? i : cab.findIndex(c=>lista.some(s=>c.includes(normalizar(s))));
+    out[campo] = j;
+  }
+  return out;
+}
+
+/* ---------- imagem: reduz no navegador antes de guardar ---------- */
+function reduzirImagem(fonte, max=1280, qualidade=0.75){
+  return new Promise((ok, erro)=>{
+    const img = new Image();
+    img.onload = ()=>{
+      const k = Math.min(1, max / Math.max(img.width, img.height));
+      const cv = document.createElement("canvas"); cv.width = Math.round(img.width * k); cv.height = Math.round(img.height * k);
+      cv.getContext("2d").drawImage(img, 0, 0, cv.width, cv.height);
+      cv.toBlob(b=>{ URL.revokeObjectURL(img.src); b ? ok(b) : erro(new Error("Não consegui reduzir a imagem.")); }, "image/jpeg", qualidade);
+    };
+    img.onerror = ()=>erro(new Error("Arquivo de imagem ilegível."));
+    img.src = fonte instanceof Blob ? URL.createObjectURL(fonte) : fonte;
+  });
+}
+
+/* ---------- formulário ---------- */
+// campo("nome", "Nome", {tipo: "text", valor, obrigatorio, ajuda, attrs})
+function campo(id, rotulo, o={}){
+  const tipo = o.tipo || "text", obr = o.obrigatorio ? " required" : "", v = o.valor ?? "";
+  const ajuda = o.ajuda ? `<small class="sub" id="${id}-ajuda">${esc(o.ajuda)}</small>` : "";
+  const desc = o.ajuda ? ` aria-describedby="${id}-ajuda"` : "";
+  let ctl;
+  if (tipo === "textarea") ctl = `<textarea id="${id}" name="${id}" rows="${o.linhas || 4}"${obr}${desc} ${o.attrs || ""}>${esc(v)}</textarea>`;
+  else if (tipo === "select") ctl = `<select id="${id}" name="${id}"${obr}${desc} ${o.attrs || ""}>${(o.opcoes || []).map(op=>{
+      const [val, txt] = Array.isArray(op) ? op : [op, op];
+      return `<option value="${esc(val)}" ${String(val) === String(v) ? "selected" : ""}>${esc(txt)}</option>`; }).join("")}</select>`;
+  else ctl = `<input id="${id}" name="${id}" type="${tipo}" value="${esc(v)}"${obr}${desc} ${o.attrs || ""}>`;
+  return `<div class="campo"><label for="${id}">${esc(rotulo)}${o.obrigatorio ? " *" : ""}</label>${ctl}${ajuda}</div>`;
+}
+const valorDe = id => ($("#" + id)?.value ?? "").trim();
+function mostrarErros(alvo, erros){
+  const el = typeof alvo === "string" ? $(alvo) : alvo;
+  el.innerHTML = erros.length ? `<div class="card pendente" role="alert"><b>Corrija antes de salvar:</b><ul>${erros.map(e=>`<li>${esc(e)}</li>`).join("")}</ul></div>` : "";
+  if (erros.length) el.scrollIntoView({block: "nearest"});
+  return !erros.length;
+}
+
+/* ---------- db: camada fina sobre o IndexedDB ---------- */
+const db = {
+  con: null,
+  abrir(){
+    return new Promise((ok, erro)=>{
+      const req = indexedDB.open(APP.db.nome, APP.db.versao);
+      req.onupgradeneeded = ()=>{
+        const banco = req.result;
+        const stores = Object.assign({meta: {keyPath: "chave"}}, APP.db.stores);
+        for (const [nome, def] of Object.entries(stores)){
+          const st = banco.objectStoreNames.contains(nome) ? req.transaction.objectStore(nome) : banco.createObjectStore(nome, {keyPath: def.keyPath});
+          for (const ix of def.indices || []){
+            if (!st.indexNames.contains(ix.nome)) st.createIndex(ix.nome, ix.campo, {unique: !!ix.unico});
+          }
+        }
+      };
+      req.onsuccess = ()=>{ this.con = req.result; ok(this.con); };
+      req.onerror = ()=>erro(req.error);
+    });
+  },
+  _op(store, modo, fn){
+    return new Promise((ok, erro)=>{
+      const tx = this.con.transaction(store, modo); const r = fn(tx.objectStore(store));
+      tx.oncomplete = ()=>ok(r && "result" in r ? r.result : undefined);
+      tx.onerror = ()=>erro(tx.error); tx.onabort = ()=>erro(tx.error);
+    });
+  },
+  get(store, chave){ return this._op(store, "readonly", s=>s.get(chave)); },
+  list(store){ return this._op(store, "readonly", s=>s.getAll()); },
+  porIndice(store, indice, valor){ return this._op(store, "readonly", s=>s.index(indice).getAll(valor)); },
+  put(store, obj){ return this._op(store, "readwrite", s=>s.put(obj)); },
+  del(store, chave){ return this._op(store, "readwrite", s=>s.delete(chave)); },
+  limpar(store){ return this._op(store, "readwrite", s=>s.clear()); },
+  async meta(chave, valor){
+    if (valor === undefined){ const r = await this.get("meta", chave); return r ? r.valor : undefined; }
+    return this.put("meta", {chave, valor});
+  },
+  async exportar(){
+    const dados = {};
+    for (const nome of Object.keys(APP.db.stores)) dados[nome] = await this.list(nome);
+    return {app: APP.id, versao: APP.db.versao, exportado_em: agora(), dados};
+  },
+  async importar(pacote, substituir=true){
+    if (!pacote || pacote.app !== APP.id) throw new Error("Este arquivo não é um backup deste app.");
+    for (const [nome, linhas] of Object.entries(pacote.dados || {})){
+      if (!APP.db.stores[nome]) continue;
+      if (substituir) await this.limpar(nome);
+      for (const l of linhas) await this.put(nome, l);
+    }
+  }
+};
+async function registrar(acao, detalhe={}){
+  const store = APP.db.log || "log";
+  if (!APP.db.stores[store]) return;
+  await db.put(store, {id: uuid(), data_hora: agora(), perfil: estado.perfil || "", acao, ...detalhe});
+}
+
+/* ---------- tema ---------- */
+function aplicarTema(t){ if (t) document.documentElement.dataset.theme = t; else delete document.documentElement.dataset.theme; }
+function iniciarTema(){
+  let t = null; try { t = localStorage.getItem(APP.id + ":tema"); } catch(e){}
+  aplicarTema(t);
+  $("#btnTema").addEventListener("click", ()=>{
+    const escuro = document.documentElement.dataset.theme === "dark" ||
+      (!document.documentElement.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches);
+    const novo = escuro ? "light" : "dark"; aplicarTema(novo);
+    try { localStorage.setItem(APP.id + ":tema", novo); } catch(e){}
+  });
+}
+
+/* ---------- roteador por hash ---------- */
+const estado = {perfil: null, rota: null};
+function casarRota(hash){
+  const partes = hash.replace(/^#\/?/, "").split("?")[0].split("/").filter(Boolean);
+  for (const r of APP.rotas){
+    const molde = r.rota.replace(/^#\/?/, "").split("/").filter(Boolean);
+    if (molde.length !== partes.length) continue;
+    const params = {}; let ok = true;
+    molde.forEach((m, i)=>{ if (m.startsWith(":")) params[m.slice(1)] = decodeURIComponent(partes[i]); else if (m !== partes[i]) ok = false; });
+    if (ok) return {r, params};
+  }
+  return null;
+}
+function rotaPermitida(r){ return !r.perfis || !estado.perfil || r.perfis.includes(estado.perfil); }
+function montarMenu(){
+  $("#menu").innerHTML = APP.rotas.filter(r=>r.menu !== false && !r.publica && !r.rota.includes(":") && rotaPermitida(r))
+    .map(r=>`<a href="${r.rota}" data-rota="${r.rota}">${esc(r.titulo)}</a>`).join("");
+  const p = $("#perfilAtual");
+  if (APP.perfis && estado.perfil){ p.hidden = false; p.textContent = "Perfil: " + estado.perfil; } else p.hidden = true;
+}
+async function navegar(){
+  if (APP.perfis && !estado.perfil && !["#/testes", ...(APP.rotaSemPerfil || [])].some(x=>location.hash.startsWith(x))){
+    if (APP.perfilDoServidor){
+      $("#conteudo").innerHTML = `<div class="card pendente"><h1>Acesso restrito</h1><p>Esta área é só para servidores cadastrados. Entre com a conta institucional.</p></div>`;
+      return;
+    }
+    return telaEscolherPerfil();
+  }
+  const hash = location.hash || APP.rotas[0].rota;
+  const achou = hash.startsWith("#/testes") ? {r: {rota: "#/testes", titulo: "Testes", publica: false}, params: {}} : casarRota(hash);
+  const alvo = $("#conteudo");
+  $$("#menu a").forEach(a=>a.removeAttribute("aria-current"));
+  if (!achou){ alvo.innerHTML = `<div class="card vazio">Tela não encontrada: <code>${esc(hash)}</code></div>`; return; }
+  if (!rotaPermitida(achou.r)){ alvo.innerHTML = `<div class="card vazio">O perfil <b>${esc(estado.perfil)}</b> não usa esta tela.</div>`; return; }
+  $("#menu").hidden = !!achou.r.publica;
+  const link = $(`#menu a[data-rota="${achou.r.rota}"]`); if (link) link.setAttribute("aria-current", "page");
+  estado.rota = achou.r.rota;
+  document.title = achou.r.titulo + " · " + APP.titulo;
+  const fn = TELAS[achou.r.rota] || telaPendente(achou.r);
+  try { alvo.innerHTML = await fn(achou.params); if (TELAS_DEPOIS[achou.r.rota]) await TELAS_DEPOIS[achou.r.rota](achou.params); }
+  catch(e){ console.error(e); alvo.innerHTML = `<div class="card pendente"><b>Erro nesta tela.</b><p class="mono">${esc(e.message)}</p></div>`; }
+  alvo.focus({preventScroll: true});
+}
+function telaPendente(r){
+  return async ()=>`<h1>${esc(r.titulo)}</h1><p class="sub">${esc(r.descricao || "")}</p>
+    <div class="card pendente">Esta tela é construída no <b>Sprint ${esc(r.sprint)}</b> (ver <code>sprint.md</code>).</div>`;
+}
+
+/* ---------- perfis (o perfil escolhe as telas; não é controle de segurança) ---------- */
+function telaEscolherPerfil(){
+  $("#menu").hidden = true;
+  $("#conteudo").innerHTML = `<h1>Escolha o perfil desta cópia</h1>
+    <p class="sub">O perfil define quais telas aparecem neste computador. Ele pode ser trocado em Configuração.</p>
+    <div class="grade">${APP.perfis.map(p=>`<button class="card" data-perfil="${esc(p.id)}" style="text-align:left"><b>${esc(p.nome)}</b><br><span class="sub">${esc(p.descricao)}</span></button>`).join("")}</div>`;
+  $$("[data-perfil]").forEach(b=>b.addEventListener("click", async ()=>{
+    estado.perfil = b.dataset.perfil; await db.meta("perfil", estado.perfil); await registrar("perfil escolhido", {detalhe: estado.perfil});
+    montarMenu(); location.hash = APP.rotas.find(rotaPermitida).rota; navegar();
+  }));
+}
+
+/* ---------- configuração comum: backup, dados fictícios, perfil, limpeza ---------- */
+async function blocoConfigComum(){
+  const usado = navigator.storage && navigator.storage.estimate ? await navigator.storage.estimate() : null;
+  const persist = navigator.storage && navigator.storage.persisted ? await navigator.storage.persisted() : false;
+  return `<div class="card"><h2 style="margin-top:0">Backup</h2>
+      <p class="sub">Os dados ficam só neste navegador. Exporte o backup toda semana.</p>
+      <div class="linha-botoes"><button class="prim" id="btnExportar">Exportar backup (.json)</button>
+      <label class="botao" style="margin:0">Importar backup<input type="file" id="arqBackup" accept=".json" hidden></label></div>
+      <p class="sub" style="margin-top:10px">Armazenamento: ${usado ? (usado.usage/1048576).toFixed(1) + " MB usados" : "não informado"} ·
+      ${persist ? '<span class="selo ok">persistente</span>' : '<span class="selo alerta">pode ser apagado pelo navegador</span>'}</p></div>
+    ${dadosEmbutidos("seed") ? `<div class="card"><h2 style="margin-top:0">Dados fictícios</h2>
+      <p class="sub">Carrega o conjunto de exemplo para testar. Substitui os dados atuais.</p>
+      <button id="btnSeed">Carregar dados fictícios</button></div>` : ""}
+    ${APP.perfis ? `<div class="card"><h2 style="margin-top:0">Perfil desta cópia</h2>
+      <p class="sub">Atual: <b>${esc(estado.perfil || "nenhum")}</b></p><button id="btnTrocarPerfil">Trocar perfil</button></div>` : ""}
+    <div class="card"><h2 style="margin-top:0">Apagar tudo</h2>
+      <p class="sub">Remove todos os dados deste app neste navegador.</p><button class="perigo" id="btnApagar">Apagar todos os dados</button></div>`;
+}
+function ligarConfigComum(){
+  $("#btnExportar")?.addEventListener("click", async ()=>{
+    baixar(`${APP.id}-backup-${new Date().toISOString().slice(0,10)}.json`, JSON.stringify(await db.exportar(), null, 2), "application/json");
+    await registrar("backup exportado");
+  });
+  $("#arqBackup")?.addEventListener("change", async e=>{
+    const f = e.target.files[0]; if (!f) return;
+    try { await db.importar(JSON.parse(await lerArquivoTexto(f))); await registrar("backup importado", {detalhe: f.name}); toast("Backup importado."); navegar(); }
+    catch(err){ toast("Não consegui importar: " + err.message, 5000); }
+  });
+  $("#btnSeed")?.addEventListener("click", async ()=>{
+    if (!confirm("Substituir os dados atuais pelos dados fictícios?")) return;
+    await db.importar({app: APP.id, dados: dadosEmbutidos("seed")}); await registrar("dados fictícios carregados");
+    toast("Dados fictícios carregados."); navegar();
+  });
+  $("#btnTrocarPerfil")?.addEventListener("click", async ()=>{ estado.perfil = null; await db.meta("perfil", null); montarMenu(); telaEscolherPerfil(); });
+  $("#btnApagar")?.addEventListener("click", async ()=>{
+    if (!confirm("Apagar todos os dados deste app neste navegador?")) return;
+    for (const nome of Object.keys(APP.db.stores)) await db.limpar(nome);
+    toast("Dados apagados."); navegar();
+  });
+}
+
+/* ---------- testes embutidos (#/testes) ---------- */
+const TESTES = [];
+function teste(nome, fn){ TESTES.push({nome, fn}); }
+async function telaTestes(){
+  const res = [];
+  for (const t of TESTES){
+    try { const r = await t.fn(); res.push({nome: t.nome, ok: r !== false, msg: r === true || r === undefined ? "" : String(r)}); }
+    catch(e){ res.push({nome: t.nome, ok: false, msg: e.message}); }
+  }
+  window.__testes = res;
+  const ok = res.filter(r=>r.ok).length;
+  return `<h1>Testes</h1><p class="sub" id="resumoTestes">${ok} de ${res.length} passaram</p>
+    <div class="card tabela-wrap"><table><tr><th>Teste</th><th>Resultado</th></tr>${res.map(r=>`<tr><td>${esc(r.nome)}</td>
+    <td>${r.ok ? '<span class="selo ok">ok</span>' : '<span class="selo erro">falhou</span> <span class="mono">' + esc(r.msg) + "</span>"}</td></tr>`).join("")}</table></div>`;
+}
+
+/* ---------- partida ---------- */
+const TELAS = {"#/testes": telaTestes}, TELAS_DEPOIS = {};
+async function iniciar(){
+  iniciarTema();
+  await db.abrir();
+  if (navigator.storage && navigator.storage.persist) { try { await navigator.storage.persist(); } catch(e){} }
+  if (APP.perfis) estado.perfil = (await db.meta("perfil")) || null;
+  if (typeof iniciarApp === "function") await iniciarApp();
+  montarMenu();
+  window.addEventListener("hashchange", navegar);
+  await navegar();
+}
+</script>
+
+<script>
+/* ===================================================================
+   APP: Agiliza +
+   Configuração (rotas, banco, perfis) e telas. Os sprints editam daqui
+   para baixo.
+   =================================================================== */
+"use strict";
+const APP = {
+  "id": "agiliza-mais",
+  "titulo": "Agiliza +",
+  "db": {
+    "nome": "agiliza_mais_v1",
+    "versao": 1,
+    "log": "conferencias",
+    "stores": {
+      "casos": {
+        "keyPath": "id_caso",
+        "indices": []
+      },
+      "aparelhos": {
+        "keyPath": "id_aparelho",
+        "indices": [
+          {
+            "nome": "id_caso",
+            "campo": "id_caso",
+            "unico": false
+          }
+        ]
+      },
+      "sims": {
+        "keyPath": "id_sim",
+        "indices": [
+          {
+            "nome": "id_caso",
+            "campo": "id_caso",
+            "unico": false
+          }
+        ]
+      },
+      "hashes": {
+        "keyPath": "id_hash",
+        "indices": [
+          {
+            "nome": "id_caso",
+            "campo": "id_caso",
+            "unico": false
+          }
+        ]
+      },
+      "textos": {
+        "keyPath": "id_texto",
+        "indices": [
+          {
+            "nome": "categoria",
+            "campo": "categoria",
+            "unico": false
+          }
+        ]
+      },
+      "quesitos": {
+        "keyPath": "id_quesito",
+        "indices": [
+          {
+            "nome": "id_caso",
+            "campo": "id_caso",
+            "unico": false
+          }
+        ]
+      },
+      "modelos": {
+        "keyPath": "id_modelo",
+        "indices": []
+      },
+      "laudos": {
+        "keyPath": "id_laudo",
+        "indices": [
+          {
+            "nome": "id_caso",
+            "campo": "id_caso",
+            "unico": false
+          }
+        ]
+      },
+      "conferencias": {
+        "keyPath": "id",
+        "indices": []
+      }
+    }
+  },
+  "rotas": [
+    {
+      "rota": "#/inicio",
+      "titulo": "Início",
+      "sprint": 1,
+      "descricao": "Novo laudo ou retomar um caso."
+    },
+    {
+      "rota": "#/arquivos",
+      "titulo": "Pasta do caso",
+      "sprint": 2,
+      "descricao": "Selecionar a pasta e ver o inventário."
+    },
+    {
+      "rota": "#/dados",
+      "titulo": "Conferência",
+      "sprint": 5,
+      "descricao": "Dados extraídos ao lado da origem."
+    },
+    {
+      "rota": "#/textos",
+      "titulo": "Textos",
+      "sprint": 7,
+      "descricao": "Textos padronizados por seção."
+    },
+    {
+      "rota": "#/quesitos",
+      "titulo": "Quesitos",
+      "sprint": 8,
+      "descricao": "Numeração, enunciado e resposta."
+    },
+    {
+      "rota": "#/gerar",
+      "titulo": "Gerar laudo",
+      "sprint": 4,
+      "descricao": "Conferência automática e geração do .docx."
+    },
+    {
+      "rota": "#/revisao",
+      "titulo": "Revisão final",
+      "sprint": 9,
+      "descricao": "Correções e marcação de revisado."
+    },
+    {
+      "rota": "#/biblioteca",
+      "titulo": "Biblioteca",
+      "sprint": 7,
+      "descricao": "Textos padronizados e respostas-modelo."
+    },
+    {
+      "rota": "#/historico",
+      "titulo": "Histórico",
+      "sprint": 11,
+      "descricao": "Casos, versões, tempos e CSV."
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": ""
+    }
+  ]
+};
+
+/* ---------- comum a todos os apps (Sprint 1) ---------- */
+TELAS["#/config"] = async ()=> `<h1>Configuração</h1><p class="sub">Backup, dados de exemplo e perfil desta cópia.</p>` +
+  (typeof configExtra === "function" ? await configExtra() : "") + await blocoConfigComum();
+TELAS_DEPOIS["#/config"] = async ()=>{ ligarConfigComum(); if (typeof ligarConfigExtra === "function") await ligarConfigExtra(); };
+async function resumoBase(stores){
+  const linhas = [];
+  for (const s of stores) linhas.push(`<div class="card kpi"><div class="v">${(await db.list(s)).length}</div><div class="r">${esc(s)}</div></div>`);
+  return `<div class="grade">${linhas.join("")}</div>`;
+}
+teste("IndexedDB grava e lê", async ()=>{ await db.meta("teste", 42); return (await db.meta("teste")) === 42; });
+teste("Todas as rotas têm título e sprint", ()=> APP.rotas.every(r=>r.titulo && r.sprint !== undefined));
+teste("lerCSV: ponto e vírgula, aspas e BOM", ()=>{ const r = lerCSV('﻿a;b\n"x;1";2\n'); return r.length === 2 && r[1][0] === "x;1" && r[1][1] === "2"; });
+teste("cnpjValido e cpfValido", ()=> cnpjValido("11.222.333/0001-81") && !cnpjValido("11222333000182") && cpfValido("529.982.247-25") && !cpfValido("52998224726"));
+teste("dataDeTexto('29/10/2026 09:05:00')", ()=> dataDeTexto("29/10/2026 09:05:00") === "2026-10-29T09:05:00");
+
+/* Agiliza + · código do app (o construir.py junta com a base comum) */
+"use strict";
+teste("Biblioteca de textos do exemplo tem 11 textos", ()=> (dadosEmbutidos("seed")?.textos || []).length === 11);
+teste("Página sem acesso à rede (CSP connect-src 'none')", ()=> /connect-src 'none'/.test(document.querySelector('meta[http-equiv="Content-Security-Policy"]')?.content || ""));
+
+async function casoAtual(){ const id = await db.meta("caso_atual"); return id ? await db.get("casos", id) : null; }
+
+/* ================= Sprint 1 · Início ================= */
+TELAS["#/inicio"] = async ()=>{
+  const casos = (await db.list("casos")).sort((a, b)=>(b.inicio_em || "").localeCompare(a.inicio_em || ""));
+  const atual = await db.meta("caso_atual");
+  return `<h1>Início</h1><p class="sub">Cada caso corresponde a um laudo de um aparelho celular (RN05).</p>
+    <div class="card"><h2 style="margin-top:0">Novo laudo</h2>
+      <label for="novoProtocolo">Protocolo (pode ser preenchido depois, a partir da requisição)</label>
+      <input id="novoProtocolo" placeholder="2026.0001001">
+      <div class="linha-botoes"><button class="prim" id="btnNovoCaso">Criar caso e selecionar a pasta</button></div></div>
+    <div class="card tabela-wrap"><h2 style="margin-top:0">Casos</h2>
+      ${casos.length ? `<table><tr><th>Protocolo</th><th>Pasta</th><th>Início</th><th>Situação</th><th></th></tr>${casos.map(c=>`<tr><td>${esc(c.numero_protocolo || "(sem protocolo)")}
+        ${c.id_caso === atual ? ' <span class="selo ok">atual</span>' : ""}</td><td>${esc(c.pasta_nome || "")}</td>
+        <td>${esc(dataBR(c.inicio_em))}</td><td><span class="selo info">${esc(c.status)}</span></td>
+        <td><button data-retomar="${esc(c.id_caso)}">Retomar</button></td></tr>`).join("")}</table>`
+      : `<div class="vazio">Nenhum caso ainda.</div>`}</div>`;
+};
+TELAS_DEPOIS["#/inicio"] = ()=>{
+  $("#btnNovoCaso").addEventListener("click", async ()=>{
+    const caso = {id_caso: uuid(), numero_protocolo: $("#novoProtocolo").value.trim(), status: "em elaboração", inicio_em: null, fim_em: null, criado_em: agora()};
+    await db.put("casos", caso); await db.meta("caso_atual", caso.id_caso); await registrar("caso criado", {id_caso: caso.id_caso});
+    location.hash = "#/arquivos";
+  });
+  $$("[data-retomar]").forEach(b=>b.addEventListener("click", async ()=>{ await db.meta("caso_atual", b.dataset.retomar); location.hash = "#/arquivos"; }));
+};
+
+/* ================= Sprint 2 · Pasta do caso (RN01, RN02) ================= */
+// Arquivos esperados na pasta do caso (formato em exemplos/FORMATOS.md).
+const ESPERADOS = [
+  {chave: "requisicao", rotulo: "Requisição em PDF", obrigatorio: true, casa: c=>/\.pdf$/i.test(c) && /requisi/i.test(normalizar(nomeDe(c))), varios: true},
+  {chave: "device", rotulo: "DEVICE INFO.txt", obrigatorio: true, casa: c=>normalizar(nomeDe(c)) === "device info.txt"},
+  {chave: "hash", rotulo: "HASHDOHASH.txt", obrigatorio: true, casa: c=>normalizar(nomeDe(c)) === "hashdohash.txt"}
+];
+const nomeDe = caminho => caminho.split("/").pop();
+const RE_OBJ = /^obj\s*(\d{2}-[a-z])$/i;
+const arquivosDaSessao = new Map();  // caminho -> File (os extratores do Sprint 3 leem daqui)
+
+// lista de caminhos relativos à pasta do caso -> inventário
+function inventariar(caminhos){
+  const itens = ESPERADOS.map(e=>{
+    const arquivos = caminhos.filter(e.casa);
+    const status = !arquivos.length ? "ausente" : (arquivos.length > 1 && !e.varios ? "duplicado" : "presente");
+    return {chave: e.chave, rotulo: e.rotulo, obrigatorio: e.obrigatorio, arquivos, status};
+  });
+  const sims = {};
+  for (const c of caminhos){
+    const partes = c.split("/"); if (partes.length < 2 || !/\.html?$/i.test(c)) continue;
+    const m = partes[partes.length - 2].match(RE_OBJ); if (!m) continue;
+    const obj = m[1].toUpperCase(); (sims[obj] = sims[obj] || []).push(c);
+  }
+  itens.push(...Object.keys(sims).sort().map(obj=>({chave: "sim:" + obj, rotulo: `Cartão SIM · objeto ${obj}`, obrigatorio: false,
+    arquivos: sims[obj], status: sims[obj].length > 1 ? "duplicado" : "presente"})));
+  return {itens, qtdSims: Object.keys(sims).length, faltando: itens.filter(i=>i.obrigatorio && i.status === "ausente").map(i=>i.chave)};
+}
+teste("inventário do caso 001: completo, 2 SIMs", ()=>{
+  const r = inventariar(["Requisicao.pdf", "Requisicao-digitalizada.pdf", "DEVICE INFO.txt", "HASHDOHASH.txt", "OBJ 01-A/SIM.html", "OBJ 01-B/SIM.html", "GABARITO.json"]);
+  return r.faltando.length === 0 && r.qtdSims === 2;
+});
+teste("inventário do caso 003: falta o hash (RN02)", ()=> inventariar(["Requisicao.pdf", "DEVICE INFO.txt", "OBJ 01-A/SIM.html"]).faltando.join() === "hash");
+teste("inventário: dois DEVICE INFO.txt é duplicado", ()=> inventariar(["DEVICE INFO.txt", "copia/DEVICE INFO.txt"]).itens.find(i=>i.chave === "device").status === "duplicado");
+teste("caso sem SIM não é erro (RN06)", ()=> inventariar(["Requisicao.pdf", "DEVICE INFO.txt", "HASHDOHASH.txt"]).faltando.length === 0);
+
+async function lerPastaPorHandle(handle, prefixo=""){
+  const out = [];
+  for await (const [nome, h] of handle.entries()){
+    if (h.kind === "file") out.push({caminho: prefixo + nome, file: await h.getFile()});
+    else out.push(...await lerPastaPorHandle(h, prefixo + nome + "/"));
+  }
+  return out;
+}
+// webkitRelativePath começa pelo nome da pasta escolhida; tira esse primeiro trecho
+const lerPastaPorInput = files => Array.from(files).map(f=>({caminho: f.webkitRelativePath.split("/").slice(1).join("/") || f.name, file: f}));
+
+const SELO = {presente: "ok", ausente: "erro", duplicado: "alerta"};
+TELAS["#/arquivos"] = async ()=>{
+  let caso = await casoAtual();
+  const inv = caso?.inventario;
+  return `<h1>Pasta do caso</h1><p class="sub">${caso ? `Caso ${esc(caso.numero_protocolo || "(sem protocolo)")}` : "Nenhum caso aberto: a pasta escolhida cria um caso novo."}
+    A pasta é aberta só para leitura (os originais não mudam).</p>
+    <div class="card"><div class="linha-botoes" style="margin-top:0">
+      ${window.showDirectoryPicker ? `<button class="prim" id="btnPasta">Selecionar pasta do caso</button>` : ""}
+      <label class="botao">${window.showDirectoryPicker ? "Ou escolher pelo seletor do sistema" : "Selecionar pasta do caso"}
+        <input type="file" id="inpPasta" webkitdirectory multiple hidden></label></div>
+      ${caso?.pasta_nome ? `<p class="sub">Pasta: <b>${esc(caso.pasta_nome)}</b> · lida em ${esc(dataBR(caso.inventariado_em))}
+        ${arquivosDaSessao.size ? "" : " · selecione de novo para os extratores lerem os arquivos"}</p>` : ""}</div>
+    ${inv ? `<div class="card tabela-wrap"><h2 style="margin-top:0">Inventário</h2><table><tr><th>Arquivo</th><th>Situação</th><th>Encontrado</th><th></th></tr>
+      ${inv.itens.map(i=>`<tr><td>${esc(i.rotulo)}${i.obrigatorio ? " *" : ""}</td><td><span class="selo ${SELO[i.status]}">${i.status}</span></td>
+        <td class="mono">${i.arquivos.map(esc).join("<br>") || "—"}</td>
+        <td>${i.obrigatorio && i.status === "ausente" ? `<label style="display:inline-flex;gap:6px"><input type="checkbox" data-manual="${i.chave}" style="width:auto"
+          ${(caso.informar_manual || []).includes(i.chave) ? "checked" : ""}> informar manualmente</label>` : ""}</td></tr>`).join("")}
+      ${inv.qtdSims ? "" : `<tr><td>Cartão SIM</td><td><span class="selo info">nenhum</span></td><td colspan="2">Aparelho sem SIM: a descrição dos objetos registra isso (RN06).</td></tr>`}
+      </table><p class="sub">* obrigatório (RN02)</p>
+      <div id="avisoAvancar"></div>
+      <div class="linha-botoes"><button class="prim" id="btnAvancar">Avançar para a extração dos dados</button></div></div>` : ""}`;
+};
+TELAS_DEPOIS["#/arquivos"] = ()=>{
+  const processar = async (lista, nomePasta, handle)=>{
+    arquivosDaSessao.clear(); lista.forEach(x=>arquivosDaSessao.set(x.caminho, x.file));
+    let caso = await casoAtual();
+    if (!caso){ caso = {id_caso: uuid(), numero_protocolo: "", status: "em elaboração", criado_em: agora()}; await db.meta("caso_atual", caso.id_caso); }
+    const inv = inventariar(lista.map(x=>x.caminho));
+    caso = {...caso, pasta_nome: nomePasta, inventario: inv, inventariado_em: agora(), informar_manual: [], inicio_em: caso.inicio_em || agora()};
+    if (handle) caso.pasta_handle = handle;  // o handle volta numa próxima sessão, com nova permissão
+    await db.put("casos", caso);
+    await registrar("pasta inventariada", {id_caso: caso.id_caso, campo_verificado: "inventário", resultado: inv.faltando.length ? "faltando: " + inv.faltando.join(", ") : "completo"});
+    navegar();
+  };
+  $("#btnPasta")?.addEventListener("click", async ()=>{
+    try { const h = await window.showDirectoryPicker({mode: "read"}); await processar(await lerPastaPorHandle(h), h.name, h); }
+    catch(e){ if (e.name !== "AbortError") toast("Não consegui abrir a pasta: " + e.message, 5000); }
+  });
+  $("#inpPasta").addEventListener("change", async e=>{
+    const files = e.target.files; if (!files.length) return;
+    await processar(lerPastaPorInput(files), files[0].webkitRelativePath.split("/")[0] || "pasta", null);
+  });
+  $$("[data-manual]").forEach(cb=>cb.addEventListener("change", async ()=>{
+    const caso = await casoAtual();
+    caso.informar_manual = $$("[data-manual]").filter(x=>x.checked).map(x=>x.dataset.manual);
+    await db.put("casos", caso);
+  }));
+  $("#btnAvancar")?.addEventListener("click", async ()=>{
+    const caso = await casoAtual(), pend = caso.inventario.faltando.filter(c=>!(caso.informar_manual || []).includes(c));
+    if (pend.length){
+      const nomes = pend.map(c=>ESPERADOS.find(e=>e.chave === c).rotulo);
+      return mostrarErros("#avisoAvancar", [`Falta ${nomes.join(", ")}. Coloque o arquivo na pasta e selecione de novo, ou marque "informar manualmente" (RN02).`]);
+    }
+    await registrar("avançou para a extração", {id_caso: caso.id_caso, observacao: (caso.informar_manual || []).length ? "informar manualmente: " + caso.informar_manual.join(", ") : ""});
+    location.hash = "#/dados";
+  });
+};
+
+/* ================= Sprint 3 · Extratores TXT e HTML (RN03, RN06, RN07) ================= */
+// Formato SUPOSTO dos arquivos: ver exemplos/FORMATOS.md. Ajustar as listas de rótulos quando chegarem as amostras reais.
+
+// Texto do arquivo: BOM de UTF-8 ou UTF-16; sem BOM, UTF-8 estrito e, se falhar, Windows-1252.
+function decodificar(buffer){
+  const b = new Uint8Array(buffer);
+  if (b[0] === 0xFF && b[1] === 0xFE) return new TextDecoder("utf-16le").decode(b.subarray(2));
+  if (b[0] === 0xFE && b[1] === 0xFF) return new TextDecoder("utf-16be").decode(b.subarray(2));
+  if (b[0] === 0xEF && b[1] === 0xBB && b[2] === 0xBF) return new TextDecoder("utf-8").decode(b.subarray(3));
+  // UTF-16 sem BOM: muitos zeros nas posições ímpares
+  if (b.length > 8 && b.filter((x, i)=>i % 2 === 1 && x === 0).length > b.length / 4) return new TextDecoder("utf-16le").decode(b);
+  try { return new TextDecoder("utf-8", {fatal: true}).decode(b); } catch(e){ return new TextDecoder("windows-1252").decode(b); }
+}
+// RN03: identificadores como texto, só dígitos; Luhn confere o último dígito
+function luhnValido(s){
+  const d = String(s || "").replace(/\D/g, ""); if (d.length < 2) return false;
+  let soma = 0;
+  for (let i = 0; i < d.length; i++){ let n = Number(d[d.length - 1 - i]); if (i % 2 === 1){ n *= 2; if (n > 9) n -= 9; } soma += n; }
+  return soma % 10 === 0;
+}
+const imeiValido = s => /^\d{15}$/.test(s) && luhnValido(s);
+const iccidValido = s => /^89\d{17,18}$/.test(s) && luhnValido(s);
+const sha256Valido = s => /^[a-f0-9]{64}$/i.test(s);
+
+// linhas "Rótulo: valor" -> [{rotulo, valor, linha}]
+const linhasRotuladas = txt => txt.split(/\r?\n/).map((l, i)=>{ const m = l.match(/^\s*([^:]{1,40}):\s*(.*?)\s*$/); return m ? {rotulo: normalizar(m[1]), valor: m[2], linha: i + 1} : null; }).filter(Boolean);
+const ROTULOS_APARELHO = {marca: ["manufacturer", "fabricante", "marca"], modelo: ["model", "modelo"], cor: ["color", "cor"],
+                          imei_1: ["imei 1", "imei1", "imei"], imei_2: ["imei 2", "imei2"]};
+
+// cada valor sai com a origem (arquivo e linha) e se é válido; ausente = null
+function extrairAparelho(txt, arquivo="DEVICE INFO.txt"){
+  const ls = linhasRotuladas(txt), out = {};
+  for (const [campoA, rots] of Object.entries(ROTULOS_APARELHO)){
+    const l = ls.find(x=>rots.includes(x.rotulo));
+    if (!l || !l.valor){ out[campoA] = null; continue; }
+    let valor = l.valor;
+    if (campoA.startsWith("imei")) valor = valor.replace(/\D/g, "");  // texto só com dígitos, sem perder zero à esquerda
+    out[campoA] = {valor, origem: arquivo, linha: l.linha, valido: campoA.startsWith("imei") ? imeiValido(valor) : true};
+  }
+  return out;
+}
+function extrairHash(txt, arquivo="HASHDOHASH.txt"){
+  const ls = linhasRotuladas(txt);
+  const lh = ls.find(x=>["hash", "sha-256", "sha256", "valor"].includes(x.rotulo));
+  let valor = lh?.valor?.trim().toLowerCase(), linha = lh?.linha;
+  if (!valor){ const i = txt.split(/\r?\n/).findIndex(x=>/\b[a-f0-9]{64}\b/i.test(x)); if (i >= 0){ valor = txt.split(/\r?\n/)[i].match(/\b[a-f0-9]{64}\b/i)[0].toLowerCase(); linha = i + 1; } }
+  if (!valor) return null;
+  const arq = ls.find(x=>["arquivo", "file", "nome do arquivo"].includes(x.rotulo)), alg = ls.find(x=>["algoritmo", "algorithm"].includes(x.rotulo));
+  return {valor_hash: {valor, origem: arquivo, linha, valido: sha256Valido(valor)}, hash_arquivo: arq ? {valor: arq.valor, origem: arquivo, linha: arq.linha, valido: true} : null,
+          algoritmo: alg ? alg.valor : "SHA-256"};
+}
+// RN07: o identificador do objeto vem do nome da pasta (OBJ 01-A)
+function extrairSim(html, caminho){
+  const pasta = caminho.split("/").slice(-2, -1)[0] || "", m = pasta.match(/obj\s*(\d{2}-[a-z])/i);
+  const doc = new DOMParser().parseFromString(html, "text/html"), pares = {};
+  doc.querySelectorAll("tr").forEach(tr=>{ const td = tr.querySelectorAll("td,th"); if (td.length >= 2) pares[normalizar(td[0].textContent)] = td[1].textContent.trim(); });
+  const iccid = (pares["iccid"] || "").replace(/\D/g, "");
+  return {identificador_objeto: m ? m[1].toUpperCase() : null, objeto_no_html: pares["objeto"] || null,
+          iccid: iccid ? {valor: iccid, origem: caminho, valido: iccidValido(iccid)} : null,
+          operadora: pares["operadora"] ? {valor: pares["operadora"], origem: caminho, valido: true} : null};
+}
+
+/* ---- testes dos extratores: valor certo, ausente e malformado ---- */
+const TXT_OK = "Manufacturer: Samsung\r\nModel: SM-A325M\r\nColor: Preto\r\nIMEI 1: 351234567890126\r\nIMEI 2: 356938035643809\r\n";
+teste("aparelho: marca, modelo e IMEIs com linha de origem", ()=>{ const a = extrairAparelho(TXT_OK); return a.marca.valor === "Samsung" && a.imei_1.linha === 4 && a.imei_2.valor === "356938035643809"; });
+teste("aparelho: IMEI 2 ausente vira null, sem erro", ()=> extrairAparelho("Manufacturer: X\nIMEI 1: 351234567890126\n").imei_2 === null);
+teste("aparelho: IMEI com dígito errado é marcado inválido", ()=> extrairAparelho("IMEI 1: 351234567890127\n").imei_1.valido === false);
+teste("aparelho: IMEI com zero à esquerda continua texto", ()=> extrairAparelho("IMEI 1: 012345678901237\n").imei_1.valor === "012345678901237");
+teste("hash: SHA-256 e arquivo", ()=>{ const h = extrairHash("Arquivo: OBJ01.zip\nAlgoritmo: SHA-256\nHash: " + "ab".repeat(32) + "\n"); return h.valor_hash.valido && h.hash_arquivo.valor === "OBJ01.zip"; });
+teste("hash: arquivo sem hash devolve null", ()=> extrairHash("Arquivo: x.zip\n") === null);
+teste("hash: 63 caracteres é inválido", ()=> extrairHash("Hash: " + "a".repeat(63) + "\n").valor_hash.valido === false);
+teste("SIM: ICCID, operadora e objeto da pasta", ()=>{ const s = extrairSim('<table><tr><td>ICCID</td><td>8955100000000000009</td></tr><tr><td>Operadora</td><td>VIVO</td></tr></table>', "OBJ 01-A/SIM.html");
+  return s.identificador_objeto === "01-A" && s.operadora.valor === "VIVO" && s.iccid.valor === "8955100000000000009"; });
+teste("SIM: HTML sem ICCID devolve null no campo", ()=> extrairSim("<table><tr><td>Operadora</td><td>TIM</td></tr></table>", "OBJ 01-B/x.html").iccid === null);
+teste("SIM: ICCID que não começa com 89 é inválido", ()=> extrairSim("<table><tr><td>ICCID</td><td>1234567890123456789</td></tr></table>", "OBJ 01-A/x.html").iccid.valido === false);
+teste("texto UTF-16 com BOM", ()=>{ const s = "Model: Moto ç"; const b = new Uint8Array(2 + s.length * 2); b[0] = 0xFF; b[1] = 0xFE; for (let i = 0; i < s.length; i++){ b[2 + i * 2] = s.charCodeAt(i) & 255; b[3 + i * 2] = s.charCodeAt(i) >> 8; } return decodificar(b.buffer) === s; });
+teste("texto Windows-1252", ()=> decodificar(new Uint8Array([77, 111, 100, 101, 108, 58, 32, 231]).buffer) === "Model: ç");
+
+/* ---- extração do caso a partir da pasta lida no Sprint 2 ---- */
+async function extrairCaso(caso){
+  const ler = async c => decodificar(await lerArrayBuffer(arquivosDaSessao.get(c)));
+  const inv = caso.inventario, achar = ch => inv.itens.find(i=>i.chave === ch)?.arquivos[0];
+  const id = caso.id_caso, log = [];
+  for (const s of ["aparelhos", "sims", "hashes"]) for (const r of await db.porIndice(s, "id_caso", id)) await db.del(s, r[s === "aparelhos" ? "id_aparelho" : s === "sims" ? "id_sim" : "id_hash"]);
+  if (achar("device")){ const a = extrairAparelho(await ler(achar("device")), achar("device")); await db.put("aparelhos", {id_aparelho: id + "-A1", id_caso: id, ...a}); log.push("aparelho"); }
+  if (achar("hash")){ const h = extrairHash(await ler(achar("hash")), achar("hash")); if (h) { await db.put("hashes", {id_hash: id + "-H1", id_caso: id, ...h}); log.push("hash"); } }
+  for (const it of inv.itens.filter(i=>i.chave.startsWith("sim:"))){
+    const s = extrairSim(await ler(it.arquivos[0]), it.arquivos[0]);
+    await db.put("sims", {id_sim: `${id}-${s.identificador_objeto}`, id_caso: id, ...s}); log.push("sim " + s.identificador_objeto);
+  }
+  await db.put("casos", {...caso, extraido_em: agora()});
+  await registrar("extração", {id_caso: id, campo_verificado: "extratores", resultado: log.join(", ") || "nada extraído"});
+}
+
+const celula = c => !c ? '<span class="selo alerta">ausente</span>'
+  : `<span class="mono">${esc(c.valor)}</span> ${c.valido ? "" : '<span class="selo erro">inválido</span>'}<br><small class="sub">${esc(c.origem)}${c.linha ? `, linha ${c.linha}` : ""}</small>`;
+TELAS["#/dados"] = async ()=>{
+  let caso = await casoAtual();
+  if (!caso?.inventario) return `<h1>Dados extraídos</h1><div class="card vazio">Selecione a pasta do caso em <a href="#/arquivos">Pasta do caso</a>.</div>`;
+  if (!caso.extraido_em && arquivosDaSessao.size){ await extrairCaso(caso); caso = await casoAtual(); }
+  const ap = (await db.porIndice("aparelhos", "id_caso", caso.id_caso))[0], hs = (await db.porIndice("hashes", "id_caso", caso.id_caso))[0];
+  const sims = await db.porIndice("sims", "id_caso", caso.id_caso);
+  return `<h1>Dados extraídos</h1><p class="sub">Caso ${esc(caso.numero_protocolo || "(sem protocolo)")} · extraído em ${dataBR(caso.extraido_em)}.
+    A conferência campo a campo chega no Sprint 5. ${arquivosDaSessao.size ? `<button id="btnReextrair">Extrair de novo</button>` : ""}</p>
+    <div class="card tabela-wrap"><h2 style="margin-top:0">Aparelho</h2>${ap ? `<table>${Object.keys(ROTULOS_APARELHO).map(k=>`<tr><th>${k.replace("_", " ")}</th><td>${celula(ap[k])}</td></tr>`).join("")}</table>` : '<p class="sub">DEVICE INFO.txt não lido.</p>'}</div>
+    <div class="card tabela-wrap"><h2 style="margin-top:0">Hash</h2>${hs ? `<table><tr><th>valor</th><td>${celula(hs.valor_hash)}</td></tr><tr><th>arquivo</th><td>${celula(hs.hash_arquivo)}</td></tr></table>` : '<p class="sub">Sem HASHDOHASH.txt (informar manualmente na conferência).</p>'}</div>
+    <div class="card tabela-wrap"><h2 style="margin-top:0">Cartões SIM (${sims.length})</h2>${sims.length ? `<table><tr><th>Objeto</th><th>ICCID</th><th>Operadora</th></tr>
+      ${sims.map(s=>`<tr><td>${esc(s.identificador_objeto)}</td><td>${celula(s.iccid)}</td><td>${celula(s.operadora)}</td></tr>`).join("")}</table>` : '<p class="sub">Aparelho sem cartão SIM (RN06).</p>'}</div>`;
+};
+TELAS_DEPOIS["#/dados"] = ()=>{ $("#btnReextrair")?.addEventListener("click", async ()=>{ await extrairCaso(await casoAtual()); navegar(); }); };
+
+
+iniciar();
+</script>
+</body>
+</html>

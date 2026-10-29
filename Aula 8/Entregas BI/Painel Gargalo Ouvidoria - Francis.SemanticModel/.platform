@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "SemanticModel",
+    "displayName": "Painel Gargalo Ouvidoria - Francis"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "267c518f-f5db-4033-ae11-2cd37b900a60"
+  }
+}

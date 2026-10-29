@@ -1,0 +1,1175 @@
+{
+ "processos": [
+  {
+   "id": "AD-2026-001",
+   "numero_sicad": "SICAD-202600041",
+   "unidade": "IML Cuiabá",
+   "solicitante": "Servidor Fictício 1",
+   "matricula": "300000",
+   "finalidade": "Material de limpeza emergencial",
+   "tipo": "compra",
+   "valor_solicitado": 4588.95,
+   "valor_concedido": 4588.95,
+   "situacao": "encerrado",
+   "etapa_atual": "Encerrado",
+   "pago_em": "2026-09-26",
+   "criado_em": "2026-08-23"
+  },
+  {
+   "id": "AD-2026-002",
+   "numero_sicad": "SICAD-202600042",
+   "unidade": "Laboratório Forense",
+   "solicitante": "Servidor Fictício 2",
+   "matricula": "300017",
+   "finalidade": "Conserto de ar-condicionado da sala de necropsia",
+   "tipo": "serviço",
+   "valor_solicitado": 2611.87,
+   "valor_concedido": null,
+   "situacao": "em andamento",
+   "etapa_atual": "Dotação (NGER)",
+   "pago_em": null,
+   "criado_em": "2026-09-23"
+  },
+  {
+   "id": "AD-2026-003",
+   "numero_sicad": "SICAD-202600043",
+   "unidade": "Identificação Civil",
+   "solicitante": "Servidor Fictício 3",
+   "matricula": "300034",
+   "finalidade": "Reagentes para exame urgente",
+   "tipo": "compra",
+   "valor_solicitado": 2211.3,
+   "valor_concedido": null,
+   "situacao": "em andamento",
+   "etapa_atual": "Cadastro no SICAD",
+   "pago_em": null,
+   "criado_em": "2026-06-12"
+  },
+  {
+   "id": "AD-2026-004",
+   "numero_sicad": "SICAD-202600044",
+   "unidade": "Regional Rondonópolis",
+   "solicitante": "Servidor Fictício 4",
+   "matricula": "300051",
+   "finalidade": "Reparo do telhado do almoxarifado",
+   "tipo": "predial",
+   "valor_solicitado": 4256.98,
+   "valor_concedido": 4256.98,
+   "situacao": "em andamento",
+   "etapa_atual": "Pagamento",
+   "pago_em": null,
+   "criado_em": "2026-07-05"
+  },
+  {
+   "id": "AD-2026-005",
+   "numero_sicad": "SICAD-202600045",
+   "unidade": "Regional Sinop",
+   "solicitante": "Servidor Fictício 5",
+   "matricula": "300068",
+   "finalidade": "Manutenção do gerador",
+   "tipo": "serviço",
+   "valor_solicitado": 4267.04,
+   "valor_concedido": 4267.04,
+   "situacao": "em andamento",
+   "etapa_atual": "Prestação de contas",
+   "pago_em": "2026-11-17",
+   "criado_em": "2026-10-09"
+  },
+  {
+   "id": "AD-2026-006",
+   "numero_sicad": "SICAD-202600046",
+   "unidade": "IML Cuiabá",
+   "solicitante": "Servidor Fictício 6",
+   "matricula": "300085",
+   "finalidade": "Peças para a impressora de documentos",
+   "tipo": "compra",
+   "valor_solicitado": 7410.96,
+   "valor_concedido": 7410.96,
+   "situacao": "em andamento",
+   "etapa_atual": "Análise da contabilidade",
+   "pago_em": "2026-08-15",
+   "criado_em": "2026-07-17"
+  },
+  {
+   "id": "AD-2026-007",
+   "numero_sicad": "SICAD-202600047",
+   "unidade": "Laboratório Forense",
+   "solicitante": "Servidor Fictício 7",
+   "matricula": "300102",
+   "finalidade": "Material de limpeza emergencial",
+   "tipo": "compra",
+   "valor_solicitado": 5638.46,
+   "valor_concedido": 5638.46,
+   "situacao": "encerrado",
+   "etapa_atual": "Encerrado",
+   "pago_em": "2026-07-26",
+   "criado_em": "2026-07-01"
+  },
+  {
+   "id": "AD-2026-008",
+   "numero_sicad": "",
+   "unidade": "Identificação Civil",
+   "solicitante": "Servidor Fictício 8",
+   "matricula": "300119",
+   "finalidade": "Conserto de ar-condicionado da sala de necropsia",
+   "tipo": "serviço",
+   "valor_solicitado": 3122.04,
+   "valor_concedido": null,
+   "situacao": "em andamento",
+   "etapa_atual": "Análise da DAS",
+   "pago_em": null,
+   "criado_em": "2026-10-10"
+  },
+  {
+   "id": "AD-2026-009",
+   "numero_sicad": "SICAD-202600049",
+   "unidade": "Regional Rondonópolis",
+   "solicitante": "Servidor Fictício 9",
+   "matricula": "300136",
+   "finalidade": "Reagentes para exame urgente",
+   "tipo": "compra",
+   "valor_solicitado": 1273.11,
+   "valor_concedido": 1273.11,
+   "situacao": "em andamento",
+   "etapa_atual": "Aplicação do recurso",
+   "pago_em": "2026-09-21",
+   "criado_em": "2026-09-03"
+  },
+  {
+   "id": "AD-2026-010",
+   "numero_sicad": "SICAD-202600050",
+   "unidade": "Regional Sinop",
+   "solicitante": "Servidor Fictício 10",
+   "matricula": "300153",
+   "finalidade": "Reparo do telhado do almoxarifado",
+   "tipo": "predial",
+   "valor_solicitado": 4019.73,
+   "valor_concedido": null,
+   "situacao": "em andamento",
+   "etapa_atual": "Autorização do ordenador",
+   "pago_em": null,
+   "criado_em": "2026-10-03"
+  }
+ ],
+ "orcamentos": [
+  {
+   "id": "AD-2026-001-O1",
+   "processo_id": "AD-2026-001",
+   "fornecedor": "Fornecedor Fictício A Ltda",
+   "cnpj": "",
+   "valor": 5387.7
+  },
+  {
+   "id": "AD-2026-001-O2",
+   "processo_id": "AD-2026-001",
+   "fornecedor": "Fornecedor Fictício B Ltda",
+   "cnpj": "",
+   "valor": 4757.88
+  },
+  {
+   "id": "AD-2026-001-O3",
+   "processo_id": "AD-2026-001",
+   "fornecedor": "Fornecedor Fictício C Ltda",
+   "cnpj": "",
+   "valor": 5636.98
+  },
+  {
+   "id": "AD-2026-002-O1",
+   "processo_id": "AD-2026-002",
+   "fornecedor": "Fornecedor Fictício A Ltda",
+   "cnpj": "",
+   "valor": 2739.45
+  },
+  {
+   "id": "AD-2026-002-O2",
+   "processo_id": "AD-2026-002",
+   "fornecedor": "Fornecedor Fictício B Ltda",
+   "cnpj": "",
+   "valor": 2870.58
+  },
+  {
+   "id": "AD-2026-003-O1",
+   "processo_id": "AD-2026-003",
+   "fornecedor": "Fornecedor Fictício A Ltda",
+   "cnpj": "",
+   "valor": 2314.37
+  },
+  {
+   "id": "AD-2026-003-O2",
+   "processo_id": "AD-2026-003",
+   "fornecedor": "Fornecedor Fictício B Ltda",
+   "cnpj": "",
+   "valor": 2267.59
+  },
+  {
+   "id": "AD-2026-003-O3",
+   "processo_id": "AD-2026-003",
+   "fornecedor": "Fornecedor Fictício C Ltda",
+   "cnpj": "",
+   "valor": 2572.4
+  },
+  {
+   "id": "AD-2026-004-O1",
+   "processo_id": "AD-2026-004",
+   "fornecedor": "Fornecedor Fictício A Ltda",
+   "cnpj": "",
+   "valor": 4761.61
+  },
+  {
+   "id": "AD-2026-004-O2",
+   "processo_id": "AD-2026-004",
+   "fornecedor": "Fornecedor Fictício B Ltda",
+   "cnpj": "",
+   "valor": 4706.19
+  },
+  {
+   "id": "AD-2026-004-O3",
+   "processo_id": "AD-2026-004",
+   "fornecedor": "Fornecedor Fictício C Ltda",
+   "cnpj": "",
+   "valor": 5083.86
+  },
+  {
+   "id": "AD-2026-005-O1",
+   "processo_id": "AD-2026-005",
+   "fornecedor": "Fornecedor Fictício A Ltda",
+   "cnpj": "",
+   "valor": 4402.12
+  },
+  {
+   "id": "AD-2026-005-O2",
+   "processo_id": "AD-2026-005",
+   "fornecedor": "Fornecedor Fictício B Ltda",
+   "cnpj": "",
+   "valor": 4737.63
+  },
+  {
+   "id": "AD-2026-005-O3",
+   "processo_id": "AD-2026-005",
+   "fornecedor": "Fornecedor Fictício C Ltda",
+   "cnpj": "",
+   "valor": 4595.01
+  },
+  {
+   "id": "AD-2026-006-O1",
+   "processo_id": "AD-2026-006",
+   "fornecedor": "Fornecedor Fictício A Ltda",
+   "cnpj": "",
+   "valor": 8216.64
+  },
+  {
+   "id": "AD-2026-006-O2",
+   "processo_id": "AD-2026-006",
+   "fornecedor": "Fornecedor Fictício B Ltda",
+   "cnpj": "",
+   "valor": 8594.72
+  },
+  {
+   "id": "AD-2026-006-O3",
+   "processo_id": "AD-2026-006",
+   "fornecedor": "Fornecedor Fictício C Ltda",
+   "cnpj": "",
+   "valor": 9181.72
+  },
+  {
+   "id": "AD-2026-007-O1",
+   "processo_id": "AD-2026-007",
+   "fornecedor": "Fornecedor Fictício A Ltda",
+   "cnpj": "",
+   "valor": 6380.96
+  },
+  {
+   "id": "AD-2026-007-O2",
+   "processo_id": "AD-2026-007",
+   "fornecedor": "Fornecedor Fictício B Ltda",
+   "cnpj": "",
+   "valor": 6747.23
+  },
+  {
+   "id": "AD-2026-007-O3",
+   "processo_id": "AD-2026-007",
+   "fornecedor": "Fornecedor Fictício C Ltda",
+   "cnpj": "",
+   "valor": 6211.61
+  },
+  {
+   "id": "AD-2026-008-O1",
+   "processo_id": "AD-2026-008",
+   "fornecedor": "Fornecedor Fictício A Ltda",
+   "cnpj": "",
+   "valor": 3416.48
+  },
+  {
+   "id": "AD-2026-008-O2",
+   "processo_id": "AD-2026-008",
+   "fornecedor": "Fornecedor Fictício B Ltda",
+   "cnpj": "",
+   "valor": 3395.36
+  },
+  {
+   "id": "AD-2026-008-O3",
+   "processo_id": "AD-2026-008",
+   "fornecedor": "Fornecedor Fictício C Ltda",
+   "cnpj": "",
+   "valor": 3643.16
+  },
+  {
+   "id": "AD-2026-009-O1",
+   "processo_id": "AD-2026-009",
+   "fornecedor": "Fornecedor Fictício A Ltda",
+   "cnpj": "",
+   "valor": 1566.88
+  },
+  {
+   "id": "AD-2026-009-O2",
+   "processo_id": "AD-2026-009",
+   "fornecedor": "Fornecedor Fictício B Ltda",
+   "cnpj": "",
+   "valor": 1556.06
+  },
+  {
+   "id": "AD-2026-009-O3",
+   "processo_id": "AD-2026-009",
+   "fornecedor": "Fornecedor Fictício C Ltda",
+   "cnpj": "",
+   "valor": 1411.14
+  },
+  {
+   "id": "AD-2026-010-O1",
+   "processo_id": "AD-2026-010",
+   "fornecedor": "Fornecedor Fictício A Ltda",
+   "cnpj": "",
+   "valor": 4573.05
+  },
+  {
+   "id": "AD-2026-010-O2",
+   "processo_id": "AD-2026-010",
+   "fornecedor": "Fornecedor Fictício B Ltda",
+   "cnpj": "",
+   "valor": 4308.59
+  },
+  {
+   "id": "AD-2026-010-O3",
+   "processo_id": "AD-2026-010",
+   "fornecedor": "Fornecedor Fictício C Ltda",
+   "cnpj": "",
+   "valor": 4631.19
+  }
+ ],
+ "etapas": [
+  {
+   "id": "AD-2026-001-E00",
+   "processo_id": "AD-2026-001",
+   "etapa": "Levantar orçamentos",
+   "entrada_em": "2026-08-23",
+   "saida_em": "2026-08-29",
+   "responsavel": "Unidade"
+  },
+  {
+   "id": "AD-2026-001-E01",
+   "processo_id": "AD-2026-001",
+   "etapa": "Análise da DAS",
+   "entrada_em": "2026-08-29",
+   "saida_em": "2026-09-01",
+   "responsavel": "DAS"
+  },
+  {
+   "id": "AD-2026-001-E02",
+   "processo_id": "AD-2026-001",
+   "etapa": "Cadastro no SICAD",
+   "entrada_em": "2026-09-01",
+   "saida_em": "2026-09-05",
+   "responsavel": "Servidor"
+  },
+  {
+   "id": "AD-2026-001-E03",
+   "processo_id": "AD-2026-001",
+   "etapa": "Aprovação da chefia",
+   "entrada_em": "2026-09-05",
+   "saida_em": "2026-09-08",
+   "responsavel": "Chefia"
+  },
+  {
+   "id": "AD-2026-001-E04",
+   "processo_id": "AD-2026-001",
+   "etapa": "Conferência SESP",
+   "entrada_em": "2026-09-08",
+   "saida_em": "2026-09-10",
+   "responsavel": "SESP Financeiro"
+  },
+  {
+   "id": "AD-2026-001-E05",
+   "processo_id": "AD-2026-001",
+   "etapa": "Dotação (NGER)",
+   "entrada_em": "2026-09-10",
+   "saida_em": "2026-09-16",
+   "responsavel": "NGER"
+  },
+  {
+   "id": "AD-2026-001-E06",
+   "processo_id": "AD-2026-001",
+   "etapa": "Autorização do ordenador",
+   "entrada_em": "2026-09-16",
+   "saida_em": "2026-09-22",
+   "responsavel": "Ordenador"
+  },
+  {
+   "id": "AD-2026-001-E07",
+   "processo_id": "AD-2026-001",
+   "etapa": "Pagamento",
+   "entrada_em": "2026-09-22",
+   "saida_em": "2026-09-26",
+   "responsavel": "SESP Financeiro"
+  },
+  {
+   "id": "AD-2026-001-E08",
+   "processo_id": "AD-2026-001",
+   "etapa": "Aplicação do recurso",
+   "entrada_em": "2026-09-26",
+   "saida_em": "2026-11-12",
+   "responsavel": "Servidor"
+  },
+  {
+   "id": "AD-2026-001-E09",
+   "processo_id": "AD-2026-001",
+   "etapa": "Prestação de contas",
+   "entrada_em": "2026-11-12",
+   "saida_em": "2026-12-07",
+   "responsavel": "Servidor"
+  },
+  {
+   "id": "AD-2026-001-E10",
+   "processo_id": "AD-2026-001",
+   "etapa": "Análise da contabilidade",
+   "entrada_em": "2026-12-07",
+   "saida_em": "2027-01-13",
+   "responsavel": "SESP Contabilidade"
+  },
+  {
+   "id": "AD-2026-001-E11",
+   "processo_id": "AD-2026-001",
+   "etapa": "Encerrado",
+   "entrada_em": "2027-01-13",
+   "saida_em": null,
+   "responsavel": "SESP Contabilidade"
+  },
+  {
+   "id": "AD-2026-002-E00",
+   "processo_id": "AD-2026-002",
+   "etapa": "Levantar orçamentos",
+   "entrada_em": "2026-09-23",
+   "saida_em": "2026-09-25",
+   "responsavel": "Unidade"
+  },
+  {
+   "id": "AD-2026-002-E01",
+   "processo_id": "AD-2026-002",
+   "etapa": "Análise da DAS",
+   "entrada_em": "2026-09-25",
+   "saida_em": "2026-09-26",
+   "responsavel": "DAS"
+  },
+  {
+   "id": "AD-2026-002-E02",
+   "processo_id": "AD-2026-002",
+   "etapa": "Cadastro no SICAD",
+   "entrada_em": "2026-09-26",
+   "saida_em": "2026-09-29",
+   "responsavel": "Servidor"
+  },
+  {
+   "id": "AD-2026-002-E03",
+   "processo_id": "AD-2026-002",
+   "etapa": "Aprovação da chefia",
+   "entrada_em": "2026-09-29",
+   "saida_em": "2026-10-05",
+   "responsavel": "Chefia"
+  },
+  {
+   "id": "AD-2026-002-E04",
+   "processo_id": "AD-2026-002",
+   "etapa": "Conferência SESP",
+   "entrada_em": "2026-10-05",
+   "saida_em": "2026-10-08",
+   "responsavel": "SESP Financeiro"
+  },
+  {
+   "id": "AD-2026-002-E05",
+   "processo_id": "AD-2026-002",
+   "etapa": "Dotação (NGER)",
+   "entrada_em": "2026-10-08",
+   "saida_em": null,
+   "responsavel": "NGER"
+  },
+  {
+   "id": "AD-2026-003-E00",
+   "processo_id": "AD-2026-003",
+   "etapa": "Levantar orçamentos",
+   "entrada_em": "2026-06-12",
+   "saida_em": "2026-06-13",
+   "responsavel": "Unidade"
+  },
+  {
+   "id": "AD-2026-003-E01",
+   "processo_id": "AD-2026-003",
+   "etapa": "Análise da DAS",
+   "entrada_em": "2026-06-13",
+   "saida_em": "2026-06-14",
+   "responsavel": "DAS"
+  },
+  {
+   "id": "AD-2026-003-E02",
+   "processo_id": "AD-2026-003",
+   "etapa": "Cadastro no SICAD",
+   "entrada_em": "2026-06-14",
+   "saida_em": null,
+   "responsavel": "Servidor"
+  },
+  {
+   "id": "AD-2026-004-E00",
+   "processo_id": "AD-2026-004",
+   "etapa": "Levantar orçamentos",
+   "entrada_em": "2026-07-05",
+   "saida_em": "2026-07-07",
+   "responsavel": "Unidade"
+  },
+  {
+   "id": "AD-2026-004-E01",
+   "processo_id": "AD-2026-004",
+   "etapa": "Análise da DAS",
+   "entrada_em": "2026-07-07",
+   "saida_em": "2026-07-09",
+   "responsavel": "DAS"
+  },
+  {
+   "id": "AD-2026-004-E02",
+   "processo_id": "AD-2026-004",
+   "etapa": "Cadastro no SICAD",
+   "entrada_em": "2026-07-09",
+   "saida_em": "2026-07-14",
+   "responsavel": "Servidor"
+  },
+  {
+   "id": "AD-2026-004-E03",
+   "processo_id": "AD-2026-004",
+   "etapa": "Aprovação da chefia",
+   "entrada_em": "2026-07-14",
+   "saida_em": "2026-07-18",
+   "responsavel": "Chefia"
+  },
+  {
+   "id": "AD-2026-004-E04",
+   "processo_id": "AD-2026-004",
+   "etapa": "Conferência SESP",
+   "entrada_em": "2026-07-18",
+   "saida_em": "2026-07-23",
+   "responsavel": "SESP Financeiro"
+  },
+  {
+   "id": "AD-2026-004-E05",
+   "processo_id": "AD-2026-004",
+   "etapa": "Dotação (NGER)",
+   "entrada_em": "2026-07-23",
+   "saida_em": "2026-07-27",
+   "responsavel": "NGER"
+  },
+  {
+   "id": "AD-2026-004-E06",
+   "processo_id": "AD-2026-004",
+   "etapa": "Autorização do ordenador",
+   "entrada_em": "2026-07-27",
+   "saida_em": "2026-08-01",
+   "responsavel": "Ordenador"
+  },
+  {
+   "id": "AD-2026-004-E07",
+   "processo_id": "AD-2026-004",
+   "etapa": "Pagamento",
+   "entrada_em": "2026-08-01",
+   "saida_em": null,
+   "responsavel": "SESP Financeiro"
+  },
+  {
+   "id": "AD-2026-005-E00",
+   "processo_id": "AD-2026-005",
+   "etapa": "Levantar orçamentos",
+   "entrada_em": "2026-10-09",
+   "saida_em": "2026-10-14",
+   "responsavel": "Unidade"
+  },
+  {
+   "id": "AD-2026-005-E01",
+   "processo_id": "AD-2026-005",
+   "etapa": "Análise da DAS",
+   "entrada_em": "2026-10-14",
+   "saida_em": "2026-10-19",
+   "responsavel": "DAS"
+  },
+  {
+   "id": "AD-2026-005-E02",
+   "processo_id": "AD-2026-005",
+   "etapa": "Cadastro no SICAD",
+   "entrada_em": "2026-10-19",
+   "saida_em": "2026-10-25",
+   "responsavel": "Servidor"
+  },
+  {
+   "id": "AD-2026-005-E03",
+   "processo_id": "AD-2026-005",
+   "etapa": "Aprovação da chefia",
+   "entrada_em": "2026-10-25",
+   "saida_em": "2026-10-31",
+   "responsavel": "Chefia"
+  },
+  {
+   "id": "AD-2026-005-E04",
+   "processo_id": "AD-2026-005",
+   "etapa": "Conferência SESP",
+   "entrada_em": "2026-10-31",
+   "saida_em": "2026-11-03",
+   "responsavel": "SESP Financeiro"
+  },
+  {
+   "id": "AD-2026-005-E05",
+   "processo_id": "AD-2026-005",
+   "etapa": "Dotação (NGER)",
+   "entrada_em": "2026-11-03",
+   "saida_em": "2026-11-09",
+   "responsavel": "NGER"
+  },
+  {
+   "id": "AD-2026-005-E06",
+   "processo_id": "AD-2026-005",
+   "etapa": "Autorização do ordenador",
+   "entrada_em": "2026-11-09",
+   "saida_em": "2026-11-13",
+   "responsavel": "Ordenador"
+  },
+  {
+   "id": "AD-2026-005-E07",
+   "processo_id": "AD-2026-005",
+   "etapa": "Pagamento",
+   "entrada_em": "2026-11-13",
+   "saida_em": "2026-11-17",
+   "responsavel": "SESP Financeiro"
+  },
+  {
+   "id": "AD-2026-005-E08",
+   "processo_id": "AD-2026-005",
+   "etapa": "Aplicação do recurso",
+   "entrada_em": "2026-11-17",
+   "saida_em": "2026-12-28",
+   "responsavel": "Servidor"
+  },
+  {
+   "id": "AD-2026-005-E09",
+   "processo_id": "AD-2026-005",
+   "etapa": "Prestação de contas",
+   "entrada_em": "2026-12-28",
+   "saida_em": null,
+   "responsavel": "Servidor"
+  },
+  {
+   "id": "AD-2026-006-E00",
+   "processo_id": "AD-2026-006",
+   "etapa": "Levantar orçamentos",
+   "entrada_em": "2026-07-17",
+   "saida_em": "2026-07-23",
+   "responsavel": "Unidade"
+  },
+  {
+   "id": "AD-2026-006-E01",
+   "processo_id": "AD-2026-006",
+   "etapa": "Análise da DAS",
+   "entrada_em": "2026-07-23",
+   "saida_em": "2026-07-28",
+   "responsavel": "DAS"
+  },
+  {
+   "id": "AD-2026-006-E02",
+   "processo_id": "AD-2026-006",
+   "etapa": "Cadastro no SICAD",
+   "entrada_em": "2026-07-28",
+   "saida_em": "2026-07-29",
+   "responsavel": "Servidor"
+  },
+  {
+   "id": "AD-2026-006-E03",
+   "processo_id": "AD-2026-006",
+   "etapa": "Aprovação da chefia",
+   "entrada_em": "2026-07-29",
+   "saida_em": "2026-08-01",
+   "responsavel": "Chefia"
+  },
+  {
+   "id": "AD-2026-006-E04",
+   "processo_id": "AD-2026-006",
+   "etapa": "Conferência SESP",
+   "entrada_em": "2026-08-01",
+   "saida_em": "2026-08-04",
+   "responsavel": "SESP Financeiro"
+  },
+  {
+   "id": "AD-2026-006-E05",
+   "processo_id": "AD-2026-006",
+   "etapa": "Dotação (NGER)",
+   "entrada_em": "2026-08-04",
+   "saida_em": "2026-08-07",
+   "responsavel": "NGER"
+  },
+  {
+   "id": "AD-2026-006-E06",
+   "processo_id": "AD-2026-006",
+   "etapa": "Autorização do ordenador",
+   "entrada_em": "2026-08-07",
+   "saida_em": "2026-08-11",
+   "responsavel": "Ordenador"
+  },
+  {
+   "id": "AD-2026-006-E07",
+   "processo_id": "AD-2026-006",
+   "etapa": "Pagamento",
+   "entrada_em": "2026-08-11",
+   "saida_em": "2026-08-15",
+   "responsavel": "SESP Financeiro"
+  },
+  {
+   "id": "AD-2026-006-E08",
+   "processo_id": "AD-2026-006",
+   "etapa": "Aplicação do recurso",
+   "entrada_em": "2026-08-15",
+   "saida_em": "2026-10-01",
+   "responsavel": "Servidor"
+  },
+  {
+   "id": "AD-2026-006-E09",
+   "processo_id": "AD-2026-006",
+   "etapa": "Prestação de contas",
+   "entrada_em": "2026-10-01",
+   "saida_em": "2026-11-27",
+   "responsavel": "Servidor"
+  },
+  {
+   "id": "AD-2026-006-E10",
+   "processo_id": "AD-2026-006",
+   "etapa": "Análise da contabilidade",
+   "entrada_em": "2026-11-27",
+   "saida_em": null,
+   "responsavel": "SESP Contabilidade"
+  },
+  {
+   "id": "AD-2026-007-E00",
+   "processo_id": "AD-2026-007",
+   "etapa": "Levantar orçamentos",
+   "entrada_em": "2026-07-01",
+   "saida_em": "2026-07-03",
+   "responsavel": "Unidade"
+  },
+  {
+   "id": "AD-2026-007-E01",
+   "processo_id": "AD-2026-007",
+   "etapa": "Análise da DAS",
+   "entrada_em": "2026-07-03",
+   "saida_em": "2026-07-08",
+   "responsavel": "DAS"
+  },
+  {
+   "id": "AD-2026-007-E02",
+   "processo_id": "AD-2026-007",
+   "etapa": "Cadastro no SICAD",
+   "entrada_em": "2026-07-08",
+   "saida_em": "2026-07-12",
+   "responsavel": "Servidor"
+  },
+  {
+   "id": "AD-2026-007-E03",
+   "processo_id": "AD-2026-007",
+   "etapa": "Aprovação da chefia",
+   "entrada_em": "2026-07-12",
+   "saida_em": "2026-07-15",
+   "responsavel": "Chefia"
+  },
+  {
+   "id": "AD-2026-007-E04",
+   "processo_id": "AD-2026-007",
+   "etapa": "Conferência SESP",
+   "entrada_em": "2026-07-15",
+   "saida_em": "2026-07-18",
+   "responsavel": "SESP Financeiro"
+  },
+  {
+   "id": "AD-2026-007-E05",
+   "processo_id": "AD-2026-007",
+   "etapa": "Dotação (NGER)",
+   "entrada_em": "2026-07-18",
+   "saida_em": "2026-07-21",
+   "responsavel": "NGER"
+  },
+  {
+   "id": "AD-2026-007-E06",
+   "processo_id": "AD-2026-007",
+   "etapa": "Autorização do ordenador",
+   "entrada_em": "2026-07-21",
+   "saida_em": "2026-07-23",
+   "responsavel": "Ordenador"
+  },
+  {
+   "id": "AD-2026-007-E07",
+   "processo_id": "AD-2026-007",
+   "etapa": "Pagamento",
+   "entrada_em": "2026-07-23",
+   "saida_em": "2026-07-26",
+   "responsavel": "SESP Financeiro"
+  },
+  {
+   "id": "AD-2026-007-E08",
+   "processo_id": "AD-2026-007",
+   "etapa": "Aplicação do recurso",
+   "entrada_em": "2026-07-26",
+   "saida_em": "2026-09-16",
+   "responsavel": "Servidor"
+  },
+  {
+   "id": "AD-2026-007-E09",
+   "processo_id": "AD-2026-007",
+   "etapa": "Prestação de contas",
+   "entrada_em": "2026-09-16",
+   "saida_em": "2026-11-05",
+   "responsavel": "Servidor"
+  },
+  {
+   "id": "AD-2026-007-E10",
+   "processo_id": "AD-2026-007",
+   "etapa": "Análise da contabilidade",
+   "entrada_em": "2026-11-05",
+   "saida_em": "2026-12-10",
+   "responsavel": "SESP Contabilidade"
+  },
+  {
+   "id": "AD-2026-007-E11",
+   "processo_id": "AD-2026-007",
+   "etapa": "Encerrado",
+   "entrada_em": "2026-12-10",
+   "saida_em": null,
+   "responsavel": "SESP Contabilidade"
+  },
+  {
+   "id": "AD-2026-008-E00",
+   "processo_id": "AD-2026-008",
+   "etapa": "Levantar orçamentos",
+   "entrada_em": "2026-10-10",
+   "saida_em": "2026-10-15",
+   "responsavel": "Unidade"
+  },
+  {
+   "id": "AD-2026-008-E01",
+   "processo_id": "AD-2026-008",
+   "etapa": "Análise da DAS",
+   "entrada_em": "2026-10-15",
+   "saida_em": null,
+   "responsavel": "DAS"
+  },
+  {
+   "id": "AD-2026-009-E00",
+   "processo_id": "AD-2026-009",
+   "etapa": "Levantar orçamentos",
+   "entrada_em": "2026-09-03",
+   "saida_em": "2026-09-04",
+   "responsavel": "Unidade"
+  },
+  {
+   "id": "AD-2026-009-E01",
+   "processo_id": "AD-2026-009",
+   "etapa": "Análise da DAS",
+   "entrada_em": "2026-09-04",
+   "saida_em": "2026-09-05",
+   "responsavel": "DAS"
+  },
+  {
+   "id": "AD-2026-009-E02",
+   "processo_id": "AD-2026-009",
+   "etapa": "Cadastro no SICAD",
+   "entrada_em": "2026-09-05",
+   "saida_em": "2026-09-07",
+   "responsavel": "Servidor"
+  },
+  {
+   "id": "AD-2026-009-E03",
+   "processo_id": "AD-2026-009",
+   "etapa": "Aprovação da chefia",
+   "entrada_em": "2026-09-07",
+   "saida_em": "2026-09-09",
+   "responsavel": "Chefia"
+  },
+  {
+   "id": "AD-2026-009-E04",
+   "processo_id": "AD-2026-009",
+   "etapa": "Conferência SESP",
+   "entrada_em": "2026-09-09",
+   "saida_em": "2026-09-14",
+   "responsavel": "SESP Financeiro"
+  },
+  {
+   "id": "AD-2026-009-E05",
+   "processo_id": "AD-2026-009",
+   "etapa": "Dotação (NGER)",
+   "entrada_em": "2026-09-14",
+   "saida_em": "2026-09-19",
+   "responsavel": "NGER"
+  },
+  {
+   "id": "AD-2026-009-E06",
+   "processo_id": "AD-2026-009",
+   "etapa": "Autorização do ordenador",
+   "entrada_em": "2026-09-19",
+   "saida_em": "2026-09-20",
+   "responsavel": "Ordenador"
+  },
+  {
+   "id": "AD-2026-009-E07",
+   "processo_id": "AD-2026-009",
+   "etapa": "Pagamento",
+   "entrada_em": "2026-09-20",
+   "saida_em": "2026-09-21",
+   "responsavel": "SESP Financeiro"
+  },
+  {
+   "id": "AD-2026-009-E08",
+   "processo_id": "AD-2026-009",
+   "etapa": "Aplicação do recurso",
+   "entrada_em": "2026-09-21",
+   "saida_em": null,
+   "responsavel": "Servidor"
+  },
+  {
+   "id": "AD-2026-010-E00",
+   "processo_id": "AD-2026-010",
+   "etapa": "Levantar orçamentos",
+   "entrada_em": "2026-10-03",
+   "saida_em": "2026-10-09",
+   "responsavel": "Unidade"
+  },
+  {
+   "id": "AD-2026-010-E01",
+   "processo_id": "AD-2026-010",
+   "etapa": "Análise da DAS",
+   "entrada_em": "2026-10-09",
+   "saida_em": "2026-10-12",
+   "responsavel": "DAS"
+  },
+  {
+   "id": "AD-2026-010-E02",
+   "processo_id": "AD-2026-010",
+   "etapa": "Cadastro no SICAD",
+   "entrada_em": "2026-10-12",
+   "saida_em": "2026-10-14",
+   "responsavel": "Servidor"
+  },
+  {
+   "id": "AD-2026-010-E03",
+   "processo_id": "AD-2026-010",
+   "etapa": "Aprovação da chefia",
+   "entrada_em": "2026-10-14",
+   "saida_em": "2026-10-16",
+   "responsavel": "Chefia"
+  },
+  {
+   "id": "AD-2026-010-E04",
+   "processo_id": "AD-2026-010",
+   "etapa": "Conferência SESP",
+   "entrada_em": "2026-10-16",
+   "saida_em": "2026-10-20",
+   "responsavel": "SESP Financeiro"
+  },
+  {
+   "id": "AD-2026-010-E05",
+   "processo_id": "AD-2026-010",
+   "etapa": "Dotação (NGER)",
+   "entrada_em": "2026-10-20",
+   "saida_em": "2026-10-23",
+   "responsavel": "NGER"
+  },
+  {
+   "id": "AD-2026-010-E06",
+   "processo_id": "AD-2026-010",
+   "etapa": "Autorização do ordenador",
+   "entrada_em": "2026-10-23",
+   "saida_em": null,
+   "responsavel": "Ordenador"
+  }
+ ],
+ "pendencias": [
+  {
+   "id": "AD-2026-005-P1",
+   "processo_id": "AD-2026-005",
+   "motivo": "Nota fiscal sem identificação do órgão",
+   "aberta_em": "2026-10-17",
+   "prazo": null,
+   "resolvida_em": null
+  },
+  {
+   "id": "AD-2026-007-P1",
+   "processo_id": "AD-2026-007",
+   "motivo": "Nota fiscal sem identificação do órgão",
+   "aberta_em": "2026-10-26",
+   "prazo": null,
+   "resolvida_em": null
+  }
+ ],
+ "notas": [
+  {
+   "id": "AD-2026-001-N1",
+   "processo_id": "AD-2026-001",
+   "numero": "31297",
+   "cnpj": "",
+   "valor": 2294.47,
+   "data": "2026-09-26"
+  },
+  {
+   "id": "AD-2026-001-N2",
+   "processo_id": "AD-2026-001",
+   "numero": "66637",
+   "cnpj": "",
+   "valor": 2294.47,
+   "data": "2026-09-26"
+  },
+  {
+   "id": "AD-2026-001-N3",
+   "processo_id": "AD-2026-001",
+   "numero": "18573",
+   "cnpj": "",
+   "valor": 2294.47,
+   "data": "2026-09-26"
+  },
+  {
+   "id": "AD-2026-006-N1",
+   "processo_id": "AD-2026-006",
+   "numero": "39714",
+   "cnpj": "",
+   "valor": 3705.48,
+   "data": "2026-08-15"
+  },
+  {
+   "id": "AD-2026-006-N2",
+   "processo_id": "AD-2026-006",
+   "numero": "23230",
+   "cnpj": "",
+   "valor": 3705.48,
+   "data": "2026-08-15"
+  },
+  {
+   "id": "AD-2026-006-N3",
+   "processo_id": "AD-2026-006",
+   "numero": "2353",
+   "cnpj": "",
+   "valor": 3705.48,
+   "data": "2026-08-15"
+  },
+  {
+   "id": "AD-2026-007-N1",
+   "processo_id": "AD-2026-007",
+   "numero": "18361",
+   "cnpj": "",
+   "valor": 2819.23,
+   "data": "2026-07-26"
+  },
+  {
+   "id": "AD-2026-007-N2",
+   "processo_id": "AD-2026-007",
+   "numero": "32656",
+   "cnpj": "",
+   "valor": 2819.23,
+   "data": "2026-07-26"
+  },
+  {
+   "id": "AD-2026-007-N3",
+   "processo_id": "AD-2026-007",
+   "numero": "65578",
+   "cnpj": "",
+   "valor": 2819.23,
+   "data": "2026-07-26"
+  }
+ ],
+ "feriados": [
+  {
+   "data": "2026-01-01",
+   "nome": "Confraternização Universal"
+  },
+  {
+   "data": "2026-04-03",
+   "nome": "Sexta-feira Santa"
+  },
+  {
+   "data": "2026-04-21",
+   "nome": "Tiradentes"
+  },
+  {
+   "data": "2026-05-01",
+   "nome": "Dia do Trabalho"
+  },
+  {
+   "data": "2026-09-07",
+   "nome": "Independência"
+  },
+  {
+   "data": "2026-10-12",
+   "nome": "Nossa Senhora Aparecida"
+  },
+  {
+   "data": "2026-11-02",
+   "nome": "Finados"
+  },
+  {
+   "data": "2026-11-15",
+   "nome": "Proclamação da República"
+  },
+  {
+   "data": "2026-11-20",
+   "nome": "Consciência Negra"
+  },
+  {
+   "data": "2026-12-25",
+   "nome": "Natal"
+  },
+  {
+   "data": "2027-01-01",
+   "nome": "Confraternização Universal"
+  },
+  {
+   "data": "2027-03-26",
+   "nome": "Sexta-feira Santa"
+  },
+  {
+   "data": "2027-04-21",
+   "nome": "Tiradentes"
+  },
+  {
+   "data": "2027-05-01",
+   "nome": "Dia do Trabalho"
+  },
+  {
+   "data": "2027-09-07",
+   "nome": "Independência"
+  },
+  {
+   "data": "2027-10-12",
+   "nome": "Nossa Senhora Aparecida"
+  },
+  {
+   "data": "2027-11-02",
+   "nome": "Finados"
+  },
+  {
+   "data": "2027-11-15",
+   "nome": "Proclamação da República"
+  },
+  {
+   "data": "2027-11-20",
+   "nome": "Consciência Negra"
+  },
+  {
+   "data": "2027-12-25",
+   "nome": "Natal"
+  }
+ ]
+}

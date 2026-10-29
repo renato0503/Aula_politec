@@ -1,0 +1,28 @@
+model Model
+	culture: pt-BR
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: pt-BR
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBIDesktopVersion = 2.138.1004.0 (24.11)
+
+annotation PBI_QueryOrder = ["fato","dim_etapa","dim_unidade","dim_sistema","dim_tipo_atividade","dim_status_execucao","dim_projeto","dim_calendario","_Medidas"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table fato
+ref table dim_etapa
+ref table dim_unidade
+ref table dim_sistema
+ref table dim_tipo_atividade
+ref table dim_status_execucao
+ref table dim_projeto
+ref table dim_calendario
+ref table _Medidas
+
+ref cultureInfo pt-BR
+

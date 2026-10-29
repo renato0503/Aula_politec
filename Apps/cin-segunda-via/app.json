@@ -1,0 +1,122 @@
+{
+  "titulo": "Segunda via da CIN",
+  "subtitulo": "POLITEC/MT · Identificação Civil",
+  "descricao": "Pedido da segunda via da Carteira de Identidade Nacional a distância, com conferência pelo servidor.",
+  "aviso": "Protótipo com dados fictícios. Não envie dados ou fotos reais.",
+  "db": {
+    "nome": "cin_segunda_via_v1",
+    "versao": 1,
+    "stores": {
+      "pedidos": {
+        "keyPath": "protocolo",
+        "indices": [
+          {
+            "nome": "situacao",
+            "campo": "situacao",
+            "unico": false
+          }
+        ]
+      },
+      "fotos": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "protocolo",
+            "campo": "protocolo",
+            "unico": false
+          }
+        ]
+      },
+      "decisoes": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "protocolo",
+            "campo": "protocolo",
+            "unico": false
+          }
+        ]
+      },
+      "log": {
+        "keyPath": "id",
+        "indices": []
+      }
+    }
+  },
+  "perfis": [
+    {
+      "id": "servidor",
+      "nome": "Servidor",
+      "descricao": "Confere os pedidos e gera o resumo para o sistema."
+    },
+    {
+      "id": "gestao",
+      "nome": "Gestão",
+      "descricao": "Indicadores do piloto."
+    }
+  ],
+  "rotaSemPerfil": [
+    "#/pedido",
+    "#/protocolo"
+  ],
+  "rotas": [
+    {
+      "rota": "#/pedido",
+      "titulo": "Pedir a segunda via",
+      "sprint": 2,
+      "descricao": "Elegibilidade, dados, fotos e protocolo.",
+      "publica": true
+    },
+    {
+      "rota": "#/protocolo/:id",
+      "titulo": "Protocolo",
+      "sprint": 4,
+      "descricao": "Situação e motivo.",
+      "publica": true
+    },
+    {
+      "rota": "#/fila",
+      "titulo": "Fila",
+      "sprint": 3,
+      "descricao": "Pedidos para conferir.",
+      "perfis": [
+        "servidor"
+      ]
+    },
+    {
+      "rota": "#/pedido/:id/resumo",
+      "titulo": "Resumo para o sistema",
+      "sprint": 3,
+      "descricao": "Dados no formato do cadastro.",
+      "perfis": [
+        "servidor"
+      ]
+    },
+    {
+      "rota": "#/indicadores",
+      "titulo": "Indicadores",
+      "sprint": 5,
+      "descricao": "Pedidos, elegíveis, aceitos e recusados.",
+      "perfis": [
+        "gestao"
+      ]
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": "",
+      "perfis": [
+        "servidor",
+        "gestao"
+      ]
+    }
+  ],
+  "libs": [],
+  "dados": [
+    [
+      "seed",
+      "exemplos/seed.json"
+    ]
+  ]
+}

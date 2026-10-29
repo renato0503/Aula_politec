@@ -1,0 +1,5 @@
+.linha-tempo{padding-left:20px;margin:0}
+.linha-tempo li{margin:6px 0}
+.linha-tempo .etapa-feita{color:var(--ink2)}
+.linha-tempo .etapa-atual{color:var(--accent);font-size:16px}
+.linha-tempo .etapa-futura{color:var(--ink2);opacity:.6}

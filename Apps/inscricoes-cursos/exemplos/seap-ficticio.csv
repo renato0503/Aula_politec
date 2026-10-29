@@ -1,0 +1,71 @@
+﻿matricula;nome;cargo;lotacao;diretoria;vinculo_ativo
+200000;Heitor Lima Freitas;Médico Legista;Regional de Sinop;DIN;N
+200037;Xavier Lima Holanda;Médico Legista;IML Cuiabá;DML;S
+200074;Wanda Esteves Campos;Médico Legista;Posto de Identificação Centro;DII;S
+200111;Isabela Freitas Jardim;Perito Oficial Criminal;IML Cuiabá;DML;S
+200148;Karen Lima Esteves;Técnico em Necropsia;Laboratório de Química;DMC;S
+200185;Gabriela Duarte Igarashi;Perito Oficial Criminal;Regional de Rondonópolis;DIN;S
+200222;João Barros Duarte;Médico Legista;IML Várzea Grande;DML;S
+200259;Elisa Campos Igarashi;Médico Legista;Regional de Cáceres;DIN;S
+200296;Tiago Holanda Gomes;Médico Legista;Regional de Rondonópolis;DIN;S
+200333;Tiago Nunes Almeida;Papiloscopista;Regional de Cáceres;DIN;S
+200370;Olívia Freitas Campos;Médico Legista;Regional de Sinop;DIN;S
+200407;Xavier Campos Nunes;Papiloscopista;Posto de Identificação Centro;DII;S
+200444;Karen Esteves Holanda;Médico Legista;Posto de Identificação Centro;DII;S
+200481;Isabela Lima Moraes;Médico Legista;Regional de Cáceres;DIN;S
+200518;Fábio Almeida Lima;Médico Legista;Posto de Identificação Centro;DII;S
+200555;Isabela Freitas Freitas;Técnico em Necropsia;Regional de Sinop;DIN;S
+200592;Heitor Igarashi Nunes;Médico Legista;Regional de Cáceres;DIN;S
+200629;Yasmin Duarte Holanda;Papiloscopista;IML Cuiabá;DML;S
+200666;Lucas Lima Moraes;Perito Oficial Criminal;Regional de Cáceres;DIN;S
+200703;Diego Almeida Nunes;Técnico em Necropsia;IML Cuiabá;DML;S
+200740;Carla Freitas Igarashi;Médico Legista;Laboratório de Química;DMC;S
+200777;Wanda Esteves Duarte;Técnico em Necropsia;Laboratório de Química;DMC;S
+200814;Rafael Prado Esteves;Perito Oficial Criminal;Posto de Identificação Centro;DII;S
+200851;Vítor Almeida Holanda;Técnico em Necropsia;Núcleo de Local de Crime;DMC;N
+200888;Carla Freitas Nunes;Papiloscopista;Núcleo de Local de Crime;DMC;S
+200925;Wanda Jardim Esteves;Médico Legista;Núcleo de Local de Crime;DMC;S
+200962;Ana Jardim Holanda;Técnico em Necropsia;IML Cuiabá;DML;S
+200999;Yasmin Igarashi Nunes;Perito Oficial Criminal;Regional de Cáceres;DIN;S
+201036;Tiago Igarashi Igarashi;Técnico em Necropsia;Posto de Identificação Centro;DII;S
+201073;Bruno Gomes Holanda;Técnico em Necropsia;Laboratório de Química;DMC;S
+201110;Bruno Campos Igarashi;Técnico em Necropsia;Regional de Cáceres;DIN;S
+201147;Isabela Lima Lima;Técnico em Necropsia;Posto de Identificação Centro;DII;S
+201184;Fábio Campos Barros;Papiloscopista;IML Várzea Grande;DML;S
+201221;Wanda Freitas Esteves;Perito Oficial Criminal;Núcleo de Local de Crime;DMC;S
+201258;Rafael Prado Almeida;Perito Oficial Criminal;IML Cuiabá;DML;S
+201295;Úrsula Esteves Moraes;Técnico em Necropsia;Laboratório de Química;DMC;S
+201332;Bruno Freitas Duarte;Perito Oficial Criminal;Posto de Identificação Centro;DII;S
+201369;Ana Prado Gomes;Perito Oficial Criminal;IML Cuiabá;DML;S
+201406;Diego Esteves Moraes;Perito Oficial Criminal;Regional de Cáceres;DIN;S
+201443;Elisa Lima Almeida;Médico Legista;Laboratório de Química;DMC;S
+201480;Sílvia Gomes Jardim;Técnico em Necropsia;Regional de Rondonópolis;DIN;S
+201517;Yasmin Esteves Esteves;Perito Oficial Criminal;Núcleo de Local de Crime;DMC;S
+201554;Heitor Nunes Moraes;Médico Legista;Regional de Cáceres;DIN;S
+201591;Vítor Gomes Nunes;Médico Legista;Núcleo de Local de Crime;DMC;S
+201628;Isabela Igarashi Campos;Papiloscopista;Regional de Rondonópolis;DIN;S
+201665;Sílvia Moraes Barros;Papiloscopista;Posto de Identificação Centro;DII;S
+201702;Olívia Prado Freitas;Médico Legista;Regional de Cáceres;DIN;N
+201739;Queila Duarte Duarte;Papiloscopista;Regional de Rondonópolis;DIN;S
+201776;Sílvia Prado Almeida;Técnico em Necropsia;Regional de Cáceres;DIN;S
+201813;Nelson Nunes Nunes;Técnico em Necropsia;Posto de Identificação Centro;DII;S
+201850;Yasmin Lima Lima;Perito Oficial Criminal;Laboratório de Química;DMC;S
+201887;Zeca Nunes Jardim;Papiloscopista;Laboratório de Química;DMC;S
+201924;Yasmin Igarashi Holanda;Perito Oficial Criminal;Posto de Identificação Centro;DII;S
+201961;Zeca Holanda Jardim;Papiloscopista;IML Várzea Grande;DML;S
+201998;Rafael Igarashi Igarashi;Papiloscopista;IML Cuiabá;DML;S
+202035;Fábio Lima Lima;Médico Legista;IML Cuiabá;DML;S
+202072;Rafael Nunes Nunes;Perito Oficial Criminal;Núcleo de Local de Crime;DMC;S
+202109;Heitor Moraes Gomes;Técnico em Necropsia;Regional de Cáceres;DIN;S
+202146;Wanda Duarte Igarashi;Perito Oficial Criminal;Posto de Identificação Centro;DII;S
+202183;Sílvia Barros Duarte;Médico Legista;Posto de Identificação Centro;DII;S
+202220;Fábio Duarte Esteves;Médico Legista;Regional de Sinop;DIN;S
+202257;Paulo Holanda Holanda;Papiloscopista;Regional de Sinop;DIN;S
+202294;Nelson Nunes Prado;Papiloscopista;IML Cuiabá;DML;S
+202331;Ana Esteves Lima;Médico Legista;Núcleo de Local de Crime;DMC;S
+202368;Zeca Campos Prado;Médico Legista;Núcleo de Local de Crime;DMC;S
+202405;Elisa Nunes Moraes;Médico Legista;Laboratório de Química;DMC;S
+202442;Heitor Freitas Almeida;Técnico em Necropsia;Posto de Identificação Centro;DII;S
+202479;Carla Gomes Esteves;Perito Oficial Criminal;Posto de Identificação Centro;DII;S
+202516;Queila Holanda Igarashi;Papiloscopista;IML Várzea Grande;DML;S
+202553;Zeca Holanda Jardim;Perito Oficial Criminal;IML Cuiabá;DML;N

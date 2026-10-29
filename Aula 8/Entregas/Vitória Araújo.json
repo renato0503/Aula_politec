@@ -1,0 +1,447 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T15:58:08.921Z",
+  "campos": {
+    "data": "2026-10-27",
+    "aluno": "Vitória Araújo Dias",
+    "unidade": "Gabinete de Direção",
+    "contato": "vitoriadias@politec.mt.gov.br",
+    "nome_projeto": "Gestão de Documentos",
+    "resumo": "Aplicativo para automatizar e gerenciar eficientemente o ciclo de vida dos processos no setor, o fluxo foi divido nas 5 etapas descritas, com especial destaque para o controle e a cobrança automática de prazos: Cadastro e Entrada; triagem e atribuição; tramitação e instrução; acompanhamento, monitoramento de prazos e automação de cobrança; Notificação de Cobrança (Disparo Automático no Vencimento) alerta e conclusão.\nAplicativo para uso dos servidores lotados no Gabinete de Direção.\nSubstituir o processo manual de acompanhamento nas planilhas do Excel.",
+    "problema": "Fase de acompanhamento, a conferencia diária por processo e cobranças de retorno dos processos.",
+    "hoje": "Utilizamos um apps de Gestão, porém ainda existe gargalos em acompanhamentos dos prazo e cobranças de retornos nos processos.",
+    "impacto": "Tempo: 1h diária para acompanhamento dos processo em tramitações;\nRisco: extemporaneidade de processos;",
+    "evid_detalhe": "As conferencias são feitas manualmente e individualmente pelos servidores.",
+    "limite": "Tramitações diretas sem analise e conferencia  por parte do servidor. ",
+    "asis_fim": "Tramitação para o destinatário final ou arquivamento de processo, (conclusão do processo).",
+    "asis_inicio": "Cadastro de processo ",
+    "asis_frequencia": "Mensal",
+    "asis_volume": "200",
+    "asis_decisoes": "Validação na Entrada\nDocumentação Completa? \nPresença dos requisitos e documentos mínimos no cadastro.\n• Sim: Autua e segue para Atribuição.\n• Não: Devolve ao solicitante para correção.\n\n Instrução do Processo\nExige Parecer Externo/Terceiros?\nNecessidade técnica ou legal de consultar outros órgãos/unidades.\n• Sim: Emite ofício e vai para Acompanhamento de Prazos.\n• Não: Elabora parecer/despacho final.\n\nControle de Prazos\nResposta Recebida no Prazo?\nRetorno de terceiros dentro do limite do prazo regimental.\n• Sim: Anexa resposta e retorna para análise.\n• Não: Dispara cobrança/alerta e/ou aplica decurso de prazo.\n\n\nDecisão Final\nPedido Deferido / Aprovado?\nCumprimento das regras de negócio e mérito do processo.\n• Sim: Emite aprovação, tramita ou arquiva.\n• Não: Emite analisa, despacha novamente e acomapanha.\n\n",
+    "asis_excecoes": "Descrição Geral de Caminhos Alternativos e Exceções\nO fluxo principal do processo assume a tramitação contínua e sem pendências desde a entrada até o arquivamento. Contudo, para garantir o tratamento adequado de desvios operacionais e eventos de exceção, preveem-se as seguintes rotas condicionais:\n\n1. Caminhos Alternativos\nPendência de Documentação (Entrada): Caso o expediente seja autuado com dados incompletos ou falta de anexos obrigatórios, o fluxo principal é pausado e gera-se uma notificação de exigência ao requerente, aguardando a complementação para prosseguir à fase de atribuição.\n\nRedistribuição por Indisponibilidade (Atribuição): Se o servidor designado estiver ausente (férias, licenças) ou com excesso de carga de trabalho, o processo é retrabalhado para atribuição secundária ou remanejado automaticamente para um substituto.\n\nConsultas Técnicas Intermediárias (Instrução): Quando a análise exigir validação técnica ou parecer jurídico complementar de outra unidade interna, o processo é temporariamente encaminhado para instrução concorrente antes do despacho decisório.\n\nProrrogação de Prazo (Acompanhamento): Havendo solicitação motivada do interessado ou de órgãos externos, o tempo de permanência é suspenso e um novo prazo limite é repactuado no sistema.\n\n2. Exceções e Tratamento de Erros\nIncompetência do Setor: Processos protocolados indevidamente no setor são sumariamente declinados e redirecionados ao órgão competente ou cancelados por falta de amparo regimental.\n\nDecurso de Prazo sem Resposta: Findo o prazo regimental sem manifestação de terceiros e após alertas automáticos de cobrança, o feito retorna ao analista para decisão no estado em que se encontra ou arquivamento por abandono.\n\nFase Recursal: Caso haja contestação do requerente após a decisão de indeferimento na fase de conclusão, o feito é reaberto e retorna à etapa de instrução para análise em instância superior.",
+    "asis_digital": "A entrada da documentação, ofícios, requerimentos, pedidos, convites via Siga Doc, e  e-mails e Ofícios Eletrônicos, fazemos um controle de gestão de documentos em um app que funciona basicamente como uma automação de planilha de Excel.",
+    "papeis_obs": "Flexibilização da Atribuição (Papel do Servidor da Lotação):\n\nA função de triagem e atribuição de processos não fica restrita exclusivamente à Chefia/Gestor.\n\nOs Servidores da Lotação passam a ter permissão para conferir o teor do documento, definir o analista/servidor responsável pela instrução e acompanhar o andamento global da fila da unidade.\n\nVisão de Acompanhamento Abrangente:\n\nTodos os servidores vinculados àquela lotação visualizam a caixa do setor (painel coletivo), acompanhando o status das tramitações, prazos e pendências de terceiros, mesmo de processos atribuídos a outros colegas.",
+    "tobe_visao": "Quando este processo existir, os servidores da lotação deixam de conferir manualmente os prazos na mesa virtual do Siga-Doc e passam a contar com a gestão de documentos integrada, monitoramento automatizado, alertas de prazos, notificações preditivas e geração automática de cobranças para processos pendentes de resposta.",
+    "tobe_mudanca": "A mesa virtual do Siga-Doc deixa de ser um mero repositório passivo de documentos e passa a controlar os prazos de forma ativa e automática.\n\nEm termos práticos: a gestão do tempo e a cobrança de documentos pendentes saem da memória e do controle manual dos servidores da lotação e passam a ser executadas diretamente pela inteligência do sistema.",
+    "tobe_inalterado": "A responsabilidade técnica e o julgamento humano: Os servidores da lotação e a autoridade decisora continuam sendo os únicos responsáveis por analisar o mérito dos documentos, elaborar os pareceres e tomar as decisões finais (o sistema não decide nem assina pelo servidor).\n\nO uso do Siga-Doc como sistema oficial: O Siga-Doc permanece como a plataforma principal de gestão documental e tramitação do órgão.\n\nA estrutura de papéis e alçadas: A hierarquia de aprovação, as competências regimentais de cada servidor e a exigência de assinatura legal não mudam.\n\nA necessidade de prazos regimentais e normas: As regras de negócio, legislações aplicáveis e os prazos limite estabelecidos por norma continuam válidos.",
+    "tobe_restricao": "O Livre Convencimento e a Análise Técnica (Atribuição Legal do Servidor): A automação não pode substituir a interpretação humana, a discricionariedade administrativa ou a valoração de mérito na confecção de pareceres, despachos e relatórios.\n\nA Competência Exclusiva para Decisão (Alçada da Autoridade): O ato administrativo final (deferimento, indeferimento, homologação ou sanção) precisa obrigatoriamente ser assinado pela autoridade competente legalmente constituída. A máquina não pode tomar decisões finais de mérito.\nAs Normas de Temporalidade e Arquivamento Público: A tabela de temporalidade documental, as regras de classificação de sigilo/LGPD e a obrigatoriedade de conservação do histórico do processo no Siga-Doc continuam sendo imposições legais inalteráveis.",
+    "tobe_piloto": "Na unidade de lotação Gabinete de Direção, plano piloto de 30 dias comparando a gestão antiga com a atual.",
+    "entrega": "Componente,( que integram desde a entrada a conclusão), Tipo de Artefato (pessoal ou sistema) e Descrição Funcional no MVP (manual de utilização).",
+    "dentro": "Funcionalidades e Telas por Etapa do Processo\n•\tEtapa 1 — Cadastro e Entrada: Interface de preenchimento estruturado de dados pelo requerente, validação de anexos obrigatórios e gerador automático do número de autuação do expediente no Siga-Doc.\n\n•\tEtapa 2 — Atribuição: Painel de controle da mesa virtual da lotação para visualização da carga de trabalho e destinação do processo ao servidor responsável com base em competência ou especialidade.\n\n•\tEtapa 3 — Tramitação e Instrução: Módulo de redação e instrução com minutas padronizadas para confecção de despachos, pareceres e emissão de ofícios.\n\n•\tEtapa 4 — Acompanhamento e Monitoramento de Prazos (Core da Automação): Cronômetro sistêmico com cálculo automático do tempo de permanência no setor, alertas visuais preditivos e geração/disparo automatizado de mensagens de cobrança para documentos pendentes de resposta de terceiros.\n\n•\tEtapa 5 — Conclusão: Interface para deliberação final da autoridade decisora, assinatura digital, tramitação de saída com notificação automática ao solicitante e arquivamento do feito.\n\n2. Governança, Regras e Automações Transversais\n•\tControle de Acesso e Papéis: Matriz de permissões segregando funções por papel (Requerente, Servidor da Lotação, Analista e Autoridade Decisora).\n\n•\tAlertas e Notificações Predityivas: Motor de eventos configurado para avisar sobre proximidade de vencimento e estouro de prazos regimentais.\n\n•\tRastreabilidade e Logs: Registro inalterável de todas as ações, envios de cobrança e alterações de status no Siga-Doc.",
+    "fora": "Análise e Decisão Automatizada de Mérito (Julgamento I.A.)\nPor que fica de fora: Impedimento legal e regimental. A análise técnica de pareceres e o deferimento/indeferimento de processos são atribuições exclusivas do servidor, a automação é apenas para o controle de prazos e gestão dos documentos.",
+    "mvp_naofaz": "O MVP não integra com o Siga Doc, não envia e-mail, fica apenas para lançamentos e consultas dos processos em andamentos.",
+    "mvp_objetivo": "O objetivo do MVP é validar a transformação da mesa virtual do Siga-Doc em um painel ativo, demonstrando a automatização do cálculo de prazos, os alertas visuais preditivos e o disparo automático de cobranças sem intervenção manual dos servidores.",
+    "mvp_plataforma": "Site web (abre no navegador)",
+    "mvp_tela_inicial": "Tela do Longin, depois o painel de controle.",
+    "mvp_mock": "O Envio de Notificações ao Solicitante / Terceiros: A comunicação e as cobranças de prazos (dunning) serão simuladas utilizando disparos para e-mails de teste ",
+    "mvp_criterio": "O Servidor registra os dados em um curto período de tempo e o registro aparece no painel de controle.",
+    "mvp_dados": "Templates de Pareceres e Despachos do Órgão: numero do processo, descrição, responsável por doc, data de cadastro e saída;\n\nEstrutura de Banco de Dados e Scripts\nTabelas e Esquemas do Siga-Doc Atual: Modelo de dados relacional existente para cadastro de usuários, perfis de acesso, lotações e numeração única de autuação de processos;\n\nBibliotecas e Componentes de Software (Open Source / Padrão)\nMotor de Regras de Tempo e Datas: Bibliotecas padrão de manipulação de datas e cronômetros\n\nTemplate e Disparador de E-mails: Biblioteca/serviço de envio de e-mails -apenas para teste ou temporário;\n\nComponentes de Interface (UI Kit / Design System): Bibliotecas de componentes de telas prontas (ex: Bootstrap, Tailwind UI ou Angular Material) para montar os cartões, cores do sinalizador (verde/amarelo/vermelho) e tabelas da Mesa Virtual sem necessidade de design do zero.\n\nemplates de Agente / Regras de Negócio\nGatillhos de Automação de Alertas: Regras lógicas e cronjobs (agendadores de tarefas) configurados para rodar a cada intervalo fixo e verificar a tabela de prazos pendentes, acionando o envio das cobranças automatizadas.",
+    "mvp_reuso": "Existe um aplicativo com todos os lançamentos de cadastro para entrada e saída dos  processos e expedientes.",
+    "dependencias": "TI para a integração de sistema, chefia imediata  e os servidores que vão monitorar.",
+    "lgpd_dados": "Dados do servidor que cadastra e é responsável pelo tramite da documentação e a lotação que é enviada.",
+    "lgpd_base": "Atendimento ao Interesse Público: O tratamento decorre do exercício do poder de dever da administração pública de instruir e decidir processos sob sua custódia, conforme o Art. 7º, III da LGPD.  Atendimento aos Princípios do Art. 6º da LGPD:  Finalidade e Adequação: Limitação estrita dos dados coletados às 5 etapas do ciclo de vida processual.  Necessidade (Minimização): Coleta restrita ao mínimo indispensável para autuar, tramitar, notificar e deliberar, sem o uso de dados sensíveis no MVP.",
+    "lgpd_retencao": "Dados permanecem do app mesmo após fechar o navegador.",
+    "lgpd_acesso": "Somente os usuários do setor, registrando os dados de acesso dos usuários.",
+    "coletar": "Os alertas de prazos e as mensagens automáticas e a mensagem de solicitação de restituição dos documentos dentro do prazo. ",
+    "acesso": "O servidor com acesso ao sistema Siga Doc, e joga no app.",
+    "base_periodo": "Todos os registros do ano por pagina",
+    "campos_data": "A planilha possuí apenas a data, sendo contabilizados o período apenas por dias corridos.",
+    "hospedagem_escolhida": "Acesso Multiperfil Instantâneo: Disponibiliza uma URL pública segura (HTTPS) para que os diferentes perfis de teste, custo zero, Execução Funcional do Motor de Prazos: Permite rodar o cronômetro automático, atualizar a cor dos sinalizadores (Verde/Amarelo/Vermelho) e efetuar o disparo real dos e-mails de cobrança automatizada (dunning) por serviços como SMTP/Nodemailer sem bloqueios de firewall local.",
+    "conta_quem": "O aluno cria conta e encaminha para o professor que compartilha o projeto no GitHub.",
+    "orcamento": "Sem custo, não possuímos recurso para o desenvolvimento aplicação da ferramenta.",
+    "restricoes": "Os usuários não autorizados, não podem excluir documentos já cadastrados.",
+    "hipotese_campo": "A conferência manual de documentos e do cumprimento de prazos consome tempo excessivo dos servidores, gargalo que será eliminado ao automatizar a verificação visual dos prazos e a triagem das minutas padronizadas.",
+    "lacunas": "A resposta exata de comportamento;\nO que precisa ser verificado: Realizar testes de estresse (load testing) na fase de sandbox simulando volume superior à linha de base (acima de 500 autuações/mês) para garantir a estabilidade do banco relacional.\n",
+    "frase": "Modelagem do processo, medida de espera, leitura de documento por imagem, GitHub e Antigravity.",
+    "aprendizado": "Modelagem do processo, medida de espera, leitura de documento por imagem, GitHub e Antigravity.",
+    "apoio": "Preciso realizar os lançamentos de dados para automação do controle de prazos, alinhar com a chefia.",
+    "provas": "Três Evidências de Sustentação\nGargalo no Trâmite (Lead Time de 15 dias): O processo fica parado em média 48 horas apenas na fila de triagem aguardando distribuição manual.\n\nAlto Refugo na Entrada (60% de erros): Seis em cada dez requerimentos chegam com anexos faltantes, e 100% dos despachos são redigidos manualmente do zero (0% de padronização).\n\nExigência Legal e Social (LAI / Governo Digital): O descumprimento de prazos e a falta de rastreabilidade são as principais causas de insatisfação do cidadão no serviço público.",
+    "piloto": "Testar o piloto em uma semana, medindo o tempo de duração e a taxa de retorno do formulário.",
+    "risco_defesa": "Inclusão de um campo novo (função), manter o formulário atual para a conferencia do novo campo.",
+    "doc_descricao": "Controle de tramitação de processos e expedientes, entrada, saída e atribuição no Excel.",
+    "doc_faltando": "Falta o modelo To-BE."
+  },
+  "marcados": {
+    "afetado": [
+      "Servidor da unidade",
+      "Chefia"
+    ],
+    "evid": [
+      "Medida feita pela equipe"
+    ],
+    "stack": "Ainda não definido",
+    "req": [
+      "LGPD e dado pessoal",
+      "Segurança e controle de acesso",
+      "Funcionar offline",
+      "Integração com sistema oficial"
+    ]
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "Cadastro",
+        "papel": "Servidor que recebe o documento no sistema",
+        "entra": "Processo ou expediente eletronico",
+        "acao": "Lançamento no app",
+        "sai": "Processo formalizado e autuado",
+        "sistema": "sistema app",
+        "regra": "Verificar se documentação mínima está completa para autuação",
+        "espera": "no app",
+        "tempo": "",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Atribuição",
+        "papel": "Servidor que faz o cadastro",
+        "entra": "Processo sem andamento",
+        "acao": "Analisar o documento, elaborar despacho ou ofício  para validação para autuação",
+        "sai": "Parecer, despacho ou ofício elaborado",
+        "sistema": "Sistema app",
+        "regra": "Regra de distribuição por competência",
+        "espera": "no app",
+        "tempo": "",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Tramitação e Instrução",
+        "papel": "Servidor responsável",
+        "entra": "Processo atribuído para análise",
+        "acao": "Analisar o feito, confeccionar despacho ou ofício",
+        "sai": "Despacho ou ofício validado",
+        "sistema": "Sistema SIGA DOC",
+        "regra": "Verificar se o conteúdo do documento é administrativo ou jurídico",
+        "espera": "no app",
+        "tempo": "",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Acompanhamento e Prazos",
+        "papel": "Sistema / Controle de Prazos",
+        "entra": "Processo aguardando resposta de ou lotação ou a validação da chefia imediata",
+        "acao": "Monitorar permanência, controlar prazos vigentes e cobrar pendências",
+        "sai": "Alertas de prazo e notificações de cobrança",
+        "sistema": "Sistema app",
+        "regra": "Validação do transcurso do prazo regimental ou recebimento de resposta externa",
+        "espera": "no app, Aguardando resposta de órgãos externos/internos ou término do prazo",
+        "tempo": "",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Conclusão",
+        "papel": "Servidor",
+        "entra": "Processo instruído e analisado",
+        "acao": "Tomar decisão final, assinar, tramitar para saída ou arquivar",
+        "sai": "Processo concluído, decisão emitida e feito arquivado",
+        "sistema": "Sistema",
+        "regra": "alidação da instrução para deferimento/indeferimento e assinatura final",
+        "espera": "Fila da autoridade aguardando assinatura final ou processamento do arquivo",
+        "tempo": "",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "",
+        "muda": "",
+        "quem": "",
+        "beneficio": "",
+        "esforco": "",
+        "rm": ""
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "",
+        "quem": "",
+        "ve": "",
+        "faz": "",
+        "naofaz": "",
+        "registro": "",
+        "rm": ""
+      },
+      {
+        "papel": "",
+        "quem": "",
+        "ve": "",
+        "faz": "",
+        "naofaz": "",
+        "registro": "",
+        "rm": ""
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "",
+        "rota": "",
+        "objetivo": "",
+        "usuario": "",
+        "dados": "",
+        "acao": "",
+        "regra": "",
+        "tipo": "",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "",
+        "rota": "",
+        "objetivo": "",
+        "usuario": "",
+        "dados": "",
+        "acao": "",
+        "regra": "",
+        "tipo": "",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "**Usuario**",
+        "representa": "Atores do sistema (requerentes, servidores, autoridades e terceiros).",
+        "colunas": "`id_usuario: integer`, `nome: text`, `email: text`, `perfil: string`, `lotacao: string`",
+        "chave": "`id_usuario` (PK)",
+        "volume": "5 registros",
+        "origem": "Mock Data / Carga inicial",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "**Processo**",
+        "representa": "O expediente ou requisição autuada que tramita no Siga-Doc.",
+        "colunas": "`id_processo: integer`, `numero_processo: string (YYYY.NNNN-SD)`, `assunto: text`, `data_autuacao: datetime`, `status_processo: string`, `id_requerente: integer (FK)`, `id_responsavel: integer (FK)`",
+        "chave": "`id_processo` (PK), `numero_processo` (UK)",
+        "volume": "4 registros",
+        "origem": "Form de Entrada / Mock Data",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "**PrazosProcesso**",
+        "representa": "O cronômetro e as regras de tempo associadas a cada processo.",
+        "colunas": "`id_prazo: integer`, `id_processo: integer (FK)`, `dias_concedidos: integer`, `data_limite: datetime`, `percentual_decorrido: float`, `sinalizador_visual: string (VERDE/AMARELO/VERMELHO)`, `cobranca_disparada: boolean`",
+        "chave": "`id_prazo` (PK)",
+        "volume": "4 registros",
+        "origem": "Motor de Prazos",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "**Documento**",
+        "representa": "As minutas, pareceres, anexos e despachos vinculados ao processo.",
+        "colunas": "`id_documento: integer`, `id_processo: integer (FK)`, `tipo_documento: string`, `conteudo_texto: text`, `data_criacao: datetime`, `id_autor: integer (FK)`, `assinado: boolean`",
+        "chave": "`id_documento` (PK)",
+        "volume": "~8 registros",
+        "origem": "Módulo de Instrução",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "**LogAuditoria**",
+        "representa": "O registro inalterável de eventos, notificações e envios de cobrança (*dunning*).",
+        "colunas": "`id_log: integer`, `id_processo: integer (FK)`, `tipo_evento: string`, `descricao_acao: text`, `data_hora: datetime`, `disparado_por_maquina: boolean`",
+        "chave": "`id_log` (PK)",
+        "volume": "~15 registros",
+        "origem": "Automação / Eventos do sistema",
+        "sintetico": "Sim"
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "**RN01**",
+        "regra": "Se a solicitação não contiver todos os anexos obrigatórios cadastrados para o tipo de requisição, o envio é recusado.",
+        "quando": "Cadastro e Entrada de novas solicitações pelo requerente.",
+        "excecao": "Nenhuma exceção.",
+        "valida": "Sistema (Formulário)",
+        "tipo": "Validação"
+      },
+      {
+        "id": "**RN02**",
+        "regra": "Se a solicitação for enviada com sucesso, o sistema deve gerar automaticamente um número único de autuação no formato `YYYY.NNNN-SD`.",
+        "quando": "Confirmação da autuação do expediente no Siga-Doc.",
+        "excecao": "Nenhuma exceção.",
+        "valida": "Sistema (Automação)",
+        "tipo": "Cálculo"
+      },
+      {
+        "id": "**RN03**",
+        "regra": "Apenas servidores ativos e vinculados à lotação de destino do processo podem alterar a atribuição do responsável técnico.",
+        "quando": "Módulo de Atribuição e Triagem da Mesa Virtual.",
+        "excecao": "Administrador geral do sistema.",
+        "valida": "Sistema (Controle de Acesso)",
+        "tipo": "Validação"
+      },
+      {
+        "id": "**RN04**",
+        "regra": "Se o analista selecionar uma minuta padronizada, o sistema deve preencher automaticamente os campos cadastrais do processo no texto.",
+        "quando": "Tramitação e Instrução do processo (redação de pareceres/despachos).",
+        "excecao": "Se o analista optar por criar um documento em texto livre sem template.",
+        "valida": "Sistema (Módulo de Instrução)",
+        "tipo": "Validação"
+      },
+      {
+        "id": "**RN05**",
+        "regra": "Se o usuário for o requerente do processo, ele não pode ser atribuído como analista nem assinar como autoridade decisora no mesmo feito (Segregação de Funções - SoD).",
+        "quando": "Atribuição de responsável e Assinatura/Conclusão do processo.",
+        "excecao": "Nenhuma exceção.",
+        "valida": "Sistema (Regra de Governança)",
+        "tipo": "Validação"
+      },
+      {
+        "id": "**RN06**",
+        "regra": "Se o percentual de tempo decorrido atingir ou ultrapassar 70% do prazo limite, o indicador visual do processo na Mesa Virtual deve mudar para a cor Amarela.",
+        "quando": "Monitoramento e cálculo contínuo do cronômetro de prazos.",
+        "excecao": "Processos com prazo suspenso ou já concluídos.",
+        "valida": "Sistema (Motor de Prazos)",
+        "tipo": "Cálculo"
+      },
+      {
+        "id": "**RN07**",
+        "regra": "Se o tempo decorrido atingir 100% do prazo limite sem a juntada da resposta exigida, o status do prazo deve ser alterado para 'Vencido' e o indicador deve mudar para a cor Vermelha.",
+        "quando": "Estouro do tempo limite do cronômetro regimental.",
+        "excecao": "Processos com prazo suspenso por decisão motivada.",
+        "valida": "Sistema (Motor de Prazos)",
+        "tipo": "Cálculo"
+      },
+      {
+        "id": "**RN08**",
+        "regra": "Se o processo atingir o status 'Vencido' por pendência de terceiros, o sistema deve disparar automaticamente um e-mail/notificação de cobrança (*dunning*) ao destinatário registrado.",
+        "quando": "Momento exato da virada de status do prazo para 'Vencido'.",
+        "excecao": "Se a opção de envio automático de cobrança for desativada manualmente pelo gestor da lotação.",
+        "valida": "Sistema (Motor de Automação)",
+        "tipo": "Cálculo"
+      },
+      {
+        "id": "**RN09**",
+        "regra": "Se o despacho final não possuir uma assinatura digital válida do perfil Autoridade Decisora, o encerramento do processo é bloqueado.",
+        "quando": "Etapa de Conclusão e deliberação final do feito.",
+        "excecao": "Nenhuma exceção.",
+        "valida": "Sistema (Módulo de Decisão)",
+        "tipo": "Cálculo"
+      },
+      {
+        "id": "**RN10**",
+        "regra": "Se o processo for assinado e concluído pela Autoridade Decisora, o sistema deve disparar a notificação do resultado ao requerente e alterar o estado do feito para 'Arquivado'.",
+        "quando": "Conclusão e arquivamento final do processo.",
+        "excecao": "Nenhuma exceção.",
+        "valida": "Sistema (Automação)",
+        "tipo": "Cálculo"
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "",
+        "tipo": "Banco de dados",
+        "onde": "",
+        "existe": "",
+        "acesso": "",
+        "linha": "",
+        "volume": "",
+        "historico": "",
+        "campos": "",
+        "atualiza": "",
+        "lgpd": "Sim",
+        "obs": "",
+        "rm": ""
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "Tempo Médio de Atribuição (TMA)",
+        "pergunta": "Quanto tempo um processo fica parado na fila da lotação antes de ser distribuído a um analista?",
+        "formula": "(∑▒(\"data_atribuicao\" -\"data_autuacao\" ) )/\"Total de Processos Atribuídos\"  ",
+        "fonte": "Mesa virtual/ atribuição",
+        "gran": "Mês",
+        "base": "10 dias",
+        "esperado": "menor que 10 dias",
+        "medir": "Calcular a diferença média entre os timestamps de autuação e de vinculação do responsável no painel.",
+        "quem": "Gestor",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Eficiência na Sinalização Preditiva (Alertas Amarelos)",
+        "pergunta": "Os alertas visuais de 70% do prazo estão permitindo agir antes que o processo vença?",
+        "formula": "\"Processos Concluídos no Status Amarelo\" /\"Total de Processos que Atingiram 70%\"  x 100",
+        "fonte": "Motor de prazo",
+        "gran": "Mês",
+        "base": "10% das ações majoritárias ",
+        "esperado": "maior igual a 75%",
+        "medir": "Filtrar processos que passaram pelo estado 'Amarelo' (RN06) e foram finalizados antes de atingir o 'Vermelho'.",
+        "quem": "Gestor",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Taxa de Sucesso da Cobrança Automática",
+        "pergunta": "Qual o percentual de e-mails de cobrança disparados pela máquina sem necessidade de cobrança manual?",
+        "formula": "\"E-mails de Cobrança Disparados pela Máquina\" /\"Total de Processos Vencidos por Terceiros\"  x 100",
+        "fonte": "Log de auditoria e cobrança",
+        "gran": "Registro",
+        "base": "0%",
+        "esperado": "100%",
+        "medir": "Consultar na tabela LogAuditoria os registros de eventos do tipo 'Cobrança Automática' (RN08) com flag de máquina ativo",
+        "quem": "Sistema de automação",
+        "rm": ""
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "Sandbox Cloud Pública (PaaS - Vercel / Render / Supabase)",
+        "tipo": "Nuvem corporativa",
+        "onde": "Servidores em nuvem (PaaS gratuita / Free Tier)",
+        "custo": "R$ 0",
+        "mantem": "Provedor / Time do Projeto",
+        "acesso": "URL pública web (HTTPS) com controle de acesso",
+        "banco": "PostgreSQL Gerenciado em Nuvem (ex: Supabase)",
+        "escala": "Suporta dezenas de usuários simultâneos",
+        "limite": "Modo \"Hibernação\": Serviços no Free Tier entram em suspensão por inatividade, podendo atrasar a primeira requisição ou a execução precisa do cronjob em horários exatos."
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "Planejamento de matrizes e regras da gestão",
+        "data": "29/10/2026",
+        "resp": "Vitória Araújo Dias",
+        "dep": "Renato (professor)",
+        "sit": "Planejado",
+        "rm": ""
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "Suspensão/Hibernação do serviço no ambiente PaaS gratuito (Free Tier)",
+        "prob": "Alta",
+        "imp": "Alto",
+        "mit": "Configurar uma rotina externa de ping (ex.: UptimeRobot) com requisições periódicas para manter a aplicação continuamente ativa e garantir a execução exata do cronjob de prazos.",
+        "rm": ""
+      }
+    ],
+    "tRefs": [
+      {
+        "n": "",
+        "ref": "PORTARIA Nº 07/2024/DG/POLITEC, de 24 de Julho de 2024 ",
+        "tipo": "Dado oficial",
+        "fonte": "https://www.politec.mt.gov.br/publicacoes-oficiais",
+        "ano": "2024",
+        "dado": "Designação dos membros que compõem a Comissão de Ética Pública no âmbito da Perícia Oficial e Identificação Técnica - POLITEC/MT, e da outras providências. ",
+        "uso": "Alinhar o projeto às metas nacionais de eficiência, governo 100% digital e automação de serviços.",
+        "conferido": "Não",
+        "rm": ""
+      }
+    ]
+  }
+}

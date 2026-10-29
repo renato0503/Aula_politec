@@ -1,0 +1,265 @@
+table _Medidas
+	lineageTag: 387d321b-5c29-5c98-b9af-00da34ded7a3
+
+	/// Soma dos minutos de espera, em horas.
+	measure 'Tempo Espera (h)' = SUM ( fato[tempo_espera_min] ) / 60
+		formatString: #,0.0
+		displayFolder: Tempo
+		lineageTag: ef30ba3d-381f-567f-943e-7ad3f8f3c6ef
+
+	/// Soma dos minutos de execução, em horas.
+	measure 'Tempo Execução (h)' = SUM ( fato[tempo_execucao_min] ) / 60
+		formatString: #,0.0
+		displayFolder: Tempo
+		lineageTag: 21af416a-dd3e-5f19-8941-e515591f79c6
+
+	/// Espera + execução.
+	measure 'Tempo Total (h)' = [Tempo Espera (h)] + [Tempo Execução (h)]
+		formatString: #,0.0
+		displayFolder: Tempo
+		lineageTag: ec4d4abf-f577-51fa-9c39-04acac565c41
+
+	/// Quanto do tempo do processo é fila.
+	measure '% Espera' = DIVIDE ( [Tempo Espera (h)], [Tempo Total (h)] )
+		formatString: 0.0%
+		displayFolder: Leitura
+		lineageTag: dfc7101b-0dbf-557d-a7da-3a9b5f8526b7
+
+	/// Casos distintos (id_ciclo).
+	measure Casos = DISTINCTCOUNT ( fato[id_ciclo] )
+		formatString: #,0
+		displayFolder: Leitura
+		lineageTag: f2ffe027-2cf1-5121-9b12-e7d2f2c04862
+
+	/// Tempo de ciclo médio por caso.
+	measure 'TAT Médio (h)' = DIVIDE ( [Tempo Total (h)], [Casos] )
+		formatString: #,0.0
+		displayFolder: Leitura
+		lineageTag: caed8aea-3223-59e0-9032-baaf16cbb4c6
+
+	/// Espera dividida pelos casos.
+	measure 'Espera Média (h)' = DIVIDE ( [Tempo Espera (h)], [Casos] )
+		formatString: #,0.0
+		displayFolder: Leitura
+		lineageTag: bdda9277-1d97-5f32-9e39-a8b1fdc651bd
+
+	/// Linhas com retrabalho / total de linhas.
+	measure 'Taxa Retrabalho' =
+			DIVIDE (
+				CALCULATE ( COUNTROWS ( fato ), fato[flag_retrabalho] = 1 ),
+				COUNTROWS ( fato )
+			)
+		formatString: 0.0%
+		displayFolder: Leitura
+		lineageTag: a895ac9f-3b45-52b5-b3d3-bda649d73871
+
+	/// Posição da etapa na espera (1 = gargalo).
+	measure 'Rank da Etapa (espera)' =
+			RANKX (
+				ALL ( dim_etapa[etapa] ),
+				CALCULATE ( [Tempo Espera (h)] ),
+				,
+				DESC
+			)
+		formatString: 0
+		displayFolder: Pareto
+		lineageTag: a99b4a8b-c45d-55d5-a94f-6ec41ec39b6c
+
+	/// Linha do Pareto: % acumulado da espera.
+	measure '% Acumulado da Espera' =
+			VAR _t =
+				ADDCOLUMNS ( ALL ( dim_etapa[etapa] ), "@esp", CALCULATE ( [Tempo Espera (h)] ) )
+			VAR _atual = [Tempo Espera (h)]
+			VAR _acum = SUMX ( FILTER ( _t, [@esp] >= _atual ), [@esp] )
+			RETURN
+				DIVIDE ( _acum, SUMX ( _t, [@esp] ) )
+		formatString: 0.0%
+		displayFolder: Pareto
+		lineageTag: 2007f80e-02a7-5b2b-806e-4670b14c5517
+
+	/// Espera total ignorando o filtro de etapa (denominador do Pareto).
+	measure 'Espera Total do Processo (h)' = CALCULATE ( [Tempo Espera (h)], ALL ( dim_etapa ) )
+		formatString: #,0.0
+		displayFolder: Pareto
+		lineageTag: 609d713f-91eb-5d30-b9b9-a3328158a407
+
+	/// Espera de cada etapa, em horas.
+	measure 'Espera por Etapa (h)' = [Tempo Espera (h)]
+		formatString: #,0.0
+		displayFolder: Pareto
+		lineageTag: b7848990-68e7-563f-823c-183818986de3
+
+	/// Volume de protocolos abertos (medida do cenário 5).
+	measure 'Protocolos no Mês' =
+			CALCULATE (
+				DISTINCTCOUNT ( fato[id_ciclo] ),
+				ALL ( dim_calendario )
+			)
+		formatString: #,0
+		displayFolder: Cenário 5
+		lineageTag: 4d5b4ab6-cc4f-5fe6-adb2-ee97bbda6baf
+
+	/// Execuções de etapa (linhas da fato).
+	measure Execuções = COUNTROWS ( fato )
+		formatString: #,0
+		displayFolder: Apoio dos visuais
+		lineageTag: c8a32c74-6600-5380-88e7-5d177b5bc24b
+
+	/// Share da espera de cada etapa.
+	measure '% da Espera Total' = DIVIDE ( [Tempo Espera (h)], [Espera Total do Processo (h)] )
+		formatString: 0.0%
+		displayFolder: Apoio dos visuais
+		lineageTag: 0492932b-1056-5ed0-a817-470915c263a3
+
+	/// Espera média por caso na etapa (denominador = execuções da etapa).
+	measure 'Fila por Caso (h)' = DIVIDE ( [Tempo Espera (h)], [Execuções] )
+		formatString: #,0.0
+		displayFolder: Apoio dos visuais
+		lineageTag: 440ae9ef-fae4-55e3-bf1d-6ed34e8b1a7f
+
+	/// Barra do Pareto da etapa gargalo (vermelha).
+	measure 'Pareto Gargalo' = IF ( [Rank da Etapa (espera)] = 1, [% da Espera Total] )
+		formatString: 0.0%
+		displayFolder: Apoio dos visuais
+		lineageTag: 17f016a9-3d1f-5ca6-a016-fbbcd22681d5
+
+	/// Barras do Pareto das demais etapas.
+	measure 'Pareto Demais' = IF ( [Rank da Etapa (espera)] <> 1, [% da Espera Total] )
+		formatString: 0.0%
+		displayFolder: Apoio dos visuais
+		lineageTag: 0df1ae3b-082c-51a3-a346-2a7402d0045b
+
+	/// Fila por caso da etapa gargalo (vermelha).
+	measure 'Fila Gargalo' = IF ( [Rank da Etapa (espera)] = 1, [Fila por Caso (h)] )
+		formatString: #,0.0
+		displayFolder: Apoio dos visuais
+		lineageTag: 91f2704b-b04d-5808-82d3-e61db25b6571
+
+	/// Fila por caso das demais etapas.
+	measure 'Fila Demais' = IF ( [Rank da Etapa (espera)] <> 1, [Fila por Caso (h)] )
+		formatString: #,0.0
+		displayFolder: Apoio dos visuais
+		lineageTag: 34f23cd9-1347-5637-b5d5-63485086035d
+
+	/// Nome da etapa com maior espera.
+	measure 'Etapa Gargalo' =
+			VAR _t = ADDCOLUMNS ( ALL ( dim_etapa[etapa] ), "@esp", CALCULATE ( [Tempo Espera (h)] ) )
+			RETURN
+				CONCATENATEX ( TOPN ( 1, _t, [@esp], DESC ), dim_etapa[etapa], ", " )
+		displayFolder: Apoio dos visuais
+		lineageTag: 83b0347e-0769-5b41-b1fe-b6ad80777cf1
+
+	/// % da espera total na etapa gargalo.
+	measure 'Share Gargalo' =
+			VAR _t = ADDCOLUMNS ( ALL ( dim_etapa[etapa] ), "@esp", CALCULATE ( [Tempo Espera (h)] ) )
+			RETURN
+				DIVIDE ( MAXX ( _t, [@esp] ), CALCULATE ( [Tempo Espera (h)], ALL ( dim_etapa ) ) )
+		formatString: 0.0%
+		displayFolder: Apoio dos visuais
+		lineageTag: ec2877f8-c1eb-5f41-8eaf-4477efd3a1ee
+
+	/// Nome da 2ª etapa em espera.
+	measure 'Segunda Etapa' =
+			VAR _t = ADDCOLUMNS ( ALL ( dim_etapa[etapa] ), "@esp", CALCULATE ( [Tempo Espera (h)] ) )
+			VAR _top2 = TOPN ( 2, _t, [@esp], DESC )
+			RETURN
+				CONCATENATEX ( TOPN ( 1, _top2, [@esp], ASC ), dim_etapa[etapa], ", " )
+		displayFolder: Apoio dos visuais
+		lineageTag: bc2bb23c-a458-57f4-80a0-d7284c2e34d7
+
+	/// % da espera total na 2ª etapa.
+	measure 'Share Segunda Etapa' =
+			VAR _t = ADDCOLUMNS ( ALL ( dim_etapa[etapa] ), "@esp", CALCULATE ( [Tempo Espera (h)] ) )
+			VAR _top2 = TOPN ( 2, _t, [@esp], DESC )
+			RETURN
+				DIVIDE ( MINX ( _top2, [@esp] ), CALCULATE ( [Tempo Espera (h)], ALL ( dim_etapa ) ) )
+		formatString: 0.0%
+		displayFolder: Apoio dos visuais
+		lineageTag: f4303979-442b-540f-82f5-25db56bb3ccd
+
+	/// Execuções automatizadas / total.
+	measure 'Taxa de Automação' =
+			DIVIDE (
+				CALCULATE ( COUNTROWS ( fato ), fato[flag_automatizada] = 1 ),
+				COUNTROWS ( fato )
+			)
+		formatString: 0.0%
+		displayFolder: Apoio dos visuais
+		lineageTag: 3e6d45ba-4723-5d10-a3e0-aa0753460ddf
+
+	/// 1. Quanto do tempo do processo é espera?
+	measure 'P1 Tempo é espera' = [% Espera]
+		formatString: 0.0%
+		displayFolder: Perguntas do painel
+		lineageTag: 62fda588-84fa-5d9e-aab5-081e96d08d78
+
+	/// 2. Qual etapa é o gargalo?
+	measure 'P2 Etapa gargalo' = [Etapa Gargalo] & " · " & FORMAT ( [Share Gargalo], "0.0%" )
+		displayFolder: Perguntas do painel
+		lineageTag: 46443623-997d-53a0-9ce6-cdc80262dbd8
+
+	/// 3. Quanto o caso espera na etapa do gargalo?
+	measure 'P3 Fila no gargalo' =
+			VAR _g = [Etapa Gargalo]
+			VAR _v =
+				CALCULATE (
+					[Fila por Caso (h)],
+					FILTER ( ALL ( dim_etapa[etapa] ), dim_etapa[etapa] = _g )
+				)
+			RETURN
+				FORMAT ( _v, "#,0.0" ) & " h / caso"
+		displayFolder: Perguntas do painel
+		lineageTag: 992f90f1-d540-54c3-8ecb-a723e25cdaa8
+
+	/// 4. Qual é a segunda etapa do gargalo?
+	measure 'P4 Segunda etapa' = [Segunda Etapa] & " · " & FORMAT ( [Share Segunda Etapa], "0.0%" )
+		displayFolder: Perguntas do painel
+		lineageTag: 63829b69-e2c3-5c82-a4c8-97dd7498ce13
+
+	/// 5. Quanto do trabalho precisa ser refeito? (etapa gargalo, conforme o caderno)
+	measure 'P5 Retrabalho' =
+			VAR _g = [Etapa Gargalo]
+			RETURN
+				CALCULATE (
+					[Taxa Retrabalho],
+					FILTER ( ALL ( dim_etapa[etapa] ), dim_etapa[etapa] = _g )
+				)
+		formatString: 0.0%
+		displayFolder: Perguntas do painel
+		lineageTag: 70d2c657-6631-55d9-b4c9-7746871b9acc
+
+	/// 6. Quanto do processo já é automatizado?
+	measure 'P6 Automatizado' = [Taxa de Automação]
+		formatString: 0.0%
+		displayFolder: Perguntas do painel
+		lineageTag: 1c81cc26-a1ab-5990-b6a0-6900e98daf68
+
+	/// 7. Qual é o tempo de ciclo médio do caso?
+	measure 'P7 Tempo de ciclo' = FORMAT ( [TAT Médio (h)], "#,0.0" ) & " h"
+		displayFolder: Perguntas do painel
+		lineageTag: 74aaed39-09e6-5007-b23d-6530646c0fef
+
+	/// 8. Quanto tempo de fila o processo acumulou no período?
+	measure 'P8 Fila acumulada' = FORMAT ( [Tempo Espera (h)], "#,0" ) & " h"
+		displayFolder: Perguntas do painel
+		lineageTag: e3db6cd8-e6fa-5478-a71a-164eb9e77356
+
+	column Coluna
+		dataType: string
+		isHidden
+		lineageTag: bf76b6b1-ed12-5f86-8111-f5ef9a94317a
+		summarizeBy: none
+		sourceColumn: Coluna
+
+		annotation SummarizationSetBy = Automatic
+
+	partition _Medidas = m
+		mode: import
+		source =
+				let
+					Fonte = #table(type table [Coluna = text], {})
+				in
+					Fonte
+
+	annotation PBI_ResultType = Table
+

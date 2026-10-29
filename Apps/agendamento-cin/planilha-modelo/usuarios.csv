@@ -1,0 +1,4 @@
+﻿usuario_id,email,perfil,posto_id,ativo
+U01,servidor.centro@politec.mt.gov.br,posto,P01,True
+U02,servidor.vg@politec.mt.gov.br,posto,P02,True
+U03,gestao.identificacao@politec.mt.gov.br,gestao,,True

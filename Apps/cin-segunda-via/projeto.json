@@ -1,0 +1,546 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T14:00:14.872Z",
+  "campos": {
+    "data": "2026-10-27",
+    "aluno": "Equipe - CIN (André, Flávia e Glauce)",
+    "unidade": "Politec",
+    "contato": "glaucesilva@politec.mt.gov.br",
+    "tipo_projeto": "Aplicativo (app) para cidadão, servidor ou equipe",
+    "nome_projeto": "Emissão 2via da CIN remoto",
+    "resumo": "Aplicativo que possibilita a solicitação da segunda via da CIN de maneira remota",
+    "problema": "A solicitação de 2 via da emissão da CIN traz burocracia para o requerente, ainda que a primeira via esteja em data de validade aceita",
+    "hoje": "O requerente (ainda que exista a CIN digital válida e a extraviada com data de validade dentro do prazo) precisa se dirigir a um posto de identificação e realizar nova coleta biométrica bem como apresentar documentação para a solicitação da segunda via",
+    "impacto": "O tempo  médio para a entrega do documento são 15 dias, acontece retrabalho para os servidores e o requerente pode ter custos com a solicitação",
+    "limite": "Análise e confronto realizado pelo papiloscopista",
+    "asis_inicio": "Requerente solicita 2 via da CIN",
+    "asis_fim": "Entrega do documento",
+    "asis_entradas": "Documento de Registro civil, biometria, ",
+    "asis_saidas": "CIN impressa",
+    "asis_volume": "21000 solicitações",
+    "asis_duracao": "15 dias em média",
+    "asis_frequencia": "Mensal",
+    "asis_decisoes": "Caso não passe pela análise, o processo é devolvido para o posto de identificação.\nCaso exista divergência com a Receita Federal, não acontece a impressão.",
+    "asis_digital": "Digitação via sistema, análise e confronto via sistema, envio para impressão pelo sistema. ",
+    "asis_excecoes": "Processos recusados poderiam ser devolvidos automaticamente.",
+    "papeis_obs": "A impressão depende da validação da Receita Federal (com um sistema diferente do nosso e que não temos acesso)",
+    "tobe_visao": "Quando esse processo existir, o requerente deixa de esperar tanto tempo para a emissão da segunda via e passa a ter o documento com mais agilidade.",
+    "tobe_mudanca": "Automação na solicitação do processo da segunda via, através de algum aplicativo para celular.",
+    "tobe_inalterado": "A entrega para o cidadão permanece",
+    "tobe_restricao": "O confronto das impressões digitais",
+    "tobe_piloto": "Piloto de 30 dias, observando o tempo médio da emissão desde a solicitação.",
+    "entrega": "Aplicativo de solicitação de emissão/ reimpressão de 2via",
+    "dentro": "Lançamento da solicitação de emissão de 2via sem novo cadastro no posto de identificação",
+    "fora": "Envio do registro civil, análise e confronto",
+    "mvp_naofaz": "Não coleta biometria real, não faz confronto papiloscópico, não envia ao sistema de identificação civil nem à Receita Federal e não emite a CIN.",
+    "mvp_objetivo": "Provar que o cidadão consegue pedir a segunda via pelo celular, que o pedido chega ao servidor completo e que a regra de elegibilidade (primeira via válida, sem mudança de dados) separa o que pode seguir sem ir ao posto.",
+    "mvp_plataforma": "Site web (abre no navegador)",
+    "mvp_tela_inicial": "Cadastro",
+    "mvp_mock": "O envio ao sistema de identificação civil é simulado (o servidor copia o resumo). A foto do teste é fictícia e não é biometria; a coleta biométrica real depende da empresa contratada.",
+    "mvp_criterio": "Com 30 pedidos fictícios, o cidadão envia o pedido pelo celular e recebe o protocolo; o servidor vê a fila, confere a elegibilidade, aceita ou recusa com motivo e gera o resumo para lançar no sistema de identificação civil.",
+    "mvp_dados": "30 pedidos fictícios (nomes inventados, CPF de teste com dígito válido, fotos geradas sem pessoas reais), com casos elegíveis, CIN vencida, mudança de dados e foto ilegível.",
+    "mvp_reuso": "Já existe o sistema de identificação civil",
+    "dependencias": "TI, empresa parceira, chefia. ",
+    "lgpd_dados": "Nome, CPF, data de nascimento, número da CIN, contato e foto. Foto e biometria são dados sensíveis (LGPD, art. 11); no MVP, só dados fictícios.",
+    "lgpd_retencao": "Pedido e foto apagados após o lançamento no sistema de identificação civil ou a recusa; no MVP, dados fictícios no navegador.",
+    "lgpd_base": "Execução de serviço público",
+    "lgpd_acesso": "Requerente acessa para a solicitação. Servidor acessa para o procedimento de emissão",
+    "coletar": "Hoje não existe uma planilha/sistema com a solicitação de reimpressão/emissão de 2via",
+    "acesso": "A gestão libera a planilha para os servidores que fazem o atendimento",
+    "base_periodo": "Solicitações a partir da  implementação",
+    "campos_data": "Data da solicitação, data da entrada no sistema, data de emissão",
+    "conta_quem": "Servidor com conta no github",
+    "hospedagem_escolhida": "Para o protótipo: arquivo HTML único no GitHub Pages, com os pedidos guardados no navegador. Em produção, o pedido precisa de um servidor institucional integrado ao sistema de identificação civil.",
+    "orcamento": "A princípio sem custos. Mas previsto o valor de contratação de empresa que crie o app para a coleta biométrica (por foto)",
+    "restricoes": "Precisa de integração com o sistema oficial de identificação civil",
+    "hipotese_campo": "O processo, para o requerente, é burocrático e lento para a impressão de um documento que já havia sido oficializado e com data de validade dentro do prazo",
+    "lacunas": "Não há registro de quantas segundas vias são de CIN válida sem mudança de dados (o público do app). Também falta a posição da TI e da empresa da coleta biométrica sobre a integração.",
+    "apoio": "Preciso alinhar com a equipe de TI",
+    "aprendizado": "GitHub",
+    "frase": "Se o tempo de impressão de 2vias válidas passaram a 5 dias úteis, o índice de satisfação do cidadão aumentará",
+    "provas": "1-Tempo médio de emissão de 15 dias\n2-Reclamações por usuários\n3-Grande demanda por emissão de 2vias no estado",
+    "piloto": "Piloto em 30 dias para verificar se a solicitação chega diretamente",
+    "risco_defesa": "Dificuldade de usabilidade pelo cidadão. Mitigar com interface de fácil compreensão.",
+    "stack_detalhe": "Um único index.html (HTML, CSS e JS embutidos), com a câmera do celular pelo navegador (getUserMedia) e os pedidos no IndexedDB. Perfis: cidadão (pedido e protocolo) e servidor (fila e conferência). Sem servidor no MVP.",
+    "evid_detalhe": "Entrevista com a equipe de identificação: tempo médio de 15 dias e reclamações dos usuários.",
+    "doc_descricao": "Nenhum documento enviado.",
+    "doc_faltando": "Fonte do tempo médio de 15 dias e das 21.000 solicitações; regras oficiais da segunda via; posição da TI sobre a integração."
+  },
+  "marcados": {
+    "afetado": [
+      "Cidadão externo",
+      "Servidor da unidade",
+      "Equipe interna",
+      "Unidade parceira"
+    ],
+    "evid": [
+      "Entrevista com a equipe"
+    ],
+    "stack": "HTML único (CSS/JS inline), dados em JSON embutido, GitHub Pages",
+    "req": [
+      "Acessibilidade",
+      "Funcionar offline",
+      "Integração com sistema oficial",
+      "LGPD e dado pessoal",
+      "Segurança e controle de acesso"
+    ]
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "Solicitação",
+        "papel": "Requerente",
+        "entra": "Dados biométricos e biográficos",
+        "acao": "Cadastro",
+        "sai": "Prontuário",
+        "sistema": "Sistema",
+        "regra": "Dados conferem com o registro civil",
+        "espera": "Análise e Confronto",
+        "tempo": "1",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Análise e Confronto",
+        "papel": "Papiloscopista",
+        "entra": "Prontuário",
+        "acao": "Análise e Confronto",
+        "sai": "Prontuário",
+        "sistema": "Sistema",
+        "regra": "Confronto quando houver dúvida",
+        "espera": "Impressão",
+        "tempo": "72",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Impressão",
+        "papel": "Parque gráfico",
+        "entra": "Prontuário",
+        "acao": "Impressão",
+        "sai": "Cédula/cartão",
+        "sistema": "Papel/Sistema",
+        "regra": "Validação pela Receita Federal",
+        "espera": "Expediente",
+        "tempo": "168",
+        "auto": "Sim, com regra clara",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Envio ao posto",
+        "papel": "Setor de expediente",
+        "entra": "Cédulas/cartão",
+        "acao": "Envio dos documento",
+        "sai": "Cédulas",
+        "sistema": "Sistema/Papel",
+        "regra": "Posto de destino correto",
+        "espera": "Posto de Identificação",
+        "tempo": "48",
+        "auto": "Não",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Entrega ao Requerente",
+        "papel": "Posto de Identificação",
+        "entra": "Cédulas/Cartões",
+        "acao": "Entrega ao requerente",
+        "sai": "Cédulas/cartões",
+        "sistema": "Papel/Sistema",
+        "regra": "Documento entregue ao titular",
+        "espera": "Arquivo",
+        "tempo": "",
+        "auto": "Não",
+        "rm": ""
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "Solicitação",
+        "muda": "Processo por app",
+        "quem": "A máquina (automação)",
+        "beneficio": "Agilidade no processo",
+        "esforco": "Alto",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Confronto papiloscópico",
+        "muda": "Não muda, permanece no sistema",
+        "quem": "A pessoa, sem mudança",
+        "beneficio": "Permanece com prazo menor",
+        "esforco": "Médio",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Impressão",
+        "muda": "Não muda",
+        "quem": "A máquina (automação)",
+        "beneficio": "Agilidade no processo",
+        "esforco": "Baixo",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Envio ao posto",
+        "muda": "Não muda",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Maior agilidade",
+        "esforco": "Baixo",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Entrega ao requerente",
+        "muda": "Tempo menor",
+        "quem": "A pessoa, sem mudança",
+        "beneficio": "Menor prazo de entrega",
+        "esforco": "Baixo",
+        "rm": ""
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "Cadastro",
+        "quem": "Atendente do posto de identificação",
+        "ve": "Página de cadastro biográfico e biométrico",
+        "faz": "Cadastro e Coleta Biométrica",
+        "naofaz": "Preencher incorretamente, não coletar a biometia, não enviar, via sistema, o prontuário",
+        "registro": "Prontuário",
+        "rm": ""
+      },
+      {
+        "papel": "Análise e Confronto",
+        "quem": "Papiloscopistas",
+        "ve": "Página do sistema com os dados e a biometria",
+        "faz": "Analisa os documentos e confronta as impressões digitais, se necessário",
+        "naofaz": "Demorar para o atendimento, não realizar o confronto, não enviar para o sistema",
+        "registro": "Prontuário/Impressão",
+        "rm": ""
+      },
+      {
+        "papel": "Impressão",
+        "quem": "Parque gráfico - empresa licitada",
+        "ve": "Sistema de impressão",
+        "faz": "Impressão das cédulas/cartões",
+        "naofaz": "Não imprimir, imprimir duplicado",
+        "registro": "Cédulas/cartões da CIN",
+        "rm": ""
+      },
+      {
+        "papel": "Envio ao postos",
+        "quem": "Setor de expediente",
+        "ve": "Documento físico e sistema para dar baixa",
+        "faz": "Recebe os documentos, dá baixa no sistema e encaminha para o posto de identificação",
+        "naofaz": "Extraviar documentos, Envio para posto incorreto, atrasar no envio",
+        "registro": "Baixa \"enviado ao posto\"",
+        "rm": ""
+      },
+      {
+        "papel": "Entrega ao requerente",
+        "quem": "Atendente do Posto de Identificação ",
+        "ve": "Sistema e documento físico",
+        "faz": "Entrega ao requerente o documento",
+        "naofaz": "Extraviar, entregar incorretamente",
+        "registro": "Baixa no sistema",
+        "rm": ""
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "Pedido da segunda via",
+        "rota": "#/pedido",
+        "objetivo": "Pedir sem ir ao posto",
+        "usuario": "Cidadão",
+        "dados": "Nome, CPF, nascimento, número da CIN, contato, foto",
+        "acao": "Enviar",
+        "regra": "RN01 a RN04",
+        "tipo": "Tela",
+        "verificacao": "Pedido completo gera protocolo",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Protocolo",
+        "rota": "#/protocolo/:id",
+        "objetivo": "Acompanhar o pedido",
+        "usuario": "Cidadão",
+        "dados": "Protocolo, situação, próximo passo",
+        "acao": "Consultar",
+        "regra": "",
+        "tipo": "Tela",
+        "verificacao": "Situação muda quando o servidor decide",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Fila do servidor",
+        "rota": "#/fila",
+        "objetivo": "Conferir os pedidos",
+        "usuario": "Servidor",
+        "dados": "Pedidos, elegibilidade, foto",
+        "acao": "Aceitar ou recusar com motivo",
+        "regra": "RN05",
+        "tipo": "Tela",
+        "verificacao": "Recusado sai com o motivo",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Resumo para o sistema",
+        "rota": "#/pedido/:id/resumo",
+        "objetivo": "Lançar no sistema de identificação civil",
+        "usuario": "Servidor",
+        "dados": "Dados do pedido no formato do sistema",
+        "acao": "Copiar ou imprimir",
+        "regra": "",
+        "tipo": "Ação",
+        "verificacao": "Resumo tem todos os campos do cadastro",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Indicadores",
+        "rota": "#/indicadores",
+        "objetivo": "Medir o piloto",
+        "usuario": "Gestão",
+        "dados": "Pedidos, aceitos, recusados, tempo",
+        "acao": "Consultar",
+        "regra": "",
+        "tipo": "Relatório",
+        "verificacao": "Bate com a contagem da fila",
+        "mvp": "Sim"
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "Pedido",
+        "representa": "Pedido de segunda via",
+        "colunas": "protocolo: texto, nome: texto, cpf: texto, nascimento: data, numero_cin: texto, validade_cin: data, mudou_dados: lógico, contato: texto, criado_em: data, situacao: texto, motivo: texto",
+        "chave": "protocolo",
+        "volume": "30 no teste",
+        "origem": "Cidadão (fictício)",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "Foto",
+        "representa": "Foto enviada pelo cidadão",
+        "colunas": "id: texto, protocolo: texto, tipo: texto (rosto, documento), conteudo: binário",
+        "chave": "id",
+        "volume": "2 por pedido",
+        "origem": "Cidadão (fictício)",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "Decisao",
+        "representa": "Conferência do servidor",
+        "colunas": "id: texto, protocolo: texto, resultado: texto, motivo: texto, servidor: texto, data: data",
+        "chave": "id",
+        "volume": "1 por pedido",
+        "origem": "Servidor",
+        "sintetico": "Sim"
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "RN01",
+        "regra": "Precisa de CPF válido",
+        "quando": "Todos os casos",
+        "excecao": "Não tem",
+        "valida": "Sistema",
+        "tipo": "Validação",
+        "rm": ""
+      },
+      {
+        "id": "RN02",
+        "regra": "Precisa da Biometria coletada",
+        "quando": "Todos os cados",
+        "excecao": "Não tem ",
+        "valida": "Sistema/Papiloscopista",
+        "tipo": "Validação",
+        "rm": ""
+      },
+      {
+        "id": "RN03",
+        "regra": "Só segue a distância se a primeira via estiver válida e não houver mudança de dados",
+        "quando": "No pedido",
+        "excecao": "Os demais casos são orientados a ir ao posto",
+        "valida": "Sistema",
+        "tipo": "Negócio"
+      },
+      {
+        "id": "RN04",
+        "regra": "Foto obrigatória de rosto e de documento, legível",
+        "quando": "No pedido",
+        "excecao": "Nenhuma",
+        "valida": "Sistema e servidor",
+        "tipo": "Validação"
+      },
+      {
+        "id": "RN05",
+        "regra": "Recusa sempre com motivo, que o cidadão vê no protocolo",
+        "quando": "Na conferência",
+        "excecao": "Nenhuma",
+        "valida": "Servidor",
+        "tipo": "Negócio"
+      },
+      {
+        "id": "RN06",
+        "regra": "Pedido e foto apagados após o lançamento ou a recusa",
+        "quando": "Após a decisão",
+        "excecao": "Nenhuma",
+        "valida": "Sistema",
+        "tipo": "LGPD"
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "Cadastro",
+        "tipo": "Planilha local",
+        "onde": "Planilha da unidade",
+        "existe": "Não",
+        "acesso": "Servidores responsáveis",
+        "linha": "Uma solicitação",
+        "volume": "30 solicitações",
+        "historico": "Do dia atual em diante",
+        "campos": "Data de entrada da solicitação",
+        "atualiza": "Conforme solicitado",
+        "lgpd": "Sim",
+        "obs": "",
+        "rm": ""
+      },
+      {
+        "fonte": "Prontuário",
+        "tipo": "Banco de dados",
+        "onde": "Sistema de Identificação Civil",
+        "existe": "Sim",
+        "acesso": "Servidores",
+        "linha": "Um prontuário",
+        "volume": "30 Solicitações",
+        "historico": "De acordo com atendimento",
+        "campos": "Data de entrada",
+        "atualiza": "Conforme solicitação",
+        "lgpd": "Sim",
+        "obs": "",
+        "rm": ""
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "Tempo de emissão",
+        "pergunta": "Tempo do processo ",
+        "formula": "soma do tempo da solicitação a emissão",
+        "fonte": "",
+        "gran": "Caso",
+        "base": "a medir",
+        "esperado": "a medir",
+        "medir": "Somar a data da entrada",
+        "quem": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Pedidos elegíveis",
+        "pergunta": "Quantos pedidos podem seguir sem ir ao posto?",
+        "formula": "Elegíveis ÷ pedidos × 100",
+        "fonte": "Fila",
+        "gran": "Mês",
+        "base": "A medir",
+        "esperado": "A medir no piloto",
+        "medir": "Contar na fila",
+        "quem": "Gestão"
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "GitHub Pages",
+        "tipo": "Estática e gratuita",
+        "onde": "github.io, a partir de um repositório",
+        "custo": "Gratuito",
+        "mantem": "O aluno, com a conta institucional",
+        "acesso": "Público ou privado, conforme o repositório",
+        "banco": "Não tem",
+        "escala": "Serve a página estática",
+        "limite": "Só site estático: sem servidor, sem banco de dados e sem autenticação",
+        "rm": ""
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "Criação",
+        "data": "2027",
+        "resp": "Coordenadoria de Identificação Civil",
+        "dep": "TI",
+        "sit": "Planejado",
+        "rm": ""
+      },
+      {
+        "marco": "Implementação",
+        "data": "2027",
+        "resp": "TI e Coordenadoria de Identificação Civil",
+        "dep": "TI",
+        "sit": "Planejado",
+        "rm": ""
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "Cadastro incorreto",
+        "prob": "Alta",
+        "imp": "Alto",
+        "mit": "Interface de fácil compreensão pelo usuário",
+        "rm": ""
+      },
+      {
+        "risco": "Falta de biometria",
+        "prob": "Baixa",
+        "imp": "Alto",
+        "mit": "Não deixar encaminhar a solicitação sem toda a coleta",
+        "rm": ""
+      },
+      {
+        "risco": "Fraude com foto de outra pessoa",
+        "prob": "Média",
+        "imp": "Alto",
+        "mit": "Em produção, prova de vida e confronto pela empresa contratada; no MVP, só dados fictícios"
+      },
+      {
+        "risco": "Vazamento de dado sensível",
+        "prob": "Baixa",
+        "imp": "Alto",
+        "mit": "Sem dados reais no MVP; em produção, servidor institucional e apagamento após o lançamento"
+      }
+    ],
+    "tRefs": [
+      {
+        "n": "",
+        "ref": "Lei Geral de Proteção de Dados, art. 11 (dados sensíveis)",
+        "tipo": "Norma ou lei",
+        "fonte": "Lei nº 13.709/2018, Planalto",
+        "ano": "2018",
+        "dado": "Biometria é dado pessoal sensível",
+        "uso": "Justificar o MVP sem biometria real",
+        "conferido": "Não"
+      },
+      {
+        "n": "",
+        "ref": "Decreto nº 10.977/2022 (Carteira de Identidade Nacional)",
+        "tipo": "Norma ou lei",
+        "fonte": "Planalto",
+        "ano": "2022",
+        "dado": "Regras de emissão da CIN",
+        "uso": "Base das regras de elegibilidade",
+        "conferido": "Não"
+      }
+    ]
+  },
+  "completado_em": "2026-10-29"
+}

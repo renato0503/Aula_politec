@@ -1,0 +1,35 @@
+{
+  "titulo": "TAP Digital",
+  "subtitulo": "Termo de Abertura de Projeto e Portfólio de Projetos Estratégicos",
+  "descricao": "TAP guiado com checklist de documentos, triagem pela equipe e Portfólio de Projetos Estratégicos.",
+  "aviso": "",
+  "db": {
+    "nome": "tap_portfolio_v1",
+    "versao": 1,
+    "stores": {
+      "propostas": {"keyPath": "id", "indices": [{"nome": "status", "campo": "status", "unico": false}]},
+      "anexos": {"keyPath": "id", "indices": [{"nome": "proposta_id", "campo": "proposta_id", "unico": false}]},
+      "pendencias": {"keyPath": "id", "indices": [{"nome": "proposta_id", "campo": "proposta_id", "unico": false}]},
+      "decisoes": {"keyPath": "id", "indices": [{"nome": "proposta_id", "campo": "proposta_id", "unico": false}]},
+      "portfolio": {"keyPath": "proposta_id", "indices": []},
+      "documentos": {"keyPath": "tipo", "indices": []},
+      "log": {"keyPath": "id", "indices": []}
+    }
+  },
+  "perfis": [
+    {"id": "demandante", "nome": "Demandante", "descricao": "Preenche o TAP e acompanha as próprias propostas."},
+    {"id": "equipe", "nome": "Equipe de projetos", "descricao": "Faz a triagem, registra pendências e mantém o portfólio."},
+    {"id": "autoridade", "nome": "Autoridade", "descricao": "Consulta as propostas analisadas e registra a decisão."}
+  ],
+  "rotas": [
+    {"rota": "#/tap/novo", "titulo": "Novo TAP", "sprint": 2, "descricao": "TAP guiado, checklist de anexos e pendências antes do envio.", "perfis": ["demandante", "equipe"]},
+    {"rota": "#/minhas", "titulo": "Minhas propostas", "sprint": 3, "descricao": "Propostas, status e pendências.", "perfis": ["demandante"]},
+    {"rota": "#/triagem", "titulo": "Triagem", "sprint": 3, "descricao": "Importar pacotes e conferir o checklist.", "perfis": ["equipe"]},
+    {"rota": "#/proposta/:id", "titulo": "Proposta", "sprint": 4, "descricao": "TAP, anexos, pendências, parecer e decisão."},
+    {"rota": "#/portfolio", "titulo": "Portfólio", "sprint": 5, "descricao": "Projetos aprovados, prioridade e captação.", "perfis": ["equipe", "autoridade"]},
+    {"rota": "#/indicadores", "titulo": "Indicadores", "sprint": 6, "descricao": "TAPs completos, devoluções e tempo de triagem.", "perfis": ["equipe"]},
+    {"rota": "#/config", "titulo": "Configuração", "sprint": 1, "descricao": ""}
+  ],
+  "libs": [],
+  "dados": [["seed", "exemplos/seed.json"]]
+}

@@ -1,0 +1,34 @@
+table dim_status_execucao
+	lineageTag: 083fc2b3-bfda-507c-803b-da52d8426c1b
+
+	column status_execucao_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 7afc30e4-028d-521d-a638-89a8921ea008
+		summarizeBy: none
+		sourceColumn: status_execucao_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column status_execucao
+		dataType: string
+		lineageTag: e9d546c4-20aa-58dd-aca3-c76dcec6213c
+		summarizeBy: none
+		sourceColumn: status_execucao
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_status_execucao = m
+		mode: import
+		source =
+				let
+					Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(
+					"i4421FFyTsxLTs1JTMlXitWJNgLy8/OSc0oPr4UIGOsouaSW5eeUZUL4JjpKrrkKiXkpibmpeSVAoVgA",
+						BinaryEncoding.Base64), Compression.Deflate)), {"status_execucao_key", "status_execucao"}),
+					Tipos = Table.TransformColumnTypes(Fonte, {{"status_execucao_key", Int64.Type}, {"status_execucao", type text}}, "en-US")
+				in
+					Tipos
+
+	annotation PBI_ResultType = Table
+

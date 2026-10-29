@@ -1,0 +1,264 @@
+{
+ "propostas": [
+  {
+   "id": "TAP-2026-001",
+   "titulo": "Ampliação do laboratório de DNA",
+   "unidade": "Laboratório de Genética Forense",
+   "responsavel": "Responsável Fictício 1",
+   "contato": "responsavel1@exemplo.gov.br",
+   "objetivo": "Ampliação do laboratório de DNA para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.",
+   "justificativa": "A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.",
+   "objetivo_estrategico": "Reduzir o tempo de emissão de laudos",
+   "valor_estimado": 2400000,
+   "prazo_meses": 24,
+   "status": "aprovada",
+   "enviado_em": "2026-08-03",
+   "documentos": {
+    "pesquisa_precos": true,
+    "estudo_tecnico": true,
+    "anuencia_chefia": true,
+    "cronograma": true,
+    "fotos": true
+   }
+  },
+  {
+   "id": "TAP-2026-002",
+   "titulo": "Digitalização do arquivo de identificação",
+   "unidade": "Identificação Civil",
+   "responsavel": "Responsável Fictício 2",
+   "contato": "responsavel2@exemplo.gov.br",
+   "objetivo": "Digitalização do arquivo de identificação para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.",
+   "justificativa": "A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.",
+   "objetivo_estrategico": "Modernizar a infraestrutura das unidades",
+   "valor_estimado": 380000,
+   "prazo_meses": 18,
+   "status": "aprovada",
+   "enviado_em": "2026-08-12",
+   "documentos": {
+    "pesquisa_precos": true,
+    "estudo_tecnico": true,
+    "anuencia_chefia": true,
+    "cronograma": true,
+    "fotos": true
+   }
+  },
+  {
+   "id": "TAP-2026-003",
+   "titulo": "Reforma do IML de Sinop",
+   "unidade": "Regional Sinop",
+   "responsavel": "Responsável Fictício 3",
+   "contato": "responsavel3@exemplo.gov.br",
+   "objetivo": "Reforma do IML de Sinop para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.",
+   "justificativa": "A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.",
+   "objetivo_estrategico": "Ampliar a capacidade dos laboratórios",
+   "valor_estimado": 1150000,
+   "prazo_meses": 18,
+   "status": "devolvida",
+   "enviado_em": "2026-08-21",
+   "documentos": {
+    "pesquisa_precos": false,
+    "estudo_tecnico": true,
+    "anuencia_chefia": true,
+    "cronograma": true,
+    "fotos": true
+   }
+  },
+  {
+   "id": "TAP-2026-004",
+   "titulo": "Capacitação em perícia digital",
+   "unidade": "Informática Forense",
+   "responsavel": "Responsável Fictício 4",
+   "contato": "responsavel4@exemplo.gov.br",
+   "objetivo": "Capacitação em perícia digital para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.",
+   "justificativa": "A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.",
+   "objetivo_estrategico": "Fortalecer a identificação civil",
+   "valor_estimado": 95000,
+   "prazo_meses": 12,
+   "status": "em triagem",
+   "enviado_em": "2026-08-30",
+   "documentos": {
+    "pesquisa_precos": true,
+    "estudo_tecnico": true,
+    "anuencia_chefia": true,
+    "cronograma": true,
+    "fotos": true
+   }
+  },
+  {
+   "id": "TAP-2026-005",
+   "titulo": "Frota de viaturas para local de crime",
+   "unidade": "Criminalística",
+   "responsavel": "Responsável Fictício 5",
+   "contato": "responsavel5@exemplo.gov.br",
+   "objetivo": "Frota de viaturas para local de crime para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.",
+   "justificativa": "A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.",
+   "objetivo_estrategico": "Qualificar os servidores",
+   "valor_estimado": 1600000,
+   "prazo_meses": 24,
+   "status": "em análise",
+   "enviado_em": "2026-09-08",
+   "documentos": {
+    "pesquisa_precos": true,
+    "estudo_tecnico": true,
+    "anuencia_chefia": true,
+    "cronograma": true,
+    "fotos": true
+   }
+  },
+  {
+   "id": "TAP-2026-006",
+   "titulo": "Sistema de gestão de vestígios",
+   "unidade": "Central de Custódia",
+   "responsavel": "Responsável Fictício 6",
+   "contato": "responsavel6@exemplo.gov.br",
+   "objetivo": "Sistema de gestão de vestígios para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.",
+   "justificativa": "Justificativa curta.",
+   "objetivo_estrategico": "Reduzir o tempo de emissão de laudos",
+   "valor_estimado": 520000,
+   "prazo_meses": 24,
+   "status": "rascunho",
+   "enviado_em": null,
+   "documentos": {
+    "pesquisa_precos": true,
+    "estudo_tecnico": true,
+    "anuencia_chefia": true,
+    "cronograma": true,
+    "fotos": true
+   }
+  },
+  {
+   "id": "TAP-2026-007",
+   "titulo": "Energia solar nas regionais",
+   "unidade": "DAS",
+   "responsavel": "Responsável Fictício 7",
+   "contato": "responsavel7@exemplo.gov.br",
+   "objetivo": "Energia solar nas regionais para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.",
+   "justificativa": "A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.",
+   "objetivo_estrategico": "Modernizar a infraestrutura das unidades",
+   "valor_estimado": 870000,
+   "prazo_meses": 6,
+   "status": "devolvida",
+   "enviado_em": "2026-09-26",
+   "documentos": {
+    "pesquisa_precos": false,
+    "estudo_tecnico": true,
+    "anuencia_chefia": true,
+    "cronograma": true,
+    "fotos": true
+   }
+  },
+  {
+   "id": "TAP-2026-008",
+   "titulo": "Câmara fria para o IML de Cuiabá",
+   "unidade": "IML Cuiabá",
+   "responsavel": "Responsável Fictício 8",
+   "contato": "responsavel8@exemplo.gov.br",
+   "objetivo": "Câmara fria para o IML de Cuiabá para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.",
+   "justificativa": "A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.",
+   "objetivo_estrategico": "Ampliar a capacidade dos laboratórios",
+   "valor_estimado": 310000,
+   "prazo_meses": 18,
+   "status": "aprovada",
+   "enviado_em": "2026-10-05",
+   "documentos": {
+    "pesquisa_precos": true,
+    "estudo_tecnico": true,
+    "anuencia_chefia": true,
+    "cronograma": true,
+    "fotos": true
+   }
+  }
+ ],
+ "pendencias": [
+  {
+   "id": "TAP-2026-003-P1",
+   "proposta_id": "TAP-2026-003",
+   "motivo": "Pesquisa de preços ausente",
+   "aberta_em": "2026-08-23",
+   "resolvida_em": null
+  },
+  {
+   "id": "TAP-2026-007-P1",
+   "proposta_id": "TAP-2026-007",
+   "motivo": "Pesquisa de preços ausente",
+   "aberta_em": "2026-09-28",
+   "resolvida_em": null
+  }
+ ],
+ "decisoes": [
+  {
+   "id": "TAP-2026-001-D1",
+   "proposta_id": "TAP-2026-001",
+   "tipo": "aprovação",
+   "texto": "Aprovado pela instância competente (fictício).",
+   "autor": "Autoridade fictícia",
+   "data": "2026-08-23"
+  },
+  {
+   "id": "TAP-2026-002-D1",
+   "proposta_id": "TAP-2026-002",
+   "tipo": "aprovação",
+   "texto": "Aprovado pela instância competente (fictício).",
+   "autor": "Autoridade fictícia",
+   "data": "2026-09-01"
+  },
+  {
+   "id": "TAP-2026-008-D1",
+   "proposta_id": "TAP-2026-008",
+   "tipo": "aprovação",
+   "texto": "Aprovado pela instância competente (fictício).",
+   "autor": "Autoridade fictícia",
+   "data": "2026-10-25"
+  }
+ ],
+ "portfolio": [
+  {
+   "proposta_id": "TAP-2026-001",
+   "prioridade": 1,
+   "justificativa_prioridade": "Critério fictício de impacto e urgência.",
+   "fonte_recurso": "Tesouro estadual",
+   "situacao_captacao": "em prospecção"
+  },
+  {
+   "proposta_id": "TAP-2026-002",
+   "prioridade": 2,
+   "justificativa_prioridade": "Critério fictício de impacto e urgência.",
+   "fonte_recurso": "Emenda parlamentar",
+   "situacao_captacao": "em prospecção"
+  },
+  {
+   "proposta_id": "TAP-2026-008",
+   "prioridade": 3,
+   "justificativa_prioridade": "Critério fictício de impacto e urgência.",
+   "fonte_recurso": "Convênio federal",
+   "situacao_captacao": "em prospecção"
+  }
+ ],
+ "documentos": [
+  {
+   "tipo": "pesquisa_precos",
+   "nome": "Pesquisa de preços (mínimo 3 orçamentos)",
+   "obrigatorio": true
+  },
+  {
+   "tipo": "estudo_tecnico",
+   "nome": "Estudo técnico preliminar",
+   "obrigatorio": true
+  },
+  {
+   "tipo": "anuencia_chefia",
+   "nome": "Anuência da chefia da unidade",
+   "obrigatorio": true
+  },
+  {
+   "tipo": "cronograma",
+   "nome": "Cronograma físico-financeiro",
+   "obrigatorio": false
+  },
+  {
+   "tipo": "fotos",
+   "nome": "Fotos ou evidências da necessidade",
+   "obrigatorio": false
+  }
+ ]
+}

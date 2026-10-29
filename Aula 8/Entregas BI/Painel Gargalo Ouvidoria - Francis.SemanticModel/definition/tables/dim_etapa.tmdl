@@ -1,0 +1,70 @@
+table dim_etapa
+	lineageTag: 22c438bd-6568-56d8-a514-24b414df7558
+
+	column etapa_key
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: 51765dec-39c6-5002-9085-8abcf46b2375
+		summarizeBy: none
+		sourceColumn: etapa_key
+
+		annotation SummarizationSetBy = Automatic
+
+	column etapa
+		dataType: string
+		lineageTag: 702aa2cb-c2ab-5fc4-b2ce-ed36d1107e2e
+		summarizeBy: none
+		sourceColumn: etapa
+		sortByColumn: sequencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column sequencia
+		dataType: int64
+		formatString: 0
+		lineageTag: 7eb8138c-2e3e-51d7-b515-14092041893e
+		summarizeBy: none
+		sourceColumn: sequencia
+
+		annotation SummarizationSetBy = Automatic
+
+	column unidade_padrao
+		dataType: string
+		lineageTag: 02d1796c-9ba5-52bd-b155-38d46e8b95a1
+		summarizeBy: none
+		sourceColumn: unidade_padrao
+
+		annotation SummarizationSetBy = Automatic
+
+	column ativada_no_tobe
+		dataType: int64
+		formatString: 0
+		lineageTag: a1101742-3ea7-5610-83f1-7bab642fc745
+		summarizeBy: none
+		sourceColumn: ativada_no_tobe
+
+		annotation SummarizationSetBy = Automatic
+
+	column etapa_completa
+		dataType: string
+		lineageTag: e02d70eb-52ce-5fce-8751-2ddb58476c32
+		summarizeBy: none
+		sourceColumn: etapa_completa
+		sortByColumn: sequencia
+
+		annotation SummarizationSetBy = Automatic
+
+	partition dim_etapa = m
+		mode: import
+		source =
+				let
+					Fonte = Table.FromRows(Json.Document(Binary.Decompress(Binary.FromText(
+					"dZC9TgQhFEZf5YYaE3V/24mxsDOb7SZbXOGukgwwXpjGzjfRWBifgxeTQdbVgpLkcOA7fX8lRfdAHCdGIfPhfgcX0EVy2lhy0Qt5eSZAexjZR6/84MVB9lsp9mzwkayQ143LFQACNWAI5mgUps/0UQQLKW6dQmvcE9Yri4bnPwfpDdI7E86WlRR3LkSefrxyWRXpNQOwT1/K5UeL5Q+XfzSSNnmTprxMTUUcZuE6C5BJEQu5assqk0WalAl100aKHYXRh5ipdWPNiYCjZ4sDoAdlNOrqyDE75e2I5y6bhunG28mdms5TRsaXIlmWaMR8UmzbaX+pUiU8TybktIdv",
+						BinaryEncoding.Base64), Compression.Deflate)), {"etapa_key", "etapa", "sequencia", "unidade_padrao", "ativada_no_tobe", "etapa_completa"}),
+					Tipos = Table.TransformColumnTypes(Fonte, {{"etapa_key", Int64.Type}, {"etapa", type text}, {"sequencia", Int64.Type}, {"unidade_padrao", type text}, {"ativada_no_tobe", Int64.Type}, {"etapa_completa", type text}}, "en-US")
+				in
+					Tipos
+
+	annotation PBI_ResultType = Table
+

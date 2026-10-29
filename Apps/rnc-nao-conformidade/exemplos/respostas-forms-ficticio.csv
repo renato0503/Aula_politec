@@ -1,0 +1,21 @@
+﻿Carimbo de data/hora,Setor relator,Setor notificado,Categoria,Descrição da ocorrência,Gravidade,Número
+02/09/2026 09:00:00,Laboratório de Genética Forense,Laboratório de Toxicologia,Prazo de laudo,Ocorrência fictícia 1 (prazo de laudo).,leve,DLF/2026-001
+04/09/2026 09:01:00,Laboratório de Toxicologia,Almoxarifado,Cadeia de custódia,Ocorrência fictícia 2 (cadeia de custódia).,leve,DLF/2026-002
+05/09/2026 09:02:00,Laboratório de Genética Forense,Laboratório de Toxicologia,Cadeia de custódia,Ocorrência fictícia 3 (cadeia de custódia).,moderada,DLF/2026-003
+08/09/2026 09:03:00,Recepção de vestígios,Laboratório de Química Forense,Registro incompleto,Ocorrência fictícia 4 (registro incompleto).,moderada,DLF/2026-004
+09/09/2026 09:04:00,Recepção de vestígios,Central de Custódia,Biossegurança,Ocorrência fictícia 5 (biossegurança).,leve,DLF/2026-005
+12/09/2026 09:05:00,Laboratório de Toxicologia,Central de Custódia,Prazo de laudo,Ocorrência fictícia 6 (prazo de laudo).,moderada,DLF/2026-006
+13/09/2026 09:06:00,Laboratório de Química Forense,Recepção de vestígios,Registro incompleto,Ocorrência fictícia 7 (registro incompleto).,leve,DLF/2026-007
+16/09/2026 09:07:00,Almoxarifado,Laboratório de Genética Forense,Registro incompleto,Ocorrência fictícia 8 (registro incompleto).,moderada,DLF/2026-008
+18/09/2026 09:08:00,Central de Custódia,Laboratório de Química Forense,Biossegurança,Ocorrência fictícia 9 (biossegurança).,moderada,DLF/2026-009
+20/09/2026 09:09:00,Central de Custódia,Laboratório de Química Forense,Registro incompleto,Ocorrência fictícia 10 (registro incompleto).,leve,DLF/2026-010
+22/09/2026 09:10:00,Laboratório de Química Forense,Central de Custódia,Prazo de laudo,Ocorrência fictícia 11 (prazo de laudo).,leve,DLF/2026-011
+23/09/2026 09:11:00,Laboratório de Toxicologia,Central de Custódia,Registro incompleto,Ocorrência fictícia 12 (registro incompleto).,leve,DLF/2026-012
+25/09/2026 09:12:00,Almoxarifado,Recepção de vestígios,Registro incompleto,Ocorrência fictícia 13 (registro incompleto).,grave,DLF/2026-013
+27/09/2026 09:13:00,Recepção de vestígios,Almoxarifado,Cadeia de custódia,Ocorrência fictícia 14 (cadeia de custódia).,leve,DLF/2026-014
+29/09/2026 09:14:00,Recepção de vestígios,Central de Custódia,Registro incompleto,Ocorrência fictícia 15 (registro incompleto).,leve,DLF/2026-015
+02/10/2026 09:15:00,Laboratório de Toxicologia,Laboratório de Química Forense,Registro incompleto,Ocorrência fictícia 16 (registro incompleto).,moderada,DLF/2026-016
+04/10/2026 09:16:00,Central de Custódia,Laboratório de Química Forense,Biossegurança,Ocorrência fictícia 17 (biossegurança).,leve,DLF/2026-017
+05/10/2026 09:17:00,Almoxarifado,Laboratório de Química Forense,Cadeia de custódia,Ocorrência fictícia 18 (cadeia de custódia).,moderada,DLF/2026-018
+08/10/2026 09:18:00,Laboratório de Química Forense,Laboratório de Toxicologia,Registro incompleto,Ocorrência fictícia 19 (registro incompleto).,leve,DLF/2026-019
+09/10/2026 09:19:00,Laboratório de Química Forense,Recepção de vestígios,Cadeia de custódia,Ocorrência fictícia 20 (cadeia de custódia).,leve,DLF/2026-020

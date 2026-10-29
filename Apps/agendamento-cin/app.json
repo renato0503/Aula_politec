@@ -1,0 +1,140 @@
+{
+  "titulo": "Agendamento CIN",
+  "subtitulo": "Postos de identificação · POLITEC/MT",
+  "descricao": "Agendamento da Carteira de Identidade Nacional nos postos de identificação.",
+  "aviso": "",
+  "csp": false,
+  "db": {
+    "nome": "agendamento_cin_v1",
+    "versao": 1,
+    "stores": {
+      "postos": {
+        "keyPath": "posto_id",
+        "indices": []
+      },
+      "horarios": {
+        "keyPath": "horario_id",
+        "indices": [
+          {
+            "nome": "posto_id",
+            "campo": "posto_id",
+            "unico": false
+          }
+        ]
+      },
+      "agendamentos": {
+        "keyPath": "protocolo",
+        "indices": [
+          {
+            "nome": "posto_id",
+            "campo": "posto_id",
+            "unico": false
+          }
+        ]
+      },
+      "usuarios": {
+        "keyPath": "usuario_id",
+        "indices": []
+      },
+      "log": {
+        "keyPath": "id",
+        "indices": []
+      },
+      "fila": {
+        "keyPath": "id",
+        "indices": []
+      }
+    }
+  },
+  "perfis": [
+    {
+      "id": "posto",
+      "nome": "Servidor do posto (teste local)",
+      "descricao": "Agenda do posto, comparecimento e horários."
+    },
+    {
+      "id": "gestao",
+      "nome": "Gestão (teste local)",
+      "descricao": "Indicadores, postos e usuários."
+    }
+  ],
+  "rotaSemPerfil": [
+    "#/agendar",
+    "#/comprovante",
+    "#/consultar"
+  ],
+  "rotas": [
+    {
+      "rota": "#/agendar",
+      "titulo": "Agendar",
+      "sprint": 3,
+      "descricao": "Posto, data e horário com vaga.",
+      "publica": true
+    },
+    {
+      "rota": "#/agendar/dados",
+      "titulo": "Seus dados",
+      "sprint": 3,
+      "descricao": "Nome, telefone ou e-mail, CPF opcional.",
+      "publica": true
+    },
+    {
+      "rota": "#/comprovante/:protocolo",
+      "titulo": "Comprovante",
+      "sprint": 3,
+      "descricao": "Protocolo e orientações.",
+      "publica": true
+    },
+    {
+      "rota": "#/consultar",
+      "titulo": "Consultar reserva",
+      "sprint": 5,
+      "descricao": "Consultar ou cancelar pelo protocolo.",
+      "publica": true
+    },
+    {
+      "rota": "#/posto",
+      "titulo": "Agenda do posto",
+      "sprint": 6,
+      "descricao": "Agenda do dia, comparecimento e cancelamento.",
+      "perfis": [
+        "posto"
+      ]
+    },
+    {
+      "rota": "#/posto/horarios",
+      "titulo": "Horários",
+      "sprint": 2,
+      "descricao": "Grade de horários e bloqueios.",
+      "perfis": [
+        "posto"
+      ]
+    },
+    {
+      "rota": "#/gestao",
+      "titulo": "Gestão",
+      "sprint": 7,
+      "descricao": "Indicadores, postos e usuários.",
+      "perfis": [
+        "gestao"
+      ]
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": "",
+      "perfis": [
+        "posto",
+        "gestao"
+      ]
+    }
+  ],
+  "libs": [],
+  "dados": [
+    [
+      "seed",
+      "planilha-modelo/seed.json"
+    ]
+  ]
+}

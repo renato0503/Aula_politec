@@ -1,0 +1,368 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T14:18:07.250Z",
+  "campos": {
+    "data": "2026-10-27",
+    "aluno": "Jaqueline e Linicker",
+    "unidade": "POLITEC-DAS E SESP-GABINETE",
+    "contato": "jaquelineaguiar@politec.mt.gov.br",
+    "nome_projeto": "FLUXO DE ADIANTAMENTO",
+    "tipo_projeto": "Mapeamento de processo (fluxo, BPMN ou Mermaid)",
+    "resumo": "FLUXO DE ADIANTAMENTO\n\n1. Levantamento de orçamentos\nO coordenador ou gerente da unidade solicitante deverá providenciar 03 (três) orçamentos referentes ao serviço a ser contratado junto à pessoa jurídica ou ao material de consumo a ser adquirido.\n2. Encaminhamento à Diretoria de Administração Sistêmica (DAS/POLITEC)\nApós reunir os orçamentos, o coordenador ou gerente deverá encaminhar a solicitação à Diretoria de Administração Sistêmica, por meio de e-mail, para análise da demanda e verificação da possibilidade de atendimento.\n3. Cadastro da solicitação no sistema SICAD\nApós a manifestação favorável quanto à possibilidade de atendimento, o servidor solicitante deverá registrar o pedido no sistema SICAD, anexando os 03 (três) orçamentos e a justificativa da necessidade do adiantamento.\n4. Aprovação da chefia imediata\nA solicitação cadastrada deverá ser submetida à aprovação da chefia imediata do servidor solicitante.\n5. Análise documental pelo setor financeiro da SESP\nApós a aprovação da chefia imediata, o processo será encaminhado ao setor financeiro da Secretaria de Estado de Segurança Pública (SESP), para conferência da documentação apresentada, conforme checklist aplicável.\n6. Encaminhamento ao ordenador de despesas\nConcluída a análise documental, a solicitação será encaminhada ao ordenador de despesas, para verificação, junto ao Núcleo de Gestão Estratégica para Resultados (NGER), da viabilidade orçamentária da despesa pretendida.\n7. Análise e confirmação da dotação orçamentária pelo NGER\nO NGER realizará a análise pertinente e, havendo disponibilidade e adequação orçamentária, confirmará a dotação correspondente à despesa solicitada.\n8. Retorno ao ordenador de despesas para autorização\nApós a manifestação do NGER, a solicitação retornará ao ordenador de despesas para análise e, se atendidos os requisitos necessários, autorização do pedido de adiantamento.\n9. Encaminhamento ao setor orçamentário\nAutorizado o pedido pelo ordenador de despesas, o processo será encaminhado ao setor orçamentário para as providências cabíveis.\n10. Encaminhamento ao setor financeiro para pagamento\nApós os procedimentos orçamentários, o processo será encaminhado ao setor financeiro para adoção das providências necessárias à efetivação do pagamento do adiantamento.\n\nFluxo de Análise e Aprovação da Prestação de Contas no SICAD\n1. Lançamento da documentação: O servidor responsável insere as notas fiscais e as respectivas fotos no sistema SICAD.\n2. Encaminhamento à Contabilidade: Após o lançamento, o servidor encaminha o processo ao setor de Contabilidade da SESP para análise.\n3. Análise da documentação: O setor de Contabilidade verifica se as informações e os documentos apresentados estão corretos. Caso identifique inconsistências ou pendências, devolve o processo ao servidor responsável para as devidas correções.\n4. Encaminhamento com ressalvas: Caso permaneçam inconsistências relacionadas ao pedido inicial, o processo será encaminhado ao Ordenador de Despesas, acompanhado das respectivas ressalvas, para análise e decisão quanto à aprovação ou não.\n5. Aprovação do Ordenador de Despesas: Estando toda a documentação regular e sem pendências, o setor de Contabilidade encaminha o processo ao Ordenador de Despesas para aprovação.\n6. Finalização do processo: Após a aprovação, o Ordenador de Despesas devolve o processo ao setor de Contabilidade, que realiza os procedimentos finais para a conclusão do processo.\nObservação: Nos casos em que houver ressalvas, a continuidade do processo dependerá da decisão do Ordenador de Despesas, conforme os procedimentos administrativos aplicáveis.\n\n\nOBS. O processo roda totalmente no sistema SICAD\n",
+    "problema": "Inicial na solicitação e no final prestação de contas",
+    "hoje": "SISTEMA SEM FLUXO, AS VEZES O SERVIDOR LANÇA SEM PASSAR PELO SETOR ADMINISTRATIVO DA POLITEC, E O PROCESSO VAI DIRETO PARA A SESP.",
+    "impacto": "ERROS NA SOLICITAÇÃO E PRESTAÇÃO DE CONTAS E DEMORA NA EXECUÇÃO DE SERVIÇO OU COMPRA EMERGENCIAL.",
+    "evid_detalhe": "CONTROLE DE PEDIDOS DE ADIANTAMENTOS E INFORMAÇÕA DA PRÓPRIA SESP QUANDO O ADIANTAMENTO CHEGA SEM INFORMAÇÃO PRÉVIA.",
+    "limite": "HOJE JA ESTA AUTOMATIZADO",
+    "asis_inicio": "E-MAIL AO SETOR ADMINISTRATIVO",
+    "asis_fim": "PROCESSO ARQUIVADO",
+    "asis_entradas": "FOTOS E ORÇAMENTOS",
+    "asis_saidas": "NOTA FISCAL E FOTOS",
+    "asis_volume": "5 POLITEC E 55 SESP",
+    "asis_duracao": "5 DIAS POR PROCESSO PARA PEDIDO INICIAL",
+    "asis_frequencia": "Diário",
+    "asis_decisoes": "ORDENADOR DE DESPESAS - SESP",
+    "asis_excecoes": "NÃO TEM ",
+    "asis_digital": "TUDO",
+    "tobe_visao": "estar tudo automatizado",
+    "tobe_mudanca": "o processo fica mais célere",
+    "tobe_restricao": "normativas",
+    "tobe_inalterado": "o servidor continua sendo responsável pela solicitação",
+    "tobe_piloto": "No Órgão",
+    "entrega": "Desenvolver um protótipo funcional para auxiliar no controle e acompanhamento do processo de concessão, utilização e prestação de contas de adiantamentos da POLITEC e SESP/MT, desde a solicitação inicial até a análise final pela contabilidade e aprovação do ordenador de despesas.",
+    "dentro": "Cadastro da solicitação de adiantamento, com identificação do servidor, unidade solicitante, finalidade e valor.\nRegistro dos três orçamentos e da justificativa da necessidade.\nAcompanhamento das etapas de autorização e aprovação.\nControle do status do processo: em análise, aprovado, pendente de correção ou concluído.\nRegistro das notas fiscais e dos comprovantes necessários à prestação de contas.\nControle das pendências identificadas pela contabilidade da SESP.\nAcompanhamento do encaminhamento para aprovação do ordenador de despesas.\nVisualização de um painel com os processos em andamento, concluídos e pendentes.",
+    "mvp_naofaz": "O MVP não realiza pagamentos, não autoriza despesas, não concede adiantamentos e não substitui o lançamento oficial no SICAD. Também não valida automaticamente a autenticidade das notas fiscais nem realiza a aprovação formal da prestação de contas.",
+    "fora": "Transferência financeira direto na conta do servidor.",
+    "mvp_plataforma": "Mapeamento ou diagrama",
+    "mvp_objetivo": "Tornar a solicitação mais célere",
+    "mvp_tela_inicial": "Pedido de solicitação",
+    "mvp_mock": "Solicitação de pedido de adiantamento quanto ao problema gerado",
+    "mvp_criterio": "Registro da solicitação com a validação do ordenador ",
+    "mvp_dados": "Número do processo ou da solicitação;\nNome fictício do servidor solicitante;\nUnidade administrativa;\nFinalidade do adiantamento;\nValor solicitado;\nSituação do processo;\nDocumentação apresentada;\nPendências identificadas;\nResponsável pela etapa atual.\nExemplos de situações de exceção:\n1. Documentação incompleta: ausência de um dos três orçamentos ou da justificativa da necessidade.\n2. Prestação de contas com inconsistência: nota fiscal ou comprovante que necessita de correção ou complementação.\n3. Processo pendente de aprovação: documentação encaminhada, mas aguardando análise ou decisão da autoridade competente.",
+    "mvp_reuso": "Podem ser reaproveitados os procedimentos internos já utilizados pela POLITEC  e pela SESP/MT para solicitação, concessão e prestação de contas de adiantamentos, bem como os modelos de documentos, formulários, planilhas de controle e orientações administrativas existentes.\nTambém poderão ser utilizados:\n- O fluxo de trabalho já definido para solicitação e prestação de contas;\n- Os modelos de justificativa da necessidade e de levantamento de orçamentos;\n- Os checklists de documentos exigidos;\n- As planilhas de acompanhamento de processos e pendências;\n- O template de aplicativo disponibilizado pelo professor no GitHub Pages, para desenvolver a interface do protótipo.",
+    "dependencias": "O desenvolvimento e a validação do MVP dependem da colaboração das seguintes áreas:\n- Diretoria de Administração Sistêmica (DAS/POLITEC): responsável por fornecer informações sobre o fluxo de solicitação e acompanhamento dos adiantamentos, além de validar as necessidades da área administrativa.\n- SESP/MT – Setor de Contabilidade: responsável por orientar sobre a documentação exigida, os procedimentos de análise da prestação de contas e o tratamento de inconsistências.\n- Chefias e gestores das unidades: responsáveis por validar as etapas de solicitação, justificativa e aprovação interna.\n- Tecnologia da Informação (TI): poderá apoiar a evolução do protótipo, especialmente em futuras integrações com sistemas institucionais.\n- Professor responsável pelo projeto: responsável por orientar o desenvolvimento técnico do MVP .",
+    "lgpd_dados": "Nome do Servidor, CPF, Matricula",
+    "lgpd_base": "Decreto Estadual nº 1.487/2022, Instrução Normativa nº 010/2023/SEPLAG, Lei Estadual nº 11.648/2021, Orientação Técnica nº 02/2026 da CGE/MT",
+    "lgpd_retencao": "No Decreto Estadual nº 1.487/2022, de Mato Grosso, os prazos principais são: - Utilização do recurso: até 90 dias para compras e serviços em geral, ou até 180 dias para intervenções prediais simplificadas (art. 10). - Prestação de contas: até 30 dias corridos após o término do período de aplicação (art. 14). - Correção de inconsistências: até 10 dias úteis após a notificação (art. 14, § 3º).",
+    "lgpd_acesso": "Servidor solicitante, chefia imediato, servidores que analisam e autorizam o andamento da solicitação.",
+    "coletar": "Informação imediata da solicitação",
+    "acesso": "Quando solicita o cartão coorporativo.",
+    "base_periodo": "Todos os registro anual de janeiro a dezembro",
+    "campos_data": "Tem data de entrada e finalida",
+    "hospedagem_escolhida": "A escolha se justifica pela simplicidade de implantação, ausência de custos iniciais de hospedagem e compatibilidade com o padrão da aula, que prevê um arquivo HTML único com CSS, JavaScript e dados fictícios incorporados.\nA plataforma permitirá acessar o protótipo pelo navegador, apresentar as telas de cadastro, acompanhamento e prestação de contas e validar o fluxo do processo de adiantamento.",
+    "conta_quem": "Conta: o responsável pelo projeto, com orientação do professor, criará ou utilizará uma conta GitHub autorizada.\nRepositório: o responsável pelo desenvolvimento criará o repositório e publicará os arquivos do protótipo.\nEndereço eletrônico: será utilizado o endereço gratuito fornecido pelo GitHub Pages.\nAcesso: o link será disponibilizado ao professor e aos participantes autorizados para avaliação e testes.\nImplantação institucional: caso o projeto evolua para uso real na POLITEC, a criação de domínio institucional e a definição dos acessos dependerão de autorização da chefia e da TI competente.",
+    "orcamento": "Hospedagem no GitHub Pages\tR$ 0,00\nDesenvolvimento com HTML, CSS e JavaScript\tR$ 0,00\nEditor de código gratuito\tR$ 0,00\nDomínio personalizado\tR$ 0,00 inicialmente\nBanco de dados\tR$ 0,00 no MVP\nLicenças de software\tR$ 0,00, utilizando ferramentas gratuitas\nCusto inicial estimado: R$ 0,00.",
+    "restricoes": "Não poderá substituir o SICAD, sistema oficial de concessão e prestação de contas de adiantamentos em Mato Grosso. \nIMAD\nNão terá integração com os sistemas oficiais da POLITEC/SESP.\nUtilizará somente dados fictícios durante os testes.\nNão realizará concessões, pagamentos, aprovações ou validações contábeis oficiais.\nDependerá da validação dos procedimentos administrativos pela DAS/POLITEC e pela área contábil da SESP.\nA publicação em plataforma externa dependerá da avaliação das regras institucionais de segurança da informação.\nOs prazos e documentos exigidos deverão seguir a legislação vigente e as orientações dos setores competentes.",
+    "hipotese_campo": "A hipótese é que a ausência de um controle centralizado das etapas, datas e pendências dos processos de adiantamento dificulta o acompanhamento dos prazos pela POLITEC, aumentando o risco de atrasos, inconsistências documentais e retrabalho administrativo.",
+    "lacunas": "Até o momento, não foram levantados dados quantitativos sobre o tempo médio de tramitação dos adiantamentos, a quantidade de processos devolvidos para correção ou os principais motivos de atraso na POLITEC.\nTambém é necessário confirmar com a DAS/POLITEC e a contabilidade da SESP se existe planilha ou relatório interno com essas informações, bem como verificar eventuais procedimentos complementares específicos da instituição.\nComo próxima etapa, propõe-se acompanhar os processos durante quatro semanas, registrando as datas de entrada, encaminhamento, devolução para correção e conclusão. Os resultados permitirão avaliar a hipótese inicial e identificar oportunidades de melhoria.",
+    "apoio": "Preciso do apoio da Diretoria de Administração Sistêmica (DAS/POLITEC) para validar o fluxo administrativo dos adiantamentos, identificar as principais dificuldades e definir quais informações devem ser acompanhadas.\nTambém será necessário o apoio do setor de contabilidade da SESP/MT para confirmar os documentos exigidos, os prazos aplicáveis, os motivos mais frequentes de devolução e os procedimentos de prestação de contas.\nO professor responsável pelo curso deverá orientar a construção do protótipo e a publicação no GitHub Pages. Em uma etapa futura, caso haja interesse em implantar a solução institucionalmente, será necessária a participação da TI e das áreas responsáveis pela segurança da informação e pelos sistemas oficiais.",
+    "aprendizado": "Desenvolvimento básico de HTML, CSS e JavaScript: para criar as telas e as funcionalidades do protótipo.\nOrganização de dados em JSON: para inserir e apresentar registros fictícios de solicitações e pendências.\nPublicação no GitHub Pages: para disponibilizar o MVP por meio de um link acessível pelo navegador.\nMapeamento de processos: para representar corretamente as etapas de solicitação, autorização, aplicação dos recursos e prestação de contas.\nIndicadores de acompanhamento: para calcular prazos de tramitação, identificar pendências e avaliar gargalos.\nLegislação e procedimentos de adiantamento: para manter o protótipo alinhado às normas estaduais e aos procedimentos da POLITEC/SESP.\nNoções de LGPD e segurança da informação: para evitar exposição de dados pessoais e institucionais.",
+    "frase": "Se o tempo de acompanhamento dos processos de adiantamento for reduzido e as pendências forem identificadas mais rapidamente, a DAS/POLITEC poderá melhorar o controle administrativo, reduzir retrabalho e dar mais agilidade à prestação de contas.”",
+    "provas": "1. Necessidade de controle dos processos: o acompanhamento das solicitações, autorizações e prestações de contas envolve diferentes etapas e responsáveis, tornando importante centralizar as informações.\n2. Existência de procedimentos oficiais: o Decreto Estadual nº 1.487/2022 e a Instrução Normativa nº 010/2023/SEPLAG estabelecem regras para a concessão, aplicação e prestação de contas dos adiantamentos, que precisam ser observadas no fluxo administrativo.\n3. Possibilidade de medir os resultados: o registro das datas de entrada, encaminhamento, devolução para correção e conclusão permitirá identificar o tempo de tramitação e os principais pontos de atraso.",
+    "piloto": "- 1ª semana: mapear o fluxo atual e iniciar o registro dos processos e das respectivas datas.\n- 2ª semana: desenvolver o protótipo e cadastrar pelo menos dez solicitações fictícias, incluindo casos com documentação incompleta, inconsistências e pendências de aprovação.\n- 3ª semana: testar o cadastro, a atualização de status, o registro de pendências e a visualização do painel.\n- 4ª semana: analisar os dados coletados, identificar gargalos e comparar os resultados disponíveis com a situação inicial.\nOs principais indicadores serão o tempo médio de tramitação, a quantidade de processos pendentes, o número de devoluções para correção e o percentual de processos com informações completas.",
+    "risco_defesa": "O maior risco é desenvolver uma ferramenta que não corresponda ao fluxo real de adiantamentos da POLITEC/MT ou que apresente informações divergentes dos procedimentos oficiais da SESP/MT.\nPara reduzir esse risco, o fluxo deverá ser validado previamente com a DAS/POLITEC e o setor de contabilidade da SESP. O protótipo utilizará apenas dados fictícios e não substituirá o SICAD, as autorizações oficiais ou os procedimentos de prestação de contas.\nA implantação de uma solução institucional somente será considerada após a avaliação da viabilidade técnica, da segurança da informação e da conformidade com as normas aplicáveis.",
+    "doc_descricao": "- **Fluxo_Adiantamento_AS-IS.docx:** descrição do procedimento atual de solicitação, concessão e prestação de contas dos adiantamentos.\n- **Fluxo_Adiantamento_TO-BE.docx:** proposta de melhoria do fluxo, com acompanhamento de etapas, prazos e pendências.\n- **Controle_Adiantamentos.xlsx:** planilha para registrar solicitações, responsáveis, datas, status e inconsistências.\n- **Legislacao_Adiantamento.pdf:** normas e orientações aplicáveis à concessão, aplicação e prestação de contas dos adiantamentos.\n- **MVP_Adiantamento.html:** protótipo demonstrativo para cadastro e acompanhamento das solicitações, utilizando dados fictícios.",
+    "doc_faltando": "Ainda preciso concluir o diagrama do fluxo atual (AS-IS), detalhando o início, as etapas, os responsáveis, os pontos de espera e o encerramento do processo. Também preciso elaborar o fluxo futuro proposto (TO-BE), incluindo a possibilidade de automatizar o registro de datas, o acompanhamento dos prazos e a identificação de pendências.\nPara desenvolver e validar o MVP, preciso preparar uma planilha de controle com dados fictícios, definir pelo menos duas métricas de desempenho com fonte, linha de base e resultado esperado, e construir o protótipo em HTML, CSS e JavaScript. Também será necessário validar o fluxo proposto com a DAS/POLITEC e consultar a contabilidade da SESP para confirmar os procedimentos e documentos exigidos."
+  },
+  "marcados": {
+    "afetado": [
+      "Equipe interna",
+      "Chefia",
+      "Autoridade",
+      "Servidor da unidade",
+      "Cidadão externo"
+    ],
+    "evid": [
+      "Planilha ou controle local",
+      "Medida feita pela equipe"
+    ],
+    "stack": "HTML único (CSS/JS inline), dados em JSON embutido, GitHub Pages",
+    "req": [
+      "LGPD e dado pessoal",
+      "Segurança e controle de acesso",
+      "Integração com sistema oficial",
+      "Trilha de auditoria",
+      "Nenhum (protótipo de aula)"
+    ]
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "ANALISAR",
+        "papel": "SERVIDOR",
+        "entra": "DOCUMENTOS",
+        "acao": "CONFERIR DOCUMENTOS",
+        "sai": "SERVIÇO",
+        "sistema": "SISTEMA",
+        "regra": "DECISÃO",
+        "espera": "DOCUMENTOS",
+        "tempo": "24H",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "Conferência assistida do documento",
+        "muda": "A conferência vira automática e a pessoa só confirma",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Menos 12 minutos por registro",
+        "esforco": "Médio",
+        "rm": ""
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "SERVIDOR",
+        "quem": "SERVIDORES",
+        "ve": "O QUE SERA EXECUTADO",
+        "faz": "ABRE O PEDIDO E ENVIA DOCUMENTOS",
+        "naofaz": "EXTRAIR DOCUMENTO OU NÃO ANEXAR",
+        "registro": "TUDO",
+        "rm": ""
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "TELA PRINCIPAL DO SISTEMA",
+        "rota": "SERVIÇO/CONSUMO",
+        "objetivo": "UNIDADE",
+        "usuario": "SERVIDOR",
+        "dados": "MELHORIAS",
+        "acao": "Salvar o registro",
+        "regra": "CAMPO",
+        "tipo": "Relatório",
+        "verificacao": "Preencher e salvar; o registro aparece ",
+        "mvp": "",
+        "rm": ""
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "Registro",
+        "representa": "Uma conferência de arma registrada",
+        "colunas": "id: texto, matricula: texto, numeroSerie: texto, tipoArma: texto, situacao: texto, criadoEm: data",
+        "chave": "id",
+        "volume": "10 registros de exemplo",
+        "origem": "Fictício, no arquivo",
+        "sintetico": "Sim",
+        "rm": ""
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "RN01",
+        "regra": "A matrícula é obrigatória e só aceita números.",
+        "quando": "Sempre, ao salvar o registro",
+        "excecao": "Nenhuma",
+        "valida": "O sistema, no navegador",
+        "tipo": "Validação",
+        "rm": ""
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "Planilha de controle local",
+        "tipo": "Planilha local",
+        "onde": "Pasta compartilhada da unidade",
+        "existe": "Sim",
+        "acesso": "Chefia da seção",
+        "linha": "Uma conferência por linha",
+        "volume": "180 por mês",
+        "historico": "2024 em diante",
+        "campos": "Data de entrada, data de envio, tempo anotado",
+        "atualiza": "Manual, diária",
+        "lgpd": "Sim",
+        "obs": "O tempo anotado é estimativa do agente",
+        "rm": ""
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "Tempo de espera médio por caso (h)",
+        "pergunta": "Quanto tempo o caso espera na etapa mais crítica?",
+        "formula": "Soma do tempo de espera / quantidade de casos",
+        "fonte": "",
+        "gran": "Caso",
+        "base": "A MEDIR",
+        "esperado": "A MEDIR",
+        "medir": "Extrair a data de início e a data de fim de cada etapa no período de 4 semanas",
+        "quem": "",
+        "rm": ""
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "Arquivo HTML único",
+        "tipo": "Arquivo local",
+        "onde": "Computador do usuário",
+        "custo": "Gratuito",
+        "mantem": "Autor do arquivo",
+        "acesso": "local",
+        "banco": "Não possui banco",
+        "escala": "Muito limitada",
+        "limite": "Dificuldade de compartilhamento, atualização e centralização dos dados",
+        "rm": ""
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "Levantamento do fluxo atual de adiantamentos",
+        "data": "Semana 1",
+        "resp": "DAS/POLITEC",
+        "dep": "Identificação das etapas e documentos",
+        "sit": "Planejado",
+        "rm": ""
+      },
+      {
+        "marco": "Definição dos requisitos e das informações a registrar",
+        "data": "Semana 1",
+        "resp": "Responsável pelo projeto",
+        "dep": "Levantamento do fluxo",
+        "sit": "Planejado",
+        "rm": ""
+      },
+      {
+        "marco": "Início da coleta de dados sobre prazos e pendências",
+        "data": "Semana 1",
+        "resp": "DAS/POLITEC e setores envolvidos",
+        "dep": "Definição do formulário de controle",
+        "sit": "Planejado",
+        "rm": ""
+      },
+      {
+        "marco": "Desenvolvimento das telas do MVP",
+        "data": "Semana 2",
+        "resp": "Responsável pelo projeto",
+        "dep": "Requisitos definidos e template da aula",
+        "sit": "Planejado",
+        "rm": ""
+      },
+      {
+        "marco": "Inserção dos dados fictícios e testes funcionais",
+        "data": "Semana 3",
+        "resp": "Responsável pelo projeto",
+        "dep": "Protótipo desenvolvido",
+        "sit": "Planejado",
+        "rm": ""
+      },
+      {
+        "marco": "Conclusão da coleta e análise dos resultados",
+        "data": "Semana 4",
+        "resp": "DAS/POLITEC",
+        "dep": "Registros das quatro semanas",
+        "sit": "Planejado",
+        "rm": ""
+      },
+      {
+        "marco": "Apresentação do MVP e proposta de melhorias",
+        "data": "Final da semana 4",
+        "resp": "Responsável pelo projeto",
+        "dep": "Testes e análise dos resultados",
+        "sit": "Planejado",
+        "rm": ""
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "Falta de informações sobre o fluxo atual",
+        "prob": "Média",
+        "imp": "Alto",
+        "mit": "Consultar os setores envolvidos e documentar as etapas existentes.",
+        "rm": ""
+      },
+      {
+        "risco": "Demora na disponibilização de informações pela SESP",
+        "prob": "Média",
+        "imp": "Alto",
+        "mit": "Iniciar o protótipo com dados fictícios, sem depender de acessos oficiais.",
+        "rm": ""
+      },
+      {
+        "risco": "Desenvolvimento técnico acima do conhecimento disponível",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "Utilizar o template HTML fornecido na aula e desenvolver funcionalidades simples.",
+        "rm": ""
+      },
+      {
+        "risco": "Utilização indevida de dados pessoais ou institucionais",
+        "prob": "Baixa",
+        "imp": "Alto",
+        "mit": "Utilizar somente dados fictícios e evitar a publicação de documentos reais.",
+        "rm": ""
+      },
+      {
+        "risco": "Falta de adesão dos servidores ao registro dos prazos",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "Criar formulário simples e orientar os responsáveis sobre o preenchimento.",
+        "rm": ""
+      },
+      {
+        "risco": "Protótipo ser confundido com sistema oficial",
+        "prob": "Baixa",
+        "imp": "Alto",
+        "mit": "Identificar claramente a aplicação como protótipo demonstrativo, sem validade administrativa.",
+        "rm": ""
+      },
+      {
+        "risco": "Inconsistência entre o protótipo e as normas vigentes",
+        "prob": "Média",
+        "imp": "Alto",
+        "mit": "Validar o fluxo e os requisitos com a DAS/POLITEC e a contabilidade da SESP.",
+        "rm": ""
+      }
+    ],
+    "tRefs": [
+      {
+        "n": "",
+        "ref": "Decreto Estadual nº 1.487/2022",
+        "tipo": "Norma ou lei",
+        "fonte": "Consultar IOMAT",
+        "ano": "2022",
+        "dado": "Regulamenta a concessão, aplicação e prestação de contas do suprimento de fundos e define o SICAD como sistema oficial.",
+        "uso": "Demonstrar a necessidade de manter o MVP alinhado ao fluxo e às regras oficiais.",
+        "conferido": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "ref": "Instrução Normativa nº 010/2023/SEPLAG",
+        "tipo": "Norma ou lei",
+        "fonte": "Consultar PDF oficial",
+        "ano": "2023",
+        "dado": "Estabelece procedimentos para solicitação, concessão, aplicação e prestação de contas.",
+        "uso": "dentificar documentos, etapas e controles que devem ser considerados no protótipo.",
+        "conferido": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "ref": "Lei Federal nº 13.709/2018 — LGPD",
+        "tipo": "Norma ou lei",
+        "fonte": "Consultar PDF oficial",
+        "ano": "2018",
+        "dado": "Estabelece regras para o tratamento de dados pessoais.",
+        "uso": "Justificar o uso de dados fictícios no MVP e os cuidados necessários em uma futura implantação.",
+        "conferido": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "ref": "Orientação Técnica nº 06/2025 — CGE/MT",
+        "tipo": "Documento interno",
+        "fonte": "Consultar PDF oficial",
+        "ano": "2025",
+        "dado": "Orienta os órgãos estaduais sobre procedimentos de suprimento de fundos realizados por meio do SICAD.",
+        "uso": "Reforçar a importância da conformidade com os procedimentos oficiais.",
+        "conferido": "Sim",
+        "rm": ""
+      }
+    ]
+  }
+}

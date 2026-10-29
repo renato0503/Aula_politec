@@ -1,0 +1,165 @@
+{
+  "titulo": "Inscrições em Cursos",
+  "subtitulo": "POLITEC/MT · Gerência de Formação Inicial e Continuada",
+  "descricao": "Inscrição padronizada, triagem pelas diretorias e convocação, sem redigitação.",
+  "aviso": "",
+  "db": {
+    "nome": "inscricoes_politec_v1",
+    "versao": 1,
+    "stores": {
+      "cursos": {
+        "keyPath": "id",
+        "indices": []
+      },
+      "inscricoes": {
+        "keyPath": "protocolo",
+        "indices": [
+          {
+            "nome": "curso_id",
+            "campo": "curso_id",
+            "unico": false
+          },
+          {
+            "nome": "matricula",
+            "campo": "matricula",
+            "unico": false
+          }
+        ]
+      },
+      "triagens": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "curso_id",
+            "campo": "curso_id",
+            "unico": false
+          }
+        ]
+      },
+      "convocacoes": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "protocolo",
+            "campo": "protocolo",
+            "unico": false
+          }
+        ]
+      },
+      "seap": {
+        "keyPath": "matricula",
+        "indices": []
+      },
+      "diretorias": {
+        "keyPath": "sigla",
+        "indices": []
+      },
+      "log": {
+        "keyPath": "id",
+        "indices": []
+      }
+    }
+  },
+  "perfis": [
+    {
+      "id": "gerencia",
+      "nome": "Gerência de Formação",
+      "descricao": "Cria cursos, importa inscrições, envia a triagem e convoca."
+    },
+    {
+      "id": "diretoria",
+      "nome": "Diretoria",
+      "descricao": "Recebe o arquivo de triagem e define titulares e reserva."
+    }
+  ],
+  "rotaSemPerfil": [
+    "#/inscricao"
+  ],
+  "rotas": [
+    {
+      "rota": "#/cursos",
+      "titulo": "Cursos",
+      "sprint": 2,
+      "descricao": "Criar e editar cursos.",
+      "perfis": [
+        "gerencia"
+      ]
+    },
+    {
+      "rota": "#/divulgar/:curso",
+      "titulo": "Divulgar",
+      "sprint": 2,
+      "descricao": "Link, QR Code e texto de divulgação.",
+      "perfis": [
+        "gerencia"
+      ]
+    },
+    {
+      "rota": "#/importar",
+      "titulo": "Importar inscrições",
+      "sprint": 4,
+      "descricao": "Colar os e-mails ou importar CSV.",
+      "perfis": [
+        "gerencia"
+      ]
+    },
+    {
+      "rota": "#/inscritos/:curso",
+      "titulo": "Inscritos",
+      "sprint": 5,
+      "descricao": "Lista e conferência com o SEAP.",
+      "perfis": [
+        "gerencia"
+      ]
+    },
+    {
+      "rota": "#/triagem",
+      "titulo": "Triagem",
+      "sprint": 6,
+      "descricao": "Titulares, reserva e não selecionados.",
+      "perfis": [
+        "diretoria"
+      ]
+    },
+    {
+      "rota": "#/convocacao/:curso",
+      "titulo": "Convocação",
+      "sprint": 7,
+      "descricao": "Mensagens de titular e reserva.",
+      "perfis": [
+        "gerencia"
+      ]
+    },
+    {
+      "rota": "#/turma/:curso",
+      "titulo": "Turma",
+      "sprint": 8,
+      "descricao": "Lista final e desistências.",
+      "perfis": [
+        "gerencia"
+      ]
+    },
+    {
+      "rota": "#/inscricao",
+      "titulo": "Inscrição",
+      "sprint": 3,
+      "descricao": "Formulário do servidor.",
+      "publica": true
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": ""
+    }
+  ],
+  "libs": [
+    "qrcode.min.js"
+  ],
+  "dados": [
+    [
+      "seed",
+      "exemplos/seed.json"
+    ]
+  ]
+}

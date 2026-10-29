@@ -1,0 +1,607 @@
+{
+ "cursos": [
+  {
+   "id": "CURSO-2026-11",
+   "nome": "Fotografia Forense em Local de Crime",
+   "carga_horaria": 24,
+   "inicio": "2026-11-23",
+   "fim": "2026-11-25",
+   "local": "Auditório da sede (fictício)",
+   "prerequisitos": [
+    "Ser servidor efetivo",
+    "Atuar em local de crime ou em laboratório"
+   ],
+   "vagas_por_diretoria": {
+    "DMC": 8,
+    "DML": 4,
+    "DII": 2,
+    "DIN": 6
+   },
+   "link_grupo": "https://chat.whatsapp.com/EXEMPLO-FICTICIO",
+   "inscricao_inicio": "2026-10-29",
+   "inscricao_fim": "2026-11-12",
+   "prazo_triagem": "2026-11-16",
+   "status": "inscrições abertas"
+  }
+ ],
+ "seap": [
+  {
+   "matricula": "200000",
+   "nome": "Heitor Lima Freitas",
+   "cargo": "Médico Legista",
+   "lotacao": "Regional de Sinop",
+   "diretoria": "DIN",
+   "vinculo_ativo": false
+  },
+  {
+   "matricula": "200037",
+   "nome": "Xavier Lima Holanda",
+   "cargo": "Médico Legista",
+   "lotacao": "IML Cuiabá",
+   "diretoria": "DML",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200074",
+   "nome": "Wanda Esteves Campos",
+   "cargo": "Médico Legista",
+   "lotacao": "Posto de Identificação Centro",
+   "diretoria": "DII",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200111",
+   "nome": "Isabela Freitas Jardim",
+   "cargo": "Perito Oficial Criminal",
+   "lotacao": "IML Cuiabá",
+   "diretoria": "DML",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200148",
+   "nome": "Karen Lima Esteves",
+   "cargo": "Técnico em Necropsia",
+   "lotacao": "Laboratório de Química",
+   "diretoria": "DMC",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200185",
+   "nome": "Gabriela Duarte Igarashi",
+   "cargo": "Perito Oficial Criminal",
+   "lotacao": "Regional de Rondonópolis",
+   "diretoria": "DIN",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200222",
+   "nome": "João Barros Duarte",
+   "cargo": "Médico Legista",
+   "lotacao": "IML Várzea Grande",
+   "diretoria": "DML",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200259",
+   "nome": "Elisa Campos Igarashi",
+   "cargo": "Médico Legista",
+   "lotacao": "Regional de Cáceres",
+   "diretoria": "DIN",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200296",
+   "nome": "Tiago Holanda Gomes",
+   "cargo": "Médico Legista",
+   "lotacao": "Regional de Rondonópolis",
+   "diretoria": "DIN",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200333",
+   "nome": "Tiago Nunes Almeida",
+   "cargo": "Papiloscopista",
+   "lotacao": "Regional de Cáceres",
+   "diretoria": "DIN",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200370",
+   "nome": "Olívia Freitas Campos",
+   "cargo": "Médico Legista",
+   "lotacao": "Regional de Sinop",
+   "diretoria": "DIN",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200407",
+   "nome": "Xavier Campos Nunes",
+   "cargo": "Papiloscopista",
+   "lotacao": "Posto de Identificação Centro",
+   "diretoria": "DII",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200444",
+   "nome": "Karen Esteves Holanda",
+   "cargo": "Médico Legista",
+   "lotacao": "Posto de Identificação Centro",
+   "diretoria": "DII",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200481",
+   "nome": "Isabela Lima Moraes",
+   "cargo": "Médico Legista",
+   "lotacao": "Regional de Cáceres",
+   "diretoria": "DIN",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200518",
+   "nome": "Fábio Almeida Lima",
+   "cargo": "Médico Legista",
+   "lotacao": "Posto de Identificação Centro",
+   "diretoria": "DII",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200555",
+   "nome": "Isabela Freitas Freitas",
+   "cargo": "Técnico em Necropsia",
+   "lotacao": "Regional de Sinop",
+   "diretoria": "DIN",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200592",
+   "nome": "Heitor Igarashi Nunes",
+   "cargo": "Médico Legista",
+   "lotacao": "Regional de Cáceres",
+   "diretoria": "DIN",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200629",
+   "nome": "Yasmin Duarte Holanda",
+   "cargo": "Papiloscopista",
+   "lotacao": "IML Cuiabá",
+   "diretoria": "DML",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200666",
+   "nome": "Lucas Lima Moraes",
+   "cargo": "Perito Oficial Criminal",
+   "lotacao": "Regional de Cáceres",
+   "diretoria": "DIN",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200703",
+   "nome": "Diego Almeida Nunes",
+   "cargo": "Técnico em Necropsia",
+   "lotacao": "IML Cuiabá",
+   "diretoria": "DML",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200740",
+   "nome": "Carla Freitas Igarashi",
+   "cargo": "Médico Legista",
+   "lotacao": "Laboratório de Química",
+   "diretoria": "DMC",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200777",
+   "nome": "Wanda Esteves Duarte",
+   "cargo": "Técnico em Necropsia",
+   "lotacao": "Laboratório de Química",
+   "diretoria": "DMC",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200814",
+   "nome": "Rafael Prado Esteves",
+   "cargo": "Perito Oficial Criminal",
+   "lotacao": "Posto de Identificação Centro",
+   "diretoria": "DII",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200851",
+   "nome": "Vítor Almeida Holanda",
+   "cargo": "Técnico em Necropsia",
+   "lotacao": "Núcleo de Local de Crime",
+   "diretoria": "DMC",
+   "vinculo_ativo": false
+  },
+  {
+   "matricula": "200888",
+   "nome": "Carla Freitas Nunes",
+   "cargo": "Papiloscopista",
+   "lotacao": "Núcleo de Local de Crime",
+   "diretoria": "DMC",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200925",
+   "nome": "Wanda Jardim Esteves",
+   "cargo": "Médico Legista",
+   "lotacao": "Núcleo de Local de Crime",
+   "diretoria": "DMC",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200962",
+   "nome": "Ana Jardim Holanda",
+   "cargo": "Técnico em Necropsia",
+   "lotacao": "IML Cuiabá",
+   "diretoria": "DML",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "200999",
+   "nome": "Yasmin Igarashi Nunes",
+   "cargo": "Perito Oficial Criminal",
+   "lotacao": "Regional de Cáceres",
+   "diretoria": "DIN",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201036",
+   "nome": "Tiago Igarashi Igarashi",
+   "cargo": "Técnico em Necropsia",
+   "lotacao": "Posto de Identificação Centro",
+   "diretoria": "DII",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201073",
+   "nome": "Bruno Gomes Holanda",
+   "cargo": "Técnico em Necropsia",
+   "lotacao": "Laboratório de Química",
+   "diretoria": "DMC",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201110",
+   "nome": "Bruno Campos Igarashi",
+   "cargo": "Técnico em Necropsia",
+   "lotacao": "Regional de Cáceres",
+   "diretoria": "DIN",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201147",
+   "nome": "Isabela Lima Lima",
+   "cargo": "Técnico em Necropsia",
+   "lotacao": "Posto de Identificação Centro",
+   "diretoria": "DII",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201184",
+   "nome": "Fábio Campos Barros",
+   "cargo": "Papiloscopista",
+   "lotacao": "IML Várzea Grande",
+   "diretoria": "DML",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201221",
+   "nome": "Wanda Freitas Esteves",
+   "cargo": "Perito Oficial Criminal",
+   "lotacao": "Núcleo de Local de Crime",
+   "diretoria": "DMC",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201258",
+   "nome": "Rafael Prado Almeida",
+   "cargo": "Perito Oficial Criminal",
+   "lotacao": "IML Cuiabá",
+   "diretoria": "DML",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201295",
+   "nome": "Úrsula Esteves Moraes",
+   "cargo": "Técnico em Necropsia",
+   "lotacao": "Laboratório de Química",
+   "diretoria": "DMC",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201332",
+   "nome": "Bruno Freitas Duarte",
+   "cargo": "Perito Oficial Criminal",
+   "lotacao": "Posto de Identificação Centro",
+   "diretoria": "DII",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201369",
+   "nome": "Ana Prado Gomes",
+   "cargo": "Perito Oficial Criminal",
+   "lotacao": "IML Cuiabá",
+   "diretoria": "DML",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201406",
+   "nome": "Diego Esteves Moraes",
+   "cargo": "Perito Oficial Criminal",
+   "lotacao": "Regional de Cáceres",
+   "diretoria": "DIN",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201443",
+   "nome": "Elisa Lima Almeida",
+   "cargo": "Médico Legista",
+   "lotacao": "Laboratório de Química",
+   "diretoria": "DMC",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201480",
+   "nome": "Sílvia Gomes Jardim",
+   "cargo": "Técnico em Necropsia",
+   "lotacao": "Regional de Rondonópolis",
+   "diretoria": "DIN",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201517",
+   "nome": "Yasmin Esteves Esteves",
+   "cargo": "Perito Oficial Criminal",
+   "lotacao": "Núcleo de Local de Crime",
+   "diretoria": "DMC",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201554",
+   "nome": "Heitor Nunes Moraes",
+   "cargo": "Médico Legista",
+   "lotacao": "Regional de Cáceres",
+   "diretoria": "DIN",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201591",
+   "nome": "Vítor Gomes Nunes",
+   "cargo": "Médico Legista",
+   "lotacao": "Núcleo de Local de Crime",
+   "diretoria": "DMC",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201628",
+   "nome": "Isabela Igarashi Campos",
+   "cargo": "Papiloscopista",
+   "lotacao": "Regional de Rondonópolis",
+   "diretoria": "DIN",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201665",
+   "nome": "Sílvia Moraes Barros",
+   "cargo": "Papiloscopista",
+   "lotacao": "Posto de Identificação Centro",
+   "diretoria": "DII",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201702",
+   "nome": "Olívia Prado Freitas",
+   "cargo": "Médico Legista",
+   "lotacao": "Regional de Cáceres",
+   "diretoria": "DIN",
+   "vinculo_ativo": false
+  },
+  {
+   "matricula": "201739",
+   "nome": "Queila Duarte Duarte",
+   "cargo": "Papiloscopista",
+   "lotacao": "Regional de Rondonópolis",
+   "diretoria": "DIN",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201776",
+   "nome": "Sílvia Prado Almeida",
+   "cargo": "Técnico em Necropsia",
+   "lotacao": "Regional de Cáceres",
+   "diretoria": "DIN",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201813",
+   "nome": "Nelson Nunes Nunes",
+   "cargo": "Técnico em Necropsia",
+   "lotacao": "Posto de Identificação Centro",
+   "diretoria": "DII",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201850",
+   "nome": "Yasmin Lima Lima",
+   "cargo": "Perito Oficial Criminal",
+   "lotacao": "Laboratório de Química",
+   "diretoria": "DMC",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201887",
+   "nome": "Zeca Nunes Jardim",
+   "cargo": "Papiloscopista",
+   "lotacao": "Laboratório de Química",
+   "diretoria": "DMC",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201924",
+   "nome": "Yasmin Igarashi Holanda",
+   "cargo": "Perito Oficial Criminal",
+   "lotacao": "Posto de Identificação Centro",
+   "diretoria": "DII",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201961",
+   "nome": "Zeca Holanda Jardim",
+   "cargo": "Papiloscopista",
+   "lotacao": "IML Várzea Grande",
+   "diretoria": "DML",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "201998",
+   "nome": "Rafael Igarashi Igarashi",
+   "cargo": "Papiloscopista",
+   "lotacao": "IML Cuiabá",
+   "diretoria": "DML",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "202035",
+   "nome": "Fábio Lima Lima",
+   "cargo": "Médico Legista",
+   "lotacao": "IML Cuiabá",
+   "diretoria": "DML",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "202072",
+   "nome": "Rafael Nunes Nunes",
+   "cargo": "Perito Oficial Criminal",
+   "lotacao": "Núcleo de Local de Crime",
+   "diretoria": "DMC",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "202109",
+   "nome": "Heitor Moraes Gomes",
+   "cargo": "Técnico em Necropsia",
+   "lotacao": "Regional de Cáceres",
+   "diretoria": "DIN",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "202146",
+   "nome": "Wanda Duarte Igarashi",
+   "cargo": "Perito Oficial Criminal",
+   "lotacao": "Posto de Identificação Centro",
+   "diretoria": "DII",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "202183",
+   "nome": "Sílvia Barros Duarte",
+   "cargo": "Médico Legista",
+   "lotacao": "Posto de Identificação Centro",
+   "diretoria": "DII",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "202220",
+   "nome": "Fábio Duarte Esteves",
+   "cargo": "Médico Legista",
+   "lotacao": "Regional de Sinop",
+   "diretoria": "DIN",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "202257",
+   "nome": "Paulo Holanda Holanda",
+   "cargo": "Papiloscopista",
+   "lotacao": "Regional de Sinop",
+   "diretoria": "DIN",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "202294",
+   "nome": "Nelson Nunes Prado",
+   "cargo": "Papiloscopista",
+   "lotacao": "IML Cuiabá",
+   "diretoria": "DML",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "202331",
+   "nome": "Ana Esteves Lima",
+   "cargo": "Médico Legista",
+   "lotacao": "Núcleo de Local de Crime",
+   "diretoria": "DMC",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "202368",
+   "nome": "Zeca Campos Prado",
+   "cargo": "Médico Legista",
+   "lotacao": "Núcleo de Local de Crime",
+   "diretoria": "DMC",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "202405",
+   "nome": "Elisa Nunes Moraes",
+   "cargo": "Médico Legista",
+   "lotacao": "Laboratório de Química",
+   "diretoria": "DMC",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "202442",
+   "nome": "Heitor Freitas Almeida",
+   "cargo": "Técnico em Necropsia",
+   "lotacao": "Posto de Identificação Centro",
+   "diretoria": "DII",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "202479",
+   "nome": "Carla Gomes Esteves",
+   "cargo": "Perito Oficial Criminal",
+   "lotacao": "Posto de Identificação Centro",
+   "diretoria": "DII",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "202516",
+   "nome": "Queila Holanda Igarashi",
+   "cargo": "Papiloscopista",
+   "lotacao": "IML Várzea Grande",
+   "diretoria": "DML",
+   "vinculo_ativo": true
+  },
+  {
+   "matricula": "202553",
+   "nome": "Zeca Holanda Jardim",
+   "cargo": "Perito Oficial Criminal",
+   "lotacao": "IML Cuiabá",
+   "diretoria": "DML",
+   "vinculo_ativo": false
+  }
+ ],
+ "diretorias": [
+  {
+   "sigla": "DMC",
+   "nome": "Diretoria Metropolitana de Criminalística"
+  },
+  {
+   "sigla": "DML",
+   "nome": "Diretoria Metropolitana de Medicina Legal"
+  },
+  {
+   "sigla": "DII",
+   "nome": "Diretoria de Identificação"
+  },
+  {
+   "sigla": "DIN",
+   "nome": "Diretoria de Interiorização"
+  }
+ ]
+}

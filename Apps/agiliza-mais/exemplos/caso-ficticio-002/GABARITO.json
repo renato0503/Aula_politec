@@ -1,0 +1,23 @@
+{
+ "caso": {
+  "protocolo": "2026.0001002",
+  "oficio": "102/2026/DPF-CBA",
+  "processo": "0001232-56.2026.8.11.0041",
+  "autoridade": "Delegado de Polícia Fictício da Silva",
+  "data": "20/10/2026",
+  "quesitos": [
+   "Qual a marca, o modelo e os IMEIs do aparelho examinado?",
+   "O aparelho continha cartão SIM? Em caso positivo, qual a operadora e o ICCID?",
+   "Foi possível extrair os dados armazenados no aparelho?",
+   "Os dados extraídos foram preservados com garantia de integridade?"
+  ]
+ },
+ "aparelho": {
+  "marca": "Xiaomi",
+  "modelo": "2201117TL",
+  "imei_1": "358946752774259",
+  "imei_2": ""
+ },
+ "hash": "9fd1cec51aad480109e6194880341461cda78333ae198f539659fe829c185c58",
+ "sims": []
+}

@@ -1,0 +1,373 @@
+{
+ "contratos": [
+  {
+   "id_contrato": "CT-001",
+   "numero": "001/2025",
+   "fornecedor": "Papelaria Central Ltda",
+   "cnpj": "00000001000136",
+   "valor_c": 6000037,
+   "data_inicio": "2026-05-27",
+   "vigencia_meses": 12,
+   "data_fim": "2027-05-27",
+   "objeto": "Fornecimento de material de expediente",
+   "permite_prorrogacao": true,
+   "alerta_dias": 90,
+   "status": "Vigente",
+   "criado_em": "2026-05-27T09:00:00"
+  },
+  {
+   "id_contrato": "CT-002",
+   "numero": "002/2025",
+   "fornecedor": "Tecnologia Mato Grosso S.A.",
+   "cnpj": "00000002000180",
+   "valor_c": 7850037,
+   "data_inicio": "2026-03-13",
+   "vigencia_meses": 12,
+   "data_fim": "2027-03-13",
+   "objeto": "Locação de equipamentos de informática",
+   "permite_prorrogacao": true,
+   "alerta_dias": 90,
+   "status": "Vigente",
+   "criado_em": "2026-03-13T09:00:00"
+  },
+  {
+   "id_contrato": "CT-003",
+   "numero": "003/2025",
+   "fornecedor": "Transportes Cerrado Ltda",
+   "cnpj": "00000003000125",
+   "valor_c": 9700037,
+   "data_inicio": "2026-02-16",
+   "vigencia_meses": 12,
+   "data_fim": "2027-02-16",
+   "objeto": "Serviço de transporte de vestígios",
+   "permite_prorrogacao": true,
+   "alerta_dias": 90,
+   "status": "Vigente",
+   "criado_em": "2026-02-16T09:00:00"
+  },
+  {
+   "id_contrato": "CT-004",
+   "numero": "004/2025",
+   "fornecedor": "Laboratório Vida Diagnósticos",
+   "cnpj": "00000004000170",
+   "valor_c": 11550037,
+   "data_inicio": "2026-02-01",
+   "vigencia_meses": 12,
+   "data_fim": "2027-02-01",
+   "objeto": "Insumos para exames laboratoriais",
+   "permite_prorrogacao": true,
+   "alerta_dias": 90,
+   "status": "Vigente",
+   "criado_em": "2026-02-01T09:00:00"
+  },
+  {
+   "id_contrato": "CT-005",
+   "numero": "005/2025",
+   "fornecedor": "Segurança Norte Serviços",
+   "cnpj": "00000005000114",
+   "valor_c": 13400037,
+   "data_inicio": "2026-01-17",
+   "vigencia_meses": 12,
+   "data_fim": "2027-01-17",
+   "objeto": "Vigilância patrimonial",
+   "permite_prorrogacao": false,
+   "alerta_dias": 90,
+   "status": "Vigente",
+   "criado_em": "2026-01-17T09:00:00"
+  },
+  {
+   "id_contrato": "CT-006",
+   "numero": "006/2025",
+   "fornecedor": "Limpeza Cuiabá Ltda",
+   "cnpj": "00000006000169",
+   "valor_c": 15250037,
+   "data_inicio": "2026-01-07",
+   "vigencia_meses": 12,
+   "data_fim": "2027-01-07",
+   "objeto": "Serviço de limpeza e conservação",
+   "permite_prorrogacao": true,
+   "alerta_dias": 90,
+   "status": "Vigente",
+   "criado_em": "2026-01-07T09:00:00"
+  },
+  {
+   "id_contrato": "CT-007",
+   "numero": "007/2025",
+   "fornecedor": "Locadora Pantanal Veículos",
+   "cnpj": "00000007000103",
+   "valor_c": 17100037,
+   "data_inicio": "2025-12-23",
+   "vigencia_meses": 12,
+   "data_fim": "2026-12-23",
+   "objeto": "Locação de veículos",
+   "permite_prorrogacao": true,
+   "alerta_dias": 90,
+   "status": "Vigente",
+   "criado_em": "2025-12-23T09:00:00"
+  },
+  {
+   "id_contrato": "CT-008",
+   "numero": "008/2025",
+   "fornecedor": "Comercial Araguaia Eireli",
+   "cnpj": "00000008000158",
+   "valor_c": 18950037,
+   "data_inicio": "2025-12-13",
+   "vigencia_meses": 12,
+   "data_fim": "2026-12-13",
+   "objeto": "Gêneros alimentícios",
+   "permite_prorrogacao": true,
+   "alerta_dias": 90,
+   "status": "Vigente",
+   "criado_em": "2025-12-13T09:00:00"
+  },
+  {
+   "id_contrato": "CT-009",
+   "numero": "009/2025",
+   "fornecedor": "Sistemas Integrados MT",
+   "cnpj": "00000009000100",
+   "valor_c": 20800037,
+   "data_inicio": "2025-12-03",
+   "vigencia_meses": 12,
+   "data_fim": "2026-12-03",
+   "objeto": "Suporte e manutenção de sistemas",
+   "permite_prorrogacao": true,
+   "alerta_dias": 90,
+   "status": "Vigente",
+   "criado_em": "2025-12-03T09:00:00"
+  },
+  {
+   "id_contrato": "CT-010",
+   "numero": "010/2025",
+   "fornecedor": "Manutenção Predial Centro-Oeste",
+   "cnpj": "00000010000127",
+   "valor_c": 22650037,
+   "data_inicio": "2025-11-18",
+   "vigencia_meses": 12,
+   "data_fim": "2026-11-18",
+   "objeto": "Manutenção predial",
+   "permite_prorrogacao": true,
+   "alerta_dias": 90,
+   "status": "Vigente",
+   "criado_em": "2025-11-18T09:00:00"
+  },
+  {
+   "id_contrato": "CT-011",
+   "numero": "011/2025",
+   "fornecedor": "Gráfica Rondon",
+   "cnpj": "00000011000171",
+   "valor_c": 24500037,
+   "data_inicio": "2025-11-03",
+   "vigencia_meses": 12,
+   "data_fim": "2026-11-03",
+   "objeto": "Serviços gráficos",
+   "permite_prorrogacao": true,
+   "alerta_dias": 90,
+   "status": "Vigente",
+   "criado_em": "2025-11-03T09:00:00"
+  },
+  {
+   "id_contrato": "CT-012",
+   "numero": "012/2025",
+   "fornecedor": "Energia Solar Sinop",
+   "cnpj": "00000012000116",
+   "valor_c": 26350037,
+   "data_inicio": "2025-10-17",
+   "vigencia_meses": 12,
+   "data_fim": "2026-10-17",
+   "objeto": "Instalação de painéis solares",
+   "permite_prorrogacao": true,
+   "alerta_dias": 90,
+   "status": "Vigente",
+   "criado_em": "2025-10-17T09:00:00"
+  },
+  {
+   "id_contrato": "CT-013",
+   "numero": "013/2025",
+   "fornecedor": "Refrigeração Tropical",
+   "cnpj": "00000013000160",
+   "valor_c": 28200037,
+   "data_inicio": "2025-09-14",
+   "vigencia_meses": 12,
+   "data_fim": "2026-09-14",
+   "objeto": "Manutenção de câmaras frias",
+   "permite_prorrogacao": true,
+   "alerta_dias": 90,
+   "status": "Vigente",
+   "criado_em": "2025-09-14T09:00:00"
+  },
+  {
+   "id_contrato": "CT-014",
+   "numero": "014/2025",
+   "fornecedor": "Editora Verde Amazônia",
+   "cnpj": "00000014000105",
+   "valor_c": 30050037,
+   "data_inicio": "2026-12-03",
+   "vigencia_meses": 12,
+   "data_fim": "2027-12-03",
+   "objeto": "Assinatura de periódicos",
+   "permite_prorrogacao": true,
+   "alerta_dias": 90,
+   "status": "Encerrado",
+   "criado_em": "2026-12-03T09:00:00"
+  },
+  {
+   "id_contrato": "CT-015",
+   "numero": "015/2025",
+   "fornecedor": "Rede Fibras MT",
+   "cnpj": "00000015000150",
+   "valor_c": 31900037,
+   "data_inicio": "2025-12-30",
+   "vigencia_meses": 12,
+   "data_fim": "2026-12-30",
+   "objeto": "Link de internet dedicado",
+   "permite_prorrogacao": true,
+   "alerta_dias": 90,
+   "status": "Vigente",
+   "criado_em": "2025-12-30T09:00:00"
+  }
+ ],
+ "aditivos": [
+  {
+   "id_aditivo": "AD-3",
+   "contrato_id": "CT-003",
+   "numero_aditivo": "1º TA",
+   "data_assinatura": "2026-10-19",
+   "nova_vigencia": "2028-02-16",
+   "fundamento": "Lei nº 14.133/2021, art. 107",
+   "status": "Publicado",
+   "criado_em": "2026-10-19T10:00:00"
+  },
+  {
+   "id_aditivo": "AD-8",
+   "contrato_id": "CT-008",
+   "numero_aditivo": "1º TA",
+   "data_assinatura": "2026-08-15",
+   "nova_vigencia": "2027-12-13",
+   "fundamento": "Lei nº 14.133/2021, art. 107",
+   "status": "Publicado",
+   "criado_em": "2026-08-15T10:00:00"
+  }
+ ],
+ "auditoria": [
+  {
+   "id_evento": "A-1-0",
+   "contrato_id": "CT-001",
+   "acao": "contrato cadastrado",
+   "detalhe": "001/2025 · término 2027-05-27",
+   "perfil": "admin",
+   "data_hora": "2026-05-27T09:00:00"
+  },
+  {
+   "id_evento": "A-2-0",
+   "contrato_id": "CT-002",
+   "acao": "contrato cadastrado",
+   "detalhe": "002/2025 · término 2027-03-13",
+   "perfil": "admin",
+   "data_hora": "2026-03-13T09:00:00"
+  },
+  {
+   "id_evento": "A-3-0",
+   "contrato_id": "CT-003",
+   "acao": "contrato cadastrado",
+   "detalhe": "003/2025 · término 2027-02-16",
+   "perfil": "admin",
+   "data_hora": "2026-02-16T09:00:00"
+  },
+  {
+   "id_evento": "A-4-0",
+   "contrato_id": "CT-004",
+   "acao": "contrato cadastrado",
+   "detalhe": "004/2025 · término 2027-02-01",
+   "perfil": "admin",
+   "data_hora": "2026-02-01T09:00:00"
+  },
+  {
+   "id_evento": "A-5-0",
+   "contrato_id": "CT-005",
+   "acao": "contrato cadastrado",
+   "detalhe": "005/2025 · término 2027-01-17",
+   "perfil": "admin",
+   "data_hora": "2026-01-17T09:00:00"
+  },
+  {
+   "id_evento": "A-6-0",
+   "contrato_id": "CT-006",
+   "acao": "contrato cadastrado",
+   "detalhe": "006/2025 · término 2027-01-07",
+   "perfil": "admin",
+   "data_hora": "2026-01-07T09:00:00"
+  },
+  {
+   "id_evento": "A-7-0",
+   "contrato_id": "CT-007",
+   "acao": "contrato cadastrado",
+   "detalhe": "007/2025 · término 2026-12-23",
+   "perfil": "admin",
+   "data_hora": "2025-12-23T09:00:00"
+  },
+  {
+   "id_evento": "A-8-0",
+   "contrato_id": "CT-008",
+   "acao": "contrato cadastrado",
+   "detalhe": "008/2025 · término 2026-12-13",
+   "perfil": "admin",
+   "data_hora": "2025-12-13T09:00:00"
+  },
+  {
+   "id_evento": "A-9-0",
+   "contrato_id": "CT-009",
+   "acao": "contrato cadastrado",
+   "detalhe": "009/2025 · término 2026-12-03",
+   "perfil": "admin",
+   "data_hora": "2025-12-03T09:00:00"
+  },
+  {
+   "id_evento": "A-10-0",
+   "contrato_id": "CT-010",
+   "acao": "contrato cadastrado",
+   "detalhe": "010/2025 · término 2026-11-18",
+   "perfil": "admin",
+   "data_hora": "2025-11-18T09:00:00"
+  },
+  {
+   "id_evento": "A-11-0",
+   "contrato_id": "CT-011",
+   "acao": "contrato cadastrado",
+   "detalhe": "011/2025 · término 2026-11-03",
+   "perfil": "admin",
+   "data_hora": "2025-11-03T09:00:00"
+  },
+  {
+   "id_evento": "A-12-0",
+   "contrato_id": "CT-012",
+   "acao": "contrato cadastrado",
+   "detalhe": "012/2025 · término 2026-10-17",
+   "perfil": "admin",
+   "data_hora": "2025-10-17T09:00:00"
+  },
+  {
+   "id_evento": "A-13-0",
+   "contrato_id": "CT-013",
+   "acao": "contrato cadastrado",
+   "detalhe": "013/2025 · término 2026-09-14",
+   "perfil": "admin",
+   "data_hora": "2025-09-14T09:00:00"
+  },
+  {
+   "id_evento": "A-14-0",
+   "contrato_id": "CT-014",
+   "acao": "contrato cadastrado",
+   "detalhe": "014/2025 · término 2027-12-03",
+   "perfil": "admin",
+   "data_hora": "2026-12-03T09:00:00"
+  },
+  {
+   "id_evento": "A-15-0",
+   "contrato_id": "CT-015",
+   "acao": "contrato cadastrado",
+   "detalhe": "015/2025 · término 2026-12-30",
+   "perfil": "admin",
+   "data_hora": "2025-12-30T09:00:00"
+  }
+ ]
+}

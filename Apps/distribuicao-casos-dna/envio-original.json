@@ -1,0 +1,522 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T16:55:39.520Z",
+  "campos": {
+    "data": "2026-10-27",
+    "aluno": "Nelson e Luciana",
+    "unidade": "Gerência de Perícias em Biologia Molecular",
+    "contato": "nelsonyoshitake@politec.mt.gov.br",
+    "nome_projeto": "Alteração do modelo de distribuição de casos envolvendo perícias de DNA, de rodada de pastas para rodada da placa de análise.",
+    "tipo_projeto": "Mapeamento de processo (fluxo, BPMN ou Mermaid)",
+    "resumo": "O projeto piloto visa reduzir o tempo entre a aliquotagem das amostras e a liberação do laudo pericial. Anteriormente, as pastas dos casos eram distribuídas após a obtenção dos perfis genéticos, e distribuído aos peritos em lotes de 5 a 8 pastas/perito. A distribuição incluía os casos ordinários e as cobranças e alguns ficavam sem distribuição durante algumas semanas. No projeto, após a aliquotagem dos casos de cobrança, as pastas são distribuídas aos peritos para iniciarem a compilação de dados e após a obtenção dos perfis genéticos, todos os casos ordinários são distribuídos para um dos peritos. Desta forma, a rodada da semana é totalmente distribuída e no próximo ciclo outro perito recebe a rodada completa dos casos ordinários.",
+    "problema": "Gargalo de tempo até a distribuição de todos os casos da rodada aos peritos.",
+    "hoje": "As pastas dos casos eram distribuídas após a obtenção dos perfis genéticos, e distribuído aos peritos em lotes de 5 a 8 pastas/perito. A distribuição incluía os casos ordinários e as cobranças e alguns ficavam sem distribuição durante algumas semanas",
+    "impacto": "Redução de tempo para liberação dos laudos após a obtenção dos perfis genéticos",
+    "evid_detalhe": "Planilha com o controle dos protocolos com data de entrada no setor, data de processamento das alíquotas, data de distribuição ao perito e data de liberação do laudo pericial. A redução do tempo entre a entrada no setor e o processamento está sendo feito mediante o desenvolvimento de um Power Bi que ranqueia os protocolos baseados em pesos. Neste momento, busca-se verificar a redução do tempo entre o data de processamento das alíquotas e a data de distribuição ao perito e consequentemente, a redução de tempo para a liberação do laudo pericial.",
+    "limite": "A análise e interpretação dos perfis genéticos depende muito da experiência do analista.",
+    "asis_inicio": "Abertura de protocolo solicitando exame complementar para o DNA",
+    "asis_fim": "Liberação do laudo pericial",
+    "asis_entradas": "Laudos periciais associados (laudo da medicina legal, laudo de local de crime), Requisição de laudo, pasta do caso, Formulários, planilhas, perfis genéticos, relatórios de cálculos estatísticos, laudo pericial",
+    "asis_saidas": "Laudo pericial disponibilizado",
+    "asis_volume": "300",
+    "asis_duracao": "84h/caso/mês",
+    "asis_frequencia": "Mensal",
+    "asis_decisoes": "1- recepção do laboratório confere se não há divergências entre informações do sistema e os materiais entregues, caso haja é registrada divergência;\n3- Durante o cadastro das informações referentes ao protocolo na planilha, podem haver dados incompletos dificultando o cadastro e o prosseguimento das etapas analíticas;\n7- Apesar de existirem POPs que norteiam a tomada de decisões para a aliquotagem, existem muitas particularidades que requerem um olhar caso a caso;\n9- Existem diferentes naturezas (crime sexual, local de crime, identificação humana) de exames e peritos especializados para cada natureza. O encaminhamento das pastas aos peritos pelo coordenador depende do número de casos ainda pendentes e do número de cobranças recentes que o perito tem em andamento",
+    "asis_digital": "Atualmente existem 3 planilhas (1- contém as todas as informações de cada protocolo desde a entrada do documento até a liberação  do laudo pericial; 2- custódia dos materiais; 3- nome das alíquotas produzidas e que vão ser colocadas para processamento). Existe ainda, um app em desenvolvimento que permitirá o acompanhamento das amostras se já foram aliquotadas, qual o método de extração e o status de processamento",
+    "tobe_visao": "Redução do tempo de distribuição dos casos e consequente redução no tempo de liberação dos laudos periciais",
+    "tobe_mudanca": "Melhora na eficiência da prestação de serviço para a sociedade",
+    "tobe_inalterado": "Os procedimentos laboratoriais, controle de qualidade, rastreabilidade permanecem iguais",
+    "tobe_restricao": "O controle da custódia, a análise e interpretação dos perfis genéticos",
+    "tobe_piloto": "Piloto de 30 dias registrado em planilha",
+    "coletar": "Atualmente existe um delay entre a saída dos resultados do processamento e a entrega da pasta ao perito",
+    "acesso": "o coordenador no momento da distribuição dos casos",
+    "base_periodo": "Registro"
+  },
+  "marcados": {
+    "afetado": [
+      "Cidadão externo",
+      "Servidor da unidade",
+      "Equipe interna",
+      "Autoridade",
+      "Unidade parceira",
+      "Chefia"
+    ],
+    "evid": [
+      "Medida feita pela equipe",
+      "Planilha ou controle local"
+    ]
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "Recebimento da solicitação de perícia",
+        "papel": "recepção do laboratório forense",
+        "entra": "materiais em lacre e documentos solicitantes ",
+        "acao": "encaminhamento",
+        "sai": "",
+        "sistema": "sistema",
+        "regra": "decisão",
+        "espera": "recepção do laboratório",
+        "tempo": "2",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Busca dos envelopes de lacre e dos documentos solicitantes",
+        "papel": "Técnico do laboratório de DNA",
+        "entra": "materiais em lacre e documentos solicitantes",
+        "acao": "guarda dos materiais em lacre no container da custódia",
+        "sai": "",
+        "sistema": "sistema",
+        "regra": "regra",
+        "espera": "adm",
+        "tempo": "120",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "cadastro em planilha",
+        "papel": "Técnico do laboratório de DNA",
+        "entra": "dados de cada requisição",
+        "acao": "cadastro dos dados da requisição",
+        "sai": "planilha alimentada",
+        "sistema": "sistema",
+        "regra": "decisão",
+        "espera": "adm",
+        "tempo": "120",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Ranqueamento da prioridade dos protocolos",
+        "papel": "Coordenador, mas estamos estruturando um Power BI baseado em pesos",
+        "entra": "dados",
+        "acao": "Análise do intervalo entre a data do fato e a data da coleta do material",
+        "sai": "lista classificada",
+        "sistema": "sistema",
+        "regra": "regra",
+        "espera": "automático",
+        "tempo": "0",
+        "auto": "Sim, com regra clara",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "solicitação de amostras da custódia",
+        "papel": "Técnico do laboratório de DNA",
+        "entra": "",
+        "acao": "busca ativa",
+        "sai": "envelopes de lacre",
+        "sistema": "sistema",
+        "regra": "regra",
+        "espera": "sala de custódia",
+        "tempo": "8",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "entrega do envelope de lacre ao perito",
+        "papel": "Técnico do laboratório de DNA",
+        "entra": "",
+        "acao": "entrega física e da custódia do material",
+        "sai": "envelopes de lacre",
+        "sistema": "papel",
+        "regra": "regra",
+        "espera": "freezer",
+        "tempo": "4",
+        "auto": "Não",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "conferência e aliquotagem dos materiais",
+        "papel": "perito com auxílio de técnico",
+        "entra": "amostra íntegra",
+        "acao": "aliquotagem",
+        "sai": "amostra aliquotada",
+        "sistema": "papel",
+        "regra": "decisão",
+        "espera": "tempo de bancada",
+        "tempo": "2",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "encaminhamento para processamento até a obtenção do perfil genético",
+        "papel": "perito",
+        "entra": "amostra aliquotada",
+        "acao": "extração do dna, purificação, quantificação, normalização, amplificação, eletroforese capilar, montagem e liberação de projeto, análise dos perfis genéticos",
+        "sai": "perfil genético",
+        "sistema": "sistema",
+        "regra": "regra",
+        "espera": "laboratório de processamento de amostras questionadas",
+        "tempo": "96",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "distribuição das pastas aos peritos",
+        "papel": "coordenador",
+        "entra": "pastas dos casos",
+        "acao": "repasse da custódia dos documentos",
+        "sai": "pastas dos casos",
+        "sistema": "papel e sistema",
+        "regra": "decisão",
+        "espera": "até a próxima distribuição",
+        "tempo": "120",
+        "auto": "Pouco",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "análise do caso, dos resultados e elaboração do laudo pericial",
+        "papel": "perito",
+        "entra": "dados",
+        "acao": "análise dos perfis genéticos, confronto genético, análise estatística e confecção do laudo",
+        "sai": "laudo pericial",
+        "sistema": "sistema",
+        "regra": "regra",
+        "espera": "mesa do perito",
+        "tempo": "48",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "Inclusão do laudo no sistema Atena",
+        "papel": "perito",
+        "entra": "arquivo",
+        "acao": "upload",
+        "sai": "arquivo",
+        "sistema": "sistema",
+        "regra": "regra",
+        "espera": "sistema",
+        "tempo": "1",
+        "auto": "Não",
+        "rm": ""
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "",
+        "muda": "",
+        "quem": "",
+        "beneficio": "",
+        "esforco": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "",
+        "muda": "",
+        "quem": "",
+        "beneficio": "",
+        "esforco": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "",
+        "muda": "",
+        "quem": "",
+        "beneficio": "",
+        "esforco": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "",
+        "muda": "",
+        "quem": "",
+        "beneficio": "",
+        "esforco": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "",
+        "muda": "",
+        "quem": "",
+        "beneficio": "",
+        "esforco": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "",
+        "muda": "",
+        "quem": "",
+        "beneficio": "",
+        "esforco": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "",
+        "muda": "",
+        "quem": "",
+        "beneficio": "",
+        "esforco": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "",
+        "muda": "",
+        "quem": "",
+        "beneficio": "",
+        "esforco": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "ao invés de distribuir pastas de casos ordinarios e de cobranças para cada perito, cria-se duas filas",
+        "muda": "um perito recebe todos os casos ordinários de toda a rodada; e as cobranças ficam em outra fila, sendo que a distribuição das pastas ocorre antes do processamento, ou seja, ao término dos exames todas as pastas já tem os peritos responsáveis",
+        "quem": "A pessoa, sem mudança",
+        "beneficio": "redução do tempo de liberação do laudo",
+        "esforco": "Baixo",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "",
+        "muda": "",
+        "quem": "",
+        "beneficio": "",
+        "esforco": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "",
+        "muda": "",
+        "quem": "",
+        "beneficio": "",
+        "esforco": "",
+        "rm": ""
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "coordenador",
+        "quem": "Responsável pela gestão operacional do laboratório e pela supervisão das equipes e dos processos.",
+        "ve": "Painel geral, fila de exames, status das amostras, prazos, pendências, indicadores, relatórios e histórico de atividades conforme sua autorização.",
+        "faz": "Distribui demandas, acompanha prazos, supervisiona o fluxo de trabalho, trata pendências, autoriza ações administrativas previstas e acompanha indicadores de desempenho.",
+        "naofaz": "Alterar resultados periciais sem autorização e justificativa formal; apagar registros de auditoria; acessar dados restritos sem necessidade funcional; aprovar o próprio trabalho quando houver segregação obrigatória de funções.",
+        "registro": "Login e acessos, distribuição de exames, alterações de prioridade, decisões administrativas, autorizações, justificativas, consultas e exportações de dados.",
+        "rm": ""
+      },
+      {
+        "papel": "técnico administrativo",
+        "quem": "Profissional responsável pelo recebimento, cadastro, organização documental e controle administrativo dos exames e das amostras.",
+        "ve": "Cadastros, solicitações, identificação e situação administrativa das amostras, documentos, protocolos, pendências e prazos necessários à sua função.",
+        "faz": "Cadastra solicitações, confere documentos, registra recebimentos e movimentações autorizadas, organiza processos, atualiza dados administrativos e encaminha demandas aos responsáveis.",
+        "naofaz": "Validar ou alterar resultados de DNA; emitir conclusões periciais; modificar dados técnicos sem autorização; liberar laudos restritos; excluir registros definitivos ou contornar controles de acesso.",
+        "registro": "Cadastros e alterações, recebimento e encaminhamento de materiais, conferências documentais, usuário responsável, data e hora das ações e justificativas de correção.",
+        "rm": ""
+      },
+      {
+        "papel": "perito",
+        "quem": "Profissional habilitado responsável pela análise técnico-científica das amostras e pela elaboração ou validação das conclusões periciais, conforme sua competência.",
+        "ve": "Dados técnicos autorizados, identificação codificada das amostras, cadeia de custódia, protocolos analíticos, resultados laboratoriais, controles de qualidade, histórico de processamento e documentos pertinentes ao exame.",
+        "faz": "Analisa amostras, registra procedimentos, interpreta resultados, documenta inconformidades, elabora conclusões e assina ou valida laudos conforme suas atribuições e os procedimentos do laboratório.",
+        "naofaz": "Alterar ou apagar resultados sem trilha de auditoria; modificar a cadeia de custódia retroativamente; acessar casos sem autorização; validar análises fora de sua competência; liberar resultados sem cumprir os critérios de revisão aplicáveis.",
+        "registro": "Acesso ao caso, identificação das amostras, etapas analíticas, métodos utilizados, equipamentos e reagentes quando aplicável, resultados, controles, revisões, alterações justificadas, assinatura e emissão de laudos.",
+        "rm": ""
+      },
+      {
+        "papel": "",
+        "quem": "",
+        "ve": "",
+        "faz": "",
+        "naofaz": "",
+        "registro": "",
+        "rm": ""
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "",
+        "rota": "",
+        "objetivo": "",
+        "usuario": "",
+        "dados": "",
+        "acao": "",
+        "regra": "",
+        "tipo": "",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "",
+        "rota": "",
+        "objetivo": "",
+        "usuario": "",
+        "dados": "",
+        "acao": "",
+        "regra": "",
+        "tipo": "",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "",
+        "representa": "",
+        "colunas": "",
+        "chave": "",
+        "volume": "",
+        "origem": "",
+        "sintetico": "",
+        "rm": ""
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "",
+        "regra": "",
+        "quando": "",
+        "excecao": "",
+        "valida": "",
+        "tipo": "",
+        "rm": ""
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "sistema Atena",
+        "tipo": "Sistema oficial",
+        "onde": "rede",
+        "existe": "Sim",
+        "acesso": "restrito ao usuário cadastrado",
+        "linha": "protocolo",
+        "volume": "",
+        "historico": "",
+        "campos": "sim",
+        "atualiza": "sim",
+        "lgpd": "Sim",
+        "obs": "Sistema Atena",
+        "rm": ""
+      },
+      {
+        "fonte": "sistema",
+        "tipo": "Planilha local",
+        "onde": "rede local",
+        "existe": "Sim",
+        "acesso": "usuários com acesso a rede local",
+        "linha": "protocolo",
+        "volume": "",
+        "historico": "",
+        "campos": "sim",
+        "atualiza": "sim",
+        "lgpd": "Sim",
+        "obs": "Planilha 116",
+        "rm": ""
+      },
+      {
+        "fonte": "sistema",
+        "tipo": "Planilha local",
+        "onde": "rede local",
+        "existe": "Sim",
+        "acesso": "usuários com acesso a rede local",
+        "linha": "protocolo",
+        "volume": "",
+        "historico": "",
+        "campos": "sim",
+        "atualiza": "sim",
+        "lgpd": "Sim",
+        "obs": "Planilha de conferência de materiais",
+        "rm": ""
+      },
+      {
+        "fonte": "sistema",
+        "tipo": "Planilha local",
+        "onde": "rede local",
+        "existe": "Sim",
+        "acesso": "usuários com acesso a rede local",
+        "linha": "alíquota",
+        "volume": "",
+        "historico": "",
+        "campos": "sim",
+        "atualiza": "sim",
+        "lgpd": "Sim",
+        "obs": "Planilha AQs para processamento",
+        "rm": ""
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "Tempo de liberação",
+        "pergunta": "Houve redução do tempo",
+        "formula": "data de disponibilização de resultados  menos a data de liberação do laudo",
+        "fonte": "",
+        "gran": "Mês",
+        "base": "",
+        "esperado": "",
+        "medir": "",
+        "quem": "coordenador",
+        "rm": ""
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "",
+        "tipo": "",
+        "onde": "",
+        "custo": "",
+        "mantem": "",
+        "acesso": "",
+        "banco": "",
+        "escala": "",
+        "limite": "",
+        "rm": ""
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "",
+        "data": "",
+        "resp": "",
+        "dep": "",
+        "sit": "",
+        "rm": ""
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "",
+        "prob": "",
+        "imp": "",
+        "mit": "",
+        "rm": ""
+      }
+    ],
+    "tRefs": [
+      {
+        "n": "",
+        "ref": "",
+        "tipo": "",
+        "fonte": "",
+        "ano": "",
+        "dado": "",
+        "uso": "",
+        "conferido": "",
+        "rm": ""
+      }
+    ]
+  }
+}

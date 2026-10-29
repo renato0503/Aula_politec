@@ -1,0 +1,204 @@
+{
+  "titulo": "Banco de Demandas",
+  "subtitulo": "Hórus · PCA · versão offline",
+  "descricao": "Repositório de demandas de contratação reutilizáveis, com manifestação de interesse e aprovação para o ciclo do PCA.",
+  "aviso": "Versão offline. O Hórus continua sendo o registro oficial do ciclo.",
+  "db": {
+    "nome": "banco_demandas_v1",
+    "versao": 1,
+    "stores": {
+      "orgaos": {
+        "keyPath": "id",
+        "indices": []
+      },
+      "diretorias": {
+        "keyPath": "id",
+        "indices": []
+      },
+      "unidades": {
+        "keyPath": "id",
+        "indices": []
+      },
+      "unidades_medida": {
+        "keyPath": "id",
+        "indices": []
+      },
+      "ciclos": {
+        "keyPath": "id",
+        "indices": []
+      },
+      "banco_demandas": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "unidade_id",
+            "campo": "unidade_id",
+            "unico": false
+          }
+        ]
+      },
+      "banco_demanda_manifestacoes": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "banco_demanda_id",
+            "campo": "banco_demanda_id",
+            "unico": false
+          },
+          {
+            "nome": "demanda_unidade",
+            "campo": [
+              "banco_demanda_id",
+              "unidade_id"
+            ],
+            "unico": true
+          }
+        ]
+      },
+      "banco_demanda_inclusoes": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "banco_demanda_id",
+            "campo": "banco_demanda_id",
+            "unico": false
+          },
+          {
+            "nome": "demanda_quadro",
+            "campo": [
+              "banco_demanda_id",
+              "quadro_id"
+            ],
+            "unico": true
+          }
+        ]
+      },
+      "log": {
+        "keyPath": "id",
+        "indices": []
+      }
+    }
+  },
+  "perfis": [
+    {
+      "id": "ADM",
+      "nome": "ADM",
+      "descricao": "Acesso total."
+    },
+    {
+      "id": "DIRETOR",
+      "nome": "Diretor",
+      "descricao": "Cria, edita qualquer card, aprova, gera relatórios."
+    },
+    {
+      "id": "COORDENADOR",
+      "nome": "Coordenador",
+      "descricao": "Cria e aprova demandas das unidades que gerencia."
+    },
+    {
+      "id": "GERENTE",
+      "nome": "Gerente de unidade",
+      "descricao": "Cria e edita os próprios itens, manifesta interesse."
+    },
+    {
+      "id": "USUARIO_SETORIAL",
+      "nome": "Usuário setorial",
+      "descricao": "Cria e edita os próprios itens, manifesta interesse."
+    },
+    {
+      "id": "INVENTARIANTE",
+      "nome": "Inventariante",
+      "descricao": "Somente leitura."
+    }
+  ],
+  "rotas": [
+    {
+      "rota": "#/banco",
+      "titulo": "Banco",
+      "sprint": 3,
+      "descricao": "Grade de cards do repositório."
+    },
+    {
+      "rota": "#/demanda/nova",
+      "titulo": "Nova demanda",
+      "sprint": 2,
+      "descricao": "Cadastro com R1 a R6.",
+      "perfis": [
+        "ADM",
+        "DIRETOR",
+        "COORDENADOR",
+        "GERENTE",
+        "USUARIO_SETORIAL"
+      ]
+    },
+    {
+      "rota": "#/demanda/:id",
+      "titulo": "Editar demanda",
+      "sprint": 2,
+      "descricao": "Edição respeitando R8."
+    },
+    {
+      "rota": "#/demanda/:id/ver",
+      "titulo": "Ficha da demanda",
+      "sprint": 3,
+      "descricao": "Especificação, anexo, manifestações e ciclos."
+    },
+    {
+      "rota": "#/demanda/:id/interesse",
+      "titulo": "Manifestar interesse",
+      "sprint": 5,
+      "descricao": "Quantidade e justificativa (R9)."
+    },
+    {
+      "rota": "#/ciclos",
+      "titulo": "Ciclos",
+      "sprint": 6,
+      "descricao": "Ciclo ATIVO.",
+      "perfis": [
+        "ADM",
+        "DIRETOR"
+      ]
+    },
+    {
+      "rota": "#/aprovar",
+      "titulo": "Aprovar",
+      "sprint": 6,
+      "descricao": "Aprovação para o ciclo ativo (R7).",
+      "perfis": [
+        "ADM",
+        "DIRETOR",
+        "COORDENADOR"
+      ]
+    },
+    {
+      "rota": "#/relatorios",
+      "titulo": "Relatórios",
+      "sprint": 7,
+      "descricao": "Geral e Aprovadas.",
+      "perfis": [
+        "ADM",
+        "DIRETOR",
+        "COORDENADOR"
+      ]
+    },
+    {
+      "rota": "#/trocar",
+      "titulo": "Trocar arquivos",
+      "sprint": 4,
+      "descricao": "Demandas, catálogo, manifestações e exportação para o Hórus."
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": ""
+    }
+  ],
+  "libs": [],
+  "dados": [
+    [
+      "seed",
+      "exemplos/seed.json"
+    ]
+  ]
+}

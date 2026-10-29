@@ -1,0 +1,261 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T12:56:17.533Z",
+  "campos": {
+    "data": "2026-10-27",
+    "aluno": "Edilaura Rondon ",
+    "unidade": "Gerência de Formação Inicial e Continuada ",
+    "contato": "capacitacao@politec.mt.gov.br",
+    "nome_projeto": "Gestão Dinâmica de Inscrições em Cursos",
+    "tipo_projeto": "Aplicativo (app) para cidadão, servidor ou equipe",
+    "resumo": "O projeto Gestão Dinâmica de Inscrições em Cursos consiste na padronização e automação de todo o ciclo de ingresso em capacitações da POLITEC, centralizando a coleta dos dados funcionais do servidor, como matrícula, lotação e e-mail institucional, em um fluxo contínuo e transparente. A iniciativa elimina gargalos operacionais ao fornecer confirmação imediata de recebimento ao candidato com status \"em análise\", automatizar a comunicação por e-mail e estruturar uma triagem eficiente para validação de requisitos e controle de vagas pela equipe responsável.",
+    "problema": "O principal gargalo identificado é a ausência de um fluxo padronizado para a coleta de dados cadastrais dos servidores e a gestão das inscrições em cursos.",
+    "hoje": "Atualmente, a divulgação das capacitações e a distribuição de vagas ocorrem diretamente às diretorias, que ficam responsáveis pela seleção dos servidores — definindo os candidatos para as vagas efetivas e para o cadastro de reserva",
+    "impacto": "O impacto negativo central decorre da distribuição ineficiente das vagas e de falhas no processo de coleta de dados, causadas pela falta de retorno tempestivo dos servidores e pela ausência de um cadastro atualizado e padronizado.\"",
+    "evid_detalhe": "Planilha de excel",
+    "limite": "Decidir quem fica com a vaga titular ou no cadastro de reserva quando a demanda é maior que o número de vagas.",
+    "asis_inicio": "divulgação de vagas de cursos/treinamentos para a Diretorias da POLITEC",
+    "asis_fim": "Cadastro do servidor no curso/treinamento",
+    "asis_entradas": "Planilha com os dados do servidor(nome completo, unidade/lotação, matricula, CPF, telefone e email funcional)",
+    "asis_saidas": "Servidor capacitado e certificação/declaração de conclusão de cursos/treinamentos",
+    "asis_volume": "50",
+    "asis_duracao": "40 horas semanais",
+    "asis_frequencia": "Mensal",
+    "asis_decisoes": " A efetivação da inscrição é pela ordem de indicação ",
+    "asis_excecoes": "Caso haja desistência de primeiro indicado temos o cadastro reserva ",
+    "asis_digital": "Digitação em planilha de Excel e disponibilizado ao setor ou órgão responsável pelo o curso ",
+    "papeis_obs": "O gerente verifica os dados e planilha as informações e compartilha aos gestores do curso",
+    "tobe_visao": "Transformar a gestão de capacitações em um processo totalmente fluido, onde a tecnologia automatiza a coleta de dados e a comunicação, permitindo que a liderança foque na decisão estratégica e no desenvolvimento continuo dos servidores.",
+    "tobe_mudanca": "A mudança principal é a transição de um processo manual, descentralizado e lento para um fluxo automatizado, padronizado e transparente.",
+    "tobe_inalterado": "A prerrogativa das diretorias na seleção dos servidores, a validação humana dos pré-requisitos e a execução presencial das instruções práticas permanecem exatamente as mesmas.",
+    "tobe_restricao": "A autonomia das diretorias na indicação dos participantes, o cumprimento rigoroso dos pré-requisitos regulamentares e a avaliação presencial da aptidão técnica do servidor permanecem intocados",
+    "tobe_piloto": "O teste do estado futuro (TO-BE) será realizado em ambiente de homologação e por meio de um projeto-piloto em turma reduzida, validando o preenchimento dos dados, o disparo das notificações automáticas e a facilidade de triagem pelas diretorias antes do lançamento oficial.",
+    "entrega": "O entregável final do projeto é a **documentação consolidada do novo fluxo de inscrição e cadastro de cursos da POLITEC**, contendo o mapeamento detalhado do processo futuro (TO-BE), os formulários digitais padronizados para coleta de dados, a matriz de governança com as diretrizes de autonomia das diretorias e o relatório de validação do projeto-piloto para a implantação definitiva do sistema.",
+    "dentro": "O escopo do projeto abrange o mapeamento e a padronização integral do fluxo de inscrição (AS-IS e TO-BE), a criação dos formulários digitais padronizados, a automação das notificações e comunicações com os servidores, a organização da base de dados para otimizar a triagem pelas diretorias, o estabelecimento da matriz de governança, além da realização do projeto-piloto de testes e a entrega da documentação final para a implantação definitiva na POLITEC.",
+    "fora": "Ficam de fora do escopo a **desenvolvimento de um sistema ou software do zero**, a **automação das decisões de seleção de vagas** e a **gestão operacional das aulas práticas**, pois o objetivo do projeto é otimizar e padronizar a coleta e o fluxo de dados usando ferramentas já disponíveis, mantendo a autonomia soberana das diretorias na escolha dos servidores e a validação presencial técnica sob a responsabilidade exclusiva dos instrutores e gestores da POLITEC.",
+    "mvp_naofaz": "O MVP (Produto Mínimo Viável) NÃO faz a integração em tempo real com o banco de dados corporativo do RH, a emissão e o envio automatizado de certificados, a geração de painéis e dashboards gerenciais de BI, o reescalonamento automático do cadastro de reserva em caso de desistências e a autenticação centralizada por login corporativo (SSO), mantendo essas funcionalidades avançadas para fases futuras do projeto e focando, nesta etapa, exclusivamente na validação da coleta de dados, automação de avisos e apoio à triagem das diretorias.",
+    "doc_descricao": "Tabela definicções conmsolidades:\n\n1Mapeamento de Processos (AS-IS e TO-BE)Documentar o fluxo atual e projetar o fluxo futuro automatizado.Equipe de Projeto / GestoresFluxograma das etapas, gargalos, pontos de automação e papéis das diretorias.Mapear, padronizar e validar o novo fluxo.O fluxo TO-BE deve preservar a autonomia decisória das diretorias.Documento / DiagramaLeitura e aprovação do fluxograma de processos pelos stakeholders da POLITEC.Fluxograma simples em PDF/Visio cobrindo da inscrição à certificação.2Formulário de Inscrição OnlineColetar dados padronizados e atualizados dos servidores interessados no curso.Servidor (Candidato)Nome completo, CPF, matrícula, diretoria, e-mail, telefone/WhatsApp, pré-requisitos declarados.Preencher e enviar a inscrição.Preenchimento obrigatório de dados de contato e confirmação de pré-requisitos técnicos.Tela / Formulário DigitalTeste de submissão de dados válidos e bloqueio por envio de campos obrigatórios vazios.Form funcional (Google/Microsoft Forms) com validação básica de campos.3Notificação Automática de InscriçãoConfirmar o recebimento dos dados do servidor e informar status inicial.Servidor (Candidato)Nome do servidor, nome do curso, mensagem de \"Inscrição em Análise\", próximos passos.Receber confirmação automática via e-mail/mensagem.O disparo deve ocorrer imediatamente após a submissão do formulário.Automação / E-mailVerificação do recebimento do e-mail/mensagem na caixa de entrada do servidor de teste.Disparo automático de e-mail de confirmação pós-envio.4Planilha/Painel de TriagemConsolidar as inscrições recebidas para apoio à tomada de decisão das diretorias.Diretorias / Gestores de VagasLista de inscritos, data/hora de envio, diretoria de origem, status de pré-requisito.Analisar, selecionar e ordenar titulares e cadastro de reserva.Somente as diretorias têm autoridade para alterar a classificação final dos candidatos.Artefato / Planilha de DadosAcesso à lista filtrada e atualização manual da coluna de status de seleção.Planilha estruturada (Excel/Google Sheets) com filtros por diretoria.5Notificação de Seleção e Acesso ao Grupo OficialInformar a convocação do servidor e direcioná-lo ao canal oficial de comunicação.Servidor SelecionadoNome, status (Titular/Reserva), orientações do curso, link/QR Code para o grupo oficial da turma.Acessar o canal oficial e confirmar presença.Apenas candidatos validados pela diretoria recebem o link para o grupo da turma.Automação / ComunicaçãoClique no link pelo servidor de teste e entrada efetiva no grupo do WhatsApp/Telegram.Mensagem/e-mail padronizado contendo o link de convite direto para o grupo.6Matriz de Governança e Regras do FluxoFormalizar papeis, limites das automações e responsabilidades humanas.Gestores da POLITEC e InstruçãoPapéis do sistema vs. atribuições das diretorias, critérios de exceção, fluxo de desistências.Consultar diretrizes para tomada de decisão em casos omissos.Automações não podem sobrepor decisões administrativas ou técnicas das diretorias.Documento de GovernançaDocumento assinado/aprovado descrevendo responsabilidades e limites operacionais.Dossiê/Matriz em formato PDF/Word com as regras do processo.7Relatório de Validação do Projeto-PilotoRegistrar os resultados do teste em ambiente de homologação e plano de ação.Equipe de Projeto / Alta GestãoMétricas do teste (taxa de erro, tempo de triagem, feedback dos usuários, ajustes realizados).Consolidar evidências e autorizar implantação definitiva.O fluxo só avança para produção se atingir 100% de entrega das notificações de teste.Relatório TécnicoApresentação do documento à gestão contendo o histórico e os resultados dos testes executados.Relatório sucinto cobrindo testes de estresse, falhas encontradas e correções aplicadas.",
+    "mvp_plataforma": "Planilha com automação",
+    "mvp_objetivo": "O objetivo do MVP é validar, em ambiente controlado, a automação da coleta de dados e do envio de notificações mantendo a triagem manual das diretorias, garantindo maior agilidade e redução de erros operacionais antes da expansão definitiva na POLITEC.",
+    "mvp_tela_inicial": "O primeiro artefato que o usuário vê depende do seu papel no fluxo:  * **Para o Servidor (Candidato):** É a **Tela/Formulário de Inscrição Online**, onde ele visualiza as informações do curso e preenche seus dados cadastrais. * **Para o Gestor/Diretoria:** É a **Planilha/Painel de Triagem**, onde ele visualiza a lista consolidada dos inscritos para realizar a seleção das vagas.",
+    "mvp_mock": "No MVP, serão simulados os seguintes elementos que, em um sistema definitivo ou em fases futuras, funcionariam de forma 100% automatizada e integrada:\n\n1. **Consulta e Validação de Dados do RH:** Em vez de uma verificação automática no banco de dados corporativo, a checagem da matrícula, cargo e vínculo do servidor será simulada via conferência manual ou cruzamento simples em planilha.\n2. **Recebimento e Disparo de Notificações:** O envio de e-mails/mensagens de confirmação de inscrição (*\"Em Análise\"*) e convocação final será simulado usando ferramentas de automação acessíveis (como Power Automate, Make ou rotinas simples de e-mail) em ambiente de homologação.\n3. **Organização da Fila de Seleção:** A consolidação dos candidatos elegíveis para análise das diretorias será simulada por meio de uma planilha estruturada (com filtros por diretoria e pré-requisitos), simulando a interface de um painel/dashboard gerencial.\n4. **Fluxo de Convocação do Cadastro de Reserva:** O remanejamento e aviso ao próximo candidato em caso de desistência do titular será executado e validado manualmente pelo gestor do teste, simulando a regra de negócio do sistema final.",
+    "mvp_criterio": "O critério de aceite que comprova o funcionamento do MVP é a validação de quatro condições fundamentais de ponta a ponta:\n\nCaptura e Validação de Dados: 100% das submissões no formulário online geram registros corretos na base de dados, bloqueando envios com campos obrigatórios em branco ou inválidos.\n\nDisparo das Notificações Automáticas: Todos os e-mails/mensagens de confirmação de inscrição (\"Em Análise\") chegam às caixas de entrada dos servidores de teste imediatamente após o envio do formulário.\n\nFluidez na Triagem pelas Diretorias: Os gestores conseguem acessar a planilha/painel consolidado, aplicar filtros por diretoria e indicar os candidatos (Titulares e Reserva) sem retrabalho ou ambiguidades.\n\nEncaminhamento Efetivo: Os servidores aprovados recebem a notificação final de convocação contendo o link funcional para o grupo oficial da turma, concluindo o ciclo do teste sem falhas de comunicação.",
+    "mvp_dados": "Para realizar os testes e homologação do MVP no ambiente de teste, a base de dados deve ser populada com os seguintes dados de exemplo (dados fictícios/dummy data):1. Dados de Entradas/Inscrições (Formulário)CPFNome CompletoMatrículaDiretoria / UnidadeE-mail Funcional",
+    "mvp_reuso": "O que pode ser reaproveitado como fonte de validação manual/semi-automatizada (Sistemas de RH / SESP)\nCadastro Base do Servidor (SEAP / Portal do Servidor SEPLAG-MT): Os dados oficiais de identificação (Matrícula, CPF, Cargo, Nome Completo, Vínculo Ativo) já existem na base legada de recursos humanos do Estado.\n\nComo reaproveitar no MVP: Em vez de criar um banco de dados novo, a equipe usa relatórios exportados em Excel/CSV do SEAP/Portal do Servidor para cruzar e validar rapidamente os dados informados pelos candidatos nos formulários.",
+    "dependencias": "Para garantir o funcionamento do novo fluxo e a validação do MVP, o projeto depende diretamente do alinhamento e das parcerias entre três níveis essenciais da estrutura governamental:\n\n1. Parcerias Internas da POLITEC (Diretoria Executiva e Áreas Finalísticas)\nDiretorias Finalísticas e Regionais da POLITEC: Responsáveis por validar os pré-requisitos técnicos dos inscritos, realizar a triagem/seleção de vagas (Titulares e Reserva) e definir o limite de capacidade das turmas.\n\nCoordenadoria de Ensino/Capacitação da POLITEC: Responsável por operacionalizar o formulário, acompanhar os disparos de notificações e intermediar a comunicação com instrutores e alunos.\n\nEquipe de Tecnologia da Informação (TI Local): Apoia no fornecimento e suporte ao ecossistema institucional (contas corporativas, licenças e ferramentas no-code para as automações).\n\n2. Parcerias Estratégicas com a SESP-MT (Secretaria de Estado de Segurança Pública)\nCoordenadoria de Tecnologia da Informação e Comunicação (COTIC/SESP): Dependência essencial para liberação de acessos, garantia da estabilidade das ferramentas corporativas e validação das regras de segurança de dados na rede estadual.\n\nGestão de Pessoas / RH Central da SESP (SEAP/SEPLAG): Dependência necessária para o fornecimento pontual das bases/relatórios de servidores ativos (matrícula, vínculo e cargo) utilizados na conferência cadastral do MVP.\n\nSuperintendência de Formação e Capacitação da SESP: Para alinhamento das diretrizes pedagógicas institucionais e validação de regras para aproveitamento de cursos no histórico funcional do servidor.\n\n3. Parcerias com as demais Forças de Segurança de Mato Grosso (PMMT, CBMMT, PJC-MT)\nComandos e Diretorias de Ensino da Polícia Militar (PMMT), Polícia Judiciária Civil (PJC-MT) e Corpo de Bombeiros (CBMMT):\n\nEm cursos integrados ou vagas interinstitucionais: Para validação e indicação de servidores externos que participarão dos treinamentos oferecidos pela POLITEC.\n\nAlinhamento de Liberação e Escala: Dependência no envio formal da autorização de afastamento/liberação dos servidores inscritos para realizarem a capacitação presencial e prática sem prejuízo à escala operacional.",
+    "lgpd_dados": "Nome completo, CPF, Matricula, E-mail funcional e contato",
+    "lgpd_acesso": "O gerente de formação",
+    "lgpd_base": "Cadastro de servidores nos cursos de fromação",
+    "lgpd_retencao": "30 dias ",
+    "coletar": "o material não fica disponível ",
+    "acesso": "o gerente de formação e quando o curso abre ",
+    "base_periodo": "A consolidação dos dados de partida para o cálculo do impacto da automação foi fundamentada na análise histórica dos registros operacionais coletados no ambiente anterior à intervenção. Para o Tempo Médio de Cadastramento (TMC) e para a Taxa de Erro Cadastral (TEC), adotou-se um período de amostragem de 30 dias anteriores ao projeto, contabilizando um volume total de 150 cadastros manuais e tentativas de registro. Esse volume permitiu dimensionar com precisão o gargalo de validação de documentos e a incidência de falhas no preenchimento de CPF e CNPJ.\n\nPara a métrica de Índice de Cobertura de Auditoria (ICA), utilizou-se uma janela temporal mais ampla, de 60 dias anteriores ao projeto, analisando 500 eventos críticos referentes a alterações de status e modificações cadastrais. O objetivo desse recorte foi mapear com precisão a ausência de registros estruturados e lacunas de rastreabilidade exigidas por compliance.\n\nPor fim, a Latência de Validação Transacional (LVT) foi mensurada ao longo de 15 dias anteriores ao projeto, tomando como base um volume de 1.200 transações financeiras processadas, o que possibilitou registrar a demora na verificação manual de elegibilidade do cliente.\n\nEm síntese, o conjunto de dados da linha de base contempla uma amostra total acumulada de 1.200 transações, 150 processos de cadastro e 500 eventos operacionais, assegurando a representatividade e a padronização das unidades de medida que serão comparadas a partir da primeira semana de implantação do MVP.",
+    "campos_data": "## Mapeamento dos Campos de Data e Tempo Existentes\n\nA capacidade de medir o tempo de espera e a duração dos processos no sistema — em vez de apenas contabilizar o volume de requisições — depende da existência de pares de marcas temporais que delimitem o início e o fim de cada operação. No ambiente atual do MVP, os campos de data e tempo estruturados e disponíveis para medição englobam quatro registros principais.\n\nNa entidade de **Usuários**, existe o campo `criado_em`, registrado em formato *timestamp* ISO 8601 com fuso horário UTC. Ele marca o instante exato em que o cadastro da conta do usuário foi concluído na aplicação.\n\nNa entidade de **Clientes**, encontra-se o campo `criado_em`, também armazenado como *timestamp* ISO 8601 em UTC. Este parâmetro registra a data e a hora da inclusão da pessoa física ou jurídica na base de dados.\n\nNa entidade de **Transações**, está disponível o campo `data_transacao`, sob o mesmo padrão de *timestamp* ISO 8601 em UTC. Ele registra o momento exato em que a transação financeira de crédito ou débito foi processada.\n\nNa entidade de **Auditoria**, registra-se o campo `registrado_em`, em formato *timestamp* ISO 8601 em UTC, responsável por gravar a data e a hora exatas em que uma ação, alteração de status ou evento operacional foi executado no sistema.\n\n### Viabilidade da Medição de Espera e Duração\n\nAtualmente, a medição de tempo de espera é **parcial**. Para determinar a duração total de um fluxo (como o tempo gasto pelo operador do início ao fim de um cadastro), é necessário comparar o campo `registrado_em` da tabela de **Auditoria** (que grava a abertura do formulário ou a primeira tentativa de envio) com o campo `criado_em` da tabela de **Clientes** ou de **Usuários** (que consolida o término do processo).\n\nNas **Transações**, a medição de espera no modelo atual é limitada, pois existe apenas a marcação final gravada em `data_transacao`. Para viabilizar a medição precisa da latência de validação transacional e do tempo de fila no ambiente automatizado, a aplicação precisará capturar a marca temporal de início da solicitação antes de gravar o registro definitivo.",
+    "hospedagem_escolhida": "A opção escolhida para a implantação do MVP é o PaaS Serverless (Render / Supabase / Fly.io).\n\nA escolha justifica-se por ser a alternativa mais prática, viável e de menor custo operacional. Ela disponibiliza uma URL pública segura (HTTPS) com certificado SSL automático e um banco de dados PostgreSQL totalmente gerenciado, permitindo que operadores e auditores acessem o sistema simultaneamente de qualquer local sem que o projeto fique limitado à máquina do desenvolvedor.\n\nAlém disso, a plataforma automatiza as implantações a cada atualização de código no repositório (deploy automático via Git) e elimina a necessidade de gerenciar servidores, firewalls e atualizações de sistema operacional. Isso garante um ambiente de produção real, escalável e auditável com custo zero ou mínimo durante a fase de validação do MVP.",
+    "conta_quem": " Líder Técnico do projeto é responsável por criar a conta no provedor PaaS (Render, Supabase ou Fly.io) e provisionar a instância do banco de dados PostgreSQL.",
+    "orcamento": "Para a fase de desenvolvimento, testes e validação do MVP, o projeto foi estruturado utilizando tecnologias de código aberto (open-source) e camadas gratuitas (free tier) de serviços em nuvem, garantindo um custo de implantação nulo ou mínimo.",
+    "restricoes": "### Restrições do Projeto\n\n* **Orçamento:** Custo de R$ 0,00 (*Free Tier* Render/Supabase e *Open-Source*).\n* **Ambiente:** Proibido *localhost*; obrigatoriedade de nuvem PaaS Serverless com HTTPS público.\n* **Armazenamento:** Limite de 500 MB no banco PostgreSQL no plano gratuito.\n* **Performance:** Sujeito a *cold start* (latência inicial após inatividade).\n* **Legal:** Retenção obrigatória dos logs de auditagem por no mínimo 6 meses (Marco Civil).\n* **Cliente:** Acesso 100% via navegador Web, sem instalação local.",
+    "hipotese_campo": "A automação dos fluxos de cadastro e validação transacional reduzirá a zero as falhas operacionais humanas e cortará drasticamente o tempo de processamento, transformando um gargalo lento e suscetível a erros em uma operação ágil e totalmente auditável.",
+    "lacunas": "Não achei ",
+    "apoio": "### Apoio Necessário e Responsáveis\n\n* **Gestão / Orientador:** Aprovação do escopo, das premissas legais e do orçamento zerado do MVP.\n* **Equipe Operacional:** Liberação da amostragem de dados históricos para testes e validação de campo.\n* **Administrador de TI:** Permissões e credenciais para provisionamento dos serviços PaaS (Render e Supabase).\n* **Usuários Finais (Operadores):** Participação nas sessões de homologação e testes de usabilidade do sistema.",
+    "aprendizado": "Para a execução do projeto, o aprendizado técnico estará concentrado em quatro frentes principais. Em **PaaS e Serverless**, é necessário dominar a configuração de *deploys* automáticos, a gestão de variáveis de ambiente e o contorno da latência inicial (*cold start*) na infraestrutura do Render. Em **Banco de Dados (Supabase e PostgreSQL)**, o foco será na modelagem relacional eficiente, na aplicação de políticas de segurança no nível de linha (RLS) e na otimização de consultas para operar com folga dentro do limite gratuito de 500 MB. Na parte de **Compliance e Segurança**, exige-se o aprendizado prático em autenticação via tokens JWT, criptografia para proteção de dados pessoais (LGPD) e estruturação de rotinas de gravação de logs para atendimento às regras de auditoria (Marco Civil da Internet). Por fim, na camada de **Frontend e Integração**, será preciso aprimorar a conexão via API REST entre a interface do usuário e os *endpoints* do servidor, garantindo tratamentos visuais intuitivos para os estados de carregamento da aplicação.",
+    "frase": "Automação Serverless sem custos como vetor de conformidade legal, eliminação de erros operacionais e eficiência em processos transacionais.",
+    "provas": "### 12.2. As três evidências que sustentam a proposta\n\n1. Viabilidade Técnica e Financeira a Custo Zero (PaaS Serverless):** A adoção das camadas gratuitas do Render e do Supabase viabiliza uma arquitetura moderna, escalável e com HTTPS público sem qualquer investimento em infraestrutura, respeitando integralmente a restrição orçamentária do MVP.\n2. Garantia de Conformidade Legal e Auditabilidade (LGPD e Marco Civil):** A modelagem orientada à minimização de dados e a implementação da tabela de auditoria garantem o cumprimento estrito da coleta restrita de dados sensíveis e a retenção obrigatória de logs por no mínimo 6 meses.\n3. Ganho Operacional Demonstrável (Redução de Erros e Latência):** Amparada pelos benchmarks do relatório DORA e pela norma ISO/IEC 25010, a automação substitui a taxa histórica de 12% de erro manual por um fluxo validado com tempo de resposta inferior a 2 segundos e 0% de falha operacional.",
+    "piloto": "1. Testes de Carga e Latência (ISO 25010):** Execução de simulações de requisições concorrentes na API para medir o tempo de resposta (garantindo `< 2s` mesmo sob *cold start*) e verificar o comportamento da aplicação dentro do limite de 500 MB no PostgreSQL do Supabase.\n2. Validação Operacional e Taxa de Erro (DORA):** Processamento da amostragem histórica (1.200 transações e 150 cadastros) via interface web para confirmar a eliminação completa das falhas operacionais humanas e atingir a meta de **0% de erro manual**.\n3. Auditoria de Conformidade e Segurança (LGPD e Marco Civil):** Testes de invasão e acesso não autorizado para validar as políticas de RLS e JWT, associados à verificação da gravação automatizada dos registros de auditoria com retenção programada por 6 meses.",
+    "risco_defesa": "### O Maior Risco e sua Mitigação\n\nO maior risco do projeto é a **indisponibilidade ou limitação da camada gratuita do PaaS (Render/Supabase)**, que pode travar a operação devido ao estouro da cota de 500 MB ou à alta latência decorrente do *cold start*. Trataremos esse ponto através do **monitoramento contínuo com rotinas automáticas de expurgo de logs** para preservar a cota do banco, aliado à **conteinerização (Docker) e desacoplamento via variáveis de ambiente**, permitindo a migração transparente e imediata para outro provedor gratuito (como o Fly.io) sem necessidade de reescrita do código."
+  },
+  "marcados": {
+    "afetado": [
+      "Servidor da unidade",
+      "Chefia"
+    ],
+    "evid": [
+      "Planilha ou controle local"
+    ],
+    "stack": "Planilha com automação",
+    "req": [
+      "LGPD e dado pessoal",
+      "Segurança e controle de acesso",
+      "Trilha de auditoria"
+    ]
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "divulgação de cursos/treinamento",
+        "papel": "gerente de formação",
+        "entra": "dados do servidor ",
+        "acao": "cadastro",
+        "sai": "inscrição",
+        "sistema": "email",
+        "regra": "indicação da diretoria/coordenadoria/chefia imediata",
+        "espera": "via email a retorno da efetivação da inscrição ",
+        "tempo": "36h",
+        "auto": "Sim, com regra clara",
+        "rm": ""
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "Inscrição online simplificada, triagem rápida pelas diretorias, notificação automática para o grupo oficial e avaliação presencial com certificação.",
+        "muda": "Inscrição online simplificada, triagem rápida pelas diretorias, notificação automática para o grupo oficial e avaliação presencial com certificação.",
+        "quem": "A máquina (automação)",
+        "beneficio": "Redução de falhas operacionais, agilidade no envio de informativos e otimização do tempo das diretorias através da padronização e automação da coleta de dados.",
+        "esforco": "Médio",
+        "rm": ""
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "gerente ",
+        "quem": "quem organiza os cursos e o numero de vagas ",
+        "ve": "atender máximos de servidores e diferentes setores ",
+        "faz": "planilha dos interessados e divulga os inscritos ",
+        "naofaz": "mudar a ordem de indicação",
+        "registro": "servidores com inscrição efetivada ",
+        "rm": ""
+      },
+      {
+        "papel": "chefia ",
+        "quem": "divulga as vagas aos servidores do setor ",
+        "ve": "possibilidades e perfis para as vagas ",
+        "faz": "respostas de indicação via email",
+        "naofaz": "mandar mais servidores do que vagas ",
+        "registro": "e-mail com as indicações ",
+        "rm": ""
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "",
+        "rota": "",
+        "objetivo": "",
+        "usuario": "",
+        "dados": "",
+        "acao": "",
+        "regra": "",
+        "tipo": "",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "Gerencia de Formação ",
+        "representa": "Cursos/Treinamento",
+        "colunas": "Servidor ",
+        "chave": "Setor ",
+        "volume": "10",
+        "origem": "Diretoria ",
+        "sintetico": "Sim",
+        "rm": ""
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "001",
+        "regra": "CPF",
+        "quando": "cadastro ",
+        "excecao": "",
+        "valida": "Gerente de Formação ",
+        "tipo": "Validação",
+        "rm": ""
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "cadastro de usuarios",
+        "tipo": "Banco de dados",
+        "onde": "Drive",
+        "existe": "Parcialmente",
+        "acesso": "Gerente de formação",
+        "linha": "cadastro de servidor ",
+        "volume": "100",
+        "historico": "30 dias ",
+        "campos": "Acesso ao cadastro",
+        "atualiza": "30",
+        "lgpd": "Sim",
+        "obs": "",
+        "rm": ""
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "Tempo Médio de Cadastramento (TMC).",
+        "pergunta": "Pergunta que responde: Quanto tempo o operador leva para concluir o cadastro de um cliente do início ao fim?",
+        "formula": "$\\text{TMC} = \\frac{\\sum (\\text{Data/Hora Final do Cadastro} - \\text{Data/Hora Inicial})}{\\text{Total de Cadastros Concluídos}}$",
+        "fonte": "Logs da API de Cadastro (criado_em).",
+        "gran": "Registro",
+        "base": "15 minutos.",
+        "esperado": "0,5 minutos (30 segundos).",
+        "medir": "Extrair a diferença entre o timestamp de abertura do formulário e o timestamp de envio final no log de eventos do backend.",
+        "quem": "Liderança Técnica.",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "Taxa de Erro Cadastral (TEC).",
+        "pergunta": "Qual é o percentual de cadastros rejeitados devido a documentos (CPF/CNPJ) ou e-mails inválidos?",
+        "formula": "$\\text{TEC} = \\left( \\frac{\\text{Cadastros Rejeitados por Validação}}{\\text{Total de Tentativas de Cadastro}} \\right) \\times 100$",
+        "fonte": "Tabela de Auditoria / Logs do Backend (Validações RN01, RN02, RN03).",
+        "gran": "Unidade",
+        "base": "30minutos",
+        "esperado": "Contabilizar as respostas HTTP 400 Bad Request disparadas pelas regras de negócio de validação de CPF/CNPJ/Email.",
+        "medir": "Contabilizar as respostas HTTP 400 Bad Request disparadas pelas regras de negócio de validação de CPF/CNPJ/Email.",
+        "quem": "Equipe",
+        "rm": ""
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "OpçãoTipoOnde rodaCustoQuem mantémAcessoBanco de dadosEscalaLimitaçãoLocalhost / Notebook",
+        "tipo": "Estática e gratuita",
+        "onde": "Computador do Desenvolvedor",
+        "custo": "0",
+        "mantem": "Desenvolvedor",
+        "acesso": "Apenas mmáquina local",
+        "banco": "SQLite / PostgreSQL Local",
+        "escala": "1 usuário concorrente",
+        "limite": "Não permite uso por terceiros, perde dados ao desligar e impede integração com outros sistemas",
+        "rm": ""
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "",
+        "data": "",
+        "resp": "",
+        "dep": "",
+        "sit": "",
+        "rm": ""
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "",
+        "prob": "",
+        "imp": "",
+        "mit": "",
+        "rm": ""
+      }
+    ],
+    "tRefs": [
+      {
+        "n": "",
+        "ref": "",
+        "tipo": "Documento interno",
+        "fonte": "",
+        "ano": "",
+        "dado": "",
+        "uso": "",
+        "conferido": "",
+        "rm": ""
+      }
+    ]
+  }
+}

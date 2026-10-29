@@ -1,0 +1,146 @@
+{
+  "titulo": "Mapa de Distribuição",
+  "subtitulo": "por credor e distribuição orçamentária · Setor de Licitações",
+  "descricao": "Gera o mapa de distribuição por credor e a distribuição orçamentária a partir das planilhas, sem redigitação.",
+  "aviso": "Apoio ao cálculo. A conferência e a validação da dotação são da equipe.",
+  "db": {
+    "nome": "mapa_distribuicao_v1",
+    "versao": 1,
+    "log": "auditoria",
+    "stores": {
+      "processos": {
+        "keyPath": "id",
+        "indices": []
+      },
+      "itens": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "id_processo",
+            "campo": "id_processo",
+            "unico": false
+          }
+        ]
+      },
+      "distribuicao": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "id_processo",
+            "campo": "id_processo",
+            "unico": false
+          }
+        ]
+      },
+      "resultado": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "id_processo",
+            "campo": "id_processo",
+            "unico": false
+          }
+        ]
+      },
+      "dotacao": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "id_processo",
+            "campo": "id_processo",
+            "unico": false
+          }
+        ]
+      },
+      "distribuicao_orcamentaria": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "id_processo",
+            "campo": "id_processo",
+            "unico": false
+          }
+        ]
+      },
+      "gabarito": {
+        "keyPath": "id",
+        "indices": []
+      },
+      "auditoria": {
+        "keyPath": "id",
+        "indices": []
+      }
+    }
+  },
+  "rotas": [
+    {
+      "rota": "#/processos",
+      "titulo": "Processos",
+      "sprint": 1,
+      "descricao": "Lista de processos e backup."
+    },
+    {
+      "rota": "#/importar/:proc",
+      "titulo": "Importar",
+      "sprint": 2,
+      "descricao": "Carrega a distribuição por órgão, o relatório do pregoeiro e a dotação."
+    },
+    {
+      "rota": "#/mapa/:proc",
+      "titulo": "Mapa por item",
+      "sprint": 3,
+      "descricao": "Grupo, item, quantidade e estimado por órgão."
+    },
+    {
+      "rota": "#/resultado/:proc",
+      "titulo": "Resultado",
+      "sprint": 4,
+      "descricao": "Situação dos grupos e homologado por órgão."
+    },
+    {
+      "rota": "#/empresas/:proc",
+      "titulo": "Empresas",
+      "sprint": 5,
+      "descricao": "Tabela por empresa e órgão."
+    },
+    {
+      "rota": "#/conferencia/:proc",
+      "titulo": "Conferência",
+      "sprint": 5,
+      "descricao": "Divergências D01 a D07."
+    },
+    {
+      "rota": "#/orcamento/:proc",
+      "titulo": "Orçamentária",
+      "sprint": 6,
+      "descricao": "Distribuição por credor e órgão, ano corrente e seguinte."
+    },
+    {
+      "rota": "#/exportar/:proc",
+      "titulo": "Exportar",
+      "sprint": 7,
+      "descricao": "Excel com 8 abas e relatório de divergências."
+    },
+    {
+      "rota": "#/auditoria/:proc",
+      "titulo": "Auditoria",
+      "sprint": 7,
+      "descricao": "Importações, edições e validações."
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": ""
+    }
+  ],
+  "libs": [
+    "xlsx.full.min.js"
+  ],
+  "dados": [
+    [
+      "seed",
+      "exemplos/seed.json"
+    ]
+  ]
+}

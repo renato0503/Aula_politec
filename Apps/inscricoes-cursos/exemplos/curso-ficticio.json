@@ -1,0 +1,23 @@
+{
+ "id": "CURSO-2026-11",
+ "nome": "Fotografia Forense em Local de Crime",
+ "carga_horaria": 24,
+ "inicio": "2026-11-23",
+ "fim": "2026-11-25",
+ "local": "Auditório da sede (fictício)",
+ "prerequisitos": [
+  "Ser servidor efetivo",
+  "Atuar em local de crime ou em laboratório"
+ ],
+ "vagas_por_diretoria": {
+  "DMC": 8,
+  "DML": 4,
+  "DII": 2,
+  "DIN": 6
+ },
+ "link_grupo": "https://chat.whatsapp.com/EXEMPLO-FICTICIO",
+ "inscricao_inicio": "2026-10-29",
+ "inscricao_fim": "2026-11-12",
+ "prazo_triagem": "2026-11-16",
+ "status": "inscrições abertas"
+}

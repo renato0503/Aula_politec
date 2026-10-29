@@ -1,0 +1,721 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-28T12:44:16.799Z",
+  "campos": {
+    "data": "2026-10-28",
+    "aluno": "João Lucas Nogueira Ponce",
+    "unidade": "Coordenadoria de qualidade  ",
+    "contato": "joaoponce@politec.mt.gov.br",
+    "nome_projeto": "Visão geral dos equipamentos no estado com Google Earth",
+    "tipo_projeto": "Aplicativo web / portal",
+    "resumo": "O projeto armazena fotos e dados de equipamentos — incluindo custos e históricos de manutenção —, além de calcular o impacto e o custo de parada por defeito na filial e na diretoria para apoiar a tomada de decisão. A visualização é feita via Google Earth, mapeando o estado e exibindo a localização exata de cada ativo.",
+    "problema": "Nem todos equipamentos possuem contrato de manutenção o intuito dessa solução e mensurar qual e o impacto se esse equipamento que parar precisar de uma manutenção.",
+    "hoje": "acredito que não e feito um acompanhamento via alguma ferramenta.",
+    "impacto": "Tem equipamentos se parar para o setor inteiro.",
+    "limite": "Acredito que não temos esse impedimento para automações ",
+    "asis_inicio": "Um equipamento apresenta defeito ou para em uma unidade.",
+    "asis_fim": "O equipamento volta a operar (ou é baixado) e o comprovante da manutenção é arquivado.",
+    "asis_entradas": "Documentos comprovantes de manutenções ",
+    "asis_saidas": "Laudo e a carteira de identidade ",
+    "asis_duracao": "500",
+    "asis_volume": "200",
+    "asis_frequencia": "Mensal",
+    "coletar": "Lista de unidades com município; lista de equipamentos com patrimônio, unidade, criticidade e situação de contrato; contratos vigentes; paradas do último trimestre.",
+    "acesso": "A Coordenadoria de qualidade libera a planilha atual; as chefias das unidades do piloto informam os equipamentos e as paradas.",
+    "base_periodo": "Último trimestre antes do piloto, nas 3 unidades: equipamentos sem contrato, paradas registradas e tempo para responder \"quanto custa essa parada?\".",
+    "campos_data": "Hoje: datas dos comprovantes de manutenção e de vigência dos contratos (em PDF). No app: início e fim de cada parada, abertura e conclusão de cada manutenção, início e fim de cada contrato.",
+    "hospedagem_escolhida": "Arquivo HTML único, aberto por duplo clique e publicado também no GitHub Pages (o mesmo arquivo). O mapa funciona sem internet, e o Google Earth recebe o arquivo .kmz exportado.",
+    "conta_quem": "O aluno publica o arquivo no GitHub Pages; não há conta de banco de dados nem de servidor.",
+    "orcamento": "Custo zero: arquivo HTML, bibliotecas de código aberto e GitHub Pages.",
+    "restricoes": "Sem dado pessoal; sem servidor; navegadores Edge ou Chrome; o custo de parada depende de parâmetros aprovados pela coordenadoria; requisito de acessibilidade.",
+    "hipotese_campo": "Uma parte dos equipamentos críticos não tem contrato nem substituto na unidade, e a parada de um deles custa mais por dia do que a manutenção preventiva por mês.",
+    "lacunas": "Não há contagem atual de equipamentos sem contrato nem registro de paradas; o valor de referência do atendimento perdido ainda não foi definido.",
+    "apoio": "Minha Coordenadora e bem acessível ",
+    "aprendizado": "Modelagem de processo ",
+    "frase": "Se a POLITEC souber quanto custa, por dia, a parada de cada equipamento crítico sem contrato, a decisão de contratar manutenção passa a ter número.",
+    "provas": "1) Não há ferramenta de acompanhamento hoje (entrevista com a equipe). 2) Há equipamentos cuja parada interrompe o setor inteiro (informado pelo aluno). 3) O piloto mede a exposição diária nas 3 unidades.",
+    "piloto": "Piloto de 30 dias ",
+    "risco_defesa": "O custo de parada ser contestado. Mitigação: parâmetros visíveis e aprovados pela coordenadoria, com a fórmula ao lado de cada número.",
+    "doc_descricao": "Nenhum documento enviado.",
+    "doc_faltando": "Planilha atual de equipamentos; lista de unidades e diretorias; exemplo de comprovante de manutenção; contratos vigentes.",
+    "stack_detalhe": "Um único arquivo index.html (HTML, CSS e JS embutidos), com a malha dos 142 municípios de MT embutida para o mapa offline e a biblioteca JSZip para gerar o .kmz do Google Earth. Dados no IndexedDB do navegador; cada unidade exporta um .json, e a coordenadoria importa e consolida. O aluno propôs Python/Flask na máquina local.",
+    "lgpd_retencao": "Os dados de equipamentos acompanham a vida útil do equipamento; paradas e manutenções ficam por 5 anos para comparação.",
+    "lgpd_base": "Execução de atribuição da Coordenadoria de qualidade (gestão dos equipamentos do órgão). Não há tratamento de dado pessoal.",
+    "lgpd_acesso": "A cópia da unidade guarda só os equipamentos da unidade; a cópia da coordenadoria consolida todas. Toda alteração registra data, cópia de origem e cargo de quem alterou.",
+    "lgpd_dados": "Nenhum dado pessoal. O app guarda equipamentos, unidades, contratos, manutenções, paradas e fotos dos equipamentos. O responsável é registrado por cargo ou matrícula, nunca por CPF.",
+    "mvp_reuso": "A planilha parcial de equipamentos que a coordenadoria já tem (importada por CSV) e os comprovantes de manutenção em PDF.",
+    "mvp_dados": "3 diretorias, 12 unidades, 150 equipamentos, 20 contratos, 200 manutenções e 40 paradas, todos fictícios.",
+    "mvp_criterio": "A coordenadoria importa os equipamentos de 3 unidades, registra uma parada, vê o custo no painel, filtra os sem contrato no mapa e abre o .kmz no Google Earth com as fotos.",
+    "mvp_mock": "Unidades fictícias em municípios reais de MT, 150 equipamentos fictícios, contratos, manutenções e paradas sintéticos. O valor de referência do atendimento perdido é um parâmetro de teste.",
+    "mvp_tela_inicial": "Mapa de Mato Grosso com os pinos das unidades coloridos pelo risco e, ao lado, os 4 KPIs principais (sem contrato, pontos únicos de falha, exposição diária, custo de parada no período).",
+    "mvp_objetivo": "Provar que a coordenadoria consegue ver, no mapa, os equipamentos sem contrato e o custo estimado de parada por unidade e por diretoria, a partir de um cadastro único.",
+    "mvp_naofaz": "Não abre chamado, não controla patrimônio contábil, não integra com sistema oficial, não exige internet (exceto para abrir o Google Earth).",
+    "fora": "Abertura de chamado com fornecedor; controle patrimonial contábil e de estoque; integração com o sistema de patrimônio ou o SEI; login por usuário.",
+    "dentro": "Cadastro de unidades, equipamentos (com fotos), contratos, manutenções (com comprovante) e paradas; cálculo de risco e custo de parada; mapa offline de MT; painel por unidade e diretoria; exportação .kmz, .json, .csv e relatório impresso; consolidação dos arquivos das unidades.",
+    "entrega": "App em um único arquivo HTML com mapa de MT, cadastro de equipamentos com fotos, contratos, manutenções e paradas, painel de KPIs e exportação .kmz para o Google Earth.",
+    "tobe_piloto": "Piloto de 30 dias em 3 unidades, com a coordenadoria consolidando os arquivos das unidades toda semana.",
+    "tobe_restricao": "Não registrar dado pessoal; o custo de parada usa parâmetros definidos pela coordenadoria; o app não substitui o controle patrimonial oficial.",
+    "tobe_inalterado": "A manutenção continua com os fornecedores; a contratação segue o rito da Lei nº 14.133/2021; a decisão de contratar continua com a chefia e a diretoria.",
+    "tobe_mudanca": "O cadastro dos equipamentos, contratos, manutenções e paradas passa a ficar numa base única, e o app calcula o risco e o custo de parada. Por isso, a decisão de contratar manutenção passa a ter número.",
+    "tobe_visao": "Quando o app existir, a coordenadoria vê no mapa de MT cada equipamento da POLITEC, sabe quais estão sem contrato e quanto custa, por dia, a parada de cada um, por unidade e por diretoria.",
+    "papeis_obs": "O app não tem login: os papéis viram perfis da cópia do arquivo (unidade ou coordenadoria). A diretoria recebe o relatório consolidado.",
+    "asis_digital": "Em parte: e-mails, PDFs de comprovantes e uma planilha parcial. Não há base única dos equipamentos nem do histórico de manutenção.",
+    "asis_excecoes": "Equipamento sem contrato e sem substituto na unidade: o setor para até a manutenção. Contrato vencido sem que a unidade saiba. Comprovante de manutenção perdido.",
+    "asis_decisoes": "O equipamento tem contrato de manutenção vigente? Se sim, aciona o fornecedor do contrato; se não, a chefia pede orçamento ou abre a contratação. O setor tem outro equipamento igual para continuar o trabalho?",
+    "mvp_plataforma": "Site web (abre no navegador)",
+    "evid_detalhe": "Entrevista com a equipe da Coordenadoria de qualidade: não há ferramenta de acompanhamento, e parte dos equipamentos está sem contrato de manutenção. A planilha que existe hoje é parcial e será reunida no Sprint 0.",
+    "dependencias": "Coordenadoria de qualidade (parâmetros de custo e validação do escopo); lista oficial de unidades e diretorias; planilha atual de equipamentos; chefias das 3 unidades do piloto."
+  },
+  "marcados": {
+    "afetado": [
+      "Cidadão externo",
+      "Servidor da unidade",
+      "Equipe interna",
+      "Unidade parceira",
+      "Chefia",
+      "Autoridade"
+    ],
+    "evid": [
+      "Entrevista com a equipe",
+      "Planilha ou controle local"
+    ],
+    "stack": "HTML único (CSS/JS inline), dados em JSON embutido, GitHub Pages",
+    "req": [
+      "Acessibilidade",
+      "Funcionar offline",
+      "Impressão em formato oficial"
+    ]
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "Identificar o defeito",
+        "papel": "Servidor da unidade",
+        "entra": "Equipamento com defeito",
+        "acao": "Percebe a falha e avisa a chefia",
+        "sai": "Aviso por e-mail ou telefone",
+        "sistema": "E-mail e telefone",
+        "regra": "Equipamento parado ou com falha",
+        "espera": "Até a chefia ver o aviso",
+        "tempo": "A medir",
+        "auto": "Pouco"
+      },
+      {
+        "n": "",
+        "etapa": "Verificar o contrato",
+        "papel": "Chefia da unidade",
+        "entra": "Aviso do defeito",
+        "acao": "Procura se o equipamento tem contrato de manutenção vigente",
+        "sai": "Com ou sem contrato",
+        "sistema": "Pastas e PDFs de contratos",
+        "regra": "Contrato vigente aciona o fornecedor",
+        "espera": "Busca de documentos",
+        "tempo": "A medir",
+        "auto": "Sim, com regra clara"
+      },
+      {
+        "n": "",
+        "etapa": "Providenciar a manutenção",
+        "papel": "Chefia da unidade",
+        "entra": "Situação do contrato",
+        "acao": "Aciona o fornecedor ou pede orçamento e abre a contratação",
+        "sai": "Manutenção solicitada",
+        "sistema": "E-mail e processo de contratação",
+        "regra": "Sem contrato: orçamento e contratação",
+        "espera": "Orçamento e contratação",
+        "tempo": "A medir",
+        "auto": "Pouco"
+      },
+      {
+        "n": "",
+        "etapa": "Executar a manutenção",
+        "papel": "Fornecedor",
+        "entra": "Solicitação",
+        "acao": "Conserta ou substitui o equipamento",
+        "sai": "Equipamento operando e comprovante",
+        "sistema": "Externo",
+        "regra": "Prazo do contrato, quando houver",
+        "espera": "Agenda do fornecedor",
+        "tempo": "A medir",
+        "auto": "Não"
+      },
+      {
+        "n": "",
+        "etapa": "Arquivar o comprovante",
+        "papel": "Chefia da unidade",
+        "entra": "Comprovante de manutenção",
+        "acao": "Guarda o comprovante em papel ou PDF",
+        "sai": "Comprovante arquivado",
+        "sistema": "Pasta física ou digital",
+        "regra": "Guardar o comprovante",
+        "espera": "Não identificado",
+        "tempo": "A medir",
+        "auto": "Sim, com apoio humano"
+      },
+      {
+        "n": "",
+        "etapa": "Consolidar o impacto",
+        "papel": "Coordenadoria de qualidade",
+        "entra": "Informações das unidades",
+        "acao": "Tenta reunir equipamentos, paradas e custos numa planilha",
+        "sai": "Planilha parcial",
+        "sistema": "Planilha",
+        "regra": "Sem regra definida",
+        "espera": "Retorno das unidades",
+        "tempo": "A medir",
+        "auto": "Sim, com regra clara"
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "Cadastrar equipamentos e contratos",
+        "muda": "Base única com fotos, contrato e criticidade",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Saber o que existe e onde",
+        "esforco": "Médio"
+      },
+      {
+        "n": "",
+        "etapa": "Registrar a parada",
+        "muda": "A unidade abre e fecha a parada no app",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Histórico de paradas",
+        "esforco": "Baixo"
+      },
+      {
+        "n": "",
+        "etapa": "Calcular risco e custo de parada",
+        "muda": "O app calcula por equipamento, unidade e diretoria",
+        "quem": "A máquina (automação)",
+        "beneficio": "Decisão com número",
+        "esforco": "Médio"
+      },
+      {
+        "n": "",
+        "etapa": "Alertar contratos a vencer",
+        "muda": "Aviso 60 dias antes do fim",
+        "quem": "A máquina (automação)",
+        "beneficio": "Nenhum contrato vence sem aviso",
+        "esforco": "Baixo"
+      },
+      {
+        "n": "",
+        "etapa": "Consolidar as unidades",
+        "muda": "A coordenadoria importa os arquivos e o app mescla",
+        "quem": "A pessoa assistida pela máquina",
+        "beneficio": "Visão do estado",
+        "esforco": "Médio"
+      },
+      {
+        "n": "",
+        "etapa": "Ver no mapa e no Google Earth",
+        "muda": "Mapa offline e exportação .kmz",
+        "quem": "A máquina (automação)",
+        "beneficio": "Localização de cada equipamento",
+        "esforco": "Médio"
+      },
+      {
+        "n": "",
+        "etapa": "Decidir a contratação",
+        "muda": "A chefia decide com o relatório de exposição",
+        "quem": "A pessoa, sem mudança",
+        "beneficio": "Prioridade pelo custo",
+        "esforco": "Baixo"
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "Coordenadoria de qualidade",
+        "quem": "Equipe do aluno",
+        "ve": "Todas as unidades, o mapa e o painel",
+        "faz": "Consolida os arquivos, define os parâmetros de custo, exporta .kmz e relatório",
+        "naofaz": "Registrar CPF ou nome de pessoa",
+        "registro": "Importações, parâmetros e exportações"
+      },
+      {
+        "papel": "Unidade",
+        "quem": "Chefe ou responsável técnico da unidade",
+        "ve": "Os equipamentos da própria unidade",
+        "faz": "Cadastra equipamentos e fotos, registra paradas e manutenções, exporta o .json",
+        "naofaz": "Alterar dados de outra unidade",
+        "registro": "Cadastros e paradas com data e cargo"
+      },
+      {
+        "papel": "Diretoria",
+        "quem": "Diretor",
+        "ve": "O painel consolidado e o relatório impresso",
+        "faz": "Consulta a exposição e prioriza contratações",
+        "naofaz": "Editar cadastros",
+        "registro": "Nenhum (só leitura)"
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "Mapa de MT",
+        "rota": "#/mapa",
+        "objetivo": "Ver os equipamentos pelo risco",
+        "usuario": "Todos",
+        "dados": "Unidades, equipamentos, risco",
+        "acao": "Filtrar e abrir a ficha",
+        "regra": "RN04 e RN08",
+        "tipo": "Tela",
+        "verificacao": "Sem internet, o filtro \"sem contrato\" reduz os pinos",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Painel",
+        "rota": "#/painel",
+        "objetivo": "Ver os KPIs",
+        "usuario": "Coordenadoria e diretoria",
+        "dados": "Sem contrato, pontos únicos de falha, custo de parada",
+        "acao": "Escolher o período",
+        "regra": "RN01 a RN07",
+        "tipo": "Tela",
+        "verificacao": "KPIs batem com a conta manual de 2 unidades",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Ficha do equipamento",
+        "rota": "#/equipamento/:id",
+        "objetivo": "Ver tudo de um equipamento",
+        "usuario": "Todos",
+        "dados": "Fotos, contrato, manutenções, paradas, custo",
+        "acao": "Editar e registrar",
+        "regra": "RN09",
+        "tipo": "Tela",
+        "verificacao": "Ficha mostra fotos e histórico",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Paradas e manutenções",
+        "rota": "#/paradas",
+        "objetivo": "Registrar parada e manutenção",
+        "usuario": "Unidade",
+        "dados": "Início, fim, motivo, custo, comprovante",
+        "acao": "Abrir e fechar parada",
+        "regra": "RN02 e RN03",
+        "tipo": "Tela",
+        "verificacao": "Parada aberta muda o status para parado",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Contratos",
+        "rota": "#/contratos",
+        "objetivo": "Controlar a cobertura",
+        "usuario": "Coordenadoria",
+        "dados": "Fornecedor, vigência, equipamentos cobertos",
+        "acao": "Cadastrar e alertar vencimento",
+        "regra": "RN05",
+        "tipo": "Tela",
+        "verificacao": "Contrato vencido some da cobertura no mesmo dia",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Importar e consolidar",
+        "rota": "#/importar",
+        "objetivo": "Juntar as unidades",
+        "usuario": "Coordenadoria",
+        "dados": "CSV da planilha e .json das unidades",
+        "acao": "Importar e resolver conflitos",
+        "regra": "RN10",
+        "tipo": "Ação",
+        "verificacao": "Duas cópias mescladas sem duplicar",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Exportar para o Google Earth",
+        "rota": "#/exportar",
+        "objetivo": "Ver no Google Earth",
+        "usuario": "Coordenadoria",
+        "dados": "Equipamentos com foto e risco",
+        "acao": "Gerar .kmz",
+        "regra": "RN08",
+        "tipo": "Integração",
+        "verificacao": ".kmz abre no Google Earth Pro e Web",
+        "mvp": "Sim"
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "Unidade",
+        "representa": "Local da POLITEC",
+        "colunas": "id: texto, nome: texto, tipo: texto, diretoria_id: texto, municipio_ibge: texto, latitude: número, longitude: número, atendimentos_dia: número",
+        "chave": "id",
+        "volume": "12 no teste",
+        "origem": "Lista de unidades",
+        "sintetico": "Parcialmente"
+      },
+      {
+        "entidade": "Equipamento",
+        "representa": "Ativo em uso",
+        "colunas": "id: texto, patrimonio: texto, nome: texto, tipo: texto, unidade_id: texto, criticidade: inteiro 1 a 5, tem_redundancia: lógico, status: texto, contrato_id: texto, latitude: número, longitude: número",
+        "chave": "id",
+        "volume": "150 no teste",
+        "origem": "Planilha atual + cadastro",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "Contrato",
+        "representa": "Contrato de manutenção",
+        "colunas": "id: texto, numero: texto, fornecedor: texto, inicio: data, fim: data, valor_mensal: número, sla_horas: número",
+        "chave": "id",
+        "volume": "20 no teste",
+        "origem": "Contratos vigentes",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "Manutencao",
+        "representa": "Serviço executado",
+        "colunas": "id: texto, equipamento_id: texto, tipo: texto, abertura: data, conclusao: data, custo_rs: número, comprovante_id: texto",
+        "chave": "id",
+        "volume": "200 no teste",
+        "origem": "Comprovantes",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "Parada",
+        "representa": "Período sem operar",
+        "colunas": "id: texto, equipamento_id: texto, inicio: data_hora, fim: data_hora, motivo: texto, atendimentos_perdidos_dia: número",
+        "chave": "id",
+        "volume": "40 no teste",
+        "origem": "Registro da unidade",
+        "sintetico": "Sim"
+      },
+      {
+        "entidade": "Arquivo",
+        "representa": "Foto ou comprovante",
+        "colunas": "id: texto, tipo: texto, mime: texto, conteudo: binário",
+        "chave": "id",
+        "volume": "Até 3 fotos por equipamento",
+        "origem": "Unidade",
+        "sintetico": "Sim"
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "RN01",
+        "regra": "Ponto único de falha: criticidade maior ou igual a 4 e sem equipamento igual na unidade",
+        "quando": "No cálculo do risco",
+        "excecao": "Nenhuma",
+        "valida": "Coordenadoria",
+        "tipo": "Cálculo"
+      },
+      {
+        "id": "RN02",
+        "regra": "Custo diário de parada = atendimentos perdidos por dia × valor de referência + custo alternativo por dia",
+        "quando": "Ao registrar a parada",
+        "excecao": "Sem números da parada: usa os da unidade",
+        "valida": "Coordenadoria",
+        "tipo": "Cálculo"
+      },
+      {
+        "id": "RN03",
+        "regra": "Custo da parada = custo diário × dias úteis parados; parada aberta conta até hoje",
+        "quando": "No painel e na ficha",
+        "excecao": "Nenhuma",
+        "valida": "Sistema",
+        "tipo": "Cálculo"
+      },
+      {
+        "id": "RN04",
+        "regra": "Risco = criticidade × 2 (se sem contrato) × 2 (se ponto único de falha)",
+        "quando": "No mapa e no painel",
+        "excecao": "Nenhuma",
+        "valida": "Coordenadoria",
+        "tipo": "Cálculo"
+      },
+      {
+        "id": "RN05",
+        "regra": "Contrato vigente quando início ≤ hoje ≤ fim; alerta 60 dias antes do fim",
+        "quando": "Diariamente ao abrir o app",
+        "excecao": "Nenhuma",
+        "valida": "Sistema",
+        "tipo": "Negócio"
+      },
+      {
+        "id": "RN06",
+        "regra": "MTTR = média de conclusão − abertura das manutenções corretivas",
+        "quando": "No painel",
+        "excecao": "Nenhuma",
+        "valida": "Sistema",
+        "tipo": "Cálculo"
+      },
+      {
+        "id": "RN07",
+        "regra": "Disponibilidade = 1 − horas paradas ÷ horas úteis do período",
+        "quando": "No painel",
+        "excecao": "Nenhuma",
+        "valida": "Sistema",
+        "tipo": "Cálculo"
+      },
+      {
+        "id": "RN08",
+        "regra": "Coordenada fora do contorno de MT é recusada",
+        "quando": "No cadastro da unidade",
+        "excecao": "Nenhuma",
+        "valida": "Sistema",
+        "tipo": "Validação"
+      },
+      {
+        "id": "RN09",
+        "regra": "Não registrar CPF nem nome de pessoa; o responsável é o cargo ou a matrícula",
+        "quando": "Em todos os cadastros",
+        "excecao": "Nenhuma",
+        "valida": "Sistema",
+        "tipo": "LGPD"
+      },
+      {
+        "id": "RN10",
+        "regra": "Na consolidação, vence o registro com a alteração mais recente; conflito no mesmo minuto vai para revisão",
+        "quando": "Na importação dos arquivos das unidades",
+        "excecao": "Revisão manual",
+        "valida": "Coordenadoria",
+        "tipo": "Negócio"
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "Planilha de equipamentos",
+        "tipo": "Planilha local",
+        "onde": "Coordenadoria de qualidade",
+        "existe": "Parcialmente",
+        "acesso": "Coordenadoria",
+        "linha": "Um equipamento",
+        "volume": "A levantar",
+        "historico": "Não há",
+        "campos": "Data de aquisição, se houver",
+        "atualiza": "Sem rotina",
+        "lgpd": "Não",
+        "obs": "Importada por CSV no app"
+      },
+      {
+        "fonte": "Contratos de manutenção",
+        "tipo": "Documento em papel",
+        "onde": "Unidades e setor de contratos",
+        "existe": "Sim",
+        "acesso": "Chefias e contratos",
+        "linha": "Um contrato",
+        "volume": "A levantar",
+        "historico": "Vigência",
+        "campos": "Início e fim da vigência",
+        "atualiza": "A cada contrato",
+        "lgpd": "Não",
+        "obs": "PDF ou papel"
+      },
+      {
+        "fonte": "Comprovantes de manutenção",
+        "tipo": "Documento em papel",
+        "onde": "Unidades",
+        "existe": "Sim",
+        "acesso": "Chefias",
+        "linha": "Uma manutenção",
+        "volume": "200 por mês (informado)",
+        "historico": "Variável",
+        "campos": "Data do serviço",
+        "atualiza": "A cada manutenção",
+        "lgpd": "Não",
+        "obs": "Entrada do processo informada pelo aluno"
+      },
+      {
+        "fonte": "Malha municipal de MT",
+        "tipo": "Sistema oficial",
+        "onde": "IBGE",
+        "existe": "Sim",
+        "acesso": "Público",
+        "linha": "Um município",
+        "volume": "142 municípios",
+        "historico": "Edição anual",
+        "campos": "Não se aplica",
+        "atualiza": "Anual",
+        "lgpd": "Não",
+        "obs": "Base do mapa offline"
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "Equipamentos sem contrato",
+        "pergunta": "Quantos equipamentos estão sem cobertura?",
+        "formula": "Sem contrato vigente ÷ total × 100",
+        "fonte": "Equipamentos e contratos",
+        "gran": "Unidade",
+        "base": "A medir no Sprint 0",
+        "esperado": "Todos identificados no piloto",
+        "medir": "Cruzar a planilha atual com os contratos",
+        "quem": "Coordenadoria"
+      },
+      {
+        "nome": "Exposição diária",
+        "n": "",
+        "pergunta": "Quanto a POLITEC perde por dia se os críticos sem contrato pararem?",
+        "formula": "Soma do custo diário (RN02) dos pontos únicos de falha sem contrato",
+        "fonte": "Equipamentos, contratos e parâmetros",
+        "gran": "Unidade",
+        "base": "Não existe hoje",
+        "esperado": "Calculada para as 3 unidades",
+        "medir": "Painel do app",
+        "quem": "Coordenadoria"
+      },
+      {
+        "n": "",
+        "nome": "Custo de parada no período",
+        "pergunta": "Quanto custaram as paradas?",
+        "formula": "Soma de RN03 nas paradas do período",
+        "fonte": "Paradas",
+        "gran": "Mês",
+        "base": "Não existe hoje",
+        "esperado": "Registrado em 100% das paradas do piloto",
+        "medir": "Painel do app",
+        "quem": "Coordenadoria"
+      },
+      {
+        "n": "",
+        "nome": "Tempo para responder o custo de uma parada",
+        "pergunta": "Quanto tempo leva para saber quanto custa uma parada?",
+        "formula": "Hora da resposta − hora da pergunta",
+        "fonte": "Cronômetro",
+        "gran": "Caso",
+        "base": "A medir no Sprint 0",
+        "esperado": "Menos de 5 minutos",
+        "medir": "Cronometrar 3 perguntas antes e depois",
+        "quem": "Coordenadoria"
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "Arquivo HTML único",
+        "tipo": "Arquivo local",
+        "onde": "Computador da coordenadoria e das unidades",
+        "custo": "Zero",
+        "mantem": "O aluno",
+        "acesso": "Quem recebe o arquivo",
+        "banco": "IndexedDB do navegador",
+        "escala": "Uma cópia por unidade",
+        "limite": "Consolidação por arquivo .json"
+      },
+      {
+        "opcao": "GitHub Pages",
+        "tipo": "Estática e gratuita",
+        "onde": "GitHub",
+        "custo": "Zero",
+        "mantem": "O aluno",
+        "acesso": "Link público (sem dados)",
+        "banco": "Não tem; os dados ficam no navegador",
+        "escala": "Baixa",
+        "limite": "Publica só o app, nunca os dados"
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "Escopo validado com a coordenadora",
+        "data": "Semana 1",
+        "resp": "Aluno",
+        "dep": "Leitura do contexto.md",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Lista de unidades e planilha atual reunidas",
+        "data": "Semana 1",
+        "resp": "Aluno",
+        "dep": "Coordenadoria",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Cadastro de equipamentos com fotos",
+        "data": "Semana 4",
+        "resp": "Aluno",
+        "dep": "Esqueleto do app",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Custo de parada e mapa offline",
+        "data": "Semana 7",
+        "resp": "Aluno",
+        "dep": "Parâmetros aprovados",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Exportação para o Google Earth",
+        "data": "Semana 9",
+        "resp": "Aluno",
+        "dep": "Mapa e fotos",
+        "sit": "Planejado"
+      },
+      {
+        "marco": "Piloto de 30 dias em 3 unidades",
+        "data": "Semana 12",
+        "resp": "Aluno e coordenadora",
+        "dep": "Aceite",
+        "sit": "Planejado"
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "Lista de unidades e equipamentos incompleta",
+        "prob": "Alta",
+        "imp": "Alto",
+        "mit": "Começar pelas 3 unidades do piloto e completar aos poucos"
+      },
+      {
+        "risco": "Custo de parada contestado",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "Parâmetros aprovados pela coordenadoria e fórmula visível"
+      },
+      {
+        "risco": "Fotos ocupam espaço demais",
+        "prob": "Média",
+        "imp": "Baixo",
+        "mit": "Compressão para cerca de 200 KB por foto"
+      },
+      {
+        "risco": "Arquivos das unidades geram duplicados",
+        "prob": "Média",
+        "imp": "Médio",
+        "mit": "Identificador único e tela de conflitos"
+      }
+    ],
+    "tRefs": [
+      {
+        "n": "",
+        "ref": "Malha Municipal de Mato Grosso",
+        "tipo": "Dado oficial",
+        "fonte": "IBGE, malhas territoriais",
+        "ano": "2024",
+        "dado": "Contorno dos 142 municípios de MT",
+        "uso": "Base do mapa offline",
+        "conferido": "Não"
+      },
+      {
+        "n": "",
+        "ref": "Lei nº 14.133/2021 (Nova Lei de Licitações)",
+        "tipo": "Norma ou lei",
+        "fonte": "Planalto",
+        "ano": "2021",
+        "dado": "Contratação de serviços de manutenção",
+        "uso": "Mostrar que a contratação continua no rito legal",
+        "conferido": "Não"
+      },
+      {
+        "n": "",
+        "ref": "Formato KML",
+        "tipo": "Documento interno",
+        "fonte": "Google, documentação do KML",
+        "ano": "2026",
+        "dado": "Estrutura de Placemark, Folder e Style",
+        "uso": "Base da exportação para o Google Earth",
+        "conferido": "Não"
+      }
+    ]
+  },
+  "completado_em": "2026-10-29"
+}

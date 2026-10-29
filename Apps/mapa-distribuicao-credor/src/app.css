@@ -1,0 +1,3 @@
+tr.subtotal td{background:color-mix(in srgb, var(--accent) 8%, transparent)}
+tr.total td{background:color-mix(in srgb, var(--accent) 16%, transparent)}
+[data-origem]:hover{outline:1px dashed var(--accent)}

@@ -1,0 +1,272 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-10-29T14:14:53.711Z",
+  "campos": {
+    "data": "2026-10-27",
+    "aluno": "KARINE ASSUNÇÃO",
+    "unidade": "CQUAL",
+    "contato": "KARINEASSUNCAO@POLITEC.MT.GOV.BR",
+    "nome_projeto": "Automação do monitoramento de metas pelo BI",
+    "tipo_projeto": "Automação de script ou rotina",
+    "resumo": "Desenvolver uma automação mensal de extração por OCR, validação dos dados e atualização controlada da planilha.",
+    "problema": "Extração manual dos dados.",
+    "hoje": "o fluxo atual é realizado através da consulta dos dados no Power BI 1, transferência manual para o Google planilhas e esse google planilhas alimenta um novo Power BI de monitoramento, teria como automatizar essa função de alimentar manualmente o Google Planilhas.",
+    "impacto": "O fluxo atual exige a transferência manual dos dados extraídos do Power BI 1 para o Google Planilhas, tornando o processo de monitoramento das metas mais demorado e operacionalmente dependente da intervenção humana. Essa atividade aumenta o risco de erros de digitação, inconsistências nos indicadores e divergências nos resultados apresentados no Power BI de monitoramento, além de dificultar a rastreabilidade e a padronização das atualizações mensais.",
+    "evid_detalhe": "Tempo gasto com a conferência dos dados",
+    "limite": "O acesso ao API do Power BI 1",
+    "asis_inicio": "Solicitação de demanda ",
+    "asis_fim": "Reunião mensal",
+    "asis_entradas": "Consulta dos dados do Power BI 1",
+    "asis_saidas": "Visualização e monitoramento das metas",
+    "asis_volume": "2",
+    "asis_duracao": "8h",
+    "asis_frequencia": "Mensal",
+    "asis_decisoes": "A principal bifurcação do fluxo ocorre após a conferência dos dados extraídos do Power BI 1 e inseridos manualmente no Google Planilhas.",
+    "asis_excecoes": "Sim: prosseguir com a atualização da base de dados e disponibilização dos indicadores no Power BI de monitoramento.\nNão: revisar e corrigir os dados na planilha, confrontando-os com o relatório original do Power BI 1, antes de prosseguir.",
+    "asis_digital": "Os dados iniciais são todos digitalizados.",
+    "papeis_obs": "Extração e conferência dos dados",
+    "tobe_visao": "Automatizar a extração, validação e transferência dos dados do Power BI 1 para o Google Planilhas, garantindo maior agilidade, confiabilidade e padronização no monitoramento mensal das metas institucionais da POLITEC, com atualização dos indicadores no Power BI de monitoramento e redução de falhas operacionais.",
+    "tobe_mudanca": "Substituir o preenchimento manual do Google Planilhas por um processo automatizado de extração e validação dos dados do PDF emitido pelo Power BI 1,",
+    "tobe_inalterado": "Permanecem inalterados o Power BI 1 como fonte dos dados, a emissão mensal do relatório em PDF, o Google Planilhas como base de armazenamento dos indicadores.",
+    "tobe_restricao": "Permanecem inalterados o Power BI 1 como fonte dos dados.",
+    "tobe_piloto": "A validação deverá comparar os dados extraídos com o relatório original, verificar possíveis erros de reconhecimento, duplicidades e inconsistências.",
+    "entrega": "Aplicativo de web e manual de uso em PDF.",
+    "dentro": "Geração do PDF",
+    "fora": "A base dados original (API)",
+    "mvp_naofaz": "O MVP não integra com a base de dados original do Power BI 1.",
+    "mvp_objetivo": "Validar a viabilidade da extração automatizada de dados do PDF do Power BI 1 por OCR e sua transferência para o Google Planilhas, reduzindo o trabalho manual e garantindo a confiabilidade dos indicadores no Power BI de Monitoramento.",
+    "mvp_tela_inicial": "A primeira tela é a pasta de entrada no Google Drive, onde o usuário disponibiliza o PDF mensal exportado do Power BI 1 para iniciar o processo automatizado de extração",
+    "mvp_mock": "Extração dos dados do PDF do Power BI 1 por OCR,",
+    "mvp_criterio": "Compatibilidade de dados entre os dois Power BI.",
+    "mvp_dados": "Dados do quantitativo de laudos pendentes (passivo)",
+    "mvp_reuso": "o PDF que será inserido na pasta de entrada no Google DriveSS",
+    "dependencias": "Acesso ao Power BI 1",
+    "lgpd_dados": "Não existe",
+    "lgpd_base": "Tratamento de dados destinado ao monitoramento das metas institucionais da POLITEC, com a finalidade de automatizar a extração",
+    "lgpd_retencao": "Os arquivos e dados utilizados no MVP serão mantidos durante o período de testes, pelo tempo estritamente necessário à validação da solução",
+    "lgpd_acesso": "O acesso ao MVP será restrito aos servidores e colaboradores autorizados envolvidos no desenvolvimento, teste e validação da solução. ",
+    "stack_detalhe": "",
+    "coletar": "Os dados já estão disponíveis",
+    "acesso": "O acesso é permitido através de link e liberado pelo chefe de núcleo",
+    "base_periodo": "Período disponível para análise comparativa",
+    "campos_data": "mês e ano",
+    "conta_quem": "Chefe de núcleo",
+    "hospedagem_escolhida": "Facilidade de acesso e segurança",
+    "orcamento": "R$0",
+    "restricoes": "PDF predominantemente em imagem e Permissões e segurança institucional:",
+    "hipotese_campo": "Os dados serem transferidos erroneamente.",
+    "lacunas": "Não foram confirmadas a disponibilidade e as permissões necessárias para utilização do Google Apps Script e dos serviços de OCR no ambiente institucional da POLITEC. ",
+    "apoio": "Equipe de TI da POLITEC (Responsável pelo Power BI 1)",
+    "aprendizado": "OCR",
+    "frase": "Automatizar a extração e validação dos dados do Power BI 1 para reduzir o trabalho manual, aumentar a confiabilidade das informações e tornar o monitoramento das metas da POLITEC mais ágil e eficiente.",
+    "provas": "Existência de atividade manual recorrente, Risco de erros e inconsistências e Viabilidade técnica da automação",
+    "piloto": "3 meses comparando os dados",
+    "risco_defesa": "Erros de reconhecimento do OCR na extração dos dados do PDF, comprometendo a precisão dos indicadores e o monitoramento das metas da POLITEC.",
+    "doc_faltando": "OCR"
+  },
+  "marcados": {
+    "afetado": [
+      "Autoridade"
+    ],
+    "evid": [
+      "Medida feita pela equipe"
+    ],
+    "stack": "Power BI (dashboard e medidas DAX)",
+    "req": [
+      "Segurança e controle de acesso"
+    ]
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "Monitoramento das metas",
+        "papel": "NIINS",
+        "entra": "Dados Power BI 1",
+        "acao": "Consulta do Painel",
+        "sai": "Dados específicos",
+        "sistema": "Google Planilhas",
+        "regra": "Regra",
+        "espera": "Extração do dados manualmente",
+        "tempo": "8h",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "Extração dos dados",
+        "muda": "Automaizado",
+        "quem": "A máquina (automação)",
+        "beneficio": "Redução do tempo",
+        "esforco": "Baixo",
+        "rm": ""
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "Chefe de núcleo",
+        "quem": "servidor",
+        "ve": "dados",
+        "faz": "compilação dos dados",
+        "naofaz": "errar na digitação",
+        "registro": "Google Planilhas",
+        "rm": ""
+      },
+      {
+        "papel": "",
+        "quem": "",
+        "ve": "",
+        "faz": "",
+        "naofaz": "",
+        "registro": "",
+        "rm": ""
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "Sistema",
+        "rota": "automação",
+        "objetivo": "Chefe de núcleo",
+        "usuario": "Extraídos do Power BI 1",
+        "dados": "Extração automática",
+        "acao": "Regra",
+        "regra": "",
+        "tipo": "Automação",
+        "verificacao": "",
+        "mvp": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "",
+        "rota": "",
+        "objetivo": "",
+        "usuario": "",
+        "dados": "",
+        "acao": "",
+        "regra": "",
+        "tipo": "",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "Relatorio Mensal",
+        "representa": "PDF mensal importado",
+        "colunas": "Data",
+        "chave": "",
+        "volume": "1",
+        "origem": "PDF do Power BI 1\t",
+        "sintetico": "Não",
+        "rm": ""
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "RN01",
+        "regra": "O relatório deve possuir um mês de referência válido.",
+        "quando": "Toda importação",
+        "excecao": "Relatório sem período identificável é rejeitado.",
+        "valida": "Automação",
+        "tipo": "Validação",
+        "rm": ""
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "Power BI 1",
+        "tipo": "Planilha local",
+        "onde": "",
+        "existe": "Sim",
+        "acesso": "Limitado",
+        "linha": "",
+        "volume": "1",
+        "historico": "anual",
+        "campos": "mês/ano",
+        "atualiza": "",
+        "lgpd": "Não",
+        "obs": "",
+        "rm": ""
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "Conferência",
+        "pergunta": "Os dados estão corretos? ",
+        "formula": "",
+        "fonte": "",
+        "gran": "Mês",
+        "base": "",
+        "esperado": "",
+        "medir": "",
+        "quem": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "",
+        "pergunta": "",
+        "formula": "",
+        "fonte": "",
+        "gran": "",
+        "base": "",
+        "esperado": "",
+        "medir": "",
+        "quem": "",
+        "rm": ""
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "",
+        "tipo": "Nuvem corporativa",
+        "onde": "",
+        "custo": "",
+        "mantem": "",
+        "acesso": "",
+        "banco": "",
+        "escala": "",
+        "limite": "",
+        "rm": ""
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "Erros de reconhecimento por OCR",
+        "data": "mensal",
+        "resp": "Chefe de Núcleo",
+        "dep": "",
+        "sit": "Planejado",
+        "rm": ""
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "",
+        "prob": "",
+        "imp": "",
+        "mit": "",
+        "rm": ""
+      }
+    ],
+    "tRefs": [
+      {
+        "n": "",
+        "ref": "Power BI",
+        "tipo": "Documento interno",
+        "fonte": "Link",
+        "ano": "2026",
+        "dado": "Pendentes",
+        "uso": "",
+        "conferido": "Sim",
+        "rm": ""
+      }
+    ]
+  }
+}
