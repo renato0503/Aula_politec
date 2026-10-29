@@ -259,7 +259,8 @@ node Apps/agendamento-cin/testes/testar_code_gs.js    # apenas o agendamento
 ```
 
 Estado (29/10/2026): **19 apps**. Os 12 primeiros estao com os Sprints 1, 2 e 3
-feitos; os 7 novos (`custodia-definitiva`, `passivo-ambiental`,
+feitos (dois deles, `cin-segunda-via` e `metas-bi-ocr`, com o Sprint 4 parcial);
+os 7 novos (`custodia-definitiva`, `passivo-ambiental`,
 `renovacao-contratos-horus`, `documentapolitec`, `gestao-documentos`,
 `controle-aquisicoes` e `distribuicao-casos-dna`) estao com os Sprints 1 e 2.
 Todos tem a parte tecnica do Sprint 0 (dados ficticios, bibliotecas, modelos).

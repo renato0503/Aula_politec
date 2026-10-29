@@ -10,6 +10,7 @@
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py metas-bi-ocr` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py metas-bi-ocr` passa (cenário do "Pronto quando"). |
 | 3 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py metas-bi-ocr` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
+| 4 | Parcial em 29/10/2026: exportação CSV/Excel e botão copiar, só para mês aprovado (`src/sprint4.js`), com cenário em `Apps/_base/cenarios/sprint4.py`. Falta o teste de importação na planilha do Google. |
 
 CSV e PDF com texto de 3 meses fictícios, com uma divergência plantada por mês (`DIVERGENCIAS.md`). O PDF em imagem fica para o Sprint 5. SheetJS copiado do app do mapa.
 
@@ -60,8 +61,8 @@ fica só com o PDF de texto e o OCR passa a ser opcional.
 
 ## Sprint 4 · Arquivo para a planilha
 
-- [ ] Gerar `.xlsx` e `.csv` no layout da planilha do Google.
-- [ ] Botão copiar (para colar direto na planilha).
+- [x] Gerar `.xlsx` e `.csv` no layout da planilha do Google.
+- [x] Botão copiar (para colar direto na planilha).
 - [ ] Teste: o arquivo dos 3 meses fictícios importa na planilha sem ajuste.
 
 ## Sprint 5 · PDF com texto e OCR

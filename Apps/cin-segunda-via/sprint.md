@@ -11,6 +11,7 @@
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py cin-segunda-via` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py cin-segunda-via` passa (cenário do "Pronto quando"). |
 | 3 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py cin-segunda-via` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
+| 4 | Parcial em 29/10/2026: `#/protocolo/:id` feito (`src/sprint4.js`) e cenário em `Apps/_base/cenarios/sprint4.py`. Falta apagar pedido e fotos decididos (RN06). |
 
 CPF de teste gerados a partir de 000.000.0xx, com dígito válido; sem fotos (o app gera as de teste no Sprint 2).
 
@@ -61,7 +62,7 @@ CPF de teste gerados a partir de 000.000.0xx, com dígito válido; sem fotos (o 
 
 ## Sprint 4 · Protocolo e retenção
 
-- [ ] `#/protocolo/:id`: situação e motivo.
+- [x] `#/protocolo/:id`: situação e motivo.
 - [ ] Apagar pedido e fotos decididos (RN06), mantendo só as contagens.
 
 ## Sprint 5 · Indicadores e acessibilidade

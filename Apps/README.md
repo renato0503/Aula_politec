@@ -29,9 +29,10 @@ recebe o código do app.
 ## Andamento (29/10/2026)
 
 Os 19 apps andam juntos, sprint a sprint. Os **12 primeiros** estão com os
-**Sprints 1, 2 e 3** feitos; os **7 novos** (custódia, passivo, renovação,
-DOCUMENTAPOLITEC, Gestão de Documentos, Controle de Aquisições e Distribuição de
-Casos de DNA) estão com os **Sprints 1 e 2**. Todos têm a parte técnica do
+**Sprints 1, 2 e 3** feitos; `cin-segunda-via` e `metas-bi-ocr` já têm o **Sprint
+4 parcial**. Os **7 novos** (custódia, passivo, renovação, DOCUMENTAPOLITEC,
+Gestão de Documentos, Controle de Aquisições e Distribuição de Casos de DNA)
+estão com os **Sprints 1 e 2**. Todos têm a parte técnica do
 Sprint 0 (dados fictícios, bibliotecas, modelos). Os itens do Sprint 0 que
 dependem de pessoas (autorizações, amostras reais, linha de base) continuam
 abertos no `sprint.md` de cada app.
