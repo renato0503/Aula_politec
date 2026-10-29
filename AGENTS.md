@@ -246,6 +246,7 @@ Ferramentas (em `Apps/_base/`):
 | `testar.py` | Abre cada app no Chromium e confere zero requisicao de rede, `#/testes` 100%, todas as rotas, dados ficticios, persistencia e tema. |
 | `testar_sprints.py` | Um cenario de interface por sprint: usa a tela como uma pessoa usaria e confere o "Pronto quando" do `sprint.md`. Os cenarios do Sprint 3 em diante ficam em `Apps/_base/cenarios/sprintN.py`. |
 | `equipes.py` | Grava o login do GitHub de um aluno em `equipes.json` e refaz a tabela "Equipes e GitHub" do `Apps/README.md`. Uso: `python Apps/_base/equipes.py <app> "<nome>" <login>`. |
+| `painel.py` | Gera `Apps/painel.html`, o painel de desenvolvimento: telas prontas x pendentes por sprint, itens abertos, GitHub e trabalhos de BI. Uso: `python Apps/_base/painel.py` (e `python Apps/_base/hub_apps.py` para o hub). |
 | `equipes.json` | Fonte dos logins (um repositorio por app). |
 | `Aula 8/Entregas/` | Respostas originais dos alunos (JSON/MD) e os `.pbix` da turma. |
 

@@ -66,7 +66,8 @@ a{{color:var(--accent)}}
   <p class="sub">Cada projeto saiu do formulário da Aula 8 e virou um app de um único arquivo:
     abre no navegador, funciona sem internet, guarda os dados no próprio computador e usa
     apenas dados fictícios. As decisões continuam com as pessoas.</p>
-  <p class="meta"><a href="../index.html">&larr; Voltar ao hub do curso</a> · 20 projetos ·
+  <p class="meta"><a href="../index.html">&larr; Voltar ao hub do curso</a> ·
+    <a href="painel.html">Painel de desenvolvimento</a> · 20 projetos ·
     fonte dos contatos e logins: <code>Apps/equipes.json</code></p>
   <div class="grid">
 {chr(10).join(linhas)}

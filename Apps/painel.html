@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel de desenvolvimento · Apps POLITEC</title>
+<style>
+:root{--bg:#f6f4ef;--surface:#fff;--ink:#1c1a17;--soft:#5c574f;--line:#e2ddd2;--accent:#0f766e;--ok:#15803d;--alerta:#b45309;--erro:#b91c1c}
+@media (prefers-color-scheme:dark){:root{--bg:#141412;--surface:#1d1c19;--ink:#f2efe8;--soft:#b5afa3;--line:#33302a;--accent:#2dd4bf;--ok:#4ade80;--alerta:#fbbf24;--erro:#f87171}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 system-ui,Segoe UI,Roboto,sans-serif}
+.wrap{max-width:1180px;margin:0 auto;padding:36px 18px 60px}
+.kicker{color:var(--accent);font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:12px}
+h1{font-size:clamp(26px,4vw,40px);margin:6px 0 8px;letter-spacing:-.02em}
+h2{margin:34px 0 10px;font-size:20px}h4{margin:12px 0 6px;font-size:13px;text-transform:uppercase;letter-spacing:.06em;color:var(--soft)}
+.sub{color:var(--soft);margin:0 0 18px}.silencioso{color:var(--soft);font-size:12px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0 8px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px}
+.kpi b{display:block;font-size:24px;line-height:1.1}.kpi span{color:var(--soft);font-size:12.5px}
+.controles{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:22px 0 12px}
+.controles input{flex:1;min-width:220px;padding:9px 12px;border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--ink)}
+.controles button{padding:8px 12px;border:1px solid var(--line);border-radius:9px;background:var(--surface);color:var(--ink);cursor:pointer}
+.controles button.ativo{border-color:var(--accent);color:var(--accent);font-weight:700}
+details.app{background:var(--surface);border:1px solid var(--line);border-radius:12px;margin:8px 0}
+details.app>summary{display:grid;grid-template-columns:minmax(220px,2.4fr) 130px minmax(80px,1fr) 46px 46px;gap:12px;align-items:center;padding:12px 14px;cursor:pointer;list-style:none}
+details.app>summary::-webkit-details-marker{display:none}
+details.app .nome b{display:block}details.app .nome small{color:var(--soft);font-size:12px}
+.selo{font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;text-align:center;white-space:nowrap}
+.g-s3{background:rgba(21,128,61,.15);color:var(--ok)}.g-s2{background:rgba(15,118,110,.15);color:var(--accent)}.g-s4p{background:rgba(180,83,9,.15);color:var(--alerta)}
+.barra{height:7px;background:var(--line);border-radius:999px;overflow:hidden}.barra span{display:block;height:100%;background:var(--accent)}
+.num{text-align:right;font-variant-numeric:tabular-nums}.pend{color:var(--erro);font-weight:700}
+.corpo{padding:0 14px 14px;border-top:1px solid var(--line)}
+.colunas{display:grid;grid-template-columns:1.5fr 1fr;gap:22px}
+.corpo ul{margin:4px 0 0 18px;padding:0}.corpo li{margin:3px 0}
+.ok{color:var(--ok)}.alerta{color:var(--erro)}
+.links a{color:var(--accent);font-weight:600}a{color:var(--accent)}
+.bloco{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:8px 14px}
+.bloco details{border-top:1px solid var(--line);padding:8px 0}.bloco details:first-child{border-top:0}
+.bloco summary{cursor:pointer;font-weight:600}
+footer{margin-top:34px;border-top:1px solid var(--line);padding-top:16px;color:var(--soft);font-size:13px}
+@media (max-width:760px){details.app>summary{grid-template-columns:1fr 110px}.barra,.num.pend{display:none}.colunas{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <div class="kicker">Capacitação POLITEC/MT · fase 2</div>
+  <h1>Painel de desenvolvimento dos apps</h1>
+  <p class="sub">Visão global dos 20 projetos construídos a partir das entregas da Aula 8.
+    A tela pronta é conferida pelas rotas implementadas no código; o restante aparece como placeholder do sprint.
+    Atualizado em 29/10/2026.</p>
+  <div class="kpis"><div class="kpi"><b>20</b><span>apps</span></div><div class="kpi"><b>99/140</b><span>telas prontas</span></div><div class="kpi"><b>41</b><span>telas no placeholder</span></div><div class="kpi"><b>77</b><span>itens do Sprint 0 abertos</span></div><div class="kpi"><b>22/27</b><span>alunos com GitHub</span></div><div class="kpi"><b>28</b><span>trabalhos de BI</span></div></div>
+
+  <div class="controles">
+    <input id="busca" type="search" placeholder="Buscar por app, projeto ou aluno...">
+    <button data-f="todos" class="ativo">Todos</button>
+    <button data-f="s3">Sprints 1–3</button>
+    <button data-f="s2">Sprints 1–2</button>
+    <button data-f="s4p">Sprint 4 parcial</button>
+  </div>
+  <p class="sub" id="contador"></p>
+
+  <details class="app" data-grupo="s3" data-busca="adiantamento controle de adiantamentos jaqueline, linicker">
+  <summary>
+    <span class="nome"><b>Controle de Adiantamentos</b><small>adiantamento · Jaqueline, Linicker</small></span>
+    <span class="selo g-s3">Sprints 1–3</span>
+    <span class="barra"><span style="width:67%"></span></span>
+    <span class="num">4/6</span>
+    <span class="num pend">2</span>
+  </summary>
+  <div class="corpo">
+    <div class="colunas">
+      <div><h4>O que falta</h4><ul><li><code>#/processo/:id/prestacao</code> <span class='silencioso'>Sprint 5</span></li><li><code>#/relatorio</code> <span class='silencioso'>Sprint 6</span></li></ul></div>
+      <div><h4>Números</h4><p>153 linhas de código · 3 testes embutidos · 2 regras citadas<br>
+        150 registros fictícios · 19 itens abertos no sprint.md (Sprint 0: 5)</p>
+        <p><b>GitHub:</b> <code>jaquelineaguiar-prog</code>, <code>Linickeraraujo-sd</code></p></div>
+    </div>
+    <p class="links"><a href="adiantamento/index.html">Abrir o app</a> ·
+      <a href="adiantamento/README.md">README</a> ·
+      <a href="adiantamento/PROJETO.md">PROJETO</a> ·
+      <a href="adiantamento/sprint.md">sprint.md</a></p>
+  </div>
+</details><details class="app" data-grupo="s3" data-busca="agendamento-cin agendamento cin elthon">
+  <summary>
+    <span class="nome"><b>Agendamento CIN</b><small>agendamento-cin · Elthon</small></span>
+    <span class="selo g-s3">Sprints 1–3</span>
+    <span class="barra"><span style="width:75%"></span></span>
+    <span class="num">6/8</span>
+    <span class="num pend">2</span>
+  </summary>
+  <div class="corpo">
+    <div class="colunas">
+      <div><h4>O que falta</h4><ul><li><code>#/consultar</code> <span class='silencioso'>Sprint 5</span></li><li><code>#/posto</code> <span class='silencioso'>Sprint 6</span></li></ul><p class='alerta'>Falta: exemplos/seed.json</p></div>
+      <div><h4>Números</h4><p>272 linhas de código · 5 testes embutidos · 4 regras citadas<br>
+        0 registros fictícios · 28 itens abertos no sprint.md (Sprint 0: 5)</p>
+        <p><b>GitHub:</b> <code>Elthonteix-debug</code></p></div>
+    </div>
+    <p class="links"><a href="agendamento-cin/index.html">Abrir o app</a> ·
+      <a href="agendamento-cin/README.md">README</a> ·
+      <a href="agendamento-cin/PROJETO.md">PROJETO</a> ·
+      <a href="agendamento-cin/sprint.md">sprint.md</a></p>
+  </div>
+</details><details class="app" data-grupo="s3" data-busca="agiliza-mais agiliza + diego costa, francineide da silva, andreia cristina">
+  <summary>
+    <span class="nome"><b>Agiliza +</b><small>agiliza-mais · Diego Costa, Francineide da Silva, Andreia Cristina</small></span>
+    <span class="selo g-s3">Sprints 1–3</span>
+    <span class="barra"><span style="width:40%"></span></span>
+    <span class="num">4/10</span>
+    <span class="num pend">6</span>
+  </summary>
+  <div class="corpo">
+    <div class="colunas">
+      <div><h4>O que falta</h4><ul><li><code>#/textos</code> <span class='silencioso'>Sprint 7</span></li><li><code>#/quesitos</code> <span class='silencioso'>Sprint 8</span></li><li><code>#/gerar</code> <span class='silencioso'>Sprint 4</span></li><li><code>#/revisao</code> <span class='silencioso'>Sprint 9</span></li><li><code>#/biblioteca</code> <span class='silencioso'>Sprint 7</span></li><li><code>#/historico</code> <span class='silencioso'>Sprint 11</span></li></ul></div>
+      <div><h4>Números</h4><p>247 linhas de código · 18 testes embutidos · 6 regras citadas<br>
+        11 registros fictícios · 55 itens abertos no sprint.md (Sprint 0: 4)</p>
+        <p><b>GitHub:</b> <code>diegocosta-dotcom</code>, <code>francineidesilva-sys</code>, <code>andreiamunzlinger-web</code></p></div>
+    </div>
+    <p class="links"><a href="agiliza-mais/index.html">Abrir o app</a> ·
+      <a href="agiliza-mais/README.md">README</a> ·
+      <a href="agiliza-mais/PROJETO.md">PROJETO</a> ·
+      <a href="agiliza-mais/sprint.md">sprint.md</a></p>
+  </div>
+</details><details class="app" data-grupo="s4p" data-busca="cin-segunda-via segunda via da cin andré, flávia, glauce">
+  <summary>
+    <span class="nome"><b>Segunda via da CIN</b><small>cin-segunda-via · André, Flávia, Glauce</small></span>
+    <span class="selo g-s4p">Sprint 4 parcial</span>
+    <span class="barra"><span style="width:83%"></span></span>
+    <span class="num">5/6</span>
+    <span class="num pend">1</span>
+  </summary>
+  <div class="corpo">
+    <div class="colunas">
+      <div><h4>O que falta</h4><ul><li><code>#/indicadores</code> <span class='silencioso'>Sprint 5</span></li></ul></div>
+      <div><h4>Números</h4><p>202 linhas de código · 4 testes embutidos · 4 regras citadas<br>
+        30 registros fictícios · 10 itens abertos no sprint.md (Sprint 0: 4)</p>
+        <p><b>GitHub:</b> <code>andresilva-papi</code>, <code>flaviasilva-oss</code></p></div>
+    </div>
+    <p class="links"><a href="cin-segunda-via/index.html">Abrir o app</a> ·
+      <a href="cin-segunda-via/README.md">README</a> ·
+      <a href="cin-segunda-via/PROJETO.md">PROJETO</a> ·
+      <a href="cin-segunda-via/sprint.md">sprint.md</a></p>
+  </div>
+</details><details class="app" data-grupo="s3" data-busca="comissao-etica-denuncias comissão de ética letícia, thiago">
+  <summary>
+    <span class="nome"><b>Comissão de Ética</b><small>comissao-etica-denuncias · Letícia, Thiago</small></span>
+    <span class="selo g-s3">Sprints 1–3</span>
+    <span class="barra"><span style="width:50%"></span></span>
+    <span class="num">5/10</span>
+    <span class="num pend">5</span>
+  </summary>
+  <div class="corpo">
+    <div class="colunas">
+      <div><h4>O que falta</h4><ul><li><code>#/caso/:id/admissibilidade</code> <span class='silencioso'>Sprint 4</span></li><li><code>#/caso/:id/oitivas</code> <span class='silencioso'>Sprint 5</span></li><li><code>#/caso/:id/documentos</code> <span class='silencioso'>Sprint 6</span></li><li><code>#/caso/:id/encerramento</code> <span class='silencioso'>Sprint 6</span></li><li><code>#/relatorio</code> <span class='silencioso'>Sprint 7</span></li></ul></div>
+      <div><h4>Números</h4><p>168 linhas de código · 3 testes embutidos · 2 regras citadas<br>
+        18 registros fictícios · 15 itens abertos no sprint.md (Sprint 0: 3)</p>
+        <p><b>GitHub:</b> <code>thiagouchaki</code></p></div>
+    </div>
+    <p class="links"><a href="comissao-etica-denuncias/index.html">Abrir o app</a> ·
+      <a href="comissao-etica-denuncias/README.md">README</a> ·
+      <a href="comissao-etica-denuncias/PROJETO.md">PROJETO</a> ·
+      <a href="comissao-etica-denuncias/sprint.md">sprint.md</a></p>
+  </div>
+</details><details class="app" data-grupo="s2" data-busca="controle-aquisicoes controle do processo de aquisição kasteline gonçalves">
+  <summary>
+    <span class="nome"><b>Controle do Processo de Aquisição</b><small>controle-aquisicoes · Kasteline Gonçalves</small></span>
+    <span class="selo g-s2">Sprints 1–2</span>
+    <span class="barra"><span style="width:100%"></span></span>
+    <span class="num">5/5</span>
+    <span class="num pend">0</span>
+  </summary>
+  <div class="corpo">
+    <div class="colunas">
+      <div><h4>O que falta</h4><p class="ok">Todas as rotas declaradas têm tela.</p></div>
+      <div><h4>Números</h4><p>151 linhas de código · 3 testes embutidos · 3 regras citadas<br>
+        57 registros fictícios · 18 itens abertos no sprint.md (Sprint 0: 3)</p>
+        <p><b>GitHub:</b> <code>kastelinesilva-netizen</code></p></div>
+    </div>
+    <p class="links"><a href="controle-aquisicoes/index.html">Abrir o app</a> ·
+      <a href="controle-aquisicoes/README.md">README</a> ·
+      <a href="controle-aquisicoes/PROJETO.md">PROJETO</a> ·
+      <a href="controle-aquisicoes/sprint.md">sprint.md</a></p>
+  </div>
+</details><details class="app" data-grupo="s2" data-busca="custodia-definitiva custódia definitiva edjane ávila">
+  <summary>
+    <span class="nome"><b>Custódia Definitiva</b><small>custodia-definitiva · Edjane Ávila</small></span>
+    <span class="selo g-s2">Sprints 1–2</span>
+    <span class="barra"><span style="width:100%"></span></span>
+    <span class="num">6/6</span>
+    <span class="num pend">0</span>
+  </summary>
+  <div class="corpo">
+    <div class="colunas">
+      <div><h4>O que falta</h4><p class="ok">Todas as rotas declaradas têm tela.</p></div>
+      <div><h4>Números</h4><p>143 linhas de código · 2 testes embutidos · 4 regras citadas<br>
+        82 registros fictícios · 17 itens abertos no sprint.md (Sprint 0: 2)</p>
+        <p><b>GitHub:</b> <code>edjaneavila-cyber</code></p></div>
+    </div>
+    <p class="links"><a href="custodia-definitiva/index.html">Abrir o app</a> ·
+      <a href="custodia-definitiva/README.md">README</a> ·
+      <a href="custodia-definitiva/PROJETO.md">PROJETO</a> ·
+      <a href="custodia-definitiva/sprint.md">sprint.md</a></p>
+  </div>
+</details><details class="app" data-grupo="s2" data-busca="distribuicao-casos-dna distribuição de casos de dna nelson, luciana">
+  <summary>
+    <span class="nome"><b>Distribuição de Casos de DNA</b><small>distribuicao-casos-dna · Nelson, Luciana</small></span>
+    <span class="selo g-s2">Sprints 1–2</span>
+    <span class="barra"><span style="width:100%"></span></span>
+    <span class="num">5/5</span>
+    <span class="num pend">0</span>
+  </summary>
+  <div class="corpo">
+    <div class="colunas">
+      <div><h4>O que falta</h4><p class="ok">Todas as rotas declaradas têm tela.</p></div>
+      <div><h4>Números</h4><p>142 linhas de código · 3 testes embutidos · 4 regras citadas<br>
+        66 registros fictícios · 18 itens abertos no sprint.md (Sprint 0: 3)</p>
+        <p><b>GitHub:</b> <code>nelsonyoshitake</code></p></div>
+    </div>
+    <p class="links"><a href="distribuicao-casos-dna/index.html">Abrir o app</a> ·
+      <a href="distribuicao-casos-dna/README.md">README</a> ·
+      <a href="distribuicao-casos-dna/PROJETO.md">PROJETO</a> ·
+      <a href="distribuicao-casos-dna/sprint.md">sprint.md</a></p>
+  </div>
+</details><details class="app" data-grupo="s2" data-busca="documentapolitec documentapolitec aline xavier dos passos">
+  <summary>
+    <span class="nome"><b>DOCUMENTAPOLITEC</b><small>documentapolitec · Aline Xavier dos Passos</small></span>
+    <span class="selo g-s2">Sprints 1–2</span>
+    <span class="barra"><span style="width:100%"></span></span>
+    <span class="num">6/6</span>
+    <span class="num pend">0</span>
+  </summary>
+  <div class="corpo">
+    <div class="colunas">
+      <div><h4>O que falta</h4><p class="ok">Todas as rotas declaradas têm tela.</p></div>
+      <div><h4>Números</h4><p>126 linhas de código · 3 testes embutidos · 2 regras citadas<br>
+        161 registros fictícios · 18 itens abertos no sprint.md (Sprint 0: 3)</p>
+        <p><b>GitHub:</b> <code>alinepassos-source</code></p></div>
+    </div>
+    <p class="links"><a href="documentapolitec/index.html">Abrir o app</a> ·
+      <a href="documentapolitec/README.md">README</a> ·
+      <a href="documentapolitec/PROJETO.md">PROJETO</a> ·
+      <a href="documentapolitec/sprint.md">sprint.md</a></p>
+  </div>
+</details><details class="app" data-grupo="s3" data-busca="equipamentos-google-earth mapa de equipamentos joão lucas nogueira ponce">
+  <summary>
+    <span class="nome"><b>Mapa de Equipamentos</b><small>equipamentos-google-earth · João Lucas Nogueira Ponce</small></span>
+    <span class="selo g-s3">Sprints 1–3</span>
+    <span class="barra"><span style="width:50%"></span></span>
+    <span class="num">5/10</span>
+    <span class="num pend">5</span>
+  </summary>
+  <div class="corpo">
+    <div class="colunas">
+      <div><h4>O que falta</h4><ul><li><code>#/painel</code> <span class='silencioso'>Sprint 7</span></li><li><code>#/contratos</code> <span class='silencioso'>Sprint 4</span></li><li><code>#/paradas</code> <span class='silencioso'>Sprint 5</span></li><li><code>#/importar</code> <span class='silencioso'>Sprint 9</span></li><li><code>#/exportar</code> <span class='silencioso'>Sprint 8</span></li></ul></div>
+      <div><h4>Números</h4><p>243 linhas de código · 7 testes embutidos · 1 regras citadas<br>
+        428 registros fictícios · 53 itens abertos no sprint.md (Sprint 0: 7)</p>
+        <p><b>GitHub:</b> <code>Jopolite</code></p></div>
+    </div>
+    <p class="links"><a href="equipamentos-google-earth/index.html">Abrir o app</a> ·
+      <a href="equipamentos-google-earth/README.md">README</a> ·
+      <a href="equipamentos-google-earth/PROJETO.md">PROJETO</a> ·
+      <a href="equipamentos-google-earth/sprint.md">sprint.md</a></p>
+  </div>
+</details><details class="app" data-grupo="s2" data-busca="gestao-documentos gestão de documentos vitória araújo dias">
+  <summary>
+    <span class="nome"><b>Gestão de Documentos</b><small>gestao-documentos · Vitória Araújo Dias</small></span>
+    <span class="selo g-s2">Sprints 1–2</span>
+    <span class="barra"><span style="width:100%"></span></span>
+    <span class="num">5/5</span>
+    <span class="num pend">0</span>
+  </summary>
+  <div class="corpo">
+    <div class="colunas">
+      <div><h4>O que falta</h4><p class="ok">Todas as rotas declaradas têm tela.</p></div>
+      <div><h4>Números</h4><p>122 linhas de código · 4 testes embutidos · 5 regras citadas<br>
+        63 registros fictícios · 18 itens abertos no sprint.md (Sprint 0: 3)</p>
+        <p><b>GitHub:</b> <code>Vitoriadias-droide</code></p></div>
+    </div>
+    <p class="links"><a href="gestao-documentos/index.html">Abrir o app</a> ·
+      <a href="gestao-documentos/README.md">README</a> ·
+      <a href="gestao-documentos/PROJETO.md">PROJETO</a> ·
+      <a href="gestao-documentos/sprint.md">sprint.md</a></p>
+  </div>
+</details><details class="app" data-grupo="s3" data-busca="horus-banco-demandas banco de demandas iohan camões de albuquerque">
+  <summary>
+    <span class="nome"><b>Banco de Demandas</b><small>horus-banco-demandas · Iohan Camões de Albuquerque</small></span>
+    <span class="selo g-s3">Sprints 1–3</span>
+    <span class="barra"><span style="width:50%"></span></span>
+    <span class="num">5/10</span>
+    <span class="num pend">5</span>
+  </summary>
+  <div class="corpo">
+    <div class="colunas">
+      <div><h4>O que falta</h4><ul><li><code>#/demanda/:id/interesse</code> <span class='silencioso'>Sprint 5</span></li><li><code>#/ciclos</code> <span class='silencioso'>Sprint 6</span></li><li><code>#/aprovar</code> <span class='silencioso'>Sprint 6</span></li><li><code>#/relatorios</code> <span class='silencioso'>Sprint 7</span></li><li><code>#/trocar</code> <span class='silencioso'>Sprint 4</span></li></ul></div>
+      <div><h4>Números</h4><p>201 linhas de código · 4 testes embutidos · 8 regras citadas<br>
+        30 registros fictícios · 29 itens abertos no sprint.md (Sprint 0: 5)</p>
+        <p><b>GitHub:</b> <span class='alerta'>sem GitHub</span></p></div>
+    </div>
+    <p class="links"><a href="horus-banco-demandas/index.html">Abrir o app</a> ·
+      <a href="horus-banco-demandas/README.md">README</a> ·
+      <a href="horus-banco-demandas/PROJETO.md">PROJETO</a> ·
+      <a href="horus-banco-demandas/sprint.md">sprint.md</a></p>
+  </div>
+</details><details class="app" data-grupo="s3" data-busca="inscricoes-cursos inscrições em cursos edilaura rondon">
+  <summary>
+    <span class="nome"><b>Inscrições em Cursos</b><small>inscricoes-cursos · Edilaura Rondon</small></span>
+    <span class="selo g-s3">Sprints 1–3</span>
+    <span class="barra"><span style="width:44%"></span></span>
+    <span class="num">4/9</span>
+    <span class="num pend">5</span>
+  </summary>
+  <div class="corpo">
+    <div class="colunas">
+      <div><h4>O que falta</h4><ul><li><code>#/importar</code> <span class='silencioso'>Sprint 4</span></li><li><code>#/inscritos/:curso</code> <span class='silencioso'>Sprint 5</span></li><li><code>#/triagem</code> <span class='silencioso'>Sprint 6</span></li><li><code>#/convocacao/:curso</code> <span class='silencioso'>Sprint 7</span></li><li><code>#/turma/:curso</code> <span class='silencioso'>Sprint 8</span></li></ul></div>
+      <div><h4>Números</h4><p>268 linhas de código · 8 testes embutidos · 4 regras citadas<br>
+        75 registros fictícios · 37 itens abertos no sprint.md (Sprint 0: 6)</p>
+        <p><b>GitHub:</b> <code>edilaurarondon-hash</code></p></div>
+    </div>
+    <p class="links"><a href="inscricoes-cursos/index.html">Abrir o app</a> ·
+      <a href="inscricoes-cursos/README.md">README</a> ·
+      <a href="inscricoes-cursos/PROJETO.md">PROJETO</a> ·
+      <a href="inscricoes-cursos/sprint.md">sprint.md</a></p>
+  </div>
+</details><details class="app" data-grupo="s3" data-busca="mapa-distribuicao-credor mapa de distribuição igor henrique de menezes costa">
+  <summary>
+    <span class="nome"><b>Mapa de Distribuição</b><small>mapa-distribuicao-credor · Igor Henrique de Menezes Costa</small></span>
+    <span class="selo g-s3">Sprints 1–3</span>
+    <span class="barra"><span style="width:40%"></span></span>
+    <span class="num">4/10</span>
+    <span class="num pend">6</span>
+  </summary>
+  <div class="corpo">
+    <div class="colunas">
+      <div><h4>O que falta</h4><ul><li><code>#/resultado/:proc</code> <span class='silencioso'>Sprint 4</span></li><li><code>#/empresas/:proc</code> <span class='silencioso'>Sprint 5</span></li><li><code>#/conferencia/:proc</code> <span class='silencioso'>Sprint 5</span></li><li><code>#/orcamento/:proc</code> <span class='silencioso'>Sprint 6</span></li><li><code>#/exportar/:proc</code> <span class='silencioso'>Sprint 7</span></li><li><code>#/auditoria/:proc</code> <span class='silencioso'>Sprint 7</span></li></ul></div>
+      <div><h4>Números</h4><p>324 linhas de código · 14 testes embutidos · 2 regras citadas<br>
+        158 registros fictícios · 28 itens abertos no sprint.md (Sprint 0: 5)</p>
+        <p><b>GitHub:</b> <code>izgdreyar-arch</code></p></div>
+    </div>
+    <p class="links"><a href="mapa-distribuicao-credor/index.html">Abrir o app</a> ·
+      <a href="mapa-distribuicao-credor/README.md">README</a> ·
+      <a href="mapa-distribuicao-credor/PROJETO.md">PROJETO</a> ·
+      <a href="mapa-distribuicao-credor/sprint.md">sprint.md</a></p>
+  </div>
+</details><details class="app" data-grupo="s4p" data-busca="metas-bi-ocr metas pelo bi karine assunção">
+  <summary>
+    <span class="nome"><b>Metas pelo BI</b><small>metas-bi-ocr · Karine Assunção</small></span>
+    <span class="selo g-s4p">Sprint 4 parcial</span>
+    <span class="barra"><span style="width:100%"></span></span>
+    <span class="num">5/5</span>
+    <span class="num pend">0</span>
+  </summary>
+  <div class="corpo">
+    <div class="colunas">
+      <div><h4>O que falta</h4><p class="ok">Todas as rotas declaradas têm tela.</p></div>
+      <div><h4>Números</h4><p>245 linhas de código · 4 testes embutidos · 6 regras citadas<br>
+        13 registros fictícios · 13 itens abertos no sprint.md (Sprint 0: 5)</p>
+        <p><b>GitHub:</b> <code>karineassuncao-hub</code></p></div>
+    </div>
+    <p class="links"><a href="metas-bi-ocr/index.html">Abrir o app</a> ·
+      <a href="metas-bi-ocr/README.md">README</a> ·
+      <a href="metas-bi-ocr/PROJETO.md">PROJETO</a> ·
+      <a href="metas-bi-ocr/sprint.md">sprint.md</a></p>
+  </div>
+</details><details class="app" data-grupo="s2" data-busca="passivo-ambiental passivo ambiental fábio">
+  <summary>
+    <span class="nome"><b>Passivo Ambiental</b><small>passivo-ambiental · Fábio</small></span>
+    <span class="selo g-s2">Sprints 1–2</span>
+    <span class="barra"><span style="width:100%"></span></span>
+    <span class="num">5/5</span>
+    <span class="num pend">0</span>
+  </summary>
+  <div class="corpo">
+    <div class="colunas">
+      <div><h4>O que falta</h4><p class="ok">Todas as rotas declaradas têm tela.</p></div>
+      <div><h4>Números</h4><p>119 linhas de código · 2 testes embutidos · 2 regras citadas<br>
+        28 registros fictícios · 18 itens abertos no sprint.md (Sprint 0: 3)</p>
+        <p><b>GitHub:</b> <code>fabioconceicao-fxc</code></p></div>
+    </div>
+    <p class="links"><a href="passivo-ambiental/index.html">Abrir o app</a> ·
+      <a href="passivo-ambiental/README.md">README</a> ·
+      <a href="passivo-ambiental/PROJETO.md">PROJETO</a> ·
+      <a href="passivo-ambiental/sprint.md">sprint.md</a></p>
+  </div>
+</details><details class="app" data-grupo="s2" data-busca="renovacao-contratos-horus renovação de contratos · hórus rodrigo neves ribeiro">
+  <summary>
+    <span class="nome"><b>Renovação de Contratos · Hórus</b><small>renovacao-contratos-horus · Rodrigo Neves Ribeiro</small></span>
+    <span class="selo g-s2">Sprints 1–2</span>
+    <span class="barra"><span style="width:100%"></span></span>
+    <span class="num">5/5</span>
+    <span class="num pend">0</span>
+  </summary>
+  <div class="corpo">
+    <div class="colunas">
+      <div><h4>O que falta</h4><p class="ok">Todas as rotas declaradas têm tela.</p></div>
+      <div><h4>Números</h4><p>164 linhas de código · 4 testes embutidos · 4 regras citadas<br>
+        32 registros fictícios · 17 itens abertos no sprint.md (Sprint 0: 2)</p>
+        <p><b>GitHub:</b> <code>Rodrigoribeiro-cloud</code></p></div>
+    </div>
+    <p class="links"><a href="renovacao-contratos-horus/index.html">Abrir o app</a> ·
+      <a href="renovacao-contratos-horus/README.md">README</a> ·
+      <a href="renovacao-contratos-horus/PROJETO.md">PROJETO</a> ·
+      <a href="renovacao-contratos-horus/sprint.md">sprint.md</a></p>
+  </div>
+</details><details class="app" data-grupo="s3" data-busca="rnc-nao-conformidade não conformidades sabrina ellen">
+  <summary>
+    <span class="nome"><b>Não Conformidades</b><small>rnc-nao-conformidade · Sabrina Ellen</small></span>
+    <span class="selo g-s3">Sprints 1–3</span>
+    <span class="barra"><span style="width:67%"></span></span>
+    <span class="num">4/6</span>
+    <span class="num pend">2</span>
+  </summary>
+  <div class="corpo">
+    <div class="colunas">
+      <div><h4>O que falta</h4><ul><li><code>#/minhas</code> <span class='silencioso'>Sprint 4</span></li><li><code>#/exportar</code> <span class='silencioso'>Sprint 4</span></li></ul></div>
+      <div><h4>Números</h4><p>203 linhas de código · 4 testes embutidos · 5 regras citadas<br>
+        74 registros fictícios · 12 itens abertos no sprint.md (Sprint 0: 3)</p>
+        <p><b>GitHub:</b> <code>Sabrinaelllen1209</code></p></div>
+    </div>
+    <p class="links"><a href="rnc-nao-conformidade/index.html">Abrir o app</a> ·
+      <a href="rnc-nao-conformidade/README.md">README</a> ·
+      <a href="rnc-nao-conformidade/PROJETO.md">PROJETO</a> ·
+      <a href="rnc-nao-conformidade/sprint.md">sprint.md</a></p>
+  </div>
+</details><details class="app" data-grupo="s3" data-busca="tap-portfolio-projetos tap digital danielle marques de almeida trevizan">
+  <summary>
+    <span class="nome"><b>TAP Digital</b><small>tap-portfolio-projetos · Danielle Marques de Almeida Trevizan</small></span>
+    <span class="selo g-s3">Sprints 1–3</span>
+    <span class="barra"><span style="width:71%"></span></span>
+    <span class="num">5/7</span>
+    <span class="num pend">2</span>
+  </summary>
+  <div class="corpo">
+    <div class="colunas">
+      <div><h4>O que falta</h4><ul><li><code>#/proposta/:id</code> <span class='silencioso'>Sprint 4</span></li><li><code>#/indicadores</code> <span class='silencioso'>Sprint 6</span></li></ul></div>
+      <div><h4>Números</h4><p>223 linhas de código · 5 testes embutidos · 6 regras citadas<br>
+        21 registros fictícios · 11 itens abertos no sprint.md (Sprint 0: 3)</p>
+        <p><b>GitHub:</b> <code>daniellealmeida-sudo</code></p></div>
+    </div>
+    <p class="links"><a href="tap-portfolio-projetos/index.html">Abrir o app</a> ·
+      <a href="tap-portfolio-projetos/README.md">README</a> ·
+      <a href="tap-portfolio-projetos/PROJETO.md">PROJETO</a> ·
+      <a href="tap-portfolio-projetos/sprint.md">sprint.md</a></p>
+  </div>
+</details><details class="app" data-grupo="s2" data-busca="trilha-custodia-necropsia tcin · trilha de custódia e identificação silmara bueno">
+  <summary>
+    <span class="nome"><b>TCIN · Trilha de Custódia e Identificação</b><small>trilha-custodia-necropsia · Silmara Bueno</small></span>
+    <span class="selo g-s2">Sprints 1–2</span>
+    <span class="barra"><span style="width:100%"></span></span>
+    <span class="num">6/6</span>
+    <span class="num pend">0</span>
+  </summary>
+  <div class="corpo">
+    <div class="colunas">
+      <div><h4>O que falta</h4><p class="ok">Todas as rotas declaradas têm tela.</p></div>
+      <div><h4>Números</h4><p>166 linhas de código · 2 testes embutidos · 4 regras citadas<br>
+        79 registros fictícios · 18 itens abertos no sprint.md (Sprint 0: 3)</p>
+        <p><b>GitHub:</b> <span class='alerta'>sem GitHub</span></p></div>
+    </div>
+    <p class="links"><a href="trilha-custodia-necropsia/index.html">Abrir o app</a> ·
+      <a href="trilha-custodia-necropsia/README.md">README</a> ·
+      <a href="trilha-custodia-necropsia/PROJETO.md">PROJETO</a> ·
+      <a href="trilha-custodia-necropsia/sprint.md">sprint.md</a></p>
+  </div>
+</details>
+
+  <h2>O que falta, por sprint</h2>
+  <div class="bloco"><details><summary>Sprint 4 <span class='num'>9</span></summary><ul><li><b>agiliza-mais</b> · <code>#/gerar</code></li><li><b>comissao-etica-denuncias</b> · <code>#/caso/:id/admissibilidade</code></li><li><b>equipamentos-google-earth</b> · <code>#/contratos</code></li><li><b>horus-banco-demandas</b> · <code>#/trocar</code></li><li><b>inscricoes-cursos</b> · <code>#/importar</code></li><li><b>mapa-distribuicao-credor</b> · <code>#/resultado/:proc</code></li><li><b>rnc-nao-conformidade</b> · <code>#/minhas</code></li><li><b>rnc-nao-conformidade</b> · <code>#/exportar</code></li><li><b>tap-portfolio-projetos</b> · <code>#/proposta/:id</code></li></ul></details><details><summary>Sprint 5 <span class='num'>9</span></summary><ul><li><b>adiantamento</b> · <code>#/processo/:id/prestacao</code></li><li><b>agendamento-cin</b> · <code>#/consultar</code></li><li><b>cin-segunda-via</b> · <code>#/indicadores</code></li><li><b>comissao-etica-denuncias</b> · <code>#/caso/:id/oitivas</code></li><li><b>equipamentos-google-earth</b> · <code>#/paradas</code></li><li><b>horus-banco-demandas</b> · <code>#/demanda/:id/interesse</code></li><li><b>inscricoes-cursos</b> · <code>#/inscritos/:curso</code></li><li><b>mapa-distribuicao-credor</b> · <code>#/empresas/:proc</code></li><li><b>mapa-distribuicao-credor</b> · <code>#/conferencia/:proc</code></li></ul></details><details><summary>Sprint 6 <span class='num'>9</span></summary><ul><li><b>adiantamento</b> · <code>#/relatorio</code></li><li><b>agendamento-cin</b> · <code>#/posto</code></li><li><b>comissao-etica-denuncias</b> · <code>#/caso/:id/documentos</code></li><li><b>comissao-etica-denuncias</b> · <code>#/caso/:id/encerramento</code></li><li><b>horus-banco-demandas</b> · <code>#/ciclos</code></li><li><b>horus-banco-demandas</b> · <code>#/aprovar</code></li><li><b>inscricoes-cursos</b> · <code>#/triagem</code></li><li><b>mapa-distribuicao-credor</b> · <code>#/orcamento/:proc</code></li><li><b>tap-portfolio-projetos</b> · <code>#/indicadores</code></li></ul></details><details><summary>Sprint 7 <span class='num'>8</span></summary><ul><li><b>agiliza-mais</b> · <code>#/textos</code></li><li><b>agiliza-mais</b> · <code>#/biblioteca</code></li><li><b>comissao-etica-denuncias</b> · <code>#/relatorio</code></li><li><b>equipamentos-google-earth</b> · <code>#/painel</code></li><li><b>horus-banco-demandas</b> · <code>#/relatorios</code></li><li><b>inscricoes-cursos</b> · <code>#/convocacao/:curso</code></li><li><b>mapa-distribuicao-credor</b> · <code>#/exportar/:proc</code></li><li><b>mapa-distribuicao-credor</b> · <code>#/auditoria/:proc</code></li></ul></details><details><summary>Sprint 8 <span class='num'>3</span></summary><ul><li><b>agiliza-mais</b> · <code>#/quesitos</code></li><li><b>equipamentos-google-earth</b> · <code>#/exportar</code></li><li><b>inscricoes-cursos</b> · <code>#/turma/:curso</code></li></ul></details><details><summary>Sprint 9 <span class='num'>2</span></summary><ul><li><b>agiliza-mais</b> · <code>#/revisao</code></li><li><b>equipamentos-google-earth</b> · <code>#/importar</code></li></ul></details><details><summary>Sprint 11 <span class='num'>1</span></summary><ul><li><b>agiliza-mais</b> · <code>#/historico</code></li></ul></details></div>
+
+  <h2>Cadastro, BI e publicação</h2>
+  <div class="bloco">
+    <p><b>Alunos sem GitHub:</b> Glauce, Letícia, Luciana, Iohan Camões de Albuquerque, Silmara Bueno.</p>
+    <p><b>Trabalhos de BI:</b> 28 arquivos em <code>Aula 8/Entregas BI/</code>.
+      <a href="../Aula%208/Entregas%20BI/README.md">Índice do BI</a> (o Firebase não serve <code>.md</code>; no GitHub Pages, sim).</p>
+    <p><b>Publicação:</b> o repositório publica no GitHub Pages a cada push; o Firebase precisa de <code>firebase deploy</code>.</p>
+    <p><b>Testes:</b> <code>python Apps/_base/testar.py</code> e <code>python Apps/_base/testar_sprints.py</code>.
+      O painel não executa navegador; ele lê o código e os documentos.</p>
+  </div>
+
+  <footer>Gerar de novo: <code>python Apps/_base/painel.py</code>. Fontes: <code>app.json</code>,
+    <code>src/*.js</code>, <code>sprint.md</code>, <code>equipes.json</code> e <code>exemplos/seed.json</code>.</footer>
+</main>
+<script>
+const busca = document.getElementById('busca'), apps = [...document.querySelectorAll('details.app')], contador = document.getElementById('contador');
+let filtro = 'todos';
+function aplicar(){
+  const q = busca.value.trim().toLowerCase();
+  let n = 0;
+  apps.forEach(a=>{ const ok = (filtro === 'todos' || a.dataset.grupo === filtro) && (!q || a.dataset.busca.includes(q)); a.hidden = !ok; if (ok) n++; });
+  contador.textContent = n + ' de ' + apps.length + ' apps';
+}
+busca.addEventListener('input', aplicar);
+document.querySelectorAll('[data-f]').forEach(b=>b.addEventListener('click', ()=>{
+  filtro = b.dataset.f; document.querySelectorAll('[data-f]').forEach(x=>x.classList.toggle('ativo', x === b)); aplicar();
+}));
+aplicar();
+</script>
+</body>
+</html>

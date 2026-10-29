@@ -103,6 +103,7 @@ Ao chegar um grupo novo, crie `Apps/<slug-do-projeto>/` com os mesmos arquivos.
 | `_base/testar.py` | Abre cada app no Chromium e confere: zero requisição de rede, `#/testes` 100%, todas as rotas, dados fictícios, persistência e tema |
 | `_base/testar_sprints.py` | Um cenário de interface por sprint e por app: usa a tela como uma pessoa usaria e confere o "Pronto quando" do `sprint.md`. Os cenários do Sprint 2 estão no próprio arquivo; os seguintes, em `_base/cenarios/sprintN.py` |
 | `_base/equipes.py` | Grava o login do GitHub de um aluno em `equipes.json` e refaz a tabela "Equipes e GitHub" deste README |
+| `_base/painel.py` | Gera `Apps/painel.html`, o painel de desenvolvimento: telas prontas x pendentes por sprint, itens abertos, GitHub e trabalhos de BI |
 | `_base/base.html` (utilitários) | Dinheiro em centavos, leitura de CSV, CPF e CNPJ, datas, redução de imagem, campos de formulário: usados por vários apps |
 
 ```powershell
