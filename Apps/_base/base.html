@@ -7,87 +7,48 @@
 <title>%%TITULO%%</title>
 <meta name="description" content="%%DESCRICAO%%">
 <style>
-/* ===================================================================
-   BASE COMUM DOS APPS (Apps/_base/base.html)
-   Tema, layout, componentes. O CSS do app fica no fim deste bloco.
-   =================================================================== */
-:root{
-  --bg:#f6f7f9; --painel:#ffffff; --ink:#1c2430; --ink2:#5b6676; --linha:#dde2e9;
-  --accent:#1f5fae; --accent-ink:#ffffff; --verde:#1d7a46; --ambar:#a86500; --vermelho:#b42318;
-  --sombra:0 1px 2px rgba(16,24,40,.06),0 1px 3px rgba(16,24,40,.10);
-  --raio:10px; --mono:ui-monospace,SFMono-Regular,Consolas,monospace;
-  --ui:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
-  color-scheme:light;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#11161d; --painel:#1a212b; --ink:#e6eaf0; --ink2:#a3adbb; --linha:#2c3542;
-    --accent:#6ea8ff; --accent-ink:#0b1220; --verde:#4cc283; --ambar:#f0b44c; --vermelho:#ff7b72;
-    --sombra:none; color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#11161d; --painel:#1a212b; --ink:#e6eaf0; --ink2:#a3adbb; --linha:#2c3542;
-  --accent:#6ea8ff; --accent-ink:#0b1220; --verde:#4cc283; --ambar:#f0b44c; --vermelho:#ff7b72;
-  --sombra:none; color-scheme:dark;
-}
-*{box-sizing:border-box}
-[hidden]{display:none!important}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 var(--ui)}
-a{color:var(--accent)}
-:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
-.topo{background:var(--painel);border-bottom:1px solid var(--linha);position:sticky;top:0;z-index:5}
-.topo-in{max-width:1200px;margin:0 auto;padding:10px 16px;display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-.marca{font-weight:700;font-size:17px;margin-right:auto}
-.marca small{display:block;font-weight:400;font-size:12px;color:var(--ink2)}
-.aviso-topo{background:var(--accent);color:var(--accent-ink);font-size:13px;text-align:center;padding:4px 16px}
-nav.menu{max-width:1200px;margin:0 auto;padding:0 16px 8px;display:flex;gap:4px;flex-wrap:wrap}
-nav.menu a{padding:6px 10px;border-radius:8px;text-decoration:none;color:var(--ink2);font-size:14px}
-nav.menu a[aria-current="page"]{background:var(--accent);color:var(--accent-ink)}
-main{max-width:1200px;margin:0 auto;padding:20px 16px 60px}
-h1{font-size:22px;margin:0 0 4px} h2{font-size:18px;margin:24px 0 8px}
-.sub{color:var(--ink2);margin:0 0 16px}
-.card{background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio);padding:16px;box-shadow:var(--sombra);margin-bottom:16px}
-.grade{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
-.kpi .v{font-size:26px;font-weight:700} .kpi .r{color:var(--ink2);font-size:13px}
-button,.botao{font:inherit;border:1px solid var(--linha);background:var(--painel);color:var(--ink);padding:7px 12px;border-radius:8px;cursor:pointer}
-button.prim,.botao.prim{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
-button.perigo{border-color:var(--vermelho);color:var(--vermelho)}
-button:disabled{opacity:.5;cursor:not-allowed}
-input,select,textarea{font:inherit;color:var(--ink);background:var(--bg);border:1px solid var(--linha);border-radius:8px;padding:7px 9px;width:100%}
-label{display:block;font-size:13px;color:var(--ink2);margin:10px 0 4px}
-.linha-botoes{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
-.tabela-wrap{overflow-x:auto}
-table{border-collapse:collapse;width:100%;font-size:14px}
-th,td{text-align:left;padding:7px 9px;border-bottom:1px solid var(--linha);vertical-align:top}
-th{color:var(--ink2);font-weight:600}
-td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
-.selo{display:inline-block;padding:1px 8px;border-radius:99px;font-size:12px;border:1px solid currentColor}
-.selo.ok{color:var(--verde)} .selo.alerta{color:var(--ambar)} .selo.erro{color:var(--vermelho)} .selo.info{color:var(--accent)}
-.vazio{color:var(--ink2);text-align:center;padding:28px}
-.campos{display:grid;gap:0 16px;grid-template-columns:repeat(auto-fill,minmax(240px,1fr))}
-.campo small{display:block;margin-top:2px}
-.ok-txt{color:var(--verde)} .erro-txt{color:var(--vermelho)} .alerta-txt{color:var(--ambar)}
-.pendente{border-left:4px solid var(--ambar)}
-code,.mono{font-family:var(--mono);font-size:13px}
-#toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;display:none;z-index:20;max-width:90vw}
-@media (max-width:640px){ .marca{font-size:15px} main{padding:16px 16px 48px} }
-@media print{ .topo,nav.menu,#toast,.nao-imprimir{display:none!important} body{background:#fff;color:#000} .card{box-shadow:none;break-inside:avoid} }
+/* ===== BASE COMUM (Apps/_base/visual.css) ===== */
+%%CSS_BASE%%
+/* ===== VISUAL DESTE APP (bloco "visual" do app.json) ===== */
+%%CSS_VISUAL%%
 /* ===== CSS DO APP ===== */
 %%CSS_APP%%
 </style>
 </head>
-<body>
+<body data-layout="%%LAYOUT%%" data-estilo="%%ESTILO%%">
+<div class="faixa-gov"><div class="in">
+  <span class="bandeira" aria-hidden="true"><i style="background:#1e63ae"></i><i style="background:#0b7a3e"></i><i style="background:#e8b931"></i></span>
+  <span><b>Governo de Mato Grosso</b></span><span class="sep">|</span>
+  <span>Secretaria de Estado de Segurança Pública</span><span class="sep">|</span>
+  <span><b>POLITEC</b> · Perícia Oficial e Identificação Técnica</span>
+  <span class="dir">%%SETOR%%</span>
+</div></div>
+%%AVISO%%
 <header class="topo">
-  %%AVISO%%
   <div class="topo-in">
+    <div class="emblema" id="emblema" aria-hidden="true"></div>
     <div class="marca">%%TITULO%%<small>%%SUBTITULO%%</small></div>
-    <span id="perfilAtual" class="selo info" hidden></span>
-    <button id="btnTema" type="button" aria-label="Alternar tema claro e escuro">Tema</button>
+    <div class="acoes">
+      <span id="perfilAtual" class="selo info" hidden></span>
+      <div class="fonte" role="group" aria-label="Tamanho da fonte">
+        <button id="btnFonteMenos" type="button" aria-label="Diminuir a fonte" title="Diminuir a fonte">A−</button>
+        <button id="fonteValor" type="button" aria-label="Voltar ao tamanho padrão" title="Voltar ao tamanho padrão">100%</button>
+        <button id="btnFonteMais" type="button" aria-label="Aumentar a fonte" title="Aumentar a fonte">A+</button>
+      </div>
+      <button id="btnTema" type="button" aria-label="Alternar tema claro e escuro"><span class="sol"></span><span class="lua"></span>Tema</button>
+    </div>
   </div>
-  <nav class="menu" id="menu" aria-label="Telas do app"></nav>
 </header>
-<main id="conteudo" tabindex="-1"></main>
+<div class="impressao-cab"><b>%%TITULO%%</b><span>POLITEC/MT · SESP/MT · Governo de Mato Grosso</span></div>
+<div class="corpo">
+  <nav class="menu" id="menu" aria-label="Telas do app"></nav>
+  <main id="conteudo" tabindex="-1"></main>
+</div>
+<footer class="rodape"><div class="in">
+  <span><b>POLITEC/MT</b> · SESP/MT · Governo de Mato Grosso</span>
+  <span>Dados guardados só neste navegador · funciona sem internet</span>
+  <span class="dir mono">%%APP_ID%%</span>
+</div></footer>
 <div id="toast" role="status" aria-live="polite"></div>
 
 <!-- Bibliotecas e dados embutidos (preenchidos por Apps/_base/embutir.py) -->
@@ -137,6 +98,8 @@ function dataDeTexto(t){
   m = s.match(/^(\d{4})-(\d{2})-(\d{2})(T[\d:]+)?/);
   return m ? m[0] : null;
 }
+
+%%ICONES%%
 
 /* ---------- dinheiro em centavos inteiros (sem erro de arredondamento) ---------- */
 const dinheiro = {
@@ -317,14 +280,35 @@ async function registrar(acao, detalhe={}){
 /* ---------- tema ---------- */
 function aplicarTema(t){ if (t) document.documentElement.dataset.theme = t; else delete document.documentElement.dataset.theme; }
 function iniciarTema(){
+  $("#btnTema .sol").innerHTML = icone("sol"); $("#btnTema .lua").innerHTML = icone("lua");
+  $("#emblema").innerHTML = icone((APP.visual && APP.visual.icone) || "escudo");
+  // o padrão é sempre o tema claro; o escuro só entra quando a pessoa escolhe
   let t = null; try { t = localStorage.getItem(APP.id + ":tema"); } catch(e){}
-  aplicarTema(t);
+  aplicarTema(t === "dark" ? "dark" : "light");
   $("#btnTema").addEventListener("click", ()=>{
-    const escuro = document.documentElement.dataset.theme === "dark" ||
-      (!document.documentElement.dataset.theme && matchMedia("(prefers-color-scheme: dark)").matches);
-    const novo = escuro ? "light" : "dark"; aplicarTema(novo);
+    const novo = document.documentElement.dataset.theme === "dark" ? "light" : "dark"; aplicarTema(novo);
     try { localStorage.setItem(APP.id + ":tema", novo); } catch(e){}
   });
+  iniciarFonte();
+}
+
+/* ---------- tamanho da fonte: 80% a 150%, guardado por app ---------- */
+const FONTE = {min: 0.8, max: 1.5, passo: 0.1};
+function aplicarFonte(k){
+  k = Math.round(Math.min(FONTE.max, Math.max(FONTE.min, k)) * 10) / 10;
+  document.documentElement.style.setProperty("--escala", k);
+  $("#fonteValor").textContent = Math.round(k * 100) + "%";
+  $("#btnFonteMenos").disabled = k <= FONTE.min; $("#btnFonteMais").disabled = k >= FONTE.max;
+  try { localStorage.setItem(APP.id + ":fonte", k); } catch(e){}
+  return k;
+}
+function iniciarFonte(){
+  let k = 1; try { k = Number(localStorage.getItem(APP.id + ":fonte")) || 1; } catch(e){}
+  const atual = ()=>Number(getComputedStyle(document.documentElement).getPropertyValue("--escala")) || 1;
+  aplicarFonte(k);
+  $("#btnFonteMenos").addEventListener("click", ()=>aplicarFonte(atual() - FONTE.passo));
+  $("#btnFonteMais").addEventListener("click", ()=>aplicarFonte(atual() + FONTE.passo));
+  $("#fonteValor").addEventListener("click", ()=>aplicarFonte(1));
 }
 
 /* ---------- roteador por hash ---------- */
@@ -343,7 +327,7 @@ function casarRota(hash){
 function rotaPermitida(r){ return !r.perfis || !estado.perfil || r.perfis.includes(estado.perfil); }
 function montarMenu(){
   $("#menu").innerHTML = APP.rotas.filter(r=>r.menu !== false && !r.publica && !r.rota.includes(":") && rotaPermitida(r))
-    .map(r=>`<a href="${r.rota}" data-rota="${r.rota}">${esc(r.titulo)}</a>`).join("");
+    .map(r=>`<a href="${r.rota}" data-rota="${r.rota}">${icone(iconeDaRota(r))}<span>${esc(r.titulo)}</span></a>`).join("");
   const p = $("#perfilAtual");
   if (APP.perfis && estado.perfil){ p.hidden = false; p.textContent = "Perfil: " + estado.perfil; } else p.hidden = true;
 }

@@ -2,7 +2,14 @@
   "titulo": "Inscrições em Cursos",
   "subtitulo": "POLITEC/MT · Gerência de Formação Inicial e Continuada",
   "descricao": "Inscrição padronizada, triagem pelas diretorias e convocação, sem redigitação.",
-  "aviso": "",
+  "visual": {
+    "acento": "#0369a1",
+    "icone": "capelo",
+    "layout": "topo",
+    "padrao": "ondas",
+    "estilo": "institucional",
+    "setor": "Formação Inicial e Continuada"
+  },
   "db": {
     "nome": "inscricoes_politec_v1",
     "versao": 1,

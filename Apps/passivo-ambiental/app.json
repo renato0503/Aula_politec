@@ -2,27 +2,105 @@
   "titulo": "Passivo Ambiental",
   "subtitulo": "POLITEC/MT · laudos periciais ambientais por sensoriamento remoto",
   "descricao": "Controle das requisições periciais ambientais e dos laudos, com cabeçalho preenchido a partir da requisição. Dados fictícios.",
-  "aviso": "Protótipo com dados fictícios. Não cadastre requisições, processos ou laudos reais.",
+  "visual": {
+    "acento": "#4d7c0f",
+    "icone": "folha",
+    "layout": "topo",
+    "padrao": "topografico",
+    "estilo": "institucional",
+    "setor": "Interiorização · Perícia ambiental"
+  },
   "db": {
     "nome": "passivo_ambiental_v1",
     "versao": 1,
     "stores": {
-      "requisicoes": {"keyPath": "id_requisicao", "indices": [{"nome": "status", "campo": "status", "unico": false}]},
-      "laudos": {"keyPath": "id_laudo", "indices": [{"nome": "requisicao_id", "campo": "requisicao_id", "unico": false}]},
-      "mapas": {"keyPath": "id_mapa", "indices": [{"nome": "laudo_id", "campo": "laudo_id", "unico": false}]}
+      "requisicoes": {
+        "keyPath": "id_requisicao",
+        "indices": [
+          {
+            "nome": "status",
+            "campo": "status",
+            "unico": false
+          }
+        ]
+      },
+      "laudos": {
+        "keyPath": "id_laudo",
+        "indices": [
+          {
+            "nome": "requisicao_id",
+            "campo": "requisicao_id",
+            "unico": false
+          }
+        ]
+      },
+      "mapas": {
+        "keyPath": "id_mapa",
+        "indices": [
+          {
+            "nome": "laudo_id",
+            "campo": "laudo_id",
+            "unico": false
+          }
+        ]
+      }
     }
   },
   "perfis": [
-    {"id": "perito", "nome": "Perito criminal", "descricao": "Faz a triagem, elabora os mapas e o laudo."},
-    {"id": "gestor", "nome": "Gestor da unidade", "descricao": "Acompanha o passivo, os prazos e a produtividade."}
+    {
+      "id": "perito",
+      "nome": "Perito criminal",
+      "descricao": "Faz a triagem, elabora os mapas e o laudo."
+    },
+    {
+      "id": "gestor",
+      "nome": "Gestor da unidade",
+      "descricao": "Acompanha o passivo, os prazos e a produtividade."
+    }
   ],
   "rotas": [
-    {"rota": "#/painel", "titulo": "Painel", "sprint": 1, "descricao": "Requisições atrasadas, em elaboração e concluídas."},
-    {"rota": "#/requisicoes", "titulo": "Requisições", "sprint": 2, "descricao": "Lista das requisições e situação do laudo."},
-    {"rota": "#/requisicao/nova", "titulo": "Nova requisição", "sprint": 2, "descricao": "Registro da requisição pericial.", "perfis": ["perito"]},
-    {"rota": "#/laudo/:id", "titulo": "Laudo", "sprint": 2, "descricao": "Cabeçalho preenchido e rascunho do laudo.", "perfis": ["perito"]},
-    {"rota": "#/config", "titulo": "Configuração", "sprint": 1, "descricao": ""}
+    {
+      "rota": "#/painel",
+      "titulo": "Painel",
+      "sprint": 1,
+      "descricao": "Requisições atrasadas, em elaboração e concluídas."
+    },
+    {
+      "rota": "#/requisicoes",
+      "titulo": "Requisições",
+      "sprint": 2,
+      "descricao": "Lista das requisições e situação do laudo."
+    },
+    {
+      "rota": "#/requisicao/nova",
+      "titulo": "Nova requisição",
+      "sprint": 2,
+      "descricao": "Registro da requisição pericial.",
+      "perfis": [
+        "perito"
+      ]
+    },
+    {
+      "rota": "#/laudo/:id",
+      "titulo": "Laudo",
+      "sprint": 2,
+      "descricao": "Cabeçalho preenchido e rascunho do laudo.",
+      "perfis": [
+        "perito"
+      ]
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": ""
+    }
   ],
   "libs": [],
-  "dados": [["seed", "exemplos/seed.json"]]
+  "dados": [
+    [
+      "seed",
+      "exemplos/seed.json"
+    ]
+  ]
 }

@@ -2,7 +2,14 @@
   "titulo": "Agiliza +",
   "subtitulo": "Gerador de laudos de exame em celular",
   "descricao": "Lê a pasta do caso, mostra os dados para conferência e gera o laudo Word a partir do modelo institucional.",
-  "aviso": "Apoio à elaboração. A revisão e a aprovação são do perito.",
+  "visual": {
+    "acento": "#4338ca",
+    "icone": "raio",
+    "layout": "lateral",
+    "padrao": "grade",
+    "estilo": "institucional",
+    "setor": "Perícia de informática · Laudos"
+  },
   "db": {
     "nome": "agiliza_mais_v1",
     "versao": 1,

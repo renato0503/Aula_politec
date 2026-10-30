@@ -2,7 +2,14 @@
   "titulo": "Controle de Adiantamentos",
   "subtitulo": "POLITEC/MT · DAS",
   "descricao": "Acompanhamento dos adiantamentos, do pedido com 3 orçamentos à prestação de contas, com prazos e pendências.",
-  "aviso": "Protótipo, sem validade administrativa. O SICAD é o sistema oficial.",
+  "visual": {
+    "acento": "#0b6e4f",
+    "icone": "moeda",
+    "layout": "lateral",
+    "padrao": "linhas",
+    "estilo": "institucional",
+    "setor": "DAS · Suprimento de fundos"
+  },
   "db": {
     "nome": "adiantamento_v1",
     "versao": 1,

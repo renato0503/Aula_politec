@@ -2,37 +2,189 @@
   "titulo": "Comissão de Ética",
   "subtitulo": "POLITEC/MT · registro e classificação de denúncias",
   "descricao": "Controle dos processos da Comissão de Ética, com classificação assistida, roteiro de oitiva e minutas. As decisões são da Comissão.",
-  "aviso": "Processo sigiloso. Protótipo com casos fictícios: não registre denúncias reais.",
+  "visual": {
+    "acento": "#8a1c3a",
+    "icone": "balanca",
+    "layout": "lateral",
+    "padrao": "pontos",
+    "estilo": "institucional",
+    "setor": "Comissão de Ética"
+  },
   "db": {
     "nome": "comissao_etica_v1",
     "versao": 1,
     "stores": {
-      "denuncias": {"keyPath": "id", "indices": [{"nome": "etapa", "campo": "etapa", "unico": false}]},
-      "anexos": {"keyPath": "id", "indices": [{"nome": "denuncia_id", "campo": "denuncia_id", "unico": false}]},
-      "classificacoes": {"keyPath": "id", "indices": [{"nome": "denuncia_id", "campo": "denuncia_id", "unico": false}]},
-      "deliberacoes": {"keyPath": "id", "indices": [{"nome": "denuncia_id", "campo": "denuncia_id", "unico": false}]},
-      "oitivas": {"keyPath": "id", "indices": [{"nome": "denuncia_id", "campo": "denuncia_id", "unico": false}]},
-      "categorias": {"keyPath": "id", "indices": []},
-      "log": {"keyPath": "id", "indices": [{"nome": "denuncia_id", "campo": "denuncia_id", "unico": false}]}
+      "denuncias": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "etapa",
+            "campo": "etapa",
+            "unico": false
+          }
+        ]
+      },
+      "anexos": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "denuncia_id",
+            "campo": "denuncia_id",
+            "unico": false
+          }
+        ]
+      },
+      "classificacoes": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "denuncia_id",
+            "campo": "denuncia_id",
+            "unico": false
+          }
+        ]
+      },
+      "deliberacoes": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "denuncia_id",
+            "campo": "denuncia_id",
+            "unico": false
+          }
+        ]
+      },
+      "oitivas": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "denuncia_id",
+            "campo": "denuncia_id",
+            "unico": false
+          }
+        ]
+      },
+      "categorias": {
+        "keyPath": "id",
+        "indices": []
+      },
+      "log": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "denuncia_id",
+            "campo": "denuncia_id",
+            "unico": false
+          }
+        ]
+      }
     }
   },
   "perfis": [
-    {"id": "presidente", "nome": "Presidente", "descricao": "Coordena a admissibilidade, distribui e acompanha os casos."},
-    {"id": "membro", "nome": "Membro", "descricao": "Analisa os casos, confirma a classificação e conduz oitivas."},
-    {"id": "secretario", "nome": "Secretário(a)-executivo(a)", "descricao": "Registra denúncias, organiza documentos e acompanha prazos."}
+    {
+      "id": "presidente",
+      "nome": "Presidente",
+      "descricao": "Coordena a admissibilidade, distribui e acompanha os casos."
+    },
+    {
+      "id": "membro",
+      "nome": "Membro",
+      "descricao": "Analisa os casos, confirma a classificação e conduz oitivas."
+    },
+    {
+      "id": "secretario",
+      "nome": "Secretário(a)-executivo(a)",
+      "descricao": "Registra denúncias, organiza documentos e acompanha prazos."
+    }
   ],
   "rotas": [
-    {"rota": "#/painel", "titulo": "Painel", "sprint": 2, "descricao": "Casos por etapa e prazos."},
-    {"rota": "#/denuncia/nova", "titulo": "Nova denúncia", "sprint": 2, "descricao": "Registro com protocolo, partes, relato e anexos.", "perfis": ["secretario", "presidente"]},
-    {"rota": "#/caso/:id", "titulo": "Caso", "sprint": 2, "descricao": "Ficha, linha do tempo e histórico."},
-    {"rota": "#/caso/:id/classificacao", "titulo": "Classificação", "sprint": 3, "descricao": "Sugestão explicada e confirmação (RN02).", "perfis": ["presidente", "membro"]},
-    {"rota": "#/caso/:id/admissibilidade", "titulo": "Admissibilidade", "sprint": 4, "descricao": "Três vias com justificativa.", "perfis": ["presidente"]},
-    {"rota": "#/caso/:id/oitivas", "titulo": "Oitivas", "sprint": 5, "descricao": "Roteiro sugerido e termo.", "perfis": ["presidente", "membro"]},
-    {"rota": "#/caso/:id/documentos", "titulo": "Documentos", "sprint": 6, "descricao": "Minutas de comunicação, ata e recomendação."},
-    {"rota": "#/caso/:id/encerramento", "titulo": "Encerramento", "sprint": 6, "descricao": "Conferência das etapas e encerramento.", "perfis": ["presidente"]},
-    {"rota": "#/relatorio", "titulo": "Relatório", "sprint": 7, "descricao": "Contagens e prazos, sem nomes.", "perfis": ["presidente"]},
-    {"rota": "#/config", "titulo": "Configuração", "sprint": 1, "descricao": ""}
+    {
+      "rota": "#/painel",
+      "titulo": "Painel",
+      "sprint": 2,
+      "descricao": "Casos por etapa e prazos."
+    },
+    {
+      "rota": "#/denuncia/nova",
+      "titulo": "Nova denúncia",
+      "sprint": 2,
+      "descricao": "Registro com protocolo, partes, relato e anexos.",
+      "perfis": [
+        "secretario",
+        "presidente"
+      ]
+    },
+    {
+      "rota": "#/caso/:id",
+      "titulo": "Caso",
+      "sprint": 2,
+      "descricao": "Ficha, linha do tempo e histórico."
+    },
+    {
+      "rota": "#/caso/:id/classificacao",
+      "titulo": "Classificação",
+      "sprint": 3,
+      "descricao": "Sugestão explicada e confirmação (RN02).",
+      "perfis": [
+        "presidente",
+        "membro"
+      ]
+    },
+    {
+      "rota": "#/caso/:id/admissibilidade",
+      "titulo": "Admissibilidade",
+      "sprint": 4,
+      "descricao": "Três vias com justificativa.",
+      "perfis": [
+        "presidente"
+      ]
+    },
+    {
+      "rota": "#/caso/:id/oitivas",
+      "titulo": "Oitivas",
+      "sprint": 5,
+      "descricao": "Roteiro sugerido e termo.",
+      "perfis": [
+        "presidente",
+        "membro"
+      ]
+    },
+    {
+      "rota": "#/caso/:id/documentos",
+      "titulo": "Documentos",
+      "sprint": 6,
+      "descricao": "Minutas de comunicação, ata e recomendação."
+    },
+    {
+      "rota": "#/caso/:id/encerramento",
+      "titulo": "Encerramento",
+      "sprint": 6,
+      "descricao": "Conferência das etapas e encerramento.",
+      "perfis": [
+        "presidente"
+      ]
+    },
+    {
+      "rota": "#/relatorio",
+      "titulo": "Relatório",
+      "sprint": 7,
+      "descricao": "Contagens e prazos, sem nomes.",
+      "perfis": [
+        "presidente"
+      ]
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": ""
+    }
   ],
   "libs": [],
-  "dados": [["seed", "exemplos/seed.json"]]
+  "dados": [
+    [
+      "seed",
+      "exemplos/seed.json"
+    ]
+  ]
 }

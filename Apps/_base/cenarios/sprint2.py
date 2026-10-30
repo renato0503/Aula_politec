@@ -111,7 +111,7 @@ def s2_autuacao_e_prazo(pg, url, ok):
     ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(700)
     venc = pg.evaluate("async ()=> (await db.list('processos')).filter(p=>gdPrazo(p).sinal === 'vermelho').length")
     ir(pg, url, "#/painel", 400)
-    ok("o painel conta os processos vencidos", pg.inner_text("[data-vencidos]") == str(venc) and venc == 3)
+    ok("o painel conta os processos vencidos", pg.inner_text("[data-vencidos]") == str(venc) and venc > 0)  # o número muda com a data de hoje
     ir(pg, url, "#/processo/novo", 400)
     pg.fill("#gdAssunto", "Processo de teste"); pg.fill("#gdRequerente", "Requerente Teste"); pg.fill("#gdLotacao", "Gabinete de Direção")
     pg.check("#gdAnexo0")
@@ -138,7 +138,7 @@ def s2_registro_e_etapas(pg, url, ok):
     ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(700)
     atras = pg.evaluate("async ()=> (await db.list('processos')).filter(p=>caAtrasado(p)).length")
     ir(pg, url, "#/painel", 400)
-    ok("o painel conta os processos fora do prazo", pg.inner_text("[data-atrasados]") == str(atras) and atras == 3)
+    ok("o painel conta os processos fora do prazo", pg.inner_text("[data-atrasados]") == str(atras) and atras > 0)  # o número muda com a data de hoje
     ir(pg, url, "#/processo/novo", 400)
     pg.fill("#caSigadoc", "2026.1000-SD"); pg.fill("#caSiag", "SIAG-TESTE"); pg.fill("#caUnidade", "Aquisições"); pg.fill("#caResponsavel", "Servidor Teste"); pg.fill("#caObjeto", "Objeto de teste")
     pg.select_option("#caDFD", "nao")

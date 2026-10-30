@@ -2,7 +2,14 @@
   "titulo": "Segunda via da CIN",
   "subtitulo": "POLITEC/MT · Identificação Civil",
   "descricao": "Pedido da segunda via da Carteira de Identidade Nacional a distância, com conferência pelo servidor.",
-  "aviso": "Protótipo com dados fictícios. Não envie dados ou fotos reais.",
+  "visual": {
+    "acento": "#0e7490",
+    "icone": "identidade",
+    "layout": "topo",
+    "padrao": "ondas",
+    "estilo": "claro",
+    "setor": "Identificação Civil · Segunda via"
+  },
   "db": {
     "nome": "cin_segunda_via_v1",
     "versao": 1,

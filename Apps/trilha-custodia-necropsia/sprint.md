@@ -9,6 +9,7 @@
 | 0 | Dois envios parciais e um protótipo recebidos em 29/10/2026. Dados fictícios gerados em `exemplos/gerar_exemplos.py`. Itens que dependem de pessoas continuam abertos. |
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py trilha-custodia-necropsia` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py trilha-custodia-necropsia` passa (cenário em `Apps/_base/cenarios/sprint2.py`). |
+| 3 | Feito em 30/10/2026. `python Apps/_base/testar_sprints.py trilha-custodia-necropsia` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
 
 ## Visão geral
 
@@ -53,9 +54,13 @@
 
 ## Sprint 3 · Identificação e busca
 
-- [ ] Mudança de situação (em custódia, aguardando, não identificado, não reclamado).
-- [ ] `#/busca` por protocolo, nome ou documento (RN04).
-- [ ] Lista do painel sem nome completo (RN05).
+- [x] Mudança de situação (em custódia, aguardando, não identificado, não reclamado).
+- [x] `#/busca` por protocolo, nome ou documento (RN04).
+- [x] Lista do painel sem nome completo (RN05).
+
+**Pronto quando**: `python Apps/_base/testar_sprints.py trilha-custodia-necropsia` passa (cenário do Sprint 3).
+
+---
 
 ## Sprint 4 · Liberação
 

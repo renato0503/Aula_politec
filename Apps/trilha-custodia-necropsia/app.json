@@ -2,34 +2,134 @@
   "titulo": "TCIN · Trilha de Custódia e Identificação",
   "subtitulo": "POLITEC/MT · IML, perícias em mortos",
   "descricao": "Registro único de cada corpo, da remoção à liberação: acionamento, marcos, lacres, situação de identificação e busca. Dados fictícios.",
-  "aviso": "Protótipo com dados fictícios. Não registre corpos, nomes, documentos ou lacres reais.",
+  "visual": {
+    "acento": "#0a5c64",
+    "icone": "etiqueta",
+    "layout": "lateral",
+    "padrao": "pontos",
+    "estilo": "institucional",
+    "setor": "IML · Perícias em Mortos"
+  },
   "db": {
     "nome": "trilha_custodia_v1",
     "versao": 1,
     "stores": {
-      "corpos": {"keyPath": "id_corpo", "indices": [
-        {"nome": "situacao", "campo": "situacao", "unico": false},
-        {"nome": "protocolo", "campo": "protocolo", "unico": true}
-      ]},
-      "marcos": {"keyPath": "id_marco", "indices": [{"nome": "corpo_id", "campo": "corpo_id", "unico": false}]},
-      "lacres": {"keyPath": "id_lacre", "indices": [{"nome": "corpo_id", "campo": "corpo_id", "unico": false}]},
-      "log": {"keyPath": "id", "indices": [{"nome": "corpo_id", "campo": "corpo_id", "unico": false}]}
+      "corpos": {
+        "keyPath": "id_corpo",
+        "indices": [
+          {
+            "nome": "situacao",
+            "campo": "situacao",
+            "unico": false
+          },
+          {
+            "nome": "protocolo",
+            "campo": "protocolo",
+            "unico": true
+          }
+        ]
+      },
+      "marcos": {
+        "keyPath": "id_marco",
+        "indices": [
+          {
+            "nome": "corpo_id",
+            "campo": "corpo_id",
+            "unico": false
+          }
+        ]
+      },
+      "lacres": {
+        "keyPath": "id_lacre",
+        "indices": [
+          {
+            "nome": "corpo_id",
+            "campo": "corpo_id",
+            "unico": false
+          }
+        ]
+      },
+      "log": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "corpo_id",
+            "campo": "corpo_id",
+            "unico": false
+          }
+        ]
+      }
     }
   },
   "perfis": [
-    {"id": "operador", "nome": "Operador do CIOP", "descricao": "Recebe o acionamento e registra o corpo."},
-    {"id": "tecnico", "nome": "Técnico de necropsia", "descricao": "Registra os marcos do deslocamento e os lacres."},
-    {"id": "plantonista", "nome": "Plantonista", "descricao": "Acompanha a identificação, a guarda e a liberação."},
-    {"id": "gestor", "nome": "Gestor do IML", "descricao": "Acompanha prazos, situações e a passagem de plantão."}
+    {
+      "id": "operador",
+      "nome": "Operador do CIOP",
+      "descricao": "Recebe o acionamento e registra o corpo."
+    },
+    {
+      "id": "tecnico",
+      "nome": "Técnico de necropsia",
+      "descricao": "Registra os marcos do deslocamento e os lacres."
+    },
+    {
+      "id": "plantonista",
+      "nome": "Plantonista",
+      "descricao": "Acompanha a identificação, a guarda e a liberação."
+    },
+    {
+      "id": "gestor",
+      "nome": "Gestor do IML",
+      "descricao": "Acompanha prazos, situações e a passagem de plantão."
+    }
   ],
   "rotas": [
-    {"rota": "#/painel", "titulo": "Painel", "sprint": 1, "descricao": "Corpos por situação, alertas e últimos marcos."},
-    {"rota": "#/corpos", "titulo": "Corpos", "sprint": 2, "descricao": "Lista com filtros de situação."},
-    {"rota": "#/corpo/novo", "titulo": "Novo acionamento", "sprint": 2, "descricao": "Registro com protocolo único (RN01).", "perfis": ["operador", "tecnico"]},
-    {"rota": "#/corpo/:id", "titulo": "Corpo", "sprint": 2, "descricao": "Ficha, marcos, lacres, situação e auditoria."},
-    {"rota": "#/busca", "titulo": "Busca", "sprint": 2, "descricao": "Por protocolo, nome ou documento (RN04)."},
-    {"rota": "#/config", "titulo": "Configuração", "sprint": 1, "descricao": ""}
+    {
+      "rota": "#/painel",
+      "titulo": "Painel",
+      "sprint": 3,
+      "descricao": "Situação dos corpos com iniciais, sem nome completo (RN05)."
+    },
+    {
+      "rota": "#/corpos",
+      "titulo": "Corpos",
+      "sprint": 2,
+      "descricao": "Lista com filtros de situação."
+    },
+    {
+      "rota": "#/corpo/novo",
+      "titulo": "Novo acionamento",
+      "sprint": 2,
+      "descricao": "Registro com protocolo único (RN01).",
+      "perfis": [
+        "operador",
+        "tecnico"
+      ]
+    },
+    {
+      "rota": "#/corpo/:id",
+      "titulo": "Corpo",
+      "sprint": 3,
+      "descricao": "Marcos, lacres, identificação, situação com histórico e liberação (RN02, RN03)."
+    },
+    {
+      "rota": "#/busca",
+      "titulo": "Busca",
+      "sprint": 3,
+      "descricao": "Busca por protocolo, nome, documento ou lacre (RN04)."
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": ""
+    }
   ],
   "libs": [],
-  "dados": [["seed", "exemplos/seed.json"]]
+  "dados": [
+    [
+      "seed",
+      "exemplos/seed.json"
+    ]
+  ]
 }

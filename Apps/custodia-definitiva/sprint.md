@@ -9,6 +9,7 @@
 | 0 | Dados fictícios gerados em 29/10/2026 (`exemplos/gerar_exemplos.py`). Itens que dependem de pessoas continuam abertos. |
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py custodia-definitiva` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py custodia-definitiva` passa (cenário em `Apps/_base/cenarios/sprint2.py`). |
+| 3 | Feito em 30/10/2026. `python Apps/_base/testar_sprints.py custodia-definitiva` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
 
 ## Visão geral
 
@@ -54,9 +55,11 @@
 
 ## Sprint 3 · Telas e regras
 
-- [ ] Busca por lacre, protocolo, categoria e contêiner.
-- [ ] Filtros combinados e exportação CSV do acervo.
-- [ ] Histórico de movimentações por vestígio.
+- [x] Busca por lacre, protocolo, categoria e contêiner.
+- [x] Filtros combinados e exportação CSV do acervo.
+- [x] Histórico de movimentações por vestígio.
+
+**Pronto quando**: `python Apps/_base/testar_sprints.py custodia-definitiva` passa (cenário do Sprint 3).
 
 ---
 

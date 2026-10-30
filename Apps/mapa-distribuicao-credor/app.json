@@ -2,7 +2,14 @@
   "titulo": "Mapa de Distribuição",
   "subtitulo": "por credor e distribuição orçamentária · Setor de Licitações",
   "descricao": "Gera o mapa de distribuição por credor e a distribuição orçamentária a partir das planilhas, sem redigitação.",
-  "aviso": "Apoio ao cálculo. A conferência e a validação da dotação são da equipe.",
+  "visual": {
+    "acento": "#047857",
+    "icone": "tabela",
+    "layout": "lateral",
+    "padrao": "grade",
+    "estilo": "institucional",
+    "setor": "Licitações · Distribuição orçamentária"
+  },
   "db": {
     "nome": "mapa_distribuicao_v1",
     "versao": 1,

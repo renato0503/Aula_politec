@@ -233,13 +233,22 @@ Regras:
 - os dados ficticios tem semente fixa e vivem em `<app>/exemplos/seed.json`,
   gerados por `<app>/exemplos/gerar_exemplos.py`;
 - bibliotecas de terceiros ficam em `<app>/vendor/`, com versao e SHA-256 em
-  `VERSOES.md`.
+  `VERSOES.md`;
+- **visual**: cada app tem um bloco `visual` no `app.json` (acento, emblema,
+  layout `lateral`/`topo`, padrao do cabecalho, estilo `institucional`/`claro`,
+  setor). O tema claro e o padrao; o escuro so entra pelo botao. A fonte vai de
+  80% a 150% pelos botoes A-/A+. Nao ha faixa de aviso de prototipo. Detalhes em
+  `Apps/IDENTIDADE-VISUAL.md`;
+- **passagem para outro agente**: `Apps/CONTINUAR.md` traz o que foi feito e o
+  proximo passo de cada app.
 
 Ferramentas (em `Apps/_base/`):
 
 | Arquivo | O que faz |
 |---|---|
-| `base.html` | Base comum: tema claro/escuro, roteador por hash, IndexedDB, perfis, backup, carga dos dados ficticios e a tela `#/testes`. |
+| `base.html` | Base comum: faixa do governo, cabecalho com emblema, botoes de fonte e tema, roteador por hash, IndexedDB, perfis, backup, carga dos dados ficticios e a tela `#/testes`. |
+| `visual.css` | Identidade visual SESP/MT e POLITEC/MT comum a todos os apps (paleta, tema claro padrao e escuro, componentes). Ver `Apps/IDENTIDADE-VISUAL.md`. |
+| `icones.js` | 48 icones das telas e do emblema, com escolha automatica pelo titulo da rota. |
 | `construir.py` | Gera o `index.html` de cada app. Uso: `python Apps/_base/construir.py` (todos) ou `python Apps/_base/construir.py <app>`. |
 | `js_comum.js` | Tela de configuracao e testes comuns a todos os apps. |
 | `embutir.py` | Copia `vendor/*.js` e os JSON de dados para dentro do `index.html`, entre os marcadores `<!-- LIB:... -->` e `<!-- DADOS:... -->`. |
@@ -259,17 +268,19 @@ python Apps/_base/testar_sprints.py <app>             # cenario de cada sprint
 node Apps/agendamento-cin/testes/testar_code_gs.js    # apenas o agendamento
 ```
 
-Estado (29/10/2026): **20 apps**. Os 12 primeiros estao com os Sprints 1, 2 e 3
-feitos (dois deles, `cin-segunda-via` e `metas-bi-ocr`, com o Sprint 4 parcial);
-os 8 novos (`custodia-definitiva`, `passivo-ambiental`,
-`renovacao-contratos-horus`, `documentapolitec`, `gestao-documentos`,
-`controle-aquisicoes`, `distribuicao-casos-dna` e `trilha-custodia-necropsia`)
-estao com os Sprints 1 e 2.
+Estado (30/10/2026): **20 apps**, todos com a identidade visual SESP/MT e
+POLITEC/MT. Os 12 primeiros estao com os Sprints 1, 2 e 3 feitos (dois deles,
+`cin-segunda-via` e `metas-bi-ocr`, com o Sprint 4 parcial). Dos 8 novos,
+`custodia-definitiva` e `trilha-custodia-necropsia` estao com os Sprints 1, 2 e
+3; `passivo-ambiental`, `renovacao-contratos-horus`, `documentapolitec`,
+`gestao-documentos`, `controle-aquisicoes` e `distribuicao-casos-dna` estao com os
+Sprints 1 e 2.
 Todos tem a parte tecnica do Sprint 0 (dados ficticios, bibliotecas, modelos).
 Os itens do Sprint 0 que dependem de pessoas (autorizacoes, amostras reais,
 linha de base) continuam abertos no `sprint.md` de cada app. Os cenarios do
 Sprint 2 dos apps novos ficam em `Apps/_base/cenarios/sprint2.py`; os do Sprint
-3 em diante, em `cenarios/sprintN.py`. Detalhes em `Apps/README.md`.
+3 em diante, em `cenarios/sprintN.py`. O proximo passo de cada app esta em
+`Apps/CONTINUAR.md`. Detalhes em `Apps/README.md`.
 
 ### 3.4 Estado do documento
 
@@ -636,6 +647,9 @@ Melhorias pendentes:
 | Aula 8 — fase de ideacao e prototipacao (Firestore, plano Spark) | Criada a pasta `Aula 8/` com o material da fase: `formulario-ideacao.html` (formulario em **14 blocos**: identificacao, problema, **AS-IS** com tabela de etapas — quem faz, o que entra, acao, o que sai, sistema, regra, onde espera, tempo, automatizavel —, **papeis** com o que cada um ve e faz, **TO-BE** com a tabela de etapas futuras (maquina, pessoa assistida ou pessoa), **escopo e MVP minimo** (o que faz e o que nao faz, telas com rota `#/painel`, criterio de aceite, dados de exemplo), **entidades e colunas**, **regras de negocio RN01**, **LGPD**, **stack**, **fontes de dados**, **KPIs** com linha de base e valor esperado, **hospedagem** (opcoes, custo, quem mantem, limitacao), pesquisa de apoio com fontes, marcos e riscos, defesa e **upload de documentos**), `index.html` (o **hub**: um cartao por projeto, busca, filtros, indicadores de completude e CSV), `app.html` (pagina do projeto com 15 secoes, download dos arquivos e **prompts de Mermaid** preenchidos), `prompt-bpmn-mermaid.md` (o papel (role) de Mermaid/BPMN com as convencoes e os tres comandos: AS-IS, TO-BE e TO-BE com automacao), `firestore.rules`, `firebase-config.js` (fallback de versao do SDK), `formulario-ideacao.md` e `template-metricas.md`. O formulario **exporta o `PROJETO.md`** nas 9 secoes (problema, objetivo do MVP, papeis, dados, regras, telas, KPIs, stack, restricoes e LGPD) com os anexos A a E, **importa o `.md` e o `.json`** para continuar de onde parou, e em todas as **12 tabelas** oferece **copiar modelo, copiar tabela e colar tudo de uma vez** (TAB do Excel, ponto e virgula, dois espacos ou tabela Markdown), com distribuicao por nome de coluna. O envio valida: nao envia formulario vazio, avisa as pendencias antes de enviar e oferece **envio por e-mail** quando o Firebase esta bloqueado. Projeto no **plano Spark**: so Firestore, sem Storage; cada arquivo vira um documento na colecao `ideacao_arquivos`, em base64, com limite de 600 KB. Publicado no GitHub Pages (`https://renato0503.github.io/Aula_politec/Aula%208/formulario-ideacao.html` para o aluno e `/Aula%208/` para o professor) e no Firebase Hosting (`https://aulapolitec.web.app/Aula%208/`). O `index.html` da raiz ganhou o card da fase. |
 
 | Aula 8 — apps dos grupos (20 projetos) | Processadas as entregas do formulario da Aula 8 em `Apps/<slug>/`: **20 apps**, cada um com `README.md`, `PROJETO.md`, `contexto.md`, `sprint.md`, `projeto.json`, `envio-original.json`, `app.json`, `src/` e `exemplos/`. Os 12 primeiros chegaram aos Sprints 1, 2 e 3; os 8 novos (`custodia-definitiva`, `passivo-ambiental`, `renovacao-contratos-horus`, `documentapolitec`, `gestao-documentos`, `controle-aquisicoes`, `distribuicao-casos-dna`, `trilha-custodia-necropsia`) chegaram aos Sprints 1 e 2. Criada a base comum `Apps/_base/` (`base.html`, `construir.py`, `embutir.py`, `js_comum.js`, `testar.py`, `testar_sprints.py`, `equipes.py`, `equipes.json`) e os cenarios `_base/cenarios/sprint2.py` e `sprint3.py`. Cada app e um `index.html` gerado, offline first, com IndexedDB, backup `.json`, perfis, dados ficticios com semente fixa e a tela `#/testes`; a excecao e `agendamento-cin` (Google Apps Script). Registrados os logins do GitHub em `Apps/equipes.json`, com a tabela "Equipes e GitHub" gerada por `_base/equipes.py`. |
+
+
+| Apps — identidade visual e Sprint 3 (30/10/2026) | Criada a identidade visual comum SESP/MT e POLITEC/MT (`Apps/_base/visual.css` e `icones.js`): faixa do governo, cabecalho institucional com emblema, filete acento/dourado/verde, menu com icones, cartoes, KPIs, tabelas, selos e rodape. Cada app ganhou o bloco `visual` no `app.json` (acento, emblema, layout, padrao, estilo e setor). Tema claro como padrao em todos os apps, botoes de tamanho da fonte (80% a 150%) e faixa de aviso de prototipo removida. Sprint 3 feito em `custodia-definitiva` (busca, filtros, CSV, movimentacao e historico) e `trilha-custodia-necropsia` (situacao, identificacao, iniciais no painel e busca). Registro para continuar em outro agente: `Apps/CONTINUAR.md`; mídia kit: `Apps/IDENTIDADE-VISUAL.md`. |
 
 ---
 

@@ -2,7 +2,14 @@
   "titulo": "Agendamento CIN",
   "subtitulo": "Postos de identificação · POLITEC/MT",
   "descricao": "Agendamento da Carteira de Identidade Nacional nos postos de identificação.",
-  "aviso": "",
+  "visual": {
+    "acento": "#1559b7",
+    "icone": "calendario",
+    "layout": "topo",
+    "padrao": "ondas",
+    "estilo": "claro",
+    "setor": "Identificação Civil · Atendimento ao cidadão"
+  },
   "csp": false,
   "db": {
     "nome": "agendamento_cin_v1",

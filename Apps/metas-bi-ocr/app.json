@@ -2,7 +2,14 @@
   "titulo": "Metas pelo BI",
   "subtitulo": "POLITEC/MT · CQUAL · NIINS",
   "descricao": "Lê o relatório mensal do Power BI 1, confere os números e gera o arquivo da planilha de monitoramento.",
-  "aviso": "",
+  "visual": {
+    "acento": "#9d174d",
+    "icone": "alvo",
+    "layout": "topo",
+    "padrao": "grade",
+    "estilo": "institucional",
+    "setor": "CQUAL · Monitoramento de metas"
+  },
   "db": {
     "nome": "metas_bi_v1",
     "versao": 1,

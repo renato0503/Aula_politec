@@ -52,7 +52,10 @@ TELAS_DEPOIS["#/inscricao"] = ()=>{
     if (semResposta.length) toast("Responda a todos os pré-requisitos.");
     return ok.every(Boolean) && !semResposta.length;
   };
-  ["iMatricula", "iNome", "iLotacao", "iDiretoria", "iEmail", "iTelefone"].forEach(id=>$("#" + id).addEventListener("blur", ()=>{ if ($("#erro-" + id)) validar(); }));
+  ["iMatricula", "iNome", "iLotacao", "iDiretoria", "iEmail", "iTelefone"].forEach(id=>$("#" + id).addEventListener("blur", e=>{
+    // indo para o botão de envio, o submit já valida; validar aqui move o botão e o clique se perde
+    if (e.relatedTarget && e.relatedTarget.type === "submit") return;
+    if ($("#erro-" + id)) validar(); }));
   form.addEventListener("submit", e=>{
     e.preventDefault();
     if (!validar()) return;

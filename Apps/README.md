@@ -27,16 +27,22 @@ recebe o código do app.
 | [mapa-distribuicao-credor/](mapa-distribuicao-credor/) | Mapa de Distribuição por Credor e Distribuição Orçamentária | Igor Henrique de Menezes Costa · izgdreyar@gmail.com | Setor de Licitações | Automação de script ou rotina | `Aula 8/Entregas/`, 29/10/2026 09:04 |
 | [equipamentos-google-earth/](equipamentos-google-earth/) | Visão geral dos equipamentos no estado (Google Earth) | João Lucas Nogueira Ponce · joaoponce@politec.mt.gov.br | Coordenadoria de qualidade | Aplicativo web / portal | `Aula 8/Entregas/`, 28/10/2026 08:44 |
 
-## Andamento (29/10/2026)
+## Andamento (30/10/2026)
 
 Os 20 apps andam juntos, sprint a sprint. Os **12 primeiros** estão com os
 **Sprints 1, 2 e 3** feitos; `cin-segunda-via` e `metas-bi-ocr` já têm o **Sprint
-4 parcial**. Os **8 novos** (custódia, passivo, renovação, DOCUMENTAPOLITEC,
-Gestão de Documentos, Controle de Aquisições, Distribuição de Casos de DNA e
-Trilha de Custódia de Necropsia) estão com os **Sprints 1 e 2**. Todos têm a parte técnica do
+4 parcial**. Dos **8 novos**, `custodia-definitiva` e `trilha-custodia-necropsia`
+estão com os **Sprints 1, 2 e 3**; os outros 6 (passivo, renovação,
+DOCUMENTAPOLITEC, Gestão de Documentos, Controle de Aquisições e Distribuição de
+Casos de DNA) estão com os **Sprints 1 e 2**. Todos têm a parte técnica do
 Sprint 0 (dados fictícios, bibliotecas, modelos). Os itens do Sprint 0 que
 dependem de pessoas (autorizações, amostras reais, linha de base) continuam
 abertos no `sprint.md` de cada app.
+
+Em 30/10/2026 os 20 apps ganharam a **identidade visual SESP/MT e POLITEC/MT**,
+com personalização por app, tema claro como padrão e ajuste do tamanho da fonte
+(ver [IDENTIDADE-VISUAL.md](IDENTIDADE-VISUAL.md)). O estado de cada app e o
+próximo passo estão em [CONTINUAR.md](CONTINUAR.md).
 
 | App | Sprint 2 | Sprint 3 |
 |---|---|---|
@@ -52,14 +58,14 @@ abertos no `sprint.md` de cada app.
 | metas-bi-ocr | Leitura de CSV e Excel do Power BI 1 (RN01, RN03) | Conferência, correção com motivo, aprovação e nova versão (RN02 a RN05) |
 | rnc-nao-conformidade | Importação da planilha do Forms (RN01, RN07) | Etapas e prazos, anulação em 5 dias, prorrogação, corregedoria (RN02 a RN04) |
 | tap-portfolio-projetos | TAP guiado com checklist e rascunho (RN01 a RN04) | Pacote com anexos, triagem, pendência e devolução (RN05, RN06) |
-| custodia-definitiva | Cadastro, classificação e endereçamento com sugestão de contêiner (RN01 a RN04) | — (Sprint 3 a fazer: consulta e filtros) |
+| custodia-definitiva | Cadastro, classificação e endereçamento com sugestão de contêiner (RN01 a RN04) | Acervo com busca, filtros combinados e CSV; movimentação (transferência, saída, retorno) e histórico |
 | documentapolitec | Caixa com a relação, conferência e lacre com responsável (RN01, RN02) | — (Sprint 3 a fazer: leitura do PDF digitalizado) |
 | passivo-ambiental | Requisição registrada e laudo com cabeçalho preenchido (RN01) | — (Sprint 3 a fazer: mapas e PDF) |
 | renovacao-contratos-horus | Cadastro com término calculado (R2), semáforo (R3) e termo aditivo (R4) | — (Sprint 3 a fazer: documentos e instrução) |
 | gestao-documentos | Autuação com anexos (RN01), número AAAA.NNNN-SD (RN02) e sinal do prazo (RN06, RN07) | — (Sprint 3 a fazer: instrução e minutas) |
 | controle-aquisicoes | Registro com SIGADOC e SIAG (RN01) e avanço por etapa com documentos e sem pendência (RN02, RN03) | — (Sprint 3 a fazer: pesquisa de preços) |
 | distribuicao-casos-dna | Rodada com processamento (RN01), rodada inteira para um perito em rotação (RN02, RN04) e fila de cobranças (RN03) | — (Sprint 3 a fazer: rotação automática e exceções) |
-| trilha-custodia-necropsia | Acionamento com protocolo (RN01), marcos e lacres (RN03), situação e liberação (RN02) | — (Sprint 3 a fazer: identificação e busca) |
+| trilha-custodia-necropsia | Acionamento com protocolo (RN01), marcos e lacres (RN03), situação e liberação (RN02) | Transições de situação com motivo, identificação com método, painel com iniciais (RN05), busca por protocolo, nome, documento ou lacre (RN04) |
 
 Cada sprint de cada app tem um cenário de interface que confere o "Pronto
 quando" do `sprint.md`. Pendências que dependem de pessoas: teste das inscrições

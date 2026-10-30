@@ -2,7 +2,14 @@
   "titulo": "Não Conformidades",
   "subtitulo": "POLITEC/MT · CQUAL",
   "descricao": "Acompanhamento das RNCs por setor, com prazos e indicadores de recorrência.",
-  "aviso": "",
+  "visual": {
+    "acento": "#b42318",
+    "icone": "alerta",
+    "layout": "lateral",
+    "padrao": "linhas",
+    "estilo": "institucional",
+    "setor": "CQUAL · Qualidade"
+  },
   "db": {
     "nome": "rnc_v1",
     "versao": 1,

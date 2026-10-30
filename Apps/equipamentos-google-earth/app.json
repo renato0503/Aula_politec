@@ -2,7 +2,14 @@
   "titulo": "Mapa de Equipamentos",
   "subtitulo": "POLITEC/MT · Coordenadoria de qualidade",
   "descricao": "Equipamentos, contratos, manutenções e custo de parada no mapa de Mato Grosso, com exportação para o Google Earth.",
-  "aviso": "",
+  "visual": {
+    "acento": "#2f7d32",
+    "icone": "globo",
+    "layout": "topo",
+    "padrao": "topografico",
+    "estilo": "institucional",
+    "setor": "Qualidade · Parque de equipamentos"
+  },
   "db": {
     "nome": "equipamentos_politec_v1",
     "versao": 1,

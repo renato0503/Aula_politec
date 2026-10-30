@@ -2,7 +2,14 @@
   "titulo": "Banco de Demandas",
   "subtitulo": "Hórus · PCA · versão offline",
   "descricao": "Repositório de demandas de contratação reutilizáveis, com manifestação de interesse e aprovação para o ciclo do PCA.",
-  "aviso": "Versão offline. O Hórus continua sendo o registro oficial do ciclo.",
+  "visual": {
+    "acento": "#8f6b00",
+    "icone": "olho",
+    "layout": "lateral",
+    "padrao": "pontos",
+    "estilo": "institucional",
+    "setor": "Planejamento de Contratações · PCA"
+  },
   "db": {
     "nome": "banco_demandas_v1",
     "versao": 1,

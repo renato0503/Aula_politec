@@ -13,10 +13,24 @@ AQUI = pathlib.Path(__file__).resolve().parent
 random.seed(20261029)
 
 MARCOS = ["Saída da base", "Chegada ao local", "Saída do local", "Retorno ao IML"]
-SITUACOES = ["em custódia", "em custódia", "aguardando identificação", "não identificado", "não reclamado",
-             "em custódia", "liberado", "em custódia", "aguardando identificação", "não reclamado", "liberado", "em custódia"]
-NOMES = ["Maria Fictícia Souza", "", "João Fictício Lima", "", "", "Ana Fictícia Alves", "Carlos Fictício Rocha",
-         "Beatriz Fictícia Dias", "", "", "Paulo Fictício Matos", "Rita Fictícia Prado"]
+
+# (situação, nome): a nome só existe em corpo identificado.
+# "em custódia", "não reclamado" e "liberado" são corpos identificados (RN03 do Sprint 3);
+# "aguardando identificação" e "não identificado" são corpos sem identificação, sem nome.
+CASOS = [
+    ("em custódia", "Maria Fictícia Souza"),
+    ("em custódia", "João Fictício Lima"),
+    ("aguardando identificação", ""),
+    ("não identificado", ""),
+    ("não reclamado", "Beatriz Fictícia Dias"),
+    ("em custódia", "Ana Fictícia Alves"),
+    ("liberado", "Carlos Fictício Rocha"),
+    ("em custódia", "Paulo Fictício Matos"),
+    ("aguardando identificação", ""),
+    ("não reclamado", "Rita Fictícia Prado"),
+    ("liberado", "Sérgio Fictício Lima"),
+    ("em custódia", "Helena Fictícia Alves"),
+]
 ORIGENS = ["Delegacia de Polícia de Cuiabá", "Delegacia de Várzea Grande", "Delegacia de Rondonópolis", "CIOP"]
 NATUREZAS = ["local de crime", "morte natural", "acidente de trânsito", "morte a esclarecer"]
 
@@ -24,13 +38,12 @@ NATUREZAS = ["local de crime", "morte natural", "acidente de trânsito", "morte 
 def main():
     base = dt.date(2026, 10, 18)
     corpos, marcos, lacres, log = [], [], [], []
-    for n in range(12):
+    for n in range(len(CASOS)):
         data = base + dt.timedelta(days=n)
         cid = f"C-{n + 1:04d}"
-        situacao = SITUACOES[n]
-        nome = NOMES[n]
+        situacao, nome = CASOS[n]
         desconhecido = not nome
-        identificado = bool(nome) and situacao != "aguardando identificação"
+        identificado = bool(nome)
         entrega = {"responsavel": "Servidor Fictício", "documento": f"AUTO-{n + 1:03d}", "data": (data + dt.timedelta(days=2)).isoformat() + "T15:00:00"} if situacao == "liberado" else None
         corpos.append({"id_corpo": cid, "protocolo": f"NEC-2026-{n + 1:03d}", "origem": ORIGENS[n % len(ORIGENS)],
                        "natureza": NATUREZAS[n % len(NATUREZAS)], "municipio": ["Cuiabá", "Várzea Grande", "Rondonópolis"][n % 3],
