@@ -105,8 +105,8 @@ TELAS["#/rodada/:id"] = async ({id})=>{
     : `<div class="card"><b>Rodada distribuída</b> para ${esc(ps[r.perito_id]?.nome || "")}.</div>`}
     ${pendCob.length ? `<div class="card"><h2 style="margin-top:0">Fila de cobranças (RN03)</h2><p class="sub">${pendCob.length} cobrança(s) aguardando perito, em fila separada.</p>
       <div class="linha-botoes"><button id="btnDdCobrancas">Distribuir as cobranças em rodízio</button></div></div>` : ""}
-    <div class="card tabela-wrap"><h2 style="margin-top:0">Casos (${cs.length})</h2><table id="tabelaCasos"><tr><th>Protocolo</th><th>Tipo</th><th>Processamento</th><th>Perito</th><th>Distribuído em</th><th>Espera</th></tr>
-      ${cs.map(c=>`<tr><td class="mono">${esc(c.protocolo)}</td><td>${esc(c.tipo)}</td><td>${dataCurtaBR(c.data_processamento) || "—"}</td>
+    <div class="card tabela-wrap"><h2 style="margin-top:0">Casos (${cs.length})</h2><table id="tabelaCasos"><tr><th>Protocolo</th><th>Tipo</th><th>Natureza</th><th>Processamento</th><th>Perito</th><th>Distribuído em</th><th>Espera</th></tr>
+      ${cs.map(c=>`<tr><td class="mono">${esc(c.protocolo)}</td><td>${esc(c.tipo)}</td><td>${esc(c.natureza || "—")}</td><td>${dataCurtaBR(c.data_processamento) || "—"}</td>
         <td>${esc(ps[c.perito_id]?.nome || "—")}</td><td>${dataCurtaBR(c.distribuido_em) || "—"}</td>
         <td>${c.distribuido_em ? ddFmt(ddDias(c.data_processamento, c.distribuido_em.slice(0, 10))) : "—"}</td></tr>`).join("")}</table></div>
     <div class="card tabela-wrap"><h2 style="margin-top:0">Histórico</h2><table><tr><th>Data e hora</th><th>Ação</th></tr>

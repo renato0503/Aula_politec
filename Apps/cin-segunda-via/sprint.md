@@ -33,11 +33,11 @@ CPF de teste gerados a partir de 000.000.0xx, com dígito válido; sem fotos (o 
 
 ## Sprint 0 · Regras, fontes e dados
 
-- [ ] Confirmar as regras oficiais da segunda via (quando dispensa nova coleta).
-- [ ] Indicar a fonte dos números (15 dias, 21.000 por mês).
+- [ ] Confirmar as regras oficiais da segunda via (quando dispensa nova coleta). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Indicar a fonte dos números (15 dias, 21.000 por mês). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [x] Gerar 30 pedidos fictícios: elegíveis, CIN vencida, mudança de dados, foto ilegível.
-- [ ] Fotos de teste geradas (sem pessoas reais).
-- [ ] Conversa com a TI e com a empresa da coleta biométrica sobre a integração (registrar a posição).
+- [ ] Fotos de teste geradas (sem pessoas reais). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Conversa com a TI e com a empresa da coleta biométrica sobre a integração (registrar a posição). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 
 ## Sprint 1 · Esqueleto
 

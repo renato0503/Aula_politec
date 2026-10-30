@@ -27,8 +27,8 @@
 
 ## Sprint 0 · Processo e dados
 
-- [ ] Conferir categorias, condições de conservação e capacidades com a equipe da custódia.
-- [ ] Receber a medição real de volume, tempo de recebimento e tempo de localização.
+- [ ] Conferir categorias, condições de conservação e capacidades com a equipe da custódia. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Receber a medição real de volume, tempo de recebimento e tempo de localização. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [x] Gerar 30 vestígios fictícios, 5 contêineres e 12 meses de histórico.
 
 ---

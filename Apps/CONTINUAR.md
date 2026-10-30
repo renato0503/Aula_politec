@@ -84,9 +84,9 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 
 ## 3. Pendências gerais
 
-1. **Sprint 3 dos 6 apps novos restantes**: `passivo-ambiental`,
+1. **Sprint 3 dos 6 apps novos**: concluído em 30/10/2026. `passivo-ambiental`,
    `renovacao-contratos-horus`, `documentapolitec`, `gestao-documentos`,
-   `controle-aquisicoes`, `distribuicao-casos-dna` (itens na seção 4).
+   `controle-aquisicoes` e `distribuicao-casos-dna` têm o Sprint 3 feito.
 2. **Manual de marca oficial**: as cores institucionais foram definidas por
    aproximação. Pedir o manual à ASCOM da SESP/POLITEC e trocar `--mt-*` em
    `visual.css`. Se houver brasão ou logotipo autorizado, entra no `.emblema` ou na
@@ -100,8 +100,14 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
    fonte grande; se incomodar, use um valor curto ou uma classe menor.
 5. Telas antigas que ainda usam `<ol class="linha-tempo">` (adiantamento) podem
    migrar para `.linha-do-tempo`.
-6. **Sprint 0** de cada app: itens que dependem de pessoas (autorizações,
-   amostras reais, linha de base) continuam abertos; estão listados por app abaixo.
+6. **Sprint 0**: os 77 itens que dependiam de decisão institucional, documento
+   oficial ou medição do processo real foram **elucubrados** em 30/10/2026 e
+   estão em [PREMISSAS.md](PREMISSAS.md), com o valor assumido, onde ele aparece
+   no app e o que precisa ser confirmado. Nenhum item bloqueia o
+   desenvolvimento. As referências que faltavam (modelos de DFD, ETP, TR, TAP,
+   ata, laudo, caixa, marcos, plano de trabalho, esquema do Hórus) foram criadas
+   nas pastas `modelos/` e `horus/` dos apps. **O que ainda depende de pessoas
+   está na coluna "O que confirmar" de cada premissa**.
 7. Publicação: esta etapa foi enviada ao GitHub em 30/10/2026 (identidade
    visual dos 20 apps, Sprint 3 da custódia definitiva e da TCIN, kit visual e
    este registro). Os arquivos da Aula 4 que já estavam modificados ficaram de
@@ -118,7 +124,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
   - [ ] RN03 e RN04 a partir da data do pagamento e do tipo do processo.
   - [ ] Selos: no prazo, vence em até 7 dias, vencido.
   - [ ] Tela de feriados em `#/config`.
-- **Sprint 0 em aberto (depende de pessoas)**:
+- **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
+  adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Validar as 12 etapas da tabela AS-IS com a DAS e com a contabilidade da SESP.
   - [ ] Confirmar qual Orientação Técnica da CGE/MT vale (02/2026 ou 06/2025).
   - [ ] Anexar os documentos citados (AS-IS e TO-BE em .docx, planilha de controle).
@@ -132,7 +139,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 - **Próximo**: Sprint 1 · Esqueleto (parcial: 4 item(ns) já feito(s))
   - [ ] Projeto do Apps Script ligado à planilha; `appsscript.json` com fuso `America/Cuiaba`.
   - [ ] Repositório com `clasp` configurado.
-- **Sprint 0 em aberto (depende de pessoas)**:
+- **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
+  adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Pedir à TI a autorização para publicar um app da web do Apps Script com a conta institucional e confirmar as cotas de execução e de e-mail.
   - [ ] Aprovar com a gestão as regras completadas: RN06 (um agendamento ativo por posto), RN07 (cancelar até 2 h antes), RN08 (tolerância de 15 min), RN09 (de 1 a 30 dias de antecedência), RN10 (retenção de 90 dias).
   - [ ] Escolher os 1 ou 2 postos do piloto e levantar a grade real (dias, horários, vagas por horário).
@@ -151,7 +159,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
   - [ ] Gravar em `LAUDO_GERADO/laudo_<protocolo>_v<N>.docx`. Pedir permissão de escrita só nessa subpasta e nunca sobrescrever (incrementa `v<N>`).
   - [ ] Sem permissão de escrita: oferecer o download do arquivo.
   - [ ] Registrar em `laudos` (versão, data, nome).
-- **Sprint 0 em aberto (depende de pessoas)**:
+- **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
+  adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Conferir com o perito o formato real dos TXT e HTML (amostra anonimizada) e anotar os rótulos exatos em `exemplos/FORMATOS.md`.
   - [ ] Copiar o modelo institucional para `modelos/modelo-laudo-celular.docx` e inserir os marcadores (`{numero_protocolo}`, `{imei_1}`, `{#sims}`...). Lista dos marcadores em `modelos/MARCADORES.md`.
   - [ ] Reunir os textos padronizados da Gerência em `exemplos/textos.json` (categoria, título, conteúdo), sem dados pessoais.
@@ -163,7 +172,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 - **Sprints concluídos**: 1, 2, 3.
 - **Próximo**: Sprint 4 · Protocolo e retenção (parcial: 1 item(ns) já feito(s))
   - [ ] Apagar pedido e fotos decididos (RN06), mantendo só as contagens.
-- **Sprint 0 em aberto (depende de pessoas)**:
+- **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
+  adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Confirmar as regras oficiais da segunda via (quando dispensa nova coleta).
   - [ ] Indicar a fonte dos números (15 dias, 21.000 por mês).
   - [ ] Fotos de teste geradas (sem pessoas reais).
@@ -178,7 +188,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
   - [ ] Prova pendente: aguardando o denunciante, com prazo (RN04).
   - [ ] Oitiva e deliberação só depois da admissibilidade (RN03).
   - [ ] Etapas e prazos no painel.
-- **Sprint 0 em aberto (depende de pessoas)**:
+- **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
+  adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Conferir com a Comissão as categorias, os artigos do Código de Ética (LC nº 112/2002) e as palavras de cada categoria.
   - [ ] Receber os modelos de ata de reunião, ata de oitiva e relatório de recomendações.
   - [ ] Linha de base: tempo das reuniões de triagem e da preparação das oitivas nos últimos casos.
@@ -192,7 +203,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
   - [ ] Análise técnica, orçamentária e jurídica.
   - [ ] Definição da modalidade registrada.
   - Feito no Sprint 3: pesquisa de preços com três cotações (RN04), alerta de inconsistência entre estimado e cotado (tolerância de 30%) e histórico de preços por objeto em `#/precos`.
-- **Sprint 0 em aberto (depende de pessoas)**:
+- **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
+  adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Receber os modelos oficiais de DFD, ETP, TR e análise de riscos.
   - [ ] Confirmar o fluxo real de tramitação e os prazos de cada etapa.
   - [ ] Validar as permissões e a base de processos de 2024/2025.
@@ -205,7 +217,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
   - [ ] Projeção de ocupação a partir da série de 12 meses.
   - [ ] Tendência e alerta de saturação por contêiner.
   - [ ] Cenário de crescimento com entradas e saídas.
-- **Sprint 0 em aberto (depende de pessoas)**:
+- **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
+  adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Conferir categorias, condições de conservação e capacidades com a equipe da custódia.
   - [ ] Receber a medição real de volume, tempo de recebimento e tempo de localização.
 
@@ -218,7 +231,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
   - [ ] Comparação por rodada, perito e natureza de exame.
   - [ ] Meta de 1 dia e acompanhamento.
   - Feito no Sprint 3: sugestão do próximo perito pelo histórico de rotação, fila de urgência com justificativa (RN05) e alerta de rodada parada.
-- **Sprint 0 em aberto (depende de pessoas)**:
+- **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
+  adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Confirmar a rotação e o número de peritos ativos com a coordenação.
   - [ ] Medir a linha de base do intervalo entre processamento e distribuição.
   - [ ] Validar o número de casos por rodada e as naturezas de exame.
@@ -232,7 +246,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
   - [ ] Resultado com caixa, setor e situação.
   - [ ] Trilha de consultas.
   - Feito no Sprint 3: importação da planilha de 850 prontuários com associação de colunas em `#/importar`, comparação com o índice do arquivo digital e relatório de aceitas, recusadas e divergentes em `#/relatorio-importacao`. Os arquivos de exemplo ficam em `exemplos/gerar_planilhas.py`.
-- **Sprint 0 em aberto (depende de pessoas)**:
+- **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
+  adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Confirmar o formato do número do prontuário e o modelo das caixas.
   - [ ] Receber a planilha de teste com a relação de 850 prontuários.
   - [ ] Receber uma amostra do PDF digitalizado, sem dado pessoal.
@@ -247,7 +262,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
   - [ ] Registro de manutenção (preventiva ou corretiva) na ficha, com custo, fornecedor e **comprovante** anexado (PDF ou imagem, até 2 MB).
   - [ ] Histórico em linha do tempo na ficha.
   - [ ] MTTR por equipamento (RN06).
-- **Sprint 0 em aberto (depende de pessoas)**:
+- **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
+  adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Ler o `contexto.md` com a coordenadora e marcar cada **[validar]** como aceito, alterado ou recusado.
   - [ ] Preencher de novo no formulário (importando o `projeto.json`) as seções MVP, papéis, entidades, regras, telas e KPIs, com o escopo validado.
   - [ ] **Retirar o número de 11 dígitos** do campo "dados pessoais tratados".
@@ -265,7 +281,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
   - [ ] Opção de desligar a cobrança por lotação.
   - [ ] Histórico de cobranças.
   - Feito no Sprint 3: minutas padronizadas com os dados do processo (RN04), emissão de ofício e despacho e checklist de instrução por etapa.
-- **Sprint 0 em aberto (depende de pessoas)**:
+- **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
+  adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Validar a matriz de papéis e quem pode excluir documentos.
   - [ ] Definir os anexos obrigatórios por tipo de processo (RN01).
   - [ ] Medir a linha de base (1 h/dia, 200 processos/mês, 48 h na triagem).
@@ -280,7 +297,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
   - [ ] Diretoria: exportar `catalogo-<diretoria>.json` para as unidades.
   - [ ] Recusar arquivo de outra diretoria ou de outro órgão.
   - [ ] Revalidar R1 a R6 em toda importação.
-- **Sprint 0 em aberto (depende de pessoas)**:
+- **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
+  adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Decidir com o aluno o papel da versão offline: (a) substituir o módulo, (b) servir às unidades sem acesso ao Hórus e entregar no formato dele, ou (c) ficar como exercício. Proposta: **(b)**.
   - [ ] Copiar do Hórus o esquema real das 3 tabelas (DDL do Supabase) para `horus/esquema.sql` e conferir com o `contexto.md`, seção 5.
   - [ ] Definir o formato `horus-import-ciclo.json` (versão do esquema, órgão, diretoria, ciclo, linhas das 3 tabelas) e o caminho de importação no Hórus (tela de importação ou SQL).
@@ -293,7 +311,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 - **Sprints concluídos**: 1, 2.
 - **Próximo**: Sprint 3 · Formulário de inscrição (parcial: 6 item(ns) já feito(s))
   - [ ] Testar no Outlook desktop, no Outlook Web e no celular.
-- **Sprint 0 em aberto (depende de pessoas)**:
+- **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
+  adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Ler o `contexto.md` com a aluna e decidir cada **[validar]**.
   - [ ] Decidir com a chefia: **o CPF sai do formulário**? (proposta: sim, a matrícula basta).
   - [ ] Confirmar com a TI se a caixa `capacitacao@politec.mt.gov.br` aceita uma regra de resposta automática por assunto `[INSCRICAO]`.
@@ -311,7 +330,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
   - [ ] Grupos fracassados e desertos mantêm as colunas e recebem a observação.
   - [ ] `#/resultado/:proc`: resultado geral e por órgão, estimado x homologado e economia.
   - [ ] Teste contra o gabarito.
-- **Sprint 0 em aberto (depende de pessoas)**:
+- **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
+  adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Anexar o `WorkFlow.docx` (exemplos 1 a 8) à pasta e conferir as colunas de cada exemplo com o `contexto.md`.
   - [ ] Decidir com a equipe e o orçamento os 4 pontos **[validar]** do `contexto.md`, seção 6 (homologado por grupo ou item, arredondamento, ordem da dotação, grupo misto), e escrever cada regra com um exemplo numérico.
   - [ ] Conseguir um relatório do pregoeiro de amostra (sem dado pessoal) e anotar o formato (colunas, cabeçalho, linhas de total).
@@ -324,7 +344,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 - **Sprints concluídos**: 1, 2, 3.
 - **Próximo**: Sprint 4 · Arquivo para a planilha (parcial: 2 item(ns) já feito(s))
   - [ ] Teste: o arquivo dos 3 meses fictícios importa na planilha sem ajuste.
-- **Sprint 0 em aberto (depende de pessoas)**:
+- **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
+  adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Perguntar à TI se o Power BI 1 permite **Exportar dados** (CSV/Excel) no visual de pendências.
   - [ ] Conseguir uma amostra do PDF mensal com números fictícios (ou com os números tapados).
   - [ ] Copiar o cabeçalho da planilha do Google (colunas e uma linha de exemplo).
@@ -340,7 +361,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
   - [ ] Bloqueio de conclusão sem cabeçalho completo e sem mapa.
   - [ ] Atualização da situação da requisição.
   - Feito no Sprint 3: editor de mapa com modelos pré-definidos e elementos obrigatórios (RN02) em `#/mapa/:id`, anexo do mapa ao laudo e versão para impressão em `#/pdf/:id`, bloqueada sem cabeçalho completo e sem mapa (RN03).
-- **Sprint 0 em aberto (depende de pessoas)**:
+- **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
+  adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Receber uma requisição real anonimizada e o modelo de laudo da unidade.
   - [ ] Confirmar o modelo de mapa (norte, escala, área) com o perito.
   - [ ] Cronometrar 5 laudos para confirmar a linha de base de 16 h.
@@ -354,7 +376,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
   - [ ] Fluxo Solicitado → Em análise → Aprovado → Aplicado.
   - [ ] Limites legais de acréscimo e supressão.
   - Feito no Sprint 3: checklist de instrução (R7) na ficha do contrato e em `#/instrucao`, repositório local de documentos com visibilidade restrita à gestão (R8) e aviso de contrato sem instrução a 60 dias do fim no painel.
-- **Sprint 0 em aberto (depende de pessoas)**:
+- **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
+  adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Confirmar as seis faixas do semáforo e o alerta de 90 dias com a gestão.
   - [ ] Definir as permissões de escrita (autor, chefia, gestor).
 
@@ -366,7 +389,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
   - [ ] Exportar `rnc-<setor>.json` só com as RNCs do setor (RN06).
   - [ ] Perfil Setor: `#/minhas`, registrar envio do plano (FOR 2) e avaliação (FOR 3).
   - [ ] Devolver o arquivo; a CQUAL importa e mescla.
-- **Sprint 0 em aberto (depende de pessoas)**:
+- **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
+  adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Listar com a CQUAL as categorias de não conformidade e as gravidades.
   - [ ] Copiar o cabeçalho da planilha de respostas do Forms (sem dados) e anotar cada coluna.
   - [ ] Linha de base: tempo de cada etapa e cobranças da CQUAL nas RNCs do primeiro mês.
@@ -378,7 +402,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 - **Próximo**: Sprint 4 · Proposta e decisão
   - [ ] `#/proposta/:id`: TAP, anexos, pendências, histórico.
   - [ ] Parecer da equipe e decisão da autoridade (aprovação, rejeição, readequação) com autor e data (RN07).
-- **Sprint 0 em aberto (depende de pessoas)**:
+- **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
+  adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Receber o modelo vigente do TAP e a lista oficial de documentos.
   - [ ] Validar com a área responsável os campos obrigatórios e os tamanhos mínimos (RN01, RN02).
   - [ ] Linha de base: 4 semanas de registro (recebimento, documentação completa, devoluções e motivos).
@@ -391,7 +416,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
   - [ ] Auto de entrega com responsável, data e documento.
   - [ ] Bloqueio de liberação sem identificação e sem auto (RN02).
   - [ ] Trilha da liberação.
-- **Sprint 0 em aberto (depende de pessoas)**:
+- **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
+  adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Confirmar com a aluna e o IML o nome do projeto (CNC ou TCIN).
   - [ ] Validar os quatro marcos e os livros que o app substitui.
   - [ ] Medir a linha de base de remoção, identificação e liberação.

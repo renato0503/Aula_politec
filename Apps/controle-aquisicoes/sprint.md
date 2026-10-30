@@ -27,9 +27,9 @@
 
 ## Sprint 0 · Processo e dados
 
-- [ ] Receber os modelos oficiais de DFD, ETP, TR e análise de riscos.
-- [ ] Confirmar o fluxo real de tramitação e os prazos de cada etapa.
-- [ ] Validar as permissões e a base de processos de 2024/2025.
+- [ ] Receber os modelos oficiais de DFD, ETP, TR e análise de riscos. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Confirmar o fluxo real de tramitação e os prazos de cada etapa. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Validar as permissões e a base de processos de 2024/2025. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 
 ---
 

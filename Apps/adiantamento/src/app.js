@@ -3,7 +3,16 @@
 TELAS["#/painel"] = async ()=> `<h1>Painel</h1><p class="sub">O painel com prazos chega no Sprint 6. Resumo da base:</p>
   ${await resumoBase(["processos", "etapas", "pendencias", "notas", "feriados"])}
   <p class="sub"><a href="#/pedido/novo">Novo pedido</a> · Para testar, carregue os dados fictícios em <a href="#/config">Configuração</a>.</p>`;
-teste("Exemplo traz 20 feriados nacionais", ()=> (dadosEmbutidos("seed")?.feriados || []).length === 20);
+teste("Exemplo traz 20 feriados nacionais, 2 estaduais e 2 municipais", ()=>{
+  const f = dadosEmbutidos("seed")?.feriados || [];
+  return f.length === 24 && f.filter(x=>x.escopo === "nacional").length === 20
+    && f.filter(x=>x.escopo === "estadual").length === 2 && f.filter(x=>x.escopo === "municipal").length === 2;
+});
+teste("Só os feriados nacionais e estaduais entram no prazo (recurso federal)", ()=>{
+  const f = dadosEmbutidos("seed").feriados;
+  const contam = f.filter(x=>x.escopo !== "municipal").map(x=>x.data);
+  return !contam.includes("2026-04-08") && contam.includes("2026-04-02");
+});
 teste("Exemplo sem CPF", ()=> !JSON.stringify(dadosEmbutidos("seed")).toLowerCase().includes('"cpf"'));
 
 /* ================= Sprint 2 · Novo pedido (RN01, RN02) ================= */

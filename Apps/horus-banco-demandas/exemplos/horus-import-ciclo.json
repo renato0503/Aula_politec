@@ -1,0 +1,47 @@
+{
+  "versao": 1,
+  "gerado_em": "2026-10-30T09:00:00",
+  "origem": "Hórus (exportação fictícia para teste)",
+  "ciclo": {
+    "id": "656e4a22-7091-4707-b204-533c47b129fe",
+    "nome": "PCA 2027",
+    "ano": 2027,
+    "status": "ATIVO"
+  },
+  "orgaos": [
+    {"id": "a3842312-39c0-4189-b15c-7236889d0b1f", "nome": "POLITEC/MT (fictício)"}
+  ],
+  "diretorias": [
+    {"id": "48932552-75ce-4e06-9957-c4fff8720a9a", "orgao_id": "a3842312-39c0-4189-b15c-7236889d0b1f",
+     "nome": "Diretoria Metropolitana de Criminalística (fictícia)", "sigla": "DMC"}
+  ],
+  "unidades": [
+    {"id": "755f459a-af5f-4e1c-b890-f5862e5ccbf0", "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+     "nome": "Laboratório de Química Forense", "sigla": "LQF"},
+    {"id": "2d1c0a55-1f47-4a1e-9d5c-8f0b5a6e4d21", "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+     "nome": "Laboratório de Genética Forense", "sigla": "LGF"},
+    {"id": "6b90f4e2-7c33-4b8d-9e01-4c2f7a5d6b33", "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+     "nome": "Identificação Civil", "sigla": "IC"},
+    {"id": "9c4e8b71-3a55-4f6d-8b2e-0a7d3c5f1e94", "diretoria_id": "48932552-75ce-4e06-9957-c4fff8720a9a",
+     "nome": "Custódia Definitiva", "sigla": "CD"}
+  ],
+  "unidades_medida": [
+    {"id": "e09f3cb4-3b2c-4dfc-a8b6-f2abdfb35f1f", "sigla": "UN", "nome": "unidade"},
+    {"id": "b1f7d2a9-4c68-4e21-9a3b-77d5c0e6f482", "sigla": "FR", "nome": "frasco"},
+    {"id": "c8a2f6b3-5d79-4f32-8b4c-6e1d8f9a0c53", "sigla": "KG", "nome": "quilo"},
+    {"id": "d3b8e4c7-6e80-4a13-9c5d-7f2e9b0d1a64", "sigla": "L", "nome": "litro"},
+    {"id": "e4c9f5d8-7f91-4b24-8d6e-8a3f0c1e2b75", "sigla": "CX", "nome": "caixa"}
+  ],
+  "demandas": [
+    {"id": "818789a8-85ed-404c-b2e2-e1f533b9eaa8", "grupo": "CUSTEIO",
+     "unidade_id": "755f459a-af5f-4e1c-b890-f5862e5ccbf0",
+     "especificacao_tecnica": "Reagente luminol para revelação de manchas de sangue latente, frasco de 500 ml",
+     "quantidade": 40, "unidade_medida_id": "b1f7d2a9-4c68-4e21-9a3b-77d5c0e6f482",
+     "valor_estimado_c": 1800000, "situacao": "em análise"},
+    {"id": "9f2b4c6d-8a13-4e57-9b2c-7d0e5f4a1b63", "grupo": "INVESTIMENTO",
+     "unidade_id": "2d1c0a55-1f47-4a1e-9d5c-8f0b5a6e4d21",
+     "especificacao_tecnica": "Termociclador de 96 posições para extração de DNA",
+     "quantidade": 1, "unidade_medida_id": "e09f3cb4-3b2c-4dfc-a8b6-f2abdfb35f1f",
+     "valor_estimado_c": 38000000, "situacao": "interesse"}
+  ]
+}

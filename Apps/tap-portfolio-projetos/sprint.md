@@ -31,10 +31,10 @@ O checklist de documentos é uma proposta até o modelo oficial do TAP chegar.
 
 ## Sprint 0 · Modelo e checklist
 
-- [ ] Receber o modelo vigente do TAP e a lista oficial de documentos.
-- [ ] Validar com a área responsável os campos obrigatórios e os tamanhos mínimos (RN01, RN02).
+- [ ] Receber o modelo vigente do TAP e a lista oficial de documentos. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Validar com a área responsável os campos obrigatórios e os tamanhos mínimos (RN01, RN02). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [x] Gerar propostas fictícias completas e incompletas.
-- [ ] Linha de base: 4 semanas de registro (recebimento, documentação completa, devoluções e motivos).
+- [ ] Linha de base: 4 semanas de registro (recebimento, documentação completa, devoluções e motivos). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 
 ## Sprint 1 · Esqueleto
 

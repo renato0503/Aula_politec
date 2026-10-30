@@ -27,9 +27,9 @@
 
 ## Sprint 0 · Processo e dados
 
-- [ ] Receber uma requisição real anonimizada e o modelo de laudo da unidade.
-- [ ] Confirmar o modelo de mapa (norte, escala, área) com o perito.
-- [ ] Cronometrar 5 laudos para confirmar a linha de base de 16 h.
+- [ ] Receber uma requisição real anonimizada e o modelo de laudo da unidade. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Confirmar o modelo de mapa (norte, escala, área) com o perito. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Cronometrar 5 laudos para confirmar a linha de base de 16 h. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 
 ---
 

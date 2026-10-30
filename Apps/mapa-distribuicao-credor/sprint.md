@@ -38,19 +38,19 @@ O `mapa-manual-referencia.xlsx` é calculado por um script independente (Decimal
 ## Sprint 0 · Regras, gabarito e linha de base
 
 - [ ] Anexar o `WorkFlow.docx` (exemplos 1 a 8) à pasta e conferir as colunas
-      de cada exemplo com o `contexto.md`.
+      de cada exemplo com o `contexto.md`. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [ ] Decidir com a equipe e o orçamento os 4 pontos **[validar]** do
       `contexto.md`, seção 6 (homologado por grupo ou item, arredondamento,
-      ordem da dotação, grupo misto), e escrever cada regra com um exemplo numérico.
+      ordem da dotação, grupo misto), e escrever cada regra com um exemplo numérico. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [ ] Conseguir um relatório do pregoeiro de amostra (sem dado pessoal) e
-      anotar o formato (colunas, cabeçalho, linhas de total).
+      anotar o formato (colunas, cabeçalho, linhas de total). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [x] Montar os dados sintéticos: 3 órgãos, 6 grupos (2 com empresa, 1
       fracassado, 1 deserto, 2 mistos), 30 itens, 4 empresas com CNPJ fictício
       válido e dotações de custeio e investimento.
 - [x] Plantar divergências (uma de cada tipo D01 a D08) e listar em `DIVERGENCIAS.md`.
-- [ ] Montar à mão, no Excel, o `mapa-manual-referencia.xlsx` (o gabarito).
+- [ ] Montar à mão, no Excel, o `mapa-manual-referencia.xlsx` (o gabarito). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [ ] Medir a linha de base em 3 a 6 processos encerrados: horas por etapa,
-      divergências achadas e número de planilhas.
+      divergências achadas e número de planilhas. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [x] Baixar o SheetJS para `vendor/` e registrar a versão em `VERSOES.md`.
 
 **Pronto quando**: as 4 regras estão escritas e aprovadas, e o gabarito

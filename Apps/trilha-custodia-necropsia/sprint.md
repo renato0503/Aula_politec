@@ -30,9 +30,9 @@
 
 ## Sprint 0 · Processo e dados
 
-- [ ] Confirmar com a aluna e o IML o nome do projeto (CNC ou TCIN).
-- [ ] Validar os quatro marcos e os livros que o app substitui.
-- [ ] Medir a linha de base de remoção, identificação e liberação.
+- [ ] Confirmar com a aluna e o IML o nome do projeto (CNC ou TCIN). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Validar os quatro marcos e os livros que o app substitui. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Medir a linha de base de remoção, identificação e liberação. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [x] Gerar os dados fictícios em `exemplos/gerar_exemplos.py`.
 
 ## Sprint 1 · Esqueleto e painel

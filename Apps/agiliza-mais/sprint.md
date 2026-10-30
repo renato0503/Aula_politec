@@ -52,17 +52,17 @@ dados com o PDF aberto ao lado.
 - [x] Montar `caso-ficticio-002/` **sem SIM** e `caso-ficticio-003/` com um
       arquivo faltando (para testar RN02 e RN06).
 - [ ] Conferir com o perito o formato real dos TXT e HTML (amostra anonimizada)
-      e anotar os rótulos exatos em `exemplos/FORMATOS.md`.
+      e anotar os rótulos exatos em `exemplos/FORMATOS.md`. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [ ] Copiar o modelo institucional para `modelos/modelo-laudo-celular.docx` e
       inserir os marcadores (`{numero_protocolo}`, `{imei_1}`, `{#sims}`...).
-      Lista dos marcadores em `modelos/MARCADORES.md`.
+      Lista dos marcadores em `modelos/MARCADORES.md`. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [ ] Reunir os textos padronizados da Gerência em `exemplos/textos.json`
-      (categoria, título, conteúdo), sem dados pessoais.
+      (categoria, título, conteúdo), sem dados pessoais. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [x] Baixar pdf.js (build legada), PizZip e docxtemplater para `vendor/` e
       registrar versão e origem em `vendor/VERSOES.md`.
 - [ ] Criar a planilha da linha de base (protocolo, início, fim, correções) e
       começar a medir os laudos manuais: **2 semanas**, que correm em paralelo
-      aos Sprints 1 e 2.
+      aos Sprints 1 e 2. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 
 **Pronto quando**: o modelo `.docx` abre no Word com os marcadores visíveis e a
 formatação oficial intacta, e a planilha já tem os primeiros laudos medidos.

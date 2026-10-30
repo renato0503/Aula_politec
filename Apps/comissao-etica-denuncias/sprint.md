@@ -30,10 +30,10 @@
 
 ## Sprint 0 · Categorias e modelos
 
-- [ ] Conferir com a Comissão as categorias, os artigos do Código de Ética (LC nº 112/2002) e as palavras de cada categoria.
-- [ ] Receber os modelos de ata de reunião, ata de oitiva e relatório de recomendações.
+- [ ] Conferir com a Comissão as categorias, os artigos do Código de Ética (LC nº 112/2002) e as palavras de cada categoria. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Receber os modelos de ata de reunião, ata de oitiva e relatório de recomendações. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [x] Gerar 10 casos fictícios (relatos, partes simuladas, categorias esperadas).
-- [ ] Linha de base: tempo das reuniões de triagem e da preparação das oitivas nos últimos casos.
+- [ ] Linha de base: tempo das reuniões de triagem e da preparação das oitivas nos últimos casos. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 
 ## Sprint 1 · Esqueleto
 

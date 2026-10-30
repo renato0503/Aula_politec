@@ -27,8 +27,8 @@
 
 ## Sprint 0 · Processo e dados
 
-- [ ] Confirmar as seis faixas do semáforo e o alerta de 90 dias com a gestão.
-- [ ] Definir as permissões de escrita (autor, chefia, gestor).
+- [ ] Confirmar as seis faixas do semáforo e o alerta de 90 dias com a gestão. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Definir as permissões de escrita (autor, chefia, gestor). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [x] Receber uma base de contratos anonimizada ou validar os 15 fictícios.
 
 ---

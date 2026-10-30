@@ -232,6 +232,11 @@ Regras:
   `sprint1.js`, `sprint2.js`...);
 - os dados ficticios tem semente fixa e vivem em `<app>/exemplos/seed.json`,
   gerados por `<app>/exemplos/gerar_exemplos.py`;
+- **premissas**: quando um item do Sprint 0 depende de decisao institucional,
+  documento oficial ou medicao do processo real, assume-se um valor plausivel e
+  registra-se em `Apps/PREMISSAS.md` (valor, onde aparece no app, nivel de
+  confianca A/B/C e o que confirmar). As referencias que faltam vao para
+  `<app>/modelos/` (ou `<app>/horus/`, quando for esquema de banco);
 - bibliotecas de terceiros ficam em `<app>/vendor/`, com versao e SHA-256 em
   `VERSOES.md`;
 - **visual**: cada app tem um bloco `visual` no `app.json` (acento, emblema,
@@ -275,12 +280,15 @@ POLITEC/MT. Os 12 primeiros estao com os Sprints 1, 2 e 3 feitos (dois deles,
 `renovacao-contratos-horus`, `documentapolitec`, `gestao-documentos`,
 `controle-aquisicoes` e `distribuicao-casos-dna`) estao com os Sprints 1, 2 e 3.
 Todos tem a parte tecnica do Sprint 0 (dados ficticios, bibliotecas, modelos).
-Os itens do Sprint 0 que dependem de pessoas (autorizacoes, amostras reais,
-linha de base) continuam abertos no `sprint.md` de cada app. Os cenarios do
-Sprint 2 dos apps novos ficam em `Apps/_base/cenarios/sprint2.py`; os do Sprint
-3, em `cenarios/sprint3.py`; os do Sprint 4 em diante, em `cenarios/sprintN.py`.
-O proximo passo de cada app esta em `Apps/CONTINUAR.md`. Detalhes em
-`Apps/README.md`.
+Os itens do Sprint 0 que dependiam de pessoas foram **elucubrados** em
+30/10/2026: cada um tem um valor plausivel assumido, documentado em
+`Apps/PREMISSAS.md` com o nivel de confianca e o que precisa ser confirmado.
+As referencias que faltavam (modelos de DFD, ETP, TR, TAP, ata, laudo, caixa,
+marcos, plano de trabalho, esquema do Hórus) foram criadas nas pastas
+`modelos/` e `horus/` dos apps. Os cenarios do Sprint 2 dos apps novos ficam em
+`Apps/_base/cenarios/sprint2.py`; os do Sprint 3, em `cenarios/sprint3.py`; os do
+Sprint 4 em diante, em `cenarios/sprintN.py`. O proximo passo de cada app esta em
+`Apps/CONTINUAR.md`. Detalhes em `Apps/README.md`.
 
 ### 3.4 Estado do documento
 
@@ -651,6 +659,8 @@ Melhorias pendentes:
 
 | Apps — identidade visual e Sprint 3 (30/10/2026) | Criada a identidade visual comum SESP/MT e POLITEC/MT (`Apps/_base/visual.css` e `icones.js`): faixa do governo, cabecalho institucional com emblema, filete acento/dourado/verde, menu com icones, cartoes, KPIs, tabelas, selos e rodape. Cada app ganhou o bloco `visual` no `app.json` (acento, emblema, layout, padrao, estilo e setor). Tema claro como padrao em todos os apps, botoes de tamanho da fonte (80% a 150%) e faixa de aviso de prototipo removida. Registro para continuar em outro agente: `Apps/CONTINUAR.md`; mídia kit: `Apps/IDENTIDADE-VISUAL.md`. |
 | Apps — Sprint 3 dos 6 apps novos (30/10/2026) | Feito o Sprint 3 de `passivo-ambiental` (editor de mapa com modelos e elementos obrigatorios, anexo ao laudo e versao para impressao em `#/pdf/:id`, RN02 e RN03), `renovacao-contratos-horus` (checklist de instrucao R7, repositorio local de documentos com visibilidade restrita a gestao R8 e aviso de contrato sem instrucao a 60 dias, com a tela `#/instrucao`), `documentapolitec` (importacao da planilha de 850 prontuarios com associacao de colunas em `#/importar`, comparacao com o indice do arquivo digital e relatorio de aceitas, recusadas e divergentes em `#/relatorio-importacao`; exemplos em `exemplos/gerar_planilhas.py`), `gestao-documentos` (minutas padronizadas com os dados do processo RN04, emissao de oficio e despacho e checklist de instrucao por etapa), `controle-aquisicoes` (pesquisa de precos com tres cotacoes e memoria de calculo RN04, alerta de inconsistencia entre estimado e cotado com tolerancia de 30% e historico de precos por objeto em `#/precos`) e `distribuicao-casos-dna` (sugestao do proximo perito pelo historico de rotacao, fila de urgencia com justificativa RN05 e alerta de rodada parada). Codigo em `src/sprint3.js` de cada app, cenarios em `Apps/_base/cenarios/sprint3.py`. Os 20 apps passam em `testar.py` e os 42 cenarios passam em `testar_sprints.py`. |
+
+| Apps — elucubração dos 77 itens do Sprint 0 (30/10/2026) | Os itens do Sprint 0 que dependiam de decisao institucional, documento oficial ou medicao do processo real foram fechados com **premissas**: cada um tem um valor plausivel assumido, o lugar onde ele aparece no app, o **nivel de confianca (A, B ou C)** e o que precisa ser confirmado. Tudo em `Apps/PREMISSAS.md`. As referencias que faltavam foram criadas: modelos de DFD/ETP/TR/risco (`controle-aquisicoes/modelos/`), atas da comissao de etica (`comissao-etica-denuncias/modelos/`), modelo do TAP (`tap-portfolio-projetos/modelos/`), modelo do laudo ambiental (`passivo-ambiental/modelos/`), modelo da caixa (`documentapolitec/modelos/`), marcos e livros da TCIN (`trilha-custodia-necropsia/modelos/`), categorias e conservacao da custodia (`custodia-definitiva/modelos/`), tabela AS-IS (`adiantamento/modelos/`), WorkFlow (`mapa-distribuicao-credor/modelos/`), regras de CIN (`cin-segunda-via/modelos/`), regras do RNC (`rnc-nao-conformidade/modelos/`), importacao do BI (`metas-bi-ocr/modelos/`), formulario e linha de base (`inscricoes-cursos/modelos/`), papel e anexos (`gestao-documentos/modelos/`), semaforo e permissoes (`renovacao-contratos-horus/modelos/`), rotacao e naturezas (`distribuicao-casos-dna/modelos/`), relatorio e print (`horus-banco-demandas/modelos/`) e o **esquema SQL do Hórus** (`horus-banco-demandas/horus/esquema.sql`) com o formato `horus-import-ciclo.json`. O codigo mudou em 3 apps: `adiantamento` (feriados de MT e do municipio, com `escopo`, e 2 testes novos), `distribuicao-casos-dna` (natureza de exame no caso e na tabela) e `documentapolitec` (planilha de 850 prontuarios e indice do arquivo digital, com o relatorio de aceitas, recusadas e divergentes). Os itens do Sprint 0 nos 20 `sprint.md` continuam **pendentes de confirmacao**, mas com a premissa anotada. |
 
 ---
 

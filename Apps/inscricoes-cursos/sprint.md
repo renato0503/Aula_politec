@@ -36,19 +36,19 @@ Formato do bloco `INSCRICAO-v1` definido e testado (ida e volta, acento, bloco a
 
 ## Sprint 0 · Escopo, dados e linha de base
 
-- [ ] Ler o `contexto.md` com a aluna e decidir cada **[validar]**.
-- [ ] Decidir com a chefia: **o CPF sai do formulário**? (proposta: sim, a matrícula basta).
+- [ ] Ler o `contexto.md` com a aluna e decidir cada **[validar]**. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Decidir com a chefia: **o CPF sai do formulário**? (proposta: sim, a matrícula basta). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [ ] Confirmar com a TI se a caixa `capacitacao@politec.mt.gov.br` aceita uma
-      regra de resposta automática por assunto `[INSCRICAO]`.
-- [ ] Listar as diretorias que recebem vagas (nome e sigla).
+      regra de resposta automática por assunto `[INSCRICAO]`. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Listar as diretorias que recebem vagas (nome e sigla). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [x] Escrever em `modelos/mensagens.md` os textos: divulgação, comprovante,
       resposta automática, convocação de titular, aviso de reserva, chamada da reserva.
 - [x] Gerar `exemplos/curso-ficticio.json`, `emails-ficticios.txt` (60
       inscrições, com 5 duplicadas e 5 inválidas) e `seap-ficticio.csv`.
 - [ ] Medir a linha de base em 2 cursos recentes: tempo da divulgação à lista
-      final, espera pelas diretorias, erros corrigidos na planilha, vagas ociosas.
+      final, espera pelas diretorias, erros corrigidos na planilha, vagas ociosas. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [ ] Corrigir no formulário (importando o `projeto.json`) as métricas, a
-      hospedagem e a defesa que vieram de outro projeto.
+      hospedagem e a defesa que vieram de outro projeto. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 
 **Pronto quando**: a decisão sobre o CPF e a regra do Outlook estão registradas,
 e a linha de base dos 2 cursos está na planilha.

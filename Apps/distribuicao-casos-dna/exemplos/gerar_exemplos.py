@@ -15,6 +15,8 @@ random.seed(20261029)
 
 PERITOS = [("P1", "Perito Fictício A", "crime sexual"), ("P2", "Perito Fictício B", "identificação humana"),
            ("P3", "Perito Fictício C", "local de crime"), ("P4", "Perito Fictício D", "crime sexual")]
+# Naturezas de exame (premissa do Sprint 0, ver Apps/PREMISSAS.md)
+NATUREZAS = ["DNA", "sexual", "identificação humana"]
 
 
 def main():
@@ -41,7 +43,8 @@ def main():
             else:
                 status, distrib, perito_caso = "processado", None, None
             casos.append({"id_caso": f"{rid}-{j + 1:02d}", "rodada_id": rid, "protocolo": f"2026.{n:06d}",
-                          "tipo": tipo, "status": status, "data_processamento": None if status == "aguardando" else (data + dt.timedelta(days=1)).isoformat(),
+                          "tipo": tipo, "natureza": NATUREZAS[(n - 1) % len(NATUREZAS)], "status": status,
+                          "data_processamento": None if status == "aguardando" else (data + dt.timedelta(days=1)).isoformat(),
                           "perito_id": perito_caso, "distribuido_em": distrib})
         log.append({"id": f"L-{rid}", "rodada_id": rid, "acao": "rodada criada", "perfil": "coordenador", "data_hora": data.isoformat() + "T08:00:00"})
         if distribuida:

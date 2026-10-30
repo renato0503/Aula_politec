@@ -27,9 +27,9 @@
 
 ## Sprint 0 · Processo e dados
 
-- [ ] Confirmar o formato do número do prontuário e o modelo das caixas.
-- [ ] Receber a planilha de teste com a relação de 850 prontuários.
-- [ ] Receber uma amostra do PDF digitalizado, sem dado pessoal.
+- [ ] Confirmar o formato do número do prontuário e o modelo das caixas. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Receber a planilha de teste com a relação de 850 prontuários. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Receber uma amostra do PDF digitalizado, sem dado pessoal. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 
 ---
 

@@ -27,9 +27,9 @@
 
 ## Sprint 0 · Processo e dados
 
-- [ ] Confirmar a rotação e o número de peritos ativos com a coordenação.
-- [ ] Medir a linha de base do intervalo entre processamento e distribuição.
-- [ ] Validar o número de casos por rodada e as naturezas de exame.
+- [ ] Confirmar a rotação e o número de peritos ativos com a coordenação. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Medir a linha de base do intervalo entre processamento e distribuição. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Validar o número de casos por rodada e as naturezas de exame. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 
 ---
 

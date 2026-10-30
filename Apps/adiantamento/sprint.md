@@ -32,13 +32,13 @@ Feriados: só os nacionais de 2026 e 2027; os de MT e do município entram pela 
 
 ## Sprint 0 · Fluxo validado e dados
 
-- [ ] Validar as 12 etapas da tabela AS-IS com a DAS e com a contabilidade da SESP.
-- [ ] Confirmar qual Orientação Técnica da CGE/MT vale (02/2026 ou 06/2025).
-- [ ] Anexar os documentos citados (AS-IS e TO-BE em .docx, planilha de controle).
+- [ ] Validar as 12 etapas da tabela AS-IS com a DAS e com a contabilidade da SESP. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Confirmar qual Orientação Técnica da CGE/MT vale (02/2026 ou 06/2025). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Anexar os documentos citados (AS-IS e TO-BE em .docx, planilha de controle). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [x] Gerar 10 pedidos fictícios: completos, sem orçamento, com devolução e com prazo vencido.
 - [x] Montar a lista de feriados nacionais de 2026 e 2027.
-- [ ] Acrescentar os feriados de MT e do município (Cuiabá) à lista.
-- [ ] Linha de base: anotar as datas dos pedidos de 4 semanas (proposta dos alunos).
+- [ ] Acrescentar os feriados de MT e do município (Cuiabá) à lista. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Linha de base: anotar as datas dos pedidos de 4 semanas (proposta dos alunos). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 
 ## Sprint 1 · Esqueleto
 

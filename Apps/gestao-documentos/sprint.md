@@ -27,9 +27,9 @@
 
 ## Sprint 0 · Processo e dados
 
-- [ ] Validar a matriz de papéis e quem pode excluir documentos.
-- [ ] Definir os anexos obrigatórios por tipo de processo (RN01).
-- [ ] Medir a linha de base (1 h/dia, 200 processos/mês, 48 h na triagem).
+- [ ] Validar a matriz de papéis e quem pode excluir documentos. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Definir os anexos obrigatórios por tipo de processo (RN01). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Medir a linha de base (1 h/dia, 200 processos/mês, 48 h na triagem). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 
 ---
 

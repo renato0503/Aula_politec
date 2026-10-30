@@ -44,18 +44,18 @@ Malha do IBGE: 141 polígonos para 142 municípios (Boa Esperança do Norte, cri
 coordenadora.
 
 - [ ] Ler o `contexto.md` com a coordenadora e marcar cada **[validar]** como
-      aceito, alterado ou recusado.
+      aceito, alterado ou recusado. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [ ] Preencher de novo no formulário (importando o `projeto.json`) as seções
-      MVP, papéis, entidades, regras, telas e KPIs, com o escopo validado.
-- [ ] **Retirar o número de 11 dígitos** do campo "dados pessoais tratados".
-- [ ] Levantar a lista de diretorias e unidades da POLITEC com município de cada uma.
+      MVP, papéis, entidades, regras, telas e KPIs, com o escopo validado. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] **Retirar o número de 11 dígitos** do campo "dados pessoais tratados". _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Levantar a lista de diretorias e unidades da POLITEC com município de cada uma. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [ ] Reunir a planilha que existe hoje ("parcialmente", segundo o formulário)
-      e anotar as colunas.
+      e anotar as colunas. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [ ] Definir com a coordenadoria o `valor_referencia_atendimento` e o custo
-      alternativo padrão (terceirização, deslocamento para outra unidade).
+      alternativo padrão (terceirização, deslocamento para outra unidade). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [ ] Escolher 3 unidades para o piloto e medir a linha de base: quantos
       equipamentos estão sem contrato, quantas paradas houve no último trimestre
-      e quanto tempo levou para responder "quanto custa essa parada?".
+      e quanto tempo levou para responder "quanto custa essa parada?". _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [x] Baixar a malha municipal de MT do IBGE, simplificar no mapshaper e salvar
       em `dados-base/`. Montar `mt-municipios.csv` (código, nome, lat, long).
 - [x] Baixar o JSZip para `vendor/` e registrar a versão em `VERSOES.md`.

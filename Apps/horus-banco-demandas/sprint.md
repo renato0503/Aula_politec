@@ -37,14 +37,14 @@ Seed fictício pronto (1 diretoria, 4 unidades, 15 demandas, 3 manifestações, 
 
 - [ ] Decidir com o aluno o papel da versão offline: (a) substituir o módulo,
       (b) servir às unidades sem acesso ao Hórus e entregar no formato dele, ou
-      (c) ficar como exercício. Proposta: **(b)**.
+      (c) ficar como exercício. Proposta: **(b)**. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [ ] Copiar do Hórus o esquema real das 3 tabelas (DDL do Supabase) para
-      `horus/esquema.sql` e conferir com o `contexto.md`, seção 5.
+      `horus/esquema.sql` e conferir com o `contexto.md`, seção 5. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [ ] Definir o formato `horus-import-ciclo.json` (versão do esquema, órgão,
       diretoria, ciclo, linhas das 3 tabelas) e o caminho de importação no
-      Hórus (tela de importação ou SQL).
-- [ ] Decidir o relatório: `@media print` ou jsPDF embutido.
-- [ ] Juntar ao envio os anexos citados (relatório PDF e print da tela).
+      Hórus (tela de importação ou SQL). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Decidir o relatório: `@media print` ou jsPDF embutido. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Juntar ao envio os anexos citados (relatório PDF e print da tela). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 
 **Pronto quando**: o formato de troca está escrito e o aluno confirmou que o
 Hórus consegue importá-lo.

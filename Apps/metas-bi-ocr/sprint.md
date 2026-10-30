@@ -33,12 +33,12 @@ fica só com o PDF de texto e o OCR passa a ser opcional.
 
 ## Sprint 0 · Amostras e decisão do caminho
 
-- [ ] Perguntar à TI se o Power BI 1 permite **Exportar dados** (CSV/Excel) no visual de pendências.
-- [ ] Conseguir uma amostra do PDF mensal com números fictícios (ou com os números tapados).
-- [ ] Copiar o cabeçalho da planilha do Google (colunas e uma linha de exemplo).
-- [ ] Listar as unidades e os nomes como aparecem no relatório.
+- [ ] Perguntar à TI se o Power BI 1 permite **Exportar dados** (CSV/Excel) no visual de pendências. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Conseguir uma amostra do PDF mensal com números fictícios (ou com os números tapados). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Copiar o cabeçalho da planilha do Google (colunas e uma linha de exemplo). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Listar as unidades e os nomes como aparecem no relatório. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [x] Gerar 3 meses fictícios no formato do relatório, com uma divergência plantada em cada.
-- [ ] Linha de base: cronometrar a atualização do mês atual.
+- [ ] Linha de base: cronometrar a atualização do mês atual. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 
 ## Sprint 1 · Esqueleto
 

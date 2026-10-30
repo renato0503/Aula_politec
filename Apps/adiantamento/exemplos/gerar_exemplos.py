@@ -1,8 +1,13 @@
-"""Gera 10 adiantamentos fictícios e os feriados nacionais (Sprint 0).
+"""Gera 10 adiantamentos fictícios e os feriados (Sprint 0).
 
 Casos: completos, sem orçamento, com devolução da contabilidade, com prazo vencido,
-em cada etapa do fluxo. Feriados: só os nacionais de 2026 e 2027; os de MT e do
-município entram pela tela de configuração.
+em cada etapa do fluxo.
+
+Feriados (premissa de 30/10/2026, ver Apps/PREMISSAS.md):
+  nacional  os 10 nacionais de 2026 e 2027, que entram no prazo
+  estadual  Corpus Christi, ponto facultativo em Mato Grosso
+  municipal o aniversário de Cuiabá, que fica na lista mas não entra no prazo,
+            porque o recurso é federal
 
 Semente fixa = 20261029.
 Uso: python "Apps/adiantamento/exemplos/gerar_exemplos.py"
@@ -18,13 +23,20 @@ random.seed(20261029)
 ETAPAS = ["Levantar orçamentos", "Análise da DAS", "Cadastro no SICAD", "Aprovação da chefia", "Conferência SESP",
           "Dotação (NGER)", "Autorização do ordenador", "Pagamento", "Aplicação do recurso", "Prestação de contas",
           "Análise da contabilidade", "Encerrado"]
-FERIADOS = [("2026-01-01", "Confraternização Universal"), ("2026-04-03", "Sexta-feira Santa"), ("2026-04-21", "Tiradentes"),
-            ("2026-05-01", "Dia do Trabalho"), ("2026-09-07", "Independência"), ("2026-10-12", "Nossa Senhora Aparecida"),
-            ("2026-11-02", "Finados"), ("2026-11-15", "Proclamação da República"), ("2026-11-20", "Consciência Negra"),
-            ("2026-12-25", "Natal"), ("2027-01-01", "Confraternização Universal"), ("2027-03-26", "Sexta-feira Santa"),
-            ("2027-04-21", "Tiradentes"), ("2027-05-01", "Dia do Trabalho"), ("2027-09-07", "Independência"),
-            ("2027-10-12", "Nossa Senhora Aparecida"), ("2027-11-02", "Finados"), ("2027-11-15", "Proclamação da República"),
-            ("2027-11-20", "Consciência Negra"), ("2027-12-25", "Natal")]
+FERIADOS = [("2026-01-01", "Confraternização Universal", "nacional"), ("2026-04-03", "Sexta-feira Santa", "nacional"),
+            ("2026-04-21", "Tiradentes", "nacional"), ("2026-05-01", "Dia do Trabalho", "nacional"),
+            ("2026-09-07", "Independência", "nacional"), ("2026-10-12", "Nossa Senhora Aparecida", "nacional"),
+            ("2026-11-02", "Finados", "nacional"), ("2026-11-15", "Proclamação da República", "nacional"),
+            ("2026-11-20", "Consciência Negra", "nacional"), ("2026-12-25", "Natal", "nacional"),
+            ("2027-01-01", "Confraternização Universal", "nacional"), ("2027-03-26", "Sexta-feira Santa", "nacional"),
+            ("2027-04-21", "Tiradentes", "nacional"), ("2027-05-01", "Dia do Trabalho", "nacional"),
+            ("2027-09-07", "Independência", "nacional"), ("2027-10-12", "Nossa Senhora Aparecida", "nacional"),
+            ("2027-11-02", "Finados", "nacional"), ("2027-11-15", "Proclamação da República", "nacional"),
+            ("2027-11-20", "Consciência Negra", "nacional"), ("2027-12-25", "Natal", "nacional"),
+            # ponto facultativo do Estado de Mato Grosso
+            ("2026-04-02", "Corpus Christi", "estadual"), ("2027-03-28", "Corpus Christi", "estadual"),
+            # feriado do município de Cuiabá: fica na lista, não conta no prazo
+            ("2026-04-08", "Aniversário de Cuiabá", "municipal"), ("2027-04-08", "Aniversário de Cuiabá", "municipal")]
 UNIDADES = ["IML Cuiabá", "Laboratório Forense", "Identificação Civil", "Regional Rondonópolis", "Regional Sinop"]
 FINALIDADES = [("compra", "Material de limpeza emergencial"), ("serviço", "Conserto de ar-condicionado da sala de necropsia"),
                ("compra", "Reagentes para exame urgente"), ("predial", "Reparo do telhado do almoxarifado"),
@@ -70,7 +82,7 @@ def main():
                           "valor_solicitado": valor, "valor_concedido": valor if ate >= 7 else None, "situacao": "encerrado" if ate == 11 else "em andamento",
                           "etapa_atual": ETAPAS[ate], "pago_em": pago.isoformat() if pago else None, "criado_em": criado.isoformat()})
     seed = {"processos": processos, "orcamentos": orcamentos, "etapas": etapas, "pendencias": pendencias, "notas": notas,
-            "feriados": [{"data": d, "nome": nome} for d, nome in FERIADOS]}
+            "feriados": [{"data": d, "nome": nome, "escopo": escopo} for d, nome, escopo in FERIADOS]}
     (AQUI / "seed.json").write_text(json.dumps(seed, ensure_ascii=False, indent=1), encoding="utf-8")
     print({k: len(v) for k, v in seed.items()})
 

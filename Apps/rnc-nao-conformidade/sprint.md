@@ -31,10 +31,10 @@ A planilha `respostas-forms-ficticio.csv` tem colunas **supostas**; trocar pelo 
 
 ## Sprint 0 · Categorias, colunas e dados
 
-- [ ] Listar com a CQUAL as categorias de não conformidade e as gravidades.
-- [ ] Copiar o cabeçalho da planilha de respostas do Forms (sem dados) e anotar cada coluna.
+- [ ] Listar com a CQUAL as categorias de não conformidade e as gravidades. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Copiar o cabeçalho da planilha de respostas do Forms (sem dados) e anotar cada coluna. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [x] Gerar 20 RNCs fictícias com setores fictícios, incluindo anulada, prorrogada, recorrente e grave.
-- [ ] Linha de base: tempo de cada etapa e cobranças da CQUAL nas RNCs do primeiro mês.
+- [ ] Linha de base: tempo de cada etapa e cobranças da CQUAL nas RNCs do primeiro mês. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 
 ## Sprint 1 · Esqueleto
 

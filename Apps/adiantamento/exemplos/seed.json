@@ -1093,83 +1093,123 @@
  "feriados": [
   {
    "data": "2026-01-01",
-   "nome": "Confraternização Universal"
+   "nome": "Confraternização Universal",
+   "escopo": "nacional"
   },
   {
    "data": "2026-04-03",
-   "nome": "Sexta-feira Santa"
+   "nome": "Sexta-feira Santa",
+   "escopo": "nacional"
   },
   {
    "data": "2026-04-21",
-   "nome": "Tiradentes"
+   "nome": "Tiradentes",
+   "escopo": "nacional"
   },
   {
    "data": "2026-05-01",
-   "nome": "Dia do Trabalho"
+   "nome": "Dia do Trabalho",
+   "escopo": "nacional"
   },
   {
    "data": "2026-09-07",
-   "nome": "Independência"
+   "nome": "Independência",
+   "escopo": "nacional"
   },
   {
    "data": "2026-10-12",
-   "nome": "Nossa Senhora Aparecida"
+   "nome": "Nossa Senhora Aparecida",
+   "escopo": "nacional"
   },
   {
    "data": "2026-11-02",
-   "nome": "Finados"
+   "nome": "Finados",
+   "escopo": "nacional"
   },
   {
    "data": "2026-11-15",
-   "nome": "Proclamação da República"
+   "nome": "Proclamação da República",
+   "escopo": "nacional"
   },
   {
    "data": "2026-11-20",
-   "nome": "Consciência Negra"
+   "nome": "Consciência Negra",
+   "escopo": "nacional"
   },
   {
    "data": "2026-12-25",
-   "nome": "Natal"
+   "nome": "Natal",
+   "escopo": "nacional"
   },
   {
    "data": "2027-01-01",
-   "nome": "Confraternização Universal"
+   "nome": "Confraternização Universal",
+   "escopo": "nacional"
   },
   {
    "data": "2027-03-26",
-   "nome": "Sexta-feira Santa"
+   "nome": "Sexta-feira Santa",
+   "escopo": "nacional"
   },
   {
    "data": "2027-04-21",
-   "nome": "Tiradentes"
+   "nome": "Tiradentes",
+   "escopo": "nacional"
   },
   {
    "data": "2027-05-01",
-   "nome": "Dia do Trabalho"
+   "nome": "Dia do Trabalho",
+   "escopo": "nacional"
   },
   {
    "data": "2027-09-07",
-   "nome": "Independência"
+   "nome": "Independência",
+   "escopo": "nacional"
   },
   {
    "data": "2027-10-12",
-   "nome": "Nossa Senhora Aparecida"
+   "nome": "Nossa Senhora Aparecida",
+   "escopo": "nacional"
   },
   {
    "data": "2027-11-02",
-   "nome": "Finados"
+   "nome": "Finados",
+   "escopo": "nacional"
   },
   {
    "data": "2027-11-15",
-   "nome": "Proclamação da República"
+   "nome": "Proclamação da República",
+   "escopo": "nacional"
   },
   {
    "data": "2027-11-20",
-   "nome": "Consciência Negra"
+   "nome": "Consciência Negra",
+   "escopo": "nacional"
   },
   {
    "data": "2027-12-25",
-   "nome": "Natal"
+   "nome": "Natal",
+   "escopo": "nacional"
+  },
+  {
+   "data": "2026-04-02",
+   "nome": "Corpus Christi",
+   "escopo": "estadual"
+  },
+  {
+   "data": "2027-03-28",
+   "nome": "Corpus Christi",
+   "escopo": "estadual"
+  },
+  {
+   "data": "2026-04-08",
+   "nome": "Aniversário de Cuiabá",
+   "escopo": "municipal"
+  },
+  {
+   "data": "2027-04-08",
+   "nome": "Aniversário de Cuiabá",
+   "escopo": "municipal"
   }
  ]
 }

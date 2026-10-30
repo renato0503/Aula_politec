@@ -37,16 +37,16 @@
 ## Sprint 0 · Autorização, regras e dados
 
 - [ ] Pedir à TI a autorização para publicar um app da web do Apps Script com a
-      conta institucional e confirmar as cotas de execução e de e-mail.
+      conta institucional e confirmar as cotas de execução e de e-mail. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [ ] Aprovar com a gestão as regras completadas: RN06 (um agendamento ativo por
       posto), RN07 (cancelar até 2 h antes), RN08 (tolerância de 15 min), RN09
-      (de 1 a 30 dias de antecedência), RN10 (retenção de 90 dias).
-- [ ] Escolher os 1 ou 2 postos do piloto e levantar a grade real (dias, horários, vagas por horário).
+      (de 1 a 30 dias de antecedência), RN10 (retenção de 90 dias). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Escolher os 1 ou 2 postos do piloto e levantar a grade real (dias, horários, vagas por horário). _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 - [x] Criar a planilha modelo com as 5 abas e dados fictícios: 2 postos, 2
       semanas de horários e 30 agendamentos (confirmados, cancelados, ausentes).
 - [ ] Medir a linha de base no posto do piloto: tempo de uma marcação por
-      telefone e agendamentos por dia.
-- [ ] Confirmar o nome completo do aluno no formulário.
+      telefone e agendamentos por dia. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
+- [ ] Confirmar o nome completo do aluno no formulário. _(premissa em [PREMISSAS.md](../PREMISSAS.md))_
 
 **Pronto quando**: a TI respondeu, as regras estão aprovadas e a planilha modelo existe.
 

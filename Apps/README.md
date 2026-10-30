@@ -41,8 +41,17 @@ de base) continuam abertos no `sprint.md` de cada app.
 Em 30/10/2026 os 20 apps ganharam a **identidade visual SESP/MT e POLITEC/MT**,
 com personalização por app, tema claro como padrão e ajuste do tamanho da fonte
 (ver [IDENTIDADE-VISUAL.md](IDENTIDADE-VISUAL.md)). No mesmo dia, o Sprint 3 dos
-6 apps novos foi feito. O estado de cada app e o próximo passo estão em
-[CONTINUAR.md](CONTINUAR.md).
+6 apps novos foi feito.
+
+Os 77 itens do Sprint 0 que dependiam de decisão institucional, documento
+oficial ou medição do processo real foram **elucubrados**: cada um tem um valor
+plausível, documentado em [PREMISSAS.md](PREMISSAS.md), com o nível de
+confiança e o que precisa ser confirmado com quem responde pelo processo. As
+referências que faltavam (modelos de DFD, ETP, TR, TAP, ata, laudo, caixa,
+marcos, plano de trabalho, esquema do Hórus) foram criadas nas pastas
+`modelos/` e `horus/` dos apps. Nenhum item bloqueia o desenvolvimento.
+
+O estado de cada app e o próximo passo estão em [CONTINUAR.md](CONTINUAR.md).
 
 | App | Sprint 2 | Sprint 3 |
 |---|---|---|
@@ -102,6 +111,9 @@ Ao chegar um grupo novo, crie `Apps/<slug-do-projeto>/` com os mesmos arquivos.
 
 | Arquivo | O que faz |
 |---|---|
+| `PREMISSAS.md` | As premissas assumidas em cada item do Sprint 0 que dependia de pessoas: o valor adotado, onde ele aparece no app, o nível de confiança (A, B ou C) e o que confirmar |
+| `CONTINUAR.md` | O que já foi feito em cada app e o que é o próximo passo, para outra IA continuar |
+| `IDENTIDADE-VISUAL.md` | O kit visual: paleta, cores e emblemas dos 20 apps, componentes prontos e regras de uso |
 | `_base/base.html` | Base de todos os apps: tema claro e escuro, roteador por hash, IndexedDB, perfis da cópia, backup `.json`, carga dos dados fictícios e a tela `#/testes` |
 | `_base/construir.py` | Gera o `index.html` de cada app a partir de `_base/base.html`, `_base/js_comum.js`, `<app>/app.json` (rotas, banco, perfis) e `<app>/src/*.js` (o `app.js` primeiro, depois os `sprintN.js`). **Edite as fontes, não o `index.html`** |
 | `_base/js_comum.js` | Tela de configuração e testes comuns a todos os apps |
