@@ -744,3 +744,121 @@ def s6_produtividade_e_aceite(pg, url, ok):
     csv = pathlib.Path(dl.value.path()).read_bytes()
     ok("o CSV de produtividade sai com BOM e as colunas do laudo", csv.startswith(b"\xef\xbb\xbf") and b"requisicao;numero;orgao" in csv)
     ok("o roteiro de aceite está em modelos/", (APPS / "passivo-ambiental" / "modelos" / "roteiro-aceite.md").exists())
+
+# Cenários dos Sprints 4 a 7 da TCIN: liberação, painel do gestor e retenção.
+
+
+@cenario("trilha-custodia-necropsia")
+def s4_auto_de_entrega(pg, url, ok):
+    perfil(pg, url, "plantonista")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    # corpo identificado e em custódia
+    cid = pg.evaluate("async ()=> (await db.list('corpos')).find(c=>c.identificado && c.situacao!=='liberado').id_corpo")
+    ir(pg, url, "#/corpo/" + cid, 700)
+    ok("a ficha mostra o bloco do auto de entrega", pg.locator("#tcLiberacao").count() == 1)
+    pg.fill("#tcAutoResp", ""); pg.fill("#tcAutoDoc", "")
+    pg.click("#formTcAuto button[type=submit]"); pg.wait_for_timeout(600)
+    ok("sem responsável e documento, a liberação é recusada (RN02)", "responsável" in pg.inner_text("#tcErrosAuto"))
+    pg.fill("#tcAutoResp", "Familiar Fictício"); pg.fill("#tcAutoDoc", "AUTO-TESTE-1")
+    pg.click("#formTcAuto button[type=submit]"); pg.wait_for_timeout(900)
+    ok("com o auto completo, o corpo é liberado", pg.evaluate("async id => (await db.get('corpos', id)).situacao === 'liberado'", cid))
+    ok("a liberação entra na trilha do caso", pg.evaluate("async id => (await db.list('log')).some(l=>l.corpo_id===id && l.acao==='liberação registrada')", cid))
+    # corpo não identificado: bloqueado
+    cid2 = pg.evaluate("async ()=> (await db.list('corpos')).find(c=>!c.identificado).id_corpo")
+    ir(pg, url, "#/corpo/" + cid2, 700)
+    ok("corpo sem identificação tem o botão de liberar bloqueado", pg.is_disabled("#formTcAuto button[type=submit]"))
+
+
+@cenario("trilha-custodia-necropsia")
+def s5_painel_do_gestor(pg, url, ok):
+    perfil(pg, url, "gestor")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/painel", 900)
+    ok("o painel do gestor mostra os três tempos", pg.locator("[data-tc-ind=remocao]").count() == 1
+       and pg.locator("[data-tc-ind=identificacao]").count() == 1 and pg.locator("[data-tc-ind=liberacao]").count() == 1)
+    calc = pg.evaluate("""async ()=>{ const cs = await db.list('corpos'), ms = await db.list('marcos'); return tcTempos(cs, ms); }""")
+    ok("o tempo de remoção bate com os marcos", pg.inner_text("[data-tc-ind=remocao]").startswith(str(calc["remocao"])) or calc["remocao"] is None)
+    ok("a tabela de permanência lista os corpos no IML", pg.locator("#tabelaPermanencia tr").count() > 1)
+    ok("o painel conta os corpos sem movimentação (plantão)", pg.locator("[data-tc-ind=plantao]").count() == 1)
+    ok("o alerta de passagem de plantão aparece quando há corpo parado",
+       pg.locator("#tcAlertaPlantao").count() == (1 if calc["remocao"] is not None and int(pg.inner_text("[data-tc-ind=plantao]")) > 0 else 0))
+
+
+@cenario("trilha-custodia-necropsia")
+def s6_relatorio_e_retencao(pg, url, ok):
+    perfil(pg, url, "gestor")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/painel", 900)
+    with pg.expect_download() as dl:
+        pg.click("#btnTcCsv")
+    csv = pathlib.Path(dl.value.path()).read_bytes()
+    ok("o CSV sai com BOM e as colunas do caso", csv.startswith(b"\xef\xbb\xbf") and b"protocolo;situacao;identificado" in csv)
+    # retenção: libera um corpo e apaga
+    cid = pg.evaluate("async ()=> (await db.list('corpos')).find(c=>c.identificado && c.situacao!=='liberado').id_corpo")
+    pg.evaluate("""async id => { const c = await db.get('corpos', id);
+        await db.put('corpos', {...c, situacao: 'liberado', entrega: {responsavel: 'Familiar', documento: 'AUTO-X', data: agora()}}); }""", cid)
+    ir(pg, url, "#/corpo/" + cid, 800)
+    ok("o caso liberado mostra o bloco de privacidade e retenção", "Privacidade e retenção" in pg.inner_text("#conteudo"))
+    pg.click("#btnTcApagar"); pg.wait_for_timeout(900)
+    ok("os dados do caso são apagados e a contagem fica", pg.evaluate("async id => !(await db.get('corpos', id))", cid)
+       and pg.evaluate("async ()=> ((await db.get('contagens','tcin_apagados'))||{}).valor") == 1)
+    ok("o roteiro de aceite está em modelos/", (APPS / "trilha-custodia-necropsia" / "modelos" / "roteiro-aceite.md").exists())
+
+# Cenários dos Sprints 4 a 7 da Renovação de Contratos: ajustes, fiscais e valor em risco.
+
+
+@cenario("renovacao-contratos-horus")
+def s4_reajuste_e_fluxo(pg, url, ok):
+    perfil(pg, url, "gestor")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    cid = pg.evaluate("async ()=> (await db.list('contratos')).find(c=>c.status==='Vigente').id_contrato")
+    ir(pg, url, "#/contrato/" + cid, 700)
+    ok("a ficha mostra o bloco de ajustes", pg.locator("#rcAjustes").count() == 1)
+    pg.select_option("#rcAjTipo", "reajuste"); pg.fill("#rcAjPercentual", "30")
+    pg.fill("#rcAjMemoria", "Índice aplicado sobre o valor original do contrato, conforme a série do IPCA.")
+    pg.click("#formRcAjuste button[type=submit]"); pg.wait_for_timeout(500)
+    ok("acima de 25% excede o limite legal (art. 125)", "limite legal" in pg.inner_text("#rcErrosAjuste"))
+    pg.fill("#rcAjPercentual", "5")
+    pg.click("#formRcAjuste button[type=submit]"); pg.wait_for_timeout(800)
+    ok("o pedido entra como solicitado e com a memória", pg.evaluate("async id => { const a = (await db.porIndice('reajustes','contrato_id',id))[0]; return a && a.status==='solicitado' && a.valor_novo_c > a.valor_anterior_c; }", cid))
+    # fluxo: em análise -> aprovado -> aplicado
+    for _ in range(3):
+        b = pg.locator("[data-rc-avancar]").first
+        if not b.count():
+            break
+        b.click(); pg.wait_for_timeout(600)
+    ok("o ajuste chega a aplicado", pg.evaluate("async id => (await db.porIndice('reajustes','contrato_id',id))[0].status === 'aplicado'", cid))
+    ok("aplicado, o valor do contrato é atualizado", pg.evaluate("async id => { const c = await db.get('contratos', id); const a = (await db.porIndice('reajustes','contrato_id',id))[0]; return c.valor_c === a.valor_novo_c; }", cid))
+
+
+@cenario("renovacao-contratos-horus")
+def s5_fiscais_e_trilha(pg, url, ok):
+    perfil(pg, url, "admin")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    cid = pg.evaluate("async ()=> (await db.list('contratos'))[0].id_contrato")
+    ir(pg, url, "#/contrato/" + cid, 700)
+    pg.fill("#rcFisNome", "Fiscal Fictício Novo")
+    pg.click("#btnRcFiscal"); pg.wait_for_timeout(800)
+    ok("o fiscal novo entra como atual", pg.evaluate("async id => { const f = await db.porIndice('fiscais','contrato_id',id); const atual = f.find(x=>!x.ate); return atual && atual.nome === 'Fiscal Fictício Novo'; }", cid))
+    pg.fill("#rcFisNome", "Fiscal Fictício Substituto")
+    pg.click("#btnRcFiscal"); pg.wait_for_timeout(800)
+    ok("a substituição fecha o anterior com data", pg.evaluate("async id => { const f = await db.porIndice('fiscais','contrato_id',id); return f.filter(x=>x.ate).length === 1 && f.length === 2; }", cid))
+    ok("a substituição entra na auditoria (R6)", pg.evaluate("async id => (await db.porIndice('auditoria','contrato_id',id)).some(a=>a.acao==='fiscal substituído')", cid))
+
+
+@cenario("renovacao-contratos-horus")
+def s6_valor_em_risco_e_aceite(pg, url, ok):
+    perfil(pg, url, "gestor")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/painel", 900)
+    calc = pg.evaluate("""async ()=>{ const cs = (await db.list('contratos')).filter(c=>!['Encerrado','Rescindido','Expirado'].includes(c.status));
+        const h = hojeISO(), jan = cs.filter(c=>{ const d = Math.round((new Date(c.data_fim+'T12:00:00')-new Date(h+'T12:00:00'))/86400000); return d>=0 && d<=90; });
+        return {n: jan.length, valor: jan.reduce((a,c)=>a+Number(c.valor_c||0),0)}; }""")
+    ok("o painel conta os contratos na janela de 90 dias", pg.inner_text("[data-rc-ind=contratos]") == str(calc["n"]))
+    ok("o painel mostra o valor em risco", pg.inner_text("[data-rc-ind=risco]").replace(".", "").replace(",", ".").replace("R$ ", "") != "")
+    ok("o painel mostra o tempo médio até a renovação", pg.locator("[data-rc-ind=tempo]").count() == 1)
+    with pg.expect_download() as dl:
+        pg.click("#btnRcCsv")
+    csv = pathlib.Path(dl.value.path()).read_bytes()
+    ok("o CSV sai com BOM e as colunas do contrato e da faixa", csv.startswith(b"\xef\xbb\xbf") and b"contrato;numero;fornecedor" in csv and b"faixa" in csv)
+    ok("o roteiro de aceite está em modelos/", (APPS / "renovacao-contratos-horus" / "modelos" / "roteiro-aceite.md").exists())

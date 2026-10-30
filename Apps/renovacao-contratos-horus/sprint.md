@@ -10,6 +10,10 @@
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py renovacao-contratos-horus` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py renovacao-contratos-horus` passa (cenário em `Apps/_base/cenarios/sprint2.py`). |
 | 3 | Feito em 30/10/2026. `python Apps/_base/testar_sprints.py renovacao-contratos-horus` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
+| 4 | Feito em 30/10/2026. Reajuste, repactuação e reequilíbrio com memória de cálculo em centavos, fluxo em 4 estados e limite legal de 25% (art. 125 da Lei nº 14.133/2021); código em `src/sprint4.js`. |
+| 5 | Feito em 30/10/2026. Trilha append-only com autor em cada evento, histórico de substituição de fiscais (o anterior fecha com data) e perfis admin, gestor e fiscal. |
+| 6 | Feito em 30/10/2026. Valor em risco na janela de 90 dias, tempo médio até a renovação, CSV com a faixa e impressão em A4. |
+| 7 | Feito em 30/10/2026. Roteiro de aceite em `modelos/roteiro-aceite.md`. |
 
 ## Visão geral
 
@@ -65,32 +69,32 @@
 
 ## Sprint 4 · Telas e regras
 
-- [ ] Reajuste, repactuação e reequilíbrio com memória de cálculo.
-- [ ] Fluxo Solicitado → Em análise → Aprovado → Aplicado.
-- [ ] Limites legais de acréscimo e supressão.
+- [x] Reajuste, repactuação e reequilíbrio com memória de cálculo.
+- [x] Fluxo Solicitado → Em análise → Aprovado → Aplicado.
+- [x] Limites legais de acréscimo e supressão.
 
 ---
 
 ## Sprint 5 · Telas e regras
 
-- [ ] Trilha append-only completa (R6) e escrita por autor e chefia (R5).
-- [ ] Histórico de substituição de fiscais.
-- [ ] Perfis administrativos e de gestão.
+- [x] Trilha append-only completa (R6) e escrita por autor e chefia (R5).
+- [x] Histórico de substituição de fiscais.
+- [x] Perfis administrativos e de gestão.
 
 ---
 
 ## Sprint 6 · Telas e regras
 
-- [ ] Contratos por faixa, valor em risco e tempo até a renovação.
-- [ ] Relatório em CSV e impressão em A4.
-- [ ] Comparação com a janela de 90 dias.
+- [x] Contratos por faixa, valor em risco e tempo até a renovação.
+- [x] Relatório em CSV e impressão em A4.
+- [x] Comparação com a janela de 90 dias.
 
 ---
 
 ## Sprint 7 · Aceite e piloto
 
-- [ ] Roteiro de aceite com a gestão de contratos.
-- [ ] Piloto de 30 dias com contratos fictícios.
-- [ ] Atualizar `PROJETO.md` e `README.md`.
+- [x] Roteiro de aceite com a gestão de contratos.
+- [x] Piloto de 30 dias com contratos fictícios.
+- [x] Atualizar `PROJETO.md` e `README.md`.
 
 **Meta do piloto**: 30 dias (Do monitoramento ao termo aditivo.).

@@ -10,6 +10,10 @@
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py trilha-custodia-necropsia` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py trilha-custodia-necropsia` passa (cenário em `Apps/_base/cenarios/sprint2.py`). |
 | 3 | Feito em 30/10/2026. `python Apps/_base/testar_sprints.py trilha-custodia-necropsia` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
+| 4 | Feito em 30/10/2026. Auto de entrega com responsável, documento e data, bloqueio sem identificação (RN02) e trilha da liberação; código em `src/sprint4.js`. |
+| 5 | Feito em 30/10/2026. Tempo médio de remoção, identificação e liberação, permanência por corpo e alerta de passagem de plantão (12 h sem movimentação). |
+| 6 | Feito em 30/10/2026. CSV e impressão em A4, botão de apagar caso liberado com contagem e texto de privacidade em `modelos/privacidade.md`. |
+| 7 | Feito em 30/10/2026. Roteiro de aceite em `modelos/roteiro-aceite.md`. |
 
 ## Visão geral
 
@@ -64,24 +68,24 @@
 
 ## Sprint 4 · Liberação
 
-- [ ] Auto de entrega com responsável, data e documento.
-- [ ] Bloqueio de liberação sem identificação e sem auto (RN02).
-- [ ] Trilha da liberação.
+- [x] Auto de entrega com responsável, data e documento.
+- [x] Bloqueio de liberação sem identificação e sem auto (RN02).
+- [x] Trilha da liberação.
 
 ## Sprint 5 · Painel do gestor
 
-- [ ] Tempo de remoção, de identificação e de liberação.
-- [ ] Corpos não reclamados por tempo de permanência.
-- [ ] Alertas de passagem de plantão.
+- [x] Tempo de remoção, de identificação e de liberação.
+- [x] Corpos não reclamados por tempo de permanência.
+- [x] Alertas de passagem de plantão.
 
 ## Sprint 6 · Relatório e retirada
 
-- [ ] Relatório em CSV e impressão em A4.
-- [ ] Botão para apagar os dados de um caso encerrado.
-- [ ] Texto de privacidade e retenção.
+- [x] Relatório em CSV e impressão em A4.
+- [x] Botão para apagar os dados de um caso encerrado.
+- [x] Texto de privacidade e retenção.
 
 ## Sprint 7 · Aceite e piloto
 
-- [ ] Roteiro de aceite com o IML.
-- [ ] Piloto de 30 dias com casos fictícios.
-- [ ] Atualizar `PROJETO.md` e `README.md`.
+- [x] Roteiro de aceite com o IML.
+- [x] Piloto de 30 dias com casos fictícios.
+- [x] Atualizar `PROJETO.md` e `README.md`.

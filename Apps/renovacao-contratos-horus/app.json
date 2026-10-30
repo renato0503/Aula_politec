@@ -12,7 +12,7 @@
   },
   "db": {
     "nome": "renovacao_contratos_v1",
-    "versao": 2,
+    "versao": 3,
     "stores": {
       "contratos": {
         "keyPath": "id_contrato",
@@ -56,6 +56,26 @@
       },
       "anexos": {
         "keyPath": "id_anexo",
+        "indices": [
+          {
+            "nome": "contrato_id",
+            "campo": "contrato_id",
+            "unico": false
+          }
+        ]
+      },
+      "reajustes": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "contrato_id",
+            "campo": "contrato_id",
+            "unico": false
+          }
+        ]
+      },
+      "fiscais": {
+        "keyPath": "id",
         "indices": [
           {
             "nome": "contrato_id",
