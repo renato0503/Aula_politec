@@ -12,7 +12,7 @@
   },
   "db": {
     "nome": "tap_portfolio_v1",
-    "versao": 1,
+    "versao": 2,
     "stores": {
       "propostas": {
         "keyPath": "id",
@@ -65,6 +65,16 @@
       "log": {
         "keyPath": "id",
         "indices": []
+      },
+      "pareceres": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "proposta_id",
+            "campo": "proposta_id",
+            "unico": false
+          }
+        ]
       }
     }
   },
@@ -146,7 +156,9 @@
       "descricao": ""
     }
   ],
-  "libs": [],
+  "libs": [
+    "xlsx.full.min.js"
+  ],
   "dados": [
     [
       "seed",

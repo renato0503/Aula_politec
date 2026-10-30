@@ -10,6 +10,9 @@
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py rnc-nao-conformidade` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py rnc-nao-conformidade` passa (cenário do "Pronto quando"). |
 | 3 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py rnc-nao-conformidade` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
+| 4 | Feito em 30/10/2026. Arquivo do setor (RN06), plano (FOR 2) e avaliação (FOR 3); código em `src/sprint4.js`. |
+| 5 | Feito em 30/10/2026. Painel com 3 gráficos SVG, vencidas, tempo médio por etapa e recorrência (RN05). |
+| 6 | Feito em 30/10/2026. Roteiro e piloto em `modelos/roteiro-aceite.md`. |
 
 A planilha `respostas-forms-ficticio.csv` tem colunas **supostas**; trocar pelo cabeçalho real do Forms no Sprint 0.
 
@@ -59,18 +62,18 @@ A planilha `respostas-forms-ficticio.csv` tem colunas **supostas**; trocar pelo 
 
 ## Sprint 4 · Cópia do setor
 
-- [ ] Exportar `rnc-<setor>.json` só com as RNCs do setor (RN06).
-- [ ] Perfil Setor: `#/minhas`, registrar envio do plano (FOR 2) e avaliação (FOR 3).
-- [ ] Devolver o arquivo; a CQUAL importa e mescla.
+- [x] Exportar `rnc-<setor>.json` só com as RNCs do setor (RN06).
+- [x] Perfil Setor: `#/minhas`, registrar envio do plano (FOR 2) e avaliação (FOR 3).
+- [x] Devolver o arquivo; a CQUAL importa e mescla.
 
 ## Sprint 5 · Painel
 
-- [ ] Gráficos em SVG: RNCs por setor notificado, por categoria, por etapa.
-- [ ] Recorrência (RN05) e lista de vencidas.
-- [ ] Tempo médio por etapa e cobranças da CQUAL.
+- [x] Gráficos em SVG: RNCs por setor notificado, por categoria, por etapa.
+- [x] Recorrência (RN05) e lista de vencidas.
+- [x] Tempo médio por etapa e cobranças da CQUAL.
 
 ## Sprint 6 · Aceite e piloto
 
-- [ ] Roteiro: importar, validar, exportar para o setor, receber o plano, ver o painel.
-- [ ] Piloto de 30 dias na Diretoria de Laboratório Forense.
-- [ ] Comparar com a linha de base e atualizar `PROJETO.md` e `README.md`.
+- [x] Roteiro: importar, validar, exportar para o setor, receber o plano, ver o painel.
+- [x] Piloto de 30 dias na Diretoria de Laboratório Forense.
+- [x] Comparar com a linha de base e atualizar `PROJETO.md` e `README.md`.

@@ -12,7 +12,7 @@
   },
   "db": {
     "nome": "comissao_etica_v1",
-    "versao": 1,
+    "versao": 2,
     "stores": {
       "denuncias": {
         "keyPath": "id",
@@ -77,6 +77,30 @@
             "unico": false
           }
         ]
+      },
+      "cominacoes": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "denuncia_id",
+            "campo": "denuncia_id",
+            "unico": false
+          }
+        ]
+      },
+      "documentos_ce": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "denuncia_id",
+            "campo": "denuncia_id",
+            "unico": false
+          }
+        ]
+      },
+      "contagens": {
+        "keyPath": "chave",
+        "indices": []
       }
     }
   },

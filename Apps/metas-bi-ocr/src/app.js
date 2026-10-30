@@ -47,7 +47,7 @@ async function acharUnidade(nomeLido){
 
 TELAS["#/importar"] = async ()=>{
   const n = (await db.list("unidades")).length;
-  return `<h1>Importar o mês</h1><p class="sub">Escolha o arquivo do Power BI 1: a exportação do visual (CSV ou Excel) é o caminho mais seguro. PDF entra no Sprint 5.</p>
+  return `<h1>Importar o mês</h1><p class="sub">Escolha o arquivo do Power BI 1: a exportação do visual (CSV ou Excel) ou o PDF mensal. O PDF precisa ter camada de texto.</p>
     ${n ? "" : `<div class="card pendente">Nenhuma unidade cadastrada. Carregue os dados fictícios em <a href="#/config">Configuração</a> ou cadastre as unidades.</div>`}
     <div class="card"><label class="botao prim">Escolher arquivo do mês<input type="file" id="arqMes" accept=".csv,.xlsx,.xls,.pdf" hidden></label>
       <div id="errosMes"></div><div id="resMes"></div></div>
@@ -86,10 +86,14 @@ TELAS_DEPOIS["#/importar"] = ()=>{
   $("#arqMes").addEventListener("change", async e=>{
     const f = e.target.files[0]; if (!f) return; e.target.value = "";
     $("#resMes").innerHTML = "";
-    if (/\.pdf$/i.test(f.name)) return mostrarErros("#errosMes", ["A leitura de PDF chega no Sprint 5. Use a exportação do visual (CSV ou Excel)."]);
     let linhas;
     try {
       if (/\.csv$/i.test(f.name)) linhas = lerCSV(await lerArquivoTexto(f));
+      else if (/\.pdf$/i.test(f.name)){
+        const {texto, temCamada} = await lerPdfTexto(await lerArrayBuffer(f));
+        linhas = (temCamada && texto.trim()) ? linhasDoPdf(texto) : [];
+        if (linhas.length < 2) return mostrarErros("#errosMes", ["O PDF não tem camada de texto (é imagem ou não traz a tabela de unidades). O OCR automático não está embutido nesta versão: use a exportação CSV/Excel ou digite os números na conferência."]);
+      }
       else { const livro = XLSX.read(await lerArrayBuffer(f), {type: "array"}); linhas = XLSX.utils.sheet_to_json(livro.Sheets[livro.SheetNames[0]], {header: 1, raw: true, defval: ""}); }
     } catch(err){ return mostrarErros("#errosMes", ["Não consegui ler o arquivo: " + err.message]); }
     const r = lerRelatorio(f.name, linhas);
@@ -102,9 +106,9 @@ TELAS_DEPOIS["#/importar"] = ()=>{
     for (const l of r.linhas){
       const u = await acharUnidade(l.unidade_lida); if (!u) desconhecidas++;
       await db.put("pendencias", {id: `${r.mes}|${u ? u.nome : l.unidade_lida}`, mes_ref: r.mes, unidade: u ? u.nome : l.unidade_lida, unidade_lida: l.unidade_lida,
-        pendentes: l.pendentes, origem: /\.csv$/i.test(f.name) ? "csv" : "excel", confianca: 1, desconhecida: !u, linha: l.linha});
+        pendentes: l.pendentes, origem: /\.csv$/i.test(f.name) ? "csv" : /\.pdf$/i.test(f.name) ? "pdf" : "excel", confianca: 1, desconhecida: !u, linha: l.linha});
     }
-    await db.put("relatorios", {id: r.mes, arquivo: f.name, tipo: /\.csv$/i.test(f.name) ? "csv" : "excel", importado_em: agora(), total_relatorio: r.total,
+    await db.put("relatorios", {id: r.mes, arquivo: f.name, tipo: /\.csv$/i.test(f.name) ? "csv" : /\.pdf$/i.test(f.name) ? "pdf" : "excel", importado_em: agora(), total_relatorio: r.total,
       versao: (antes?.versao || 0) + 1, aprovado_por: null, aprovado_em: null});
     await registrar("mês importado", {detalhe: `${r.mes}: ${r.linhas.length} unidades (${f.name})`});
     const soma = r.linhas.reduce((a, l)=>a + l.pendentes, 0);

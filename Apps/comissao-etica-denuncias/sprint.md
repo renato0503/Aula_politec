@@ -10,6 +10,10 @@
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py comissao-etica-denuncias` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py comissao-etica-denuncias` passa. |
 | 3 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py comissao-etica-denuncias` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). A classificação é por regras (palavras ligadas às categorias), com o prompt sem nomes para uma IA autorizada; os 10 casos fictícios têm a categoria esperada entre as 3 sugestões. |
+| 4 | Feito em 30/10/2026. Admissibilidade com as três vias, prova pendente (art. 8º, § 1º) e bloqueio das oitivas (RN03/RN04); código em `src/sprint4.js`. |
+| 5 | Feito em 30/10/2026. Oitivas com roteiro da categoria e termo, prazo de nova manifestação (art. 8º, § 4º). |
+| 6 | Feito em 30/10/2026. Minutas sem nomes (art. 11), cominação (art. 9º), encaminhamento ao PAD (art. 10) e encerramento. |
+| 7 | Feito em 30/10/2026. Relatório de contagens e prazos, sem nomes; roteiro de aceite em `modelos/roteiro-aceite.md`. |
 
 ## Visão geral
 
@@ -61,24 +65,24 @@
 
 ## Sprint 4 · Admissibilidade e tramitação
 
-- [ ] Três vias: acatada, não acatada (sem enquadramento), encaminhada à corregedoria, com justificativa e membros presentes.
-- [ ] Prova pendente: aguardando o denunciante, com prazo (RN04).
-- [ ] Oitiva e deliberação só depois da admissibilidade (RN03).
-- [ ] Etapas e prazos no painel.
+- [x] Três vias: acatada, não acatada (sem enquadramento), encaminhada à corregedoria, com justificativa e membros presentes.
+- [x] Prova pendente: aguardando o denunciante, com prazo (RN04).
+- [x] Oitiva e deliberação só depois da admissibilidade (RN03).
+- [x] Etapas e prazos no painel.
 
 ## Sprint 5 · Oitivas
 
-- [ ] Roteiro sugerido pela categoria confirmada e pelos fatos do relato, para revisão do membro.
-- [ ] Registro do termo de oitiva e da pessoa ouvida (fictícia).
+- [x] Roteiro sugerido pela categoria confirmada e pelos fatos do relato, para revisão do membro.
+- [x] Registro do termo de oitiva e da pessoa ouvida (fictícia).
 
 ## Sprint 6 · Documentos e encerramento
 
-- [ ] Minutas preenchidas: comunicação de admissibilidade, ata e relatório de recomendações.
-- [ ] Encerramento só com as etapas obrigatórias concluídas.
-- [ ] Apagar os dados de um caso encerrado (fica a contagem).
+- [x] Minutas preenchidas: comunicação de admissibilidade, ata e relatório de recomendações.
+- [x] Encerramento só com as etapas obrigatórias concluídas.
+- [x] Apagar os dados de um caso encerrado (fica a contagem).
 
 ## Sprint 7 · Relatório, aceite e piloto
 
-- [ ] Relatório: casos por etapa, prazos e categorias, sem nomes nem relatos (RN06).
-- [ ] Roteiro de aceite do critério da equipe (registrar, classificar, deliberar, roteiro, minutas, encerrar).
-- [ ] Piloto de 30 dias com casos fictícios; atualizar `PROJETO.md` e `README.md`.
+- [x] Relatório: casos por etapa, prazos e categorias, sem nomes nem relatos (RN06).
+- [x] Roteiro de aceite do critério da equipe (registrar, classificar, deliberar, roteiro, minutas, encerrar).
+- [x] Piloto de 30 dias com casos fictícios; atualizar `PROJETO.md` e `README.md`.

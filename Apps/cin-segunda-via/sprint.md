@@ -11,7 +11,9 @@
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py cin-segunda-via` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py cin-segunda-via` passa (cenário do "Pronto quando"). |
 | 3 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py cin-segunda-via` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
-| 4 | Parcial em 29/10/2026: `#/protocolo/:id` feito (`src/sprint4.js`) e cenário em `Apps/_base/cenarios/sprint4.py`. Falta apagar pedido e fotos decididos (RN06). |
+| 4 | Feito em 30/10/2026. `#/protocolo/:id` e a retenção (RN06); código em `src/sprint4.js` e `src/sprint5.js`. |
+| 5 | Feito em 30/10/2026. `#/indicadores` e o teste de acessibilidade; cenário em `Apps/_base/cenarios/sprint5.py`. |
+| 6 | Feito em 30/10/2026. Roteiro de aceite e posição da TI em `modelos/roteiro-aceite.md`. |
 
 CPF de teste gerados a partir de 000.000.0xx, com dígito válido; sem fotos (o app gera as de teste no Sprint 2).
 
@@ -63,15 +65,15 @@ CPF de teste gerados a partir de 000.000.0xx, com dígito válido; sem fotos (o 
 ## Sprint 4 · Protocolo e retenção
 
 - [x] `#/protocolo/:id`: situação e motivo.
-- [ ] Apagar pedido e fotos decididos (RN06), mantendo só as contagens.
+- [x] Apagar pedido e fotos decididos (RN06), mantendo só as contagens.
 
 ## Sprint 5 · Indicadores e acessibilidade
 
-- [ ] `#/indicadores`: pedidos, elegíveis, aceitos, recusados por motivo, tempo.
-- [ ] Teste no celular (tela pequena, câmera) e com leitor de tela.
+- [x] `#/indicadores`: pedidos, elegíveis, aceitos, recusados por motivo, tempo.
+- [x] Teste no celular (tela pequena, câmera) e com leitor de tela.
 
 ## Sprint 6 · Aceite e piloto
 
-- [ ] Roteiro com os 30 pedidos fictícios, do pedido ao resumo.
-- [ ] Registrar a posição da TI e do encarregado de dados sobre produção.
-- [ ] Atualizar `PROJETO.md` e `README.md`.
+- [x] Roteiro com os 30 pedidos fictícios, do pedido ao resumo.
+- [x] Registrar a posição da TI e do encarregado de dados sobre produção.
+- [x] Atualizar `PROJETO.md` e `README.md`.

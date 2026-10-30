@@ -118,12 +118,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Controle de Adiantamentos (`adiantamento`)
 
 - **Visual**: acento `#0b6e4f`, emblema `moeda`, layout `lateral`, padrão `linhas`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2, 3.
-- **Próximo**: Sprint 4 · Motor de prazos
-  - [ ] Funções testadas: `somarDiasCorridos`, `somarDiasUteis` (com feriados), `prazosDoProcesso`.
-  - [ ] RN03 e RN04 a partir da data do pagamento e do tipo do processo.
-  - [ ] Selos: no prazo, vence em até 7 dias, vencido.
-  - [ ] Tela de feriados em `#/config`.
+- **Sprints concluídos**: 1, 2, 3, 4, 5, 6, 7.
+- **Situação**: MVP completo até o Sprint 7. O roteiro de aceite está em `modelos/roteiro-aceite.md`; o que falta depende de pessoas (ver `PREMISSAS.md`).
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Validar as 12 etapas da tabela AS-IS com a DAS e com a contabilidade da SESP.
@@ -169,9 +165,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Segunda via da CIN (`cin-segunda-via`)
 
 - **Visual**: acento `#0e7490`, emblema `identidade`, layout `topo`, padrão `ondas`, cabeçalho `claro`.
-- **Sprints concluídos**: 1, 2, 3.
-- **Próximo**: Sprint 4 · Protocolo e retenção (parcial: 1 item(ns) já feito(s))
-  - [ ] Apagar pedido e fotos decididos (RN06), mantendo só as contagens.
+- **Sprints concluídos**: 1, 2, 3, 4, 5, 6.
+- **Situação**: MVP completo até o Sprint 6. O roteiro de aceite está em `modelos/roteiro-aceite.md`; o que falta depende de pessoas (ver `PREMISSAS.md`).
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Confirmar as regras oficiais da segunda via (quando dispensa nova coleta).
@@ -182,12 +177,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Comissão de Ética (`comissao-etica-denuncias`)
 
 - **Visual**: acento `#8a1c3a`, emblema `balanca`, layout `lateral`, padrão `pontos`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2, 3.
-- **Próximo**: Sprint 4 · Admissibilidade e tramitação
-  - [ ] Três vias: acatada, não acatada (sem enquadramento), encaminhada à corregedoria, com justificativa e membros presentes.
-  - [ ] Prova pendente: aguardando o denunciante, com prazo (RN04).
-  - [ ] Oitiva e deliberação só depois da admissibilidade (RN03).
-  - [ ] Etapas e prazos no painel.
+- **Sprints concluídos**: 1, 2, 3, 4, 5, 6, 7.
+- **Situação**: MVP completo até o Sprint 7. O roteiro de aceite está em `modelos/roteiro-aceite.md`; o que falta depende de pessoas (ver `PREMISSAS.md`).
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Conferir com a Comissão as categorias e as palavras. **Os artigos da LC nº 112/2002-MT já estão na norma real**, com o texto em `modelos/codigo-etica-lc112-2002.md`.

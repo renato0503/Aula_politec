@@ -10,6 +10,9 @@
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py tap-portfolio-projetos` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py tap-portfolio-projetos` passa (cenário do "Pronto quando"). |
 | 3 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py tap-portfolio-projetos` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
+| 4 | Feito em 30/10/2026. Ficha da proposta, parecer da equipe e decisão da autoridade (RN07); código em `src/sprint4.js`. |
+| 5 | Feito em 30/10/2026. Portfólio com prioridade justificada (RN08), fonte de recurso, captação e exportação `.xlsx` (SheetJS em `vendor/`). |
+| 6 | Feito em 30/10/2026. Indicadores e roteiro de aceite em `modelos/roteiro-aceite.md`. |
 
 O checklist de documentos é uma proposta até o modelo oficial do TAP chegar.
 
@@ -59,17 +62,17 @@ O checklist de documentos é uma proposta até o modelo oficial do TAP chegar.
 
 ## Sprint 4 · Proposta e decisão
 
-- [ ] `#/proposta/:id`: TAP, anexos, pendências, histórico.
-- [ ] Parecer da equipe e decisão da autoridade (aprovação, rejeição, readequação) com autor e data (RN07).
+- [x] `#/proposta/:id`: TAP, anexos, pendências, histórico.
+- [x] Parecer da equipe e decisão da autoridade (aprovação, rejeição, readequação) com autor e data (RN07).
 
 ## Sprint 5 · Portfólio
 
-- [ ] Aprovados entram no portfólio; prioridade só com justificativa (RN08).
-- [ ] Fonte de recurso e situação da captação.
-- [ ] Exportar o portfólio em `.xlsx`.
+- [x] Aprovados entram no portfólio; prioridade só com justificativa (RN08).
+- [x] Fonte de recurso e situação da captação.
+- [x] Exportar o portfólio em `.xlsx`.
 
 ## Sprint 6 · Indicadores, aceite e piloto
 
-- [ ] Indicadores do `contexto.md`.
-- [ ] Roteiro: TAP incompleto bloqueado, pacote importado, pendência devolvida, aprovação, portfólio exportado.
-- [ ] Piloto de 60 a 90 dias; comparar com a linha de base e atualizar `PROJETO.md` e `README.md`.
+- [x] Indicadores do `contexto.md`.
+- [x] Roteiro: TAP incompleto bloqueado, pacote importado, pendência devolvida, aprovação, portfólio exportado.
+- [x] Piloto de 60 a 90 dias; comparar com a linha de base e atualizar `PROJETO.md` e `README.md`.

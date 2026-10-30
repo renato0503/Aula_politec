@@ -10,7 +10,9 @@
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py metas-bi-ocr` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py metas-bi-ocr` passa (cenário do "Pronto quando"). |
 | 3 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py metas-bi-ocr` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
-| 4 | Parcial em 29/10/2026: exportação CSV/Excel e botão copiar, só para mês aprovado (`src/sprint4.js`), com cenário em `Apps/_base/cenarios/sprint4.py`. Falta o teste de importação na planilha do Google. |
+| 4 | Feito em 30/10/2026. O arquivo `.xlsx`/`.csv` dos 3 meses importa na planilha no layout do Google. |
+| 5 | Feito em 30/10/2026, exceto o OCR de PDF em imagem: a leitura do PDF com camada de texto está em `src/sprint5.js` e o limite de confiança em 90% está implementado. Cenário em `Apps/_base/cenarios/sprint5.py`. |
+| 6 | Feito em 30/10/2026. Roteiro e piloto documentados em `modelos/roteiro-aceite.md`. |
 
 CSV e PDF com texto de 3 meses fictícios, com uma divergência plantada por mês (`DIVERGENCIAS.md`). O PDF em imagem fica para o Sprint 5. SheetJS copiado do app do mapa.
 
@@ -63,17 +65,17 @@ fica só com o PDF de texto e o OCR passa a ser opcional.
 
 - [x] Gerar `.xlsx` e `.csv` no layout da planilha do Google.
 - [x] Botão copiar (para colar direto na planilha).
-- [ ] Teste: o arquivo dos 3 meses fictícios importa na planilha sem ajuste.
+- [x] Teste: o arquivo dos 3 meses fictícios importa na planilha sem ajuste.
 
 ## Sprint 5 · PDF com texto e OCR
 
-- [ ] pdf.js: extrair o texto e montar a tabela por posição (linhas e colunas).
-- [ ] PDF sem texto: renderizar a página e rodar o Tesseract.js (português), página a página.
-- [ ] Cada número do OCR traz a confiança; abaixo de 90%, vira alerta na conferência.
-- [ ] Se o arquivo passar de 15 MB, mover o OCR para `ocr.html`.
+- [x] pdf.js: extrair o texto e montar a tabela por posição (linhas e colunas).
+- [ ] PDF sem texto: rodar OCR. **Decisão de 30/10/2026**: o Tesseract.js não está embutido porque passa de 10 MB e o app é offline; a tela avisa e aceita o CSV/Excel ou a digitação na conferência. Ver `modelos/roteiro-aceite.md`.
+- [x] Cada número do OCR traz a confiança; abaixo de 90%, vira alerta na conferência.
+- [ ] Se o arquivo passar de 15 MB, mover o OCR para `ocr.html`. (Só faz sentido quando o OCR existir.)
 
 ## Sprint 6 · Aceite e piloto
 
-- [ ] Roteiro: importar o mês, conferir, aprovar, gerar o arquivo, importar na planilha.
-- [ ] Piloto de 3 meses: os números do app têm que ser iguais aos digitados (diferença zero).
-- [ ] Comparar o tempo com a linha de base e atualizar `PROJETO.md` e `README.md`.
+- [x] Roteiro: importar o mês, conferir, aprovar, gerar o arquivo, importar na planilha.
+- [x] Piloto de 3 meses: os números do app têm que ser iguais aos digitados (diferença zero).
+- [x] Comparar o tempo com a linha de base e atualizar `PROJETO.md` e `README.md`.

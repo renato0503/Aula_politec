@@ -772,7 +772,7 @@ const APP = {
   "titulo": "Comissão de Ética",
   "db": {
     "nome": "comissao_etica_v1",
-    "versao": 1,
+    "versao": 2,
     "stores": {
       "denuncias": {
         "keyPath": "id",
@@ -837,6 +837,30 @@ const APP = {
             "unico": false
           }
         ]
+      },
+      "cominacoes": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "denuncia_id",
+            "campo": "denuncia_id",
+            "unico": false
+          }
+        ]
+      },
+      "documentos_ce": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "denuncia_id",
+            "campo": "denuncia_id",
+            "unico": false
+          }
+        ]
+      },
+      "contagens": {
+        "keyPath": "chave",
+        "indices": []
       }
     }
   },
@@ -1143,6 +1167,294 @@ async function ligarConfigExtra(){
     await trilha("categorias alteradas", null); toast("Categorias salvas.");
   });
 }
+
+/* ================= Sprint 4 · Admissibilidade (RN03, RN04) e Sprint 5 · Oitivas ================= */
+/* Prazos do art. 8º da LC nº 112/2002-MT: manifestação em 5 dias (§ 1º) e nova manifestação em 3 dias (§ 4º). */
+const CE_PRAZO_MANIFESTACAO = 5;
+const CE_PRAZO_NOVA = 3;
+const CE_VIAS = {
+  acatada: "Acatada (prossegue)",
+  sem_enquadramento: "Não acatada (sem enquadramento no Código)",
+  corregedoria: "Encaminhada à corregedoria",
+};
+const cePrazo = (dias)=> new Date(Date.now() + dias * 86400000).toISOString().slice(0, 10);
+function ceDias(iso){ return iso ? Math.max(0, Math.round((Date.now() - new Date(iso)) / 86400000)) : null; }
+
+async function ceClassificacao(id){ return (await db.porIndice("classificacoes", "denuncia_id", id)).filter(c=>c.confirmada).pop(); }
+async function ceDeliberacoes(id){ return (await db.porIndice("deliberacoes", "denuncia_id", id)).sort((a, b)=>(a.data || "").localeCompare(b.data || "")); }
+async function ceAdmissao(id){ return (await ceDeliberacoes(id)).filter(d=>d.tipo === "admissibilidade").pop(); }
+async function ceOitivas(id){ return (await db.porIndice("oitivas", "denuncia_id", id)).sort((a, b)=>(a.data || "").localeCompare(b.data || "")); }
+
+// RN03: admissibilidade só depois da classificação confirmada
+function cePodeAdmitir(cls){ return !!cls; }
+teste("RN03: sem classificação confirmada não há admissibilidade", ()=> !cePodeAdmitir(null) && cePodeAdmitir({confirmada: true}));
+
+TELAS["#/caso/:id/admissibilidade"] = async ({id})=>{
+  const d = await db.get("denuncias", id);
+  if (!d) return `<div class="card vazio">Caso não encontrado.</div>`;
+  const cls = await ceClassificacao(id), admissao = await ceAdmissao(id), cats = await categoriasAtivas();
+  const cat = cats.find(c=>c.id === (cls?.categoria_final || d.categoria));
+  const pendencias = (await ceDeliberacoes(id)).filter(x=>x.tipo === "prova_pendente" && !x.resolvido_em);
+  return `<p class="sub nao-imprimir" style="margin-bottom:6px"><a href="#/caso/${encodeURIComponent(id)}">← Caso ${esc(d.protocolo)}</a></p>
+    <h1>Admissibilidade · ${esc(d.protocolo)}</h1>
+    <p class="sub">Art. 8º da LC nº 112/2002-MT: o processo é instaurado pela Comissão, de ofício ou por denúncia fundamentada.</p>
+    ${!cls ? `<div class="card pendente"><b>Bloqueado (RN03).</b> Confirme a classificação antes de decidir a admissibilidade.
+      <div class="linha-botoes"><a class="botao prim" href="#/caso/${encodeURIComponent(id)}/classificacao">Ir para a classificação</a></div></div>`
+    : `<div class="card"><h2 style="margin-top:0">Classificação confirmada</h2>
+        <p><b>${esc(cat?.nome || cls.categoria_final)}</b> · ${esc(cat?.artigos || "")}</p>
+        <p class="sub">${esc(cat?.texto_artigo || "")}</p></div>
+      ${admissao ? `<div class="card" id="admissaoFeita"><h2 style="margin-top:0">Decisão de admissibilidade</h2>
+        <p><span class="selo ${admissao.via === "acatada" ? "ok" : admissao.via === "corregedoria" ? "alerta" : "erro"}">${esc(CE_VIAS[admissao.via] || admissao.via)}</span>
+        · ${dataBR(admissao.data)} · ${esc(admissao.membros || "")}</p>
+        <p>${esc(admissao.justificativa)}</p>
+        <div class="linha-botoes">${admissao.via === "acatada" ? `<a class="botao prim" href="#/caso/${encodeURIComponent(id)}/oitivas">Ir para as oitivas</a>` : ""}</div></div>`
+      : `<form class="card" id="formAdmissao"><h2 style="margin-top:0">Decidir a admissibilidade</h2>
+          <div class="campos">${campo("adVia", "Via", {tipo: "select", opcoes: Object.entries(CE_VIAS)})}
+            ${campo("adMembros", "Membros presentes", {ajuda: "A comissão tem 3 servidores efetivos e suplentes (art. 6º)."})}</div>
+          ${campo("adJust", "Fundamento da decisão (mínimo de 20 caracteres)", {tipo: "textarea", linhas: 4})}
+          <label style="display:flex;gap:8px;align-items:center;margin:12px 0"><input type="checkbox" id="adProvaPendente" style="width:auto">
+            <span>Prova pendente: aguardando o denunciante (RN04, prazo de ${CE_PRAZO_MANIFESTACAO} dias)</span></label>
+          ${campo("adProvaTexto", "O que falta da prova", {ajuda: "Só se a prova estiver pendente."})}
+          <div id="ceErrosAdmissao"></div>
+          <div class="linha-botoes"><button class="prim" type="submit">Registrar a decisão</button></div></form>`}
+      ${pendencias.length ? `<div class="card pendente"><h2 style="margin-top:0">Prova pendente (RN04)</h2>
+        ${pendencias.map(x=>`<p><b>${esc(x.texto)}</b> · prazo ${dataCurtaBR(x.prazo)}${x.prazo < hojeISO() ? ' · <span class="erro-txt">vencido</span>' : ""}</p>`).join("")}
+        <div class="linha-botoes"><button id="btnProvaRecebida">Registrar que a prova chegou</button></div></div>` : ""}`}`;
+};
+TELAS_DEPOIS["#/caso/:id/admissibilidade"] = ({id})=>{
+  $("#formAdmissao")?.addEventListener("submit", async e=>{
+    e.preventDefault();
+    const via = valorDe("adVia"), just = valorDe("adJust"), membros = valorDe("adMembros");
+    const pendente = $("#adProvaPendente").checked, texto = valorDe("adProvaTexto");
+    const erros = [];
+    if (just.length < 20) erros.push("Escreva o fundamento com pelo menos 20 caracteres (art. 12: a Comissão não se exime de fundamentar).");
+    if (pendente && !texto) erros.push("Diga o que falta da prova (RN04).");
+    if (!mostrarErros("#ceErrosAdmissao", erros)) return;
+    const d = await db.get("denuncias", id);
+    await db.put("deliberacoes", {id: uuid(), denuncia_id: id, tipo: "admissibilidade", via, justificativa: just, membros, data: agora(), perfil: estado.perfil});
+    if (pendente) await db.put("deliberacoes", {id: uuid(), denuncia_id: id, tipo: "prova_pendente", texto, prazo: cePrazo(CE_PRAZO_MANIFESTACAO), resolvido_em: null, data: agora(), perfil: estado.perfil});
+    const etapa = via === "acatada" ? "oitivas" : "encerrado";
+    await db.put("denuncias", {...d, etapa, situacao: via === "acatada" ? "admitida" : via === "corregedoria" ? "encaminhada à corregedoria" : "arquivada", admissao_via: via});
+    await trilha("admissibilidade: " + via, id, just);
+    toast("Admissibilidade registrada."); navegar();
+  });
+  $("#btnProvaRecebida")?.addEventListener("click", async ()=>{
+    for (const x of (await ceDeliberacoes(id)).filter(y=>y.tipo === "prova_pendente" && !y.resolvido_em))
+      await db.put("deliberacoes", {...x, resolvido_em: agora()});
+    await trilha("prova recebida", id); toast("Prova registrada como recebida."); navegar();
+  });
+};
+
+/* ================= Sprint 5 · Oitivas (art. 8º, §§ 2º a 4º) ================= */
+TELAS["#/caso/:id/oitivas"] = async ({id})=>{
+  const d = await db.get("denuncias", id);
+  if (!d) return `<div class="card vazio">Caso não encontrado.</div>`;
+  const admissao = await ceAdmissao(id), oitivas = await ceOitivas(id), cats = await categoriasAtivas();
+  const cat = cats.find(c=>c.id === d.categoria);
+  const pendencias = (await ceDeliberacoes(id)).filter(x=>x.tipo === "prova_pendente" && !x.resolvido_em);
+  if (!admissao || admissao.via !== "acatada")
+    return `<p class="sub"><a href="#/caso/${encodeURIComponent(id)}">← Caso</a></p><h1>Oitivas</h1>
+      <div class="card pendente"><b>Bloqueado (RN03).</b> A oitiva só acontece depois da admissibilidade acatada.</div>`;
+  if (pendencias.length)
+    return `<p class="sub"><a href="#/caso/${encodeURIComponent(id)}">← Caso</a></p><h1>Oitivas</h1>
+      <div class="card pendente"><b>Prova pendente (RN04).</b> Registre que a prova chegou antes de marcar a oitiva.</div>`;
+  const roteiro = cat?.roteiro_base || ["Descreva, com suas palavras, o que aconteceu.", "Quando e onde o fato ocorreu?", "Quem estava presente?", "Existe registro do fato?", "O fato já tinha acontecido antes?"];
+  return `<p class="sub nao-imprimir" style="margin-bottom:6px"><a href="#/caso/${encodeURIComponent(id)}">← Caso ${esc(d.protocolo)}</a></p>
+    <h1>Oitivas · ${esc(d.protocolo)}</h1>
+    <p class="sub">Roteiro sugerido pela categoria ${esc(cat?.nome || "")}. A oitiva gera um termo com o que foi dito.</p>
+    <div class="card"><h2 style="margin-top:0">Roteiro sugerido</h2><ol>${roteiro.map(p=>`<li>${esc(p)}</li>`).join("")}</ol></div>
+    <form class="card" id="formOitiva"><h2 style="margin-top:0">Registrar oitiva</h2><div class="campos">
+      ${campo("oiQuem", "Quem foi ouvido", {tipo: "select", opcoes: [["denunciante", "Denunciante"], ["denunciado", "Denunciado(a)"], ["testemunha", "Testemunha"]]})}
+      ${campo("oiData", "Data", {tipo: "date", valor: hojeISO()})}
+      ${campo("oiPrazo", "Prazo para nova manifestação (dias)", {tipo: "number", valor: CE_PRAZO_NOVA, attrs: 'min="1" step="1"', ajuda: "Art. 8º, § 4º: 3 dias."})}</div>
+      ${campo("oiTermo", "Termo da oitiva (sem nomes de terceiros)", {tipo: "textarea", linhas: 5, obrigatorio: true, ajuda: "Mínimo de 30 caracteres."})}
+      <div id="ceErrosOitiva"></div><div class="linha-botoes"><button class="prim" type="submit">Registrar e gerar o termo</button></div></form>
+    <div class="card" id="listaOitivas"><h2 style="margin-top:0">Oitivas registradas (${oitivas.length})</h2>
+      ${oitivas.map(o=>`<div class="card"><b>${esc(o.quem)}</b> · ${dataBR(o.data)} · prazo da nova manifestação ${dataCurtaBR(o.prazo_nova)}
+        <p class="sub" style="white-space:pre-wrap">${esc(o.termo)}</p></div>`).join("") || '<p class="sub">Nenhuma oitiva registrada.</p>'}</div>`;
+};
+TELAS_DEPOIS["#/caso/:id/oitivas"] = ({id})=>{
+  $("#formOitiva")?.addEventListener("submit", async e=>{
+    e.preventDefault();
+    const termo = valorDe("oiTermo"), quem = valorDe("oiQuem"), data = valorDe("oiData") || hojeISO(), dias = Number(valorDe("oiPrazo") || CE_PRAZO_NOVA);
+    if (termo.length < 30) return mostrarErros("#ceErrosOitiva", ["Escreva o termo com pelo menos 30 caracteres."]);
+    await db.put("oitivas", {id: uuid(), denuncia_id: id, quem, data, termo, prazo_nova: cePrazo(dias), perfil: estado.perfil});
+    const d = await db.get("denuncias", id);
+    await db.put("denuncias", {...d, etapa: "deliberação"});
+    await trilha("oitiva registrada (" + quem + ")", id);
+    toast("Oitiva registrada."); navegar();
+  });
+};
+
+/* ================= Sprint 6 · Documentos, cominação e encerramento · Sprint 7 · Relatório ================= */
+const CE_COMINACOES = {
+  advertência: "Advertência (servidor no exercício do cargo, art. 9º, I)",
+  "censura ética": "Censura ética (servidor que já deixou o cargo, art. 9º, II)",
+};
+const CE_ANOS_FICHA = 5;
+
+async function ceCominacao(id){ return (await db.porIndice("cominacoes", "denuncia_id", id)).pop(); }
+async function ceDocumentos(id){ return (await db.porIndice("documentos_ce", "denuncia_id", id)).sort((a, b)=>(a.data || "").localeCompare(b.data || "")); }
+
+/* RN: a ementa nunca leva o nome das partes (art. 11) */
+function ceEmenta(d, cominacao){
+  return `${d.protocolo} · ${d.categoria || "sem categoria"} · ${cominacao || "sem cominação"} · decidida pela Comissão de Ética da POLITEC/MT. (art. 11 da LC nº 112/2002-MT: divulgação sem os nomes dos interessados)`;
+}
+teste("art. 11: a ementa não leva nome das partes", ()=>{
+  const e = ceEmenta({protocolo: "CE-2026-001", categoria: "assédio", denunciante: "Fulano", denunciado: "Beltrano"}, "advertência");
+  return !/Fulano|Beltrano/.test(e) && e.includes("CE-2026-001");
+});
+
+const CE_MINUTAS = {
+  comunicacao: {rotulo: "Comunicação ao denunciante", texto: d => `Ofício · Comissão de Ética da POLITEC/MT
+
+Processo ${d.protocolo}, recebido em ${dataCurtaBR(d.data_recebimento)}.
+
+Informamos que a denúncia foi ${d.situacao === "arquivada" ? "arquivada por falta de enquadramento no Código de Ética Funcional" : "recebida e processada pela Comissão de Ética"}.
+
+A decisão está resumida em ementa, divulgada sem os nomes dos interessados (art. 11 da LC nº 112/2002-MT).
+
+Atenciosamente,
+Comissão de Ética · POLITEC/MT`},
+  ata: {rotulo: "Ata de deliberação", texto: d => `Ata de deliberação · Comissão de Ética da POLITEC/MT
+
+Processo ${d.protocolo}.
+Comissão presente: 3 membros titulares e suplentes (art. 6º).
+Deliberação: a Comissão concluiu pela ${d.situacao}.
+
+Fundamento: Código de Ética Funcional do Servidor Público Civil do Estado de Mato Grosso (LC nº 112/2002-MT).
+
+Cuiabá, ${dataCurtaBR(hojeISO())}.`},
+  recomendacao: {rotulo: "Relatório de recomendações", texto: d => `Relatório de recomendações · Comissão de Ética da POLITEC/MT
+
+Processo ${d.protocolo}, categoria ${d.categoria || "não informada"}.
+
+1. Reforçar a orientação sobre o item do Código de Ética aplicável.
+2. Comunicar o resultado à chefia imediata.
+3. Acompanhar a reincidência por 12 meses.
+
+A decisão será transcrita na ficha funcional por ${CE_ANOS_FICHA} anos (art. 9º, parágrafo único).
+
+Cuiabá, ${dataCurtaBR(hojeISO())}.`},
+};
+
+TELAS["#/caso/:id/documentos"] = async ({id})=>{
+  const d = await db.get("denuncias", id);
+  if (!d) return `<div class="card vazio">Caso não encontrado.</div>`;
+  const docs = await ceDocumentos(id), oitivas = await ceOitivas(id);
+  return `<p class="sub nao-imprimir" style="margin-bottom:6px"><a href="#/caso/${encodeURIComponent(id)}">← Caso ${esc(d.protocolo)}</a></p>
+    <h1>Documentos · ${esc(d.protocolo)}</h1>
+    <p class="sub">Minutas geradas a partir do processo. O texto não leva o nome das partes (art. 11).</p>
+    <div class="card"><h2 style="margin-top:0">Gerar minuta</h2><div class="campos">
+      ${campo("ceTipoMinuta", "Minuta", {tipo: "select", opcoes: Object.entries(CE_MINUTAS).map(([k, m])=>[k, m.rotulo])})}</div>
+      <div class="linha-botoes"><button class="prim" id="btnGerarMinuta">Gerar a minuta</button></div></div>
+    <div class="card" id="ceMinutaAberta"></div>
+    <div class="card" id="ceListaDocs"><h2 style="margin-top:0">Documentos do caso (${docs.length})</h2>
+      ${docs.map(x=>`<details><summary><b>${esc(x.rotulo)}</b> · ${dataBR(x.data)}</summary>
+        <pre style="white-space:pre-wrap;font-family:var(--mono);font-size:12.5px;margin-top:8px">${esc(x.texto)}</pre></details>`).join("") || '<p class="sub">Nenhum documento gerado.</p>'}
+      ${oitivas.length ? `<p class="sub">${oitivas.length} oitiva(s) no processo.</p>` : ""}</div>`;
+};
+TELAS_DEPOIS["#/caso/:id/documentos"] = ({id})=>{
+  $("#btnGerarMinuta")?.addEventListener("click", async ()=>{
+    const tipo = valorDe("ceTipoMinuta"), d = await db.get("denuncias", id), m = CE_MINUTAS[tipo];
+    if (!m || !d) return;
+    const texto = m.texto(d);
+    await db.put("documentos_ce", {id: uuid(), denuncia_id: id, tipo, rotulo: m.rotulo, texto, data: agora(), perfil: estado.perfil});
+    await trilha("minuta gerada: " + m.rotulo, id);
+    toast("Minuta gerada.");
+    await navegar();
+    const alvo = $("#ceMinutaAberta");
+    if (alvo) alvo.innerHTML = `<div class="documento-a4"><div class="doc-cab">Comissão de Ética · POLITEC/MT<br>${esc(m.rotulo)}</div>
+      <pre style="white-space:pre-wrap;font-family:Georgia,serif;font-size:15px;line-height:1.6">${esc(texto)}</pre></div>
+      <div class="linha-botoes nao-imprimir"><button onclick="window.print()">Imprimir</button></div>`;
+  });
+};
+
+TELAS["#/caso/:id/encerramento"] = async ({id})=>{
+  const d = await db.get("denuncias", id);
+  if (!d) return `<div class="card vazio">Caso não encontrado.</div>`;
+  const [cls, admissao, oitivas, docs, cominacao] = await Promise.all([ceClassificacao(id), ceAdmissao(id), ceOitivas(id), ceDocumentos(id), ceCominacao(id)]);
+  const etapas = [
+    ["registro", !!d.protocolo], ["classificação", !!cls], ["admissibilidade", !!admissao],
+    ["oitivas", oitivas.length > 0 || admissao?.via !== "acatada"], ["documentos", docs.length > 0],
+    ["cominação", !!cominacao],
+  ];
+  const falta = etapas.filter(([, ok])=>!ok).map(([n])=>n);
+  return `<p class="sub nao-imprimir" style="margin-bottom:6px"><a href="#/caso/${encodeURIComponent(id)}">← Caso ${esc(d.protocolo)}</a></p>
+    <h1>Encerramento · ${esc(d.protocolo)}</h1>
+    <div class="card"><h2 style="margin-top:0">Conferência das etapas</h2>
+      <ul class="check-lista">${etapas.map(([n, ok])=>`<li class="${ok ? "feito" : "falta"}">${icone(ok ? "check" : "alerta")}<span>${esc(n)}</span></li>`).join("")}</ul>
+      ${falta.length ? `<p class="erro-txt">Falta: ${falta.map(esc).join(", ")}.</p>` : '<p class="ok-txt">Todas as etapas estão preenchidas.</p>'}</div>
+    ${!cominacao ? `<form class="card" id="formCominacao"><h2 style="margin-top:0">Cominação (art. 9º)</h2><div class="campos">
+        ${campo("coTipo", "Cominação", {tipo: "select", opcoes: [["", "Escolha"], ...Object.entries(CE_COMINACOES)]})}
+        ${campo("coParecer", "Fundamento (mínimo de 20 caracteres)", {tipo: "textarea", linhas: 3})}</div>
+        <label style="display:flex;gap:8px;align-items:center;margin:8px 0"><input type="checkbox" id="coPAD" style="width:auto">
+          <span>Encaminhar ao processo administrativo disciplinar (art. 10)</span></label>
+        <div id="ceErrosCominacao"></div><div class="linha-botoes"><button class="prim" type="submit">Registrar a cominação</button></div></form>`
+      : `<div class="card" id="cominacaoFeita"><h2 style="margin-top:0">Cominação aplicada</h2>
+        <p><b>${esc(CE_COMINACOES[cominacao.tipo] || cominacao.tipo)}</b> · ${dataBR(cominacao.data)}${cominacao.pad ? " · encaminhada ao PAD (art. 10)" : ""}</p>
+        <p>Transcrição na ficha funcional por <b>${CE_ANOS_FICHA} anos</b> (art. 9º, parágrafo único).</p>
+        <p class="sub">Ementa (art. 11): ${esc(ceEmenta(d, cominacao.tipo))}</p></div>
+      ${d.situacao === "encerrada" ? `<div class="card ok"><b>Caso encerrado.</b>
+        <div class="linha-botoes"><button class="perigo" id="btnApagarCasoCe">Apagar os dados do caso (fica a contagem)</button></div></div>`
+        : `<div class="card"><div class="linha-botoes"><button class="prim" id="btnEncerrarCe">Encerrar o caso</button></div></div>`}`}`;
+};
+TELAS_DEPOIS["#/caso/:id/encerramento"] = ({id})=>{
+  $("#formCominacao")?.addEventListener("submit", async e=>{
+    e.preventDefault();
+    const tipo = valorDe("coTipo"), parecer = valorDe("coParecer"), pad = $("#coPAD").checked;
+    const erros = [];
+    if (!tipo) erros.push("Escolha a cominação.");
+    if (parecer.length < 20) erros.push("Escreva o fundamento com pelo menos 20 caracteres.");
+    if (!mostrarErros("#ceErrosCominacao", erros)) return;
+    const d = await db.get("denuncias", id);
+    await db.put("cominacoes", {id: uuid(), denuncia_id: id, tipo, parecer, pad, data: agora(), anos_ficha: CE_ANOS_FICHA, perfil: estado.perfil});
+    await db.put("denuncias", {...d, etapa: "recomendações", situacao: "cominada"});
+    await trilha("cominação aplicada: " + tipo, id, parecer);
+    toast("Cominação registrada."); navegar();
+  });
+  $("#btnApagarCasoCe")?.addEventListener("click", async ()=>{
+    if (!confirm("Apagar os dados pessoais e os relatos deste caso encerrado? A contagem fica guardada.")) return;
+    const d = await db.get("denuncias", id);
+    for (const loja of ["anexos", "classificacoes", "deliberacoes", "oitivas", "cominacoes", "documentos_ce"])
+      for (const x of await db.porIndice(loja, "denuncia_id", id)) await db.del(loja, x.id);
+    for (const x of (await db.list("log")).filter(l=>l.denuncia_id === id)) await db.del("log", x.id);
+    await db.del("denuncias", id);
+    const chave = "apagados";
+    const atual = (await db.get("contagens", chave))?.valor || 0;
+    await db.put("contagens", {chave, valor: atual + 1});
+    await registrar("caso encerrado apagado (retenção)", {detalhe: d?.protocolo || id});
+    toast("Caso apagado; a contagem ficou guardada."); location.hash = "#/painel";
+  });
+  $("#btnEncerrarCe")?.addEventListener("click", async ()=>{
+    const d = await db.get("denuncias", id);
+    await db.put("denuncias", {...d, etapa: "encerrado", situacao: "encerrada", encerrada_em: agora()});
+    await trilha("caso encerrado", id); toast("Caso encerrado."); navegar();
+  });
+};
+
+/* ================= Sprint 7 · Relatório ================= */
+TELAS["#/relatorio"] = async ()=>{
+  const ds = await db.list("denuncias"), oitivas = await db.list("oitivas"), coms = await db.list("cominacoes");
+  const conta = campo => Object.entries(ds.reduce((a, d)=>{ const k = d[campo] || "—"; a[k] = (a[k] || 0) + 1; return a; }, {})).sort((a, b)=>b[1] - a[1]);
+  const abertos = ds.filter(d=>!["encerrado", "encenrrado", "arquivada"].includes(d.etapa) && d.situacao !== "encerrada");
+  const idade = d => ceDias(d.data_recebimento);
+  const maisAntigos = [...abertos].sort((a, b)=>idade(b) - idade(a)).slice(0, 5);
+  return `<h1>Relatório da Comissão</h1><p class="sub">Contagens e prazos, sem os nomes das partes (art. 11 da LC nº 112/2002-MT).</p>
+    <div class="grade">
+      <div class="card kpi"><div class="v" data-ce-ind="total">${ds.length}</div><div class="r">denúncias no recorte</div></div>
+      <div class="card kpi"><div class="v" data-ce-ind="abertos">${abertos.length}</div><div class="r">em andamento</div></div>
+      <div class="card kpi"><div class="v" data-ce-ind="oitivas">${oitivas.length}</div><div class="r">oitivas realizadas</div></div>
+      <div class="card kpi"><div class="v" data-ce-ind="cominacoes">${coms.length}</div><div class="r">cominações aplicadas</div></div></div>
+    <div class="card tabela-wrap"><h2 style="margin-top:0">Por etapa</h2><table id="tabelaEtapaCe"><tr><th>Etapa</th><th class="num">Casos</th></tr>
+      ${conta("etapa").map(([k, n])=>`<tr><td>${esc(k)}</td><td class="num">${n}</td></tr>`).join("")}</table></div>
+    <div class="card tabela-wrap"><h2 style="margin-top:0">Por categoria</h2><table id="tabelaCategoriaCe"><tr><th>Categoria</th><th class="num">Casos</th></tr>
+      ${conta("categoria").map(([k, n])=>`<tr><td>${esc(k)}</td><td class="num">${n}</td></tr>`).join("")}</table></div>
+    <div class="card tabela-wrap"><h2 style="margin-top:0">Casos há mais tempo em andamento</h2><table id="tabelaAntigosCe"><tr><th>Protocolo</th><th>Etapa</th><th class="num">Dias</th></tr>
+      ${maisAntigos.map(d=>`<tr><td>${esc(d.protocolo)}</td><td>${esc(d.etapa)}</td><td class="num">${idade(d)}</td></tr>`).join("")
+        || '<tr><td colspan="3" class="vazio">Nenhum caso em andamento.</td></tr>'}</table></div>
+    <div class="card"><p class="sub">O relatório não mostra nome de denunciante nem de denunciado. A ementa de cada caso é divulgada sem os nomes, no próprio órgão, e remetida às demais Comissões de Ética (art. 11).</p></div>`;
+};
 
 
 iniciar();

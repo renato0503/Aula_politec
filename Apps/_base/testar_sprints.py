@@ -37,6 +37,8 @@ def perfil(pg, url, nome):
     ir(pg, url, "#/config")
     pg.evaluate("async p => { await db.meta('perfil', p); }", nome)
     pg.reload()
+    # espera o IndexedDB abrir: com versao nova do banco a abertura pode passar de 300 ms
+    pg.wait_for_function("() => typeof db !== 'undefined' && !!db.con", timeout=15000)
     pg.wait_for_timeout(300)
 
 
