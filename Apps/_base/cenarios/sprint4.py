@@ -862,3 +862,81 @@ def s6_valor_em_risco_e_aceite(pg, url, ok):
     csv = pathlib.Path(dl.value.path()).read_bytes()
     ok("o CSV sai com BOM e as colunas do contrato e da faixa", csv.startswith(b"\xef\xbb\xbf") and b"contrato;numero;fornecedor" in csv and b"faixa" in csv)
     ok("o roteiro de aceite está em modelos/", (APPS / "renovacao-contratos-horus" / "modelos" / "roteiro-aceite.md").exists())
+
+# Cenários dos Sprints 4 a 8 do Hórus · Banco de Demandas.
+
+
+@cenario("horus-banco-demandas")
+def s4_troca_de_unidade(pg, url, ok):
+    perfil(pg, url, "ADM")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/trocar", 600)
+    ok("a tela de troca lista as demandas", pg.locator("#tabelaDemandasTroca tr").count() > 1)
+    pg.locator("[data-trocar]").first.click(); pg.wait_for_timeout(500)
+    pg.click("#formTroca button[type=submit]"); pg.wait_for_timeout(500)
+    ok("a troca sem unidade é recusada", "Escolha a unidade" in pg.inner_text("#errosTroca"))
+    destino = pg.evaluate("""async ()=>{ const d = (await db.list('banco_demandas')).find(x=>x.transferencias===undefined);
+        const u = (await db.list('unidades')).find(x=>x.id !== d.unidade_id); return {id: d.id, unidade: u.id}; }""")
+    pg.locator("[data-trocar]").first.click(); pg.wait_for_timeout(400)
+    pg.select_option("#trocaUnidade", destino["unidade"])
+    pg.click("#formTroca button[type=submit]"); pg.wait_for_timeout(400)
+    ok("a troca sem motivo é recusada", "motivo" in pg.inner_text("#errosTroca"))
+    pg.select_option("#trocaUnidade", destino["unidade"]); pg.fill("#trocaMotivo", "Redistribuição da demanda para a unidade que tem o equipamento.")
+    pg.click("#formTroca button[type=submit]"); pg.wait_for_timeout(800)
+    ok("a troca fica registrada com motivo e histórico",
+       pg.evaluate("async ()=> (await db.list('banco_demandas')).some(d=>(d.transferencias||[]).some(t=>t.motivo))"))
+
+
+@cenario("horus-banco-demandas")
+def s5_manifestacao_de_interesse(pg, url, ok):
+    perfil(pg, url, "ADM")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    did = pg.evaluate("async ()=> (await db.list('banco_demandas'))[0].id")
+    ir(pg, url, "#/demanda/" + did + "/interesse", 700)
+    ok("a tela de interesse lista as manifestações do exemplo", pg.locator("#tabelaManifestacoes").count() == 1)
+    ok("quantidade zero e justificativa curta são recusadas pela regra",
+       pg.evaluate("()=>{ const f = horFaltaInteresse({quantidade: 0, justificativa: 'curto'}); return f.length === 2 && f.join(' ').includes('quantidade'); }"))
+    un = pg.evaluate("async ()=> (await db.list('unidades'))[0].id")
+    pg.select_option("#intUnidade", un); pg.fill("#intQtd", "50")
+    pg.fill("#intJust", "A unidade usa o mesmo insumo nas triagens diárias.")
+    pg.click("#formInteresse button[type=submit]"); pg.wait_for_timeout(800)
+    ok("a manifestação é registrada com unidade, quantidade e justificativa",
+       pg.evaluate("async id => (await db.porIndice('banco_demanda_manifestacoes','banco_demanda_id',id)).some(m=>m.quantidade===50)", did))
+
+
+@cenario("horus-banco-demandas")
+def s6_ciclo_e_aprovacao(pg, url, ok):
+    perfil(pg, url, "ADM")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/ciclos", 700)
+    ok("a tela de ciclos mostra o ciclo do exemplo", pg.locator("#tabelaCiclos tr").count() >= 2)
+    pg.fill("#cicNome", "PCA 2028"); pg.fill("#cicAno", "2028")
+    pg.click("#formCiclo button[type=submit]"); pg.wait_for_timeout(700)
+    ok("o ciclo novo entra como encerrado", pg.evaluate("async ()=> (await db.list('ciclos')).some(c=>c.nome==='PCA 2028' && c.status==='ENCERRADO')"))
+    ir(pg, url, "#/aprovar", 700)
+    ok("a aprovação exige ao menos uma demanda", pg.locator("#tabelaAprovar tr").count() > 1)
+    pg.click("#formAprovar button[type=submit]"); pg.wait_for_timeout(500)
+    ok("sem seleção, a aprovação é recusada", "Selecione" in pg.inner_text("#errosAprovar"))
+    pg.locator("[data-aprovar]").first.check()
+    pg.click("#formAprovar button[type=submit]"); pg.wait_for_timeout(800)
+    ok("a demanda aprovada entra no ciclo ativo", pg.evaluate("async ()=> (await db.list('banco_demanda_inclusoes')).length >= 1"))
+
+
+@cenario("horus-banco-demandas")
+def s7_relatorio_e_pacote(pg, url, ok):
+    perfil(pg, url, "ADM")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/aprovar", 700)
+    pg.locator("[data-aprovar]").first.check()
+    pg.click("#formAprovar button[type=submit]"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/relatorios", 800)
+    ok("o relatório conta as demandas aprovadas e o valor", pg.locator("[data-hor-ind=aprovadas]").count() == 1
+       and pg.locator("[data-hor-ind=valor]").count() == 1)
+    ok("o relatório agrupa por grupo e por unidade", pg.locator("#tabelaGrupo").count() == 1 and pg.locator("#tabelaUnidadeHor").count() == 1)
+    with pg.expect_download() as dl:
+        pg.click("#btnHorPacote")
+    import json as _json
+    pacote = _json.loads(pathlib.Path(dl.value.path()).read_text(encoding="utf-8"))
+    ok("o pacote do Hórus sai com versão, ciclo e demandas aprovadas",
+       pacote.get("versao") == 1 and pacote.get("ciclo") and len(pacote.get("demandas", [])) >= 1)
+    ok("o roteiro de aceite está em modelos/", (APPS / "horus-banco-demandas" / "modelos" / "roteiro-aceite.md").exists())
