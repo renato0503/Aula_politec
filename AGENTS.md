@@ -270,17 +270,17 @@ node Apps/agendamento-cin/testes/testar_code_gs.js    # apenas o agendamento
 
 Estado (30/10/2026): **20 apps**, todos com a identidade visual SESP/MT e
 POLITEC/MT. Os 12 primeiros estao com os Sprints 1, 2 e 3 feitos (dois deles,
-`cin-segunda-via` e `metas-bi-ocr`, com o Sprint 4 parcial). Dos 8 novos,
-`custodia-definitiva` e `trilha-custodia-necropsia` estao com os Sprints 1, 2 e
-3; `passivo-ambiental`, `renovacao-contratos-horus`, `documentapolitec`,
-`gestao-documentos`, `controle-aquisicoes` e `distribuicao-casos-dna` estao com os
-Sprints 1 e 2.
+`cin-segunda-via` e `metas-bi-ocr`, com o Sprint 4 parcial). Os 8 novos
+(`custodia-definitiva`, `trilha-custodia-necropsia`, `passivo-ambiental`,
+`renovacao-contratos-horus`, `documentapolitec`, `gestao-documentos`,
+`controle-aquisicoes` e `distribuicao-casos-dna`) estao com os Sprints 1, 2 e 3.
 Todos tem a parte tecnica do Sprint 0 (dados ficticios, bibliotecas, modelos).
 Os itens do Sprint 0 que dependem de pessoas (autorizacoes, amostras reais,
 linha de base) continuam abertos no `sprint.md` de cada app. Os cenarios do
 Sprint 2 dos apps novos ficam em `Apps/_base/cenarios/sprint2.py`; os do Sprint
-3 em diante, em `cenarios/sprintN.py`. O proximo passo de cada app esta em
-`Apps/CONTINUAR.md`. Detalhes em `Apps/README.md`.
+3, em `cenarios/sprint3.py`; os do Sprint 4 em diante, em `cenarios/sprintN.py`.
+O proximo passo de cada app esta em `Apps/CONTINUAR.md`. Detalhes em
+`Apps/README.md`.
 
 ### 3.4 Estado do documento
 
@@ -649,7 +649,8 @@ Melhorias pendentes:
 | Aula 8 — apps dos grupos (20 projetos) | Processadas as entregas do formulario da Aula 8 em `Apps/<slug>/`: **20 apps**, cada um com `README.md`, `PROJETO.md`, `contexto.md`, `sprint.md`, `projeto.json`, `envio-original.json`, `app.json`, `src/` e `exemplos/`. Os 12 primeiros chegaram aos Sprints 1, 2 e 3; os 8 novos (`custodia-definitiva`, `passivo-ambiental`, `renovacao-contratos-horus`, `documentapolitec`, `gestao-documentos`, `controle-aquisicoes`, `distribuicao-casos-dna`, `trilha-custodia-necropsia`) chegaram aos Sprints 1 e 2. Criada a base comum `Apps/_base/` (`base.html`, `construir.py`, `embutir.py`, `js_comum.js`, `testar.py`, `testar_sprints.py`, `equipes.py`, `equipes.json`) e os cenarios `_base/cenarios/sprint2.py` e `sprint3.py`. Cada app e um `index.html` gerado, offline first, com IndexedDB, backup `.json`, perfis, dados ficticios com semente fixa e a tela `#/testes`; a excecao e `agendamento-cin` (Google Apps Script). Registrados os logins do GitHub em `Apps/equipes.json`, com a tabela "Equipes e GitHub" gerada por `_base/equipes.py`. |
 
 
-| Apps — identidade visual e Sprint 3 (30/10/2026) | Criada a identidade visual comum SESP/MT e POLITEC/MT (`Apps/_base/visual.css` e `icones.js`): faixa do governo, cabecalho institucional com emblema, filete acento/dourado/verde, menu com icones, cartoes, KPIs, tabelas, selos e rodape. Cada app ganhou o bloco `visual` no `app.json` (acento, emblema, layout, padrao, estilo e setor). Tema claro como padrao em todos os apps, botoes de tamanho da fonte (80% a 150%) e faixa de aviso de prototipo removida. Sprint 3 feito em `custodia-definitiva` (busca, filtros, CSV, movimentacao e historico) e `trilha-custodia-necropsia` (situacao, identificacao, iniciais no painel e busca). Registro para continuar em outro agente: `Apps/CONTINUAR.md`; mídia kit: `Apps/IDENTIDADE-VISUAL.md`. |
+| Apps — identidade visual e Sprint 3 (30/10/2026) | Criada a identidade visual comum SESP/MT e POLITEC/MT (`Apps/_base/visual.css` e `icones.js`): faixa do governo, cabecalho institucional com emblema, filete acento/dourado/verde, menu com icones, cartoes, KPIs, tabelas, selos e rodape. Cada app ganhou o bloco `visual` no `app.json` (acento, emblema, layout, padrao, estilo e setor). Tema claro como padrao em todos os apps, botoes de tamanho da fonte (80% a 150%) e faixa de aviso de prototipo removida. Registro para continuar em outro agente: `Apps/CONTINUAR.md`; mídia kit: `Apps/IDENTIDADE-VISUAL.md`. |
+| Apps — Sprint 3 dos 6 apps novos (30/10/2026) | Feito o Sprint 3 de `passivo-ambiental` (editor de mapa com modelos e elementos obrigatorios, anexo ao laudo e versao para impressao em `#/pdf/:id`, RN02 e RN03), `renovacao-contratos-horus` (checklist de instrucao R7, repositorio local de documentos com visibilidade restrita a gestao R8 e aviso de contrato sem instrucao a 60 dias, com a tela `#/instrucao`), `documentapolitec` (importacao da planilha de 850 prontuarios com associacao de colunas em `#/importar`, comparacao com o indice do arquivo digital e relatorio de aceitas, recusadas e divergentes em `#/relatorio-importacao`; exemplos em `exemplos/gerar_planilhas.py`), `gestao-documentos` (minutas padronizadas com os dados do processo RN04, emissao de oficio e despacho e checklist de instrucao por etapa), `controle-aquisicoes` (pesquisa de precos com tres cotacoes e memoria de calculo RN04, alerta de inconsistencia entre estimado e cotado com tolerancia de 30% e historico de precos por objeto em `#/precos`) e `distribuicao-casos-dna` (sugestao do proximo perito pelo historico de rotacao, fila de urgencia com justificativa RN05 e alerta de rodada parada). Codigo em `src/sprint3.js` de cada app, cenarios em `Apps/_base/cenarios/sprint3.py`. Os 20 apps passam em `testar.py` e os 42 cenarios passam em `testar_sprints.py`. |
 
 ---
 

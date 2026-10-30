@@ -31,18 +31,18 @@ recebe o código do app.
 
 Os 20 apps andam juntos, sprint a sprint. Os **12 primeiros** estão com os
 **Sprints 1, 2 e 3** feitos; `cin-segunda-via` e `metas-bi-ocr` já têm o **Sprint
-4 parcial**. Dos **8 novos**, `custodia-definitiva` e `trilha-custodia-necropsia`
-estão com os **Sprints 1, 2 e 3**; os outros 6 (passivo, renovação,
-DOCUMENTAPOLITEC, Gestão de Documentos, Controle de Aquisições e Distribuição de
-Casos de DNA) estão com os **Sprints 1 e 2**. Todos têm a parte técnica do
-Sprint 0 (dados fictícios, bibliotecas, modelos). Os itens do Sprint 0 que
-dependem de pessoas (autorizações, amostras reais, linha de base) continuam
-abertos no `sprint.md` de cada app.
+4 parcial**. Os **8 novos** (`custodia-definitiva`, `trilha-custodia-necropsia`,
+passivo, renovação, DOCUMENTAPOLITEC, Gestão de Documentos, Controle de
+Aquisições e Distribuição de Casos de DNA) estão com os **Sprints 1, 2 e 3**.
+Todos têm a parte técnica do Sprint 0 (dados fictícios, bibliotecas, modelos). Os
+itens do Sprint 0 que dependem de pessoas (autorizações, amostras reais, linha
+de base) continuam abertos no `sprint.md` de cada app.
 
 Em 30/10/2026 os 20 apps ganharam a **identidade visual SESP/MT e POLITEC/MT**,
 com personalização por app, tema claro como padrão e ajuste do tamanho da fonte
-(ver [IDENTIDADE-VISUAL.md](IDENTIDADE-VISUAL.md)). O estado de cada app e o
-próximo passo estão em [CONTINUAR.md](CONTINUAR.md).
+(ver [IDENTIDADE-VISUAL.md](IDENTIDADE-VISUAL.md)). No mesmo dia, o Sprint 3 dos
+6 apps novos foi feito. O estado de cada app e o próximo passo estão em
+[CONTINUAR.md](CONTINUAR.md).
 
 | App | Sprint 2 | Sprint 3 |
 |---|---|---|
@@ -59,12 +59,12 @@ próximo passo estão em [CONTINUAR.md](CONTINUAR.md).
 | rnc-nao-conformidade | Importação da planilha do Forms (RN01, RN07) | Etapas e prazos, anulação em 5 dias, prorrogação, corregedoria (RN02 a RN04) |
 | tap-portfolio-projetos | TAP guiado com checklist e rascunho (RN01 a RN04) | Pacote com anexos, triagem, pendência e devolução (RN05, RN06) |
 | custodia-definitiva | Cadastro, classificação e endereçamento com sugestão de contêiner (RN01 a RN04) | Acervo com busca, filtros combinados e CSV; movimentação (transferência, saída, retorno) e histórico |
-| documentapolitec | Caixa com a relação, conferência e lacre com responsável (RN01, RN02) | — (Sprint 3 a fazer: leitura do PDF digitalizado) |
-| passivo-ambiental | Requisição registrada e laudo com cabeçalho preenchido (RN01) | — (Sprint 3 a fazer: mapas e PDF) |
-| renovacao-contratos-horus | Cadastro com término calculado (R2), semáforo (R3) e termo aditivo (R4) | — (Sprint 3 a fazer: documentos e instrução) |
-| gestao-documentos | Autuação com anexos (RN01), número AAAA.NNNN-SD (RN02) e sinal do prazo (RN06, RN07) | — (Sprint 3 a fazer: instrução e minutas) |
-| controle-aquisicoes | Registro com SIGADOC e SIAG (RN01) e avanço por etapa com documentos e sem pendência (RN02, RN03) | — (Sprint 3 a fazer: pesquisa de preços) |
-| distribuicao-casos-dna | Rodada com processamento (RN01), rodada inteira para um perito em rotação (RN02, RN04) e fila de cobranças (RN03) | — (Sprint 3 a fazer: rotação automática e exceções) |
+| documentapolitec | Caixa com a relação, conferência e lacre com responsável (RN01, RN02) | Importação da planilha de 850 prontuários com associação de colunas, comparação com o arquivo digital e relatório de aceitas, recusadas e divergentes |
+| passivo-ambiental | Requisição registrada e laudo com cabeçalho preenchido (RN01) | Editor de mapa com modelos e elementos obrigatórios (RN02), anexo ao laudo e versão para impressão (RN03) |
+| renovacao-contratos-horus | Cadastro com término calculado (R2), semáforo (R3) e termo aditivo (R4) | Checklist de instrução (R7), repositório de documentos com acesso restrito (R8) e aviso de contrato sem instrução a 60 dias |
+| gestao-documentos | Autuação com anexos (RN01), número AAAA.NNNN-SD (RN02) e sinal do prazo (RN06, RN07) | Minutas padronizadas com os dados do processo (RN04), emissão de ofício e despacho e checklist por etapa |
+| controle-aquisicoes | Registro com SIGADOC e SIAG (RN01) e avanço por etapa com documentos e sem pendência (RN02, RN03) | Pesquisa de preços com três cotações (RN04), alerta estimado x cotado e histórico por objeto |
+| distribuicao-casos-dna | Rodada com processamento (RN01), rodada inteira para um perito em rotação (RN02, RN04) e fila de cobranças (RN03) | Sugestão do próximo perito pelo histórico de rotação, fila de urgência com justificativa (RN05) e alerta de rodada parada |
 | trilha-custodia-necropsia | Acionamento com protocolo (RN01), marcos e lacres (RN03), situação e liberação (RN02) | Transições de situação com motivo, identificação com método, painel com iniciais (RN05), busca por protocolo, nome, documento ou lacre (RN04) |
 
 Cada sprint de cada app tem um cenário de interface que confere o "Pronto
@@ -107,7 +107,7 @@ Ao chegar um grupo novo, crie `Apps/<slug-do-projeto>/` com os mesmos arquivos.
 | `_base/js_comum.js` | Tela de configuração e testes comuns a todos os apps |
 | `_base/embutir.py` | Copia `vendor/*.js` e os JSON de dados para dentro do `index.html`, entre os marcadores `<!-- LIB:... -->` e `<!-- DADOS:... -->`. Substitui o `embutir_libs.py` citado nos `contexto.md` |
 | `_base/testar.py` | Abre cada app no Chromium e confere: zero requisição de rede, `#/testes` 100%, todas as rotas, dados fictícios, persistência e tema |
-| `_base/testar_sprints.py` | Um cenário de interface por sprint e por app: usa a tela como uma pessoa usaria e confere o "Pronto quando" do `sprint.md`. Os cenários do Sprint 2 estão no próprio arquivo; os seguintes, em `_base/cenarios/sprintN.py` |
+| `_base/testar_sprints.py` | Um cenário de interface por sprint e por app: usa a tela como uma pessoa usaria e confere o "Pronto quando" do `sprint.md`. Os cenários do Sprint 2 estão no próprio arquivo; os dos Sprints 3 e 4, em `_base/cenarios/sprintN.py` |
 | `_base/equipes.py` | Grava o login do GitHub de um aluno em `equipes.json` e refaz a tabela "Equipes e GitHub" deste README |
 | `_base/painel.py` | Gera `Apps/painel.html`, o painel de desenvolvimento: telas prontas x pendentes por sprint, itens abertos, GitHub e trabalhos de BI |
 | `_base/base.html` (utilitários) | Dinheiro em centavos, leitura de CSV, CPF e CNPJ, datas, redução de imagem, campos de formulário: usados por vários apps |

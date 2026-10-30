@@ -93,6 +93,18 @@
       "descricao": "Localiza a caixa pelo número do prontuário."
     },
     {
+      "rota": "#/importar",
+      "titulo": "Importar planilha",
+      "sprint": 3,
+      "descricao": "Importa a planilha de prontuários com associação de colunas e compara com o arquivo digital."
+    },
+    {
+      "rota": "#/relatorio-importacao",
+      "titulo": "Relatório da importação",
+      "sprint": 3,
+      "descricao": "Linhas aceitas, recusadas e divergentes."
+    },
+    {
       "rota": "#/config",
       "titulo": "Configuração",
       "sprint": 1,

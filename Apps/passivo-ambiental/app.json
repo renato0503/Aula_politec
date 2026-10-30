@@ -90,6 +90,24 @@
       ]
     },
     {
+      "rota": "#/mapa/:id",
+      "titulo": "Mapa",
+      "sprint": 3,
+      "descricao": "Editor de mapa temático com modelo e elementos obrigatórios (RN02).",
+      "perfis": [
+        "perito"
+      ]
+    },
+    {
+      "rota": "#/pdf/:id",
+      "titulo": "Laudo em PDF",
+      "sprint": 3,
+      "descricao": "Versão para impressão com cabeçalho e mapas (RN03).",
+      "perfis": [
+        "perito"
+      ]
+    },
+    {
       "rota": "#/config",
       "titulo": "Configuração",
       "sprint": 1,

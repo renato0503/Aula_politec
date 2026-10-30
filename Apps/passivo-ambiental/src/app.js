@@ -83,7 +83,6 @@ TELAS["#/laudo/:id"] = async ({id})=>{
   const r = await db.get("requisicoes", id);
   if (!r) return `<div class="card vazio">Requisição não encontrada. <a href="#/requisicoes">Voltar</a></div>`;
   const ls = await db.porIndice("laudos", "requisicao_id", id), l = ls[0] || {id_laudo: "L-" + id, status: "rascunho", horas_trabalhadas: 0};
-  const mapas = l.id_laudo ? await db.porIndice("mapas", "laudo_id", l.id_laudo) : [];
   const cab = paCabecalho(r, l), completo = cab.every(([, v])=>String(v || "").trim() && !/não informad/i.test(v));
   return `<h1>Laudo ${esc(l.id_laudo)} <span class="selo ${l.status === "concluido" ? "ok" : "info"}" id="paStatusLaudo">${esc(l.status)}</span></h1>
     <p class="sub">Requisição ${esc(r.numero_processo)} · ${esc(r.orgao)} · recebida em ${dataCurtaBR(r.data_requisicao)} · prazo ${r.prazo_dias} dias</p>
@@ -93,11 +92,7 @@ TELAS["#/laudo/:id"] = async ({id})=>{
         ${campo("paCoordL", "Coordenadas (ajuste)", {valor: l.coordenadas || r.coordenadas || ""})}</div>
       ${campo("paHoras", "Horas trabalhadas neste laudo", {tipo: "number", valor: l.horas_trabalhadas || 0, attrs: 'min="0" step="0.5"'})}
       <div id="paErrosLaudo"></div><div class="linha-botoes"><button class="prim" type="submit">Salvar rascunho</button>
-        <button type="button" id="btnPaConcluir">Concluir o laudo</button></div></form>
-    <div class="card"><h2 style="margin-top:0">Mapas temáticos (${mapas.length})</h2>
-      ${mapas.length ? `<ul>${mapas.map(m=>`<li>${esc(m.modelo)} · ${dataCurtaBR(m.criado_em)}</li>`).join("")}</ul>` : '<p class="sub">Nenhum mapa anexado.</p>'}
-      <p class="sub">O gerador de mapas e a exportação em PDF chegam no Sprint 3. A exportação exige cabeçalho completo e pelo menos 1 mapa (RN03).</p>
-      <button id="btnPaPdf" disabled>Exportar PDF (Sprint 3)</button></div>`;
+        <button type="button" id="btnPaConcluir">Concluir o laudo</button></div></form>`;
 };
 TELAS_DEPOIS["#/laudo/:id"] = ({id})=>{
   const salvar = async ()=> {

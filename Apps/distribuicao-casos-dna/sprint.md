@@ -9,6 +9,7 @@
 | 0 | Dados fictícios gerados em 29/10/2026 (`exemplos/gerar_exemplos.py`). Itens que dependem de pessoas continuam abertos. |
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py distribuicao-casos-dna` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py distribuicao-casos-dna` passa (cenário em `Apps/_base/cenarios/sprint2.py`). |
+| 3 | Feito em 30/10/2026. `python Apps/_base/testar_sprints.py distribuicao-casos-dna` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
 
 ## Visão geral
 
@@ -54,9 +55,11 @@
 
 ## Sprint 3 · Telas e regras
 
-- [ ] Sugestão automática do próximo perito com histórico de rotação.
-- [ ] Fila de urgência com justificativa.
-- [ ] Alerta de rodada parada.
+- [x] Sugestão automática do próximo perito com histórico de rotação.
+- [x] Fila de urgência com justificativa (RN05).
+- [x] Alerta de rodada parada.
+
+**Pronto quando**: `python Apps/_base/testar_sprints.py distribuicao-casos-dna` passa (cenário do Sprint 3).
 
 ---
 

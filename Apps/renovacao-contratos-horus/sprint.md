@@ -9,6 +9,7 @@
 | 0 | Dados fictícios gerados em 29/10/2026 (`exemplos/gerar_exemplos.py`). Itens que dependem de pessoas continuam abertos. |
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py renovacao-contratos-horus` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py renovacao-contratos-horus` passa (cenário em `Apps/_base/cenarios/sprint2.py`). |
+| 3 | Feito em 30/10/2026. `python Apps/_base/testar_sprints.py renovacao-contratos-horus` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
 
 ## Visão geral
 
@@ -54,9 +55,11 @@
 
 ## Sprint 3 · Telas e regras
 
-- [ ] Checklist de instrução e anexos do processo.
-- [ ] Documentos em repositório local com controle de acesso.
-- [ ] Aviso de contrato sem instrução a 60 dias do fim.
+- [x] Checklist de instrução e anexos do processo (R7).
+- [x] Documentos em repositório local com controle de acesso (R8).
+- [x] Aviso de contrato sem instrução a 60 dias do fim.
+
+**Pronto quando**: `python Apps/_base/testar_sprints.py renovacao-contratos-horus` passa (cenário do Sprint 3).
 
 ---
 

@@ -271,25 +271,61 @@
   {
    "id_mapa": "L-REQ-0011-M1",
    "laudo_id": "L-REQ-0011",
-   "modelo": "Modelo de delimitação do dano 1",
+   "modelo_id": "delimitacao",
+   "modelo": "Delimitação da área de dano",
+   "elementos": {
+    "norte": "N",
+    "escala": "1:25.000",
+    "legenda": "azul = área danificada; verde = vegetação preservada",
+    "data": "2026-09-04",
+    "fonte": "Imagem de satélite (fictícia)"
+   },
+   "valor_extra": "12,5",
    "criado_em": "2026-09-04T11:00:00"
   },
   {
    "id_mapa": "L-REQ-0011-M2",
    "laudo_id": "L-REQ-0011",
-   "modelo": "Modelo de delimitação do dano 2",
+   "modelo_id": "delimitacao",
+   "modelo": "Delimitação da área de dano",
+   "elementos": {
+    "norte": "N",
+    "escala": "1:25.000",
+    "legenda": "azul = área danificada; verde = vegetação preservada",
+    "data": "2026-09-04",
+    "fonte": "Imagem de satélite (fictícia)"
+   },
+   "valor_extra": "15,5",
    "criado_em": "2026-09-04T11:00:00"
   },
   {
    "id_mapa": "L-REQ-0012-M1",
    "laudo_id": "L-REQ-0012",
-   "modelo": "Modelo de delimitação do dano 1",
+   "modelo_id": "delimitacao",
+   "modelo": "Delimitação da área de dano",
+   "elementos": {
+    "norte": "N",
+    "escala": "1:25.000",
+    "legenda": "azul = área danificada; verde = vegetação preservada",
+    "data": "2026-09-03",
+    "fonte": "Imagem de satélite (fictícia)"
+   },
+   "valor_extra": "12,5",
    "criado_em": "2026-09-03T11:00:00"
   },
   {
    "id_mapa": "L-REQ-0012-M2",
    "laudo_id": "L-REQ-0012",
-   "modelo": "Modelo de delimitação do dano 2",
+   "modelo_id": "delimitacao",
+   "modelo": "Delimitação da área de dano",
+   "elementos": {
+    "norte": "N",
+    "escala": "1:25.000",
+    "legenda": "azul = área danificada; verde = vegetação preservada",
+    "data": "2026-09-03",
+    "fonte": "Imagem de satélite (fictícia)"
+   },
+   "valor_extra": "15,5",
    "criado_em": "2026-09-03T11:00:00"
   }
  ]

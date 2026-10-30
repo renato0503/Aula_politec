@@ -12,7 +12,7 @@
   },
   "db": {
     "nome": "renovacao_contratos_v1",
-    "versao": 1,
+    "versao": 2,
     "stores": {
       "contratos": {
         "keyPath": "id_contrato",
@@ -36,6 +36,26 @@
       },
       "auditoria": {
         "keyPath": "id_evento",
+        "indices": [
+          {
+            "nome": "contrato_id",
+            "campo": "contrato_id",
+            "unico": false
+          }
+        ]
+      },
+      "instrucao": {
+        "keyPath": "id_item",
+        "indices": [
+          {
+            "nome": "contrato_id",
+            "campo": "contrato_id",
+            "unico": false
+          }
+        ]
+      },
+      "anexos": {
+        "keyPath": "id_anexo",
         "indices": [
           {
             "nome": "contrato_id",
@@ -91,6 +111,12 @@
       "titulo": "Contrato",
       "sprint": 2,
       "descricao": "Ficha, semáforo, aditivos e auditoria."
+    },
+    {
+      "rota": "#/instrucao",
+      "titulo": "Instrução",
+      "sprint": 3,
+      "descricao": "Checklist de instrução de cada contrato em renovação."
     },
     {
       "rota": "#/config",

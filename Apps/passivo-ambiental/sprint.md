@@ -9,6 +9,7 @@
 | 0 | Dados fictícios gerados em 29/10/2026 (`exemplos/gerar_exemplos.py`). Itens que dependem de pessoas continuam abertos. |
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py passivo-ambiental` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py passivo-ambiental` passa (cenário em `Apps/_base/cenarios/sprint2.py`). |
+| 3 | Feito em 30/10/2026. `python Apps/_base/testar_sprints.py passivo-ambiental` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
 
 ## Visão geral
 
@@ -54,9 +55,11 @@
 
 ## Sprint 3 · Telas e regras
 
-- [ ] Editor de mapa com modelos pré-definidos e elementos obrigatórios (RN02).
-- [ ] Anexo de mapas ao laudo.
-- [ ] Exportação em PDF com cabeçalho e mapas (RN03).
+- [x] Editor de mapa com modelos pré-definidos e elementos obrigatórios (RN02).
+- [x] Anexo de mapas ao laudo.
+- [x] Exportação em PDF com cabeçalho e mapas (RN03).
+
+**Pronto quando**: `python Apps/_base/testar_sprints.py passivo-ambiental` passa (cenário do Sprint 3).
 
 ---
 

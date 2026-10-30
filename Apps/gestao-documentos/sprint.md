@@ -9,6 +9,7 @@
 | 0 | Dados fictícios gerados em 29/10/2026 (`exemplos/gerar_exemplos.py`). Itens que dependem de pessoas continuam abertos. |
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py gestao-documentos` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py gestao-documentos` passa (cenário em `Apps/_base/cenarios/sprint2.py`). |
+| 3 | Feito em 30/10/2026. `python Apps/_base/testar_sprints.py gestao-documentos` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
 
 ## Visão geral
 
@@ -54,9 +55,11 @@
 
 ## Sprint 3 · Telas e regras
 
-- [ ] Minutas padronizadas com os dados do processo (RN04).
-- [ ] Emissão de ofício e despacho.
-- [ ] Checklist de instrução por etapa.
+- [x] Minutas padronizadas com os dados do processo (RN04).
+- [x] Emissão de ofício e despacho.
+- [x] Checklist de instrução por etapa.
+
+**Pronto quando**: `python Apps/_base/testar_sprints.py gestao-documentos` passa (cenário do Sprint 3).
 
 ---
 
@@ -70,7 +73,7 @@
 
 ## Sprint 5 · Telas e regras
 
-- [ ] Conclusão only com assinatura da autoridade (RN09).
+- [ ] Conclusão somente com assinatura da autoridade (RN09).
 - [ ] Notificação ao requerente e arquivamento (RN10).
 - [ ] Trilha de aprovação.
 

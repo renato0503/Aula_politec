@@ -12,7 +12,7 @@
   },
   "db": {
     "nome": "controle_aquisicoes_v1",
-    "versao": 1,
+    "versao": 2,
     "stores": {
       "processos": {
         "keyPath": "id_processo",
@@ -51,6 +51,16 @@
       },
       "log": {
         "keyPath": "id",
+        "indices": [
+          {
+            "nome": "processo_id",
+            "campo": "processo_id",
+            "unico": false
+          }
+        ]
+      },
+      "pesquisas": {
+        "keyPath": "id_pesquisa",
         "indices": [
           {
             "nome": "processo_id",
@@ -106,6 +116,12 @@
       "titulo": "Processo",
       "sprint": 2,
       "descricao": "Etapas, documentos, pendências e histórico."
+    },
+    {
+      "rota": "#/precos",
+      "titulo": "Preços",
+      "sprint": 3,
+      "descricao": "Histórico de preços por objeto."
     },
     {
       "rota": "#/config",

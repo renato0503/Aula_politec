@@ -329,3 +329,242 @@ def s3_situacao_identificacao_e_busca(pg, url, ok):
     ok("a busca acha pelo código do lacre", prot in pg.inner_text("#tcResultado"))
     pg.fill("#tcBusca", "maria souza"); pg.press("#tcBusca", "Enter"); pg.wait_for_timeout(500)
     ok("a busca por nome aceita palavras fora de ordem", "Maria Fictícia Souza" in pg.inner_text("#tcResultado"))
+
+# Cenário do Sprint 3 do Passivo Ambiental: mapa temático (RN02) e versão impressa (RN03).
+
+
+@cenario("passivo-ambiental")
+def s3_mapa_e_pdf(pg, url, ok):
+    perfil(pg, url, "perito")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(700)
+    # requisição nova, sem mapa: a exportação fica bloqueada (RN03)
+    ir(pg, url, "#/requisicao/nova", 400)
+    pg.fill("#paNumero", "2026.888888-8"); pg.fill("#paOrgao", "Delegacia de Teste"); pg.fill("#paTipo", "queimada")
+    pg.fill("#paLocal", "Área de teste"); pg.fill("#paCoord", "-12.9000, -55.8000")
+    pg.click("#formPaNova button[type=submit]"); pg.wait_for_timeout(600)
+    ok("a requisição abre o laudo", "#/laudo/REQ-0013" in pg.url)
+    ir(pg, url, "#/pdf/REQ-0013", 400)
+    ok("sem mapa, a versão impressa fica bloqueada (RN03)", "RN03" in pg.inner_text("#conteudo") and pg.locator("#paDocumento").count() == 0)
+    # mapa sem os elementos obrigatórios é recusado (RN02)
+    ir(pg, url, "#/mapa/REQ-0013", 400)
+    pg.select_option("#paModelo", "delimitacao")
+    pg.click("#formPaMapa button[type=submit]"); pg.wait_for_timeout(400)
+    ok("mapa sem elementos obrigatórios é recusado (RN02)", "RN02" in pg.inner_text("#paErrosMapa") and contar(pg, "mapas") == 4)
+    pg.select_option("#paModelo", "localizacao")
+    pg.fill("#paExtra", "12,5")
+    for campo_id in ("paEl_norte", "paEl_escala", "paEl_legenda", "paEl_data", "paEl_fonte"):
+        pg.fill("#" + campo_id, "valor de teste")
+    pg.click("#formPaMapa button[type=submit]"); pg.wait_for_timeout(600)
+    ok("o mapa completo é anexado ao laudo", "#/laudo/REQ-0013" in pg.url and contar(pg, "mapas") == 5)
+    m = pg.evaluate("async ()=> (await db.porIndice('mapas','laudo_id','L-REQ-0013'))[0]")
+    ok("o mapa guarda modelo, elementos e medida (RN02)", m["modelo_id"] == "localizacao" and m["elementos"]["norte"] == "valor de teste" and m["valor_extra"] == "12,5")
+    ok("a lista de mapas mostra os elementos conferidos", pg.locator("#paListaMapas li.feito").count() == 1)
+    # com mapa e cabeçalho, a versão impressa abre
+    ir(pg, url, "#/pdf/REQ-0013", 500)
+    ok("com mapa e cabeçalho, a versão impressa abre (RN03)", pg.locator("#paDocumento").count() == 1)
+    doc = pg.inner_text("#paDocumento")
+    ok("o documento traz o cabeçalho e os mapas anexados", "LAUDO" in doc and "2026.888888-8" in doc and "Mapas anexados (1)" in doc)
+    # conclusão salva aparece no documento
+    ir(pg, url, "#/laudo/REQ-0013", 400)
+    pg.fill("#paConclusao", "Área de 12,5 ha com vegetação queimada."); pg.click("#formPaConclusao button[type=submit]"); pg.wait_for_timeout(500)
+    ir(pg, url, "#/pdf/REQ-0013", 500)
+    ok("a conclusão vai para a versão impressa", "vegetação queimada" in pg.inner_text("#paDocumento"))
+    # a conclusão do laudo concluído exige mapa, e o exemplo já tem
+    ok("todos os mapas do exemplo e o novo vêm com os elementos completos",
+       pg.evaluate("async ()=> (await db.list('mapas')).filter(m=>paMapaCompleto(m)).length") == 5)
+
+# Cenário do Sprint 3 da Renovação de Contratos: checklist de instrução, repositório de documentos e aviso de 60 dias.
+
+
+@cenario("renovacao-contratos-horus")
+def s3_instrucao_e_documentos(pg, url, ok):
+    perfil(pg, url, "gestor")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(700)
+    ir(pg, url, "#/painel", 600)
+    aviso = pg.evaluate("""async ()=>{ const h = hojeISO(), cs = await db.list('contratos');
+        const n = [];
+        for (const c of cs){ const itens = await db.porIndice('instrucao','contrato_id',c.id_contrato);
+            if (rcSemInstrucao(c, itens, h)) n.push(c.id_contrato); }
+        return n; }""")
+    ok("o painel avisa os contratos que vencem em 60 dias sem instrução completa (Sprint 3)", bool(aviso) and pg.locator("#rcAvisoInstrucao").count() == 1
+       and pg.locator("#tabelaAviso tr").count() - 1 == len(aviso))
+    # abrir um contrato do aviso e completar a instrução
+    cid = aviso[0]
+    ir(pg, url, "#/contrato/" + cid, 500)
+    falta_antes = pg.locator("#rcListaInstrucao li.falta").count()
+    ok("o checklist mostra os itens obrigatórios faltando", falta_antes >= 6 and "Falta concluir a instrução" in pg.inner_text("#conteudo"))
+    for _ in range(8):
+        b = pg.locator("#rcListaInstrucao .rcItem[data-obrigatorio='1'][data-feito='0']").first
+        if not b.count():
+            break
+        b.click(); pg.wait_for_timeout(450)
+    ok("marcar os itens obrigatórios deixa a instrução completa", pg.locator("#rcListaInstrucao li.falta").count() == 1
+       and "Instrução completa" in pg.inner_text("#conteudo"))
+    ok("o item facultativo não impede a conclusão", "Falta concluir a instrução" not in pg.inner_text("#conteudo"))
+    ok("a auditoria registra a marcação do item", pg.evaluate("async id => (await db.porIndice('auditoria','contrato_id',id)).some(a=>a.acao.includes('item de instrução marcado'))", cid))
+    ir(pg, url, "#/instrucao", 500)
+    ok("a tela de instrução mostra o progresso de cada contrato", pg.locator("#tabelaInstrucao tr").count() == 15)
+    # repositório de documentos: o fiscal não vê o restrito (R8)
+    ir(pg, url, "#/contrato/" + cid, 500)
+    pg.fill("#rcAnexoNome", "oficio-solicitacao.pdf"); pg.select_option("#rcAnexoVis", "gestao"); pg.fill("#rcAnexoTexto", "Documento fictício restrito.")
+    pg.click("#formRcAnexo button[type=submit]"); pg.wait_for_timeout(600)
+    ok("o documento fica guardado no contrato", pg.evaluate("async ()=> (await db.list('anexos')).length") == 1)
+    ok("o gestor vê o documento restrito", "oficio-solicitacao.pdf" in pg.inner_text("#rcListaAnexos"))
+    perfil(pg, url, "fiscal")
+    ir(pg, url, "#/contrato/" + cid, 600)
+    ok("o fiscal não vê o documento restrito à gestão (R8)", "oficio-solicitacao.pdf" not in pg.inner_text("#rcListaAnexos"))
+    ok("o checklist continua visível para o fiscal", pg.locator("#rcListaInstrucao").count() == 1)
+
+# Cenário do Sprint 3 do DOCUMENTAPOLITEC: importação da planilha com associação de colunas e comparação com o arquivo digital.
+
+
+@cenario("documentapolitec")
+def s3_importacao_e_conferencia(pg, url, ok):
+    perfil(pg, url, "papiloscopista")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(700)
+    ex = APPS / "documentapolitec" / "exemplos"
+    ir(pg, url, "#/importar", 500)
+    ok("a tela de importação começa vazia", pg.locator("#docBlocoRelacao").count() == 1 and "Nenhuma planilha carregada" in pg.inner_text("#conteudo"))
+    # sem os dois arquivos, a importação é recusada
+    pg.click("#formDocImport button[type=submit]"); pg.wait_for_timeout(400)
+    ok("sem planilha e sem índice, a importação é recusada", "Carregue a planilha" in pg.inner_text("#docErrosImport"))
+    pg.set_input_files("#arqRelacao", str(ex / "relacao-prontuarios.csv")); pg.wait_for_timeout(700)
+    ok("a planilha é lida e a coluna do prontuário é sugerida", pg.input_value("#mapRel_numero") == "0")
+    pg.set_input_files("#arqDigital", str(ex / "indice-arquivo-digital.csv")); pg.wait_for_timeout(700)
+    ok("o índice digital também sugere a coluna", pg.input_value("#mapDig_numero") == "0")
+    pg.select_option("#docCaixaDestino", "nova")
+    pg.fill("#docIdCaixa", "CX-013"); pg.fill("#docSetor", "DMIT · Arquivo corrente"); pg.fill("#docResponsavel", "Papiloscopista Teste")
+    pg.click("#formDocImport button[type=submit]"); pg.wait_for_timeout(2500)
+    ok("a planilha entra na base", pg.evaluate("async ()=> (await db.get('caixas','CX-013')).qtd") == 850)
+    ok("os prontuários aceitos estão na caixa nova", pg.evaluate("async ()=> (await db.porIndice('prontuarios','caixa_id','CX-013')).length") == 850)
+    ir(pg, url, "#/relatorio-importacao", 600)
+    aceitas = pg.inner_text("#docQtdAceitas"); rec = pg.inner_text("#docQtdRecusadas"); div = pg.inner_text("#docQtdDivergentes")
+    ok("o relatório conta as linhas aceitas, recusadas e divergentes", aceitas == "850" and rec == "3" and div == "5")
+    ok("o relatório lista as linhas aceitas", pg.locator("#tabelaAceitas tr").count() == 851)
+    ok("as recusas trazem o motivo", "repetido" in pg.inner_text("#tabelaRecusadas") and "fora do formato" in pg.inner_text("#tabelaRecusadas"))
+    ok("as divergências apontam o que não está no arquivo digital", "não localizado no arquivo digital" in pg.inner_text("#tabelaDivergentes")
+       and "não veio na planilha" in pg.inner_text("#tabelaDivergentes"))
+    # o prontuário importado aparece na busca
+    ir(pg, url, "#/busca", 400); pg.fill("#docBusca", "2018.000001"); pg.click("#btnDocBuscar"); pg.wait_for_timeout(500)
+    ok("o prontuário importado é localizado pela busca", "CX-013" in pg.inner_text("#resultadoBusca"))
+    # o histórico da caixa registra a importação
+    ir(pg, url, "#/caixa/CX-013", 500)
+    ok("o histórico da caixa registra a planilha importada", "planilha importada" in pg.inner_text("#conteudo"))
+
+# Cenário do Sprint 3 da Gestão de Documentos: minutas padronizadas, emissão de ofício e despacho e checklist de instrução.
+
+
+@cenario("gestao-documentos")
+def s3_minutas_e_checklist(pg, url, ok):
+    perfil(pg, url, "servidor")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(700)
+    ir(pg, url, "#/processo/novo", 400)
+    pg.fill("#gdAssunto", "Pedido de cópia de laudo"); pg.fill("#gdRequerente", "Requerente Teste"); pg.fill("#gdLotacao", "Gabinete de Direção")
+    pg.select_option("#gdResponsavel", "U1")
+    for i in range(3): pg.check(f"#gdAnexo{i}")
+    pg.click("#formGdNovo button[type=submit]"); pg.wait_for_timeout(600)
+    pid = pg.evaluate("async ()=> (await db.list('processos')).sort((a,b)=>b.criado_em.localeCompare(a.criado_em))[0].id_processo")
+    ok("o processo novo está na ficha", "#/processo/" + pid in pg.url)
+    # RN04: minuta sai preenchida com os dados do processo
+    pg.select_option("#gdTipoMinuta", "oficio_encaminhamento")
+    pg.click("#formGdMinuta button[type=submit]"); pg.wait_for_timeout(600)
+    ok("a minuta é emitida e entra na lista", pg.evaluate("async id => (await db.porIndice('minutas','processo_id',id)).length", pid) == 1)
+    ok("a emissão cria o documento correspondente", pg.evaluate("async id => (await db.porIndice('documentos','processo_id',id)).some(d=>d.tipo_documento==='Ofício de encaminhamento')", pid))
+    ok("o histórico registra a minuta emitida", pg.evaluate("async id => (await db.porIndice('log','processo_id',id)).some(l=>l.tipo_evento==='minuta emitida')", pid))
+    pg.click(".gdMinutaAbrir"); pg.wait_for_timeout(500)
+    txt = pg.inner_text("#gdMinutaTexto")
+    ok("a minuta aberta traz o número, o assunto, o requerente e a lotação (RN04)", "Pedido de cópia de laudo" in txt
+       and "Requerente Teste" in txt and "Gabinete de Direção" in txt and "2026." in txt)
+    # despacho
+    pg.select_option("#gdTipoMinuta", "despacho")
+    pg.click("#formGdMinuta button[type=submit]"); pg.wait_for_timeout(600)
+    ok("o despacho também é emitido", pg.evaluate("async id => (await db.porIndice('minutas','processo_id',id)).length", pid) == 2)
+    # checklist por etapa
+    ok("o checklist traz as duas etapas", pg.locator("#gdCheck_Instrução li").count() == 4 and pg.locator("#gdCheck_Decisão li").count() == 3)
+    for _ in range(8):
+        b = pg.locator(".gdCheckItem[data-feito='0']").first
+        if not b.count():
+            break
+        b.click(); pg.wait_for_timeout(400)
+    ok("todos os itens do checklist ficam marcados", pg.locator(".gdCheckItem[data-feito='0']").count() == 0)
+    ok("o histórico registra o checklist", pg.evaluate("async id => (await db.porIndice('log','processo_id',id)).some(l=>l.tipo_evento==='checklist: item marcado')", pid))
+    # RN04: processo sem os dados exigidos não emite minuta
+    pg.evaluate("async id => { const p = await db.get('processos', id); await db.put('processos', {...p, requerente: ''}); }", pid)
+    pg.reload(); pg.wait_for_timeout(700)
+    ok("sem requerente, a minuta fica bloqueada (RN04)", pg.locator("#gdErrosMinuta").count() == 1 and "requerente" in pg.inner_text("#gdErrosMinuta"))
+    pg.click("#formGdMinuta button[type=submit]"); pg.wait_for_timeout(400)
+    ok("a emissão é recusada com o motivo", "RN04" in pg.inner_text("#gdErrosEmissao"))
+
+# Cenário do Sprint 3 do Controle de Aquisições: pesquisa de preços com três cotações, alerta estimado x cotado e histórico por objeto.
+
+
+@cenario("controle-aquisicoes")
+def s3_pesquisa_de_precos(pg, url, ok):
+    perfil(pg, url, "compras")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(700)
+    ir(pg, url, "#/processo/AQ-0001", 500)
+    ok("o exemplo já traz duas pesquisas do mesmo objeto", pg.evaluate("async ()=> (await db.porIndice('pesquisas','processo_id','AQ-0001')).length") == 2)
+    ok("a ficha mostra as duas pesquisas", pg.locator("#caHistoricoPrecos > .card").count() == 2)
+    ok("a pesquisa com o cotado 40% acima entra em alerta", "Alerta:" in pg.inner_text("#caHistoricoPrecos"))
+    # RN04: sem três cotações, a pesquisa é recusada
+    pg.fill("#caPesqEstimado", "10000")
+    pg.fill("#caCotFornecedor1", "Fornecedor A"); pg.fill("#caCotValor1", "10000")
+    pg.click("#formCaPesquisa button[type=submit]"); pg.wait_for_timeout(400)
+    ok("sem três cotações, a pesquisa é recusada (RN04)", "RN04" in pg.inner_text("#caErrosPesquisa")
+       and pg.evaluate("async ()=> (await db.list('pesquisas')).length") == 2)
+    # com três cotações dentro da tolerância, a pesquisa entra sem alerta
+    pg.fill("#caPesqEstimado", "10000")
+    for k, v in ((1, "10000"), (2, "10200"), (3, "9800")):
+        pg.fill(f"#caCotFornecedor{k}", f"Fornecedor {k}"); pg.fill(f"#caCotValor{k}", v); pg.fill(f"#caCotData{k}", "2026-10-20")
+    pg.click("#formCaPesquisa button[type=submit]"); pg.wait_for_timeout(600)
+    ok("com três cotações, a pesquisa é registrada", pg.evaluate("async ()=> (await db.list('pesquisas')).length") == 3)
+    ok("a nova pesquisa não entra em alerta", pg.evaluate("async ()=> { const q = (await db.list('pesquisas')).sort((a,b)=>a.data_hora.localeCompare(b.data_hora)).at(-1); return !caAlertaEstimado(q); }"))
+    # com cotado 40% acima, entra em alerta
+    pg.fill("#caPesqEstimado", "10000")
+    for k, v in ((1, "14000"), (2, "14000"), (3, "14000")):
+        pg.fill(f"#caCotFornecedor{k}", f"Fornecedor {k}"); pg.fill(f"#caCotValor{k}", v)
+    pg.click("#formCaPesquisa button[type=submit]"); pg.wait_for_timeout(600)
+    ok("o cotado 40% acima do estimado entra em alerta", pg.evaluate("async ()=> { const q = (await db.list('pesquisas')).sort((a,b)=>a.data_hora.localeCompare(b.data_hora)).at(-1); return caAlertaEstimado(q); }")
+       and "Alerta:" in pg.inner_text("#caHistoricoPrecos"))
+    # histórico por objeto
+    ir(pg, url, "#/precos", 600)
+    ok("o histórico mostra o objeto com as quatro pesquisas", pg.locator("#tabelaHistoricoPrecos tr").count() == 2)
+    linha = pg.inner_text("#tabelaHistoricoPrecos")
+    ok("o histórico compara a primeira e a última média", "notebooks" in linha.lower() and "%" in linha)
+    ok("o histórico leva ao processo", "AQ-0001" in pg.inner_text("#tabelaHistoricoPrecos"))
+
+# Cenário do Sprint 3 da Distribuição de Casos de DNA: sugestão por histórico de rotação, fila de urgência e alerta de rodada parada.
+
+
+@cenario("distribuicao-casos-dna")
+def s3_sugestao_e_urgencia(pg, url, ok):
+    perfil(pg, url, "coordenador")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(700)
+    ir(pg, url, "#/painel", 700)
+    ok("o painel avisa as rodadas paradas", pg.locator("#ddCardParada").count() == 1 and pg.locator("#tabelaParadas tr").count() > 1)
+    paradas = pg.evaluate("async ()=> { const rs = await db.list('rodadas'); return rs.filter(r=>ddParada(r)).map(r=>r.id_rodada); }")
+    ok("a lista de rodadas paradas bate com o cálculo", pg.locator("#tabelaParadas tr").count() - 1 == len(paradas))
+    ok("a fila de urgência mostra os casos marcados no exemplo", pg.locator("#tabelaUrgencia tr").count() - 1 == 2)
+    ok("a fila ordena por prioridade (crítico antes de alta)", pg.inner_text("#tabelaUrgencia").index("Crítico") < pg.inner_text("#tabelaUrgencia").index("Alta"))
+    # sugestão pelo histórico de rotação
+    ir(pg, url, "#/rodada/RD-003", 600)
+    ok("a tabela de sugestão lista os peritos", pg.locator("#tabelaSugestao tr").count() == 5)
+    ok("o perito sugerido vem do histórico de rotação", pg.locator("#ddSugerido").count() == 1)
+    esperado = pg.evaluate("""async ()=>{ const ps = await db.list('peritos'), rs = await db.list('rodadas'), cs = await db.list('casos');
+        return ddSugerir3(ps, rs, cs, null).id_perito; }""")
+    ok("a sugestão coincide com a função do histórico", pg.evaluate("""async ()=>{ const ps = await db.list('peritos'), rs = await db.list('rodadas'), cs = await db.list('casos');
+        return ddSugerir3(ps, rs, cs, null).id_perito; }""") == esperado)
+    # RN05: marcar um caso como urgente exige justificativa
+    caso = pg.evaluate("async id => (await db.porIndice('casos','rodada_id',id)).find(c=>!c.perito_id && !c.urgente).id_caso", "RD-003")
+    pg.select_option("#ddUrgCaso", caso); pg.select_option("#ddUrgPrioridade", "alta")
+    pg.click("#formDdUrgencia button[type=submit]"); pg.wait_for_timeout(400)
+    ok("sem justificativa, a marcação é recusada (RN05)", "RN05" in pg.inner_text("#ddErrosUrgencia"))
+    pg.fill("#ddUrgJustificativa", "Prazo judicial em 5 dias")
+    pg.click("#formDdUrgencia button[type=submit]"); pg.wait_for_timeout(600)
+    ok("o caso entra na fila de urgência", pg.evaluate("async id => (await db.get('casos', id)).urgente", caso)
+       and pg.evaluate("async id => (await db.porIndice('urgencias','rodada_id',id)).length", "RD-003") == 3)
+    ok("a ficha lista o caso urgente", "Prazo judicial em 5 dias" in pg.inner_text("#ddListaUrgencia"))
+    ok("o histórico registra a marcação", "caso marcado como urgente" in pg.inner_text("#conteudo"))
+    # a fila de urgência do painel soma o novo caso
+    ir(pg, url, "#/painel", 700)
+    ok("o painel passa a mostrar 3 casos urgentes", pg.locator("#tabelaUrgencia tr").count() - 1 == 3)

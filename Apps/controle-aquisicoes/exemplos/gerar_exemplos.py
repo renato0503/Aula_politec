@@ -46,6 +46,20 @@ def main():
                                "aberta_em": (data + dt.timedelta(days=5)).isoformat(), "resolvida_em": None})
         log.append({"id": f"L-{pid}", "processo_id": pid, "acao": "processo registrado", "perfil": "compras", "data_hora": data.isoformat() + "T09:00:00"})
     seed = {"processos": processos, "documentos": documentos, "pendencias": pendencias, "log": log}
+    # Sprint 3: duas pesquisas de preços (uma com o cotado 40% acima do estimado, para o alerta)
+    pesquisas = [
+        {"id_pesquisa": "PE-AQ-0001-1", "processo_id": "AQ-0001", "objeto": OBJETOS[0], "valor_estimado_c": 4800000,
+         "cotacoes": [{"fornecedor": "Fornecedor Fictício A", "valor_c": 4800000, "data": (data + dt.timedelta(days=6)).isoformat()},
+                      {"fornecedor": "Fornecedor Fictício B", "valor_c": 4950000, "data": (data + dt.timedelta(days=7)).isoformat()},
+                      {"fornecedor": "Fornecedor Fictício C", "valor_c": 5100000, "data": (data + dt.timedelta(days=8)).isoformat()}],
+         "data_hora": (data + dt.timedelta(days=9)).isoformat() + "T11:00:00", "perfil": "compras"},
+        {"id_pesquisa": "PE-AQ-0001-2", "processo_id": "AQ-0001", "objeto": OBJETOS[0], "valor_estimado_c": 4800000,
+         "cotacoes": [{"fornecedor": "Fornecedor Fictício A", "valor_c": 6600000, "data": (data + dt.timedelta(days=20)).isoformat()},
+                      {"fornecedor": "Fornecedor Fictício B", "valor_c": 6800000, "data": (data + dt.timedelta(days=21)).isoformat()},
+                      {"fornecedor": "Fornecedor Fictício C", "valor_c": 6700000, "data": (data + dt.timedelta(days=22)).isoformat()}],
+         "data_hora": (data + dt.timedelta(days=23)).isoformat() + "T11:00:00", "perfil": "compras"},
+    ]
+    seed["pesquisas"] = pesquisas
     (AQUI / "seed.json").write_text(json.dumps(seed, ensure_ascii=False, indent=1), encoding="utf-8")
     print({k: len(v) for k, v in seed.items()})
 

@@ -218,7 +218,11 @@
    "status": "processado",
    "data_processamento": "2026-10-02",
    "perito_id": null,
-   "distribuido_em": null
+   "distribuido_em": null,
+   "urgente": true,
+   "prioridade": "critico",
+   "justificativa": "Prazo judicial em 5 dias",
+   "urgencia_em": "2026-10-28T09:00:00"
   },
   {
    "id_caso": "RD-003-02",
@@ -228,7 +232,11 @@
    "status": "processado",
    "data_processamento": "2026-10-02",
    "perito_id": null,
-   "distribuido_em": null
+   "distribuido_em": null,
+   "urgente": true,
+   "prioridade": "alta",
+   "justificativa": "Perícia com réu preso",
+   "urgencia_em": "2026-10-28T09:00:00"
   },
   {
    "id_caso": "RD-003-03",
@@ -613,6 +621,26 @@
    "acao": "rodada criada",
    "perfil": "coordenador",
    "data_hora": "2026-10-22T08:00:00"
+  }
+ ],
+ "urgencias": [
+  {
+   "id_urgencia": "U-RD-003-01",
+   "rodada_id": "RD-003",
+   "caso_id": "RD-003-01",
+   "prioridade": "critico",
+   "justificativa": "Prazo judicial em 5 dias",
+   "data_hora": "2026-10-28T09:00:00",
+   "perfil": "coordenador"
+  },
+  {
+   "id_urgencia": "U-RD-003-02",
+   "rodada_id": "RD-003",
+   "caso_id": "RD-003-02",
+   "prioridade": "alta",
+   "justificativa": "Perícia com réu preso",
+   "data_hora": "2026-10-28T09:00:00",
+   "perfil": "coordenador"
   }
  ]
 }

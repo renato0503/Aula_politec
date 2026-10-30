@@ -186,11 +186,12 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Controle do Processo de Aquisição (`controle-aquisicoes`)
 
 - **Visual**: acento `#b23c17`, emblema `carrinho`, layout `lateral`, padrão `grade`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2.
-- **Próximo**: Sprint 3 · Telas e regras
-  - [ ] Pesquisa de preços com três cotações e memória de cálculo.
-  - [ ] Alerta de inconsistência entre estimado e cotado.
-  - [ ] Histórico de preços por objeto.
+- **Sprints concluídos**: 1, 2, 3.
+- **Próximo**: Sprint 4 · Trilha de aprovação
+  - [ ] Trilha de aprovação por setor, com perfil e data.
+  - [ ] Análise técnica, orçamentária e jurídica.
+  - [ ] Definição da modalidade registrada.
+  - Feito no Sprint 3: pesquisa de preços com três cotações (RN04), alerta de inconsistência entre estimado e cotado (tolerância de 30%) e histórico de preços por objeto em `#/precos`.
 - **Sprint 0 em aberto (depende de pessoas)**:
   - [ ] Receber os modelos oficiais de DFD, ETP, TR e análise de riscos.
   - [ ] Confirmar o fluxo real de tramitação e os prazos de cada etapa.
@@ -211,11 +212,12 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Distribuição de Casos de DNA (`distribuicao-casos-dna`)
 
 - **Visual**: acento `#86198f`, emblema `dna`, layout `topo`, padrão `hexagonos`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2.
-- **Próximo**: Sprint 3 · Telas e regras
-  - [ ] Sugestão automática do próximo perito com histórico de rotação.
-  - [ ] Fila de urgência com justificativa.
-  - [ ] Alerta de rodada parada.
+- **Sprints concluídos**: 1, 2, 3.
+- **Próximo**: Sprint 4 · Painel do coordenador
+  - [ ] Painel do coordenador com tempo entre processamento e distribuição.
+  - [ ] Comparação por rodada, perito e natureza de exame.
+  - [ ] Meta de 1 dia e acompanhamento.
+  - Feito no Sprint 3: sugestão do próximo perito pelo histórico de rotação, fila de urgência com justificativa (RN05) e alerta de rodada parada.
 - **Sprint 0 em aberto (depende de pessoas)**:
   - [ ] Confirmar a rotação e o número de peritos ativos com a coordenação.
   - [ ] Medir a linha de base do intervalo entre processamento e distribuição.
@@ -224,11 +226,12 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### DOCUMENTAPOLITEC (`documentapolitec`)
 
 - **Visual**: acento `#7c5a16`, emblema `pasta`, layout `lateral`, padrão `linhas`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2.
-- **Próximo**: Sprint 3 · Telas e regras
-  - [ ] Importar a planilha de 850 prontuários com associação de colunas.
-  - [ ] Ler o PDF digitalizado e comparar com a relação.
-  - [ ] Relatório de linhas aceitas, recusadas e divergentes.
+- **Sprints concluídos**: 1, 2, 3.
+- **Próximo**: Sprint 4 · Busca autorizada
+  - [ ] Busca por nome do cidadão, com índice autorizado e controle de acesso (RN03).
+  - [ ] Resultado com caixa, setor e situação.
+  - [ ] Trilha de consultas.
+  - Feito no Sprint 3: importação da planilha de 850 prontuários com associação de colunas em `#/importar`, comparação com o índice do arquivo digital e relatório de aceitas, recusadas e divergentes em `#/relatorio-importacao`. Os arquivos de exemplo ficam em `exemplos/gerar_planilhas.py`.
 - **Sprint 0 em aberto (depende de pessoas)**:
   - [ ] Confirmar o formato do número do prontuário e o modelo das caixas.
   - [ ] Receber a planilha de teste com a relação de 850 prontuários.
@@ -256,11 +259,12 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Gestão de Documentos (`gestao-documentos`)
 
 - **Visual**: acento `#2b5a8a`, emblema `carimbo`, layout `lateral`, padrão `linhas`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2.
-- **Próximo**: Sprint 3 · Telas e regras
-  - [ ] Minutas padronizadas com os dados do processo (RN04).
-  - [ ] Emissão de ofício e despacho.
-  - [ ] Checklist de instrução por etapa.
+- **Sprints concluídos**: 1, 2, 3.
+- **Próximo**: Sprint 4 · Cobrança automática
+  - [ ] Cobrança automática registrada no vencimento (RN08).
+  - [ ] Opção de desligar a cobrança por lotação.
+  - [ ] Histórico de cobranças.
+  - Feito no Sprint 3: minutas padronizadas com os dados do processo (RN04), emissão de ofício e despacho e checklist de instrução por etapa.
 - **Sprint 0 em aberto (depende de pessoas)**:
   - [ ] Validar a matriz de papéis e quem pode excluir documentos.
   - [ ] Definir os anexos obrigatórios por tipo de processo (RN01).
@@ -330,11 +334,12 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Passivo Ambiental (`passivo-ambiental`)
 
 - **Visual**: acento `#4d7c0f`, emblema `folha`, layout `topo`, padrão `topografico`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2.
-- **Próximo**: Sprint 3 · Telas e regras
-  - [ ] Editor de mapa com modelos pré-definidos e elementos obrigatórios (RN02).
-  - [ ] Anexo de mapas ao laudo.
-  - [ ] Exportação em PDF com cabeçalho e mapas (RN03).
+- **Sprints concluídos**: 1, 2, 3.
+- **Próximo**: Sprint 4 · Conclusão do laudo
+  - [ ] Conclusão do laudo com assinatura registrada.
+  - [ ] Bloqueio de conclusão sem cabeçalho completo e sem mapa.
+  - [ ] Atualização da situação da requisição.
+  - Feito no Sprint 3: editor de mapa com modelos pré-definidos e elementos obrigatórios (RN02) em `#/mapa/:id`, anexo do mapa ao laudo e versão para impressão em `#/pdf/:id`, bloqueada sem cabeçalho completo e sem mapa (RN03).
 - **Sprint 0 em aberto (depende de pessoas)**:
   - [ ] Receber uma requisição real anonimizada e o modelo de laudo da unidade.
   - [ ] Confirmar o modelo de mapa (norte, escala, área) com o perito.
@@ -343,11 +348,12 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Renovação de Contratos · Hórus (`renovacao-contratos-horus`)
 
 - **Visual**: acento `#3b4f7a`, emblema `contrato`, layout `lateral`, padrão `linhas`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2.
-- **Próximo**: Sprint 3 · Telas e regras
-  - [ ] Checklist de instrução e anexos do processo.
-  - [ ] Documentos em repositório local com controle de acesso.
-  - [ ] Aviso de contrato sem instrução a 60 dias do fim.
+- **Sprints concluídos**: 1, 2, 3.
+- **Próximo**: Sprint 4 · Reajuste e fluxo
+  - [ ] Reajuste, repactuação e reequilíbrio com memória de cálculo.
+  - [ ] Fluxo Solicitado → Em análise → Aprovado → Aplicado.
+  - [ ] Limites legais de acréscimo e supressão.
+  - Feito no Sprint 3: checklist de instrução (R7) na ficha do contrato e em `#/instrucao`, repositório local de documentos com visibilidade restrita à gestão (R8) e aviso de contrato sem instrução a 60 dias do fim no painel.
 - **Sprint 0 em aberto (depende de pessoas)**:
   - [ ] Confirmar as seis faixas do semáforo e o alerta de 90 dias com a gestão.
   - [ ] Definir as permissões de escrita (autor, chefia, gestor).

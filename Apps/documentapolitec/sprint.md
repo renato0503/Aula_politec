@@ -9,6 +9,7 @@
 | 0 | Dados fictícios gerados em 29/10/2026 (`exemplos/gerar_exemplos.py`). Itens que dependem de pessoas continuam abertos. |
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py documentapolitec` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py documentapolitec` passa (cenário em `Apps/_base/cenarios/sprint2.py`). |
+| 3 | Feito em 30/10/2026. `python Apps/_base/testar_sprints.py documentapolitec` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
 
 ## Visão geral
 
@@ -54,9 +55,11 @@
 
 ## Sprint 3 · Telas e regras
 
-- [ ] Importar a planilha de 850 prontuários com associação de colunas.
-- [ ] Ler o PDF digitalizado e comparar com a relação.
-- [ ] Relatório de linhas aceitas, recusadas e divergentes.
+- [x] Importar a planilha de 850 prontuários com associação de colunas.
+- [x] Comparar o índice do arquivo digital com a relação.
+- [x] Relatório de linhas aceitas, recusadas e divergentes.
+
+**Pronto quando**: `python Apps/_base/testar_sprints.py documentapolitec` passa (cenário do Sprint 3).
 
 ---
 

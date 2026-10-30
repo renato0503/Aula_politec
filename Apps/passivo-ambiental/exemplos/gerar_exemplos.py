@@ -46,8 +46,11 @@ def main():
                        "horas_trabalhadas": 16 if concluido else random.choice([0, 4, 8]), "criado_em": data.isoformat() + "T09:00:00"})
         if concluido:
             for k in range(2):
-                mapas.append({"id_mapa": f"{lid}-M{k + 1}", "laudo_id": lid, "modelo": f"Modelo de delimitação do dano {k + 1}",
-                              "criado_em": data.isoformat() + "T11:00:00"})
+                mapas.append({"id_mapa": f"{lid}-M{k + 1}", "laudo_id": lid, "modelo_id": "delimitacao",
+                              "modelo": "Delimitação da área de dano",
+                              "elementos": {"norte": "N", "escala": "1:25.000", "legenda": "azul = área danificada; verde = vegetação preservada",
+                                            "data": data.isoformat(), "fonte": "Imagem de satélite (fictícia)"},
+                              "valor_extra": f"{12 + k * 3},5", "criado_em": data.isoformat() + "T11:00:00"})
     seed = {"requisicoes": requisicoes, "laudos": laudos, "mapas": mapas}
     (AQUI / "seed.json").write_text(json.dumps(seed, ensure_ascii=False, indent=1), encoding="utf-8")
     print({k: len(v) for k, v in seed.items()})

@@ -465,5 +465,57 @@
    "perfil": "compras",
    "data_hora": "2026-10-07T09:00:00"
   }
+ ],
+ "pesquisas": [
+  {
+   "id_pesquisa": "PE-AQ-0001-1",
+   "processo_id": "AQ-0001",
+   "objeto": "Aquisição de 40 notebooks",
+   "valor_estimado_c": 4800000,
+   "cotacoes": [
+    {
+     "fornecedor": "Fornecedor Fictício A",
+     "valor_c": 4800000,
+     "data": "2026-10-13"
+    },
+    {
+     "fornecedor": "Fornecedor Fictício B",
+     "valor_c": 4950000,
+     "data": "2026-10-14"
+    },
+    {
+     "fornecedor": "Fornecedor Fictício C",
+     "valor_c": 5100000,
+     "data": "2026-10-15"
+    }
+   ],
+   "data_hora": "2026-10-16T11:00:00",
+   "perfil": "compras"
+  },
+  {
+   "id_pesquisa": "PE-AQ-0001-2",
+   "processo_id": "AQ-0001",
+   "objeto": "Aquisição de 40 notebooks",
+   "valor_estimado_c": 4800000,
+   "cotacoes": [
+    {
+     "fornecedor": "Fornecedor Fictício A",
+     "valor_c": 6600000,
+     "data": "2026-10-27"
+    },
+    {
+     "fornecedor": "Fornecedor Fictício B",
+     "valor_c": 6800000,
+     "data": "2026-10-28"
+    },
+    {
+     "fornecedor": "Fornecedor Fictício C",
+     "valor_c": 6700000,
+     "data": "2026-10-29"
+    }
+   ],
+   "data_hora": "2026-10-30T11:00:00",
+   "perfil": "compras"
+  }
  ]
 }

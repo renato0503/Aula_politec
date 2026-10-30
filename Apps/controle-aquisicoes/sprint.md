@@ -9,6 +9,7 @@
 | 0 | Dados fictícios gerados em 29/10/2026 (`exemplos/gerar_exemplos.py`). Itens que dependem de pessoas continuam abertos. |
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py controle-aquisicoes` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py controle-aquisicoes` passa (cenário em `Apps/_base/cenarios/sprint2.py`). |
+| 3 | Feito em 30/10/2026. `python Apps/_base/testar_sprints.py controle-aquisicoes` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
 
 ## Visão geral
 
@@ -54,9 +55,11 @@
 
 ## Sprint 3 · Telas e regras
 
-- [ ] Pesquisa de preços com três cotações e memória de cálculo.
-- [ ] Alerta de inconsistência entre estimado e cotado.
-- [ ] Histórico de preços por objeto.
+- [x] Pesquisa de preços com três cotações e memória de cálculo (RN04).
+- [x] Alerta de inconsistência entre estimado e cotado.
+- [x] Histórico de preços por objeto.
+
+**Pronto quando**: `python Apps/_base/testar_sprints.py controle-aquisicoes` passa (cenário do Sprint 3).
 
 ---
 

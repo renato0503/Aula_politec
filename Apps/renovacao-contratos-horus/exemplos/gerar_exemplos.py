@@ -67,6 +67,15 @@ def main():
                              "nova_vigencia": (fim + dt.timedelta(days=365)).isoformat(), "fundamento": "Lei nº 14.133/2021, art. 107",
                              "status": "Publicado", "criado_em": (fim - dt.timedelta(days=120)).isoformat() + "T10:00:00"})
     seed = {"contratos": contratos, "aditivos": aditivos, "auditoria": auditoria}
+    # Sprint 3: itens de instrução já marcados (o resto fica para o gestor marcar)
+    ITENS = ["solicitacao", "justificativa", "regularidade", "trabalhista", "parecer", "minuta", "publicacao"]
+    instrucao = []
+    for n in (0, 1, 2):
+        cid = f"CT-{n + 1:03d}"
+        for k, item in enumerate(ITENS[:4 + n]):   # contratos diferentes com quantidades diferentes de itens
+            instrucao.append({"id_item": f"I-{cid}-{item}", "contrato_id": cid, "item": item, "ordem": ITENS.index(item),
+                              "feito": True, "data_hora": contratos[n]["criado_em"], "responsavel": "admin"})
+    seed["instrucao"] = instrucao
     (AQUI / "seed.json").write_text(json.dumps(seed, ensure_ascii=False, indent=1), encoding="utf-8")
     print({k: len(v) for k, v in seed.items()}, cnpj(1))
 

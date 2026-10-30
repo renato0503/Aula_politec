@@ -369,5 +369,142 @@
    "perfil": "admin",
    "data_hora": "2025-12-30T09:00:00"
   }
+ ],
+ "instrucao": [
+  {
+   "id_item": "I-CT-001-solicitacao",
+   "contrato_id": "CT-001",
+   "item": "solicitacao",
+   "ordem": 0,
+   "feito": true,
+   "data_hora": "2026-05-27T09:00:00",
+   "responsavel": "admin"
+  },
+  {
+   "id_item": "I-CT-001-justificativa",
+   "contrato_id": "CT-001",
+   "item": "justificativa",
+   "ordem": 1,
+   "feito": true,
+   "data_hora": "2026-05-27T09:00:00",
+   "responsavel": "admin"
+  },
+  {
+   "id_item": "I-CT-001-regularidade",
+   "contrato_id": "CT-001",
+   "item": "regularidade",
+   "ordem": 2,
+   "feito": true,
+   "data_hora": "2026-05-27T09:00:00",
+   "responsavel": "admin"
+  },
+  {
+   "id_item": "I-CT-001-trabalhista",
+   "contrato_id": "CT-001",
+   "item": "trabalhista",
+   "ordem": 3,
+   "feito": true,
+   "data_hora": "2026-05-27T09:00:00",
+   "responsavel": "admin"
+  },
+  {
+   "id_item": "I-CT-002-solicitacao",
+   "contrato_id": "CT-002",
+   "item": "solicitacao",
+   "ordem": 0,
+   "feito": true,
+   "data_hora": "2026-03-13T09:00:00",
+   "responsavel": "admin"
+  },
+  {
+   "id_item": "I-CT-002-justificativa",
+   "contrato_id": "CT-002",
+   "item": "justificativa",
+   "ordem": 1,
+   "feito": true,
+   "data_hora": "2026-03-13T09:00:00",
+   "responsavel": "admin"
+  },
+  {
+   "id_item": "I-CT-002-regularidade",
+   "contrato_id": "CT-002",
+   "item": "regularidade",
+   "ordem": 2,
+   "feito": true,
+   "data_hora": "2026-03-13T09:00:00",
+   "responsavel": "admin"
+  },
+  {
+   "id_item": "I-CT-002-trabalhista",
+   "contrato_id": "CT-002",
+   "item": "trabalhista",
+   "ordem": 3,
+   "feito": true,
+   "data_hora": "2026-03-13T09:00:00",
+   "responsavel": "admin"
+  },
+  {
+   "id_item": "I-CT-002-parecer",
+   "contrato_id": "CT-002",
+   "item": "parecer",
+   "ordem": 4,
+   "feito": true,
+   "data_hora": "2026-03-13T09:00:00",
+   "responsavel": "admin"
+  },
+  {
+   "id_item": "I-CT-003-solicitacao",
+   "contrato_id": "CT-003",
+   "item": "solicitacao",
+   "ordem": 0,
+   "feito": true,
+   "data_hora": "2026-02-16T09:00:00",
+   "responsavel": "admin"
+  },
+  {
+   "id_item": "I-CT-003-justificativa",
+   "contrato_id": "CT-003",
+   "item": "justificativa",
+   "ordem": 1,
+   "feito": true,
+   "data_hora": "2026-02-16T09:00:00",
+   "responsavel": "admin"
+  },
+  {
+   "id_item": "I-CT-003-regularidade",
+   "contrato_id": "CT-003",
+   "item": "regularidade",
+   "ordem": 2,
+   "feito": true,
+   "data_hora": "2026-02-16T09:00:00",
+   "responsavel": "admin"
+  },
+  {
+   "id_item": "I-CT-003-trabalhista",
+   "contrato_id": "CT-003",
+   "item": "trabalhista",
+   "ordem": 3,
+   "feito": true,
+   "data_hora": "2026-02-16T09:00:00",
+   "responsavel": "admin"
+  },
+  {
+   "id_item": "I-CT-003-parecer",
+   "contrato_id": "CT-003",
+   "item": "parecer",
+   "ordem": 4,
+   "feito": true,
+   "data_hora": "2026-02-16T09:00:00",
+   "responsavel": "admin"
+  },
+  {
+   "id_item": "I-CT-003-minuta",
+   "contrato_id": "CT-003",
+   "item": "minuta",
+   "ordem": 5,
+   "feito": true,
+   "data_hora": "2026-02-16T09:00:00",
+   "responsavel": "admin"
+  }
  ]
 }

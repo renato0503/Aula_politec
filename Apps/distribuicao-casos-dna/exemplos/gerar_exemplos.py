@@ -48,6 +48,17 @@ def main():
             log.append({"id": f"L-{rid}-d", "rodada_id": rid, "acao": "rodada distribuída (6 ordinários)", "perfil": "coordenador",
                         "data_hora": (data + dt.timedelta(days=1)).isoformat() + "T10:00:00"})
     seed = {"rodadas": rodadas, "casos": casos, "peritos": peritos, "log": log}
+    # Sprint 3: dois casos marcados como urgentes, com justificativa (RN05)
+    urgencias = []
+    pendentes = [c for c in casos if c["status"] == "processado" and not c["perito_id"]]
+    for k, (prio, just) in enumerate([("critico", "Prazo judicial em 5 dias"), ("alta", "Perícia com réu preso")]):
+        if k >= len(pendentes):
+            break
+        c = pendentes[k]
+        c["urgente"] = True; c["prioridade"] = prio; c["justificativa"] = just; c["urgencia_em"] = (hoje - dt.timedelta(days=1)).isoformat() + "T09:00:00"
+        urgencias.append({"id_urgencia": f"U-{c['id_caso']}", "rodada_id": c["rodada_id"], "caso_id": c["id_caso"], "prioridade": prio,
+                          "justificativa": just, "data_hora": c["urgencia_em"], "perfil": "coordenador"})
+    seed["urgencias"] = urgencias
     (AQUI / "seed.json").write_text(json.dumps(seed, ensure_ascii=False, indent=1), encoding="utf-8")
     print({k: len(v) for k, v in seed.items()})
 
