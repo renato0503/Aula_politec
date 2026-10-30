@@ -12,7 +12,7 @@
   },
   "db": {
     "nome": "documentapolitec_v1",
-    "versao": 1,
+    "versao": 2,
     "stores": {
       "caixas": {
         "keyPath": "id_caixa",
@@ -43,6 +43,20 @@
             "unico": false
           }
         ]
+      },
+      "indice_nomes": {
+        "keyPath": "numero",
+        "indices": [
+          {
+            "nome": "nome_hash",
+            "campo": "nome_hash",
+            "unico": false
+          }
+        ]
+      },
+      "consultas": {
+        "keyPath": "id",
+        "indices": []
       }
     }
   },
@@ -103,6 +117,15 @@
       "titulo": "Relatório da importação",
       "sprint": 3,
       "descricao": "Linhas aceitas, recusadas e divergentes."
+    },
+    {
+      "rota": "#/busca-nome",
+      "titulo": "Busca por nome",
+      "sprint": 4,
+      "descricao": "Índice autorizado, com controle de acesso e trilha (RN03).",
+      "perfis": [
+        "gestor"
+      ]
     },
     {
       "rota": "#/config",

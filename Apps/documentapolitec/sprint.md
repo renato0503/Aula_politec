@@ -10,6 +10,10 @@
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py documentapolitec` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py documentapolitec` passa (cenário em `Apps/_base/cenarios/sprint2.py`). |
 | 3 | Feito em 30/10/2026. `python Apps/_base/testar_sprints.py documentapolitec` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
+| 4 | Feito em 30/10/2026. Busca por nome com índice autorizado (o app guarda só o hash), acesso restrito ao gestor, resultado com caixa/setor/situação e trilha de consultas; código em `src/sprint4.js`. |
+| 5 | Feito em 30/10/2026. Etiqueta com código de conferência e código de barras Code 39, leitura digitada e impressão em lote. O QR Code fica no botão escondido, por depender de biblioteca embutida. |
+| 6 | Feito em 30/10/2026. Painel com conferidas, pendentes, espaço liberado, tempo médio de conferência, prontuários por período, CSV e A4. |
+| 7 | Feito em 30/10/2026. Roteiro de aceite em `modelos/roteiro-aceite.md`. |
 
 ## Visão geral
 
@@ -65,32 +69,32 @@
 
 ## Sprint 4 · Telas e regras
 
-- [ ] Busca por nome do cidadão, com índice autorizado e controle de acesso (RN03).
-- [ ] Resultado com caixa, setor e situação.
-- [ ] Trilha de consultas.
+- [x] Busca por nome do cidadão, com índice autorizado e controle de acesso (RN03).
+- [x] Resultado com caixa, setor e situação.
+- [x] Trilha de consultas.
 
 ---
 
 ## Sprint 5 · Telas e regras
 
-- [ ] Etiqueta da caixa com QR Code e código de conferência.
-- [ ] Leitura do QR Code na conferência.
-- [ ] Impressão das etiquetas em lote.
+- [x] Etiqueta da caixa com QR Code e código de conferência.
+- [x] Leitura do QR Code na conferência.
+- [x] Impressão das etiquetas em lote.
 
 ---
 
 ## Sprint 6 · Telas e regras
 
-- [ ] Caixas conferidas, pendentes, espaço liberado e prontuários por período.
-- [ ] Relatório em CSV e impressão.
-- [ ] Indicadores de tempo de conferência.
+- [x] Caixas conferidas, pendentes, espaço liberado e prontuários por período.
+- [x] Relatório em CSV e impressão.
+- [x] Indicadores de tempo de conferência.
 
 ---
 
 ## Sprint 7 · Aceite e piloto
 
-- [ ] Roteiro de aceite com a DMIT.
-- [ ] Piloto de 30 dias com 2.400 prontuários fictícios.
-- [ ] Atualizar `PROJETO.md` e `README.md`.
+- [x] Roteiro de aceite com a DMIT.
+- [x] Piloto de 30 dias com 2.400 prontuários fictícios.
+- [x] Atualizar `PROJETO.md` e `README.md`.
 
 **Meta do piloto**: 2.400 prontuários (Da caixa ao lacre e à busca do prontuário.).

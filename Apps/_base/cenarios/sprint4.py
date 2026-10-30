@@ -627,3 +627,120 @@ def s6_painel_e_relatorio(pg, url, ok):
     csv = pathlib.Path(dl.value.path()).read_bytes()
     ok("o CSV sai com BOM e as colunas de sinal e cobranças", csv.startswith(b"\xef\xbb\xbf") and b"sinal" in csv and b"cobrancas" in csv)
     ok("o roteiro de aceite está em modelos/", (APPS / "gestao-documentos" / "modelos" / "roteiro-aceite.md").exists())
+
+# Cenários dos Sprints 4 a 7 do DOCUMENTAPOLITEC: nome, etiqueta, leitura e painel.
+
+
+@cenario("documentapolitec")
+def s4_busca_por_nome(pg, url, ok):
+    perfil(pg, url, "gestor")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    indice = TMP / "indice-nomes.csv"
+    indice.write_text("numero;nome;caixa\n2019.000001;Maria Fictícia Souza;CX-001\n2019.000002;João Fictício Lima;CX-001\n", encoding="utf-8-sig")
+    ir(pg, url, "#/busca-nome", 600)
+    ok("a busca por nome pede o índice autorizado", pg.locator("#arqIndice").count() == 1)
+    pg.set_input_files("#arqIndice", str(indice)); pg.wait_for_timeout(900)
+    ok("o índice é carregado sem guardar o nome em claro",
+       pg.evaluate("async ()=> { const i = await db.list('indice_nomes'); return i.length === 2 && i.every(x=>!('nome' in x) && x.nome_hash); }"))
+    pg.fill("#docNome", "maria ficticia souza")
+    pg.click("#formBuscaNome button[type=submit]"); pg.wait_for_timeout(800)
+    ok("a busca acha o prontuário e mostra caixa, setor e situação", "2019.000001" in pg.inner_text("#docResNome")
+       and "CX-001" in pg.inner_text("#docResNome") and "DMIT" in pg.inner_text("#docResNome"))
+    ok("a consulta entra na trilha (RN03)", pg.evaluate("async ()=> (await db.list('consultas')).length") == 1
+       and pg.locator("#tabelaConsultas tr").count() == 2)
+    # acesso restrito
+    perfil(pg, url, "papiloscopista")
+    ir(pg, url, "#/busca-nome", 600)
+    ok("o perfil papiloscopista não acessa a busca por nome (RN03)", "não usa esta tela" in pg.inner_text("#conteudo")
+       or "Acesso restrito" in pg.inner_text("#conteudo"))
+
+
+@cenario("documentapolitec")
+def s5_etiqueta_e_leitura(pg, url, ok):
+    perfil(pg, url, "papiloscopista")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/caixa/CX-001", 700)
+    ok("a etiqueta mostra o código de conferência e o código de barras",
+       pg.locator("#docCodConf").count() == 1 and pg.locator("#docEtiqueta svg[role=img]").count() == 1)
+    cod = pg.inner_text("#docCodConf")
+    ok("o código de conferência tem o formato da caixa", "-" in cod and len(cod) >= 8)
+    pg.fill("#docLeituraCod", "XX0-0000")
+    pg.click("#btnDocLeitura"); pg.wait_for_timeout(600)
+    ok("código errado é recusado", "não confere" in pg.inner_text("#docErrosLeitura"))
+    pg.fill("#docLeituraCod", cod)
+    pg.click("#btnDocLeitura"); pg.wait_for_timeout(600)
+    ok("código certo é aceito e fica no histórico", pg.evaluate("async ()=> (await db.list('log')).some(l=>l.acao==='código de conferência lido')"))
+
+
+@cenario("documentapolitec")
+def s6_painel_e_relatorio(pg, url, ok):
+    perfil(pg, url, "gestor")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/painel", 800)
+    calc = pg.evaluate("""async ()=>{ const cs = await db.list('caixas'), ps = await db.list('prontuarios');
+        return {conferidas: cs.filter(c=>c.status==='conferida').length, pendentes: cs.filter(c=>c.status!=='conferida').length,
+                conferidos: ps.filter(p=>p.conferido).length}; }""")
+    ok("o painel conta conferidas e pendentes", pg.inner_text("[data-doc-ind=conferidas]") == str(calc["conferidas"])
+       and pg.inner_text("[data-doc-ind=pendentes]") == str(calc["pendentes"]))
+    ok("o espaço liberado é calculado pelos prontuários conferidos", f"{round(calc['conferidos']*0.03, 2)}" in pg.inner_text("[data-doc-ind=espaco]"))
+    ok("o painel mostra os prontuários por período", pg.locator("#tabelaPeriodo tr").count() > 1)
+    with pg.expect_download() as dl:
+        pg.click("#btnDocCsv")
+    csv = pathlib.Path(dl.value.path()).read_bytes()
+    ok("o CSV sai com BOM e as colunas da caixa", csv.startswith(b"\xef\xbb\xbf") and b"caixa;setor;data" in csv)
+    ok("o roteiro de aceite está em modelos/", (APPS / "documentapolitec" / "modelos" / "roteiro-aceite.md").exists())
+
+# Cenários dos Sprints 4 a 7 do Passivo Ambiental: assinatura, fila e produtividade.
+
+
+@cenario("passivo-ambiental")
+def s4_conclusao_com_assinatura(pg, url, ok):
+    perfil(pg, url, "perito")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    rid = pg.evaluate("""async ()=>{ const rs = await db.list('requisicoes'); const r = rs.find(x=>x.status!=='concluida');
+        const l = (await db.porIndice('laudos','requisicao_id',r.id_requisicao))[0];
+        await db.put('mapas', {id_mapa: 'M-TESTE', laudo_id: l.id_laudo, modelo_id: 'delimitacao', modelo: 'Delimitação da área de dano',
+          elementos: {norte: 'N', escala: '1:25.000', legenda: 'dano', data: '2026-10-20', fonte: 'satélite'}, valor_extra: '10,0', criado_em: agora()});
+        return r.id_requisicao; }""")
+    ir(pg, url, "#/laudo/" + rid, 700)
+    ok("o bloco de assinatura aparece na ficha do laudo", pg.locator("#paAssinatura").count() == 1)
+    pg.fill("#paAssNome", "")
+    pg.click("#btnPaConcluir"); pg.wait_for_timeout(600)
+    ok("sem o nome do perito, a conclusão é recusada", "nome do perito" in pg.inner_text("#paErrosLaudo"))
+    pg.fill("#paAssNome", "Perito Fictício Assinante"); pg.fill("#paAssCargo", "Perito criminal · mat. 123")
+    pg.click("#btnPaConcluir"); pg.wait_for_timeout(900)
+    ok("com assinatura e mapa, o laudo conclui", pg.evaluate("async id => { const l = (await db.porIndice('laudos','requisicao_id',id))[0]; return l.status==='concluido'; }", rid))
+    ok("a assinatura fica registrada", pg.evaluate("async id => { const a = (await db.porIndice('assinaturas','requisicao_id',id))[0]; return a && a.nome==='Perito Fictício Assinante' && a.cargo; }", rid))
+    ok("a requisição passa para concluída", pg.evaluate("async id => (await db.get('requisicoes', id)).status === 'concluida'", rid))
+
+
+@cenario("passivo-ambiental")
+def s5_fila_e_prioridade(pg, url, ok):
+    perfil(pg, url, "gestor")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/painel", 900)
+    calc = pg.evaluate("""async ()=>{ const rs = await db.list('requisicoes'); const f = paFila(rs);
+        return {fila: f.length, atrasados: f.filter(x=>x.atraso).length}; }""")
+    ok("o painel conta a fila e os atrasados", pg.inner_text("[data-pa-ind=fila]") == str(calc["fila"])
+       and pg.inner_text("[data-pa-ind=atrasados]") == str(calc["atrasados"]))
+    ok("a fila priorizada lista as requisições", pg.locator("#tabelaFila tr").count() == calc["fila"] + 1)
+    ordem = pg.evaluate("""async ()=>{ const f = paFila(await db.list('requisicoes'));
+        return f.slice(0, 3).map(x=>({atraso: x.atraso, c: x.complexidade})); }""")
+    ok("a fila começa pelo atrasado de maior complexidade", ordem[0]["atraso"] == any(o["atraso"] for o in ordem))
+    ok("o alerta de prazo aparece na fila", "fora do prazo" in pg.inner_text("#tabelaFila") or "vence em até 3 dias" in pg.inner_text("#tabelaFila"))
+
+
+@cenario("passivo-ambiental")
+def s6_produtividade_e_aceite(pg, url, ok):
+    perfil(pg, url, "gestor")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/painel", 900)
+    ok("o painel mostra tempo médio do laudo e horas médias com a meta de 12 h",
+       pg.locator("[data-pa-ind=dias]").count() == 1 and pg.locator("[data-pa-ind=horas]").count() == 1
+       and "meta 12 h" in pg.inner_text("#paGestor"))
+    ok("as horas por tipo de infração aparecem em gráfico", pg.locator("#paGestor svg[role=img]").count() == 1)
+    with pg.expect_download() as dl:
+        pg.click("#btnPaCsv")
+    csv = pathlib.Path(dl.value.path()).read_bytes()
+    ok("o CSV de produtividade sai com BOM e as colunas do laudo", csv.startswith(b"\xef\xbb\xbf") and b"requisicao;numero;orgao" in csv)
+    ok("o roteiro de aceite está em modelos/", (APPS / "passivo-ambiental" / "modelos" / "roteiro-aceite.md").exists())

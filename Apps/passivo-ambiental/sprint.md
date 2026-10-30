@@ -10,6 +10,10 @@
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py passivo-ambiental` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py passivo-ambiental` passa (cenário em `Apps/_base/cenarios/sprint2.py`). |
 | 3 | Feito em 30/10/2026. `python Apps/_base/testar_sprints.py passivo-ambiental` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
+| 4 | Feito em 30/10/2026. Conclusão com assinatura do perito (nome e cargo/matrícula), bloqueio sem cabeçalho, mapa ou assinatura, e requisição atualizada para concluída; código em `src/sprint4.js`. |
+| 5 | Feito em 30/10/2026. Fila priorizada por atraso e complexidade e alerta de prazo no painel. |
+| 6 | Feito em 30/10/2026. Tempo por laudo, horas por tipo de infração em gráfico, comparação com a meta de 12 h, CSV e A4. |
+| 7 | Feito em 30/10/2026. Roteiro de aceite em `modelos/roteiro-aceite.md`. |
 
 ## Visão geral
 
@@ -65,32 +69,32 @@
 
 ## Sprint 4 · Telas e regras
 
-- [ ] Conclusão do laudo com assinatura registrada.
-- [ ] Bloqueio de conclusão sem cabeçalho completo e sem mapa.
-- [ ] Atualização da situação da requisição.
+- [x] Conclusão do laudo com assinatura registrada.
+- [x] Bloqueio de conclusão sem cabeçalho completo e sem mapa.
+- [x] Atualização da situação da requisição.
 
 ---
 
 ## Sprint 5 · Telas e regras
 
-- [ ] Fila do passivo por prazo e complexidade.
-- [ ] Priorização das 300 requisições atrasadas.
-- [ ] Alerta de prazo no painel.
+- [x] Fila do passivo por prazo e complexidade.
+- [x] Priorização das 300 requisições atrasadas.
+- [x] Alerta de prazo no painel.
 
 ---
 
 ## Sprint 6 · Telas e regras
 
-- [ ] Tempo por laudo e horas por tipo de infração.
-- [ ] Relatório de produtividade em CSV.
-- [ ] Comparação com a meta de 12 h.
+- [x] Tempo por laudo e horas por tipo de infração.
+- [x] Relatório de produtividade em CSV.
+- [x] Comparação com a meta de 12 h.
 
 ---
 
 ## Sprint 7 · Aceite e piloto
 
-- [ ] Roteiro de aceite com o perito.
-- [ ] Piloto com 5 laudos reais autorizados.
-- [ ] Atualizar `PROJETO.md` e `README.md`.
+- [x] Roteiro de aceite com o perito.
+- [x] Piloto com 5 laudos reais autorizados.
+- [x] Atualizar `PROJETO.md` e `README.md`.
 
 **Meta do piloto**: 5 laudos (Da requisição ao laudo em PDF, com mapas.).
