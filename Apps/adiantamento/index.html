@@ -245,6 +245,20 @@ ul,ol{padding-left:22px}
 .documento-a4 .doc-cab{text-align:center;border-bottom:2px solid #0a2f5c;padding-bottom:10px;margin-bottom:22px;font:600 12px/1.5 var(--ui);letter-spacing:.06em;text-transform:uppercase;color:#0a2f5c}
 @media print{ .documento-a4{box-shadow:none;border:0;padding:0;max-width:none} }
 
+/* ---------- ajuda técnica escondida (3 cliques no nome do app) ---------- */
+#appIdRodape{cursor:pointer;user-select:none}
+#ajudaTecnica[hidden]{display:none}
+.ajuda-fundo{position:fixed;inset:0;background:rgba(6,31,61,.55);z-index:40}
+.ajuda-caixa{position:fixed;z-index:41;left:50%;top:50%;transform:translate(-50%,-50%);width:min(760px,92vw);max-height:86vh;overflow:auto;
+  background:var(--painel);color:var(--ink);border:1px solid var(--linha);border-radius:var(--raio);padding:20px 22px;box-shadow:var(--sombra-alta)}
+.ajuda-caixa h2{margin:0}
+.ajuda-topo{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:8px}
+.ajuda-caixa details{border-top:1px solid var(--linha);padding:10px 0}
+.ajuda-caixa details:first-of-type{border-top:0}
+.ajuda-caixa summary{cursor:pointer;font-weight:600}
+.ajuda-caixa ol{margin:8px 0 0 18px;padding:0}
+.ajuda-caixa li{margin:4px 0}
+
 /* ===== VISUAL DESTE APP (bloco "visual" do app.json) ===== */
 :root{--app-acento:#0b6e4f;--app-acento-claro:#418e76;--app-acento-forte:#084f39;--app-acento-escuro:#8ab9ab;--padrao:url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="22" height="22"%3E%3Cpath d="M-2 24 24-2M9 24l15-15M-2 13 13-2" stroke="%23fff" stroke-opacity=".07" stroke-width="1.2"/%3E%3C/svg%3E')}
 /* ===== CSS DO APP ===== */
@@ -288,9 +302,10 @@ ul,ol{padding-left:22px}
 <footer class="rodape"><div class="in">
   <span><b>POLITEC/MT</b> · SESP/MT · Governo de Mato Grosso</span>
   <span>Dados guardados só neste navegador · funciona sem internet</span>
-  <span class="dir mono">adiantamento</span>
+  <span class="dir mono" id="appIdRodape" title="Versão">adiantamento</span>
 </div></footer>
 <div id="toast" role="status" aria-live="polite"></div>
+<div id="ajudaTecnica" hidden></div>
 
 <!-- Bibliotecas e dados embutidos (preenchidos por Apps/_base/embutir.py) -->
 <!-- DADOS:seed:exemplos/seed.json -->
@@ -751,6 +766,40 @@ async function telaTestes(){
     <td>${r.ok ? '<span class="selo ok">ok</span>' : '<span class="selo erro">falhou</span> <span class="mono">' + esc(r.msg) + "</span>"}</td></tr>`).join("")}</table></div>`;
 }
 
+/* ---------- ajuda técnica escondida ----------
+   Três cliques no nome do app, no rodapé, abrem o passo a passo do que depende
+   de fora (Apps Script, e-mail, banco, publicação). O texto vem do array
+   AJUDA_TECNICA definido por cada app; sem ele, nada acontece. ---------- */
+function abrirAjudaTecnica(){
+  const alvo = $("#ajudaTecnica");
+  const itens = (typeof AJUDA_TECNICA !== "undefined" && AJUDA_TECNICA) || [];
+  alvo.innerHTML = `<div class="ajuda-fundo" id="ajudaFundo"></div>
+    <div class="ajuda-caixa" role="dialog" aria-modal="true" aria-labelledby="ajudaTitulo">
+      <div class="ajuda-topo"><h2 id="ajudaTitulo">Passo a passo do que depende de fora</h2>
+        <button type="button" id="btnFecharAjuda" aria-label="Fechar">Fechar</button></div>
+      ${itens.length ? itens.map((b, i)=>`<details ${i === 0 ? "open" : ""}><summary><b>${esc(b.titulo)}</b></summary>
+        <p class="sub">${esc(b.resumo || "")}</p>
+        <ol>${(b.passos || []).map(x=>`<li>${x}</li>`).join("")}</ol>
+        ${b.arquivos ? `<p class="sub">Arquivos: ${b.arquivos.map(x=>`<code>${esc(x)}</code>`).join(" · ")}</p>` : ""}</details>`).join("")
+        : '<p class="sub">Este app não tem nenhuma etapa que dependa de serviço externo.</p>'}
+      <p class="sub">Este painel não aparece no menu. Para abrir: três cliques no nome do app, no rodapé.</p>
+    </div>`;
+  alvo.hidden = false;
+  $("#btnFecharAjuda").addEventListener("click", ()=>{ alvo.hidden = true; alvo.innerHTML = ""; });
+  $("#ajudaFundo").addEventListener("click", ()=>{ alvo.hidden = true; alvo.innerHTML = ""; });
+  alvo.querySelector("button")?.focus();
+}
+function ligarAjudaTecnica(){
+  const el = $("#appIdRodape"); if (!el) return;
+  let n = 0, t = null;
+  el.addEventListener("click", ()=>{
+    n++; clearTimeout(t);
+    t = setTimeout(()=>{ n = 0; }, 1600);
+    if (n >= 3){ n = 0; abrirAjudaTecnica(); }
+  });
+  el.addEventListener("keydown", e=>{ if (e.key === "Enter" || e.key === " "){ e.preventDefault(); abrirAjudaTecnica(); } });
+}
+
 /* ---------- partida ---------- */
 const TELAS = {"#/testes": telaTestes}, TELAS_DEPOIS = {};
 async function iniciar(){
@@ -760,6 +809,7 @@ async function iniciar(){
   if (APP.perfis) estado.perfil = (await db.meta("perfil")) || null;
   if (typeof iniciarApp === "function") await iniciarApp();
   montarMenu();
+  ligarAjudaTecnica();
   window.addEventListener("hashchange", navegar);
   await navegar();
 }

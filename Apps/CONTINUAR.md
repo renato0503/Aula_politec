@@ -1,6 +1,10 @@
 # Continuar o desenvolvimento dos apps (passagem para outro agente)
 
-Atualizado em **30/10/2026**. Este arquivo registra o que já foi feito nos 20 apps
+Atualizado em **30/10/2026**. O que depende de servico externo (Apps Script,
+`LockService`, `MailApp`, gatilho diario, banco, e-mail) fica marcado como **a
+implementar** no `sprint.md`, e o passo a passo esta dentro do proprio app: **tres
+cliques no nome do app, no rodape** abrem o painel `AJUDA_TECNICA`.
+ Este arquivo registra o que já foi feito nos 20 apps
 de `Apps/` e o que falta em cada um, para que outro agente de IA continue de onde
 paramos. Leia também `AGENTS.md` (seção 3.8), `Apps/README.md` e
 `Apps/IDENTIDADE-VISUAL.md`.

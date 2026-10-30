@@ -245,7 +245,12 @@ Regras:
   80% a 150% pelos botoes A-/A+. Nao ha faixa de aviso de prototipo. Detalhes em
   `Apps/IDENTIDADE-VISUAL.md`;
 - **passagem para outro agente**: `Apps/CONTINUAR.md` traz o que foi feito e o
-  proximo passo de cada app.
+  proximo passo de cada app;
+- **o que depende de fora fica como "a implementar"**: quando uma etapa precisa de
+  servico externo (Apps Script, `LockService`, `MailApp`, gatilho, banco, e-mail),
+  o app faz a parte local (fila, releitura, botao) e o passo a passo de como
+  ligar fica no array `AJUDA_TECNICA` do app. O painel abre com **tres cliques no
+  nome do app, no rodape** (e nao aparece no menu).
 
 Ferramentas (em `Apps/_base/`):
 

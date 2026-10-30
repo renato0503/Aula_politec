@@ -13,7 +13,7 @@
   "csp": false,
   "db": {
     "nome": "agendamento_cin_v1",
-    "versao": 1,
+    "versao": 2,
     "stores": {
       "postos": {
         "keyPath": "posto_id",
@@ -49,6 +49,10 @@
       },
       "fila": {
         "keyPath": "id",
+        "indices": []
+      },
+      "contagens": {
+        "keyPath": "chave",
         "indices": []
       }
     }

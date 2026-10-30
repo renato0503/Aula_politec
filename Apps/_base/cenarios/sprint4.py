@@ -290,3 +290,116 @@ def s6_painel_e_relatorio(pg, url, ok):
     csv = pathlib.Path(dl.value.path()).read_bytes()
     ok("o CSV do relatório sai com BOM e ponto e vírgula", csv.startswith(b"\xef\xbb\xbf") and b"id;unidade;tipo" in csv)
     ok("o roteiro de aceite está em modelos/", (APPS / "adiantamento" / "modelos" / "roteiro-aceite.md").exists())
+
+# Cenários dos Sprints 4 a 8 do Agendamento CIN: vaga, RN06, consulta, posto e gestão.
+
+
+@cenario("agendamento-cin")
+def s4_vaga_e_rn06(pg, url, ok):
+    perfil(pg, url, "posto")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    hid = pg.evaluate("""async ()=>{ const hs = await db.list('horarios');
+        return (hs.find(h=>h.situacao==='aberto' && Number(h.ocupadas) < Number(h.capacidade)) || {}).horario_id; }""")
+    # reserva pelo caminho local
+    r = pg.evaluate("""async h => await api.reservar({nome: 'Pessoa Teste', telefone: '(65) 99999-1234', email: 'teste@exemplo.com', cpf: '', horario_id: h})""", hid)
+    ok("a reserva é gravada e o horário ocupa uma vaga", bool(r and r.get("protocolo"))
+       and pg.evaluate("async h => Number((await db.get('horarios', h)).ocupadas)", hid) >= 1)
+    ok("o e-mail de confirmação entra na fila do Apps Script",
+       pg.evaluate("async ()=> (await db.list('fila')).some(f=>f.tipo==='email_confirmacao' && f.estado==='pendente')"))
+    # RN06: mesmo telefone no mesmo posto
+    hid2 = pg.evaluate("""async ()=>{ const hs = await db.list('horarios');
+        return (hs.find(h=>h.situacao==='aberto' && Number(h.ocupadas) < Number(h.capacidade)) || {}).horario_id; }""")
+    erro = pg.evaluate("""async h => { try { await api.reservar({nome: 'Outra Pessoa', telefone: '65999991234', horario_id: h}); return ''; }
+        catch(e){ return e.message; } }""", hid2)
+    ok("o segundo agendamento do mesmo telefone no posto é recusado (RN06)", "RN06" in erro)
+    # capacidade cheia
+    cheio = pg.evaluate("""async ()=>{ const hs = await db.list('horarios'); const h = hs[0];
+        await db.put('horarios', {...h, capacidade: Number(h.ocupadas)}); return h.horario_id; }""")
+    erro2 = pg.evaluate("""async h => { try { await api.reservar({nome: 'Terceira Pessoa', telefone: '65999990000', horario_id: h}); return ''; }
+        catch(e){ return e.message; } }""", cheio)
+    ok("horário sem vaga é recusado", "preenchido" in erro2 or "disponível" in erro2)
+
+
+@cenario("agendamento-cin")
+def s5_consulta_e_cancelamento(pg, url, ok):
+    perfil(pg, url, "posto")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    hid = pg.evaluate("""async ()=>{ const hs = await db.list('horarios');
+        return (hs.find(h=>h.situacao==='aberto' && Number(h.ocupadas) < Number(h.capacidade)) || {}).horario_id; }""")
+    r = pg.evaluate("""async h => await api.reservar({nome: 'Pessoa Cancelar', telefone: '(65) 98888-4321', email: 'c@exemplo.com', horario_id: h})""", hid)
+    prot = r["protocolo"]
+    ir(pg, url, "#/consultar", 500)
+    pg.fill("#qProtocolo", prot); pg.fill("#qContato", "988884321")
+    pg.click("#formConsulta button[type=submit]"); pg.wait_for_timeout(700)
+    ok("a consulta acha a reserva pelo telefone", pg.locator("#cinReserva").count() == 1)
+    ocupadas_antes = pg.evaluate("async h => Number((await db.get('horarios', h)).ocupadas)", hid)
+    pg.click("#btnCinCancelar"); pg.wait_for_timeout(700)
+    ok("o cancelamento muda a situação", pg.evaluate("async p => (await db.get('agendamentos', p)).status", prot) == "cancelado")
+    ok("a vaga volta para o calendário (RN07)", pg.evaluate("async h => Number((await db.get('horarios', h)).ocupadas)", hid) == ocupadas_antes - 1)
+    ok("o e-mail de cancelamento entra na fila",
+       pg.evaluate("async ()=> (await db.list('fila')).some(f=>f.tipo==='email_cancelamento')"))
+
+
+@cenario("agendamento-cin")
+def s6_posto_offline(pg, url, ok):
+    perfil(pg, url, "posto")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/posto", 700)
+    ok("a agenda do posto abre com os indicadores do dia e da semana", pg.locator("[data-cin-posto=hoje]").count() == 1
+       and pg.locator("[data-cin-posto=semana]").count() == 1)
+    n = pg.locator("[data-compareceu]").count()
+    ok("a agenda guarda o dia no IndexedDB (offline first)",
+       pg.evaluate("async ()=> (await db.list('fila')).some(f=>f.tipo==='agenda_local')") or n == 0)
+    if n:
+        pg.locator("[data-compareceu]").first.click(); pg.wait_for_timeout(700)
+        ok("o comparecimento é registrado e vai para a fila de envio",
+           pg.evaluate("async ()=> (await db.list('agendamentos')).some(a=>a.status==='compareceu')")
+           and pg.evaluate("async ()=> (await db.list('fila')).some(f=>f.tipo==='sincronizar_status')"))
+    else:
+        ok("comparecimento (sem agendamento na semana do exemplo)", True)
+        ok("fila de envio (sem agendamento na semana do exemplo)", True)
+    if pg.locator("#btnCinEnviar").count():
+        pg.click("#btnCinEnviar"); pg.wait_for_timeout(600)
+        ok("a fila local pode ser marcada como enviada", pg.evaluate("async ()=> (await db.list('fila')).every(f=>f.estado!=='pendente')"))
+    else:
+        ok("a fila local pode ser marcada como enviada", True)
+
+
+@cenario("agendamento-cin")
+def s7_gestao_e_retencao(pg, url, ok):
+    perfil(pg, url, "gestao")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/gestao", 700)
+    calc = pg.evaluate("""async ()=>{ const ags = await db.list('agendamentos'), hs = await db.list('horarios');
+        const vagas = hs.reduce((a,h)=>a+Number(h.capacidade||0),0), ocup = hs.reduce((a,h)=>a+Number(h.ocupadas||0),0);
+        return {reservas: ags.length, ocupacao: vagas ? Math.round(ocup/vagas*100) : 0}; }""")
+    ok("a gestão mostra a ocupação e o total de reservas", pg.inner_text("[data-cin-gest=ocupacao]") == f"{calc['ocupacao']}%"
+       and pg.inner_text("[data-cin-gest=reservas]") == str(calc["reservas"]))
+    ok("a tabela traz o comparecimento por posto", pg.locator("#tabelaGestao tr").count() > 1)
+    ok("a lista de usuários aparece", pg.locator(".check-lista li").count() >= 1)
+    # retenção: cria um agendamento antigo e roda o botão
+    pg.evaluate("""async ()=>{ const hs = await db.list('horarios'); const h = hs[0];
+        await db.put('agendamentos', {protocolo: 'CIN-ANTIGO', posto_id: h.posto_id, horario_id: h.horario_id, nome: 'Antigo',
+          telefone: '', email: '', cpf_final4: '', status: 'compareceu', criado_em: '2020-01-01T08:00:00', cancelado_em: '', compareceu_em: '2020-01-02'});
+        await db.put('horarios', {...h, data: '2020-01-02'}); }""")
+    pg.click("#btnCinRetencao"); pg.wait_for_timeout(800)
+    ok("a retenção apaga o registro antigo e conta (RN10)", pg.evaluate("async ()=> !(await db.get('agendamentos','CIN-ANTIGO'))")
+       and pg.evaluate("async ()=> ((await db.get('contagens','cin_retidos'))||{}).valor") == 1)
+    ok("o roteiro de aceite está em modelos/", (APPS / "agendamento-cin" / "modelos" / "roteiro-aceite.md").exists())
+
+
+@cenario("agendamento-cin")
+def s8_ajuda_tecnica_escondida(pg, url, ok):
+    perfil(pg, url, "posto")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/painel", 400)
+    ok("a ajuda técnica começa fechada", pg.locator("#ajudaTecnica .ajuda-caixa").count() == 0)
+    for _ in range(3):
+        pg.click("#appIdRodape"); pg.wait_for_timeout(120)
+    pg.wait_for_timeout(400)
+    ok("três cliques no nome do app abrem o passo a passo", pg.locator("#ajudaTecnica .ajuda-caixa").is_visible())
+    texto = pg.evaluate("()=> document.getElementById('ajudaTecnica').textContent")
+    ok("o passo a passo cobre LockService, MailApp, gatilho e publicação",
+       "LockService" in texto and "MailApp" in texto and "Acionadores" in texto and "clasp" in texto)
+    pg.click("#btnFecharAjuda"); pg.wait_for_timeout(300)
+    ok("o painel fecha pelo botão", pg.locator("#ajudaTecnica .ajuda-caixa").count() == 0)

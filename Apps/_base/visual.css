@@ -234,3 +234,17 @@ ul,ol{padding-left:22px}
 .documento-a4 h2,.documento-a4 h3{color:#111;font-family:inherit;border:0!important}
 .documento-a4 .doc-cab{text-align:center;border-bottom:2px solid #0a2f5c;padding-bottom:10px;margin-bottom:22px;font:600 12px/1.5 var(--ui);letter-spacing:.06em;text-transform:uppercase;color:#0a2f5c}
 @media print{ .documento-a4{box-shadow:none;border:0;padding:0;max-width:none} }
+
+/* ---------- ajuda técnica escondida (3 cliques no nome do app) ---------- */
+#appIdRodape{cursor:pointer;user-select:none}
+#ajudaTecnica[hidden]{display:none}
+.ajuda-fundo{position:fixed;inset:0;background:rgba(6,31,61,.55);z-index:40}
+.ajuda-caixa{position:fixed;z-index:41;left:50%;top:50%;transform:translate(-50%,-50%);width:min(760px,92vw);max-height:86vh;overflow:auto;
+  background:var(--painel);color:var(--ink);border:1px solid var(--linha);border-radius:var(--raio);padding:20px 22px;box-shadow:var(--sombra-alta)}
+.ajuda-caixa h2{margin:0}
+.ajuda-topo{display:flex;gap:12px;align-items:center;justify-content:space-between;margin-bottom:8px}
+.ajuda-caixa details{border-top:1px solid var(--linha);padding:10px 0}
+.ajuda-caixa details:first-of-type{border-top:0}
+.ajuda-caixa summary{cursor:pointer;font-weight:600}
+.ajuda-caixa ol{margin:8px 0 0 18px;padding:0}
+.ajuda-caixa li{margin:4px 0}

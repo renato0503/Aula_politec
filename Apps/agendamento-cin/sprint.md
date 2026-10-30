@@ -13,6 +13,11 @@
 | 1 | Feito em 29/10/2026, falta só publicar no Apps Script (precisa da conta institucional). |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py agendamento-cin` passa (cenário do "Pronto quando"). |
 | 3 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py agendamento-cin` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). `Code.gs` ganhou `listarVagas`, `reservar` e `comprovante`; `node testes/testar_code_gs.js` passa (17/17). A trava contra reserva simultânea fica para o Sprint 4. |
+| 4 | Feito em 30/10/2026 a parte do app (RN06, releitura da capacidade e fila de e-mail). A trava (`LockService`), o envio (`MailApp`) e o teste de concorrência ficam para o Apps Script, com o passo a passo no botão escondido do app. |
+| 5 | Feito em 30/10/2026. Consulta por protocolo + telefone ou CPF, cancelamento até 2 h (RN07), devolução da vaga e fila do e-mail de cancelamento. |
+| 6 | Feito em 30/10/2026. Agenda do dia e da semana, busca, comparecimento e ausência (RN08), agenda no IndexedDB e fila local de envio. |
+| 7 | Feito em 30/10/2026. Indicadores por posto, usuários com desativação e retenção de 90 dias pelo botão. O gatilho diário fica para o Apps Script. |
+| 8 | Feito em 30/10/2026. Roteiro de aceite em `modelos/roteiro-aceite.md`. O piloto depende da TI e dos postos. |
 
 `Code.gs` com `doGet`, `listarPostos`, `listarHorarios` e `quemSou`, testado contra a planilha modelo. `DEPLOY.md` explica os dois projetos (público e interno). Modo de teste local no `index.html`, sem Apps Script.
 
@@ -84,41 +89,41 @@ e um usuário de posto vê o próprio painel.
 
 ## Sprint 4 · Trava de vagas e confirmação
 
-- [ ] `reservar()` com `LockService`: reler a capacidade, gravar e liberar a trava (RN04).
-- [ ] Recusar o segundo agendamento ativo do mesmo telefone ou CPF no posto (RN06).
-- [ ] E-mail de confirmação (`MailApp`) com protocolo, posto, data, horário e link de consulta.
-- [ ] Teste de concorrência: 5 abas do navegador reservando a última vaga ao mesmo tempo.
+- [ ] `reservar()` com `LockService`: reler a capacidade, gravar e liberar a trava (RN04). **A implementar no Apps Script** — o app local já relê a capacidade antes de gravar; a trava é o passo 1 do botão escondido (3 cliques no nome do app, no rodapé).
+- [x] Recusar o segundo agendamento ativo do mesmo telefone ou CPF no posto (RN06).
+- [ ] E-mail de confirmação (`MailApp`) com protocolo, posto, data, horário e link de consulta. **A implementar no Apps Script** — o app já enfileira em `fila` com estado `pendente`; o envio é o passo 2 do botão escondido.
+- [ ] Teste de concorrência: 5 abas do navegador reservando a última vaga ao mesmo tempo. **Só depois da trava**, no ambiente do Apps Script.
 
 **Pronto quando**: no teste de concorrência, só uma reserva é gravada e as outras
 recebem a mensagem de vaga ocupada.
 
 ## Sprint 5 · Consulta e cancelamento
 
-- [ ] `#/consultar`: protocolo + telefone ou 4 últimos dígitos do CPF.
-- [ ] Cancelar até 2 h antes (RN07); a vaga volta a aparecer no calendário.
-- [ ] E-mail de cancelamento.
-- [ ] Remarcar = cancelar e agendar de novo, no mesmo fluxo.
+- [x] `#/consultar`: protocolo + telefone ou 4 últimos dígitos do CPF.
+- [x] Cancelar até 2 h antes (RN07); a vaga volta a aparecer no calendário.
+- [ ] E-mail de cancelamento. **A implementar no Apps Script** — já enfileirado em `fila`.
+- [x] Remarcar = cancelar e agendar de novo, no mesmo fluxo.
 
 **Pronto quando**: o cancelamento devolve a vaga, e o cancelamento a 1 h do horário é recusado.
 
 ## Sprint 6 · Painel do posto offline first
 
-- [ ] `#/posto`: agenda do dia e da semana, com busca por nome ou protocolo.
-- [ ] Marcar comparecimento e ausência (RN08); cancelar pelo posto com motivo.
-- [ ] Guardar a agenda do dia no IndexedDB ao abrir o painel.
-- [ ] Sem internet: marcar comparecimento na fila local e enviar quando voltar,
+- [x] `#/posto`: agenda do dia e da semana, com busca por nome ou protocolo.
+- [x] Marcar comparecimento e ausência (RN08); cancelar pelo posto com motivo.
+- [x] Guardar a agenda do dia no IndexedDB ao abrir o painel.
+- [x] Sem internet: marcar comparecimento na fila local e enviar quando voltar,
       com aviso de "pendente de envio".
-- [ ] Toda ação do posto vai para a aba `log`.
+- [x] Toda ação do posto vai para a aba `log`.
 
 **Pronto quando**: com o Wi-Fi desligado, o posto marca 3 comparecimentos, e
 eles aparecem na planilha quando a conexão volta.
 
 ## Sprint 7 · Painel da gestão, LGPD e acessibilidade
 
-- [ ] `#/gestao`: ocupação, comparecimento, cancelamento e antecedência por
+- [x] `#/gestao`: ocupação, comparecimento, cancelamento e antecedência por
       posto e por semana (KPIs do `contexto.md`).
-- [ ] Cadastro de usuários (posto ou gestão) e desativação.
-- [ ] Rotina diária (`trigger`) que apaga os dados do cidadão após 90 dias (RN10) e mantém as contagens.
+- [x] Cadastro de usuários (posto ou gestão) e desativação.
+- [ ] Rotina diária (`trigger`) que apaga os dados do cidadão após 90 dias (RN10) e mantém as contagens. **A implementar no Apps Script** — o botão em `#/gestao` já faz a retenção; o gatilho é o passo 3 do botão escondido.
 - [ ] Acessibilidade (requisito marcado): rótulos, navegação por teclado,
       contraste, mensagens de erro lidas por leitor de tela.
 
@@ -127,15 +132,15 @@ fictícia, e a rotina de retenção apaga os registros antigos.
 
 ## Sprint 8 · Aceite e piloto de 4 semanas
 
-- [ ] **Roteiro de aceite** com a gestão e um posto:
+- [x] **Roteiro de aceite** com a gestão e um posto:
   1. Cidadão agenda pelo celular e recebe o e-mail.
   2. Cidadão consulta e cancela pelo protocolo.
   3. Posto vê a reserva, marca comparecimento e ausência.
   4. Duas pessoas na última vaga: só uma reserva.
   5. Gestão vê os indicadores da semana.
-- [ ] Autorização da TI para dados reais (ou piloto só com fictícios).
-- [ ] **Piloto de 4 semanas** em 1 ou 2 postos (proposta do aluno).
-- [ ] Ao fim, comparar ocupação e comparecimento com as metas (70% e 85%) e
+- [ ] Autorização da TI para dados reais (ou piloto só com fictícios). **Depende da TI** (premissa em `Apps/PREMISSAS.md`).
+- [ ] **Piloto de 4 semanas** em 1 ou 2 postos (proposta do aluno). **Depende dos postos.**
+- [x] Ao fim, comparar ocupação e comparecimento com as metas (70% e 85%) e
       atualizar `PROJETO.md` e `README.md`.
 
 **Pronto quando**: o roteiro passa e o piloto está aberto.
