@@ -920,6 +920,17 @@ teste("dataDeTexto('29/10/2026 09:05:00')", ()=> dataDeTexto("29/10/2026 09:05:0
 const CA_ETAPAS = ["DFD", "ETP", "Análise de riscos", "TR", "Pesquisa de preços", "SIGADOC e SIAG", "Análise técnica", "Análise jurídica", "Modalidade definida"];
 const CA_DOCS = {"DFD": ["DFD"], "ETP": ["ETP"], "Análise de riscos": ["Análise de riscos"], "TR": ["TR"],
                  "Pesquisa de preços": ["Pesquisa de preços"], "SIGADOC e SIAG": [], "Análise técnica": [], "Análise jurídica": [], "Modalidade definida": []};
+// Prazo de cada etapa, em dias úteis, e o artigo da Lei nº 14.133/2021 que a fundamenta.
+// Os dias são elucubração (ver modelos/fluxo-e-prazos.md); os artigos são da lei.
+const CA_PRAZO_ETAPA = {"DFD": 3, "ETP": 5, "Análise de riscos": 3, "TR": 5, "Pesquisa de preços": 7, "SIGADOC e SIAG": 2,
+                        "Análise técnica": 5, "Análise jurídica": 10, "Modalidade definida": 3};
+const CA_BASE_LEGAL = {"DFD": "art. 18, I e § 1º", "ETP": "art. 18, § 1º", "Análise de riscos": "art. 18, X", "TR": "art. 18, II",
+                       "Pesquisa de preços": "art. 23, § 1º, IV", "SIGADOC e SIAG": "art. 12", "Análise técnica": "art. 11, I",
+                       "Análise jurídica": "art. 53", "Modalidade definida": "art. 18, VIII"};
+const CA_CICLO_DIAS = Object.values(CA_PRAZO_ETAPA).reduce((a, b) => a + b, 0);
+teste("As 9 etapas têm prazo e base legal (Lei nº 14.133/2021)", ()=>{
+  return CA_ETAPAS.every(e=>CA_PRAZO_ETAPA[e] > 0 && CA_BASE_LEGAL[e]) && CA_CICLO_DIAS === 43;
+});
 const CA_ATRAS = ["Documento incompleto", "Pesquisa de preços insuficiente", "Aguardando assinatura", "Aguardando análise jurídica", "Aguardando análise técnica"];
 const caDias = (a, b = hojeISO())=> Math.round((new Date(b + "T12:00:00") - new Date(a + "T12:00:00")) / 86400000);
 function caAtrasado(p, hoje = hojeISO()){ return p.status !== "concluido" && caDias(p.data_abertura, hoje) > Number(p.prazo_dias || 30); }
@@ -1022,7 +1033,9 @@ TELAS["#/processo/:id"] = async ({id})=>{
       <div class="card kpi"><div class="v">${docs.length}</div><div class="r">documentos anexados</div></div>
       <div class="card kpi"><div class="v">${abertas.length}</div><div class="r">pendências abertas</div></div></div>
     <div class="card"><h2 style="margin-top:0">Objeto</h2><p>${esc(p.objeto)}</p>
-      <h2>Etapas</h2><ol class="linha-tempo">${CA_ETAPAS.map((e, k)=>`<li class="${k < i ? "etapa-feita" : k === i ? "etapa-atual" : "etapa-futura"}"><b>${k + 1}. ${esc(e)}</b>${k === i ? " · atual" : ""}</li>`).join("")}</ol>
+      <h2>Etapas</h2><ol class="linha-tempo" id="caEtapas">${CA_ETAPAS.map((e, k)=>`<li class="${k < i ? "etapa-feita" : k === i ? "etapa-atual" : "etapa-futura"}"><b>${k + 1}. ${esc(e)}</b>${k === i ? " · atual" : ""}
+        <br><small class="sub">prazo de ${CA_PRAZO_ETAPA[e]} dia(s) · ${esc(CA_BASE_LEGAL[e])}</small></li>`).join("")}</ol>
+      <p class="sub">Ciclo pelas 9 etapas: <b>${CA_CICLO_DIAS} dias</b> de prazo interno, contra ${p.prazo_dias} dias do processo. ${CA_CICLO_DIAS > p.prazo_dias ? "<b class=erro-txt>O ciclo não cabe no prazo: é preciso revisar os prazos das etapas ou ampliar o prazo do processo.</b>" : ""}</p>
       ${pode ? `<p class="sub">Documentos exigidos nesta etapa: ${(CA_DOCS[p.etapa] || []).join(", ") || "nenhum"}. ${falta.length ? `<b class="erro-txt">Falta: ${falta.map(esc).join(", ")}</b>` : '<b class="ok-txt">Completo</b>'}</p>` : ""}</div>
     ${pode ? `<form class="card" id="formCaDoc"><h2 style="margin-top:0">Anexar documento</h2><div class="campos">
         ${campo("caTipo", "Tipo", {tipo: "select", opcoes: [["", "Escolha"], ...Object.keys(CA_DOCS).map(x=>[x, x])]})}

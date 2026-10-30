@@ -190,7 +190,7 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
   - [ ] Etapas e prazos no painel.
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
-  - [ ] Conferir com a Comissão as categorias, os artigos do Código de Ética (LC nº 112/2002) e as palavras de cada categoria.
+  - [ ] Conferir com a Comissão as categorias e as palavras. **Os artigos da LC nº 112/2002-MT já estão na norma real**, com o texto em `modelos/codigo-etica-lc112-2002.md`.
   - [ ] Receber os modelos de ata de reunião, ata de oitiva e relatório de recomendações.
   - [ ] Linha de base: tempo das reuniões de triagem e da preparação das oitivas nos últimos casos.
 
@@ -205,8 +205,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
   - Feito no Sprint 3: pesquisa de preços com três cotações (RN04), alerta de inconsistência entre estimado e cotado (tolerância de 30%) e histórico de preços por objeto em `#/precos`.
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
-  - [ ] Receber os modelos oficiais de DFD, ETP, TR e análise de riscos.
-  - [ ] Confirmar o fluxo real de tramitação e os prazos de cada etapa.
+  - [ ] Receber os modelos oficiais de DFD, ETP, TR e análise de riscos (a estrutura já segue a Lei nº 14.133/2021 em `modelos/MODELOS.md`).
+  - [ ] Confirmar os prazos de cada etapa. **As 9 etapas e os documentos já estão ancorados na Lei nº 14.133/2021**, com 43 dias de ciclo em `modelos/fluxo-e-prazos.md`.
   - [ ] Validar as permissões e a base de processos de 2024/2025.
 
 ### Custódia Definitiva (`custodia-definitiva`)

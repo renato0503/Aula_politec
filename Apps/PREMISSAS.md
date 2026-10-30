@@ -10,6 +10,12 @@
 > Quando a informação oficial chegar, troca-se o valor na fonte (gerador de
 > dados ou `src/*.js`), reconstrói o app e o teste correspondente é ajustado.
 >
+> **O que deixou de ser premissa em 30/10/2026**: as categorias da Comissão de
+> Ética estão ancoradas na **LC nº 112/2002-MT** (texto real, com artigo e
+> trecho) e o fluxo de aquisições está ancorado na **Lei nº 14.133/2021**. Nesses
+> dois casos, a norma é real; só os prazos em dias e a divisão em etapas
+> continuam sendo elucubração.
+>
 > **Nível de confiança** usado em cada premissa:
 > - **A** — o app já funciona com essa premissa; a confirmação só ajusta detalhe.
 > - **B** — a premissa afeta cálculo ou tela; trocar exige revisar o código.
@@ -62,17 +68,17 @@ passo de cada app) e o `sprint.md` de cada app (itens do Sprint 0).
 
 | Item do Sprint 0 | Premissa assumida | Onde aparece | Nível | O que confirmar |
 |---|---|---|---|---|
-| Conferir com a Comissão as categorias, os artigos do Código de Ética e as palavras | 8 categorias com 6 a 8 palavras-chave cada (assédio, constrangimento, quebra de sigilo, conflito de interesses, uso indevido de bens, entre outras). O campo `artigos` fica como **"a conferir no Código de Ética (LC nº 112/2002)"**, porque citar artigo sem a Comissão é inventar norma. A classificação é assistida por essas palavras, e a confirmação é sempre humana | store `categorias`, `src/app.js` | C | A lista de categorias e os artigos |
-| Receber os modelos de ata, oitiva e relatório | Modelos fictícios: ata de reunião de triagem, ata de oitiva e relatório de recomendações, com a estrutura padrão | `modelos/` (a criar) | A | Os modelos oficiais |
+| Conferir com a Comissão as categorias, os artigos do Código de Ética e as palavras | **Resolvido com a norma**: as 8 categorias estão ancoradas na **LC nº 112/2002-MT** (Código de Ética Funcional do Servidor Público Civil do Estado), com o **artigo e o texto** de cada uma. O texto foi consultado em 30/10/2026 no acervo do [ctresb/leis](https://github.com/ctresb/leis), fonte oficial da ALMT. Cada categoria guarda `artigos` e `texto_artigo`, que aparecem na tela de classificação e são editáveis em `#/config` | store `categorias`, `src/sprint3.js`, `modelos/codigo-etica-lc112-2002.md` | B | A Comissão conferir se as 8 categorias cobrem a prática dela |
+| Receber os modelos de ata, oitiva e relatório | Modelos fictícios: ata de reunião de triagem, ata de oitiva e relatório de recomendações, com a estrutura padrão e a base legal (art. 6º, 8º, 9º, 10 e 11 da LC nº 112/2002) | `modelos/MODELOS.md` | A | Os modelos oficiais |
 | Linha de base: tempo das reuniões e oitivas | Triagem em **3 dias úteis**, oitiva em **10 dias úteis** após a triagem | `exemplos/gerar_exemplos.py` (datas das etapas) | B | Os tempos reais |
 
 ## 6. Controle do Processo de Aquisição (`controle-aquisicoes`)
 
 | Item do Sprint 0 | Premissa assumida | Onde aparece | Nível | O que confirmar |
 |---|---|---|---|---|
-| Receber os modelos oficiais de DFD, ETP, TR e análise de riscos | Os 4 modelos existem como referência fictícia em `modelos/`, com as seções mínimas que o app exige em cada etapa | `modelos/` (a criar) | A | Os modelos oficiais |
-| Confirmar o fluxo real de tramitação e os prazos | O fluxo é o de 9 etapas do app (DFD, ETP, análise de riscos, TR, pesquisa de preços, SIGADOC e SIAG, análise técnica, análise jurídica, modalidade definida), com prazo de **30 dias corridos** no processo e **1 documento exigido por etapa** nas 5 primeiras | `src/app.js` (`CA_ETAPAS`, `CA_DOCS`), `sprint.md` | C | O fluxo e os prazos reais |
-| Validar as permissões e a base de processos de 2024/2025 | 3 perfis (requisitante, compras, gestor); 10 processos de exemplo de 2026 | store `processos`, `perfis` no `app.json` | A | Quem é responsável por cada etapa |
+| Receber os modelos oficiais de DFD, ETP, TR e análise de riscos | Os 4 modelos existem como referência em `modelos/`, com as seções mínimas que o app exige em cada etapa. O ETP segue os 13 elementos do **art. 18, § 1º, da Lei nº 14.133/2021** (5 obrigatórios pelo § 2º), e a análise de riscos segue o inciso X do mesmo artigo | `modelos/MODELOS.md`, `modelos/fluxo-e-prazos.md` | B | Os modelos oficiais |
+| Confirmar o fluxo real de tramitação e os prazos | O fluxo é o de 9 etapas do app (DFD, ETP, análise de riscos, TR, pesquisa de preços, SIGADOC e SIAG, análise técnica, análise jurídica, modalidade definida). **As etapas e os documentos vêm da Lei nº 14.133/2021** (art. 18, I, II, X; art. 23, § 1º, IV; art. 53), com o artigo de cada uma no app. Os **prazos em dias** são elucubração: 3, 5, 3, 5, 7, 2, 5, 10 e 3 (43 dias de ciclo) contra 30 dias de prazo do processo, o que faz 3 das 10 aquisições do exemplo estarem fora do prazo. O detalhamento e a base legal estão em `modelos/fluxo-e-prazos.md` e no `modelos/MODELOS.md` | `src/app.js` (`CA_ETAPAS`, `CA_DOCS`, `CA_PRAZO_ETAPA`, `CA_BASE_LEGAL`), `modelos/fluxo-e-prazos.md` | B | Os prazos reais de cada etapa |
+| Validar as permissões e a base de processos de 2024/2025 | 3 perfis (requisitante, compras, gestor); 10 processos de exemplo de 2026. O **agente de contratação** do art. 8º é desempenhado pelo papel "Equipe de aquisições" | store `processos`, `perfis` no `app.json` | A | Quem é responsável por cada etapa |
 
 ## 7. Custódia Definitiva (`custodia-definitiva`)
 
@@ -219,3 +225,16 @@ passo de cada app) e o `sprint.md` de cada app (itens do Sprint 0).
 Dado pessoal e dado real de pessoa identificável não entram em nenhuma premissa.
 Os apps usam nomes, CPF, CNPJ, matrículas e protocolos fictícios. As linhas de
 base são estimativas plausíveis para o protótipo, e é isso que o texto diz.
+
+**Norma não se inventa.** Quando a lei existe e está publicada, ela é citada com
+o artigo e o trecho, e não "a conferir". Duas normas entraram assim:
+
+| Norma | Onde | O que ancora |
+|---|---|---|
+| **LC nº 112/2002-MT** — Código de Ética Funcional do Servidor Público Civil do Estado | `comissao-etica-denuncias/modelos/codigo-etica-lc112-2002.md` | as 8 categorias, com artigo e texto; os prazos de 5 e 3 dias do art. 8º; as cominações do art. 9º |
+| **Lei nº 14.133/2021** — Lei de Licitações e Contratos | `controle-aquisicoes/modelos/fluxo-e-prazos.md` | as 9 etapas e os documentos (art. 18, 23 e 53); as 3 cotações (art. 23, § 1º, IV) |
+
+O texto das duas foi consultado em 30/10/2026 no acervo
+[ctresb/leis](https://github.com/ctresb/leis) e no site do Planalto. O que continua
+sendo elucubração são os **prazos em dias** e a **divisão em etapas**, porque a
+lei não fixa esses números para o fluxo interno da POLITEC.

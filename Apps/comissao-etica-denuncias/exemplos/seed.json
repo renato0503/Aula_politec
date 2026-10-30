@@ -3,7 +3,9 @@
   {
    "id": "assedio_moral",
    "nome": "Assédio moral ou humilhação",
-   "artigos": "a conferir no Código de Ética (LC nº 112/2002)",
+   "artigos": "Art. 2º, X; Art. 4º, V e VII",
+   "texto_artigo": "Art. 2º, X: tratar mal uma pessoa que paga seus tributos direta ou indiretamente significa causar-lhe dano moral. Art. 4º, V: tratar cuidadosamente os usuários dos serviços públicos estaduais. Art. 4º, VII: ser cortês, ter urbanidade, disponibilidade e atenção, respeitando a capacidade e as limitações individuais de todos os usuários dos serviços públicos estaduais, sem qualquer espécie de preconceito ou distinção.",
+   "fonte": "Lei Complementar nº 112, de 01/07/2002 (MT) — Código de Ética Funcional do Servidor Público Civil do Estado de Mato Grosso. Texto consultado em 30/10/2026 no acervo https://github.com/ctresb/leis, fonte oficial https://www.al.mt.gov.br/norma-juridica/urn:lex:br;mato.grosso:estadual:lei.complementar:2002-07-01;112",
    "palavras": [
     "humilh",
     "assédio",
@@ -25,7 +27,9 @@
   {
    "id": "desrespeito_publico",
    "nome": "Tratamento desrespeitoso ao público",
-   "artigos": "a conferir no Código de Ética (LC nº 112/2002)",
+   "artigos": "Art. 4º, V e VII; Art. 5º, VI",
+   "texto_artigo": "Art. 4º, V: tratar cuidadosamente os usuários dos serviços públicos estaduais, aperfeiçoando o processo de comunicação e contato com o público. Art. 4º, VII: ser cortês, ter urbanidade e respeito às limitações individuais de todos os usuários. Art. 5º, VI: permitir que perseguições, simpatias, antipatias, caprichos, paixões ou interesses de ordem pessoal interfiram no trato com o público.",
+   "fonte": "Lei Complementar nº 112, de 01/07/2002 (MT) — Código de Ética Funcional do Servidor Público Civil do Estado de Mato Grosso. Texto consultado em 30/10/2026 no acervo https://github.com/ctresb/leis, fonte oficial https://www.al.mt.gov.br/norma-juridica/urn:lex:br;mato.grosso:estadual:lei.complementar:2002-07-01;112",
    "palavras": [
     "cidadão",
     "atendimento",
@@ -46,7 +50,9 @@
   {
    "id": "uso_cargo",
    "nome": "Uso do cargo em proveito próprio ou de terceiros",
-   "artigos": "a conferir no Código de Ética (LC nº 112/2002)",
+   "artigos": "Art. 5º, I; Art. 4º, IX",
+   "texto_artigo": "Art. 5º, I: é vedado ao servidor público o uso do cargo, emprego ou função, bem como facilidades, amizades, tempo, posição e influências, para obter qualquer favorecimento, para si ou para outrem. Art. 4º, IX: resistir a todas as pressões de superiores hierárquicos, de contratantes, interessados e outros que visem obter favores, benesses ou vantagens indevidas.",
+   "fonte": "Lei Complementar nº 112, de 01/07/2002 (MT) — Código de Ética Funcional do Servidor Público Civil do Estado de Mato Grosso. Texto consultado em 30/10/2026 no acervo https://github.com/ctresb/leis, fonte oficial https://www.al.mt.gov.br/norma-juridica/urn:lex:br;mato.grosso:estadual:lei.complementar:2002-07-01;112",
    "palavras": [
     "favor",
     "vantagem",
@@ -68,7 +74,9 @@
   {
    "id": "sigilo",
    "nome": "Quebra de sigilo funcional",
-   "artigos": "a conferir no Código de Ética (LC nº 112/2002)",
+   "artigos": "Art. 5º, XII; Art. 2º, VII",
+   "texto_artigo": "Art. 5º, XII: é vedado ao servidor público fazer uso de informações privilegiadas obtidas no âmbito de seu serviço, em benefício próprio, de parentes, de amigos ou de terceiros. Art. 2º, VII: salvo os casos de investigações policiais ou interesse superior do Estado, a publicidade de qualquer ato administrativo constitui requisito de eficácia e moralidade.",
+   "fonte": "Lei Complementar nº 112, de 01/07/2002 (MT) — Código de Ética Funcional do Servidor Público Civil do Estado de Mato Grosso. Texto consultado em 30/10/2026 no acervo https://github.com/ctresb/leis, fonte oficial https://www.al.mt.gov.br/norma-juridica/urn:lex:br;mato.grosso:estadual:lei.complementar:2002-07-01;112",
    "palavras": [
     "sigilo",
     "vazou",
@@ -89,7 +97,9 @@
   {
    "id": "redes_sociais",
    "nome": "Conduta inadequada em redes sociais e aplicativos",
-   "artigos": "a conferir no Código de Ética (LC nº 112/2002)",
+   "artigos": "Art. 2º, VI; Art. 4º, VI",
+   "texto_artigo": "Art. 2º, VI: a função pública integra-se na vida particular de cada servidor público; os fatos e atos verificados na conduta do dia a dia em sua vida privada poderão acrescer ou diminuir o seu bom conceito na vida funcional. Art. 4º, VI: ter consciência de que o seu trabalho é regido por princípios éticos que se materializam na adequada prestação dos serviços públicos estaduais.",
+   "fonte": "Lei Complementar nº 112, de 01/07/2002 (MT) — Código de Ética Funcional do Servidor Público Civil do Estado de Mato Grosso. Texto consultado em 30/10/2026 no acervo https://github.com/ctresb/leis, fonte oficial https://www.al.mt.gov.br/norma-juridica/urn:lex:br;mato.grosso:estadual:lei.complementar:2002-07-01;112",
    "palavras": [
     "whatsapp",
     "instagram",
@@ -110,7 +120,9 @@
   {
    "id": "assiduidade",
    "nome": "Descumprimento de escala, plantão ou horário",
-   "artigos": "a conferir no Código de Ética (LC nº 112/2002)",
+   "artigos": "Art. 4º, XI; Art. 2º, XIV",
+   "texto_artigo": "Art. 4º, XI: ser assíduo e frequente ao serviço, na certeza de que a ausência provoca danos ao trabalho ordenado. Art. 2º, XIV: toda ausência injustificada do servidor público de seu local de trabalho é fator de desmoralização do serviço público estadual.",
+   "fonte": "Lei Complementar nº 112, de 01/07/2002 (MT) — Código de Ética Funcional do Servidor Público Civil do Estado de Mato Grosso. Texto consultado em 30/10/2026 no acervo https://github.com/ctresb/leis, fonte oficial https://www.al.mt.gov.br/norma-juridica/urn:lex:br;mato.grosso:estadual:lei.complementar:2002-07-01;112",
    "palavras": [
     "plantão",
     "escala",
@@ -131,7 +143,9 @@
   {
    "id": "conflito_interesses",
    "nome": "Conflito de interesses",
-   "artigos": "a conferir no Código de Ética (LC nº 112/2002)",
+   "artigos": "Art. 4º, IX; Art. 5º, VII",
+   "texto_artigo": "Art. 4º, IX: resistir a todas as pressões de contratantes, interessados e outros que visem obter favores ou vantagens indevidas, e denunciá-las. Art. 5º, VII: é vedado pleitear, solicitar, provocar, sugerir ou receber qualquer tipo de ajuda financeira, gratificação, prêmio, comissão, doação ou vantagem de qualquer espécie, para si, familiares ou qualquer pessoa.",
+   "fonte": "Lei Complementar nº 112, de 01/07/2002 (MT) — Código de Ética Funcional do Servidor Público Civil do Estado de Mato Grosso. Texto consultado em 30/10/2026 no acervo https://github.com/ctresb/leis, fonte oficial https://www.al.mt.gov.br/norma-juridica/urn:lex:br;mato.grosso:estadual:lei.complementar:2002-07-01;112",
    "palavras": [
     "empresa",
     "contrato",
@@ -151,7 +165,9 @@
   {
    "id": "uso_bens",
    "nome": "Uso indevido de bens e recursos públicos",
-   "artigos": "a conferir no Código de Ética (LC nº 112/2002)",
+   "artigos": "Art. 2º, XI; Art. 5º, XI",
+   "texto_artigo": "Art. 2º, XI: causar dano a qualquer bem pertencente ao patrimônio público, deteriorando-o, por descuido ou má vontade, não constitui apenas uma ofensa ao equipamento e às instalações ou ao Estado, mas a todos os homens de boa vontade. Art. 5º, XI: é vedado retirar da repartição pública, sem estar legalmente autorizado, qualquer documento, livro ou bem pertencente ao patrimônio público estadual.",
+   "fonte": "Lei Complementar nº 112, de 01/07/2002 (MT) — Código de Ética Funcional do Servidor Público Civil do Estado de Mato Grosso. Texto consultado em 30/10/2026 no acervo https://github.com/ctresb/leis, fonte oficial https://www.al.mt.gov.br/norma-juridica/urn:lex:br;mato.grosso:estadual:lei.complementar:2002-07-01;112",
    "palavras": [
     "viatura",
     "combustível",

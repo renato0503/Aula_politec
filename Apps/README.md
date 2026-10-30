@@ -51,6 +51,13 @@ referências que faltavam (modelos de DFD, ETP, TR, TAP, ata, laudo, caixa,
 marcos, plano de trabalho, esquema do Hórus) foram criadas nas pastas
 `modelos/` e `horus/` dos apps. Nenhum item bloqueia o desenvolvimento.
 
+Duas premissas deixaram de ser elucubração, porque a norma foi consultada no
+acervo [ctresb/leis](https://github.com/ctresb/leis): as categorias da Comissão
+de Ética citam o artigo e o trecho real da **LC nº 112/2002-MT** (Código de
+Ética Funcional do Servidor Público Civil do Estado) e o fluxo de aquisições
+está ancorado na **Lei nº 14.133/2021**. O que continua sendo estimativa são os
+prazos em dias e a divisão em etapas.
+
 O estado de cada app e o próximo passo estão em [CONTINUAR.md](CONTINUAR.md).
 
 | App | Sprint 2 | Sprint 3 |
