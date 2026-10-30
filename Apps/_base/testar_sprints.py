@@ -31,6 +31,11 @@ def contar(pg, store):
 def ir(pg, url, rota, espera=250):
     pg.goto(url + rota)
     pg.wait_for_timeout(espera)
+    # se a página tem o app, espera o IndexedDB abrir (a versão nova do banco demora)
+    try:
+        pg.wait_for_function("() => typeof db === 'undefined' || !!db.con", timeout=10000)
+    except Exception:
+        pass
 
 
 def perfil(pg, url, nome):

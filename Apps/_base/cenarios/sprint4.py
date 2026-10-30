@@ -403,3 +403,114 @@ def s8_ajuda_tecnica_escondida(pg, url, ok):
        "LockService" in texto and "MailApp" in texto and "Acionadores" in texto and "clasp" in texto)
     pg.click("#btnFecharAjuda"); pg.wait_for_timeout(300)
     ok("o painel fecha pelo botão", pg.locator("#ajudaTecnica .ajuda-caixa").count() == 0)
+
+# Cenários dos Sprints 4 a 7 do Controle de Aquisições: aprovações, modalidade, painel e relatório.
+
+
+@cenario("controle-aquisicoes")
+def s4_aprovacoes_e_modalidade(pg, url, ok):
+    perfil(pg, url, "compras")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    pid = pg.evaluate("async ()=> (await db.list('processos')).find(p=>p.status!=='concluido').id_processo")
+    ir(pg, url, "#/processo/" + pid, 700)
+    ok("a ficha mostra a trilha de aprovação com as três análises", pg.locator("#caAprovacoes").count() == 1
+       and pg.locator("#caAprovacoes .check-lista li").count() == 3)
+    pg.fill("#caApParecer", "curto")
+    pg.click("#formCaAprovacao button[type=submit]"); pg.wait_for_timeout(400)
+    ok("parecer curto é recusado", "20 caracteres" in pg.inner_text("#caErrosAprovacao"))
+    pg.select_option("#caApTipo", "tecnica"); pg.fill("#caApSetor", "Aquisições")
+    pg.fill("#caApParecer", "Análise técnica favorável, com o objeto e as quantidades conferidos.")
+    pg.click("#formCaAprovacao button[type=submit]"); pg.wait_for_timeout(700)
+    ok("a análise é registrada com setor, perfil e data", pg.evaluate("async id => { const a = (await db.porIndice('aprovacoes','processo_id',id))[0]; return a && a.tipo==='tecnica' && a.setor==='Aquisições' && a.perfil; }", pid))
+    ok("o histórico registra a análise", pg.evaluate("async id => (await db.list('log')).some(l=>l.processo_id===id && /análise registrada/.test(l.acao))", pid))
+    # modalidade
+    pg.select_option("#caMod", "Pregão eletrônico"); pg.select_option("#caCrit", "Menor preço")
+    pg.click("#formCaModalidade button[type=submit]"); pg.wait_for_timeout(700)
+    ok("a modalidade e o critério ficam registrados", pg.evaluate("async id => { const p = await db.get('processos', id); return p.modalidade==='Pregão eletrônico' && p.criterio_julgamento==='Menor preço'; }", pid))
+
+
+@cenario("controle-aquisicoes")
+def s5_painel_do_gestor(pg, url, ok):
+    perfil(pg, url, "gestor")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/painel", 800)
+    calc = pg.evaluate("""async ()=>{ const ps = await db.list('processos'), l = await db.list('log'), pe = await db.list('pendencias'), h = hojeISO();
+        const ativos = ps.filter(p=>p.status!=='concluido');
+        return {ativos: ativos.length, parados: ps.filter(p=>caParado(p, l, h)).length, retrabalho: pe.length}; }""")
+    ok("o painel conta ativos, parados e retrabalho", pg.inner_text("[data-ca-ind=ativos]") == str(calc["ativos"])
+       and pg.inner_text("[data-ca-ind=parados]") == str(calc["parados"])
+       and pg.inner_text("[data-ca-ind=retrabalho]") == str(calc["retrabalho"]))
+    ok("o painel tem os gráficos de etapa e de tempo por etapa", pg.locator("svg[role=img]").count() == 2)
+    ok("o painel agrupa pendências por unidade e por responsável", pg.locator("#tabelaUnidade").count() == 1 and pg.locator("#tabelaResp").count() == 1)
+    ok("o painel lista os processos parados", pg.locator("#tabelaParados").count() == 1)
+
+
+@cenario("controle-aquisicoes")
+def s6_relatorio_e_aceite(pg, url, ok):
+    perfil(pg, url, "gestor")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/painel", 800)
+    ok("o painel mostra o prazo médio dos concluídos", pg.locator("[data-ca-ind=prazo]").count() == 1)
+    with pg.expect_download() as dl:
+        pg.click("#btnCaCsv")
+    csv = pathlib.Path(dl.value.path()).read_bytes()
+    ok("o CSV sai com BOM, ponto e vírgula e as colunas de atraso/parado",
+       csv.startswith(b"\xef\xbb\xbf") and b"id;sigadoc;siag" in csv and b"parado" in csv)
+    ok("o roteiro de aceite está em modelos/", (APPS / "controle-aquisicoes" / "modelos" / "roteiro-aceite.md").exists())
+
+# Cenários dos Sprints 4 a 7 da Custódia Definitiva: projeção, descarte e painel do gestor.
+
+
+@cenario("custodia-definitiva")
+def s4_projecao_e_saturacao(pg, url, ok):
+    perfil(pg, url, "gestor")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/painel", 800)
+    ok("o painel do gestor abre com a projeção e a saturação", pg.locator("#cdGestor").count() == 1)
+    calc = pg.evaluate("""async ()=>{ const h = await db.list('historico_mensal'), vs = await db.list('vestigios'), cs = await db.list('conteineres');
+        const p = cdProjecao(h, 6), sat = cs.map(c=>({c, ...cdSaturacao(c, vs)}));
+        return {ocupacao: p.ocupacao, projecao: p.mensal[p.mensal.length-1].ocupacao, saturados: sat.filter(x=>x.alerta).length}; }""")
+    ok("a ocupação e a projeção batem com o cálculo", pg.inner_text("[data-cd-ind=ocupacao]") == str(calc["ocupacao"])
+       and pg.inner_text("[data-cd-ind=projecao]") == str(calc["projecao"]))
+    ok("os contêineres em alerta são contados", pg.inner_text("[data-cd-ind=saturados]") == str(calc["saturados"]))
+    ok("o painel tem os três gráficos em SVG", pg.locator("svg[role=img]").count() == 3)
+    ok("a tabela de saturação mostra ocupação e capacidade", pg.locator("#tabelaSat tr").count() == 6)
+
+
+@cenario("custodia-definitiva")
+def s5_descarte_com_autorizacao(pg, url, ok):
+    perfil(pg, url, "gestor")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    # cria um vestígio antigo de roupa (apto ao descarte)
+    vid = pg.evaluate("""async ()=>{ const cat = (await db.list('categorias')).find(c=>c.id_categoria==='roupas'); const cs = await db.list('conteineres');
+        const c = cs.find(x=>x.categoria_permitida === 'roupas' || x.categoria_permitida === 'todas') || cs[0];
+        await db.put('vestigios', {id_vestigio: 'V-ANTIGO', protocolo: 'PROC-ANTIGO', lacre: 'LC-ANTIGO', categoria_id: cat.id_categoria,
+          volume_ocupado: 1, data_entrada: '2019-01-10', status: 'armazenado', descricao: 'Item antigo fictício', conteiner_id: c.id_conteiner, posicao: 'P999'});
+        return 'V-ANTIGO'; }""")
+    ir(pg, url, "#/vestigio/" + vid, 700)
+    ok("o bloco de descarte mostra a idade e a regra da categoria", pg.locator("#cdDescarte").count() == 1
+       and "ano(s)" in pg.inner_text("#cdDescarte"))
+    ok("sem autorização, o botão de descartar não existe", pg.locator("#btnCdDescartar").count() == 0)
+    pg.fill("#cdAuthMotivo", "curto")
+    pg.click("#formCdAutorizar button[type=submit]"); pg.wait_for_timeout(400)
+    ok("motivo curto é recusado", "15 caracteres" in pg.inner_text("#cdErrosDescarte"))
+    pg.fill("#cdAuthMotivo", "Prazo da categoria vencido e sem interesse pericial.")
+    pg.click("#formCdAutorizar button[type=submit]"); pg.wait_for_timeout(700)
+    ok("a autorização é registrada com responsável e data", pg.evaluate("async id => { const d = (await db.porIndice('descartes','vestigio_id',id))[0]; return d && d.autorizado_por && d.autorizado_em; }", vid))
+    ok("com autorização, o descarte fica disponível", pg.locator("#btnCdDescartar").count() == 1)
+    pg.click("#btnCdDescartar"); pg.wait_for_timeout(800)
+    ok("o vestígio é descartado e a movimentação registrada", pg.evaluate("async id => (await db.get('vestigios', id)).status === 'descartado'", vid)
+       and pg.evaluate("async id => (await db.porIndice('movimentacoes','vestigio_id',id)).some(m=>m.tipo==='descarte')", vid))
+
+
+@cenario("custodia-definitiva")
+def s6_relatorio_e_aceite(pg, url, ok):
+    perfil(pg, url, "gestor")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/painel", 800)
+    ok("o painel mostra o tempo médio até a primeira movimentação", pg.locator("[data-cd-ind=localizacao]").count() == 1)
+    with pg.expect_download() as dl:
+        pg.click("#btnCdCsvGestor")
+    csv = pathlib.Path(dl.value.path()).read_bytes()
+    ok("o CSV de ocupação e movimentações sai com BOM e ponto e vírgula", csv.startswith(b"\xef\xbb\xbf") and b"id;protocolo;lacre" in csv)
+    ok("o roteiro de aceite está em modelos/", (APPS / "custodia-definitiva" / "modelos" / "roteiro-aceite.md").exists())

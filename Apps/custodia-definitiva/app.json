@@ -12,7 +12,7 @@
   },
   "db": {
     "nome": "custodia_definitiva_v1",
-    "versao": 1,
+    "versao": 2,
     "stores": {
       "categorias": {
         "keyPath": "id_categoria",
@@ -50,6 +50,16 @@
       "historico_mensal": {
         "keyPath": "id_periodo",
         "indices": []
+      },
+      "descartes": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "vestigio_id",
+            "campo": "vestigio_id",
+            "unico": false
+          }
+        ]
       }
     }
   },

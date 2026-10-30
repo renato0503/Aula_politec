@@ -10,6 +10,10 @@
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py controle-aquisicoes` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py controle-aquisicoes` passa (cenário em `Apps/_base/cenarios/sprint2.py`). |
 | 3 | Feito em 30/10/2026. `python Apps/_base/testar_sprints.py controle-aquisicoes` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
+| 4 | Feito em 30/10/2026. Trilha de aprovação com as três análises (setor, perfil, data e parecer) e modalidade com critério de julgamento; código em `src/sprint4.js`. |
+| 5 | Feito em 30/10/2026. Painel do gestor com tempo por etapa, retrabalho, pendências por unidade e por responsável e alerta de processo parado. |
+| 6 | Feito em 30/10/2026. Processos por etapa, prazo médio, exportação CSV e impressão em A4. |
+| 7 | Feito em 30/10/2026. Roteiro de aceite em `modelos/roteiro-aceite.md`. |
 
 ## Visão geral
 
@@ -65,32 +69,32 @@
 
 ## Sprint 4 · Telas e regras
 
-- [ ] Trilha de aprovação por setor, com perfil e data.
-- [ ] Análise técnica, orçamentária e jurídica.
-- [ ] Definição da modalidade registrada.
+- [x] Trilha de aprovação por setor, com perfil e data.
+- [x] Análise técnica, orçamentária e jurídica.
+- [x] Definição da modalidade registrada.
 
 ---
 
 ## Sprint 5 · Telas e regras
 
-- [ ] Painel do gestor com tempo por etapa e retrabalho.
-- [ ] Pendências por unidade e por responsável.
-- [ ] Alerta de processo parado.
+- [x] Painel do gestor com tempo por etapa e retrabalho.
+- [x] Pendências por unidade e por responsável.
+- [x] Alerta de processo parado.
 
 ---
 
 ## Sprint 6 · Telas e regras
 
-- [ ] Processos por etapa, prazo médio e exportação CSV.
-- [ ] Relatório de retrabalho e devoluções.
-- [ ] Impressão em A4.
+- [x] Processos por etapa, prazo médio e exportação CSV.
+- [x] Relatório de retrabalho e devoluções.
+- [x] Impressão em A4.
 
 ---
 
 ## Sprint 7 · Aceite e piloto
 
-- [ ] Roteiro de aceite com a aquisição.
-- [ ] Piloto com processos simulados, comparando o fluxo atual e o novo.
-- [ ] Atualizar `PROJETO.md` e `README.md`.
+- [x] Roteiro de aceite com a aquisição.
+- [x] Piloto com processos simulados, comparando o fluxo atual e o novo.
+- [x] Atualizar `PROJETO.md` e `README.md`.
 
 **Meta do piloto**: processos simulados (Do DFD à definição da modalidade.).

@@ -10,6 +10,10 @@
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py custodia-definitiva` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py custodia-definitiva` passa (cenário em `Apps/_base/cenarios/sprint2.py`). |
 | 3 | Feito em 30/10/2026. `python Apps/_base/testar_sprints.py custodia-definitiva` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
+| 4 | Feito em 30/10/2026. Projeção a partir dos 12 meses, cenário com entradas e saídas e alerta de saturação por contêiner; código em `src/sprint4.js`. |
+| 5 | Feito em 30/10/2026. Elegibilidade de descarte por categoria e idade, autorização humana registrada e bloqueio sem autorização. |
+| 6 | Feito em 30/10/2026. Painel do gestor por categoria e contêiner, CSV de ocupação e tempo médio até a primeira movimentação. |
+| 7 | Feito em 30/10/2026. Roteiro de aceite em `modelos/roteiro-aceite.md`. |
 
 ## Visão geral
 
@@ -65,32 +69,32 @@
 
 ## Sprint 4 · Telas e regras
 
-- [ ] Projeção de ocupação a partir da série de 12 meses.
-- [ ] Tendência e alerta de saturação por contêiner.
-- [ ] Cenário de crescimento com entradas e saídas.
+- [x] Projeção de ocupação a partir da série de 12 meses.
+- [x] Tendência e alerta de saturação por contêiner.
+- [x] Cenário de crescimento com entradas e saídas.
 
 ---
 
 ## Sprint 5 · Telas e regras
 
-- [ ] Regra de elegibilidade para descarte por categoria e idade.
-- [ ] Sinalização de materiais aptos, com autorização humana registrada.
-- [ ] Bloqueio de descarte sem autorização (fora do MVP).
+- [x] Regra de elegibilidade para descarte por categoria e idade.
+- [x] Sinalização de materiais aptos, com autorização humana registrada.
+- [x] Bloqueio de descarte sem autorização (fora do MVP).
 
 ---
 
 ## Sprint 6 · Telas e regras
 
-- [ ] Painel do gestor por categoria, contêiner e período.
-- [ ] Relatório de ocupação e movimentações em CSV.
-- [ ] Indicadores de tempo de localização antes e depois.
+- [x] Painel do gestor por categoria, contêiner e período.
+- [x] Relatório de ocupação e movimentações em CSV.
+- [x] Indicadores de tempo de localização antes e depois.
 
 ---
 
 ## Sprint 7 · Aceite e piloto
 
-- [ ] Roteiro de aceite com a equipe da custódia.
-- [ ] Piloto de 90 dias com dados fictícios e medição do tempo de localização.
-- [ ] Atualizar `PROJETO.md` e `README.md`.
+- [x] Roteiro de aceite com a equipe da custódia.
+- [x] Piloto de 90 dias com dados fictícios e medição do tempo de localização.
+- [x] Atualizar `PROJETO.md` e `README.md`.
 
 **Meta do piloto**: 90 dias (Do cadastro à consulta e à projeção de ocupação.).
