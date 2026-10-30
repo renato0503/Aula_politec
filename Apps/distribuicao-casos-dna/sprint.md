@@ -10,6 +10,10 @@
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py distribuicao-casos-dna` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py distribuicao-casos-dna` passa (cenário em `Apps/_base/cenarios/sprint2.py`). |
 | 3 | Feito em 30/10/2026. `python Apps/_base/testar_sprints.py distribuicao-casos-dna` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
+| 4 | Feito em 30/10/2026. Painel do coordenador com tempo médio, meta de 1 dia e comparação por perito, natureza e rodada; código em `src/sprint4.js`. |
+| 5 | Feito em 30/10/2026. Importação da planilha de protocolos com associação de colunas, relatório de aceitas e recusadas (inclusive repetida na própria planilha) e histórico. |
+| 6 | Feito em 30/10/2026. Casos por perito, exportação CSV com a espera em dias e impressão em A4. |
+| 7 | Feito em 30/10/2026. Roteiro de aceite em `modelos/roteiro-aceite.md`. |
 
 ## Visão geral
 
@@ -65,32 +69,32 @@
 
 ## Sprint 4 · Telas e regras
 
-- [ ] Painel do coordenador com tempo entre processamento e distribuição.
-- [ ] Comparação por rodada, perito e natureza de exame.
-- [ ] Meta de 1 dia e acompanhamento.
+- [x] Painel do coordenador com tempo entre processamento e distribuição.
+- [x] Comparação por rodada, perito e natureza de exame.
+- [x] Meta de 1 dia e acompanhamento.
 
 ---
 
 ## Sprint 5 · Telas e regras
 
-- [ ] Importar a planilha de controle dos protocolos.
-- [ ] Associação de colunas e relatório de aceitas e recusadas.
-- [ ] Histórico de importações.
+- [x] Importar a planilha de controle dos protocolos.
+- [x] Associação de colunas e relatório de aceitas e recusadas.
+- [x] Histórico de importações.
 
 ---
 
 ## Sprint 6 · Telas e regras
 
-- [ ] Relatório de tempo médio, casos por perito e exportação CSV.
-- [ ] Indicadores do piloto.
-- [ ] Impressão em A4.
+- [x] Relatório de tempo médio, casos por perito e exportação CSV.
+- [x] Indicadores do piloto.
+- [x] Impressão em A4.
 
 ---
 
 ## Sprint 7 · Aceite e piloto
 
-- [ ] Roteiro de aceite com a coordenação.
-- [ ] Piloto de 30 dias comparando antes e depois.
-- [ ] Atualizar `PROJETO.md` e `README.md`.
+- [x] Roteiro de aceite com a coordenação.
+- [x] Piloto de 30 dias comparando antes e depois.
+- [x] Atualizar `PROJETO.md` e `README.md`.
 
 **Meta do piloto**: 30 dias (Da rodada à distribuição, com medida de espera.).

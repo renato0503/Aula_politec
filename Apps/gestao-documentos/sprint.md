@@ -10,6 +10,10 @@
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py gestao-documentos` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py gestao-documentos` passa (cenário em `Apps/_base/cenarios/sprint2.py`). |
 | 3 | Feito em 30/10/2026. `python Apps/_base/testar_sprints.py gestao-documentos` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
+| 4 | Feito em 30/10/2026. Cobrança automática no vencimento (RN08), desligamento por lotação, histórico de cobranças; código em `src/sprint4.js`. |
+| 5 | Feito em 30/10/2026. Conclusão com assinatura da autoridade (RN09), notificação ao requerente e arquivamento (RN10) e trilha de aprovação. |
+| 6 | Feito em 30/10/2026. Painel com alertas amarelos, vencidos, cobranças e tempo médio até a conclusão; processos por lotação, CSV e impressão em A4. |
+| 7 | Feito em 30/10/2026. Roteiro de aceite em `modelos/roteiro-aceite.md`. |
 
 ## Visão geral
 
@@ -65,32 +69,32 @@
 
 ## Sprint 4 · Telas e regras
 
-- [ ] Cobrança automática registrada no vencimento (RN08).
-- [ ] Opção de desligar a cobrança por lotação.
-- [ ] Histórico de cobranças.
+- [x] Cobrança automática registrada no vencimento (RN08).
+- [x] Opção de desligar a cobrança por lotação.
+- [x] Histórico de cobranças.
 
 ---
 
 ## Sprint 5 · Telas e regras
 
-- [ ] Conclusão somente com assinatura da autoridade (RN09).
-- [ ] Notificação ao requerente e arquivamento (RN10).
-- [ ] Trilha de aprovação.
+- [x] Conclusão somente com assinatura da autoridade (RN09).
+- [x] Notificação ao requerente e arquivamento (RN10).
+- [x] Trilha de aprovação.
 
 ---
 
 ## Sprint 6 · Telas e regras
 
-- [ ] Tempo médio de atribuição, alertas amarelos e cobranças.
-- [ ] Relatório em CSV e impressão.
-- [ ] Indicadores por lotação.
+- [x] Tempo médio de atribuição, alertas amarelos e cobranças.
+- [x] Relatório em CSV e impressão.
+- [x] Indicadores por lotação.
 
 ---
 
 ## Sprint 7 · Aceite e piloto
 
-- [ ] Roteiro de aceite com o Gabinete.
-- [ ] Piloto de 30 dias comparando o antes e o depois.
-- [ ] Atualizar `PROJETO.md` e `README.md`.
+- [x] Roteiro de aceite com o Gabinete.
+- [x] Piloto de 30 dias comparando o antes e o depois.
+- [x] Atualizar `PROJETO.md` e `README.md`.
 
 **Meta do piloto**: 30 dias (Da autuação à conclusão assinada.).

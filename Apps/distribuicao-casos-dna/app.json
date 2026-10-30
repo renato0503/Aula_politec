@@ -12,7 +12,7 @@
   },
   "db": {
     "nome": "distribuicao_casos_dna_v1",
-    "versao": 2,
+    "versao": 3,
     "stores": {
       "rodadas": {
         "keyPath": "id_rodada",
@@ -62,6 +62,10 @@
             "unico": false
           }
         ]
+      },
+      "importacoes": {
+        "keyPath": "id",
+        "indices": []
       }
     }
   },
@@ -116,6 +120,12 @@
       "titulo": "Configuração",
       "sprint": 1,
       "descricao": ""
+    },
+    {
+      "rota": "#/importar",
+      "titulo": "Importar protocolos",
+      "sprint": 5,
+      "descricao": "Planilha de controle dos protocolos, com associação de colunas."
     }
   ],
   "libs": [],

@@ -514,3 +514,116 @@ def s6_relatorio_e_aceite(pg, url, ok):
     csv = pathlib.Path(dl.value.path()).read_bytes()
     ok("o CSV de ocupação e movimentações sai com BOM e ponto e vírgula", csv.startswith(b"\xef\xbb\xbf") and b"id;protocolo;lacre" in csv)
     ok("o roteiro de aceite está em modelos/", (APPS / "custodia-definitiva" / "modelos" / "roteiro-aceite.md").exists())
+
+# Cenários dos Sprints 4 a 7 da Distribuição de Casos de DNA.
+
+
+@cenario("distribuicao-casos-dna")
+def s4_painel_do_coordenador(pg, url, ok):
+    perfil(pg, url, "coordenador")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/painel", 800)
+    ok("o painel do coordenador abre", pg.locator("#ddCoordenador").count() == 1)
+    calc = pg.evaluate("""async ()=>{ const cs = (await db.list('casos')).filter(c=>c.distribuido_em), p = await db.list('peritos');
+        const e = cs.map(c=>ddEspera(c)).filter(x=>x!==null);
+        return {tempo: e.length ? Math.round(e.reduce((a,b)=>a+b,0)/e.length*10)/10 : null, distribuidos: cs.length}; }""")
+    ok("o tempo médio bate com o cálculo", pg.inner_text("[data-dd-ind=tempo]").startswith(str(calc["tempo"]))
+       or pg.inner_text("[data-dd-ind=tempo]") == "—")
+    ok("o painel mostra a meta de 1 dia", "meta de 1 dia" in pg.inner_text("#ddCoordenador"))
+    ok("a comparação por perito, natureza e rodada aparece",
+       pg.locator("#tabelaPerito").count() == 1 and pg.locator("#tabelaNatureza").count() == 1 and pg.locator("#tabelaRodada").count() == 1)
+    ok("o painel tem o gráfico de casos por natureza", pg.locator("svg[role=img]").count() >= 1)
+
+
+@cenario("distribuicao-casos-dna")
+def s5_importar_protocolos(pg, url, ok):
+    perfil(pg, url, "tecnico")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    planilha = TMP / "protocolos-dna.csv"
+    planilha.write_text("Protocolo;Tipo;Rodada;Data do processamento\n"
+                        "2026.900001;ordinario;RD-007;2026-10-20\n"
+                        "2026.900002;cobranca;RD-007;2026-10-20\n"
+                        "2026.900001;ordinario;RD-007;2026-10-20\n"
+                        "2026.900003;invalido;RD-007;2026-10-20\n", encoding="utf-8-sig")
+    ir(pg, url, "#/importar", 600)
+    pg.set_input_files("#arqDd", str(planilha)); pg.wait_for_timeout(800)
+    ok("a planilha é lida e as colunas são associadas", pg.locator("#ddMapa").count() == 1 and pg.input_value("#ddMap-protocolo") == "0")
+    pg.click("#btnDdImportar"); pg.wait_for_timeout(1000)
+    ok("os protocolos aceitos entram nos casos", pg.evaluate("async ()=> (await db.list('casos')).filter(c=>c.protocolo.startsWith('2026.9')).length") == 2)
+    ok("o relatório separa aceitas e recusadas", "2 aceitas" in pg.inner_text("#ddRelatorio") and "2 recusadas" in pg.inner_text("#ddRelatorio"))
+    ok("a recusa aponta protocolo repetido e tipo inválido", "repetido" in pg.inner_text("#tabelaRecusadasDd")
+       and "inválido" in pg.inner_text("#tabelaRecusadasDd"))
+    ok("o histórico da importação fica registrado", pg.evaluate("async ()=> (await db.list('importacoes')).length") == 1)
+    ir(pg, url, "#/importar", 600)
+    ok("a última importação aparece no histórico", pg.locator("#tabelaHistoricoDd tr").count() == 2)
+
+
+@cenario("distribuicao-casos-dna")
+def s6_relatorio_e_aceite(pg, url, ok):
+    perfil(pg, url, "coordenador")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/painel", 800)
+    with pg.expect_download() as dl:
+        pg.click("#btnDdCsv")
+    csv = pathlib.Path(dl.value.path()).read_bytes()
+    ok("o CSV sai com BOM, ponto e vírgula e a espera em dias", csv.startswith(b"\xef\xbb\xbf") and b"espera_dias" in csv)
+    ok("os casos por perito aparecem na tabela", pg.locator("#tabelaPerito tr").count() > 1)
+    ok("o roteiro de aceite está em modelos/", (APPS / "distribuicao-casos-dna" / "modelos" / "roteiro-aceite.md").exists())
+
+# Cenários dos Sprints 4 a 7 da Gestão de Documentos: cobrança, assinatura e painel.
+
+
+@cenario("gestao-documentos")
+def s4_cobranca_automatica(pg, url, ok):
+    perfil(pg, url, "gestor")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/painel", 900)
+    venc = pg.evaluate("async ()=> (await db.list('processos')).filter(p=>p.status==='em andamento' && gdPrazo(p).sinal==='vermelho').length")
+    ok("a cobrança é registrada para os processos vencidos (RN08)", pg.evaluate("async ()=> (await db.list('cobrancas')).length") == venc and venc > 0)
+    ok("a cobrança entra no histórico do processo", pg.evaluate("async ()=> (await db.list('log')).some(l=>l.tipo_evento==='cobrança automática')"))
+    # não duplica ao abrir o painel de novo
+    ir(pg, url, "#/painel", 900)
+    ok("abrir o painel de novo não duplica a cobrança", pg.evaluate("async ()=> (await db.list('cobrancas')).length") == venc)
+    # desligar a cobrança por lotação
+    lot = pg.evaluate("async ()=> (await db.list('processos'))[0].lotacao")
+    pg.select_option("#gdLotacaoCobranca", lot); pg.select_option("#gdCobrancaAcao", "desligar")
+    pg.click("#formGdCobranca button[type=submit]"); pg.wait_for_timeout(700)
+    ok("a lotação fica com a cobrança desligada", pg.evaluate("async l => (await db.meta('cobrancas_desligadas')).includes(l)", lot))
+
+
+@cenario("gestao-documentos")
+def s5_assinatura_e_arquivamento(pg, url, ok):
+    perfil(pg, url, "autoridade")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    pid = pg.evaluate("async ()=> (await db.list('processos')).find(p=>p.status==='em andamento').id_processo")
+    ir(pg, url, "#/processo/" + pid, 700)
+    ok("a ficha mostra o bloco de conclusão com assinatura", pg.locator("#gdConclusao").count() == 1)
+    pg.fill("#gdConclusaoTexto", "curto")
+    pg.click("#formGdFechar button[type=submit]"); pg.wait_for_timeout(500)
+    ok("sem a conclusão escrita, a assinatura é recusada (RN09)", "20 caracteres" in pg.inner_text("#gdErrosFechar"))
+    pg.fill("#gdConclusaoTexto", "Instrução concluída e requerente atendido integralmente, com os anexos conferidos.")
+    pg.fill("#gdAssNome", "Autoridade Fictícia"); pg.fill("#gdAssCargo", "Diretor")
+    pg.click("#formGdFechar button[type=submit]"); pg.wait_for_timeout(800)
+    ok("a assinatura fica registrada com nome, cargo e data", pg.evaluate("async id => { const a = (await db.porIndice('assinaturas','processo_id',id))[0]; return a && a.nome && a.cargo && a.data; }", pid))
+    ok("o processo é notificado e arquivado (RN10)", pg.evaluate("async id => (await db.get('processos', id)).status === 'arquivado'", pid)
+       and pg.evaluate("async id => (await db.list('log')).some(l=>l.processo_id===id && l.tipo_evento==='notificação ao requerente')", pid)
+       and pg.evaluate("async id => (await db.list('log')).some(l=>l.processo_id===id && l.tipo_evento==='arquivamento')", pid))
+
+
+@cenario("gestao-documentos")
+def s6_painel_e_relatorio(pg, url, ok):
+    perfil(pg, url, "gestor")
+    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/painel", 900)
+    calc = pg.evaluate("""async ()=>{ const ps = (await db.list('processos')).filter(p=>p.status==='em andamento'), h = hojeISO();
+        return {amarelos: ps.filter(p=>gdPrazo(p, h).sinal==='amarelo').length, vencidos: ps.filter(p=>gdPrazo(p, h).sinal==='vermelho').length}; }""")
+    ok("o painel conta alertas amarelos e vencidos", pg.inner_text("[data-gd-ind=amarelos]") == str(calc["amarelos"])
+       and pg.inner_text("[data-gd-ind=vencidos]") == str(calc["vencidos"]))
+    ok("o painel mostra cobranças e tempo médio", pg.locator("[data-gd-ind=cobrancas]").count() == 1
+       and pg.locator("[data-gd-ind=tempo]").count() == 1)
+    ok("os processos por lotação aparecem", pg.locator("#tabelaLotacao tr").count() > 1)
+    with pg.expect_download() as dl:
+        pg.click("#btnGdCsv")
+    csv = pathlib.Path(dl.value.path()).read_bytes()
+    ok("o CSV sai com BOM e as colunas de sinal e cobranças", csv.startswith(b"\xef\xbb\xbf") and b"sinal" in csv and b"cobrancas" in csv)
+    ok("o roteiro de aceite está em modelos/", (APPS / "gestao-documentos" / "modelos" / "roteiro-aceite.md").exists())

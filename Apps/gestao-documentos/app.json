@@ -12,7 +12,7 @@
   },
   "db": {
     "nome": "gestao_documentos_v1",
-    "versao": 2,
+    "versao": 3,
     "stores": {
       "processos": {
         "keyPath": "id_processo",
@@ -65,6 +65,26 @@
       },
       "checklist": {
         "keyPath": "id_item",
+        "indices": [
+          {
+            "nome": "processo_id",
+            "campo": "processo_id",
+            "unico": false
+          }
+        ]
+      },
+      "cobrancas": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "processo_id",
+            "campo": "processo_id",
+            "unico": false
+          }
+        ]
+      },
+      "assinaturas": {
+        "keyPath": "id",
         "indices": [
           {
             "nome": "processo_id",
