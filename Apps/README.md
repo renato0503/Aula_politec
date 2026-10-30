@@ -29,14 +29,14 @@ recebe o código do app.
 
 ## Andamento (30/10/2026)
 
-Os 20 apps andam juntos, sprint a sprint. Os **12 primeiros** estão com os
-**Sprints 1, 2 e 3** feitos; `cin-segunda-via` e `metas-bi-ocr` já têm o **Sprint
-4 parcial**. Os **8 novos** (`custodia-definitiva`, `trilha-custodia-necropsia`,
-passivo, renovação, DOCUMENTAPOLITEC, Gestão de Documentos, Controle de
-Aquisições e Distribuição de Casos de DNA) estão com os **Sprints 1, 2 e 3**.
-Todos têm a parte técnica do Sprint 0 (dados fictícios, bibliotecas, modelos). Os
-itens do Sprint 0 que dependem de pessoas (autorizações, amostras reais, linha
-de base) continuam abertos no `sprint.md` de cada app.
+Os 20 apps andam juntos, sprint a sprint. **17 dos 20 estão com o MVP completo**:
+os 12 primeiros chegaram aos Sprints 6 ou 7, e os 8 novos também (com exceções
+documentadas: OCR de PDF em imagem no Metas BI, QR Code no DOCUMENTAPOLITEC e
+`LockService`/`MailApp` no Agendamento CIN, todos como "a implementar" com o passo
+a passo no botão escondido do app). Faltam **22 rotas em 4 apps**:
+`mapa-distribuicao-credor`, `inscricoes-cursos`, `equipamentos-google-earth` e
+`agiliza-mais`. O estado de cada app e o próximo passo estão em
+[CONTINUAR.md](CONTINUAR.md).
 
 Em 30/10/2026 os 20 apps ganharam a **identidade visual SESP/MT e POLITEC/MT**,
 com personalização por app, tema claro como padrão e ajuste do tamanho da fonte

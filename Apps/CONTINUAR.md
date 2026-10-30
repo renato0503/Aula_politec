@@ -1,10 +1,22 @@
 # Continuar o desenvolvimento dos apps (passagem para outro agente)
 
-Atualizado em **30/10/2026**. O que depende de servico externo (Apps Script,
-`LockService`, `MailApp`, gatilho diario, banco, e-mail) fica marcado como **a
-implementar** no `sprint.md`, e o passo a passo esta dentro do proprio app: **tres
-cliques no nome do app, no rodape** abrem o painel `AJUDA_TECNICA`.
- Este arquivo registra o que já foi feito nos 20 apps
+Atualizado em **30/10/2026**.
+
+**Estado geral: 17 dos 20 apps com o MVP completo** (Sprints 1 a 6 ou 7, com
+roteiro de aceite em `modelos/`). Faltam as sprints dos 4 apps maiores:
+
+| App | Falta |
+|---|---|
+| `mapa-distribuicao-credor` | S4 a S8 (resultado do pregoeiro, empresas, orçamento, exportação, auditoria) |
+| `inscricoes-cursos` | S4 a S9 (importação, conferência SEAP, triagem, convocação, turma, publicação) |
+| `equipamentos-google-earth` | S4 a S11 (contratos, paradas, mapa offline, KPIs, Google Earth, importação, LGPD) |
+| `agiliza-mais` | S4 a S13 (Word, conferência, PDF, textos, quesitos, revisão, OCR, métricas, aceite) |
+
+O que depende de serviço externo (Apps Script, `LockService`, `MailApp`, gatilho,
+banco, biblioteca de QR) está marcado como **a implementar** no `sprint.md`, com o
+passo a passo dentro do app: **três cliques no nome do app, no rodapé**.
+
+Este arquivo registra o que já foi feito nos 20 apps
 de `Apps/` e o que falta em cada um, para que outro agente de IA continue de onde
 paramos. Leia também `AGENTS.md` (seção 3.8), `Apps/README.md` e
 `Apps/IDENTIDADE-VISUAL.md`.
@@ -135,10 +147,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Agendamento CIN (`agendamento-cin`)
 
 - **Visual**: acento `#1559b7`, emblema `calendario`, layout `topo`, padrão `ondas`, cabeçalho `claro`.
-- **Sprints concluídos**: 2, 3.
-- **Próximo**: Sprint 1 · Esqueleto (parcial: 4 item(ns) já feito(s))
-  - [ ] Projeto do Apps Script ligado à planilha; `appsscript.json` com fuso `America/Cuiaba`.
-  - [ ] Repositório com `clasp` configurado.
+- **Sprints concluídos**: 1, 2, 3, 4, 5, 6, 7, 8.
+- **Situação**: MVP completo até o Sprint 8. Roteiro de aceite em `modelos/roteiro-aceite.md`; o que falta depende de pessoas (ver `PREMISSAS.md`).
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Pedir à TI a autorização para publicar um app da web do Apps Script com a conta institucional e confirmar as cotas de execução e de e-mail.
@@ -192,12 +202,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Controle do Processo de Aquisição (`controle-aquisicoes`)
 
 - **Visual**: acento `#b23c17`, emblema `carrinho`, layout `lateral`, padrão `grade`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2, 3.
-- **Próximo**: Sprint 4 · Trilha de aprovação
-  - [ ] Trilha de aprovação por setor, com perfil e data.
-  - [ ] Análise técnica, orçamentária e jurídica.
-  - [ ] Definição da modalidade registrada.
-  - Feito no Sprint 3: pesquisa de preços com três cotações (RN04), alerta de inconsistência entre estimado e cotado (tolerância de 30%) e histórico de preços por objeto em `#/precos`.
+- **Sprints concluídos**: 1, 2, 3, 4, 5, 6, 7.
+- **Situação**: MVP completo até o Sprint 7. Roteiro de aceite em `modelos/roteiro-aceite.md`; o que falta depende de pessoas (ver `PREMISSAS.md`).
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Receber os modelos oficiais de DFD, ETP, TR e análise de riscos (a estrutura já segue a Lei nº 14.133/2021 em `modelos/MODELOS.md`).
@@ -207,11 +213,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Custódia Definitiva (`custodia-definitiva`)
 
 - **Visual**: acento `#3f4a5a`, emblema `caixa`, layout `lateral`, padrão `hexagonos`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2, 3.
-- **Próximo**: Sprint 4 · Telas e regras
-  - [ ] Projeção de ocupação a partir da série de 12 meses.
-  - [ ] Tendência e alerta de saturação por contêiner.
-  - [ ] Cenário de crescimento com entradas e saídas.
+- **Sprints concluídos**: 1, 2, 3, 4, 5, 6, 7.
+- **Situação**: MVP completo até o Sprint 7. Roteiro de aceite em `modelos/roteiro-aceite.md`; o que falta depende de pessoas (ver `PREMISSAS.md`).
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Conferir categorias, condições de conservação e capacidades com a equipe da custódia.
@@ -220,12 +223,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Distribuição de Casos de DNA (`distribuicao-casos-dna`)
 
 - **Visual**: acento `#86198f`, emblema `dna`, layout `topo`, padrão `hexagonos`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2, 3.
-- **Próximo**: Sprint 4 · Painel do coordenador
-  - [ ] Painel do coordenador com tempo entre processamento e distribuição.
-  - [ ] Comparação por rodada, perito e natureza de exame.
-  - [ ] Meta de 1 dia e acompanhamento.
-  - Feito no Sprint 3: sugestão do próximo perito pelo histórico de rotação, fila de urgência com justificativa (RN05) e alerta de rodada parada.
+- **Sprints concluídos**: 1, 2, 3, 4, 5, 6, 7.
+- **Situação**: MVP completo até o Sprint 7. Roteiro de aceite em `modelos/roteiro-aceite.md`; o que falta depende de pessoas (ver `PREMISSAS.md`).
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Confirmar a rotação e o número de peritos ativos com a coordenação.
@@ -235,12 +234,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### DOCUMENTAPOLITEC (`documentapolitec`)
 
 - **Visual**: acento `#7c5a16`, emblema `pasta`, layout `lateral`, padrão `linhas`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2, 3.
-- **Próximo**: Sprint 4 · Busca autorizada
-  - [ ] Busca por nome do cidadão, com índice autorizado e controle de acesso (RN03).
-  - [ ] Resultado com caixa, setor e situação.
-  - [ ] Trilha de consultas.
-  - Feito no Sprint 3: importação da planilha de 850 prontuários com associação de colunas em `#/importar`, comparação com o índice do arquivo digital e relatório de aceitas, recusadas e divergentes em `#/relatorio-importacao`. Os arquivos de exemplo ficam em `exemplos/gerar_planilhas.py`.
+- **Sprints concluídos**: 1, 2, 3, 4, 5, 6, 7.
+- **Situação**: MVP completo até o Sprint 7. Roteiro de aceite em `modelos/roteiro-aceite.md`; o que falta depende de pessoas (ver `PREMISSAS.md`).
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Confirmar o formato do número do prontuário e o modelo das caixas.
@@ -270,12 +265,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Gestão de Documentos (`gestao-documentos`)
 
 - **Visual**: acento `#2b5a8a`, emblema `carimbo`, layout `lateral`, padrão `linhas`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2, 3.
-- **Próximo**: Sprint 4 · Cobrança automática
-  - [ ] Cobrança automática registrada no vencimento (RN08).
-  - [ ] Opção de desligar a cobrança por lotação.
-  - [ ] Histórico de cobranças.
-  - Feito no Sprint 3: minutas padronizadas com os dados do processo (RN04), emissão de ofício e despacho e checklist de instrução por etapa.
+- **Sprints concluídos**: 1, 2, 3, 4, 5, 6, 7.
+- **Situação**: MVP completo até o Sprint 7. Roteiro de aceite em `modelos/roteiro-aceite.md`; o que falta depende de pessoas (ver `PREMISSAS.md`).
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Validar a matriz de papéis e quem pode excluir documentos.
@@ -285,13 +276,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Banco de Demandas (`horus-banco-demandas`)
 
 - **Visual**: acento `#8f6b00`, emblema `olho`, layout `lateral`, padrão `pontos`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2, 3.
-- **Próximo**: Sprint 4 · Troca entre unidade e diretoria
-  - [ ] Unidade: exportar `demandas-<unidade>.json` (com ou sem PDFs).
-  - [ ] Diretoria: importar e mesclar por `id` e `updated_at`, com relatório de novos, atualizados e conflitos.
-  - [ ] Diretoria: exportar `catalogo-<diretoria>.json` para as unidades.
-  - [ ] Recusar arquivo de outra diretoria ou de outro órgão.
-  - [ ] Revalidar R1 a R6 em toda importação.
+- **Sprints concluídos**: 1, 2, 3, 4, 5, 6, 7, 8.
+- **Situação**: MVP completo até o Sprint 8. Roteiro de aceite em `modelos/roteiro-aceite.md`; o que falta depende de pessoas (ver `PREMISSAS.md`).
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Decidir com o aluno o papel da versão offline: (a) substituir o módulo, (b) servir às unidades sem acesso ao Hórus e entregar no formato dele, ou (c) ficar como exercício. Proposta: **(b)**.
@@ -303,7 +289,7 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Inscrições em Cursos (`inscricoes-cursos`)
 
 - **Visual**: acento `#0369a1`, emblema `capelo`, layout `topo`, padrão `ondas`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2.
+- **Sprints concluídos**: 1, 2, 3.
 - **Próximo**: Sprint 3 · Formulário de inscrição (parcial: 6 item(ns) já feito(s))
   - [ ] Testar no Outlook desktop, no Outlook Web e no celular.
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
@@ -336,9 +322,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Metas pelo BI (`metas-bi-ocr`)
 
 - **Visual**: acento `#9d174d`, emblema `alvo`, layout `topo`, padrão `grade`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2, 3.
-- **Próximo**: Sprint 4 · Arquivo para a planilha (parcial: 2 item(ns) já feito(s))
-  - [ ] Teste: o arquivo dos 3 meses fictícios importa na planilha sem ajuste.
+- **Sprints concluídos**: 1, 2, 3, 4, 5, 6.
+- **Situação**: MVP completo até o Sprint 6. Roteiro de aceite em `modelos/roteiro-aceite.md`; o que falta depende de pessoas (ver `PREMISSAS.md`).
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Perguntar à TI se o Power BI 1 permite **Exportar dados** (CSV/Excel) no visual de pendências.
@@ -350,12 +335,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Passivo Ambiental (`passivo-ambiental`)
 
 - **Visual**: acento `#4d7c0f`, emblema `folha`, layout `topo`, padrão `topografico`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2, 3.
-- **Próximo**: Sprint 4 · Conclusão do laudo
-  - [ ] Conclusão do laudo com assinatura registrada.
-  - [ ] Bloqueio de conclusão sem cabeçalho completo e sem mapa.
-  - [ ] Atualização da situação da requisição.
-  - Feito no Sprint 3: editor de mapa com modelos pré-definidos e elementos obrigatórios (RN02) em `#/mapa/:id`, anexo do mapa ao laudo e versão para impressão em `#/pdf/:id`, bloqueada sem cabeçalho completo e sem mapa (RN03).
+- **Sprints concluídos**: 1, 2, 3, 4, 5, 6, 7.
+- **Situação**: MVP completo até o Sprint 7. Roteiro de aceite em `modelos/roteiro-aceite.md`; o que falta depende de pessoas (ver `PREMISSAS.md`).
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Receber uma requisição real anonimizada e o modelo de laudo da unidade.
@@ -365,12 +346,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Renovação de Contratos · Hórus (`renovacao-contratos-horus`)
 
 - **Visual**: acento `#3b4f7a`, emblema `contrato`, layout `lateral`, padrão `linhas`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2, 3.
-- **Próximo**: Sprint 4 · Reajuste e fluxo
-  - [ ] Reajuste, repactuação e reequilíbrio com memória de cálculo.
-  - [ ] Fluxo Solicitado → Em análise → Aprovado → Aplicado.
-  - [ ] Limites legais de acréscimo e supressão.
-  - Feito no Sprint 3: checklist de instrução (R7) na ficha do contrato e em `#/instrucao`, repositório local de documentos com visibilidade restrita à gestão (R8) e aviso de contrato sem instrução a 60 dias do fim no painel.
+- **Sprints concluídos**: 1, 2, 3, 4, 5, 6, 7.
+- **Situação**: MVP completo até o Sprint 7. Roteiro de aceite em `modelos/roteiro-aceite.md`; o que falta depende de pessoas (ver `PREMISSAS.md`).
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Confirmar as seis faixas do semáforo e o alerta de 90 dias com a gestão.
@@ -379,11 +356,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Não Conformidades (`rnc-nao-conformidade`)
 
 - **Visual**: acento `#b42318`, emblema `alerta`, layout `lateral`, padrão `linhas`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2, 3.
-- **Próximo**: Sprint 4 · Cópia do setor
-  - [ ] Exportar `rnc-<setor>.json` só com as RNCs do setor (RN06).
-  - [ ] Perfil Setor: `#/minhas`, registrar envio do plano (FOR 2) e avaliação (FOR 3).
-  - [ ] Devolver o arquivo; a CQUAL importa e mescla.
+- **Sprints concluídos**: 1, 2, 3, 4, 5, 6.
+- **Situação**: MVP completo até o Sprint 6. Roteiro de aceite em `modelos/roteiro-aceite.md`; o que falta depende de pessoas (ver `PREMISSAS.md`).
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Listar com a CQUAL as categorias de não conformidade e as gravidades.
@@ -393,10 +367,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### TAP Digital (`tap-portfolio-projetos`)
 
 - **Visual**: acento `#5b21b6`, emblema `portfolio`, layout `topo`, padrão `pontos`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2, 3.
-- **Próximo**: Sprint 4 · Proposta e decisão
-  - [ ] `#/proposta/:id`: TAP, anexos, pendências, histórico.
-  - [ ] Parecer da equipe e decisão da autoridade (aprovação, rejeição, readequação) com autor e data (RN07).
+- **Sprints concluídos**: 1, 2, 3, 4, 5, 6.
+- **Situação**: MVP completo até o Sprint 6. Roteiro de aceite em `modelos/roteiro-aceite.md`; o que falta depende de pessoas (ver `PREMISSAS.md`).
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Receber o modelo vigente do TAP e a lista oficial de documentos.
@@ -406,11 +378,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### TCIN · Trilha de Custódia e Identificação (`trilha-custodia-necropsia`)
 
 - **Visual**: acento `#0a5c64`, emblema `etiqueta`, layout `lateral`, padrão `pontos`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2, 3.
-- **Próximo**: Sprint 4 · Liberação
-  - [ ] Auto de entrega com responsável, data e documento.
-  - [ ] Bloqueio de liberação sem identificação e sem auto (RN02).
-  - [ ] Trilha da liberação.
+- **Sprints concluídos**: 1, 2, 3, 4, 5, 6, 7.
+- **Situação**: MVP completo até o Sprint 7. Roteiro de aceite em `modelos/roteiro-aceite.md`; o que falta depende de pessoas (ver `PREMISSAS.md`).
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Confirmar com a aluna e o IML o nome do projeto (CNC ou TCIN).
