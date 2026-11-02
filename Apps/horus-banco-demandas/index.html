@@ -428,10 +428,30 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 /* ===== VISUAL DESTE APP (bloco "visual" do app.json) ===== */
 :root{--app-acento:#8f6b00;--app-acento-claro:#a88c38;--app-acento-forte:#674d00;--app-acento-escuro:#c9b885;--padrao:url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="18" height="18"%3E%3Ccircle cx="2" cy="2" r="1.3" fill="%23fff" fill-opacity=".10"/%3E%3C/svg%3E')}
 /* ===== CSS DO APP ===== */
+/* Identidade do Banco de Demandas · Hórus: vitrine, facetas e ficha. */
+
+.horus-facetas{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.horus-faceta{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border:1px solid var(--linha);border-radius:999px;background:var(--painel);color:var(--ink2);font-size:13px}
+.horus-faceta .conta{background:var(--painel-2);border-radius:999px;padding:1px 7px;font-size:11px;color:var(--ink)}
+.horus-faceta.escolhida{border-color:var(--accent);background:var(--accent-suave);color:var(--ink)}
+
+.horus-barra .campos{grid-template-columns:minmax(220px,2fr) repeat(4,minmax(140px,1fr));align-items:end}
+.horus-rodape{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid var(--linha)}
+.horus-vista{display:inline-flex;gap:6px}
+@media (max-width:1100px){ .horus-barra .campos{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:640px){ .horus-barra .campos{grid-template-columns:1fr} }
+
+.horus-vitrine{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.cartao-demanda{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:inherit;transition:border-color .15s,box-shadow .15s}
+.cartao-demanda:hover{border-color:var(--accent);box-shadow:0 10px 26px rgba(10,47,92,.10)}
+.horus-selos{display:flex;flex-wrap:wrap;gap:6px;margin:0}
+.cartao-titulo{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;line-height:1.35}
+.cartao-unidade{margin:0}
+.cartao-valor{margin:auto 0 0;padding-top:8px;border-top:1px solid var(--linha)}
 
 </style>
 </head>
-<body data-layout="lateral" data-estilo="institucional" data-cabecalho="degrade" data-fonte="sistema" data-densidade="normal" data-cantos="suaves" data-superficie="cartoes" data-kpi="barra">
+<body data-layout="lateral" data-estilo="institucional" data-cabecalho="degrade" data-fonte="sistema" data-densidade="normal" data-cantos="redondos" data-superficie="cartoes" data-kpi="numero">
 <div class="faixa-gov"><div class="in">
   <span class="bandeira" aria-hidden="true"><i style="background:#1e63ae"></i><i style="background:#0b7a3e"></i><i style="background:#e8b931"></i></span>
   <span><b>Governo de Mato Grosso</b></span><span class="sep">|</span>
@@ -1344,7 +1364,14 @@ const APP = {
     "layout": "lateral",
     "padrao": "pontos",
     "estilo": "institucional",
-    "setor": "Planejamento de Contratações · PCA"
+    "setor": "Planejamento de Contratações · PCA",
+    "casca": "lateral",
+    "cabecalho": "degrade",
+    "fonte": "sistema",
+    "densidade": "normal",
+    "cantos": "redondos",
+    "superficie": "cartoes",
+    "kpi": "numero"
   },
   "perfis": [
     {
@@ -1365,12 +1392,24 @@ const APP = {
     {
       "id": "GERENTE",
       "nome": "Gerente de unidade",
-      "descricao": "Cria e edita os próprios itens, manifesta interesse."
+      "descricao": "Cria e edita os próprios itens, manifesta interesse.",
+      "contexto": {
+        "rotulo": "Unidade",
+        "store": "unidades",
+        "valor": "id",
+        "texto": "nome"
+      }
     },
     {
       "id": "USUARIO_SETORIAL",
       "nome": "Usuário setorial",
-      "descricao": "Cria e edita os próprios itens, manifesta interesse."
+      "descricao": "Cria e edita os próprios itens, manifesta interesse.",
+      "contexto": {
+        "rotulo": "Unidade",
+        "store": "unidades",
+        "valor": "id",
+        "texto": "nome"
+      }
     },
     {
       "id": "INVENTARIANTE",
@@ -1809,6 +1848,95 @@ TELAS_DEPOIS["#/relatorios"] = ()=>{
     const csv = "﻿" + linhas.map(l=>l.map(x=>/[;"\n]/.test(String(x)) ? `"${String(x).replace(/"/g, '""')}"` : String(x)).join(";")).join("\r\n");
     baixar(`demandas-${ativo.ano}.csv`, csv, "text/csv;charset=utf-8");
   });
+};
+
+/* Identidade do Banco de Demandas · Hórus.
+   Entra por último no build. A tela-assinatura é a vitrine do repositório:
+   filtros em uma linha, facetas com contagem, ordenação, alternância entre
+   cartões e tabela e o contexto de unidade do perfil. */
+
+function horusUnidadeUsuario(){
+  return ["GERENTE", "USUARIO_SETORIAL"].includes(estado.perfil);
+}
+function horusVista(){ return estado.vistaBanco === "tabela" ? "tabela" : "cartoes"; }
+
+TELAS["#/banco"] = async ()=>{
+  const f = filtrosBanco();
+  const [dem, manifs, incls, unidades, medidas, ciclos] = await Promise.all(
+    ["banco_demandas", "banco_demanda_manifestacoes", "banco_demanda_inclusoes", "unidades", "unidades_medida", "ciclos"].map(s=>db.list(s)));
+  const nomeU = Object.fromEntries(unidades.map(u=>[u.id, u.nome])), sigla = Object.fromEntries(medidas.map(m=>[m.id, m.sigla]));
+  const anoCiclo = Object.fromEntries(ciclos.map(c=>[c.id, c.ano])), b = normalizar(f.busca);
+  const contexto = estado.contexto || (horusUnidadeUsuario() ? (await db.meta("unidade_id")) : null);
+  const unidadeFiltro = f.unidade || contexto;
+  const todos = dem.map(d=>({...d, sit: situacaoDemanda(d, manifs, incls)}));
+  const buscaOk = d=>!b || normalizar(`${d.especificacao_tecnica} ${d.justificativa}`).includes(b);
+  let vis = todos.filter(d=>(!f.grupo || d.grupo === f.grupo) && (!unidadeFiltro || d.unidade_id === unidadeFiltro) && buscaOk(d))
+    .filter(d=>!f.situacao || d.sit === f.situacao);
+  const ordem = f.ordem || "recentes";
+  vis = vis.sort((x, y)=>{
+    if (ordem === "valor") return y.valor_global - x.valor_global;
+    if (ordem === "quantidade") return y.quantidade - x.quantidade;
+    if (ordem === "unidade") return (nomeU[x.unidade_id] || "").localeCompare(nomeU[y.unidade_id] || "", "pt-BR");
+    if (ordem === "especificacao") return x.especificacao_tecnica.localeCompare(y.especificacao_tecnica, "pt-BR");
+    return (y.updated_at || "").localeCompare(x.updated_at || "");
+  });
+  const cont = {livre: 0, interesse: 0, aprovada: 0, CUSTEIO: 0, INVESTIMENTO: 0};
+  todos.forEach(d=>{ cont[d.sit] = (cont[d.sit] || 0) + 1; cont[d.grupo] = (cont[d.grupo] || 0) + 1; });
+  const qtdManifestacoes = d=>manifs.filter(m=>m.banco_demanda_id === d.id).length;
+  const anosDe = d=>incls.filter(i=>i.banco_demanda_id === d.id).map(i=>anoCiclo[i.quadro_id]).filter(Boolean);
+  const card = d=>{
+    const ms = qtdManifestacoes(d), anos = anosDe(d);
+    return `<a class="card cartao-demanda" href="#/demanda/${encodeURIComponent(d.id)}/ver" data-sit="${d.sit}">
+      <p class="horus-selos"><span class="selo ${d.grupo === "CUSTEIO" ? "info" : "alerta"}">${d.grupo === "CUSTEIO" ? "Custeio" : "Investimento"}</span>
+        ${anos.length ? anos.map(a=>`<span class="selo ok">Aprovada no ciclo ${a}</span>`).join(" ") : d.sit === "interesse" ? `<span class="selo info">${ms} com interesse</span>` : '<span class="selo">Livre</span>'}</p>
+      <b class="cartao-titulo" title="${esc(d.especificacao_tecnica)}">${esc(d.especificacao_tecnica)}</b>
+      <p class="sub cartao-unidade">${esc(nomeU[d.unidade_id] || "")}</p>
+      <p class="cartao-valor"><b>${reaisFmt(d.valor_global)}</b> · ${d.quantidade} ${esc(sigla[d.unidade_medida_id] || "")}${ms ? " (com adesões)" : ""}</p></a>`;
+  };
+  const linha = d=>{
+    const anos = anosDe(d);
+    return `<tr><td><a href="#/demanda/${encodeURIComponent(d.id)}/ver">${esc(d.especificacao_tecnica)}</a></td>
+      <td>${esc(nomeU[d.unidade_id] || "")}</td><td>${d.grupo === "CUSTEIO" ? "Custeio" : "Investimento"}</td>
+      <td>${anos.length ? "Aprovada " + anos.join(", ") : ROT_SIT[d.sit]}</td><td class="num">${reaisFmt(d.valor_global)}</td></tr>`;
+  };
+  const facetas = [["grupo", "CUSTEIO", "Custeio", cont.CUSTEIO], ["grupo", "INVESTIMENTO", "Investimento", cont.INVESTIMENTO],
+    ["situacao", "livre", "Livre", cont.livre], ["situacao", "interesse", "Com interesse", cont.interesse], ["situacao", "aprovada", "Aprovada", cont.aprovada]];
+  return `<h1>Banco de Demandas <span class="conta" id="qtdBanco">${vis.length}</span></h1>
+    <p class="sub">${dem.length} demandas no total${contexto ? ` · vendo a unidade <b>${esc(nomeU[contexto] || contexto)}</b>` : ""}.
+      <a href="#/demanda/nova">Nova demanda</a></p>
+    <div class="horus-facetas">${facetas.map(([chave, valor, rot, n])=>`<button type="button" class="horus-faceta ${f[chave] === valor ? "escolhida" : ""}" data-faceta="${chave}" data-valor="${valor}">
+      ${rot} <span class="conta">${n}</span></button>`).join("")}
+      ${contexto ? `<button type="button" class="horus-faceta" data-limpar-unidade="1">Minha unidade</button>` : ""}</div>
+    <div class="card horus-barra"><div class="campos">
+      ${campo("fbBusca", "Busca na especificação e justificativa", {valor: f.busca || "", attrs: 'autocomplete="off"'})}
+      ${campo("fbGrupo", "Grupo", {tipo: "select", opcoes: [["", "Todos"], ["CUSTEIO", "Custeio"], ["INVESTIMENTO", "Investimento"]], valor: f.grupo})}
+      ${campo("fbUnidade", "Unidade", {tipo: "select", opcoes: [["", "Todas"], ...unidades.map(u=>[u.id, u.nome])], valor: f.unidade})}
+      ${campo("fbSituacao", "Situação", {tipo: "select", opcoes: [["", "Todas"], ...Object.entries(ROT_SIT)], valor: f.situacao})}
+      ${campo("fbOrdem", "Ordenar por", {tipo: "select", opcoes: [["recentes", "Mais recentes"], ["valor", "Maior valor"], ["quantidade", "Maior quantidade"], ["unidade", "Unidade"], ["especificacao", "Especificação"]], valor: ordem})}</div>
+      <div class="horus-rodape"><p class="sub" style="margin:0">Valor global dos itens filtrados: <b id="valorFiltrado">${reaisFmt(vis.reduce((a, d)=>a + d.valor_global, 0))}</b></p>
+        <div class="horus-vista" role="group" aria-label="Forma de exibição">
+          <button type="button" data-vista="cartoes" class="${horusVista() === "cartoes" ? "prim" : ""}">Cartões</button>
+          <button type="button" data-vista="tabela" class="${horusVista() === "tabela" ? "prim" : ""}">Tabela</button></div></div></div>
+    ${horusVista() === "cartoes"
+      ? `<div class="grade horus-vitrine">${vis.map(card).join("") || '<div class="card vazio">Nenhuma demanda com estes filtros.</div>'}</div>`
+      : `<div class="card tabela-wrap"><table id="tabelaBanco"><thead><tr><th>Especificação</th><th>Unidade</th><th>Grupo</th><th>Situação</th><th class="num">Valor global</th></tr></thead>
+          <tbody>${vis.map(linha).join("") || '<tr><td colspan="5" class="vazio">Nenhuma demanda com estes filtros.</td></tr>'}</tbody></table></div>`}`;
+};
+TELAS_DEPOIS["#/banco"] = ()=>{
+  const f = filtrosBanco();
+  [["fbGrupo", "grupo"], ["fbUnidade", "unidade"], ["fbSituacao", "situacao"], ["fbOrdem", "ordem"]].forEach(([id, k])=>
+    $("#" + id)?.addEventListener("change", e=>{ f[k] = e.target.value; navegar(); }));
+  let t = null;
+  $("#fbBusca")?.addEventListener("input", e=>{
+    clearTimeout(t); const v = e.target.value;
+    t = setTimeout(()=>{ f.busca = v; navegar(); }, 350);
+  });
+  $$("[data-faceta]").forEach(b=>b.addEventListener("click", ()=>{
+    const k = b.dataset.faceta, v = b.dataset.valor;
+    f[k] = f[k] === v ? "" : v; navegar();
+  }));
+  $("[data-limpar-unidade]")?.addEventListener("click", async ()=>{ estado.contexto = null; await db.meta("perfil_contexto", null); navegar(); });
+  $$("[data-vista]").forEach(b=>b.addEventListener("click", ()=>{ estado.vistaBanco = b.dataset.vista; navegar(); }));
 };
 
 

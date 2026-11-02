@@ -1,0 +1,20 @@
+/* Identidade do Banco de Demandas · Hórus: vitrine, facetas e ficha. */
+
+.horus-facetas{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.horus-faceta{display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border:1px solid var(--linha);border-radius:999px;background:var(--painel);color:var(--ink2);font-size:13px}
+.horus-faceta .conta{background:var(--painel-2);border-radius:999px;padding:1px 7px;font-size:11px;color:var(--ink)}
+.horus-faceta.escolhida{border-color:var(--accent);background:var(--accent-suave);color:var(--ink)}
+
+.horus-barra .campos{grid-template-columns:minmax(220px,2fr) repeat(4,minmax(140px,1fr));align-items:end}
+.horus-rodape{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;padding-top:10px;border-top:1px solid var(--linha)}
+.horus-vista{display:inline-flex;gap:6px}
+@media (max-width:1100px){ .horus-barra .campos{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:640px){ .horus-barra .campos{grid-template-columns:1fr} }
+
+.horus-vitrine{grid-template-columns:repeat(auto-fill,minmax(300px,1fr))}
+.cartao-demanda{display:flex;flex-direction:column;gap:6px;text-decoration:none;color:inherit;transition:border-color .15s,box-shadow .15s}
+.cartao-demanda:hover{border-color:var(--accent);box-shadow:0 10px 26px rgba(10,47,92,.10)}
+.horus-selos{display:flex;flex-wrap:wrap;gap:6px;margin:0}
+.cartao-titulo{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;line-height:1.35}
+.cartao-unidade{margin:0}
+.cartao-valor{margin:auto 0 0;padding-top:8px;border-top:1px solid var(--linha)}

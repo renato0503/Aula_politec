@@ -8,7 +8,14 @@
     "layout": "lateral",
     "padrao": "pontos",
     "estilo": "institucional",
-    "setor": "Planejamento de Contratações · PCA"
+    "setor": "Planejamento de Contratações · PCA",
+    "casca": "lateral",
+    "cabecalho": "degrade",
+    "fonte": "sistema",
+    "densidade": "normal",
+    "cantos": "redondos",
+    "superficie": "cartoes",
+    "kpi": "numero"
   },
   "db": {
     "nome": "banco_demandas_v1",
@@ -105,12 +112,24 @@
     {
       "id": "GERENTE",
       "nome": "Gerente de unidade",
-      "descricao": "Cria e edita os próprios itens, manifesta interesse."
+      "descricao": "Cria e edita os próprios itens, manifesta interesse.",
+      "contexto": {
+        "rotulo": "Unidade",
+        "store": "unidades",
+        "valor": "id",
+        "texto": "nome"
+      }
     },
     {
       "id": "USUARIO_SETORIAL",
       "nome": "Usuário setorial",
-      "descricao": "Cria e edita os próprios itens, manifesta interesse."
+      "descricao": "Cria e edita os próprios itens, manifesta interesse.",
+      "contexto": {
+        "rotulo": "Unidade",
+        "store": "unidades",
+        "valor": "id",
+        "texto": "nome"
+      }
     },
     {
       "id": "INVENTARIANTE",

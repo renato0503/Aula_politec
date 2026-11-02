@@ -192,6 +192,7 @@ feito em cada um está resumido aqui e no `README.md` e no `sprint.md` do app.
 |---|---|---|
 | agendamento-cin | (este commit) | Casca de cidadão, cabeçalho claro, Trebuchet, densidade ampla, cantos redondos. Calendário do mês com vagas por dia e horários em botões grandes; passos 1-2-3; grade semanal de ocupação com cor por situação; busca por protocolo, nome ou CPF na agenda do posto. |
 | cin-segunda-via | (este commit) | Casca de cidadão, Trebuchet, cantos redondos, KPI em número. Caixa de entrada com a fila à esquerda e o pedido à direita; busca por protocolo, nome ou CPF; espera em horas; atalhos J/K/A/R; “Aceitar e próximo” e “Recusar e próximo”. |
+| horus-banco-demandas | (este commit) | Casca lateral, degradê, fonte do sistema, cantos redondos, KPI em número. Vitrine com facetas e contagem, filtros em uma linha, ordenação, alternância cartões/tabela e contexto de unidade em Gerente e Usuário setorial. |
 
 ---
 
@@ -268,7 +269,7 @@ Checklist resumido por app (detalhes nas Partes B e D do plano):
 |---|---|---|---|
 | ~~agendamento-cin~~ ✅ | cidadao · claro · arredondada · ampla · redondos · cartoes | Calendário do mês com vagas e horários em botões grandes | `rotaInicial #/agendar`; passos 1-2-3 no fluxo público; grade semanal de horários com cor por ocupação; busca por protocolo/CPF na agenda do posto |
 | cin-segunda-via | cidadao · claro · arredondada · normal · redondos · cartoes · numero | Caixa de entrada (lista à esquerda, pedido à direita) | `rotaInicial #/pedido`; "Aceitar e próximo"; busca na fila |
-| horus-banco-demandas | lateral · degrade · sistema · normal · redondos · cartoes · numero | Vitrine com filtros em facetas e ordenação | contexto de unidade nos perfis Gerente e Usuário setorial; barra de filtros em uma linha; alternar cartões/tabela |
+| ~~horus-banco-demandas~~ ✅ | lateral · degrade · sistema · normal · redondos · cartoes · numero | Vitrine com filtros em facetas e ordenação | contexto de unidade nos perfis Gerente e Usuário setorial; barra de filtros em uma linha; alternar cartões/tabela |
 | trilha-custodia-necropsia | trilho · solido · condensada · ampla · suaves · planas · numero | Quadro de plantão (colunas por situação, cartões de corpo, botões grandes) | painel por perfil (4 perfis); uma tabela só no painel; ficha em abas |
 | controle-aquisicoes | ferramenta · degrade · condensada · compacta · suaves · planas · faixa | Kanban das 9 etapas da Lei 14.133 | ficha em abas; etapas em `.etapas`; ações por perfil |
 | custodia-definitiva | trilho · solido · condensada · normal · retos · planas · numero | Balcão de leitura do lacre + mapa das prateleiras | campo "Ler lacre"; painel do gestor só para o gestor |

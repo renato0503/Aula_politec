@@ -33,6 +33,7 @@ Seed fictício pronto (1 diretoria, 4 unidades, 15 demandas, 3 manifestações, 
 | 6 | Ciclo e aprovação | Aprovação com ciclo ATIVO (R7), reabrir item |
 | 7 | Relatórios e exportação para o Hórus | Relatórios Geral e Aprovadas, arquivo importado no Hórus |
 | 8 | Aceite | Roteiro de aceite cumprido |
+| Identidade e usabilidade | Feito em 02/11/2026. Casca lateral, degradê, fonte do sistema, cantos redondos e KPI em número; vitrine com facetas, filtros em uma linha, ordenação, alternância cartões/tabela e contexto de unidade nos perfis Gerente e Usuário setorial. `python testes/testar.py` e `python testes/cenarios.py` passam. |
 
 **MVP 100% pronto = Sprints 0 a 8.**
 

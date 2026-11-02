@@ -79,3 +79,13 @@ mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
+
+## Identidade e usabilidade (02/11/2026)
+
+O app usa casca lateral, cabeçalho em degradê, fonte do sistema e cantos
+redondos. A tela-assinatura é a **vitrine do repositório**: facetas com
+contagem (Custeio, Investimento, Livre, Com interesse, Aprovada), barra de
+filtros em uma linha com busca, grupo, unidade, situação e ordenação, e a
+alternância entre **cartões** e **tabela**. O perfil Gerente e o Usuário
+setorial têm o seletor de **unidade** no menu do perfil, e a vitrine já abre
+filtrada por ela. Código em `src/identidade.js` e `src/app.css`.
