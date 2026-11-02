@@ -28,6 +28,7 @@ CPF de teste gerados a partir de 000.000.0xx, com dígito válido; sem fotos (o 
 | 4 | Protocolo e retenção | Cidadão vê a situação; apagar após a decisão |
 | 5 | Indicadores e acessibilidade | Painel do piloto, celular, leitor de tela |
 | 6 | Aceite e piloto | Roteiro com 30 pedidos e posição da TI sobre produção |
+| Identidade e usabilidade | Feito em 02/11/2026. Casca de cidadão, fonte arredondada, cantos redondos e KPI em número; caixa de entrada com fila à esquerda e pedido à direita, busca por protocolo, nome ou CPF, espera em horas, atalhos J/K/A/R e “Aceitar e próximo” / “Recusar e próximo”. `python testes/testar.py` e `python testes/cenarios.py` passam. |
 
 **MVP 100% pronto = Sprints 0 a 6.**
 

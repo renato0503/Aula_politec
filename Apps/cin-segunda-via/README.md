@@ -89,3 +89,13 @@ mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
+
+## Identidade e usabilidade (02/11/2026)
+
+A área do cidadão é uma coluna única, com cabeçalho claro, fonte arredondada e
+cantos redondos. A tela-assinatura do servidor é a **caixa de entrada**: a fila
+fica à esquerda, o pedido aberto à direita, e a decisão não obriga a voltar à
+lista, porque os botões são “Aceitar e próximo” e “Recusar e próximo”. A busca
+cobre protocolo, nome e CPF; cada item mostra a espera em horas ou dias, a
+elegibilidade e a situação em selo. Atalhos: J e K percorrem, A aceita e R leva
+ao motivo da recusa. Código em `src/identidade.js` e `src/app.css`.

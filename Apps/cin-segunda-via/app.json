@@ -3,9 +3,16 @@
   "subtitulo": "POLITEC/MT · Identificação Civil",
   "descricao": "Pedido da segunda via da Carteira de Identidade Nacional a distância, com conferência pelo servidor.",
   "visual": {
-    "acento": "#0e7490",
-    "icone": "identidade",
+    "acento": "#1b7a5a",
+    "icone": "documento",
     "layout": "topo",
+    "casca": "cidadao",
+    "cabecalho": "claro",
+    "fonte": "arredondada",
+    "densidade": "normal",
+    "cantos": "redondos",
+    "superficie": "cartoes",
+    "kpi": "numero",
     "padrao": "ondas",
     "estilo": "claro",
     "setor": "Identificação Civil · Segunda via"

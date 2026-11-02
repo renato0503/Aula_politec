@@ -191,6 +191,7 @@ feito em cada um está resumido aqui e no `README.md` e no `sprint.md` do app.
 | App | Commit | O que mudou |
 |---|---|---|
 | agendamento-cin | (este commit) | Casca de cidadão, cabeçalho claro, Trebuchet, densidade ampla, cantos redondos. Calendário do mês com vagas por dia e horários em botões grandes; passos 1-2-3; grade semanal de ocupação com cor por situação; busca por protocolo, nome ou CPF na agenda do posto. |
+| cin-segunda-via | (este commit) | Casca de cidadão, Trebuchet, cantos redondos, KPI em número. Caixa de entrada com a fila à esquerda e o pedido à direita; busca por protocolo, nome ou CPF; espera em horas; atalhos J/K/A/R; “Aceitar e próximo” e “Recusar e próximo”. |
 
 ---
 
