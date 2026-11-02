@@ -24,6 +24,7 @@
 | 2 | Núcleo do MVP | O fluxo principal da entrega, com as regras do Sprint 2 |
 | 3 a 6 | Telas e regras | As telas e regras dos sprints seguintes, uma por semana |
 | 7 | Aceite e piloto | Roteiro de aceite e piloto com dados fictícios |
+| Identidade e usabilidade | Feito em 02/11/2026. Casca de ferramenta, degradê, fonte condensada, densidade compacta, cantos suaves, superfícies planas e KPI em faixa; kanban das 9 etapas da Lei 14.133, ficha em abas (Resumo, Etapas, Documentos, Pendências, Preços, Aprovações, Histórico) e ações por perfil (requisitante não conclui etapa nem registra análise). `python testes/testar.py` e `python testes/cenarios.py` passam. |
 
 **MVP 100% pronto = Sprints 0 a 7.**
 

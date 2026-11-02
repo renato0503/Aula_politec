@@ -8,7 +8,14 @@
     "layout": "lateral",
     "padrao": "grade",
     "estilo": "institucional",
-    "setor": "Coordenadoria de Aquisições"
+    "setor": "Coordenadoria de Aquisições",
+    "casca": "ferramenta",
+    "cabecalho": "degrade",
+    "fonte": "condensada",
+    "densidade": "compacta",
+    "cantos": "suaves",
+    "superficie": "planas",
+    "kpi": "faixa"
   },
   "db": {
     "nome": "controle_aquisicoes_v1",

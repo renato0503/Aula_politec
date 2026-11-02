@@ -81,3 +81,14 @@ mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
+
+## Identidade e usabilidade (02/11/2026)
+
+O app usa casca de ferramenta (largura total, menu compacto), cabeçalho em
+degradê, fonte condensada, densidade compacta e KPI em faixa. A tela-assinatura
+é o **kanban das 9 etapas da Lei 14.133/2021**, com um cartão por processo e a
+marca de atraso. A ficha virou abas: Resumo, Etapas (com a barra horizontal e a
+base legal de cada etapa), Documentos, Pendências, Preços, Aprovações e
+Histórico. O perfil Unidade requisitante deixa de ver a conclusão de etapa e o
+registro de análise, que são da equipe de aquisições. Código em
+`src/identidade.js` e `src/app.css`.
