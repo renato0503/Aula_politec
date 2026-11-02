@@ -428,10 +428,31 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 /* ===== VISUAL DESTE APP (bloco "visual" do app.json) ===== */
 :root{--app-acento:#2b5a8a;--app-acento-claro:#5a7ea4;--app-acento-forte:#1f4163;--app-acento-escuro:#99b0c7;--padrao:url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="22" height="22"%3E%3Cpath d="M-2 24 24-2M9 24l15-15M-2 13 13-2" stroke="%23fff" stroke-opacity=".07" stroke-width="1.2"/%3E%3C/svg%3E')}
 /* ===== CSS DO APP ===== */
+/* Identidade da Gestão de Documentos: caixa por perfil e checklist com caixa. */
+
+.gd-caixa{border-left:5px solid var(--accent)}
+.gd-caixa-topo{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.gd-caixa-topo h2{margin:2px 0 4px}
+.gd-caixa-topo .conta{background:var(--accent-suave);border-radius:999px;padding:1px 8px;font-size:12px;color:var(--accent-forte)}
+.gd-caixa-lista{display:grid;gap:8px;margin-top:10px}
+.gd-caixa-item{display:grid;grid-template-columns:auto minmax(0,1fr) minmax(180px,240px);gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--linha);border-radius:var(--raio);color:var(--ink);text-decoration:none;background:var(--painel)}
+.gd-caixa-item:hover{border-color:var(--accent);background:var(--accent-suave)}
+.gd-caixa-num{font-size:13px;color:var(--ink2)}
+.gd-caixa-ass{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:600}
+.gd-caixa-barra{display:flex;flex-direction:column;gap:4px}
+@media (max-width:760px){ .gd-caixa-item{grid-template-columns:1fr} .gd-caixa-barra{margin-top:2px} }
+
+/* checklist: caixa de seleção à esquerda e quem marcou à direita */
+#gdCardChecklist li{display:flex;align-items:center;gap:10px}
+#gdCardChecklist li > .ico{display:none}
+#gdCardChecklist .gdCheckItem{order:-1;flex:0 0 22px;width:22px;height:22px;min-height:0;padding:0;border:2px solid var(--linha);border-radius:5px;background:var(--painel);font-size:0;position:relative}
+#gdCardChecklist .gdCheckItem[data-feito="1"]{background:var(--verde);border-color:var(--verde)}
+#gdCardChecklist .gdCheckItem[data-feito="1"]::after{content:"";position:absolute;left:6px;top:2px;width:6px;height:11px;border:2px solid #fff;border-top:0;border-left:0;transform:rotate(45deg)}
+#gdCardChecklist .gd-quem{margin-left:auto;font-size:11.5px;color:var(--ink2);white-space:nowrap}
 
 </style>
 </head>
-<body data-layout="lateral" data-estilo="institucional" data-cabecalho="degrade" data-fonte="sistema" data-densidade="normal" data-cantos="suaves" data-superficie="cartoes" data-kpi="barra">
+<body data-layout="lateral" data-estilo="institucional" data-cabecalho="solido" data-fonte="serifa" data-densidade="normal" data-cantos="suaves" data-superficie="papel" data-kpi="barra">
 <div class="faixa-gov"><div class="in">
   <span class="bandeira" aria-hidden="true"><i style="background:#1e63ae"></i><i style="background:#0b7a3e"></i><i style="background:#e8b931"></i></span>
   <span><b>Governo de Mato Grosso</b></span><span class="sep">|</span>
@@ -1306,7 +1327,14 @@ const APP = {
     "layout": "lateral",
     "padrao": "linhas",
     "estilo": "institucional",
-    "setor": "Gabinete de Direção · Protocolo"
+    "setor": "Gabinete de Direção · Protocolo",
+    "casca": "lateral",
+    "cabecalho": "solido",
+    "fonte": "serifa",
+    "densidade": "normal",
+    "cantos": "suaves",
+    "superficie": "papel",
+    "kpi": "barra"
   },
   "perfis": [
     {
@@ -1716,12 +1744,12 @@ TELAS["#/painel"] = async ()=>{
     const ini = p.data_autuacao, fim = (p.concluido_em || agora()).slice(0, 10);
     return a + Math.max(0, Math.round((new Date(fim) - new Date(ini)) / 86400000)); }, 0) / arquivados.length * 10) / 10 : null;
   const porLotacao = Object.entries(ativos.reduce((a, p)=>{ a[p.lotacao] = (a[p.lotacao] || 0) + 1; return a; }, {})).sort((a, b)=>b[1] - a[1]);
-  return html + `<div class="card" id="gdPainelGestor"><h2 style="margin-top:0">Painel da chefia (Sprint 6)</h2>
+  return html + `<div class="card" id="gdPainelGestor"><h2 style="margin-top:0">Painel da chefia</h2>
       <div class="grade">
         <div class="card kpi"><div class="v" data-gd-ind="amarelos">${amarelos}</div><div class="r">alertas amarelos</div></div>
         <div class="card kpi"><div class="v" data-gd-ind="vencidos">${vermelhos}</div><div class="r">vencidos</div></div>
         <div class="card kpi"><div class="v" data-gd-ind="cobrancas">${cobs.length}</div><div class="r">cobranças registradas</div></div>
-        <div class="card kpi"><div class="v" data-gd-ind="tempo">${tempoMedio === null ? "—" : tempoMedio + " dia(s)"}</div><div class="r">tempo médio até a conclusão</div></div>
+        <div class="card kpi"><div class="v" data-gd-ind="tempo">${tempoMedio === null ? "—" : plural(tempoMedio, "dia", "dias")}</div><div class="r">tempo médio até a conclusão</div></div>
         <div class="card kpi"><div class="v" data-gd-ind="assinados">${assin.length}</div><div class="r">processos assinados</div></div></div>
       <div class="card"><h2 style="margin-top:0">Cobrança por lotação (RN08)</h2>
         <p class="sub">Desligue a cobrança de uma lotação quando ela não deve receber alerta automático.</p>
@@ -1755,6 +1783,90 @@ TELAS_DEPOIS["#/painel"] = ()=>{
     baixar(`processos-${hojeISO()}.csv`, csv, "text/csv;charset=utf-8");
     await registrar("relatório exportado", {detalhe: `${ps.length} processos`});
   });
+};
+
+/* Identidade da Gestão de Documentos.
+   Entra por último no build. A tela-assinatura é a caixa por perfil (a instruir,
+   a revisar, a assinar); a ficha vira abas, o checklist fica com caixa de
+   seleção e a assinatura fica só para a autoridade decisora. */
+
+async function gdMinhaCaixa(){
+  const ps = (await db.list("processos")).filter(p=>p.status === "em andamento");
+  const hoje = hojeISO();
+  const conjuntos = {
+    servidor: {titulo: "A instruir", texto: "Processos que esperam a instrução e o checklist.", lista: ps},
+    gestor: {titulo: "A revisar", texto: "Processos em andamento para conferir antes da decisão.", lista: ps},
+    autoridade: {titulo: "A assinar", texto: "Processos em andamento que esperam a assinatura e o arquivamento.", lista: ps},
+  };
+  const c = conjuntos[estado.perfil] || conjuntos.servidor;
+  const lista = c.lista.sort((a, b)=>String(a.data_autuacao).localeCompare(String(b.data_autuacao))).slice(0, 6);
+  return `<div class="card gd-caixa"><div class="gd-caixa-topo"><div><span class="sub">Minha caixa</span><h2>${c.titulo} <span class="conta">${c.lista.length}</span></h2></div>
+    <a class="botao" href="#/processos">Ver todos</a></div>
+    <p class="sub">${c.texto}</p>
+    ${lista.length ? `<div class="gd-caixa-lista">${lista.map(p=>{
+      const pr = gdPrazo(p, hoje), cls = pr.sinal === "vermelho" ? "erro" : pr.sinal === "amarelo" ? "alerta" : "ok";
+      return `<a class="gd-caixa-item" href="#/processo/${encodeURIComponent(p.id_processo)}">
+        <span class="gd-caixa-num mono">${esc(p.numero_processo)}</span>
+        <span class="gd-caixa-ass">${esc(p.assunto)}</span>
+        <span class="gd-caixa-barra"><span class="barra ${cls}"><i style="width:${Math.min(100, Math.max(0, pr.pct))}%"></i></span>
+          <small class="sub">${pr.pct}% do prazo · ${pr.limite < hoje ? "venceu em " + dataCurtaBR(pr.limite) : "até " + dataCurtaBR(pr.limite)}</small></span></a>`;
+    }).join("")}</div>` : '<p class="sub">Nenhum processo nesta caixa.</p>'}</div>`;
+}
+const gdPainelAntes = TELAS["#/painel"];
+TELAS["#/painel"] = async ()=>{
+  const html = await gdPainelAntes();
+  const doc = new DOMParser().parseFromString(`<div id="gdRaiz">${html}</div>`, "text/html");
+  const raiz = doc.getElementById("gdRaiz");
+  if (!raiz) return html;
+  if (estado.perfil !== "gestor") doc.getElementById("gdPainelGestor")?.remove();
+  const caixa = doc.createElement("div"); caixa.innerHTML = await gdMinhaCaixa();
+  raiz.insertBefore(caixa.firstElementChild, raiz.querySelector("h1"));
+  return raiz.innerHTML;
+};
+
+/* ---------- ficha em abas, checklist com caixa e assinatura por perfil ---------- */
+const gdFichaAntes = TELAS["#/processo/:id"];
+TELAS["#/processo/:id"] = async (p)=>{
+  const html = await gdFichaAntes(p);
+  if (typeof abas !== "function" || html.includes('class="abas"')) return html;
+  const doc = new DOMParser().parseFromString(`<div id="gdRaiz">${html}</div>`, "text/html");
+  const raiz = doc.getElementById("gdRaiz");
+  if (!raiz) return html;
+  const checklist = await db.porIndice("checklist", "processo_id", p.id);
+  raiz.querySelectorAll("#gdCardChecklist li").forEach(li=>{
+    const b = li.querySelector(".gdCheckItem"); if (!b) return;
+    const rec = checklist.find(x=>x.item === b.dataset.item);
+    if (rec){
+      const s = doc.createElement("small"); s.className = "gd-quem";
+      s.textContent = `por ${rec.perfil || "—"}`; li.appendChild(s);
+    }
+  });
+  if (estado.perfil !== "autoridade"){
+    const box = doc.getElementById("gdConclusao");
+    if (box) box.innerHTML = `<h2 style="margin-top:0">Conclusão e assinatura</h2>
+      <p class="sub">A assinatura e o arquivamento são da autoridade decisora. O processo segue para ela depois da instrução e da revisão.</p>`;
+  }
+  const antes = [], cards = [];
+  const colher = node=>{
+    if (node.nodeType !== 1) return;
+    if (node.classList.contains("duas-colunas")){ [...node.children].forEach(colher); return; }
+    if (node.classList.contains("card") && !node.classList.contains("kpi")) cards.push(node);
+    else antes.push(node);
+  };
+  [...raiz.children].forEach(colher);
+  if (!cards.length) return html;
+  const grupos = {resumo: [], minutas: [], checklist: [], conclusao: [], historico: []};
+  const destino = h=>{
+    if (/minuta/.test(h)) return "minutas";
+    if (/checklist/.test(h)) return "checklist";
+    if (/conclus|assinatura/.test(h)) return "conclusao";
+    if (/histórico|historico/.test(h)) return "historico";
+    return "resumo";
+  };
+  cards.forEach(c=>grupos[destino((c.querySelector("h2")?.textContent || "").toLowerCase())].push(c.outerHTML));
+  const nomes = [["resumo", "Resumo"], ["minutas", "Minutas"], ["checklist", "Checklist"], ["conclusao", "Conclusão"], ["historico", "Histórico"]];
+  const lista = nomes.filter(([id])=>grupos[id].length).map(([id, titulo])=>({id, titulo, html: grupos[id].join("")}));
+  return antes.map(n=>n.outerHTML).join("") + abas("ficha", lista);
 };
 
 

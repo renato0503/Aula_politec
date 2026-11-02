@@ -8,7 +8,14 @@
     "layout": "lateral",
     "padrao": "linhas",
     "estilo": "institucional",
-    "setor": "Gabinete de Direção · Protocolo"
+    "setor": "Gabinete de Direção · Protocolo",
+    "casca": "lateral",
+    "cabecalho": "solido",
+    "fonte": "serifa",
+    "densidade": "normal",
+    "cantos": "suaves",
+    "superficie": "papel",
+    "kpi": "barra"
   },
   "db": {
     "nome": "gestao_documentos_v1",

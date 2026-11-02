@@ -97,12 +97,12 @@ TELAS["#/painel"] = async ()=>{
     const ini = p.data_autuacao, fim = (p.concluido_em || agora()).slice(0, 10);
     return a + Math.max(0, Math.round((new Date(fim) - new Date(ini)) / 86400000)); }, 0) / arquivados.length * 10) / 10 : null;
   const porLotacao = Object.entries(ativos.reduce((a, p)=>{ a[p.lotacao] = (a[p.lotacao] || 0) + 1; return a; }, {})).sort((a, b)=>b[1] - a[1]);
-  return html + `<div class="card" id="gdPainelGestor"><h2 style="margin-top:0">Painel da chefia (Sprint 6)</h2>
+  return html + `<div class="card" id="gdPainelGestor"><h2 style="margin-top:0">Painel da chefia</h2>
       <div class="grade">
         <div class="card kpi"><div class="v" data-gd-ind="amarelos">${amarelos}</div><div class="r">alertas amarelos</div></div>
         <div class="card kpi"><div class="v" data-gd-ind="vencidos">${vermelhos}</div><div class="r">vencidos</div></div>
         <div class="card kpi"><div class="v" data-gd-ind="cobrancas">${cobs.length}</div><div class="r">cobranças registradas</div></div>
-        <div class="card kpi"><div class="v" data-gd-ind="tempo">${tempoMedio === null ? "—" : tempoMedio + " dia(s)"}</div><div class="r">tempo médio até a conclusão</div></div>
+        <div class="card kpi"><div class="v" data-gd-ind="tempo">${tempoMedio === null ? "—" : plural(tempoMedio, "dia", "dias")}</div><div class="r">tempo médio até a conclusão</div></div>
         <div class="card kpi"><div class="v" data-gd-ind="assinados">${assin.length}</div><div class="r">processos assinados</div></div></div>
       <div class="card"><h2 style="margin-top:0">Cobrança por lotação (RN08)</h2>
         <p class="sub">Desligue a cobrança de uma lotação quando ela não deve receber alerta automático.</p>

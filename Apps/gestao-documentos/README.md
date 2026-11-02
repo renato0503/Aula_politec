@@ -57,3 +57,14 @@ mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
+
+## Identidade e usabilidade (02/11/2026)
+
+A identidade é de gabinete: fonte serifada, cantos suaves, superfície de papel e
+KPI em barra. A tela-assinatura é a **caixa por perfil** no alto do painel:
+Servidor vê o que há para instruir, Chefia o que há para revisar e Autoridade o
+que há para assinar, cada item com o prazo em barra. A ficha virou abas (Resumo,
+Minutas, Checklist, Conclusão e Histórico); o checklist ganhou caixa de seleção à
+esquerda e o responsável pela marcação à direita. A assinatura e o arquivamento
+ficam só para a autoridade decisora. Código em `src/identidade.js` e
+`src/app.css`.
