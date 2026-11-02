@@ -102,11 +102,11 @@ TELAS["#/painel"] = async ()=>{
   const valorRisco = emRisco.reduce((a, c)=>a + Number(c.valor_c || 0), 0);
   const tempos = ativos.map(c=>rcDias(c.data_fim, hoje)).filter(d=>d >= 0);
   const tempoMedio = tempos.length ? Math.round(tempos.reduce((a, b)=>a + b, 0) / tempos.length) : null;
-  return html + `<div class="card" id="rcGestor"><h2 style="margin-top:0">Valor em risco e renovação (Sprint 6)</h2>
+  return html + `<div class="card" id="rcGestor"><h2 style="margin-top:0">Valor em risco e renovação</h2>
       <div class="grade">
         <div class="card kpi"><div class="v" data-rc-ind="risco">${dinheiro.fmt(Math.round(valorRisco))}</div><div class="r">valor em risco (90 dias)</div></div>
         <div class="card kpi"><div class="v" data-rc-ind="contratos">${emRisco.length}</div><div class="r">contratos na janela de 90 dias</div></div>
-        <div class="card kpi"><div class="v" data-rc-ind="tempo">${tempoMedio === null ? "—" : tempoMedio + " dia(s)"}</div><div class="r">tempo médio até a renovação</div></div></div>
+        <div class="card kpi"><div class="v" data-rc-ind="tempo">${tempoMedio === null ? "—" : plural(tempoMedio, "dia", "dias")}</div><div class="r">tempo médio até a renovação</div></div></div>
       <div class="linha-botoes nao-imprimir"><button class="prim" id="btnRcCsv">${icone("download")} Exportar CSV</button>
         <button onclick="window.print()">${icone("imprimir")} Imprimir em A4</button></div></div>`;
 };

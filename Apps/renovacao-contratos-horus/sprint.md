@@ -24,6 +24,7 @@
 | 2 | Núcleo do MVP | O fluxo principal da entrega, com as regras do Sprint 2 |
 | 3 a 6 | Telas e regras | As telas e regras dos sprints seguintes, uma por semana |
 | 7 | Aceite e piloto | Roteiro de aceite e piloto com dados fictícios |
+| Identidade e usabilidade | Feito em 02/11/2026. Casca lateral, cabeçalho sólido, fonte condensada, densidade compacta, cantos retos, superfícies planas e KPI em número; régua de vencimentos de 0 a 180 dias com os contratos como pontos, semáforo em barra empilhada clicável, “Meus contratos” para o fiscal e ficha em abas. `python testes/testar.py` e `python testes/cenarios.py` passam. |
 
 **MVP 100% pronto = Sprints 0 a 7.**
 

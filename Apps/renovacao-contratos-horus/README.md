@@ -54,3 +54,13 @@ mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
+
+## Identidade e usabilidade (02/11/2026)
+
+A identidade é de acompanhamento: cabeçalho sólido, fonte condensada, densidade
+compacta, cantos retos e KPI em número. A tela-assinatura é a **régua de
+vencimentos de 0 a 180 dias**, com cada contrato ativo como ponto clicável, e o
+semáforo virou uma **barra empilhada** em que cada faixa filtra a lista. O perfil
+Fiscal ganhou a caixa “Meus contratos”, que usa o nome informado no próprio
+painel. A ficha virou abas: Resumo, Aditivos, Instrução, Ajustes, Fiscais e
+Auditoria. Código em `src/identidade.js` e `src/app.css`.

@@ -428,10 +428,39 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 /* ===== VISUAL DESTE APP (bloco "visual" do app.json) ===== */
 :root{--app-acento:#3b4f7a;--app-acento-claro:#667697;--app-acento-forte:#2a3958;--app-acento-escuro:#a1abbf;--padrao:url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="22" height="22"%3E%3Cpath d="M-2 24 24-2M9 24l15-15M-2 13 13-2" stroke="%23fff" stroke-opacity=".07" stroke-width="1.2"/%3E%3C/svg%3E')}
 /* ===== CSS DO APP ===== */
+/* Identidade da Renovação de Contratos: régua de vencimentos e semáforo em barra. */
+
+.rc-regua{position:relative;height:64px;margin:18px 6px 8px;border-bottom:1px solid var(--linha)}
+.rc-trilho{position:absolute;left:0;right:0;top:30px;height:4px;background:var(--painel-2);border-radius:99px}
+.rc-regua > span{position:absolute;top:40px;transform:translateX(-50%);font-size:11px;color:var(--ink2)}
+.rc-regua > span::before{content:"";position:absolute;left:50%;top:-14px;width:1px;height:10px;background:var(--linha)}
+.rc-ponto{position:absolute;top:22px;width:14px;height:14px;border-radius:50%;background:var(--accent);transform:translateX(-50%);border:2px solid var(--painel);box-shadow:0 0 0 1px var(--linha)}
+.rc-ponto.ok{background:var(--verde)} .rc-ponto.alerta{background:var(--ambar)} .rc-ponto.erro{background:var(--vermelho)} .rc-ponto.info{background:var(--accent)}
+.rc-ponto:hover{transform:translateX(-50%) scale(1.35);z-index:2}
+
+.rc-stack{display:flex;height:34px;border-radius:calc(var(--raio) - 4px);overflow:hidden;border:1px solid var(--linha);background:var(--painel-2)}
+.rc-seg{display:grid;place-items:center;color:#fff;font-size:12px;font-weight:700;text-decoration:none;min-width:22px}
+.rc-seg:hover{filter:brightness(1.08)}
+.rc-legenda{display:flex;flex-wrap:wrap;gap:12px;margin:10px 0}
+.rc-legenda a{display:inline-flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink2);text-decoration:none}
+.rc-legenda b{color:var(--ink)}
+.rc-cor{width:10px;height:10px;border-radius:2px;background:var(--accent)}
+.rc-cor.ok{background:var(--verde)} .rc-cor.alerta{background:var(--ambar)} .rc-cor.erro{background:var(--vermelho)}
+
+.rc-meus{border-left:5px solid var(--accent)}
+.rc-meus-topo{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.rc-meus-topo h2{margin:2px 0 4px}
+.rc-meus-topo .conta{background:var(--accent-suave);border-radius:999px;padding:1px 8px;font-size:12px}
+.rc-meus-nome{display:flex;gap:8px;align-items:center}
+.rc-meus-nome input{max-width:220px}
+.rc-meus-lista{display:grid;gap:8px;margin-top:8px}
+.rc-meus-lista a{display:grid;grid-template-columns:auto minmax(0,1fr) auto auto;gap:10px;align-items:center;padding:9px 11px;border:1px solid var(--linha);border-radius:var(--raio);text-decoration:none;color:var(--ink)}
+.rc-meus-lista a:hover{border-color:var(--accent);background:var(--accent-suave)}
+@media (max-width:640px){ .rc-meus-lista a{grid-template-columns:1fr auto} }
 
 </style>
 </head>
-<body data-layout="lateral" data-estilo="institucional" data-cabecalho="degrade" data-fonte="sistema" data-densidade="normal" data-cantos="suaves" data-superficie="cartoes" data-kpi="barra">
+<body data-layout="lateral" data-estilo="institucional" data-cabecalho="solido" data-fonte="condensada" data-densidade="compacta" data-cantos="retos" data-superficie="planas" data-kpi="numero">
 <div class="faixa-gov"><div class="in">
   <span class="bandeira" aria-hidden="true"><i style="background:#1e63ae"></i><i style="background:#0b7a3e"></i><i style="background:#e8b931"></i></span>
   <span><b>Governo de Mato Grosso</b></span><span class="sep">|</span>
@@ -1303,7 +1332,14 @@ const APP = {
     "layout": "lateral",
     "padrao": "linhas",
     "estilo": "institucional",
-    "setor": "Aquisições e Contratos · Renovação"
+    "setor": "Aquisições e Contratos · Renovação",
+    "casca": "lateral",
+    "cabecalho": "solido",
+    "fonte": "condensada",
+    "densidade": "compacta",
+    "cantos": "retos",
+    "superficie": "planas",
+    "kpi": "numero"
   },
   "perfis": [
     {
@@ -1561,7 +1597,7 @@ TELAS["#/painel"] = async ()=>{
   const cs = await db.list("contratos"), hoje = hojeISO();
   const semInstrucao = [];
   for (const c of cs){ const itens = await rcItens(c.id_contrato); if (rcSemInstrucao(c, itens, hoje)) semInstrucao.push({c, itens}); }
-  const bloco = `<div class="card" id="rcAvisoInstrucao"><h2 style="margin-top:0">Aviso de instrução (Sprint 3)</h2>
+  const bloco = `<div class="card" id="rcAvisoInstrucao"><h2 style="margin-top:0">Aviso de instrução</h2>
     <p class="sub">Contrato que vence em até 60 dias e ainda não tem a instrução completa. Um item facultativo não conta como falta.</p>
     ${semInstrucao.length ? `<table id="tabelaAviso"><tr><th>Contrato</th><th>Fornecedor</th><th>Término</th><th class="num">Dias</th><th>Instrução</th></tr>
       ${semInstrucao.sort((a, b)=>a.c.data_fim.localeCompare(b.c.data_fim)).map(({c, itens})=>{ const pr = rcProgresso(itens);
@@ -1749,11 +1785,11 @@ TELAS["#/painel"] = async ()=>{
   const valorRisco = emRisco.reduce((a, c)=>a + Number(c.valor_c || 0), 0);
   const tempos = ativos.map(c=>rcDias(c.data_fim, hoje)).filter(d=>d >= 0);
   const tempoMedio = tempos.length ? Math.round(tempos.reduce((a, b)=>a + b, 0) / tempos.length) : null;
-  return html + `<div class="card" id="rcGestor"><h2 style="margin-top:0">Valor em risco e renovação (Sprint 6)</h2>
+  return html + `<div class="card" id="rcGestor"><h2 style="margin-top:0">Valor em risco e renovação</h2>
       <div class="grade">
         <div class="card kpi"><div class="v" data-rc-ind="risco">${dinheiro.fmt(Math.round(valorRisco))}</div><div class="r">valor em risco (90 dias)</div></div>
         <div class="card kpi"><div class="v" data-rc-ind="contratos">${emRisco.length}</div><div class="r">contratos na janela de 90 dias</div></div>
-        <div class="card kpi"><div class="v" data-rc-ind="tempo">${tempoMedio === null ? "—" : tempoMedio + " dia(s)"}</div><div class="r">tempo médio até a renovação</div></div></div>
+        <div class="card kpi"><div class="v" data-rc-ind="tempo">${tempoMedio === null ? "—" : plural(tempoMedio, "dia", "dias")}</div><div class="r">tempo médio até a renovação</div></div></div>
       <div class="linha-botoes nao-imprimir"><button class="prim" id="btnRcCsv">${icone("download")} Exportar CSV</button>
         <button onclick="window.print()">${icone("imprimir")} Imprimir em A4</button></div></div>`;
 };
@@ -1767,6 +1803,116 @@ TELAS_DEPOIS["#/painel"] = ()=>{
     baixar(`contratos-${hojeISO()}.csv`, csv, "text/csv;charset=utf-8");
     await registrar("relatório exportado", {detalhe: `${cs.length} contratos`});
   });
+};
+
+/* Identidade da Renovação de Contratos · Hórus.
+   Entra por último no build. A tela-assinatura é a régua de vencimentos de 0 a
+   180 dias com a barra empilhada do semáforo; a ficha vira abas e o fiscal tem
+   a caixa “Meus contratos”. */
+
+function rcRegua(cs, hoje){
+  const ativos = cs.filter(c=>!RC_FORA.includes(c.status));
+  const pontos = ativos.map(c=>{
+    const d = rcDias(c.data_fim, hoje);
+    if (d < 0 || d > 180) return "";
+    const f = rcFaixa(c, hoje), cls = f ? f.selo : "info";
+    return `<a class="rc-ponto ${cls}" style="left:${(d / 180 * 100).toFixed(2)}%" href="#/contrato/${encodeURIComponent(c.id_contrato)}"
+      title="${esc(c.numero)} · ${esc(c.fornecedor)} · ${plural(d, "dia", "dias")}"></a>`;
+  }).join("");
+  const marcas = [0, 30, 60, 90, 120, 150, 180].map(d=>`<span style="left:${(d / 180 * 100).toFixed(2)}%">${d}</span>`).join("");
+  return `<div class="card rc-regua-card"><h2 style="margin-top:0">Régua de vencimentos</h2>
+    <p class="sub">Cada ponto é um contrato ativo, posicionado pelos dias que faltam. Clique no ponto para abrir a ficha.</p>
+    <div class="rc-regua"><div class="rc-trilho"></div>${marcas}${pontos}</div>
+    <p class="sub" style="margin:0">0 a 180 dias · ${ativos.filter(c=>{ const d = rcDias(c.data_fim, hoje); return d >= 0 && d <= 180; }).length} contratos na régua.</p></div>`;
+}
+function rcBarraEmpilhada(cs, hoje){
+  const ativos = cs.filter(c=>!RC_FORA.includes(c.status));
+  const por = Object.fromEntries(RC_FAIXAS.map(f=>[f.id, ativos.filter(c=>rcFaixa(c, hoje)?.id === f.id).length]));
+  const total = ativos.length || 1;
+  return `<div class="card rc-semaforo-card"><h2 style="margin-top:0">Semáforo em uma barra</h2>
+    <div class="rc-stack">${RC_FAIXAS.map(f=>por[f.id] ? `<a class="rc-seg ${f.selo}" style="flex:${por[f.id]};background:var(--${f.selo === "ok" ? "verde" : f.selo === "erro" ? "vermelho" : f.selo === "alerta" ? "ambar" : "accent"})"
+      href="#/contratos" data-rc-faixa="${f.id}" title="${esc(f.rotulo)}: ${por[f.id]} contrato(s)">${por[f.id]}</a>` : "").join("")}</div>
+    <div class="rc-legenda">${RC_FAIXAS.map(f=>`<a href="#/contratos" data-rc-faixa="${f.id}"><i class="rc-cor ${f.selo}"></i>${esc(f.rotulo.split(" (")[0])} <b>${por[f.id]}</b></a>`).join("")}</div>
+    <p class="sub" style="margin:0">${ativos.length} contratos ativos · clique na faixa para filtrar a lista.</p></div>`;
+}
+async function rcMeusContratos(){
+  if (estado.perfil !== "fiscal") return "";
+  const nome = await db.meta("fiscal_nome");
+  const cs = await db.list("contratos"), hoje = hojeISO();
+  const meus = [];
+  if (nome) for (const c of cs){
+    const fs = await db.porIndice("fiscais", "contrato_id", c.id_contrato);
+    if (fs.some(f=>!f.ate && normalizar(f.nome) === normalizar(nome))) meus.push(c);
+  }
+  return `<div class="card rc-meus"><div class="rc-meus-topo"><div><span class="sub">Meus contratos</span>
+      <h2>${nome ? esc(nome) : "Informe o seu nome de fiscal"} <span class="conta">${meus.length}</span></h2></div>
+      <div class="rc-meus-nome"><input id="rcMeuNome" placeholder="Nome do fiscal" value="${esc(nome || "")}" autocomplete="off">
+        <button type="button" id="btnRcMeuNome">Salvar</button></div></div>
+    ${nome ? (meus.length ? `<div class="rc-meus-lista">${meus.map(c=>{ const f = rcFaixa(c, hoje); return `<a href="#/contrato/${encodeURIComponent(c.id_contrato)}">
+      <b class="mono">${esc(c.numero)}</b><span>${esc(c.fornecedor)}</span><span class="selo ${f ? f.selo : "info"}">${f ? esc(f.rotulo.split(" (")[0]) : "—"}</span>
+      <span class="sub">${plural(rcDias(c.data_fim, hoje), "dia", "dias")}</span></a>`; }).join("")}</div>` : '<p class="sub">Nenhum contrato atribuído a este fiscal.</p>')
+      : '<p class="sub">Salve o nome para ver os contratos em que você é o fiscal atual.</p>'}</div>`;
+}
+
+const rcPainelAntes = TELAS["#/painel"];
+TELAS["#/painel"] = async ()=>{
+  const html = await rcPainelAntes();
+  const cs = await db.list("contratos"), hoje = hojeISO();
+  const doc = new DOMParser().parseFromString(`<div id="rcRaiz">${html}</div>`, "text/html");
+  const raiz = doc.getElementById("rcRaiz");
+  if (!raiz) return html;
+  const bloco = doc.createElement("div");
+  bloco.innerHTML = rcBarraEmpilhada(cs, hoje) + rcRegua(cs, hoje) + await rcMeusContratos();
+  const alvo = doc.getElementById("tabelaFaixas")?.closest(".card");
+  if (alvo) alvo.parentNode.insertBefore(bloco, alvo); else raiz.insertBefore(bloco, raiz.querySelector("h1"));
+  return raiz.innerHTML;
+};
+const rcPainelDepoisAntes = TELAS_DEPOIS["#/painel"];
+TELAS_DEPOIS["#/painel"] = async ()=>{
+  await rcPainelDepoisAntes?.();
+  $("#btnRcMeuNome")?.addEventListener("click", async ()=>{
+    const nome = valorDe("rcMeuNome");
+    if (!nome) return toast("Informe o nome do fiscal.");
+    await db.meta("fiscal_nome", nome); toast("Nome do fiscal salvo."); navegar();
+  });
+  $$("[data-rc-faixa]").forEach(a=>a.addEventListener("click", e=>{
+    e.preventDefault(); estado.rcFiltros = {...rcFiltros(), faixa: a.dataset.rcFaixa}; location.hash = "#/contratos";
+  }));
+};
+
+/* ---------- ficha em abas ---------- */
+const rcFichaAntes = TELAS["#/contrato/:id"];
+TELAS["#/contrato/:id"] = async (p)=>{
+  const html = await rcFichaAntes(p);
+  if (typeof abas !== "function" || html.includes('class="abas"')) return html;
+  const doc = new DOMParser().parseFromString(`<div id="rcFichaRaiz">${html}</div>`, "text/html");
+  const raiz = doc.getElementById("rcFichaRaiz");
+  if (!raiz) return html;
+  const antes = [], cards = [];
+  const colher = node=>{
+    if (node.nodeType !== 1) return;
+    if (node.classList.contains("duas-colunas")){ [...node.children].forEach(colher); return; }
+    if (node.classList.contains("card") && !node.classList.contains("kpi")) cards.push(node);
+    else antes.push(node);
+  };
+  [...raiz.children].forEach(colher);
+  if (!cards.length) return html;
+  const grupos = {resumo: [], aditivos: [], instrucao: [], ajustes: [], fiscais: [], auditoria: []};
+  const destino = h=>{
+    if (/aditivo/.test(h)) return "aditivos";
+    if (/instru|checklist|reposit/.test(h)) return "instrucao";
+    if (/reajuste|repactua|reequil/.test(h)) return "ajustes";
+    if (/fiscal/.test(h)) return "fiscais";
+    if (/auditoria/.test(h)) return "auditoria";
+    return "resumo";
+  };
+  cards.forEach(node=>{
+    const fixo = {rcAjustes: "ajustes", rcFiscais: "fiscais"}[node.id];
+    grupos[fixo || destino((node.querySelector("h2")?.textContent || "").toLowerCase())].push(node.outerHTML);
+  });
+  const nomes = [["resumo", "Resumo"], ["aditivos", "Aditivos"], ["instrucao", "Instrução"], ["ajustes", "Ajustes"], ["fiscais", "Fiscais"], ["auditoria", "Auditoria"]];
+  const lista = nomes.filter(([id])=>grupos[id].length).map(([id, titulo])=>({id, titulo, html: grupos[id].join("")}));
+  return antes.map(n=>n.outerHTML).join("") + abas("ficha", lista);
 };
 
 

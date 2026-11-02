@@ -55,7 +55,7 @@ TELAS["#/painel"] = async ()=>{
   const cs = await db.list("contratos"), hoje = hojeISO();
   const semInstrucao = [];
   for (const c of cs){ const itens = await rcItens(c.id_contrato); if (rcSemInstrucao(c, itens, hoje)) semInstrucao.push({c, itens}); }
-  const bloco = `<div class="card" id="rcAvisoInstrucao"><h2 style="margin-top:0">Aviso de instrução (Sprint 3)</h2>
+  const bloco = `<div class="card" id="rcAvisoInstrucao"><h2 style="margin-top:0">Aviso de instrução</h2>
     <p class="sub">Contrato que vence em até 60 dias e ainda não tem a instrução completa. Um item facultativo não conta como falta.</p>
     ${semInstrucao.length ? `<table id="tabelaAviso"><tr><th>Contrato</th><th>Fornecedor</th><th>Término</th><th class="num">Dias</th><th>Instrução</th></tr>
       ${semInstrucao.sort((a, b)=>a.c.data_fim.localeCompare(b.c.data_fim)).map(({c, itens})=>{ const pr = rcProgresso(itens);
