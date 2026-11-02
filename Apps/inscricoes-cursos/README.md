@@ -104,3 +104,12 @@ mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
+
+## Identidade e usabilidade (02/11/2026)
+
+A identidade é de formação: cabeçalho em degradê, fonte arredondada, densidade
+ampla e cantos redondos. A tela-assinatura são os **cartões de curso com a
+esteira Divulgar → Importar → Inscritos → Triagem → Convocação → Turma**, cada
+um clicável. O curso ganhou a tela central `#/curso/:curso`, com a esteira, as
+inscrições e as vagas por diretoria. O perfil Diretoria abre direto na Triagem.
+Código em `src/identidade.js` e `src/app.css`.

@@ -29,6 +29,7 @@ Formato do bloco `INSCRICAO-v1` definido e testado (ida e volta, acento, bloco a
 | 7 | Convocação e reserva | Mensagens de titular e reserva, desistência e chamada da reserva |
 | 8 | Turma, indicadores e LGPD | Lista final, KPIs, retenção de 30 dias |
 | 9 | Publicação, aceite e piloto | Link no GitHub Pages, roteiro de aceite e piloto com uma turma |
+| Identidade e usabilidade | Feito em 02/11/2026. Casca de topo, degradê, fonte arredondada, densidade ampla, cantos redondos, cartões e KPI em faixa; cartões de curso com a esteira Divulgar → Importar → Inscritos → Triagem → Convocação → Turma, tela central `#/curso/:curso` e Diretoria abrindo na Triagem. `python testes/testar.py` e `python testes/cenarios.py` passam. |
 
 **MVP 100% pronto = Sprints 0 a 9.**
 

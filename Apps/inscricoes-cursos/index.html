@@ -428,10 +428,36 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 /* ===== VISUAL DESTE APP (bloco "visual" do app.json) ===== */
 :root{--app-acento:#0369a1;--app-acento-claro:#3a8ab6;--app-acento-forte:#024c74;--app-acento-escuro:#86b7d2;--padrao:url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="80" height="20"%3E%3Cpath d="M0 10c10-8 30-8 40 0s30 8 40 0" fill="none" stroke="%23fff" stroke-opacity=".08" stroke-width="1.4"/%3E%3C/svg%3E')}
 /* ===== CSS DO APP ===== */
+/* Identidade das Inscrições em Cursos: cartões de curso e esteira. */
+
+.inc-cursos{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:14px;margin-bottom:16px}
+.inc-curso{display:flex;flex-direction:column;gap:9px}
+.inc-curso-titulo{color:var(--ink);text-decoration:none;font-size:18px;line-height:1.3}
+.inc-curso-titulo:hover{color:var(--accent)}
+.inc-curso-dados{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin:0}
+.inc-curso-dados b{color:var(--accent-forte)}
+.inc-acoes{display:flex;gap:8px;align-items:center;margin-top:auto;padding-top:6px}
+
+.inc-esteira{display:flex;flex-wrap:wrap;gap:4px;align-items:center}
+.inc-esteira a{display:inline-flex;align-items:center;gap:4px;padding:4px 7px;border:1px solid var(--linha);border-radius:999px;font-size:11.5px;color:var(--ink2);text-decoration:none;background:var(--painel)}
+.inc-esteira a:hover{border-color:var(--accent);color:var(--accent);background:var(--accent-suave)}
+.inc-esteira .n{display:grid;place-items:center;width:15px;height:15px;border-radius:50%;background:var(--accent);color:#fff;font-size:9.5px;font-weight:700}
+
+.inc-centro .inc-esteira{margin:10px 0 14px}
+.inc-centro .inc-esteira a{padding:8px 12px;font-size:13.5px}
+.inc-centro .inc-esteira .n{width:20px;height:20px;font-size:11px}
+.inc-centro-kpis{display:flex;flex-wrap:wrap;gap:18px;padding-top:12px;border-top:1px solid var(--linha)}
+.inc-centro-kpis b{color:var(--accent-forte);font-size:18px}
+.inc-dirs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.inc-dirs span{display:flex;flex-direction:column;padding:10px;border:1px solid var(--linha);border-radius:var(--raio);background:var(--painel-2)}
+.inc-dirs i{font-style:normal;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+.inc-dirs b{font-size:24px}
+.inc-dirs small{color:var(--ink2);line-height:1.2}
+@media (max-width:640px){ .inc-cursos{grid-template-columns:1fr} }
 
 </style>
 </head>
-<body data-layout="topo" data-estilo="institucional" data-cabecalho="degrade" data-fonte="sistema" data-densidade="normal" data-cantos="suaves" data-superficie="cartoes" data-kpi="barra">
+<body data-layout="topo" data-estilo="institucional" data-cabecalho="degrade" data-fonte="arredondada" data-densidade="ampla" data-cantos="redondos" data-superficie="cartoes" data-kpi="faixa">
 <div class="faixa-gov"><div class="in">
   <span class="bandeira" aria-hidden="true"><i style="background:#1e63ae"></i><i style="background:#0b7a3e"></i><i style="background:#e8b931"></i></span>
   <span><b>Governo de Mato Grosso</b></span><span class="sep">|</span>
@@ -1250,6 +1276,12 @@ const APP = {
       ]
     },
     {
+      "rota": "#/curso/:curso",
+      "titulo": "Curso",
+      "sprint": 4,
+      "descricao": "Esteira do curso, da divulgação à turma."
+    },
+    {
       "rota": "#/divulgar/:curso",
       "titulo": "Divulgar",
       "sprint": 2,
@@ -1323,7 +1355,14 @@ const APP = {
     "layout": "topo",
     "padrao": "ondas",
     "estilo": "institucional",
-    "setor": "Formação Inicial e Continuada"
+    "setor": "Formação Inicial e Continuada",
+    "casca": "topo",
+    "cabecalho": "degrade",
+    "fonte": "arredondada",
+    "densidade": "ampla",
+    "cantos": "redondos",
+    "superficie": "cartoes",
+    "kpi": "faixa"
   },
   "perfis": [
     {
@@ -1334,7 +1373,8 @@ const APP = {
     {
       "id": "diretoria",
       "nome": "Diretoria",
-      "descricao": "Recebe o arquivo de triagem e define titulares e reserva."
+      "descricao": "Recebe o arquivo de triagem e define titulares e reserva.",
+      "inicio": "#/triagem"
     }
   ],
   "rotaSemPerfil": [
@@ -1627,6 +1667,57 @@ TELAS_DEPOIS["#/inscricao"] = ()=>{
         <textarea id="textoEmail" rows="6" readonly>${esc(corpo)}</textarea></details></div>`;
     $("#btnCopiarBloco").addEventListener("click", async ()=>{ try { await navigator.clipboard.writeText(corpo); toast("Texto copiado."); } catch(err){ $("#textoEmail").select(); toast("Use Ctrl+C."); } });
   });
+};
+
+/* Identidade das Inscrições em Cursos.
+   Entra por último no build. A tela-assinatura são os cartões de curso com a
+   esteira Divulgar → Turma; o curso ganha uma tela central com os passos. */
+
+const INC_PASSOS = [["Divulgar", "#/divulgar/"], ["Importar", "#/importar"], ["Inscritos", "#/inscritos/"],
+  ["Triagem", "#/triagem"], ["Convocação", "#/convocacao/"], ["Turma", "#/turma/"]];
+function incEsteira(id){
+  return `<div class="inc-esteira">${INC_PASSOS.map(([nome, rota], i)=>{
+    const href = rota.endsWith("/") ? rota + encodeURIComponent(id) : rota;
+    return `<a href="${href}" title="Abrir ${nome}"><span class="n">${i + 1}</span>${nome}</a>`;
+  }).join("")}</div>`;
+}
+const incCursosAntes = TELAS["#/cursos"];
+TELAS["#/cursos"] = async ()=>{
+  const html = await incCursosAntes();
+  const [cursos, dirs] = await Promise.all([db.list("cursos"), db.list("diretorias")]);
+  const doc = new DOMParser().parseFromString(`<div id="incRaiz">${html}</div>`, "text/html");
+  const raiz = doc.getElementById("incRaiz");
+  if (!raiz) return html;
+  const tabela = [...raiz.querySelectorAll(".card")].find(c=>c.querySelector("table"));
+  const cards = doc.createElement("div"); cards.className = "inc-cursos";
+  cards.innerHTML = cursos.length ? cursos.sort((a, b)=>String(b.inicio).localeCompare(String(a.inicio))).map(c=>`
+    <div class="card inc-curso">
+      <a class="inc-curso-titulo" href="#/curso/${encodeURIComponent(c.id)}"><b>${esc(c.nome)}</b></a>
+      <p class="sub">${esc(c.local || "")} · ${periodo(c)}</p>
+      <p class="inc-curso-dados"><span class="selo ${c.status === "encerrado" ? "info" : "ok"}">${esc(c.status || "rascunho")}</span>
+        <b>${totalVagas(c)}</b> vagas · inscrições até ${dataCurtaBR(c.inscricao_fim)}</p>
+      ${incEsteira(c.id)}
+      <div class="inc-acoes"><a class="botao prim" href="#/divulgar/${encodeURIComponent(c.id)}">Divulgar</a><button type="button" data-editar="${esc(c.id)}">Editar</button></div>
+    </div>`).join("") : '<div class="card vazio">Nenhum curso. Use o formulário abaixo para cadastrar o primeiro.</div>';
+  if (tabela) tabela.replaceWith(cards); else raiz.insertBefore(cards, raiz.querySelector("#formCurso"));
+  return raiz.innerHTML;
+};
+
+TELAS["#/curso/:curso"] = async ({curso})=>{
+  const c = await db.get("cursos", curso);
+  if (!c) return `<div class="card vazio">Curso não encontrado. <a href="#/cursos">Voltar</a></div>`;
+  const insc = (await db.list("inscricoes")).filter(i=>i.curso_id === curso);
+  const dirs = await db.list("diretorias");
+  const porDir = dirs.map(d=>({d, n: insc.filter(i=>i.diretoria === d.sigla).length}));
+  return `<h1>${esc(c.nome)}</h1>
+    <p class="sub">${esc(c.local || "")} · ${periodo(c)} · ${totalVagas(c)} vagas. <a href="#/cursos">Voltar aos cursos</a></p>
+    <div class="card inc-centro"><h2 style="margin-top:0">Esteira do curso</h2>
+      <p class="sub">Seis passos, da divulgação à turma. Clique no passo para abrir a tela.</p>
+      ${incEsteira(curso)}
+      <div class="inc-centro-kpis"><span><b>${insc.length}</b> inscrições</span><span><b>${totalVagas(c)}</b> vagas</span>
+        <span><b>${dataCurtaBR(c.inscricao_fim)}</b> fim das inscrições</span><span><b>${dataCurtaBR(c.prazo_triagem)}</b> triagem</span></div></div>
+    <div class="card"><h2 style="margin-top:0">Inscrições por diretoria</h2>
+      <div class="inc-dirs">${porDir.map(({d, n})=>`<span><i>${esc(d.sigla)}</i><b>${n}</b><small>${esc(d.nome)}</small></span>`).join("")}</div></div>`;
 };
 
 

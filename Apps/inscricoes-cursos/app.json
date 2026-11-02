@@ -8,7 +8,14 @@
     "layout": "topo",
     "padrao": "ondas",
     "estilo": "institucional",
-    "setor": "Formação Inicial e Continuada"
+    "setor": "Formação Inicial e Continuada",
+    "casca": "topo",
+    "cabecalho": "degrade",
+    "fonte": "arredondada",
+    "densidade": "ampla",
+    "cantos": "redondos",
+    "superficie": "cartoes",
+    "kpi": "faixa"
   },
   "db": {
     "nome": "inscricoes_politec_v1",
@@ -76,7 +83,8 @@
     {
       "id": "diretoria",
       "nome": "Diretoria",
-      "descricao": "Recebe o arquivo de triagem e define titulares e reserva."
+      "descricao": "Recebe o arquivo de triagem e define titulares e reserva.",
+      "inicio": "#/triagem"
     }
   ],
   "rotaSemPerfil": [
@@ -91,6 +99,12 @@
       "perfis": [
         "gerencia"
       ]
+    },
+    {
+      "rota": "#/curso/:curso",
+      "titulo": "Curso",
+      "sprint": 4,
+      "descricao": "Esteira do curso, da divulgação à turma."
     },
     {
       "rota": "#/divulgar/:curso",

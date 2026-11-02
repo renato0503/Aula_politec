@@ -206,6 +206,7 @@ feito em cada um está resumido aqui e no `README.md` e no `sprint.md` do app.
 | tap-portfolio-projetos | (este commit) | Casca de topo, degradê, serifa, ampla, redondos, cartões, KPI em anel. Matriz valor × prioridade e início por perfil (Equipe → Triagem; Autoridade → Portfólio). |
 | adiantamento | (este commit) | Casca lateral, sólido, mono, compacta, cantos retos, planas, KPI em número. Tela `#/processos` com régua de prazos e prazo em destaque no topo da ficha. |
 | metas-bi-ocr | (este commit) | Casca de topo, claro, sistema, ampla, cantos suaves, cartões, KPI em anel. Ano em 12 meses com situação e passos 1-2-3. |
+| inscricoes-cursos | (este commit) | Casca de topo, degradê, arredondada, ampla, redondos, cartões, KPI em faixa. Cartões de curso com esteira e tela central do curso. |
 
 ---
 
