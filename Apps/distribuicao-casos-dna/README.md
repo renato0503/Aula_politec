@@ -108,3 +108,14 @@ mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
+
+## Identidade e usabilidade (02/11/2026)
+
+A identidade é de laboratório: casca de topo, cabeçalho em degradê, cantos
+redondos e KPI em anel. A tela-assinatura é a **placa de 96 poços**, em que cada
+poço é um caso da rodada na cor do perito, com legenda e poço cinza para o caso
+sem perito. A rodada virou abas: Distribuição, Casos, Urgências e Histórico. O
+perito ganhou a tela **Meus casos**, com o seletor de perito e os casos
+distribuídos agrupados por rodada. O menu ficou Painel, Rodadas, Nova rodada,
+Meus casos, Importar protocolos e Configuração. Código em `src/identidade.js` e
+`src/app.css`.

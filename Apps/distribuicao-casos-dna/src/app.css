@@ -1,0 +1,15 @@
+/* Identidade da Distribuição de Casos de DNA: placa de 96 poços e meus casos. */
+
+.dd-placa-card{border-top:5px solid var(--accent)}
+.dd-placa{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:5px;max-width:560px;padding:14px;background:var(--painel-2);border:1px solid var(--linha);border-radius:calc(var(--raio) - 4px)}
+.dd-poco{display:block;min-width:0;width:100%;aspect-ratio:1;border-radius:50%;border:1px solid color-mix(in srgb, var(--ink) 14%, transparent);background:var(--painel);box-shadow:inset 0 -2px 3px rgba(0,0,0,.08)}
+.dd-poco.vazio{background:var(--painel);opacity:.55}
+.dd-poco.sem{background:var(--linha);opacity:1}
+.dd-placa-legenda{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px;font-size:12.5px;color:var(--ink2)}
+.dd-placa-legenda span{display:inline-flex;align-items:center;gap:6px}
+.dd-placa-legenda i{width:11px;height:11px;border-radius:50%;display:inline-block}
+.dd-placa-legenda i.sem{background:var(--painel);border:1px solid var(--linha)}
+.dd-placa-legenda b{color:var(--ink)}
+@media (max-width:640px){ .dd-placa{gap:3px;padding:8px} }
+
+.dd-meus .campos{grid-template-columns:minmax(220px,320px) minmax(0,1fr)}
