@@ -215,6 +215,8 @@ Glifos de atividade: `glyph="human"` (pessoa) ou `glyph="bot"` (robo = automatiz
 
 > **Atualização de 02/11/2026 (vale sobre o texto abaixo):** cada app passou a ser autônomo (`nucleo/`, `construir.py` e `testes/` próprios, sem base comum) e vai ganhar identidade própria. O que foi feito, o que falta e o prompt de continuação estão em `Apps/CONTINUAR-IDENTIDADE.md`. O diagnóstico e o plano de cada app estão em `Apps/PLANO-USABILIDADE.md`.
 
+> **Identidade e usabilidade (02/11/2026):** os 20 apps receberam o bloco `visual` da Parte D do plano, um núcleo divergente quando a tela pediu e a tela-assinatura em `src/identidade.js`, com um commit por app. `python Apps/_base/testar.py` (20/20) e `python Apps/_base/testar_sprints.py` (89/89) passam. O que cada app ganhou está na seção 2.7 de `Apps/CONTINUAR-IDENTIDADE.md`.
+
 
 A partir da Aula 8, cada projeto entregue no formulario ganha uma pasta em
 `Apps/<slug-do-projeto>/`. O material do curso continua em `Aula N/`; o codigo
