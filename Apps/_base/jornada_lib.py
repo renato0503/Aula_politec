@@ -20,6 +20,15 @@ def slug(texto):
     return texto[:60] or "passo"
 
 
+def aceitar_dialogo(dialogo):
+    """Aceita o confirm() sem derrubar a conexão quando o navegador (Lightpanda)
+    já fechou o diálogo."""
+    try:
+        dialogo.accept()
+    except Exception:
+        pass
+
+
 class Jornada:
     def __init__(self, app, pg, url, viewport, perfil, resultados, erros, outdir):
         self.app = app
@@ -32,10 +41,11 @@ class Jornada:
         self.outdir = outdir
         self.console = []
         self.rede = []
+        self.origem = url.rsplit("/", 1)[0] if "/" in url else url
         self._passo_atual = ""
         pg.on("pageerror", lambda e: self.console.append(f"pageerror: {e}"))
         pg.on("console", lambda m: self.console.append(m.text) if m.type == "error" else None)
-        pg.on("request", lambda r: self.rede.append(r.url) if not r.url.startswith(("file:", "data:", "blob:")) else None)
+        pg.on("request", lambda r: self.rede.append(r.url) if not r.url.startswith(("file:", "data:", "blob:")) and not r.url.startswith(self.origem) else None)
 
     # ---------- navegação e espera ----------
     def abrir(self, rota="", espera=500):

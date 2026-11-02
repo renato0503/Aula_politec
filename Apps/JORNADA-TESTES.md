@@ -108,8 +108,19 @@ Para cada app: desktop, celular, capturas nos pontos-chave, registro dos erros.
 - **20 de 20 apps executados**, desktop 1366×900 e celular 390×844.
 - **149 passos** de jornada conferidos.
 - **0 erros** em aberto: o único P1 encontrado (`rnc-nao-conformidade`) foi corrigido nesta rodada.
-- Nenhuma requisição de rede e nenhum erro de console nos 20 apps.
+- Nenhuma requisição de rede e nenhum erro de console nos 20 apps, no Chromium.
 - Capturas em `Apps/_testes/jornada/<app>/` (fora do git).
+
+### 8.1 Lightpanda 1.0.2
+
+- Executado via WSL, CDP em `127.0.0.1:9222`, com os apps servidos por HTTP em
+  `127.0.0.1:8000` (o Lightpanda não abre `file://`).
+- **18 de 20 apps concluídos**; 146 passos.
+- Duas falhas são **limitações do navegador**, não do app:
+  - `cin-segunda-via`: `createImageBitmap`/canvas não reduz a foto de teste;
+  - `agiliza-mais`: upload de pasta (`webkitdirectory`) não é suportado.
+- Resultado em `Apps/jornada-resultados-lightpanda.json`.
+- A avaliação crítica está em `Apps/JORNADA-NAVEGABILIDADE.md`.
 
 | App | Perfil da jornada | Passos | Erros | Situação |
 |---|---|---|---|---|
@@ -134,7 +145,7 @@ Para cada app: desktop, celular, capturas nos pontos-chave, registro dos erros.
 | equipamentos-google-earth | coordenadoria | 8 | 0 | ok |
 | agiliza-mais | — | 7 | 0 | ok |
 
-### 8.1 O erro encontrado
+### 8.2 O erro encontrado e corrigido
 
 **rnc-nao-conformidade-01 · contexto de setor não preenche Minhas RNCs (P1) — corrigido**
 
@@ -159,3 +170,7 @@ Para cada app: desktop, celular, capturas nos pontos-chave, registro dos erros.
 - O GitHub Pages não foi ligado porque os repositórios são privados.
 - A correção do contexto de setor da RNC foi enviada ao repositório
   `rnc-nao-conformidade` (commit `4852ab5` no ramo `main`).
+- Cada app recebeu `testes/jornada.py` e `testes/jornada_lib.py`, autônomos:
+  `python testes/jornada.py` (Chromium) ou
+  `python testes/jornada.py --cdp http://127.0.0.1:9222 --base http://127.0.0.1:8000`
+  (Lightpanda).

@@ -1,0 +1,1108 @@
+[
+ {
+  "app": "agendamento-cin",
+  "url": "http://127.0.0.1:8000/agendamento-cin/index.html",
+  "cdp": "http://127.0.0.1:9222",
+  "resultados": [
+   {
+    "passo": "abre no agendamento do cidadão",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "não mostra tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o calendário do mês mostra dias com vaga",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o dia escolhido abre os horários",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o comprovante sai com protocolo",
+    "ok": true,
+    "esperado": "protocolo CIN-XXXXXX",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [],
+  "capturas": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-agendamento-cin-ti6m790i"
+ },
+ {
+  "app": "cin-segunda-via",
+  "url": "http://127.0.0.1:8000/cin-segunda-via/index.html",
+  "cdp": "http://127.0.0.1:9222",
+  "resultados": [
+   {
+    "passo": "a inscrição pública abre sem menu interno",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "não mostra tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o formulário de dados abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o pedido gera protocolo 2V-",
+    "ok": false,
+    "esperado": "protocolo 2V-XXXXXX",
+    "observado": "Pedir a segunda via da Carteira de Identidade\n\nSem ir ao posto, quando a primeira via ainda está válida e nenhum dado mudou.\n\n1. Antes de começar\nSua Carteira de Identidade (primei"
+   },
+   {
+    "passo": "a caixa de entrada abre com pedidos",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o pedido abre na ficha",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [
+   {
+    "id": "cin-segunda-via-01",
+    "app": "cin-segunda-via",
+    "severidade": "P1",
+    "perfil": "servidor",
+    "viewport": "desktop",
+    "rota": "#/pedido",
+    "passo": "o pedido gera protocolo 2V-",
+    "esperado": "protocolo 2V-XXXXXX",
+    "observado": "Pedir a segunda via da Carteira de Identidade\n\nSem ir ao posto, quando a primeira via ainda está válida e nenhum dado mudou.\n\n1. Antes de começar\nSua Carteira de Identidade (primeira via) está dentro da validade?  Sim  Não\nAlgum dado mudou ",
+    "console": [
+     "pageerror: Não consegui reduzir a imagem.",
+     "pageerror: Não consegui reduzir a imagem."
+    ],
+    "rede": [],
+    "screenshot": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-cin-segunda-via-5yr535il\\desktop-o-pedido-gera-protocolo-2v.png"
+   },
+   {
+    "id": "cin-segunda-via-02",
+    "app": "cin-segunda-via",
+    "severidade": "P2",
+    "perfil": "servidor",
+    "viewport": "desktop",
+    "rota": "#/fila",
+    "passo": "erros no console",
+    "esperado": "nenhum erro de console",
+    "observado": "pageerror: Não consegui reduzir a imagem.; pageerror: Não consegui reduzir a imagem.",
+    "console": [
+     "pageerror: Não consegui reduzir a imagem.",
+     "pageerror: Não consegui reduzir a imagem."
+    ],
+    "rede": [],
+    "screenshot": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-cin-segunda-via-5yr535il\\desktop-erros-no-console.png"
+   }
+  ],
+  "capturas": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-cin-segunda-via-5yr535il"
+ },
+ {
+  "app": "horus-banco-demandas",
+  "url": "http://127.0.0.1:8000/horus-banco-demandas/index.html",
+  "cdp": "http://127.0.0.1:9222",
+  "resultados": [
+   {
+    "passo": "a vitrine lista os 15 itens",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a faceta de grupo filtra a vitrine",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a alternância para tabela funciona",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o contexto de unidade aparece na vitrine",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [],
+  "capturas": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-horus-banco-demandas-3xkrf79y"
+ },
+ {
+  "app": "trilha-custodia-necropsia",
+  "url": "http://127.0.0.1:8000/trilha-custodia-necropsia/index.html",
+  "cdp": "http://127.0.0.1:9222",
+  "resultados": [
+   {
+    "passo": "o quadro de plantão abre em colunas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "os cartões de corpo aparecem",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a ficha abre em abas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a situação muda com motivo",
+    "ok": true,
+    "esperado": "situação não identificado",
+    "observado": ""
+   },
+   {
+    "passo": "o gestor vê os tempos",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a tabela de permanência aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [],
+  "capturas": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-trilha-custodia-necropsia-e10b5iy0"
+ },
+ {
+  "app": "controle-aquisicoes",
+  "url": "http://127.0.0.1:8000/controle-aquisicoes/index.html",
+  "cdp": "http://127.0.0.1:9222",
+  "resultados": [
+   {
+    "passo": "o kanban tem as 9 etapas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "os processos aparecem nos cartões",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a ficha abre em abas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a ficha tem a barra de etapas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o requisitante não vê concluir etapa",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a tela explica quem conclui",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [],
+  "capturas": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-controle-aquisicoes-gm63gl_y"
+ },
+ {
+  "app": "custodia-definitiva",
+  "url": "http://127.0.0.1:8000/custodia-definitiva/index.html",
+  "cdp": "http://127.0.0.1:9222",
+  "resultados": [
+   {
+    "passo": "o balcão de leitura abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o mapa das prateleiras aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o lacre abre a ficha",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a ficha do vestígio abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o gestor vê o painel do gestor",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o painel do gestor some para a custódia",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [],
+  "capturas": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-custodia-definitiva-9kp3usn3"
+ },
+ {
+  "app": "documentapolitec",
+  "url": "http://127.0.0.1:8000/documentapolitec/index.html",
+  "cdp": "http://127.0.0.1:9222",
+  "resultados": [
+   {
+    "passo": "a estante mostra as caixas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu ficou com 5 itens",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a ficha da caixa abre em abas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a conferência por leitura fica em campo focado",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a leitura marca o prontuário",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [],
+  "capturas": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-documentapolitec-7himwnvn"
+ },
+ {
+  "app": "gestao-documentos",
+  "url": "http://127.0.0.1:8000/gestao-documentos/index.html",
+  "cdp": "http://127.0.0.1:9222",
+  "resultados": [
+   {
+    "passo": "a caixa do servidor aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a ficha abre em abas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a autoridade vê a conclusão",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o servidor vê o aviso da autoridade",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [],
+  "capturas": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-gestao-documentos-aom8q9q_"
+ },
+ {
+  "app": "renovacao-contratos-horus",
+  "url": "http://127.0.0.1:8000/renovacao-contratos-horus/index.html",
+  "cdp": "http://127.0.0.1:9222",
+  "resultados": [
+   {
+    "passo": "a régua de vencimentos aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o semáforo em barra aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a faixa leva à lista filtrada",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a ficha abre em abas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o fiscal vê a caixa Meus contratos",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [],
+  "capturas": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-renovacao-contratos-horus-dl9kh0rz"
+ },
+ {
+  "app": "distribuicao-casos-dna",
+  "url": "http://127.0.0.1:8000/distribuicao-casos-dna/index.html",
+  "cdp": "http://127.0.0.1:9222",
+  "resultados": [
+   {
+    "passo": "a placa de 96 poços aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a rodada abre em abas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o perito vê Meus casos",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [],
+  "capturas": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-distribuicao-casos-dna-20bz1sfh"
+ },
+ {
+  "app": "comissao-etica-denuncias",
+  "url": "http://127.0.0.1:8000/comissao-etica-denuncias/index.html",
+  "cdp": "http://127.0.0.1:9222",
+  "resultados": [
+   {
+    "passo": "o funil do processo ético aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "as sete etapas estão no funil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o dossiê Reservado aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a barra de etapas do caso aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a classificação mostra as sugestões",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a classificação é confirmada",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [],
+  "capturas": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-comissao-etica-denuncias-iwbq3y_n"
+ },
+ {
+  "app": "passivo-ambiental",
+  "url": "http://127.0.0.1:8000/passivo-ambiental/index.html",
+  "cdp": "http://127.0.0.1:9222",
+  "resultados": [
+   {
+    "passo": "a fila do perito aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a miniatura do mapa aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o laudo abre em abas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o gestor vê a produtividade",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [],
+  "capturas": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-passivo-ambiental-zquf16ew"
+ },
+ {
+  "app": "rnc-nao-conformidade",
+  "url": "http://127.0.0.1:8000/rnc-nao-conformidade/index.html",
+  "cdp": "http://127.0.0.1:9222",
+  "resultados": [
+   {
+    "passo": "o quadro por etapa aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "as quatro etapas estão no quadro",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a ficha da RNC abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o setor vê as RNCs notificadas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [],
+  "capturas": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-rnc-nao-conformidade-my8_qj3s"
+ },
+ {
+  "app": "tap-portfolio-projetos",
+  "url": "http://127.0.0.1:8000/tap-portfolio-projetos/index.html",
+  "cdp": "http://127.0.0.1:9222",
+  "resultados": [
+   {
+    "passo": "a equipe abre na triagem",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a matriz do portfólio aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o TAP abre com as pendências",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [],
+  "capturas": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-tap-portfolio-projetos-kp30gjiu"
+ },
+ {
+  "app": "adiantamento",
+  "url": "http://127.0.0.1:8000/adiantamento/index.html",
+  "cdp": "http://127.0.0.1:9222",
+  "resultados": [
+   {
+    "passo": "a régua de prazos aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o prazo fica no topo da ficha",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a prestação de contas abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [],
+  "capturas": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-adiantamento-zaj84kmm"
+ },
+ {
+  "app": "metas-bi-ocr",
+  "url": "http://127.0.0.1:8000/metas-bi-ocr/index.html",
+  "cdp": "http://127.0.0.1:9222",
+  "resultados": [
+   {
+    "passo": "o ano em 12 meses aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a importação lê o mês",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o mês muda para importado",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o histórico mostra o mês",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [],
+  "capturas": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-metas-bi-ocr-pe3s_yy3"
+ },
+ {
+  "app": "inscricoes-cursos",
+  "url": "http://127.0.0.1:8000/inscricoes-cursos/index.html",
+  "cdp": "http://127.0.0.1:9222",
+  "resultados": [
+   {
+    "passo": "os cartões de curso aparecem",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o curso abre com a esteira",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a esteira tem seis passos",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a divulgação mostra o link e o QR",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a diretoria abre na triagem",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [],
+  "capturas": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-inscricoes-cursos-pn6q7xtm"
+ },
+ {
+  "app": "mapa-distribuicao-credor",
+  "url": "http://127.0.0.1:8000/mapa-distribuicao-credor/index.html",
+  "cdp": "http://127.0.0.1:9222",
+  "resultados": [
+   {
+    "passo": "a esteira das 8 etapas aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a grade em formato planilha aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a etapa Resultado abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [],
+  "capturas": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-mapa-distribuicao-credor-zaf8ti5b"
+ },
+ {
+  "app": "equipamentos-google-earth",
+  "url": "http://127.0.0.1:8000/equipamentos-google-earth/index.html",
+  "cdp": "http://127.0.0.1:9222",
+  "resultados": [
+   {
+    "passo": "o mapa de MT aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "os pinos das unidades aparecem",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o pino leva à lista de equipamentos",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a lista mostra os equipamentos",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o filtro de criticidade muda a contagem",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [],
+  "capturas": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-equipamentos-google-earth-gby1am4s"
+ },
+ {
+  "app": "agiliza-mais",
+  "url": "http://127.0.0.1:8000/agiliza-mais/index.html",
+  "cdp": "http://127.0.0.1:9222",
+  "resultados": [
+   {
+    "passo": "a tela de casos abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [
+   {
+    "id": "agiliza-mais-01",
+    "app": "agiliza-mais",
+    "severidade": "P1",
+    "perfil": null,
+    "viewport": "desktop",
+    "rota": "#/arquivos",
+    "passo": "exceção durante a jornada",
+    "esperado": "a jornada termina sem exceção",
+    "observado": "Error: Page.set_input_files: Error: File input does not support directories, pass individual files instead\nCall log:\n  - waiting for locator(\"#inpPasta\")\n    - locator resolved to <input multiple hidden=\"\" type=\"file\" id=\"inpPasta\" webkitdirectory=\"\"/>\n",
+    "console": [],
+    "rede": [],
+    "screenshot": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-agiliza-mais-gg8a7qop\\desktop-exce-o-durante-a-jornada.png"
+   }
+  ],
+  "capturas": "C:\\Users\\Renato\\AppData\\Local\\Temp\\jornada-agiliza-mais-gg8a7qop"
+ }
+]
