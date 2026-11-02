@@ -206,9 +206,9 @@ Os integrantes de `equipes.json` foram convidados como **colaboradores com
 permissão de push**. Convite aceito ou pendente no GitHub de cada aluno.
 
 - **Convites feitos:** todos os logins informados, exceto os dois abaixo.
-- **Falharam (login não encontrado na API):** `Linickeraraujo-sd` (adiantamento)
-  e `Vitoriadias-droide` (gestão de documentos). Conferir a grafia do login e
-  reenviar o convite.
+- **Não existem na API do GitHub (404 confirmado em 02/11/2026):**
+  `Linickeraraujo-sd` (adiantamento) e `Vitoriadias-droide` (gestão de
+  documentos). Pedir o login correto ao aluno e reenviar o convite.
 - **Sem login informado:** Glauce (cin-segunda-via), Letícia (comissão de ética),
   Luciana (DNA), Iohan (Hórus) e Silmara (TCIN).
 - O GitHub Pages não foi ligado porque os repositórios são privados; no plano

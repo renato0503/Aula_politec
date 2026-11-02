@@ -157,3 +157,5 @@ Para cada app: desktop, celular, capturas nos pontos-chave, registro dos erros.
   têm login.
 - A tabela completa está em `Apps/README.md`, seção "Repositórios dos apps".
 - O GitHub Pages não foi ligado porque os repositórios são privados.
+- A correção do contexto de setor da RNC foi enviada ao repositório
+  `rnc-nao-conformidade` (commit `4852ab5` no ramo `main`).
