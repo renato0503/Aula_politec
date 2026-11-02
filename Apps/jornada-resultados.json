@@ -1,0 +1,1051 @@
+[
+ {
+  "app": "agendamento-cin",
+  "perfil": "posto",
+  "resultados": [
+   {
+    "passo": "abre no agendamento do cidadão",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "não mostra tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o calendário do mês mostra dias com vaga",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o dia escolhido abre os horários",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o comprovante sai com protocolo",
+    "ok": true,
+    "esperado": "protocolo CIN-XXXXXX",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": []
+ },
+ {
+  "app": "cin-segunda-via",
+  "perfil": "servidor",
+  "resultados": [
+   {
+    "passo": "a inscrição pública abre sem menu interno",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "não mostra tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o formulário de dados abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o pedido gera protocolo 2V-",
+    "ok": true,
+    "esperado": "protocolo 2V-XXXXXX",
+    "observado": ""
+   },
+   {
+    "passo": "a caixa de entrada abre com pedidos",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o pedido abre na ficha",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": []
+ },
+ {
+  "app": "horus-banco-demandas",
+  "perfil": "DIRETOR",
+  "resultados": [
+   {
+    "passo": "a vitrine lista os 15 itens",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a faceta de grupo filtra a vitrine",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a alternância para tabela funciona",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o contexto de unidade aparece na vitrine",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": []
+ },
+ {
+  "app": "trilha-custodia-necropsia",
+  "perfil": "plantonista",
+  "resultados": [
+   {
+    "passo": "o quadro de plantão abre em colunas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "os cartões de corpo aparecem",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a ficha abre em abas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a situação muda com motivo",
+    "ok": true,
+    "esperado": "situação não identificado",
+    "observado": ""
+   },
+   {
+    "passo": "o gestor vê os tempos",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a tabela de permanência aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": []
+ },
+ {
+  "app": "controle-aquisicoes",
+  "perfil": "compras",
+  "resultados": [
+   {
+    "passo": "o kanban tem as 9 etapas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "os processos aparecem nos cartões",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a ficha abre em abas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a ficha tem a barra de etapas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o requisitante não vê concluir etapa",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a tela explica quem conclui",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": []
+ },
+ {
+  "app": "custodia-definitiva",
+  "perfil": "custodia",
+  "resultados": [
+   {
+    "passo": "o balcão de leitura abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o mapa das prateleiras aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o lacre abre a ficha",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a ficha do vestígio abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o gestor vê o painel do gestor",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o painel do gestor some para a custódia",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": []
+ },
+ {
+  "app": "documentapolitec",
+  "perfil": "papiloscopista",
+  "resultados": [
+   {
+    "passo": "a estante mostra as caixas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu ficou com 5 itens",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a ficha da caixa abre em abas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a conferência por leitura fica em campo focado",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a leitura marca o prontuário",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": []
+ },
+ {
+  "app": "gestao-documentos",
+  "perfil": "servidor",
+  "resultados": [
+   {
+    "passo": "a caixa do servidor aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a ficha abre em abas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a autoridade vê a conclusão",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o servidor vê o aviso da autoridade",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": []
+ },
+ {
+  "app": "renovacao-contratos-horus",
+  "perfil": "gestor",
+  "resultados": [
+   {
+    "passo": "a régua de vencimentos aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o semáforo em barra aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a faixa leva à lista filtrada",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a ficha abre em abas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o fiscal vê a caixa Meus contratos",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": []
+ },
+ {
+  "app": "distribuicao-casos-dna",
+  "perfil": "coordenador",
+  "resultados": [
+   {
+    "passo": "a placa de 96 poços aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a rodada abre em abas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o perito vê Meus casos",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": []
+ },
+ {
+  "app": "comissao-etica-denuncias",
+  "perfil": "presidente",
+  "resultados": [
+   {
+    "passo": "o funil do processo ético aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "as sete etapas estão no funil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o dossiê Reservado aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a barra de etapas do caso aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a classificação mostra as sugestões",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a classificação é confirmada",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": []
+ },
+ {
+  "app": "passivo-ambiental",
+  "perfil": "perito",
+  "resultados": [
+   {
+    "passo": "a fila do perito aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a miniatura do mapa aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o laudo abre em abas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o gestor vê a produtividade",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": []
+ },
+ {
+  "app": "rnc-nao-conformidade",
+  "perfil": "cqual",
+  "resultados": [
+   {
+    "passo": "o quadro por etapa aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "as quatro etapas estão no quadro",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a ficha da RNC abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o setor vê as RNCs notificadas",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": [
+   {
+    "id": "rnc-nao-conformidade-01",
+    "app": "rnc-nao-conformidade",
+    "severidade": "P1",
+    "perfil": "setor",
+    "viewport": "desktop",
+    "rota": "#/minhas",
+    "passo": "o contexto de setor não preenche Minhas RNCs",
+    "esperado": "o seletor deveria vir em LTX",
+    "observado": "veio em ",
+    "console": [],
+    "rede": [],
+    "screenshot": "D:\\Dev\\Aula Politec\\Apps\\_testes\\jornada\\rnc-nao-conformidade\\desktop-o-contexto-de-setor-n-o-preenche-minhas-rncs.png"
+   }
+  ]
+ },
+ {
+  "app": "tap-portfolio-projetos",
+  "perfil": "equipe",
+  "resultados": [
+   {
+    "passo": "a equipe abre na triagem",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a matriz do portfólio aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o TAP abre com as pendências",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": []
+ },
+ {
+  "app": "adiantamento",
+  "perfil": null,
+  "resultados": [
+   {
+    "passo": "a régua de prazos aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o prazo fica no topo da ficha",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a prestação de contas abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": []
+ },
+ {
+  "app": "metas-bi-ocr",
+  "perfil": null,
+  "resultados": [
+   {
+    "passo": "o ano em 12 meses aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a importação lê o mês",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o mês muda para importado",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o histórico mostra o mês",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": []
+ },
+ {
+  "app": "inscricoes-cursos",
+  "perfil": "gerencia",
+  "resultados": [
+   {
+    "passo": "os cartões de curso aparecem",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o curso abre com a esteira",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a esteira tem seis passos",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a divulgação mostra o link e o QR",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a diretoria abre na triagem",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": []
+ },
+ {
+  "app": "mapa-distribuicao-credor",
+  "perfil": null,
+  "resultados": [
+   {
+    "passo": "a esteira das 8 etapas aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a grade em formato planilha aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a etapa Resultado abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": []
+ },
+ {
+  "app": "equipamentos-google-earth",
+  "perfil": "coordenadoria",
+  "resultados": [
+   {
+    "passo": "o mapa de MT aparece",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "os pinos das unidades aparecem",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o pino leva à lista de equipamentos",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a lista mostra os equipamentos",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o filtro de criticidade muda a contagem",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": []
+ },
+ {
+  "app": "agiliza-mais",
+  "perfil": null,
+  "resultados": [
+   {
+    "passo": "a tela de casos abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a pasta abre a bancada do caso",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "os seis passos aparecem à esquerda",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o inventário mostra os arquivos",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": []
+ }
+]

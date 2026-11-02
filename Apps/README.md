@@ -169,3 +169,48 @@ Para acrescentar um login: `python Apps/_base/equipes.py <app> "<nome>" <login>`
 | tap-portfolio-projetos | Danielle Marques de Almeida Trevizan | `daniellealmeida-sudo` (Danielle) |
 | trilha-custodia-necropsia | Silmara Bueno | a informar |
 | (sem projeto) | Francis Souza | `francissouza-pixel` |
+
+## Repositórios dos apps (02/11/2026)
+
+Os 20 apps foram separados em repositórios **privados** em
+`github.com/renato0503`, um por app, com o histórico da pasta preservado por
+`git subtree split`. A branch padrão é `main` e cada repositório contém o
+`index.html`, o `nucleo/`, o `construir.py`, os `testes/` e os dados fictícios.
+
+| Repositório | Visibilidade | Branch | Conteúdo |
+|---|---|---|---|
+| [adiantamento](https://github.com/renato0503/adiantamento) | privado | `main` | index.html, nucleo/, testes/ |
+| [agendamento-cin](https://github.com/renato0503/agendamento-cin) | privado | `main` | index.html, nucleo/, testes/ |
+| [agiliza-mais](https://github.com/renato0503/agiliza-mais) | privado | `main` | index.html, nucleo/, testes/ |
+| [cin-segunda-via](https://github.com/renato0503/cin-segunda-via) | privado | `main` | index.html, nucleo/, testes/ |
+| [comissao-etica-denuncias](https://github.com/renato0503/comissao-etica-denuncias) | privado | `main` | index.html, nucleo/, testes/ |
+| [controle-aquisicoes](https://github.com/renato0503/controle-aquisicoes) | privado | `main` | index.html, nucleo/, testes/ |
+| [custodia-definitiva](https://github.com/renato0503/custodia-definitiva) | privado | `main` | index.html, nucleo/, testes/ |
+| [distribuicao-casos-dna](https://github.com/renato0503/distribuicao-casos-dna) | privado | `main` | index.html, nucleo/, testes/ |
+| [documentapolitec](https://github.com/renato0503/documentapolitec) | privado | `main` | index.html, nucleo/, testes/ |
+| [equipamentos-google-earth](https://github.com/renato0503/equipamentos-google-earth) | privado | `main` | index.html, nucleo/, testes/ |
+| [gestao-documentos](https://github.com/renato0503/gestao-documentos) | privado | `main` | index.html, nucleo/, testes/ |
+| [horus-banco-demandas](https://github.com/renato0503/horus-banco-demandas) | privado | `main` | index.html, nucleo/, testes/ |
+| [inscricoes-cursos](https://github.com/renato0503/inscricoes-cursos) | privado | `main` | index.html, nucleo/, testes/ |
+| [mapa-distribuicao-credor](https://github.com/renato0503/mapa-distribuicao-credor) | privado | `main` | index.html, nucleo/, testes/ |
+| [metas-bi-ocr](https://github.com/renato0503/metas-bi-ocr) | privado | `main` | index.html, nucleo/, testes/ |
+| [passivo-ambiental](https://github.com/renato0503/passivo-ambiental) | privado | `main` | index.html, nucleo/, testes/ |
+| [renovacao-contratos-horus](https://github.com/renato0503/renovacao-contratos-horus) | privado | `main` | index.html, nucleo/, testes/ |
+| [rnc-nao-conformidade](https://github.com/renato0503/rnc-nao-conformidade) | privado | `main` | index.html, nucleo/, testes/ |
+| [tap-portfolio-projetos](https://github.com/renato0503/tap-portfolio-projetos) | privado | `main` | index.html, nucleo/, testes/ |
+| [trilha-custodia-necropsia](https://github.com/renato0503/trilha-custodia-necropsia) | privado | `main` | index.html, nucleo/, testes/ |
+
+### Acessos
+
+Os integrantes de `equipes.json` foram convidados como **colaboradores com
+permissão de push**. Convite aceito ou pendente no GitHub de cada aluno.
+
+- **Convites feitos:** todos os logins informados, exceto os dois abaixo.
+- **Falharam (login não encontrado na API):** `Linickeraraujo-sd` (adiantamento)
+  e `Vitoriadias-droide` (gestão de documentos). Conferir a grafia do login e
+  reenviar o convite.
+- **Sem login informado:** Glauce (cin-segunda-via), Letícia (comissão de ética),
+  Luciana (DNA), Iohan (Hórus) e Silmara (TCIN).
+- O GitHub Pages não foi ligado porque os repositórios são privados; no plano
+  gratuito o Pages exige repositório público.
+

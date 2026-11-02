@@ -13,3 +13,6 @@ desktop.ini
 
 # Firebase (cache de deploy)
 .firebase/
+
+# Capturas geradas pela jornada do cliente
+Apps/_testes/
