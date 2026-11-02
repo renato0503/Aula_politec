@@ -8,7 +8,14 @@
     "layout": "lateral",
     "padrao": "pontos",
     "estilo": "institucional",
-    "setor": "IML · Perícias em Mortos"
+    "setor": "IML · Perícias em Mortos",
+    "casca": "trilho",
+    "cabecalho": "solido",
+    "fonte": "condensada",
+    "densidade": "ampla",
+    "cantos": "suaves",
+    "superficie": "planas",
+    "kpi": "numero"
   },
   "db": {
     "nome": "trilha_custodia_v1",

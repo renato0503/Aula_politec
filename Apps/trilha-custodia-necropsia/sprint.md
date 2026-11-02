@@ -27,6 +27,7 @@
 | 5 | Painel do gestor | Tempo de remoção, identificação e liberação; não reclamados |
 | 6 | Relatório e retirada | Relatório em CSV e impressão; retirada de dados do caso |
 | 7 | Aceite e piloto | Piloto de 30 dias com casos fictícios e roteiro de aceite |
+| Identidade e usabilidade | Feito em 02/11/2026. Casca de trilho, cabeçalho sólido, fonte condensada, densidade ampla, cantos suaves, superfícies planas e KPI em número; painel por perfil (4 perfis), quadro de plantão em colunas por situação com cartões de corpo e dias no IML, e ficha em abas. `python testes/testar.py` e `python testes/cenarios.py` passam. |
 
 **MVP 100% pronto = Sprints 0 a 7.**
 

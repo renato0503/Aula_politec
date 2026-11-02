@@ -120,3 +120,13 @@ mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
+
+## Identidade e usabilidade (02/11/2026)
+
+O app tem casca de trilho de ícones, cabeçalho sólido, fonte condensada e
+densidade ampla, para uso em tablet no IML. O painel é **por perfil**: o
+operador vê os acionamentos, o técnico vê a sala, o plantonista vê o **quadro de
+plantão** em colunas por situação (com cartões de corpo, iniciais, dias no IML e
+último marco) e o gestor vê os tempos, a permanência e o alerta de 12 h. A ficha
+do corpo virou abas: Resumo, Marcos, Lacres, Situação, Liberação e Auditoria.
+Código em `src/identidade.js` e `src/app.css`.
