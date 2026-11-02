@@ -54,3 +54,14 @@ mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
+
+## Identidade e usabilidade (02/11/2026)
+
+A casca é de trilho de ícones, com cabeçalho sólido, fonte condensada, cantos
+retos e superfícies planas. A tela-assinatura é o **balcão de leitura do lacre**:
+o campo fica em destaque no painel e no acervo, aceita leitor de código de barras
+e Enter abre a ficha; lacre não encontrado avisa na hora. O **mapa das
+prateleiras** mostra cada contêiner com barra de ocupação (verde, âmbar e
+vermelho) e leva ao acervo filtrado. O painel do gestor, com projeção, saturação
+e exportação, aparece só para o perfil Gestor. Código em `src/identidade.js` e
+`src/app.css`.

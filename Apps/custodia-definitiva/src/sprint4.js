@@ -118,13 +118,13 @@ TELAS["#/painel"] = async ()=>{
     return m ? Math.max(0, Math.round((new Date(m) - new Date(v.data_entrada)) / 86400000)) : null;
   }).filter(x=>x !== null);
   const tempoMedio = tempos.length ? Math.round(tempos.reduce((a, b)=>a + b, 0) / tempos.length * 10) / 10 : null;
-  return html + `<div class="card" id="cdGestor"><h2 style="margin-top:0">Painel do gestor (Sprint 6)</h2>
+  return html + `<div class="card" id="cdGestor"><h2 style="margin-top:0">Painel do gestor</h2>
       <p class="sub">Ocupação projetada a partir da série de 12 meses. Saldo médio de ${proj.saldo} item(ns) por mês (${proj.entradas} entradas e ${proj.saidas} saídas).</p>
       <div class="grade">
         <div class="card kpi"><div class="v" data-cd-ind="ocupacao">${proj.ocupacao}</div><div class="r">itens no acervo</div></div>
         <div class="card kpi"><div class="v" data-cd-ind="projecao">${proj.mensal.length ? proj.mensal[proj.mensal.length - 1].ocupacao : "—"}</div><div class="r">projeção em 6 meses</div></div>
         <div class="card kpi"><div class="v" data-cd-ind="saturados">${sat.filter(x=>x.alerta).length}</div><div class="r">contêineres em alerta (85%)</div></div>
-        <div class="card kpi"><div class="v" data-cd-ind="localizacao">${tempoMedio === null ? "—" : tempoMedio + " dia(s)"}</div><div class="r">tempo médio até a 1ª movimentação</div></div></div>
+        <div class="card kpi"><div class="v" data-cd-ind="localizacao">${tempoMedio === null ? "—" : plural(tempoMedio, "dia", "dias")}</div><div class="r">tempo médio até a 1ª movimentação</div></div></div>
       ${cdBarras("Itens por categoria", porCategoria)}
       ${cdBarras("Itens por contêiner", porConteiner, "var(--verde)")}
       ${cdBarras("Entradas por mês (últimos 6)", entradasPorMes, "var(--ambar)")}

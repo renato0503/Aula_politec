@@ -428,10 +428,26 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 /* ===== VISUAL DESTE APP (bloco "visual" do app.json) ===== */
 :root{--app-acento:#3f4a5a;--app-acento-claro:#69727e;--app-acento-forte:#2d3541;--app-acento-escuro:#a3a8b0;--padrao:url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="28" height="48"%3E%3Cpath d="M14 0l14 8v16l-14 8L0 24V8zM14 32v16" fill="none" stroke="%23fff" stroke-opacity=".08"/%3E%3C/svg%3E')}
 /* ===== CSS DO APP ===== */
+/* Identidade da Custódia Definitiva: balcão de leitura e mapa das prateleiras. */
+
+.cd-balcao{border-left:5px solid var(--accent);background:var(--painel)}
+.cd-balcao-rot{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink2)}
+.cd-ponto{width:9px;height:9px;border-radius:50%;background:var(--verde);box-shadow:0 0 0 4px color-mix(in srgb, var(--verde) 18%, transparent)}
+.cd-balcao-linha{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;margin:10px 0 6px}
+.cd-balcao-linha input{font-size:19px;font-family:var(--mono);letter-spacing:.02em}
+@media (max-width:640px){ .cd-balcao-linha{grid-template-columns:1fr} }
+
+.cd-prateleiras{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.cd-prateleira{display:flex;flex-direction:column;gap:6px;padding:14px;border:1px solid var(--linha);border-radius:var(--raio);background:var(--painel);color:var(--ink);text-decoration:none;border-top:5px solid var(--verde)}
+.cd-prateleira:hover{border-color:var(--accent)}
+.cd-prateleira.alerta{border-top-color:var(--ambar)}
+.cd-prateleira.erro{border-top-color:var(--vermelho)}
+.cd-prateleira-topo{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cd-prateleira .sub{font-size:12px}
 
 </style>
 </head>
-<body data-layout="lateral" data-estilo="institucional" data-cabecalho="degrade" data-fonte="sistema" data-densidade="normal" data-cantos="suaves" data-superficie="cartoes" data-kpi="barra">
+<body data-layout="trilho" data-estilo="institucional" data-cabecalho="solido" data-fonte="condensada" data-densidade="normal" data-cantos="retos" data-superficie="planas" data-kpi="numero">
 <div class="faixa-gov"><div class="in">
   <span class="bandeira" aria-hidden="true"><i style="background:#1e63ae"></i><i style="background:#0b7a3e"></i><i style="background:#e8b931"></i></span>
   <span><b>Governo de Mato Grosso</b></span><span class="sep">|</span>
@@ -1278,10 +1294,17 @@ const APP = {
   "visual": {
     "acento": "#3f4a5a",
     "icone": "caixa",
-    "layout": "lateral",
+    "layout": "trilho",
     "padrao": "hexagonos",
     "estilo": "institucional",
-    "setor": "Central de Custódia Definitiva"
+    "setor": "Central de Custódia Definitiva",
+    "casca": "trilho",
+    "cabecalho": "solido",
+    "fonte": "condensada",
+    "densidade": "normal",
+    "cantos": "retos",
+    "superficie": "planas",
+    "kpi": "numero"
   },
   "perfis": [
     {
@@ -1741,13 +1764,13 @@ TELAS["#/painel"] = async ()=>{
     return m ? Math.max(0, Math.round((new Date(m) - new Date(v.data_entrada)) / 86400000)) : null;
   }).filter(x=>x !== null);
   const tempoMedio = tempos.length ? Math.round(tempos.reduce((a, b)=>a + b, 0) / tempos.length * 10) / 10 : null;
-  return html + `<div class="card" id="cdGestor"><h2 style="margin-top:0">Painel do gestor (Sprint 6)</h2>
+  return html + `<div class="card" id="cdGestor"><h2 style="margin-top:0">Painel do gestor</h2>
       <p class="sub">Ocupação projetada a partir da série de 12 meses. Saldo médio de ${proj.saldo} item(ns) por mês (${proj.entradas} entradas e ${proj.saidas} saídas).</p>
       <div class="grade">
         <div class="card kpi"><div class="v" data-cd-ind="ocupacao">${proj.ocupacao}</div><div class="r">itens no acervo</div></div>
         <div class="card kpi"><div class="v" data-cd-ind="projecao">${proj.mensal.length ? proj.mensal[proj.mensal.length - 1].ocupacao : "—"}</div><div class="r">projeção em 6 meses</div></div>
         <div class="card kpi"><div class="v" data-cd-ind="saturados">${sat.filter(x=>x.alerta).length}</div><div class="r">contêineres em alerta (85%)</div></div>
-        <div class="card kpi"><div class="v" data-cd-ind="localizacao">${tempoMedio === null ? "—" : tempoMedio + " dia(s)"}</div><div class="r">tempo médio até a 1ª movimentação</div></div></div>
+        <div class="card kpi"><div class="v" data-cd-ind="localizacao">${tempoMedio === null ? "—" : plural(tempoMedio, "dia", "dias")}</div><div class="r">tempo médio até a 1ª movimentação</div></div></div>
       ${cdBarras("Itens por categoria", porCategoria)}
       ${cdBarras("Itens por contêiner", porConteiner, "var(--verde)")}
       ${cdBarras("Entradas por mês (últimos 6)", entradasPorMes, "var(--ambar)")}
@@ -1767,6 +1790,81 @@ TELAS_DEPOIS["#/painel"] = ()=>{
     baixar(`custodia-${hojeISO()}.csv`, csv, "text/csv;charset=utf-8");
     await registrar("relatório de ocupação exportado", {detalhe: `${vs.length} vestígios`});
   });
+};
+
+/* Identidade da Custódia Definitiva.
+   Entra por último no build. A tela-assinatura é o balcão de leitura do lacre
+   com o mapa das prateleiras; o painel do gestor fica só para o gestor. */
+
+function cdBalcao(){
+  return `<div class="card cd-balcao">
+    <div class="cd-balcao-rot"><span class="cd-ponto" aria-hidden="true"></span> Balcão de leitura do lacre</div>
+    <div class="cd-balcao-linha">
+      <input id="cdLacreRapido" type="search" autocomplete="off" autofocus placeholder="Aponte o leitor ou digite o lacre. Ex.: LC-20260001" aria-label="Ler o lacre">
+      <button class="prim" type="button" id="btnCdLacreRapido">Abrir a ficha</button></div>
+    <div id="cdLacreMsg"></div>
+    <p class="sub" style="margin:0">Enter abre o vestígio; lacre não encontrado avisa na hora.</p></div>`;
+}
+function cdLigarBalcao(){
+  const ir = async ()=>{
+    const q = valorDe("cdLacreRapido");
+    if (!q) return mostrarErros("#cdLacreMsg", ["Digite ou leia o lacre."]);
+    const vs = await db.list("vestigios"), n = normalizar(q);
+    const v = vs.find(x=>normalizar(x.lacre) === n) || vs.find(x=>normalizar(x.lacre).includes(n));
+    if (v) return location.hash = "#/vestigio/" + encodeURIComponent(v.id_vestigio);
+    mostrarErros("#cdLacreMsg", [`Lacre ${q} não encontrado no acervo.`]);
+  };
+  $("#btnCdLacreRapido")?.addEventListener("click", ir);
+  $("#cdLacreRapido")?.addEventListener("keydown", e=>{ if (e.key === "Enter"){ e.preventDefault(); ir(); } });
+}
+function cdMapaPrateleiras(vs, cs, cats){
+  return `<div class="card" id="cdMapa"><h2 style="margin-top:0">Mapa das prateleiras</h2>
+    <p class="sub">Cada prateleira é um contêiner. A barra mostra a ocupação; clique para ver os vestígios dele.</p>
+    <div class="cd-prateleiras">${cs.map(c=>{
+      const o = cdOcupados(vs, c.id_conteiner), cap = Number(c.capacidade) || 0, pct = cap ? Math.round(o / cap * 100) : 0;
+      const cls = cdSemaforo(pct);
+      return `<a class="cd-prateleira ${cls}" href="#/vestigios" data-cd-cont="${esc(c.id_conteiner)}">
+        <span class="cd-prateleira-topo"><b class="mono">${esc(c.id_conteiner)}</b><span class="selo ${cls}">${pct}%</span></span>
+        <span class="sub">${esc(cats[c.categoria_permitida]?.nome || (c.categoria_permitida === "todas" ? "todas as categorias" : c.categoria_permitida))}</span>
+        <span class="barra ${cls}"><i style="width:${Math.min(100, pct)}%"></i></span>
+        <span class="sub">${o} de ${cap} · folga ${Math.max(0, cap - o)}</span></a>`;
+    }).join("")}</div></div>`;
+}
+
+const cdPainelAntes = TELAS["#/painel"];
+TELAS["#/painel"] = async ()=>{
+  let html = await cdPainelAntes();
+  const [vs, cs, cats] = await Promise.all([db.list("vestigios"), db.list("conteineres"), cdCategorias()]);
+  const doc = new DOMParser().parseFromString(`<div id="cdRaiz">${html}</div>`, "text/html");
+  const raiz = doc.getElementById("cdRaiz");
+  if (!raiz) return html;
+  if (estado.perfil !== "gestor") doc.getElementById("cdGestor")?.remove();
+  const balcao = doc.createElement("div"); balcao.innerHTML = cdBalcao();
+  const h1 = raiz.querySelector("h1");
+  raiz.insertBefore(balcao.firstElementChild, h1);
+  const mapa = doc.createElement("div"); mapa.innerHTML = cdMapaPrateleiras(vs, cs, cats);
+  const tabela = doc.getElementById("tabelaOcupacao")?.closest(".card");
+  if (tabela) tabela.parentNode.insertBefore(mapa.firstElementChild, tabela);
+  else raiz.appendChild(mapa.firstElementChild);
+  return raiz.innerHTML;
+};
+const cdPainelDepoisAntes = TELAS_DEPOIS["#/painel"];
+TELAS_DEPOIS["#/painel"] = async ()=>{
+  await cdPainelDepoisAntes?.();
+  cdLigarBalcao();
+  $$("[data-cd-cont]").forEach(a=>a.addEventListener("click", e=>{
+    e.preventDefault(); estado.cdFiltros = {...cdFiltros(), conteiner: a.dataset.cdCont}; location.hash = "#/vestigios";
+  }));
+};
+
+const cdVestigiosAntes = TELAS["#/vestigios"], cdVestigiosDepoisAntes = TELAS_DEPOIS["#/vestigios"];
+TELAS["#/vestigios"] = async (p)=>{
+  const html = await cdVestigiosAntes(p);
+  return html.replace(/<h1>/, cdBalcao() + "<h1>");
+};
+TELAS_DEPOIS["#/vestigios"] = async (p)=>{
+  await cdVestigiosDepoisAntes(p);
+  cdLigarBalcao();
 };
 
 

@@ -1,0 +1,16 @@
+/* Identidade da Custódia Definitiva: balcão de leitura e mapa das prateleiras. */
+
+.cd-balcao{border-left:5px solid var(--accent);background:var(--painel)}
+.cd-balcao-rot{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--ink2)}
+.cd-ponto{width:9px;height:9px;border-radius:50%;background:var(--verde);box-shadow:0 0 0 4px color-mix(in srgb, var(--verde) 18%, transparent)}
+.cd-balcao-linha{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;margin:10px 0 6px}
+.cd-balcao-linha input{font-size:19px;font-family:var(--mono);letter-spacing:.02em}
+@media (max-width:640px){ .cd-balcao-linha{grid-template-columns:1fr} }
+
+.cd-prateleiras{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px}
+.cd-prateleira{display:flex;flex-direction:column;gap:6px;padding:14px;border:1px solid var(--linha);border-radius:var(--raio);background:var(--painel);color:var(--ink);text-decoration:none;border-top:5px solid var(--verde)}
+.cd-prateleira:hover{border-color:var(--accent)}
+.cd-prateleira.alerta{border-top-color:var(--ambar)}
+.cd-prateleira.erro{border-top-color:var(--vermelho)}
+.cd-prateleira-topo{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.cd-prateleira .sub{font-size:12px}

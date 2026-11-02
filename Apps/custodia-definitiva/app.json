@@ -8,7 +8,14 @@
     "layout": "lateral",
     "padrao": "hexagonos",
     "estilo": "institucional",
-    "setor": "Central de Custódia Definitiva"
+    "setor": "Central de Custódia Definitiva",
+    "casca": "trilho",
+    "cabecalho": "solido",
+    "fonte": "condensada",
+    "densidade": "normal",
+    "cantos": "retos",
+    "superficie": "planas",
+    "kpi": "numero"
   },
   "db": {
     "nome": "custodia_definitiva_v1",

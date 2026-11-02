@@ -195,6 +195,7 @@ feito em cada um está resumido aqui e no `README.md` e no `sprint.md` do app.
 | horus-banco-demandas | (este commit) | Casca lateral, degradê, fonte do sistema, cantos redondos, KPI em número. Vitrine com facetas e contagem, filtros em uma linha, ordenação, alternância cartões/tabela e contexto de unidade em Gerente e Usuário setorial. |
 | trilha-custodia-necropsia | (este commit) | Casca de trilho, cabeçalho sólido, condensada, ampla, cantos suaves, planas, KPI em número. Painel por perfil, quadro de plantão em colunas e ficha em abas. |
 | controle-aquisicoes | (este commit) | Casca de ferramenta, degradê, condensada, compacta, cantos suaves, planas, KPI em faixa. Kanban das 9 etapas, ficha em abas com `.etapas` e ações por perfil. |
+| custodia-definitiva | (este commit) | Casca de trilho, cabeçalho sólido, condensada, cantos retos, planas, KPI em número. Balcão de leitura do lacre, mapa das prateleiras com barra e painel do gestor só para o gestor. |
 
 ---
 
@@ -274,7 +275,7 @@ Checklist resumido por app (detalhes nas Partes B e D do plano):
 | ~~horus-banco-demandas~~ ✅ | lateral · degrade · sistema · normal · redondos · cartoes · numero | Vitrine com filtros em facetas e ordenação | contexto de unidade nos perfis Gerente e Usuário setorial; barra de filtros em uma linha; alternar cartões/tabela |
 | ~~trilha-custodia-necropsia~~ ✅ | trilho · solido · condensada · ampla · suaves · planas · numero | Quadro de plantão (colunas por situação, cartões de corpo, botões grandes) | painel por perfil (4 perfis); uma tabela só no painel; ficha em abas |
 | ~~controle-aquisicoes~~ ✅ | ferramenta · degrade · condensada · compacta · suaves · planas · faixa | Kanban das 9 etapas da Lei 14.133 | ficha em abas; etapas em `.etapas`; ações por perfil |
-| custodia-definitiva | trilho · solido · condensada · normal · retos · planas · numero | Balcão de leitura do lacre + mapa das prateleiras | campo "Ler lacre"; painel do gestor só para o gestor |
+| ~~custodia-definitiva~~ ✅ | trilho · solido · condensada · normal · retos · planas · numero | Balcão de leitura do lacre + mapa das prateleiras | campo "Ler lacre"; painel do gestor só para o gestor |
 | documentapolitec | lateral · solido · serifa · normal · retos · papel · barra | Estante de caixas (lombadas) + conferência por leitura | menu de 8 para 5 itens; conferência com campo focado e Enter |
 | gestao-documentos | lateral · solido · serifa · normal · suaves · papel · barra | Caixa por perfil (a instruir, a revisar, a assinar) | ficha em abas; checklist com caixa de seleção; assinatura só da autoridade |
 | renovacao-contratos-horus | lateral · solido · condensada · compacta · retos · planas · numero | Régua de vencimentos de 0 a 180 dias | ficha em abas; semáforo como barra empilhada clicável |
