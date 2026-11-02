@@ -428,10 +428,31 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 /* ===== VISUAL DESTE APP (bloco "visual" do app.json) ===== */
 :root{--app-acento:#7c5a16;--app-acento-claro:#997e49;--app-acento-forte:#594110;--app-acento-escuro:#c0b08f;--padrao:url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="22" height="22"%3E%3Cpath d="M-2 24 24-2M9 24l15-15M-2 13 13-2" stroke="%23fff" stroke-opacity=".07" stroke-width="1.2"/%3E%3C/svg%3E')}
 /* ===== CSS DO APP ===== */
+/* Identidade do DOCUMENTAPOLITEC: estante de caixas e conferência por leitura. */
+
+.doc-estante{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;align-items:end;padding:18px 4px 4px;border-top:2px solid var(--linha)}
+.doc-lombada{display:flex;flex-direction:column;gap:7px;min-height:220px;padding:12px 12px 14px;background:var(--painel);border:1px solid var(--linha);border-left:7px solid var(--accent);border-radius:3px;color:var(--ink);text-decoration:none;box-shadow:0 2px 0 var(--linha)}
+.doc-lombada:hover{border-color:var(--accent);transform:translateY(-2px)}
+.doc-lombada.ok{border-left-color:var(--verde)}
+.doc-lombada.alerta{border-left-color:var(--ambar)}
+.doc-lombada.erro{border-left-color:var(--vermelho)}
+.doc-lombada-cod{font-family:var(--mono);font-size:18px;font-weight:700;letter-spacing:.02em;margin-top:auto}
+.doc-lombada-setor{font-size:12.5px;color:var(--ink2);line-height:1.25}
+.doc-lombada-selo{align-self:flex-start;white-space:normal;font-size:10.5px;line-height:1.2;max-width:100%}
+.doc-lombada-conta{font-size:11.5px;color:var(--ink2)}
+
+.doc-atalhos{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 10px;font-size:13px}
+.doc-nova{float:right}
+
+.doc-leitura{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;margin-top:8px}
+.doc-leitura input{font-size:18px;font-family:var(--mono)}
+@media (max-width:640px){ .doc-leitura{grid-template-columns:1fr} }
+
+#docConferenciaLeitura{border-left:5px solid var(--accent)}
 
 </style>
 </head>
-<body data-layout="lateral" data-estilo="institucional" data-cabecalho="degrade" data-fonte="sistema" data-densidade="normal" data-cantos="suaves" data-superficie="cartoes" data-kpi="barra">
+<body data-layout="lateral" data-estilo="institucional" data-cabecalho="solido" data-fonte="serifa" data-densidade="normal" data-cantos="retos" data-superficie="papel" data-kpi="barra">
 <div class="faixa-gov"><div class="in">
   <span class="bandeira" aria-hidden="true"><i style="background:#1e63ae"></i><i style="background:#0b7a3e"></i><i style="background:#e8b931"></i></span>
   <span><b>Governo de Mato Grosso</b></span><span class="sep">|</span>
@@ -1249,7 +1270,8 @@ const APP = {
       "descricao": "Caixa com a relação de prontuários.",
       "perfis": [
         "papiloscopista"
-      ]
+      ],
+      "menu": false
     },
     {
       "rota": "#/caixa/:id",
@@ -1273,7 +1295,8 @@ const APP = {
       "rota": "#/relatorio-importacao",
       "titulo": "Relatório da importação",
       "sprint": 3,
-      "descricao": "Linhas aceitas, recusadas e divergentes."
+      "descricao": "Linhas aceitas, recusadas e divergentes.",
+      "menu": false
     },
     {
       "rota": "#/busca-nome",
@@ -1282,7 +1305,8 @@ const APP = {
       "descricao": "Índice autorizado, com controle de acesso e trilha (RN03).",
       "perfis": [
         "gestor"
-      ]
+      ],
+      "menu": false
     },
     {
       "rota": "#/config",
@@ -1297,7 +1321,14 @@ const APP = {
     "layout": "lateral",
     "padrao": "linhas",
     "estilo": "institucional",
-    "setor": "Patrimônio e Serviços · Arquivo central"
+    "setor": "Patrimônio e Serviços · Arquivo central",
+    "casca": "lateral",
+    "cabecalho": "solido",
+    "fonte": "serifa",
+    "densidade": "normal",
+    "cantos": "retos",
+    "superficie": "papel",
+    "kpi": "barra"
   },
   "perfis": [
     {
@@ -1727,7 +1758,7 @@ TELAS["#/caixa/:id"] = async (p)=>{
   const c = await db.get("caixas", p.id); if (!c) return html;
   const ps = await db.porIndice("prontuarios", "caixa_id", p.id);
   const cod = docCodigoConferencia(c, ps);
-  const card = `<div class="card" id="docEtiqueta"><h2 style="margin-top:0">Etiqueta da caixa (Sprint 5)</h2>
+  const card = `<div class="card" id="docEtiqueta"><h2 style="margin-top:0">Etiqueta da caixa</h2>
     <p class="sub">Código de conferência: <b class="mono" id="docCodConf">${esc(cod)}</b>. O QR Code depende de biblioteca embutida e está no passo a passo do botão escondido.</p>
     <div class="documento-a4" style="padding:22px 26px;max-width:420px">
       <div style="font:600 11px/1.4 var(--ui);letter-spacing:.06em;text-transform:uppercase;color:#0a2f5c">POLITEC/MT · Arquivo central</div>
@@ -1769,7 +1800,7 @@ TELAS["#/painel"] = async ()=>{
   // espaço liberado (premissa: 0,03 m³ por prontuário digitalizado e conferido)
   const espaco = Math.round(prontConferidos * 0.03 * 100) / 100;
   const porPeriodo = Object.entries(cs.reduce((a, c)=>{ const k = (c.data || "").slice(0, 7) || "—"; a[k] = (a[k] || 0) + Number(c.qtd || 0); return a; }, {})).sort((a, b)=>b[0].localeCompare(a[0]));
-  return html + `<div class="card" id="docGestor"><h2 style="margin-top:0">Painel do gestor documental (Sprint 6)</h2>
+  return html + `<div class="card" id="docGestor"><h2 style="margin-top:0">Painel do gestor documental</h2>
       <div class="grade">
         <div class="card kpi"><div class="v" data-doc-ind="conferidas">${conferidas.length}</div><div class="r">caixas conferidas</div></div>
         <div class="card kpi"><div class="v" data-doc-ind="pendentes">${pendentes.length}</div><div class="r">caixas pendentes</div></div>
@@ -1829,6 +1860,114 @@ const AJUDA_TECNICA = [
      "Se a DMIT exigir base legal escrita, registre no <code>Apps/PREMISSAS.md</code>.",
    ], arquivos: ["src/sprint4.js"]},
 ];
+
+/* Identidade do DOCUMENTAPOLITEC.
+   Entra por último no build. A tela-assinatura é a estante de caixas com a
+   conferência por leitura sequencial; a ficha da caixa vira abas e o menu cai
+   de oito para cinco itens. */
+
+TELAS["#/caixas"] = async ()=>{
+  const cs = (await db.list("caixas")).sort((a, b)=>String(a.id_caixa).localeCompare(String(b.id_caixa)));
+  const ps = await db.list("prontuarios");
+  const conferidas = cs.filter(c=>c.status === "conferida").length;
+  return `<h1>Estante de caixas</h1>
+    <p class="sub">${cs.length} caixas · ${conferidas} conferidas. Cada lombada é uma caixa; clique para abrir. <a class="doc-nova" href="#/caixa/nova">＋ Nova caixa</a></p>
+    <div class="doc-estante">${cs.map(c=>{
+      const lista = ps.filter(p=>p.caixa_id === c.id_caixa), ok = lista.filter(p=>p.conferido).length;
+      const pct = lista.length ? Math.round(ok / lista.length * 100) : 0;
+      const cls = c.status === "conferida" ? "ok" : c.status === "divergencia" ? "erro" : "alerta";
+      return `<a class="doc-lombada ${cls}" href="#/caixa/${encodeURIComponent(c.id_caixa)}">
+        <span class="doc-lombada-cod">${esc(c.id_caixa)}</span>
+        <span class="doc-lombada-setor">${esc(c.setor_origem)}</span>
+        <span class="doc-lombada-selo selo ${cls}" title="${esc(DOC_STATUS[c.status] || c.status)}">${c.status === "conferida" ? "Conferida" : c.status === "divergencia" ? "Divergência" : "Pendente"}</span>
+        <span class="barra ${cls}"><i style="width:${pct}%"></i></span>
+        <span class="doc-lombada-conta">${ok} de ${lista.length} conferidos</span></a>`;
+    }).join("") || '<div class="card vazio">Nenhuma caixa cadastrada. <a href="#/caixa/nova">Cadastrar caixa</a></div>'}</div>`;
+};
+
+/* atalhos que saíram do menu: nova caixa, relatório da importação e busca por nome */
+function docAtalhos(itens){
+  return `<p class="doc-atalhos">${itens.map(([href, rot])=>`<a href="${href}">${rot}</a>`).join(" · ")}</p>`;
+}
+const docBuscaAntes = TELAS["#/busca"];
+TELAS["#/busca"] = async (p)=>{
+  const html = await docBuscaAntes(p);
+  const extra = estado.perfil === "gestor" ? docAtalhos([["#/busca-nome", "Busca por nome (gestor)"]]) : "";
+  return html.replace(/<h1>/, extra + "<h1>");
+};
+const docImportarAntes = TELAS["#/importar"];
+TELAS["#/importar"] = async (p)=>{
+  const html = await docImportarAntes(p);
+  return html + docAtalhos([["#/relatorio-importacao", "Ver o relatório da última importação"]]);
+};
+
+/* ---------- ficha da caixa: conferência por leitura e abas ---------- */
+function docLigarLeituraPront(id){
+  const ir = async ()=>{
+    const q = valorDe("docLeituraPront").replace(/\s+/g, "");
+    if (!q) return;
+    const ps = await db.porIndice("prontuarios", "caixa_id", id);
+    const p = ps.find(x=>String(x.numero) === q);
+    if (!p) return mostrarErros("#docErrosLeituraPront", [`Prontuário ${q} não está na relação desta caixa.`]);
+    await db.put("prontuarios", {...p, conferido: true});
+    await db.put("log", {id: uuid(), caixa_id: id, acao: "prontuário conferido por leitura", perfil: estado.perfil || "", data_hora: agora(), detalhe: q});
+    if (!p.digital) toast(`Prontuário ${q} sem correspondência no arquivo digital.`, 5000);
+    else toast(`Prontuário ${q} conferido.`);
+    navegar();
+  };
+  $("#btnDocLeituraPront")?.addEventListener("click", ir);
+  $("#docLeituraPront")?.addEventListener("keydown", e=>{ if (e.key === "Enter"){ e.preventDefault(); ir(); } });
+  $("#docLeituraCod")?.addEventListener("keydown", e=>{ if (e.key === "Enter"){ e.preventDefault(); $("#btnDocLeitura")?.click(); } });
+  setTimeout(()=>$("#docLeituraPront")?.focus(), 60);
+}
+
+const docFichaAntes = TELAS["#/caixa/:id"];
+TELAS["#/caixa/:id"] = async (p)=>{
+  const html = await docFichaAntes(p);
+  if (typeof abas !== "function" || html.includes('class="abas"')) return html;
+  const doc = new DOMParser().parseFromString(`<div id="docRaiz">${html}</div>`, "text/html");
+  const raiz = doc.getElementById("docRaiz");
+  if (!raiz) return html;
+  const c = await db.get("caixas", p.id);
+  if (c && c.status !== "conferida"){
+    const card = doc.createElement("div");
+    card.className = "card"; card.id = "docConferenciaLeitura";
+    card.innerHTML = `<h2 style="margin-top:0">Conferência por leitura</h2>
+      <p class="sub">Digite ou leia o número do prontuário e tecle Enter. Cada leitura marca o item da relação; número fora da relação avisa na hora.</p>
+      <div class="doc-leitura"><input id="docLeituraPront" type="search" autocomplete="off" autofocus placeholder="Número do prontuário. Ex.: 2019.000001" aria-label="Número do prontuário">
+        <button class="prim" type="button" id="btnDocLeituraPront">Marcar como conferido</button></div>
+      <div id="docErrosLeituraPront"></div>`;
+    const conf = [...raiz.children].find(n=>n.classList?.contains("card") && /conferência/i.test(n.querySelector("h2")?.textContent || ""));
+    if (conf) conf.parentNode.insertBefore(card, conf.nextSibling); else raiz.appendChild(card);
+  }
+  const antes = [], cards = [];
+  const colher = node=>{
+    if (node.nodeType !== 1) return;
+    if (node.classList.contains("duas-colunas")){ [...node.children].forEach(colher); return; }
+    if (node.id === "docConferenciaLeitura"){ antes.push(node); return; }
+    if (node.classList.contains("card") && !node.classList.contains("kpi")) cards.push(node);
+    else antes.push(node);
+  };
+  [...raiz.children].forEach(colher);
+  if (!cards.length) return html;
+  const grupos = {prontuarios: [], conferencia: [], etiqueta: [], historico: []};
+  const destino = h=>{
+    if (/etiqueta/.test(h)) return "etiqueta";
+    if (/histórico|historico/.test(h)) return "historico";
+    if (/confer|leitura/.test(h)) return "conferencia";
+    return "prontuarios";
+  };
+  cards.forEach(c2=>grupos[destino((c2.querySelector("h2")?.textContent || "").toLowerCase())].push(c2.outerHTML));
+  const nomes = [["prontuarios", "Prontuários", grupos.prontuarios.length], ["conferencia", "Conferência", grupos.conferencia.length],
+    ["etiqueta", "Etiqueta", grupos.etiqueta.length], ["historico", "Histórico", grupos.historico.length]];
+  const lista = nomes.filter(([id])=>grupos[id].length).map(([id, titulo])=>({id, titulo, html: grupos[id].join("")}));
+  return antes.map(n=>n.outerHTML).join("") + abas("ficha", lista);
+};
+const docFichaDepoisAntes = TELAS_DEPOIS["#/caixa/:id"];
+TELAS_DEPOIS["#/caixa/:id"] = async (p)=>{
+  await docFichaDepoisAntes?.(p);
+  docLigarLeituraPront(p.id);
+};
 
 
 iniciar();

@@ -196,6 +196,7 @@ feito em cada um está resumido aqui e no `README.md` e no `sprint.md` do app.
 | trilha-custodia-necropsia | (este commit) | Casca de trilho, cabeçalho sólido, condensada, ampla, cantos suaves, planas, KPI em número. Painel por perfil, quadro de plantão em colunas e ficha em abas. |
 | controle-aquisicoes | (este commit) | Casca de ferramenta, degradê, condensada, compacta, cantos suaves, planas, KPI em faixa. Kanban das 9 etapas, ficha em abas com `.etapas` e ações por perfil. |
 | custodia-definitiva | (este commit) | Casca de trilho, cabeçalho sólido, condensada, cantos retos, planas, KPI em número. Balcão de leitura do lacre, mapa das prateleiras com barra e painel do gestor só para o gestor. |
+| documentapolitec | (este commit) | Casca lateral, sólido, serifa, cantos retos, papel, KPI em barra. Menu de 8 para 5, estante de lombadas, conferência por leitura e ficha em abas. |
 
 ---
 
@@ -276,7 +277,7 @@ Checklist resumido por app (detalhes nas Partes B e D do plano):
 | ~~trilha-custodia-necropsia~~ ✅ | trilho · solido · condensada · ampla · suaves · planas · numero | Quadro de plantão (colunas por situação, cartões de corpo, botões grandes) | painel por perfil (4 perfis); uma tabela só no painel; ficha em abas |
 | ~~controle-aquisicoes~~ ✅ | ferramenta · degrade · condensada · compacta · suaves · planas · faixa | Kanban das 9 etapas da Lei 14.133 | ficha em abas; etapas em `.etapas`; ações por perfil |
 | ~~custodia-definitiva~~ ✅ | trilho · solido · condensada · normal · retos · planas · numero | Balcão de leitura do lacre + mapa das prateleiras | campo "Ler lacre"; painel do gestor só para o gestor |
-| documentapolitec | lateral · solido · serifa · normal · retos · papel · barra | Estante de caixas (lombadas) + conferência por leitura | menu de 8 para 5 itens; conferência com campo focado e Enter |
+| ~~documentapolitec~~ ✅ | lateral · solido · serifa · normal · retos · papel · barra | Estante de caixas (lombadas) + conferência por leitura | menu de 8 para 5 itens; conferência com campo focado e Enter |
 | gestao-documentos | lateral · solido · serifa · normal · suaves · papel · barra | Caixa por perfil (a instruir, a revisar, a assinar) | ficha em abas; checklist com caixa de seleção; assinatura só da autoridade |
 | renovacao-contratos-horus | lateral · solido · condensada · compacta · retos · planas · numero | Régua de vencimentos de 0 a 180 dias | ficha em abas; semáforo como barra empilhada clicável |
 | distribuicao-casos-dna | topo · degrade · sistema · normal · redondos · cartoes · anel | Placa de 96 poços com a cor do perito | "Meus casos" do perito; rodada em abas |

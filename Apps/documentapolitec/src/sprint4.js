@@ -109,7 +109,7 @@ TELAS["#/caixa/:id"] = async (p)=>{
   const c = await db.get("caixas", p.id); if (!c) return html;
   const ps = await db.porIndice("prontuarios", "caixa_id", p.id);
   const cod = docCodigoConferencia(c, ps);
-  const card = `<div class="card" id="docEtiqueta"><h2 style="margin-top:0">Etiqueta da caixa (Sprint 5)</h2>
+  const card = `<div class="card" id="docEtiqueta"><h2 style="margin-top:0">Etiqueta da caixa</h2>
     <p class="sub">Código de conferência: <b class="mono" id="docCodConf">${esc(cod)}</b>. O QR Code depende de biblioteca embutida e está no passo a passo do botão escondido.</p>
     <div class="documento-a4" style="padding:22px 26px;max-width:420px">
       <div style="font:600 11px/1.4 var(--ui);letter-spacing:.06em;text-transform:uppercase;color:#0a2f5c">POLITEC/MT · Arquivo central</div>
@@ -151,7 +151,7 @@ TELAS["#/painel"] = async ()=>{
   // espaço liberado (premissa: 0,03 m³ por prontuário digitalizado e conferido)
   const espaco = Math.round(prontConferidos * 0.03 * 100) / 100;
   const porPeriodo = Object.entries(cs.reduce((a, c)=>{ const k = (c.data || "").slice(0, 7) || "—"; a[k] = (a[k] || 0) + Number(c.qtd || 0); return a; }, {})).sort((a, b)=>b[0].localeCompare(a[0]));
-  return html + `<div class="card" id="docGestor"><h2 style="margin-top:0">Painel do gestor documental (Sprint 6)</h2>
+  return html + `<div class="card" id="docGestor"><h2 style="margin-top:0">Painel do gestor documental</h2>
       <div class="grade">
         <div class="card kpi"><div class="v" data-doc-ind="conferidas">${conferidas.length}</div><div class="r">caixas conferidas</div></div>
         <div class="card kpi"><div class="v" data-doc-ind="pendentes">${pendentes.length}</div><div class="r">caixas pendentes</div></div>

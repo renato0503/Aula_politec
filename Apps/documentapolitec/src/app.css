@@ -1,0 +1,21 @@
+/* Identidade do DOCUMENTAPOLITEC: estante de caixas e conferência por leitura. */
+
+.doc-estante{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:14px;align-items:end;padding:18px 4px 4px;border-top:2px solid var(--linha)}
+.doc-lombada{display:flex;flex-direction:column;gap:7px;min-height:220px;padding:12px 12px 14px;background:var(--painel);border:1px solid var(--linha);border-left:7px solid var(--accent);border-radius:3px;color:var(--ink);text-decoration:none;box-shadow:0 2px 0 var(--linha)}
+.doc-lombada:hover{border-color:var(--accent);transform:translateY(-2px)}
+.doc-lombada.ok{border-left-color:var(--verde)}
+.doc-lombada.alerta{border-left-color:var(--ambar)}
+.doc-lombada.erro{border-left-color:var(--vermelho)}
+.doc-lombada-cod{font-family:var(--mono);font-size:18px;font-weight:700;letter-spacing:.02em;margin-top:auto}
+.doc-lombada-setor{font-size:12.5px;color:var(--ink2);line-height:1.25}
+.doc-lombada-selo{align-self:flex-start;white-space:normal;font-size:10.5px;line-height:1.2;max-width:100%}
+.doc-lombada-conta{font-size:11.5px;color:var(--ink2)}
+
+.doc-atalhos{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 10px;font-size:13px}
+.doc-nova{float:right}
+
+.doc-leitura{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;margin-top:8px}
+.doc-leitura input{font-size:18px;font-family:var(--mono)}
+@media (max-width:640px){ .doc-leitura{grid-template-columns:1fr} }
+
+#docConferenciaLeitura{border-left:5px solid var(--accent)}

@@ -8,7 +8,14 @@
     "layout": "lateral",
     "padrao": "linhas",
     "estilo": "institucional",
-    "setor": "Patrimônio e Serviços · Arquivo central"
+    "setor": "Patrimônio e Serviços · Arquivo central",
+    "casca": "lateral",
+    "cabecalho": "solido",
+    "fonte": "serifa",
+    "densidade": "normal",
+    "cantos": "retos",
+    "superficie": "papel",
+    "kpi": "barra"
   },
   "db": {
     "nome": "documentapolitec_v1",
@@ -92,7 +99,8 @@
       "descricao": "Caixa com a relação de prontuários.",
       "perfis": [
         "papiloscopista"
-      ]
+      ],
+      "menu": false
     },
     {
       "rota": "#/caixa/:id",
@@ -116,7 +124,8 @@
       "rota": "#/relatorio-importacao",
       "titulo": "Relatório da importação",
       "sprint": 3,
-      "descricao": "Linhas aceitas, recusadas e divergentes."
+      "descricao": "Linhas aceitas, recusadas e divergentes.",
+      "menu": false
     },
     {
       "rota": "#/busca-nome",
@@ -125,7 +134,8 @@
       "descricao": "Índice autorizado, com controle de acesso e trilha (RN03).",
       "perfis": [
         "gestor"
-      ]
+      ],
+      "menu": false
     },
     {
       "rota": "#/config",

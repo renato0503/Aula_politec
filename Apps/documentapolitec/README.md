@@ -86,3 +86,15 @@ mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
+
+## Identidade e usabilidade (02/11/2026)
+
+A identidade é de arquivo: fonte serifada, cantos retos, superfície de papel e KPI
+em barra. O menu caiu de oito para **cinco itens** (Painel, Caixas, Busca,
+Importar planilha e Configuração); a nova caixa, o relatório da importação e a
+busca por nome ficaram como atalhos dentro das telas. A tela-assinatura é a
+**estante de caixas**: cada lombada mostra o código, o setor, a situação e a
+barra de conferência. Na ficha, a **conferência por leitura** fica em campo
+focado: cada Enter marca o prontuário e avisa quando o número não está na
+relação; as abas são Prontuários, Conferência, Etiqueta e Histórico. Código em
+`src/identidade.js` e `src/app.css`.
