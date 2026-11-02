@@ -694,22 +694,7 @@
     "observado": ""
    }
   ],
-  "erros": [
-   {
-    "id": "rnc-nao-conformidade-01",
-    "app": "rnc-nao-conformidade",
-    "severidade": "P1",
-    "perfil": "setor",
-    "viewport": "desktop",
-    "rota": "#/minhas",
-    "passo": "o contexto de setor não preenche Minhas RNCs",
-    "esperado": "o seletor deveria vir em LTX",
-    "observado": "veio em ",
-    "console": [],
-    "rede": [],
-    "screenshot": "D:\\Dev\\Aula Politec\\Apps\\_testes\\jornada\\rnc-nao-conformidade\\desktop-o-contexto-de-setor-n-o-preenche-minhas-rncs.png"
-   }
-  ]
+  "erros": []
  },
  {
   "app": "tap-portfolio-projetos",

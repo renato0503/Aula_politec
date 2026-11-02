@@ -25,6 +25,10 @@ começou; este arquivo é preenchido ao final de cada rodada.
 
 ## Em aberto
 
+Nenhum erro em aberto.
+
+## Corrigidos nesta rodada
+
 ### rnc-nao-conformidade-01 · contexto de setor não preenche Minhas RNCs
 
 - **Severidade:** P1
@@ -36,8 +40,7 @@ começou; este arquivo é preenchido ao final de cada rodada.
 - **Observado:** o seletor veio vazio e a tabela só apareceu depois de escolher o setor na tela.
 - **Console/rede:** nenhum.
 - **Captura:** `_testes/jornada/rnc-nao-conformidade/desktop-o-contexto-de-setor-n-o-preenche-minhas-rncs.png`
-- **Sugestão:** em `Apps/rnc-nao-conformidade/src/identidade.js`, o contexto grava `meu_setor`, mas a tela lê `setor`. Gravar em `setor` (ou ler os dois) e regerar o `index.html`.
+- **Correção:** o contexto passou a gravar `setor` (e `meu_setor`); jornada repetida com 0 erros.
+- **Sugestão original:** em `Apps/rnc-nao-conformidade/src/identidade.js`, o contexto grava `meu_setor`, mas a tela lê `setor`. Gravar em `setor` (ou ler os dois) e regerar o `index.html`.
 
-## Corrigidos nesta rodada
 
-Nenhum.

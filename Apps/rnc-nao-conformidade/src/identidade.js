@@ -53,7 +53,7 @@ TELAS["#/painel"] = async ()=>{
 const rncMinhasAntes = TELAS["#/minhas"];
 if (typeof rncMinhasAntes === "function"){
   TELAS["#/minhas"] = async (p)=>{
-    if (estado.contexto) await db.meta("meu_setor", estado.contexto);
+    if (estado.contexto){ await db.meta("setor", estado.contexto); await db.meta("meu_setor", estado.contexto); }
     return rncMinhasAntes(p);
   };
 }

@@ -107,7 +107,7 @@ Para cada app: desktop, celular, capturas nos pontos-chave, registro dos erros.
 
 - **20 de 20 apps executados**, desktop 1366×900 e celular 390×844.
 - **149 passos** de jornada conferidos.
-- **1 erro** registrado: 1 P1, em `rnc-nao-conformidade`.
+- **0 erros** em aberto: o único P1 encontrado (`rnc-nao-conformidade`) foi corrigido nesta rodada.
 - Nenhuma requisição de rede e nenhum erro de console nos 20 apps.
 - Capturas em `Apps/_testes/jornada/<app>/` (fora do git).
 
@@ -136,7 +136,7 @@ Para cada app: desktop, celular, capturas nos pontos-chave, registro dos erros.
 
 ### 8.1 O erro encontrado
 
-**rnc-nao-conformidade-01 · contexto de setor não preenche Minhas RNCs (P1)**
+**rnc-nao-conformidade-01 · contexto de setor não preenche Minhas RNCs (P1) — corrigido**
 
 - **Perfil:** setor
 - **Viewport:** desktop 1366×900
@@ -145,8 +145,8 @@ Para cada app: desktop, celular, capturas nos pontos-chave, registro dos erros.
 - **Esperado:** o seletor `#rncMeuSetor` vir preenchido com o setor escolhido.
 - **Observado:** o seletor veio vazio; a tabela só apareceu depois de escolher o setor na própria tela.
 - **Captura:** `_testes/jornada/rnc-nao-conformidade/desktop-o-contexto-de-setor-n-o-preenche-minhas-rncs.png`
-- **Sugestão:** em `Apps/rnc-nao-conformidade/src/identidade.js`, o contexto grava
-  `meu_setor`, mas a tela lê `setor`. Gravar em `setor` (ou ler os dois).
+- **Correção:** em `Apps/rnc-nao-conformidade/src/identidade.js`, o contexto passou a
+  gravar `setor` (e `meu_setor` por compatibilidade). A jornada foi repetida: 0 erros.
 
 ## 9. Fase 0 · repositórios (02/11/2026)
 
