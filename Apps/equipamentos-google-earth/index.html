@@ -428,10 +428,25 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 /* ===== VISUAL DESTE APP (bloco "visual" do app.json) ===== */
 :root{--app-acento:#2f7d32;--app-acento-claro:#5d9a5f;--app-acento-forte:#225a24;--app-acento-escuro:#9bc19d;--padrao:url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="120" height="120"%3E%3Cg fill="none" stroke="%23fff" stroke-opacity=".07"%3E%3Ccircle cx="30" cy="40" r="14"/%3E%3Ccircle cx="30" cy="40" r="26"/%3E%3Ccircle cx="30" cy="40" r="38"/%3E%3Ccircle cx="96" cy="96" r="12"/%3E%3Ccircle cx="96" cy="96" r="24"/%3E%3C/g%3E%3C/svg%3E')}
 /* ===== CSS DO APP ===== */
+/* Identidade do Mapa de Equipamentos: mapa de MT em SVG. */
+
+.eq-mapa-card{padding-bottom:10px}
+.eq-mapa{display:block;width:100%;height:auto;max-height:70vh;background:var(--painel-2);border-radius:var(--raio)}
+.eq-mun{fill:var(--painel);stroke:color-mix(in srgb, var(--accent) 22%, var(--linha));stroke-width:.6;vector-effect:non-scaling-stroke}
+.eq-mun.tem{fill:color-mix(in srgb, var(--accent) 16%, var(--painel));stroke:var(--accent)}
+.eq-mun:hover{fill:var(--accent-suave);stroke:var(--accent)}
+.eq-pino circle{fill:var(--vermelho);stroke:#fff;stroke-width:2}
+.eq-pino text{fill:#fff;font:700 11px var(--ui);text-anchor:middle;pointer-events:none}
+.eq-pino:hover circle{fill:var(--accent)}
+.eq-mapa-legenda{display:flex;flex-wrap:wrap;gap:14px;margin:0 0 8px;font-size:12px;color:var(--ink2)}
+.eq-mapa-legenda span{display:inline-flex;align-items:center;gap:6px}
+.eq-mapa-legenda i{width:12px;height:12px;border-radius:2px;background:var(--painel);border:1px solid var(--accent)}
+.eq-mapa-legenda i.tem{background:color-mix(in srgb, var(--accent) 16%, var(--painel))}
+.eq-mapa-legenda i.pino{background:var(--vermelho);border-radius:50%;border:0}
 
 </style>
 </head>
-<body data-layout="topo" data-estilo="institucional" data-cabecalho="degrade" data-fonte="sistema" data-densidade="normal" data-cantos="suaves" data-superficie="cartoes" data-kpi="barra">
+<body data-layout="ferramenta" data-estilo="institucional" data-cabecalho="compacto" data-fonte="sistema" data-densidade="compacta" data-cantos="suaves" data-superficie="planas" data-kpi="numero">
 <div class="faixa-gov"><div class="in">
   <span class="bandeira" aria-hidden="true"><i style="background:#1e63ae"></i><i style="background:#0b7a3e"></i><i style="background:#e8b931"></i></span>
   <span><b>Governo de Mato Grosso</b></span><span class="sep">|</span>
@@ -1354,10 +1369,17 @@ const APP = {
   "visual": {
     "acento": "#2f7d32",
     "icone": "globo",
-    "layout": "topo",
+    "layout": "ferramenta",
     "padrao": "topografico",
     "estilo": "institucional",
-    "setor": "Qualidade · Parque de equipamentos"
+    "setor": "Qualidade · Parque de equipamentos",
+    "casca": "ferramenta",
+    "cabecalho": "compacto",
+    "fonte": "sistema",
+    "densidade": "compacta",
+    "cantos": "suaves",
+    "superficie": "planas",
+    "kpi": "numero"
   },
   "perfis": [
     {
@@ -1368,14 +1390,21 @@ const APP = {
     {
       "id": "unidade",
       "nome": "Unidade",
-      "descricao": "Cadastra os equipamentos da unidade e registra paradas."
+      "descricao": "Cadastra os equipamentos da unidade e registra paradas.",
+      "contexto": {
+        "rotulo": "Minha unidade",
+        "store": "unidades",
+        "valor": "id",
+        "texto": "nome"
+      }
     },
     {
       "id": "diretoria",
       "nome": "Diretoria",
       "descricao": "Consulta o painel consolidado."
     }
-  ]
+  ],
+  "rotaInicial": "#/mapa"
 };
 
 /* ---------- comum a todos os apps (Sprint 1) ---------- */
@@ -1635,6 +1664,55 @@ TELAS_DEPOIS["#/equipamento/:id"] = async ({id})=>{
     await db.put("equipamentos", reg); await registrar(antes ? "equipamento alterado" : "equipamento criado", {detalhe: reg.patrimonio});
     toast("Equipamento salvo."); location.hash = "#/equipamento/" + encodeURIComponent(reg.id);
   });
+};
+
+/* Identidade do Mapa de Equipamentos.
+   Entra por último no build. A tela-assinatura é o mapa de MT em SVG, com os
+   municípios do arquivo embutido e os pinos das unidades; o perfil Unidade tem
+   o contexto de unidade. */
+
+const EQ_UNIDADE_ANTES = TELAS["#/equipamentos"];
+TELAS["#/equipamentos"] = async (p)=>{
+  if (estado.perfil === "unidade" && estado.contexto) await db.meta("unidade_dona", estado.contexto);
+  return EQ_UNIDADE_ANTES(p);
+};
+
+TELAS["#/mapa"] = async ()=>{
+  const mun = dadosEmbutidos("municipios") || [];
+  const [unidades, eqs] = await Promise.all([db.list("unidades"), db.list("equipamentos")]);
+  const ativas = unidades.filter(u=>!u.excluido);
+  const comUnidade = new Set(ativas.map(u=>normalizar(u.municipio)));
+  const xs = mun.flatMap(m=>m.p.map(q=>q[0])), ys = mun.flatMap(m=>m.p.map(q=>q[1]));
+  const minX = Math.min(...xs), maxX = Math.max(...xs), minY = Math.min(...ys), maxY = Math.max(...ys);
+  const W = 900, H = 620, pad = 12;
+  const sx = lon => pad + (lon - minX) / (maxX - minX) * (W - pad * 2);
+  const sy = lat => pad + (maxY - lat) / (maxY - minY) * (H - pad * 2);
+  const caminho = p => "M" + p.map(([lon, lat])=>`${sx(lon).toFixed(1)},${sy(lat).toFixed(1)}`).join("L") + "Z";
+  const eqPorUnidade = Object.fromEntries(ativas.map(u=>[u.id, eqs.filter(e=>!e.excluido && e.unidade_id === u.id).length]));
+  const paths = mun.filter(m=>Array.isArray(m.p) && m.p.length).map(m=>`<path d="${caminho(m.p)}" class="eq-mun ${comUnidade.has(normalizar(m.n)) ? "tem" : ""}" data-mun="${esc(m.n)}"><title>${esc(m.n)}</title></path>`).join("");
+  const pinos = ativas.map(u=>{
+    if (!u.latitude || !u.longitude) return "";
+    const n = eqPorUnidade[u.id] || 0;
+    return `<a class="eq-pino" href="#/equipamentos" data-eq-unidade="${esc(u.id)}" title="${esc(u.nome)} · ${plural(n, "equipamento", "equipamentos")}">
+      <circle cx="${sx(u.longitude).toFixed(1)}" cy="${sy(u.latitude).toFixed(1)}" r="${n ? 11 : 8}"></circle>
+      <text x="${sx(u.longitude).toFixed(1)}" y="${(sy(u.latitude) + 4).toFixed(1)}">${n}</text></a>`;
+  }).join("");
+  const semCoord = ativas.filter(u=>!u.latitude || !u.longitude).length;
+  return `<h1>Mapa de Mato Grosso</h1>
+    <p class="sub">Municípios do arquivo embutido (${mun.length}) e pinos das unidades. O número dentro do pino é a quantidade de equipamentos. Clique para abrir a lista filtrada.</p>
+    <div class="grade"><div class="card kpi"><div class="v">${ativas.length}</div><div class="r">unidades</div></div>
+      <div class="card kpi"><div class="v">${mun.length}</div><div class="r">municípios no mapa</div></div>
+      <div class="card kpi"><div class="v">${eqs.filter(e=>!e.excluido).length}</div><div class="r">equipamentos</div></div>
+      <div class="card kpi"><div class="v">${semCoord}</div><div class="r">unidades sem coordenada</div></div></div>
+    <div class="card eq-mapa-card"><div class="eq-mapa-legenda"><span><i class="tem"></i>com unidade</span><span><i></i>sem unidade</span>
+      <span><i class="pino"></i>unidade com equipamentos</span></div>
+      <svg class="eq-mapa" viewBox="0 0 ${W} ${H}" role="img" aria-label="Mapa de Mato Grosso com as unidades">
+        <g class="eq-muns">${paths}</g><g class="eq-pinos">${pinos}</g></svg></div>`;
+};
+TELAS_DEPOIS["#/mapa"] = ()=>{
+  $$("[data-eq-unidade]").forEach(a=>a.addEventListener("click", e=>{
+    e.preventDefault(); estado.filtrosEq = {...filtrosEq(), unidade: a.dataset.eqUnidade}; location.hash = "#/equipamentos";
+  }));
 };
 
 

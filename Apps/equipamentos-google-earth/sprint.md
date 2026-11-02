@@ -33,6 +33,7 @@ Malha do IBGE: 141 polígonos para 142 municípios (Boa Esperança do Norte, cri
 | 9 | Importação e consolidação | Planilha atual importada e arquivos das unidades mesclados |
 | 10 | Acessibilidade, LGPD e relatório | Navegação por teclado, contraste AA, relatório impresso |
 | 11 | Aceite e piloto de 30 dias | Roteiro de aceite cumprido e piloto aberto |
+| Identidade e usabilidade | Feito em 02/11/2026. Casca de ferramenta, cabeçalho compacto, fonte do sistema, densidade compacta, cantos suaves, superfícies planas e KPI em número; mapa de MT em SVG com os 142 municípios do arquivo embutido e os pinos das unidades (o número é a quantidade de equipamentos), e o perfil Unidade com o contexto de unidade. `python testes/testar.py` e `python testes/cenarios.py` passam. |
 
 **MVP 100% pronto = Sprints 0 a 11.**
 

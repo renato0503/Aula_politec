@@ -97,3 +97,12 @@ mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
+
+## Identidade e usabilidade (02/11/2026)
+
+A identidade é de ferramenta de campo: cabeçalho compacto, fonte do sistema,
+densidade compacta e cantos suaves. A tela-assinatura é o **mapa de MT em SVG**,
+com os 142 municípios do arquivo `dados-base/mt-municipios.json` e os pinos das
+unidades; o número no pino é a quantidade de equipamentos e o clique abre a lista
+filtrada. O perfil Unidade ganhou o **contexto de unidade** no menu do perfil.
+Código em `src/identidade.js` e `src/app.css`.

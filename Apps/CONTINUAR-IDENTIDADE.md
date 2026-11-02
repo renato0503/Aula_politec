@@ -208,6 +208,7 @@ feito em cada um está resumido aqui e no `README.md` e no `sprint.md` do app.
 | metas-bi-ocr | (este commit) | Casca de topo, claro, sistema, ampla, cantos suaves, cartões, KPI em anel. Ano em 12 meses com situação e passos 1-2-3. |
 | inscricoes-cursos | (este commit) | Casca de topo, degradê, arredondada, ampla, redondos, cartões, KPI em faixa. Cartões de curso com esteira e tela central do curso. |
 | mapa-distribuicao-credor | (este commit) | Casca de ferramenta, compacto, mono, compacta, cantos retos, planas, KPI em número. Esteira das 8 etapas e grade em planilha. |
+| equipamentos-google-earth | (este commit) | Casca de ferramenta, compacto, sistema, compacta, cantos suaves, planas, KPI em número. Mapa de MT em SVG com 142 municípios e pinos das unidades; contexto de unidade. |
 
 ---
 
@@ -300,7 +301,7 @@ Checklist resumido por app (detalhes nas Partes B e D do plano):
 | metas-bi-ocr | topo · claro · sistema · ampla · suaves · cartoes · anel | Ano em 12 meses com a situação de cada mês | assistente em 3 passos; histórico em tabela; "Usar arquivo de exemplo" |
 | inscricoes-cursos | topo · degrade · arredondada · ampla · redondos · cartoes · faixa | Cartões de curso com a esteira Divulgar → Turma | curso como centro com barra de passos; "＋ Novo curso" |
 | ~~mapa-distribuicao-credor~~ ✅ | ferramenta · compacto · mono · compacta · retos · planas · numero | Esteira das 8 etapas + grade em formato planilha | barra de etapas em todas as telas `/:proc`; importação em tabela de 3 linhas |
-| equipamentos-google-earth | ferramenta · compacto · sistema · compacta · suaves · planas · numero | Mapa de MT em SVG (os 142 municípios de `dados-base/mt-municipios.json` têm `lat`, `lon` e o polígono `p`) | tela inicial = Equipamentos até o mapa existir; lista paginada; contexto de unidade |
+| ~~equipamentos-google-earth~~ ✅ | ferramenta · compacto · sistema · compacta · suaves · planas · numero | Mapa de MT em SVG (os 142 municípios de `dados-base/mt-municipios.json` têm `lat`, `lon` e o polígono `p`) | tela inicial = Equipamentos até o mapa existir; lista paginada; contexto de unidade |
 | agiliza-mais | ferramenta · compacto · condensada · compacta · suaves · planas · faixa | Bancada do caso (passos à esquerda, trabalho à direita) | menu com 4 itens; barra de passos dentro do caso; seed com 1 caso |
 
 ### Etapa 4 · Um repositório por app no GitHub

@@ -8,7 +8,14 @@
     "layout": "topo",
     "padrao": "topografico",
     "estilo": "institucional",
-    "setor": "Qualidade · Parque de equipamentos"
+    "setor": "Qualidade · Parque de equipamentos",
+    "casca": "ferramenta",
+    "cabecalho": "compacto",
+    "fonte": "sistema",
+    "densidade": "compacta",
+    "cantos": "suaves",
+    "superficie": "planas",
+    "kpi": "numero"
   },
   "db": {
     "nome": "equipamentos_politec_v1",
@@ -90,7 +97,13 @@
     {
       "id": "unidade",
       "nome": "Unidade",
-      "descricao": "Cadastra os equipamentos da unidade e registra paradas."
+      "descricao": "Cadastra os equipamentos da unidade e registra paradas.",
+      "contexto": {
+        "rotulo": "Minha unidade",
+        "store": "unidades",
+        "valor": "id",
+        "texto": "nome"
+      }
     },
     {
       "id": "diretoria",
@@ -193,5 +206,6 @@
       "seed",
       "exemplos/seed.json"
     ]
-  ]
+  ],
+  "rotaInicial": "#/mapa"
 }
