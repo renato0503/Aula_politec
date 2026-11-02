@@ -8,7 +8,14 @@
     "layout": "topo",
     "padrao": "grade",
     "estilo": "institucional",
-    "setor": "CQUAL · Monitoramento de metas"
+    "setor": "CQUAL · Monitoramento de metas",
+    "casca": "topo",
+    "cabecalho": "claro",
+    "fonte": "sistema",
+    "densidade": "ampla",
+    "cantos": "suaves",
+    "superficie": "cartoes",
+    "kpi": "anel"
   },
   "db": {
     "nome": "metas_bi_v1",

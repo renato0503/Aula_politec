@@ -27,6 +27,7 @@ CSV e PDF com texto de 3 meses fictícios, com uma divergência plantada por mê
 | 4 | Arquivo para a planilha | Arquivo importa na planilha sem ajuste |
 | 5 | PDF com texto e OCR | PDF de texto e PDF imagem lidos, com confiança por número |
 | 6 | Aceite e piloto | 3 meses comparando com a digitação manual |
+| Identidade e usabilidade | Feito em 02/11/2026. Casca de topo, cabeçalho claro, fonte do sistema, densidade ampla, cantos suaves, cartões e KPI em anel; ano em 12 meses com a situação de cada mês (sem relatório, importado, conferido, gerado) e passos 1-2-3 no fluxo de importar, conferir e gerar. `python testes/testar.py` e `python testes/cenarios.py` passam. |
 
 **MVP 100% pronto = Sprints 0 a 6.** Se a TI liberar a exportação, o Sprint 5
 fica só com o PDF de texto e o OCR passa a ser opcional.

@@ -93,3 +93,11 @@ mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
+
+## Identidade e usabilidade (02/11/2026)
+
+A identidade é de monitoramento: cabeçalho claro, densidade ampla, cantos suaves
+e KPI em anel. A tela-assinatura é o **ano em 12 meses**, cada mês com a situação
+(sem relatório, importado, conferido ou gerado) e o atalho para a tela certa. O
+fluxo ganhou os **passos 1 Importar · 2 Conferir · 3 Gerar planilha** no topo das
+três telas. Código em `src/identidade.js` e `src/app.css`.
