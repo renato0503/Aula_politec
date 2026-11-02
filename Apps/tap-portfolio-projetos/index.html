@@ -428,10 +428,32 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 /* ===== VISUAL DESTE APP (bloco "visual" do app.json) ===== */
 :root{--app-acento:#5b21b6;--app-acento-claro:#7f52c6;--app-acento-forte:#421883;--app-acento-escuro:#b094dc;--padrao:url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="18" height="18"%3E%3Ccircle cx="2" cy="2" r="1.3" fill="%23fff" fill-opacity=".10"/%3E%3C/svg%3E')}
 /* ===== CSS DO APP ===== */
+/* Identidade do TAP Digital: matriz do portfólio. */
+
+.tap-matriz-card{border-top:5px solid var(--accent)}
+.tap-matriz-topo{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap}
+.tap-matriz-topo h2{margin:2px 0 4px}
+.tap-matriz-topo .conta{background:var(--accent-suave);border-radius:999px;padding:1px 8px;font-size:12px}
+.tap-matriz{position:relative;display:grid;grid-template-columns:118px minmax(0,1fr);grid-template-rows:auto 22px;gap:6px 10px;margin:18px 0 8px}
+.tap-eixo-y{grid-column:1;grid-row:1;writing-mode:vertical-rl;transform:rotate(180deg);text-align:center;font-size:11.5px;color:var(--ink2)}
+.tap-eixo-x{grid-column:2;grid-row:2;text-align:center;font-size:11.5px;color:var(--ink2);letter-spacing:.06em;text-transform:uppercase}
+.tap-area{grid-column:2;grid-row:1;position:relative;height:300px;border-left:1px solid var(--linha);border-bottom:1px solid var(--linha);
+  background-image:linear-gradient(var(--linha) 1px,transparent 1px),linear-gradient(90deg,var(--linha) 1px,transparent 1px);
+  background-size:25% 25%;background-color:var(--painel-2);border-radius:calc(var(--raio) - 8px)}
+.tap-ponto{position:absolute;width:34px;height:34px;margin:-17px 0 0 -17px;border-radius:50%;display:grid;place-items:center;
+  background:var(--accent);color:#fff;font-size:10.5px;font-weight:700;text-decoration:none;box-shadow:0 4px 10px rgba(10,47,92,.22);border:2px solid var(--painel)}
+.tap-ponto:hover{transform:scale(1.1);z-index:2}
+.tap-ponto.sem{background:transparent;border:2px dashed var(--accent);color:var(--accent)}
+.tap-sem-linha{position:absolute;right:0;top:0;bottom:0;width:0;border-left:2px dashed var(--accent);opacity:.5}
+.tap-legenda{display:flex;flex-wrap:wrap;gap:16px;font-size:12.5px;color:var(--ink2)}
+.tap-legenda span{display:inline-flex;align-items:center;gap:6px}
+.tap-legenda i{width:11px;height:11px;border-radius:50%;background:var(--accent)}
+.tap-legenda i.sem{background:transparent;border:2px dashed var(--accent)}
+@media (max-width:640px){ .tap-matriz{grid-template-columns:1fr;grid-template-rows:auto 22px} .tap-eixo-y{display:none} .tap-area{grid-column:1} .tap-eixo-x{grid-column:1} }
 
 </style>
 </head>
-<body data-layout="topo" data-estilo="institucional" data-cabecalho="degrade" data-fonte="sistema" data-densidade="normal" data-cantos="suaves" data-superficie="cartoes" data-kpi="barra">
+<body data-layout="topo" data-estilo="institucional" data-cabecalho="degrade" data-fonte="serifa" data-densidade="ampla" data-cantos="redondos" data-superficie="cartoes" data-kpi="anel">
 <div class="faixa-gov"><div class="in">
   <span class="bandeira" aria-hidden="true"><i style="background:#1e63ae"></i><i style="background:#0b7a3e"></i><i style="background:#e8b931"></i></span>
   <span><b>Governo de Mato Grosso</b></span><span class="sep">|</span>
@@ -1339,7 +1361,14 @@ const APP = {
     "layout": "topo",
     "padrao": "pontos",
     "estilo": "institucional",
-    "setor": "Escritório de Projetos Estratégicos"
+    "setor": "Escritório de Projetos Estratégicos",
+    "casca": "topo",
+    "cabecalho": "degrade",
+    "fonte": "serifa",
+    "densidade": "ampla",
+    "cantos": "redondos",
+    "superficie": "cartoes",
+    "kpi": "anel"
   },
   "perfis": [
     {
@@ -1350,12 +1379,14 @@ const APP = {
     {
       "id": "equipe",
       "nome": "Equipe de projetos",
-      "descricao": "Faz a triagem, registra pendências e mantém o portfólio."
+      "descricao": "Faz a triagem, registra pendências e mantém o portfólio.",
+      "inicio": "#/triagem"
     },
     {
       "id": "autoridade",
       "nome": "Autoridade",
-      "descricao": "Consulta as propostas analisadas e registra a decisão."
+      "descricao": "Consulta as propostas analisadas e registra a decisão.",
+      "inicio": "#/portfolio"
     }
   ]
 };
@@ -1752,6 +1783,50 @@ TELAS["#/indicadores"] = async ()=>{
       <div class="card kpi"><div class="v" data-tap-ind="captados">${captados}</div><div class="r">recursos captados</div></div></div>
     <div class="card tabela-wrap"><h2 style="margin-top:0">Propostas por situação</h2><table id="tabelaStatus"><tr><th>Situação</th><th class="num">Propostas</th></tr>
       ${Object.entries(porStatus).sort((a, b)=>b[1] - a[1]).map(([s, n])=>`<tr><td>${esc(s)}</td><td class="num">${n}</td></tr>`).join("")}</table></div>`;
+};
+
+/* Identidade do TAP Digital.
+   Entra por último no build. A tela-assinatura é a matriz do portfólio, com o
+   valor estimado no eixo vertical e a prioridade no horizontal. */
+
+const tapReais = v => Number(v || 0).toLocaleString("pt-BR", {style: "currency", currency: "BRL"});
+async function tapMatriz(){
+  const [ps, pri] = await Promise.all([db.list("propostas"), db.list("portfolio")]);
+  const aprovadas = ps.filter(p=>p.status === "aprovada");
+  const priDe = Object.fromEntries(pri.map(x=>[x.proposta_id, Number(x.prioridade) || 0]));
+  const comPrioridade = aprovadas.filter(p=>priDe[p.id]);
+  const sem = aprovadas.filter(p=>!priDe[p.id]);
+  const maxPri = Math.max(1, ...comPrioridade.map(p=>priDe[p.id]));
+  const maxValor = Math.max(1, ...aprovadas.map(p=>Number(p.valor_estimado) || 0));
+  const ponto = (p, i, semPrioridade)=>{
+    const x = semPrioridade ? 100 : Math.max(4, Math.min(96, (priDe[p.id] / maxPri) * 88 + 6));
+    const y = Math.max(4, Math.min(92, (Number(p.valor_estimado) || 0) / maxValor * 84 + 6));
+    return `<a class="tap-ponto ${semPrioridade ? "sem" : ""}" style="left:${x}%;bottom:${y}%"
+      href="#/proposta/${encodeURIComponent(p.id)}" title="${esc(p.titulo)} · ${tapReais(p.valor_estimado)}${semPrioridade ? " · sem prioridade" : " · prioridade " + priDe[p.id]}">
+      <span>${esc(p.id.replace("TAP-2026-", ""))}</span></a>`;
+  };
+  return `<div class="card tap-matriz-card"><div class="tap-matriz-topo"><div><span class="sub">Portfólio aprovado</span>
+      <h2>Matriz do portfólio <span class="conta">${aprovadas.length}</span></h2></div>
+      <p class="sub" style="margin:0">Valor estimado no eixo vertical; prioridade no horizontal. Ponto tracejado é proposta aprovada sem prioridade.</p></div>
+    <div class="tap-matriz"><span class="tap-eixo-y">valor estimado</span>
+      <div class="tap-area">${comPrioridade.map((p, i)=>ponto(p, i, false)).join("")}${sem.map((p, i)=>ponto(p, i, true)).join("")}
+        ${sem.length ? '<span class="tap-sem-linha" title="sem prioridade"></span>' : ""}</div>
+      <span class="tap-eixo-x">prioridade →</span></div>
+    <div class="tap-legenda"><span><i class="ok"></i>com prioridade ${comPrioridade.length}</span><span><i class="sem"></i>sem prioridade ${sem.length}</span>
+      <span>maior valor: ${tapReais(maxValor)}</span></div></div>`;
+}
+
+const tapPortfolioAntes = TELAS["#/portfolio"];
+TELAS["#/portfolio"] = async (p)=>{
+  const html = await tapPortfolioAntes(p);
+  const doc = new DOMParser().parseFromString(`<div id="tapRaiz">${html}</div>`, "text/html");
+  const raiz = doc.getElementById("tapRaiz");
+  if (!raiz) return html;
+  const bloco = doc.createElement("div"); bloco.innerHTML = await tapMatriz();
+  const h1 = raiz.querySelector("h1");
+  const alvo = h1 && h1.nextElementSibling ? h1.nextElementSibling : null;
+  if (alvo) alvo.after(bloco.firstElementChild); else raiz.insertBefore(bloco.firstElementChild, raiz.firstChild);
+  return raiz.innerHTML;
 };
 
 

@@ -8,7 +8,14 @@
     "layout": "topo",
     "padrao": "pontos",
     "estilo": "institucional",
-    "setor": "Escritório de Projetos Estratégicos"
+    "setor": "Escritório de Projetos Estratégicos",
+    "casca": "topo",
+    "cabecalho": "degrade",
+    "fonte": "serifa",
+    "densidade": "ampla",
+    "cantos": "redondos",
+    "superficie": "cartoes",
+    "kpi": "anel"
   },
   "db": {
     "nome": "tap_portfolio_v1",
@@ -87,12 +94,14 @@
     {
       "id": "equipe",
       "nome": "Equipe de projetos",
-      "descricao": "Faz a triagem, registra pendências e mantém o portfólio."
+      "descricao": "Faz a triagem, registra pendências e mantém o portfólio.",
+      "inicio": "#/triagem"
     },
     {
       "id": "autoridade",
       "nome": "Autoridade",
-      "descricao": "Consulta as propostas analisadas e registra a decisão."
+      "descricao": "Consulta as propostas analisadas e registra a decisão.",
+      "inicio": "#/portfolio"
     }
   ],
   "rotas": [

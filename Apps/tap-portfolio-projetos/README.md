@@ -85,3 +85,12 @@ mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
+
+## Identidade e usabilidade (02/11/2026)
+
+A identidade é de escritório de projetos: cabeçalho em degradê, fonte serifada,
+densidade ampla, cantos redondos e KPI em anel. A tela-assinatura é a **matriz do
+portfólio**, com o valor estimado no eixo vertical e a prioridade no horizontal;
+a proposta aprovada sem prioridade aparece com o ponto tracejado. A tela inicial
+passou a depender do perfil: Equipe abre na Triagem e Autoridade abre no
+Portfólio. Código em `src/identidade.js` e `src/app.css`.

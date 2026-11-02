@@ -27,6 +27,7 @@ O checklist de documentos é uma proposta até o modelo oficial do TAP chegar.
 | 4 | Proposta e decisão | Parecer e decisão registrados, histórico (RN07) |
 | 5 | Portfólio | Prioridade justificada, captação, exportação Excel (RN08) |
 | 6 | Indicadores, aceite e piloto | Indicadores, roteiro e piloto de 60 a 90 dias |
+| Identidade e usabilidade | Feito em 02/11/2026. Casca de topo, degradê, fonte serifada, densidade ampla, cantos redondos, cartões e KPI em anel; matriz do portfólio (valor × prioridade) com ponto tracejado para a aprovada sem prioridade e tela inicial por perfil (Equipe → Triagem; Autoridade → Portfólio). `python testes/testar.py` e `python testes/cenarios.py` passam. |
 
 **MVP 100% pronto = Sprints 0 a 6.**
 
