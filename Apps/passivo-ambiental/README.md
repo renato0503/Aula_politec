@@ -53,3 +53,13 @@ mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
+
+## Identidade e usabilidade (02/11/2026)
+
+A identidade é de perícia de campo: casca de topo, cabeçalho em degradê, cantos
+suaves e KPI em faixa. A tela-assinatura é a **fila de laudos do perito**, com o
+prazo em dias e a **miniatura do mapa** de cada requisição; o painel do gestor
+(produtividade) não aparece para o perito. O laudo virou abas: Cabeçalho, Mapas,
+Conclusão e Assinatura. O seed passou a usar datas relativas a hoje, com duas
+requisições atrasadas e as demais dentro do prazo. Código em `src/identidade.js`
+e `src/app.css`.

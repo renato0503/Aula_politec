@@ -23,7 +23,7 @@ TELAS["#/laudo/:id"] = async (p)=>{
   const {r, l, mapas} = await paLaudoDe(p.id);
   if (!r) return html;
   const assin = await paAssinaturas(p.id);
-  const card = `<div class="card" id="paAssinatura"><h2 style="margin-top:0">Assinatura do laudo (Sprint 4)</h2>
+  const card = `<div class="card" id="paAssinatura"><h2 style="margin-top:0">Assinatura do laudo</h2>
     ${assin.length ? `<p class="ok-txt">Assinado por <b>${esc(assin[assin.length - 1].nome)}</b> (${esc(assin[assin.length - 1].cargo)}) em ${dataBR(assin[assin.length - 1].data)}.</p>`
       : `<p class="sub">A conclusão registra a assinatura do perito responsável.</p>
         <div class="campos">${campo("paAssNome", "Perito responsável", {valor: "Perito Fictício"})}${campo("paAssCargo", "Cargo ou matrícula", {valor: "Perito criminal"})}</div>`}
@@ -106,7 +106,7 @@ TELAS["#/painel"] = async ()=>{
     a[k] = (a[k] || 0) + Number(l.horas_trabalhadas || 0); return a; }, {})).sort((a, b)=>b[1] - a[1]);
   const diasMedios = tempos.length ? Math.round(tempos.reduce((a, t)=>a + t.dias, 0) / tempos.length * 10) / 10 : null;
   const horasMedias = tempos.length ? Math.round(tempos.reduce((a, t)=>a + t.horas, 0) / tempos.length * 10) / 10 : null;
-  return html + `<div class="card" id="paGestor"><h2 style="margin-top:0">Fila e produtividade (Sprint 5 e 6)</h2>
+  return html + `<div class="card" id="paGestor"><h2 style="margin-top:0">Fila e produtividade</h2>
       <div class="grade">
         <div class="card kpi"><div class="v" data-pa-ind="fila">${fila.length}</div><div class="r">na fila</div></div>
         <div class="card kpi"><div class="v" data-pa-ind="atrasados">${fila.filter(x=>x.atraso).length}</div><div class="r">atrasados</div></div>

@@ -24,6 +24,7 @@
 | 2 | Núcleo do MVP | O fluxo principal da entrega, com as regras do Sprint 2 |
 | 3 a 6 | Telas e regras | As telas e regras dos sprints seguintes, uma por semana |
 | 7 | Aceite e piloto | Roteiro de aceite e piloto com dados fictícios |
+| Identidade e usabilidade | Feito em 02/11/2026. Casca de topo, degradê, fonte do sistema, cantos suaves, cartões e KPI em faixa; fila de laudos do perito com prazo e miniatura do mapa, painel do perito separado do gestor, laudo em abas (Cabeçalho, Mapas, Conclusão, Assinatura) e seed com datas relativas a hoje e 2 requisições atrasadas. `python testes/testar.py` e `python testes/cenarios.py` passam. |
 
 **MVP 100% pronto = Sprints 0 a 7.**
 

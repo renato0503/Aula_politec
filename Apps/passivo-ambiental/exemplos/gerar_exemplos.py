@@ -22,17 +22,18 @@ LOCAIS = ["Fazenda Santa Rita, município de Sinop", "Área de preservação do 
 
 
 def main():
-    hoje = dt.date(2026, 10, 29)
+    hoje = dt.date.today()
     requisicoes, laudos, mapas = [], [], []
+    # datas relativas a hoje: 2 requisições atrasadas e as demais dentro do prazo
     for n in range(12):
-        if n < 7:
-            data = hoje - dt.timedelta(days=400 + n * 120)   # passivo antigo
+        if n < 2:
+            data = hoje - dt.timedelta(days=16 + n * 9)   # fora do prazo de 10 dias
             status = "laudo"
         elif n < 10:
-            data = hoje - dt.timedelta(days=20 + n)
+            data = hoje - dt.timedelta(days=1 + (n % 7))
             status = "laudo"
         else:
-            data = hoje - dt.timedelta(days=45 + n)
+            data = hoje - dt.timedelta(days=20 + n)
             status = "concluida"
         rid = f"REQ-{n + 1:04d}"
         requisicoes.append({"id_requisicao": rid, "numero_processo": f"2026.000{n + 1:03d}-{n % 9 + 1}", "orgao": ORGAOS[n % len(ORGAOS)],

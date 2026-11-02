@@ -428,10 +428,29 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 /* ===== VISUAL DESTE APP (bloco "visual" do app.json) ===== */
 :root{--app-acento:#4d7c0f;--app-acento-claro:#749944;--app-acento-forte:#37590b;--app-acento-escuro:#aac08c;--padrao:url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="120" height="120"%3E%3Cg fill="none" stroke="%23fff" stroke-opacity=".07"%3E%3Ccircle cx="30" cy="40" r="14"/%3E%3Ccircle cx="30" cy="40" r="26"/%3E%3Ccircle cx="30" cy="40" r="38"/%3E%3Ccircle cx="96" cy="96" r="12"/%3E%3Ccircle cx="96" cy="96" r="24"/%3E%3C/g%3E%3C/svg%3E')}
 /* ===== CSS DO APP ===== */
+/* Identidade do Passivo Ambiental: fila de laudos com miniatura e laudo em abas. */
+
+.pa-fila{border-left:5px solid var(--accent)}
+.pa-fila-topo{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.pa-fila-topo h2{margin:2px 0 4px}
+.pa-fila-topo .conta{background:var(--accent-suave);border-radius:999px;padding:1px 8px;font-size:12px}
+.pa-fila-lista{display:grid;gap:8px;margin-top:10px}
+.pa-fila-item{display:grid;grid-template-columns:84px minmax(0,1fr) auto;gap:12px;align-items:center;padding:9px 11px;border:1px solid var(--linha);border-radius:var(--raio);color:var(--ink);text-decoration:none;background:var(--painel)}
+.pa-fila-item:hover{border-color:var(--accent);background:var(--accent-suave)}
+.pa-fila-info{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pa-fila-info > span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pa-fila-prazo{display:flex;flex-direction:column;align-items:flex-end;gap:3px;text-align:right}
+@media (max-width:640px){ .pa-fila-item{grid-template-columns:64px minmax(0,1fr)} .pa-fila-prazo{grid-column:1 / -1;align-items:flex-start;text-align:left} }
+
+.pa-mini{width:84px;height:auto;border-radius:8px;background:var(--painel-2)}
+.pa-mini-fundo{fill:var(--painel-2);stroke:var(--linha)}
+.pa-curva{fill:none;stroke:color-mix(in srgb, var(--accent) 45%, var(--linha));stroke-width:1.4}
+.pa-pin{fill:var(--vermelho)}
+.pa-pin-halo{fill:color-mix(in srgb, var(--vermelho) 22%, transparent)}
 
 </style>
 </head>
-<body data-layout="topo" data-estilo="institucional" data-cabecalho="degrade" data-fonte="sistema" data-densidade="normal" data-cantos="suaves" data-superficie="cartoes" data-kpi="barra">
+<body data-layout="topo" data-estilo="institucional" data-cabecalho="degrade" data-fonte="sistema" data-densidade="normal" data-cantos="suaves" data-superficie="cartoes" data-kpi="faixa">
 <div class="faixa-gov"><div class="in">
   <span class="bandeira" aria-hidden="true"><i style="background:#1e63ae"></i><i style="background:#0b7a3e"></i><i style="background:#e8b931"></i></span>
   <span><b>Governo de Mato Grosso</b></span><span class="sep">|</span>
@@ -487,7 +506,7 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 
 <!-- Bibliotecas e dados embutidos (preenchidos por Apps/_base/embutir.py) -->
 <!-- DADOS:seed:exemplos/seed.json -->
-<script type="application/json" id="seed">{"requisicoes":[{"id_requisicao":"REQ-0001","numero_processo":"2026.000001-1","orgao":"Delegacia de Polícia de Cuiabá","data_requisicao":"2025-09-24","tipo_infracao":"desmatamento","prazo_dias":10,"local":"Fazenda Santa Rita, município de Sinop","coordenadas":"-12.9743, -55.8255","status":"laudo","criado_em":"2025-09-24T08:00:00"},{"id_requisicao":"REQ-0002","numero_processo":"2026.000002-2","orgao":"Delegacia de Polícia de Sinop","data_requisicao":"2025-05-27","tipo_infracao":"queimada","prazo_dias":10,"local":"Área de preservação do Rio Cuiabá","coordenadas":"-12.6717, -55.8539","status":"laudo","criado_em":"2025-05-27T08:00:00"},{"id_requisicao":"REQ-0003","numero_processo":"2026.000003-3","orgao":"Delegacia de Polícia de Rondonópolis","data_requisicao":"2025-01-27","tipo_infracao":"extração irregular de madeira","prazo_dias":10,"local":"Assentamento Nova Esperança","coordenadas":"-12.3967, -55.8511","status":"laudo","criado_em":"2025-01-27T08:00:00"},{"id_requisicao":"REQ-0004","numero_processo":"2026.000004-4","orgao":"Delegacia Especializada do Meio Ambiente","data_requisicao":"2024-09-29","tipo_infracao":"ocupação irregular de área de preservação","prazo_dias":10,"local":"Reserva legal da Fazenda Boa Vista","coordenadas":"-12.7948, -55.2425","status":"laudo","criado_em":"2024-09-29T08:00:00"},{"id_requisicao":"REQ-0005","numero_processo":"2026.000005-5","orgao":"Ministério Público Estadual","data_requisicao":"2024-06-01","tipo_infracao":"poluição de curso d'água","prazo_dias":10,"local":"Margem do Rio Araguaia","coordenadas":"-12.5287, -55.3412","status":"laudo","criado_em":"2024-06-01T08:00:00"},{"id_requisicao":"REQ-0006","numero_processo":"2026.000006-6","orgao":"Delegacia de Polícia de Cáceres","data_requisicao":"2024-02-02","tipo_infracao":"mineração irregular","prazo_dias":10,"local":"Área rural de Cáceres","coordenadas":"-12.4787, -55.9204","status":"laudo","criado_em":"2024-02-02T08:00:00"},{"id_requisicao":"REQ-0007","numero_processo":"2026.000007-7","orgao":"Delegacia de Polícia de Cuiabá","data_requisicao":"2023-10-05","tipo_infracao":"desmatamento","prazo_dias":10,"local":"Fazenda Santa Rita, município de Sinop","coordenadas":"-12.5181, -55.6941","status":"laudo","criado_em":"2023-10-05T08:00:00"},{"id_requisicao":"REQ-0008","numero_processo":"2026.000008-8","orgao":"Delegacia de Polícia de Sinop","data_requisicao":"2026-10-02","tipo_infracao":"queimada","prazo_dias":10,"local":"Área de preservação do Rio Cuiabá","coordenadas":"-12.2712, -55.5004","status":"laudo","criado_em":"2026-10-02T08:00:00"},{"id_requisicao":"REQ-0009","numero_processo":"2026.000009-9","orgao":"Delegacia de Polícia de Rondonópolis","data_requisicao":"2026-10-01","tipo_infracao":"extração irregular de madeira","prazo_dias":10,"local":"Assentamento Nova Esperança","coordenadas":"-12.6121, -55.5588","status":"laudo","criado_em":"2026-10-01T08:00:00"},{"id_requisicao":"REQ-0010","numero_processo":"2026.000010-1","orgao":"Delegacia Especializada do Meio Ambiente","data_requisicao":"2026-09-30","tipo_infracao":"ocupação irregular de área de preservação","prazo_dias":10,"local":"Reserva legal da Fazenda Boa Vista","coordenadas":"-12.8204, -55.7491","status":"laudo","criado_em":"2026-09-30T08:00:00"},{"id_requisicao":"REQ-0011","numero_processo":"2026.000011-2","orgao":"Ministério Público Estadual","data_requisicao":"2026-09-04","tipo_infracao":"poluição de curso d'água","prazo_dias":10,"local":"Margem do Rio Araguaia","coordenadas":"-12.4256, -55.9571","status":"concluida","criado_em":"2026-09-04T08:00:00"},{"id_requisicao":"REQ-0012","numero_processo":"2026.000012-3","orgao":"Delegacia de Polícia de Cáceres","data_requisicao":"2026-09-03","tipo_infracao":"mineração irregular","prazo_dias":10,"local":"Área rural de Cáceres","coordenadas":"-12.9289, -55.2998","status":"concluida","criado_em":"2026-09-03T08:00:00"}],"laudos":[{"id_laudo":"L-REQ-0001","requisicao_id":"REQ-0001","status":"rascunho","local":"Fazenda Santa Rita, município de Sinop","coordenadas":"-12.9743, -55.8255","tipo_infracao":"desmatamento","horas_trabalhadas":0,"criado_em":"2025-09-24T09:00:00"},{"id_laudo":"L-REQ-0002","requisicao_id":"REQ-0002","status":"rascunho","local":"Área de preservação do Rio Cuiabá","coordenadas":"-12.6717, -55.8539","tipo_infracao":"queimada","horas_trabalhadas":4,"criado_em":"2025-05-27T09:00:00"},{"id_laudo":"L-REQ-0003","requisicao_id":"REQ-0003","status":"rascunho","local":"Assentamento Nova Esperança","coordenadas":"-12.3967, -55.8511","tipo_infracao":"extração irregular de madeira","horas_trabalhadas":8,"criado_em":"2025-01-27T09:00:00"},{"id_laudo":"L-REQ-0004","requisicao_id":"REQ-0004","status":"rascunho","local":"Reserva legal da Fazenda Boa Vista","coordenadas":"-12.7948, -55.2425","tipo_infracao":"ocupação irregular de área de preservação","horas_trabalhadas":4,"criado_em":"2024-09-29T09:00:00"},{"id_laudo":"L-REQ-0005","requisicao_id":"REQ-0005","status":"rascunho","local":"Margem do Rio Araguaia","coordenadas":"-12.5287, -55.3412","tipo_infracao":"poluição de curso d'água","horas_trabalhadas":4,"criado_em":"2024-06-01T09:00:00"},{"id_laudo":"L-REQ-0006","requisicao_id":"REQ-0006","status":"rascunho","local":"Área rural de Cáceres","coordenadas":"-12.4787, -55.9204","tipo_infracao":"mineração irregular","horas_trabalhadas":0,"criado_em":"2024-02-02T09:00:00"},{"id_laudo":"L-REQ-0007","requisicao_id":"REQ-0007","status":"rascunho","local":"Fazenda Santa Rita, município de Sinop","coordenadas":"-12.5181, -55.6941","tipo_infracao":"desmatamento","horas_trabalhadas":8,"criado_em":"2023-10-05T09:00:00"},{"id_laudo":"L-REQ-0008","requisicao_id":"REQ-0008","status":"rascunho","local":"Área de preservação do Rio Cuiabá","coordenadas":"-12.2712, -55.5004","tipo_infracao":"queimada","horas_trabalhadas":0,"criado_em":"2026-10-02T09:00:00"},{"id_laudo":"L-REQ-0009","requisicao_id":"REQ-0009","status":"rascunho","local":"Assentamento Nova Esperança","coordenadas":"-12.6121, -55.5588","tipo_infracao":"extração irregular de madeira","horas_trabalhadas":0,"criado_em":"2026-10-01T09:00:00"},{"id_laudo":"L-REQ-0010","requisicao_id":"REQ-0010","status":"rascunho","local":"Reserva legal da Fazenda Boa Vista","coordenadas":"-12.8204, -55.7491","tipo_infracao":"ocupação irregular de área de preservação","horas_trabalhadas":0,"criado_em":"2026-09-30T09:00:00"},{"id_laudo":"L-REQ-0011","requisicao_id":"REQ-0011","status":"concluido","local":"Margem do Rio Araguaia","coordenadas":"-12.4256, -55.9571","tipo_infracao":"poluição de curso d'água","horas_trabalhadas":16,"criado_em":"2026-09-04T09:00:00"},{"id_laudo":"L-REQ-0012","requisicao_id":"REQ-0012","status":"concluido","local":"Área rural de Cáceres","coordenadas":"-12.9289, -55.2998","tipo_infracao":"mineração irregular","horas_trabalhadas":16,"criado_em":"2026-09-03T09:00:00"}],"mapas":[{"id_mapa":"L-REQ-0011-M1","laudo_id":"L-REQ-0011","modelo_id":"delimitacao","modelo":"Delimitação da área de dano","elementos":{"norte":"N","escala":"1:25.000","legenda":"azul = área danificada; verde = vegetação preservada","data":"2026-09-04","fonte":"Imagem de satélite (fictícia)"},"valor_extra":"12,5","criado_em":"2026-09-04T11:00:00"},{"id_mapa":"L-REQ-0011-M2","laudo_id":"L-REQ-0011","modelo_id":"delimitacao","modelo":"Delimitação da área de dano","elementos":{"norte":"N","escala":"1:25.000","legenda":"azul = área danificada; verde = vegetação preservada","data":"2026-09-04","fonte":"Imagem de satélite (fictícia)"},"valor_extra":"15,5","criado_em":"2026-09-04T11:00:00"},{"id_mapa":"L-REQ-0012-M1","laudo_id":"L-REQ-0012","modelo_id":"delimitacao","modelo":"Delimitação da área de dano","elementos":{"norte":"N","escala":"1:25.000","legenda":"azul = área danificada; verde = vegetação preservada","data":"2026-09-03","fonte":"Imagem de satélite (fictícia)"},"valor_extra":"12,5","criado_em":"2026-09-03T11:00:00"},{"id_mapa":"L-REQ-0012-M2","laudo_id":"L-REQ-0012","modelo_id":"delimitacao","modelo":"Delimitação da área de dano","elementos":{"norte":"N","escala":"1:25.000","legenda":"azul = área danificada; verde = vegetação preservada","data":"2026-09-03","fonte":"Imagem de satélite (fictícia)"},"valor_extra":"15,5","criado_em":"2026-09-03T11:00:00"}]}</script>
+<script type="application/json" id="seed">{"requisicoes":[{"id_requisicao":"REQ-0001","numero_processo":"2026.000001-1","orgao":"Delegacia de Polícia de Cuiabá","data_requisicao":"2026-10-17","tipo_infracao":"desmatamento","prazo_dias":10,"local":"Fazenda Santa Rita, município de Sinop","coordenadas":"-12.9743, -55.8255","status":"laudo","criado_em":"2026-10-17T08:00:00"},{"id_requisicao":"REQ-0002","numero_processo":"2026.000002-2","orgao":"Delegacia de Polícia de Sinop","data_requisicao":"2026-10-08","tipo_infracao":"queimada","prazo_dias":10,"local":"Área de preservação do Rio Cuiabá","coordenadas":"-12.6717, -55.8539","status":"laudo","criado_em":"2026-10-08T08:00:00"},{"id_requisicao":"REQ-0003","numero_processo":"2026.000003-3","orgao":"Delegacia de Polícia de Rondonópolis","data_requisicao":"2026-10-30","tipo_infracao":"extração irregular de madeira","prazo_dias":10,"local":"Assentamento Nova Esperança","coordenadas":"-12.3967, -55.8511","status":"laudo","criado_em":"2026-10-30T08:00:00"},{"id_requisicao":"REQ-0004","numero_processo":"2026.000004-4","orgao":"Delegacia Especializada do Meio Ambiente","data_requisicao":"2026-10-29","tipo_infracao":"ocupação irregular de área de preservação","prazo_dias":10,"local":"Reserva legal da Fazenda Boa Vista","coordenadas":"-12.7948, -55.2425","status":"laudo","criado_em":"2026-10-29T08:00:00"},{"id_requisicao":"REQ-0005","numero_processo":"2026.000005-5","orgao":"Ministério Público Estadual","data_requisicao":"2026-10-28","tipo_infracao":"poluição de curso d'água","prazo_dias":10,"local":"Margem do Rio Araguaia","coordenadas":"-12.5287, -55.3412","status":"laudo","criado_em":"2026-10-28T08:00:00"},{"id_requisicao":"REQ-0006","numero_processo":"2026.000006-6","orgao":"Delegacia de Polícia de Cáceres","data_requisicao":"2026-10-27","tipo_infracao":"mineração irregular","prazo_dias":10,"local":"Área rural de Cáceres","coordenadas":"-12.4787, -55.9204","status":"laudo","criado_em":"2026-10-27T08:00:00"},{"id_requisicao":"REQ-0007","numero_processo":"2026.000007-7","orgao":"Delegacia de Polícia de Cuiabá","data_requisicao":"2026-10-26","tipo_infracao":"desmatamento","prazo_dias":10,"local":"Fazenda Santa Rita, município de Sinop","coordenadas":"-12.5181, -55.6941","status":"laudo","criado_em":"2026-10-26T08:00:00"},{"id_requisicao":"REQ-0008","numero_processo":"2026.000008-8","orgao":"Delegacia de Polícia de Sinop","data_requisicao":"2026-11-01","tipo_infracao":"queimada","prazo_dias":10,"local":"Área de preservação do Rio Cuiabá","coordenadas":"-12.2712, -55.5004","status":"laudo","criado_em":"2026-11-01T08:00:00"},{"id_requisicao":"REQ-0009","numero_processo":"2026.000009-9","orgao":"Delegacia de Polícia de Rondonópolis","data_requisicao":"2026-10-31","tipo_infracao":"extração irregular de madeira","prazo_dias":10,"local":"Assentamento Nova Esperança","coordenadas":"-12.6121, -55.5588","status":"laudo","criado_em":"2026-10-31T08:00:00"},{"id_requisicao":"REQ-0010","numero_processo":"2026.000010-1","orgao":"Delegacia Especializada do Meio Ambiente","data_requisicao":"2026-10-30","tipo_infracao":"ocupação irregular de área de preservação","prazo_dias":10,"local":"Reserva legal da Fazenda Boa Vista","coordenadas":"-12.8204, -55.7491","status":"laudo","criado_em":"2026-10-30T08:00:00"},{"id_requisicao":"REQ-0011","numero_processo":"2026.000011-2","orgao":"Ministério Público Estadual","data_requisicao":"2026-10-03","tipo_infracao":"poluição de curso d'água","prazo_dias":10,"local":"Margem do Rio Araguaia","coordenadas":"-12.4256, -55.9571","status":"concluida","criado_em":"2026-10-03T08:00:00"},{"id_requisicao":"REQ-0012","numero_processo":"2026.000012-3","orgao":"Delegacia de Polícia de Cáceres","data_requisicao":"2026-10-02","tipo_infracao":"mineração irregular","prazo_dias":10,"local":"Área rural de Cáceres","coordenadas":"-12.9289, -55.2998","status":"concluida","criado_em":"2026-10-02T08:00:00"}],"laudos":[{"id_laudo":"L-REQ-0001","requisicao_id":"REQ-0001","status":"rascunho","local":"Fazenda Santa Rita, município de Sinop","coordenadas":"-12.9743, -55.8255","tipo_infracao":"desmatamento","horas_trabalhadas":0,"criado_em":"2026-10-17T09:00:00"},{"id_laudo":"L-REQ-0002","requisicao_id":"REQ-0002","status":"rascunho","local":"Área de preservação do Rio Cuiabá","coordenadas":"-12.6717, -55.8539","tipo_infracao":"queimada","horas_trabalhadas":4,"criado_em":"2026-10-08T09:00:00"},{"id_laudo":"L-REQ-0003","requisicao_id":"REQ-0003","status":"rascunho","local":"Assentamento Nova Esperança","coordenadas":"-12.3967, -55.8511","tipo_infracao":"extração irregular de madeira","horas_trabalhadas":8,"criado_em":"2026-10-30T09:00:00"},{"id_laudo":"L-REQ-0004","requisicao_id":"REQ-0004","status":"rascunho","local":"Reserva legal da Fazenda Boa Vista","coordenadas":"-12.7948, -55.2425","tipo_infracao":"ocupação irregular de área de preservação","horas_trabalhadas":4,"criado_em":"2026-10-29T09:00:00"},{"id_laudo":"L-REQ-0005","requisicao_id":"REQ-0005","status":"rascunho","local":"Margem do Rio Araguaia","coordenadas":"-12.5287, -55.3412","tipo_infracao":"poluição de curso d'água","horas_trabalhadas":4,"criado_em":"2026-10-28T09:00:00"},{"id_laudo":"L-REQ-0006","requisicao_id":"REQ-0006","status":"rascunho","local":"Área rural de Cáceres","coordenadas":"-12.4787, -55.9204","tipo_infracao":"mineração irregular","horas_trabalhadas":0,"criado_em":"2026-10-27T09:00:00"},{"id_laudo":"L-REQ-0007","requisicao_id":"REQ-0007","status":"rascunho","local":"Fazenda Santa Rita, município de Sinop","coordenadas":"-12.5181, -55.6941","tipo_infracao":"desmatamento","horas_trabalhadas":8,"criado_em":"2026-10-26T09:00:00"},{"id_laudo":"L-REQ-0008","requisicao_id":"REQ-0008","status":"rascunho","local":"Área de preservação do Rio Cuiabá","coordenadas":"-12.2712, -55.5004","tipo_infracao":"queimada","horas_trabalhadas":0,"criado_em":"2026-11-01T09:00:00"},{"id_laudo":"L-REQ-0009","requisicao_id":"REQ-0009","status":"rascunho","local":"Assentamento Nova Esperança","coordenadas":"-12.6121, -55.5588","tipo_infracao":"extração irregular de madeira","horas_trabalhadas":0,"criado_em":"2026-10-31T09:00:00"},{"id_laudo":"L-REQ-0010","requisicao_id":"REQ-0010","status":"rascunho","local":"Reserva legal da Fazenda Boa Vista","coordenadas":"-12.8204, -55.7491","tipo_infracao":"ocupação irregular de área de preservação","horas_trabalhadas":0,"criado_em":"2026-10-30T09:00:00"},{"id_laudo":"L-REQ-0011","requisicao_id":"REQ-0011","status":"concluido","local":"Margem do Rio Araguaia","coordenadas":"-12.4256, -55.9571","tipo_infracao":"poluição de curso d'água","horas_trabalhadas":16,"criado_em":"2026-10-03T09:00:00"},{"id_laudo":"L-REQ-0012","requisicao_id":"REQ-0012","status":"concluido","local":"Área rural de Cáceres","coordenadas":"-12.9289, -55.2998","tipo_infracao":"mineração irregular","horas_trabalhadas":16,"criado_em":"2026-10-02T09:00:00"}],"mapas":[{"id_mapa":"L-REQ-0011-M1","laudo_id":"L-REQ-0011","modelo_id":"delimitacao","modelo":"Delimitação da área de dano","elementos":{"norte":"N","escala":"1:25.000","legenda":"azul = área danificada; verde = vegetação preservada","data":"2026-10-03","fonte":"Imagem de satélite (fictícia)"},"valor_extra":"12,5","criado_em":"2026-10-03T11:00:00"},{"id_mapa":"L-REQ-0011-M2","laudo_id":"L-REQ-0011","modelo_id":"delimitacao","modelo":"Delimitação da área de dano","elementos":{"norte":"N","escala":"1:25.000","legenda":"azul = área danificada; verde = vegetação preservada","data":"2026-10-03","fonte":"Imagem de satélite (fictícia)"},"valor_extra":"15,5","criado_em":"2026-10-03T11:00:00"},{"id_mapa":"L-REQ-0012-M1","laudo_id":"L-REQ-0012","modelo_id":"delimitacao","modelo":"Delimitação da área de dano","elementos":{"norte":"N","escala":"1:25.000","legenda":"azul = área danificada; verde = vegetação preservada","data":"2026-10-02","fonte":"Imagem de satélite (fictícia)"},"valor_extra":"12,5","criado_em":"2026-10-02T11:00:00"},{"id_mapa":"L-REQ-0012-M2","laudo_id":"L-REQ-0012","modelo_id":"delimitacao","modelo":"Delimitação da área de dano","elementos":{"norte":"N","escala":"1:25.000","legenda":"azul = área danificada; verde = vegetação preservada","data":"2026-10-02","fonte":"Imagem de satélite (fictícia)"},"valor_extra":"15,5","criado_em":"2026-10-02T11:00:00"}]}</script>
 <!-- /DADOS:seed -->
 
 <script>
@@ -1287,7 +1306,14 @@ const APP = {
     "layout": "topo",
     "padrao": "topografico",
     "estilo": "institucional",
-    "setor": "Interiorização · Perícia ambiental"
+    "setor": "Interiorização · Perícia ambiental",
+    "casca": "topo",
+    "cabecalho": "degrade",
+    "fonte": "sistema",
+    "densidade": "normal",
+    "cantos": "suaves",
+    "superficie": "cartoes",
+    "kpi": "faixa"
   },
   "perfis": [
     {
@@ -1406,7 +1432,7 @@ TELAS["#/laudo/:id"] = async ({id})=>{
   const cab = paCabecalho(r, l), completo = cab.every(([, v])=>String(v || "").trim() && !/não informad/i.test(v));
   return `<h1>Laudo ${esc(l.id_laudo)} <span class="selo ${l.status === "concluido" ? "ok" : "info"}" id="paStatusLaudo">${esc(l.status)}</span></h1>
     <p class="sub">Requisição ${esc(r.numero_processo)} · ${esc(r.orgao)} · recebida em ${dataCurtaBR(r.data_requisicao)} · prazo ${r.prazo_dias} dias</p>
-    <form class="card" id="formPaLaudo"><h2 style="margin-top:0">Cabeçalho (RN01)</h2>
+    <form class="card" id="formPaLaudo"><h2 style="margin-top:0">Cabeçalho</h2>
       <div class="tabela-wrap"><table id="tabelaCabecalho">${cab.map(([k, v])=>`<tr><th>${esc(k)}</th><td>${esc(v)}</td></tr>`).join("")}</table></div>
       <div class="campos">${campo("paLocalL", "Local do dano (ajuste)", {valor: l.local || r.local})}
         ${campo("paCoordL", "Coordenadas (ajuste)", {valor: l.coordenadas || r.coordenadas || ""})}</div>
@@ -1603,7 +1629,7 @@ TELAS["#/laudo/:id"] = async (p)=>{
   const {r, l, mapas} = await paLaudoDe(p.id);
   if (!r) return html;
   const assin = await paAssinaturas(p.id);
-  const card = `<div class="card" id="paAssinatura"><h2 style="margin-top:0">Assinatura do laudo (Sprint 4)</h2>
+  const card = `<div class="card" id="paAssinatura"><h2 style="margin-top:0">Assinatura do laudo</h2>
     ${assin.length ? `<p class="ok-txt">Assinado por <b>${esc(assin[assin.length - 1].nome)}</b> (${esc(assin[assin.length - 1].cargo)}) em ${dataBR(assin[assin.length - 1].data)}.</p>`
       : `<p class="sub">A conclusão registra a assinatura do perito responsável.</p>
         <div class="campos">${campo("paAssNome", "Perito responsável", {valor: "Perito Fictício"})}${campo("paAssCargo", "Cargo ou matrícula", {valor: "Perito criminal"})}</div>`}
@@ -1686,7 +1712,7 @@ TELAS["#/painel"] = async ()=>{
     a[k] = (a[k] || 0) + Number(l.horas_trabalhadas || 0); return a; }, {})).sort((a, b)=>b[1] - a[1]);
   const diasMedios = tempos.length ? Math.round(tempos.reduce((a, t)=>a + t.dias, 0) / tempos.length * 10) / 10 : null;
   const horasMedias = tempos.length ? Math.round(tempos.reduce((a, t)=>a + t.horas, 0) / tempos.length * 10) / 10 : null;
-  return html + `<div class="card" id="paGestor"><h2 style="margin-top:0">Fila e produtividade (Sprint 5 e 6)</h2>
+  return html + `<div class="card" id="paGestor"><h2 style="margin-top:0">Fila e produtividade</h2>
       <div class="grade">
         <div class="card kpi"><div class="v" data-pa-ind="fila">${fila.length}</div><div class="r">na fila</div></div>
         <div class="card kpi"><div class="v" data-pa-ind="atrasados">${fila.filter(x=>x.atraso).length}</div><div class="r">atrasados</div></div>
@@ -1712,6 +1738,89 @@ TELAS_DEPOIS["#/painel"] = ()=>{
     baixar(`passivo-${hojeISO()}.csv`, csv, "text/csv;charset=utf-8");
     await registrar("relatório de produtividade exportado", {detalhe: `${rs.length} requisições`});
   });
+};
+
+/* Identidade do Passivo Ambiental.
+   Entra por último no build. A tela-assinatura é a fila de laudos do perito,
+   com prazo e miniatura do mapa; o painel do perito não mostra o bloco do
+   gestor, e o laudo vira abas. */
+
+function paMiniMapa(req){
+  const pin = req.coordenadas ? '<circle cx="40" cy="27" r="4" class="pa-pin"/><circle cx="40" cy="27" r="9" class="pa-pin-halo"/>' : "";
+  return `<svg class="pa-mini" viewBox="0 0 80 56" role="img" aria-label="Miniatura do mapa do laudo">
+    <rect x="1" y="1" width="78" height="54" rx="6" class="pa-mini-fundo"/>
+    <path d="M6 40c10-8 18-6 26-13s16-9 24-5 12 10 18 9" class="pa-curva"/>
+    <path d="M4 28c9-5 16-3 23-8s15-7 22-4 14 8 22 6" class="pa-curva"/>
+    <path d="M10 50c8-4 15-3 22-7s13-6 20-3 14 6 22 5" class="pa-curva"/>
+    ${pin}</svg>`;
+}
+async function paFilaPerito(){
+  const [rs, ls] = await Promise.all([db.list("requisicoes"), db.list("laudos")]);
+  const hoje = hojeISO();
+  const laudoDe = rid => ls.find(l=>l.requisicao_id === rid);
+  const fila = rs.filter(r=>r.status !== "concluida").map(r=>{
+    const dias = Math.round((new Date(hoje + "T12:00:00") - new Date(r.data_requisicao + "T12:00:00")) / 86400000);
+    return {...r, restam: Number(r.prazo_dias) - dias, l: laudoDe(r.id_requisicao)};
+  }).sort((a, b)=>a.restam - b.restam);
+  return `<div class="card pa-fila"><div class="pa-fila-topo"><div><span class="sub">Minha fila</span>
+      <h2>Laudos por prazo <span class="conta">${fila.length}</span></h2></div><a class="botao" href="#/requisicoes">Ver todas</a></div>
+    <p class="sub">Ordenada pelo prazo. O mapa é a miniatura do laudo; clique para abrir.</p>
+    ${fila.length ? `<div class="pa-fila-lista">${fila.map(r=>{
+      const cls = r.restam < 0 ? "erro" : r.restam <= 3 ? "alerta" : "ok";
+      return `<a class="pa-fila-item" href="#/laudo/${encodeURIComponent(r.id_requisicao)}">
+        ${paMiniMapa(r)}
+        <span class="pa-fila-info"><b class="mono">${esc(r.numero_processo)}</b><span>${esc(r.tipo_infracao)} · ${esc(r.local)}</span>
+          <small class="sub">${esc(r.orgao)}</small></span>
+        <span class="pa-fila-prazo"><span class="selo ${cls}">${r.restam < 0 ? `${plural(Math.abs(r.restam), "dia", "dias")} atrasado` : `vence em ${plural(r.restam, "dia", "dias")}`}</span>
+          <small class="sub">${r.l?.status || "sem laudo"}</small></span></a>`;
+    }).join("")}</div>` : '<p class="sub">Nenhum laudo na fila.</p>'}</div>`;
+}
+
+const paPainelAntes = TELAS["#/painel"];
+TELAS["#/painel"] = async ()=>{
+  const html = await paPainelAntes();
+  const doc = new DOMParser().parseFromString(`<div id="paRaiz">${html}</div>`, "text/html");
+  const raiz = doc.getElementById("paRaiz");
+  if (!raiz) return html;
+  if (estado.perfil === "perito"){
+    doc.getElementById("paGestor")?.remove();
+    const bloco = doc.createElement("div"); bloco.innerHTML = await paFilaPerito();
+    raiz.insertBefore(bloco.firstElementChild, raiz.querySelector("h1"));
+  }
+  return raiz.innerHTML;
+};
+
+/* ---------- laudo em abas ---------- */
+const paLaudoAntes = TELAS["#/laudo/:id"];
+TELAS["#/laudo/:id"] = async (p)=>{
+  const html = await paLaudoAntes(p);
+  if (typeof abas !== "function" || html.includes('class="abas"')) return html;
+  const doc = new DOMParser().parseFromString(`<div id="paLaudoRaiz">${html}</div>`, "text/html");
+  const raiz = doc.getElementById("paLaudoRaiz");
+  if (!raiz) return html;
+  const antes = [], cards = [];
+  const colher = node=>{
+    if (node.nodeType !== 1) return;
+    if (node.classList.contains("duas-colunas")){ [...node.children].forEach(colher); return; }
+    if (node.classList.contains("card") && !node.classList.contains("kpi")) cards.push(node);
+    else antes.push(node);
+  };
+  [...raiz.children].forEach(colher);
+  if (!cards.length) return html;
+  const grupos = {cabecalho: [], mapas: [], conclusao: [], assinatura: []};
+  const destino = h=>{
+    if (/mapa/.test(h)) return "mapas";
+    if (/conclus/.test(h)) return "conclusao";
+    if (/assinatura/.test(h)) return "assinatura";
+    return "cabecalho";
+  };
+  cards.forEach(node=>{
+    const fixo = {paCardMapa: "mapas", paCardConclusao: "conclusao", paAssinatura: "assinatura"}[node.id];
+    grupos[fixo || destino((node.querySelector("h2")?.textContent || "").toLowerCase())].push(node.outerHTML);
+  });
+  const nomes = [["cabecalho", "Cabeçalho"], ["mapas", "Mapas"], ["conclusao", "Conclusão"], ["assinatura", "Assinatura"]];
+  const lista = nomes.filter(([id])=>grupos[id].length).map(([id, titulo])=>({id, titulo, html: grupos[id].join("")}));
+  return antes.map(n=>n.outerHTML).join("") + abas("ficha", lista);
 };
 
 

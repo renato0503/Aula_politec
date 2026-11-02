@@ -86,7 +86,7 @@ TELAS["#/laudo/:id"] = async ({id})=>{
   const cab = paCabecalho(r, l), completo = cab.every(([, v])=>String(v || "").trim() && !/não informad/i.test(v));
   return `<h1>Laudo ${esc(l.id_laudo)} <span class="selo ${l.status === "concluido" ? "ok" : "info"}" id="paStatusLaudo">${esc(l.status)}</span></h1>
     <p class="sub">Requisição ${esc(r.numero_processo)} · ${esc(r.orgao)} · recebida em ${dataCurtaBR(r.data_requisicao)} · prazo ${r.prazo_dias} dias</p>
-    <form class="card" id="formPaLaudo"><h2 style="margin-top:0">Cabeçalho (RN01)</h2>
+    <form class="card" id="formPaLaudo"><h2 style="margin-top:0">Cabeçalho</h2>
       <div class="tabela-wrap"><table id="tabelaCabecalho">${cab.map(([k, v])=>`<tr><th>${esc(k)}</th><td>${esc(v)}</td></tr>`).join("")}</table></div>
       <div class="campos">${campo("paLocalL", "Local do dano (ajuste)", {valor: l.local || r.local})}
         ${campo("paCoordL", "Coordenadas (ajuste)", {valor: l.coordenadas || r.coordenadas || ""})}</div>

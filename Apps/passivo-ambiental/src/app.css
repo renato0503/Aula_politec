@@ -1,0 +1,19 @@
+/* Identidade do Passivo Ambiental: fila de laudos com miniatura e laudo em abas. */
+
+.pa-fila{border-left:5px solid var(--accent)}
+.pa-fila-topo{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.pa-fila-topo h2{margin:2px 0 4px}
+.pa-fila-topo .conta{background:var(--accent-suave);border-radius:999px;padding:1px 8px;font-size:12px}
+.pa-fila-lista{display:grid;gap:8px;margin-top:10px}
+.pa-fila-item{display:grid;grid-template-columns:84px minmax(0,1fr) auto;gap:12px;align-items:center;padding:9px 11px;border:1px solid var(--linha);border-radius:var(--raio);color:var(--ink);text-decoration:none;background:var(--painel)}
+.pa-fila-item:hover{border-color:var(--accent);background:var(--accent-suave)}
+.pa-fila-info{display:flex;flex-direction:column;gap:2px;min-width:0}
+.pa-fila-info > span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pa-fila-prazo{display:flex;flex-direction:column;align-items:flex-end;gap:3px;text-align:right}
+@media (max-width:640px){ .pa-fila-item{grid-template-columns:64px minmax(0,1fr)} .pa-fila-prazo{grid-column:1 / -1;align-items:flex-start;text-align:left} }
+
+.pa-mini{width:84px;height:auto;border-radius:8px;background:var(--painel-2)}
+.pa-mini-fundo{fill:var(--painel-2);stroke:var(--linha)}
+.pa-curva{fill:none;stroke:color-mix(in srgb, var(--accent) 45%, var(--linha));stroke-width:1.4}
+.pa-pin{fill:var(--vermelho)}
+.pa-pin-halo{fill:color-mix(in srgb, var(--vermelho) 22%, transparent)}

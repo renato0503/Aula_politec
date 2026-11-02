@@ -8,7 +8,14 @@
     "layout": "topo",
     "padrao": "topografico",
     "estilo": "institucional",
-    "setor": "Interiorização · Perícia ambiental"
+    "setor": "Interiorização · Perícia ambiental",
+    "casca": "topo",
+    "cabecalho": "degrade",
+    "fonte": "sistema",
+    "densidade": "normal",
+    "cantos": "suaves",
+    "superficie": "cartoes",
+    "kpi": "faixa"
   },
   "db": {
     "nome": "passivo_ambiental_v1",
