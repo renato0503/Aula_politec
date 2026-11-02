@@ -18,6 +18,7 @@
 | 6 | Feito em 30/10/2026. Agenda do dia e da semana, busca, comparecimento e ausência (RN08), agenda no IndexedDB e fila local de envio. |
 | 7 | Feito em 30/10/2026. Indicadores por posto, usuários com desativação e retenção de 90 dias pelo botão. O gatilho diário fica para o Apps Script. |
 | 8 | Feito em 30/10/2026. Roteiro de aceite em `modelos/roteiro-aceite.md`. O piloto depende da TI e dos postos. |
+| Identidade e usabilidade | Feito em 02/11/2026. Casca de cidadão, fonte arredondada, densidade ampla e cantos redondos; calendário do mês com vagas, passos 1-2-3 no fluxo público, grade semanal de ocupação com cor por situação e busca por protocolo, nome ou CPF na agenda do posto. `python testes/testar.py`, `python testes/cenarios.py` e `node testes/testar_code_gs.js` passam. |
 
 `Code.gs` com `doGet`, `listarPostos`, `listarHorarios` e `quemSou`, testado contra a planilha modelo. `DEPLOY.md` explica os dois projetos (público e interno). Modo de teste local no `index.html`, sem Apps Script.
 

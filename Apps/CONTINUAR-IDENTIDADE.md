@@ -134,30 +134,63 @@ Feitas no molde antes da separação, por isso todos os 20 núcleos já têm:
 - `src/identidade.js` (se existir) entra **por último** no build, depois de
   todos os sprints. É o lugar da tela-assinatura de cada app.
 
-### 2.4 Estado dos testes (02/11/2026)
+### 2.4 Estado dos testes (02/11/2026, depois da Etapa 1)
 
 - `testes/testar.py`: **20 de 20 apps OK**.
-- `testes/cenarios.py`: **92 de 94 cenários OK**. Faltam dois, que precisam de
-  investigação:
-  1. `adiantamento · s5_prestacao_e_pendencias`: "a pendência abre com prazo de
-     10 dias úteis (RN05)" falha e depois um `inner_text` estoura o tempo.
-  2. `agendamento-cin · s6_posto_offline`: "a agenda guarda o dia no IndexedDB"
-     falha.
-  Hipótese para os dois: **02/11 é feriado (Finados)**, e o app usa a data de
-  hoje (dias úteis no adiantamento; agenda "de hoje" no posto). Teste com outra
-  data (`pg.clock` do Playwright ou um parâmetro de data no app) antes de mexer
-  na regra. Se não for isso, confira se a mudança da casca (trilha, abas, menu
-  compacto) mexeu no seletor usado pelo cenário.
+- `testes/cenarios.py`: **89 de 89 cenários OK** (o `_base/testar_sprints.py`
+  roda os 20 e termina com código 0).
+- Os dois cenários que falhavam tinham **três causas**, nenhuma delas o feriado
+  de 02/11:
+  1. **Datas fixas no seed** (`agendamento-cin`): a grade e os agendamentos
+     fictícios estavam presos a 03/11 a 13/11, então a agenda do posto não tinha
+     nada "hoje". O `planilha-modelo/gerar_planilha.py` passou a gerar **datas
+     relativas a hoje** (semana passada, corrente e seguinte) e a garantir
+     agendamentos confirmados hoje em cada posto. O `testar_code_gs.js` deixou de
+     depender de 16/11 e calcula a grade a partir do próprio seed.
+  2. **Esperas fixas nos testes**: `pg.wait_for_timeout(800)` era lido antes do
+     fim da importação do seed e antes do `navegar()` terminar. Todos os
+     `testes/cenarios.py` ganharam o helper `semear()` (espera a importação
+     terminar, recarrega a página) e `esperar()` (polling de condição
+     assíncrona). **Importante:** `pg.wait_for_function("async () => ...")` não
+     serve, porque a função devolve Promise (truthy) e a espera termina na hora.
+  3. **Botão dentro de formulário disparava submit** (`adiantamento`): o
+     `#btnPendencia` não tinha `type="button"` e recarregava a página no meio do
+     salvamento. Corrigido na fonte.
 
 ### 2.5 O que **não** foi feito ainda
 
-- Nada foi **commitado**. As mudanças estão na árvore de trabalho (veja
-  `git status`). Os `.xlsx` e `.pbix` da `Aula 4/` que aparecem modificados não
-  são deste trabalho: **não entram no commit**.
+- Os `.xlsx` e `.pbix` da `Aula 4/` que aparecem modificados não são deste
+  trabalho: **não entram no commit**.
 - Nenhum repositório novo foi criado no GitHub.
-- Nenhum app recebeu ainda a identidade da Parte D nem os itens P1 da Parte B.
+- Nenhum app recebeu ainda a identidade da Parte D nem os itens P1 da Parte B
+  (é a etapa 3, abaixo).
 - `AGENTS.md`, `Apps/README.md`, `Apps/IDENTIDADE-VISUAL.md` e
   `Apps/CONTINUAR.md` ainda descrevem a base comum (ver a etapa 5 abaixo).
+
+### 2.6 Etapa 1 concluída (commit `d391b38`)
+
+- Cenários dos 20 apps passando (ver 2.4).
+- `"rotaInicial": "#/agendar"` em `agendamento-cin/app.json` e
+  `"rotaInicial": "#/pedido"` em `cin-segunda-via/app.json`: o endereço sem `#`
+  abre a tela do cidadão, sem tela de perfil. O hash continua vazio; a rota é
+  aplicada na renderização (`document.body.dataset.rota`).
+- `node testes/testar_code_gs.js` do `agendamento-cin`: **17/17**, com CSP e
+  `Code.gs` funcionando com a casca nova.
+- Cada `Apps/<app>/README.md` ganhou a seção **"Como construir e testar"** com
+  os três comandos, o `pip install playwright` e o `playwright install chromium`;
+  `agendamento-cin` inclui também o teste do `Code.gs` e o gerador da planilha.
+- Commit `d391b38` com `Apps/` e `AGENTS.md`, sem os arquivos da `Aula 4/`.
+
+---
+
+### 2.7 Etapa 3 · app por app (andamento)
+
+Cada app abaixo foi feito na ordem da seção 3, com um commit próprio. O que foi
+feito em cada um está resumido aqui e no `README.md` e no `sprint.md` do app.
+
+| App | Commit | O que mudou |
+|---|---|---|
+| agendamento-cin | (este commit) | Casca de cidadão, cabeçalho claro, Trebuchet, densidade ampla, cantos redondos. Calendário do mês com vagas por dia e horários em botões grandes; passos 1-2-3; grade semanal de ocupação com cor por situação; busca por protocolo, nome ou CPF na agenda do posto. |
 
 ---
 
@@ -232,7 +265,7 @@ Checklist resumido por app (detalhes nas Partes B e D do plano):
 
 | App | Visual (Parte D) | Tela-assinatura | P1 da Parte B |
 |---|---|---|---|
-| agendamento-cin | cidadao · claro · arredondada · ampla · redondos · cartoes | Calendário do mês com vagas e horários em botões grandes | `rotaInicial #/agendar`; passos 1-2-3 no fluxo público; grade semanal de horários com cor por ocupação; busca por protocolo/CPF na agenda do posto |
+| ~~agendamento-cin~~ ✅ | cidadao · claro · arredondada · ampla · redondos · cartoes | Calendário do mês com vagas e horários em botões grandes | `rotaInicial #/agendar`; passos 1-2-3 no fluxo público; grade semanal de horários com cor por ocupação; busca por protocolo/CPF na agenda do posto |
 | cin-segunda-via | cidadao · claro · arredondada · normal · redondos · cartoes · numero | Caixa de entrada (lista à esquerda, pedido à direita) | `rotaInicial #/pedido`; "Aceitar e próximo"; busca na fila |
 | horus-banco-demandas | lateral · degrade · sistema · normal · redondos · cartoes · numero | Vitrine com filtros em facetas e ordenação | contexto de unidade nos perfis Gerente e Usuário setorial; barra de filtros em uma linha; alternar cartões/tabela |
 | trilha-custodia-necropsia | trilho · solido · condensada · ampla · suaves · planas · numero | Quadro de plantão (colunas por situação, cartões de corpo, botões grandes) | painel por perfil (4 perfis); uma tabela só no painel; ficha em abas |

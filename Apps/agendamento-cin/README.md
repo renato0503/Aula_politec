@@ -89,3 +89,14 @@ node testes/testar_code_gs.js
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
+
+## Identidade e usabilidade (02/11/2026)
+
+O app tem cara de atendimento ao cidadão: casca de coluna única na área pública,
+cabeçalho claro, fonte arredondada, densidade ampla (botões de 44 px) e cantos
+redondos. A tela-assinatura é o **calendário do mês** com as vagas por dia e os
+horários em botões grandes, com os passos 1 Posto e data · 2 Seus dados ·
+3 Comprovante. Na área do servidor, a agenda abre com busca por protocolo, nome
+ou pelos 4 últimos dígitos do CPF, e a tela de horários virou uma **grade
+semanal** com cor por situação (livre, parcial, lotado, bloqueado) e a contagem
+de vagas em cada célula. As telas estão em `src/identidade.js` e `src/app.css`.

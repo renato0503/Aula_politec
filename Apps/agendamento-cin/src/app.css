@@ -1,0 +1,81 @@
+/* Identidade do Agendamento CIN: área do cidadão, calendário e grade do posto. */
+
+/* ---------- passos 1-2-3 ---------- */
+.cin-passos{list-style:none;display:flex;gap:10px;padding:0;margin:16px 0 20px}
+.cin-passos li{flex:1;display:flex;align-items:center;gap:10px;min-width:0;padding:10px 14px;border:1px solid var(--linha);border-radius:var(--raio);background:var(--painel);color:var(--ink2)}
+.cin-passos .n{display:grid;place-items:center;flex:0 0 26px;width:26px;height:26px;border-radius:50%;background:var(--painel-2);border:1px solid var(--linha);font-weight:700;font-size:13px}
+.cin-passos .t{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:14px}
+.cin-passos .atual{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-suave);color:var(--ink)}
+.cin-passos .atual .n{background:var(--accent);border-color:var(--accent);color:#fff}
+.cin-passos .feito .n{background:var(--verde);border-color:var(--verde);color:#fff}
+@media (max-width:640px){
+  .cin-passos{gap:6px}
+  .cin-passos li{flex-direction:column;gap:5px;padding:8px 4px;text-align:center}
+  .cin-passos .t{font-size:11.5px;white-space:normal}
+}
+
+/* ---------- posto e dia ---------- */
+.cin-postos{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.cin-posto{display:flex;flex-direction:column;gap:4px;align-items:flex-start;text-align:left;min-height:74px;padding:14px 16px;background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio)}
+.cin-posto small{color:var(--ink2);font-size:13px}
+.cin-posto.escolhido{border:2px solid var(--accent);background:var(--accent-suave)}
+
+.cin-mes + .cin-mes{margin-top:18px}
+.cin-mes h3{margin:4px 0 8px;font-size:16px;text-transform:capitalize}
+.cin-cabecalho{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px;margin-bottom:5px}
+.cin-cabecalho span{text-align:center;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+.cin-grade{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:5px}
+.cin-dia{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-width:0;min-height:58px;padding:6px 3px;border:1px solid var(--linha);border-radius:calc(var(--raio) - 6px);background:var(--painel);color:var(--ink);font-size:14px}
+.cin-dia b{font-size:17px;line-height:1}
+.cin-dia small{font-size:10.5px;line-height:1.1;color:var(--ink2);white-space:nowrap}
+.cin-dia.livre{border-color:color-mix(in srgb, var(--verde) 45%, var(--linha));background:color-mix(in srgb, var(--verde) 8%, var(--painel))}
+.cin-dia.livre small{color:var(--verde)}
+.cin-dia.ultima{border-color:color-mix(in srgb, var(--ambar) 55%, var(--linha));background:color-mix(in srgb, var(--ambar) 10%, var(--painel))}
+.cin-dia.ultima small{color:var(--ambar)}
+.cin-dia.vazio,.cin-dia.fora{background:transparent;color:var(--ink2);opacity:.55;border-style:dashed}
+.cin-dia.vazio small,.cin-dia.fora small{font-size:9.5px}
+.cin-dia.escolhido{outline:3px solid var(--accent);outline-offset:1px;background:var(--accent-suave)}
+.cin-dia-escolhido{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:14px;padding-top:12px;border-top:1px solid var(--linha)}
+.cin-trocar{background:none;border:0;color:var(--accent);padding:4px 0;text-decoration:underline;min-height:0}
+@media (max-width:640px){
+  .cin-dia{min-height:48px;padding:4px 1px}
+  .cin-dia b{font-size:15px}
+  .cin-dia small{font-size:9px}
+}
+
+/* ---------- horários em botões grandes ---------- */
+.cin-horas{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:10px}
+.cin-hora{display:flex;flex-direction:column;align-items:center;gap:2px;min-height:56px;padding:10px 8px;border:1px solid var(--accent-borda);border-radius:var(--raio);background:var(--accent-suave)}
+.cin-hora b{font-size:19px}
+.cin-hora small{color:var(--ink2);font-size:11px}
+@media (max-width:640px){ .cin-horas{grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:8px} }
+
+/* ---------- comprovante e aviso ---------- */
+.cin-comprovante{border-top:5px solid var(--verde)}
+.cin-aviso{display:flex;gap:9px;align-items:flex-start;margin-top:14px;padding:10px 12px;border:1px solid var(--linha);border-radius:var(--raio);background:var(--painel-2)}
+.cin-aviso input{width:auto;margin-top:3px}
+
+/* ---------- agenda do posto ---------- */
+.cin-busca .campos{grid-template-columns:minmax(180px,280px) minmax(0,1fr);align-items:end}
+@media (max-width:640px){ .cin-busca .campos{grid-template-columns:1fr} }
+
+.cin-legenda{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-bottom:10px;font-size:12px}
+.cin-legenda span{padding:3px 9px;border-radius:999px;border:1px solid var(--linha);color:var(--ink2)}
+.cin-legenda .livre{border-color:var(--verde);color:var(--verde)}
+.cin-legenda .parcial{border-color:var(--ambar);color:var(--ambar)}
+.cin-legenda .lotado{border-color:var(--vermelho);color:var(--vermelho)}
+.cin-legenda .bloqueado{background:var(--painel-2);text-decoration:line-through}
+.cin-legenda .sub{border:0;padding:0}
+
+.cin-grade-posto{border-collapse:collapse;min-width:680px}
+.cin-grade-posto th,.cin-grade-posto td{padding:5px;text-align:center;border:1px solid var(--linha)}
+.cin-grade-posto thead th{background:var(--painel-2);font-size:12px}
+.cin-grade-posto tbody th{background:var(--painel-2);font-weight:600;width:64px}
+.cin-dia-cab{border:0;background:none;padding:2px 4px;min-height:0;font-weight:700;color:var(--accent)}
+.cin-slot{width:100%;min-width:0;min-height:38px;padding:4px 5px;border-radius:calc(var(--raio) - 8px);font-size:11.5px;line-height:1.2}
+.cin-slot.livre{border-color:color-mix(in srgb, var(--verde) 45%, var(--linha));background:color-mix(in srgb, var(--verde) 8%, var(--painel));color:var(--verde)}
+.cin-slot.parcial{border-color:color-mix(in srgb, var(--ambar) 55%, var(--linha));background:color-mix(in srgb, var(--ambar) 10%, var(--painel));color:var(--ambar)}
+.cin-slot.lotado{border-color:color-mix(in srgb, var(--vermelho) 50%, var(--linha));background:color-mix(in srgb, var(--vermelho) 9%, var(--painel));color:var(--vermelho)}
+.cin-slot.bloqueado{background:var(--painel-2);color:var(--ink2);text-decoration:line-through}
+.cin-slot.lotado,.cin-slot.bloqueado{cursor:pointer}
+.cin-vazio{color:var(--ink2);opacity:.5}

@@ -6,6 +6,12 @@
     "acento": "#1559b7",
     "icone": "calendario",
     "layout": "topo",
+    "casca": "cidadao",
+    "cabecalho": "claro",
+    "fonte": "arredondada",
+    "densidade": "ampla",
+    "cantos": "redondos",
+    "superficie": "cartoes",
     "padrao": "ondas",
     "estilo": "claro",
     "setor": "Identificação Civil · Atendimento ao cidadão"
