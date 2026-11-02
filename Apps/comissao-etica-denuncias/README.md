@@ -79,3 +79,13 @@ mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
+
+## Identidade e usabilidade (02/11/2026)
+
+A identidade é de comissão: fonte serifada, densidade ampla, cantos retos,
+superfície de papel e KPI em faixa. A tela-assinatura é o **funil do processo
+ético** em sete etapas clicáveis, que filtram a lista de casos. Toda tela do caso
+abre com o **dossiê “Reservado”** e a barra de etapas (Registro, Classificação,
+Admissibilidade, Oitivas, Documentos, Encerramento), com a etapa atual marcada.
+O seed passou a distribuir os casos pelas etapas. Código em `src/identidade.js` e
+`src/app.css`.

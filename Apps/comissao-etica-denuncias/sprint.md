@@ -27,6 +27,7 @@
 | 5 | Oitivas | Roteiro sugerido pela categoria, revisão e termo |
 | 6 | Documentos e encerramento | Minutas e encerramento com etapas conferidas |
 | 7 | Relatório, aceite e piloto | Relatório sem nomes (RN06), roteiro e piloto de 30 dias |
+| Identidade e usabilidade | Feito em 02/11/2026. Casca lateral, cabeçalho sólido, fonte serifada, densidade ampla, cantos retos, superfície de papel e KPI em faixa; funil do processo ético em sete etapas clicáveis, dossiê marcado “Reservado” com a barra de etapas em todas as telas do caso e seed distribuído pelas etapas. `python testes/testar.py` e `python testes/cenarios.py` passam. |
 
 **MVP 100% pronto = Sprints 0 a 7.**
 

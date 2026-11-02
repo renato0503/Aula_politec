@@ -200,6 +200,7 @@ feito em cada um está resumido aqui e no `README.md` e no `sprint.md` do app.
 | gestao-documentos | (este commit) | Casca lateral, sólido, serifa, cantos suaves, papel, KPI em barra. Caixa por perfil com prazo em barra, ficha em abas, checklist com caixa e assinatura só da autoridade. |
 | renovacao-contratos-horus | (este commit) | Casca lateral, sólido, condensada, compacta, cantos retos, planas, KPI em número. Régua de 0 a 180 dias, semáforo em barra clicável, “Meus contratos” e ficha em abas. |
 | distribuicao-casos-dna | (este commit) | Casca de topo, degradê, sistema, redondos, cartões, KPI em anel. Placa de 96 poços, “Meus casos” do perito e rodada em abas. |
+| comissao-etica-denuncias | (este commit) | Casca lateral, sólido, serifa, ampla, cantos retos, papel, KPI em faixa. Funil de 7 etapas, dossiê “Reservado” com barra de etapas e seed distribuído. |
 
 ---
 
@@ -284,7 +285,7 @@ Checklist resumido por app (detalhes nas Partes B e D do plano):
 | ~~gestao-documentos~~ ✅ | lateral · solido · serifa · normal · suaves · papel · barra | Caixa por perfil (a instruir, a revisar, a assinar) | ficha em abas; checklist com caixa de seleção; assinatura só da autoridade |
 | ~~renovacao-contratos-horus~~ ✅ | lateral · solido · condensada · compacta · retos · planas · numero | Régua de vencimentos de 0 a 180 dias | ficha em abas; semáforo como barra empilhada clicável |
 | ~~distribuicao-casos-dna~~ ✅ | topo · degrade · sistema · normal · redondos · cartoes · anel | Placa de 96 poços com a cor do perito | "Meus casos" do perito; rodada em abas |
-| comissao-etica-denuncias | lateral · solido · serifa · ampla · retos · papel · faixa | Funil do processo ético + dossiê "Reservado" | barra de etapas e abas no caso; seed em todas as etapas |
+| ~~comissao-etica-denuncias~~ ✅ | lateral · solido · serifa · ampla · retos · papel · faixa | Funil do processo ético + dossiê "Reservado" | barra de etapas e abas no caso; seed em todas as etapas |
 | passivo-ambiental | topo · degrade · sistema · normal · suaves · cartoes · faixa | Fila de laudos com prazo e miniatura do mapa | laudo em abas; painel do perito separado do gestor; seed com datas de hoje |
 | rnc-nao-conformidade | lateral · solido · sistema · normal · suaves · cartoes · faixa | Quadro por etapa do ciclo | setor como contexto do perfil |
 | tap-portfolio-projetos | topo · degrade · serifa · ampla · redondos · cartoes · anel | Matriz do portfólio (valor × prioridade) | `inicio` por perfil (Equipe → Triagem, Autoridade → Portfólio) |

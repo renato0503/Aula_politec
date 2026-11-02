@@ -233,7 +233,7 @@
    "relato": "Foto do laudo de um caso em andamento foi compartilhada fora da instituição; suspeita de vazamento de informação sigilosa.",
    "denunciante": "Denunciante Fictício 4",
    "denunciado": "Servidor Fictício D",
-   "etapa": "registro",
+   "etapa": "classificação",
    "situacao": "aberto",
    "categoria_esperada": "sigilo",
    "sigilo": true
@@ -246,7 +246,7 @@
    "relato": "Servidor postou no grupo de WhatsApp da unidade print de conversa com comentários ofensivos sobre colegas.",
    "denunciante": "Denunciante Fictício 5",
    "denunciado": "Servidor Fictício E",
-   "etapa": "registro",
+   "etapa": "admissibilidade",
    "situacao": "aberto",
    "categoria_esperada": "redes_sociais",
    "sigilo": true
@@ -259,7 +259,7 @@
    "relato": "Plantonista faltou ao plantão sem aviso e a escala ficou descoberta por seis horas.",
    "denunciante": "Denunciante Fictício 6",
    "denunciado": "Servidor Fictício F",
-   "etapa": "registro",
+   "etapa": "oitivas",
    "situacao": "aberto",
    "categoria_esperada": "assiduidade",
    "sigilo": true
@@ -272,7 +272,7 @@
    "relato": "Servidor indicou empresa da qual seria sócio para o contrato de manutenção do laboratório.",
    "denunciante": "Denunciante Fictício 7",
    "denunciado": "Servidor Fictício G",
-   "etapa": "registro",
+   "etapa": "deliberação",
    "situacao": "aberto",
    "categoria_esperada": "conflito_interesses",
    "sigilo": true
@@ -285,7 +285,7 @@
    "relato": "Viatura da unidade foi usada para uso particular no fim de semana, com gasto de combustível.",
    "denunciante": "Denunciante Fictício 8",
    "denunciado": "Servidor Fictício H",
-   "etapa": "registro",
+   "etapa": "recomendações",
    "situacao": "aberto",
    "categoria_esperada": "uso_bens",
    "sigilo": true
@@ -298,7 +298,7 @@
    "relato": "Colega relata perseguição constante e constrangimento em reuniões, com xingamentos.",
    "denunciante": "Denunciante Fictício 9",
    "denunciado": "Servidor Fictício I",
-   "etapa": "registro",
+   "etapa": "encerrado",
    "situacao": "aberto",
    "categoria_esperada": "assedio_moral",
    "sigilo": true

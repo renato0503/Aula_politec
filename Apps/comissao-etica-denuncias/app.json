@@ -8,7 +8,14 @@
     "layout": "lateral",
     "padrao": "pontos",
     "estilo": "institucional",
-    "setor": "Comissão de Ética"
+    "setor": "Comissão de Ética",
+    "casca": "lateral",
+    "cabecalho": "solido",
+    "fonte": "serifa",
+    "densidade": "ampla",
+    "cantos": "retos",
+    "superficie": "papel",
+    "kpi": "faixa"
   },
   "db": {
     "nome": "comissao_etica_v1",

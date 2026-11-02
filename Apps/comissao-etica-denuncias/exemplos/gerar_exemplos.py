@@ -97,11 +97,13 @@ def main():
     categorias = [{"id": i, "nome": n, "artigos": art, "texto_artigo": txt, "fonte": FONTE, "palavras": p, "roteiro_base": ROTEIRO_BASE}
                   for i, n, art, txt, p in CATEGORIAS]
     denuncias = []
+    # distribui os casos pelas etapas do funil; 001 a 003 ficam no registro
+    ETAPAS_SEED = ["registro", "registro", "registro", "classificação", "admissibilidade", "oitivas", "deliberação", "recomendações", "encerrado", "registro"]
     for n, (cat, relato) in enumerate(CASOS):
         rec = base + dt.timedelta(days=n * 5)
         denuncias.append({"id": f"CE-2026-{n + 1:03d}", "protocolo": f"CE-2026-{n + 1:03d}", "data_recebimento": rec.isoformat(), "canal": "e-mail",
                           "relato": relato, "denunciante": f"Denunciante Fictício {n + 1}", "denunciado": f"Servidor Fictício {chr(65 + n)}",
-                          "etapa": "registro", "situacao": "aberto", "categoria_esperada": cat, "sigilo": True})
+                          "etapa": ETAPAS_SEED[n], "situacao": "aberto", "categoria_esperada": cat, "sigilo": True})
     seed = {"categorias": categorias, "denuncias": denuncias}
     (AQUI / "seed.json").write_text(json.dumps(seed, ensure_ascii=False, indent=1), encoding="utf-8")
     print({k: len(v) for k, v in seed.items()})
