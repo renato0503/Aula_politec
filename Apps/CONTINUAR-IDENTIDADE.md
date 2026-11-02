@@ -209,6 +209,7 @@ feito em cada um está resumido aqui e no `README.md` e no `sprint.md` do app.
 | inscricoes-cursos | (este commit) | Casca de topo, degradê, arredondada, ampla, redondos, cartões, KPI em faixa. Cartões de curso com esteira e tela central do curso. |
 | mapa-distribuicao-credor | (este commit) | Casca de ferramenta, compacto, mono, compacta, cantos retos, planas, KPI em número. Esteira das 8 etapas e grade em planilha. |
 | equipamentos-google-earth | (este commit) | Casca de ferramenta, compacto, sistema, compacta, cantos suaves, planas, KPI em número. Mapa de MT em SVG com 142 municípios e pinos das unidades; contexto de unidade. |
+| agiliza-mais | (este commit) | Casca de ferramenta, compacto, condensada, compacta, cantos suaves, planas, KPI em faixa. Bancada do caso com 6 passos à esquerda e menu sem os passos. |
 
 ---
 

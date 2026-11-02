@@ -428,10 +428,30 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 /* ===== VISUAL DESTE APP (bloco "visual" do app.json) ===== */
 :root{--app-acento:#4338ca;--app-acento-claro:#6c64d6;--app-acento-forte:#302891;--app-acento-escuro:#a59fe6;--padrao:url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="28" height="28"%3E%3Cpath d="M28 0H0v28" fill="none" stroke="%23fff" stroke-opacity=".07"/%3E%3C/svg%3E')}
 /* ===== CSS DO APP ===== */
+/* Identidade do Agiliza +: bancada do caso. */
+
+.ag-bancada{display:grid;grid-template-columns:210px minmax(0,1fr);gap:18px;align-items:start}
+.ag-rail{position:sticky;top:64px;padding:10px;border:1px solid var(--linha);border-radius:var(--raio);background:var(--painel)}
+.ag-rail .sub{margin:6px 2px 10px;font-size:11.5px}
+.ag-voltar{display:inline-block;color:var(--accent);text-decoration:none;font-size:12.5px;font-weight:700}
+.ag-rail ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px}
+.ag-rail a{display:flex;align-items:center;gap:7px;padding:7px 8px;border-radius:calc(var(--raio) - 4px);color:var(--ink2);text-decoration:none;font-size:12.5px}
+.ag-rail a:hover{background:var(--accent-suave);color:var(--accent)}
+.ag-rail .n{display:grid;place-items:center;flex:0 0 19px;width:19px;height:19px;border-radius:50%;border:1px solid var(--linha);background:var(--painel-2);font-size:10px;font-weight:700}
+.ag-rail li.feito .n{background:var(--verde);border-color:var(--verde);color:#fff}
+.ag-rail li.atual a{background:var(--accent);color:#fff}
+.ag-rail li.atual .n{background:#fff;color:var(--accent);border-color:#fff}
+.ag-trabalho{min-width:0}
+@media (max-width:900px){ .ag-bancada{grid-template-columns:1fr} .ag-rail{position:static} .ag-rail ol{flex-direction:row;flex-wrap:wrap} }
+
+.ag-casos{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px;margin-bottom:12px}
+.ag-caso{display:flex;flex-direction:column;gap:4px;text-decoration:none;color:inherit}
+.ag-caso:hover{border-color:var(--accent);background:var(--accent-suave)}
+.ag-caso .mono{font-size:11.5px;color:var(--ink2)}
 
 </style>
 </head>
-<body data-layout="lateral" data-estilo="institucional" data-cabecalho="degrade" data-fonte="sistema" data-densidade="normal" data-cantos="suaves" data-superficie="cartoes" data-kpi="barra">
+<body data-layout="ferramenta" data-estilo="institucional" data-cabecalho="compacto" data-fonte="condensada" data-densidade="compacta" data-cantos="suaves" data-superficie="planas" data-kpi="faixa">
 <div class="faixa-gov"><div class="in">
   <span class="bandeira" aria-hidden="true"><i style="background:#1e63ae"></i><i style="background:#0b7a3e"></i><i style="background:#e8b931"></i></span>
   <span><b>Governo de Mato Grosso</b></span><span class="sep">|</span>
@@ -1261,7 +1281,7 @@ const APP = {
   "rotas": [
     {
       "rota": "#/inicio",
-      "titulo": "Início",
+      "titulo": "Casos",
       "sprint": 1,
       "descricao": "Novo laudo ou retomar um caso."
     },
@@ -1269,37 +1289,43 @@ const APP = {
       "rota": "#/arquivos",
       "titulo": "Pasta do caso",
       "sprint": 2,
-      "descricao": "Selecionar a pasta e ver o inventário."
+      "descricao": "Selecionar a pasta e ver o inventário.",
+      "menu": false
     },
     {
       "rota": "#/dados",
       "titulo": "Conferência",
       "sprint": 5,
-      "descricao": "Dados extraídos ao lado da origem."
+      "descricao": "Dados extraídos ao lado da origem.",
+      "menu": false
     },
     {
       "rota": "#/textos",
       "titulo": "Textos",
       "sprint": 7,
-      "descricao": "Textos padronizados por seção."
+      "descricao": "Textos padronizados por seção.",
+      "menu": false
     },
     {
       "rota": "#/quesitos",
       "titulo": "Quesitos",
       "sprint": 8,
-      "descricao": "Numeração, enunciado e resposta."
+      "descricao": "Numeração, enunciado e resposta.",
+      "menu": false
     },
     {
       "rota": "#/gerar",
       "titulo": "Gerar laudo",
       "sprint": 4,
-      "descricao": "Conferência automática e geração do .docx."
+      "descricao": "Conferência automática e geração do .docx.",
+      "menu": false
     },
     {
       "rota": "#/revisao",
       "titulo": "Revisão final",
       "sprint": 9,
-      "descricao": "Correções e marcação de revisado."
+      "descricao": "Correções e marcação de revisado.",
+      "menu": false
     },
     {
       "rota": "#/biblioteca",
@@ -1323,10 +1349,17 @@ const APP = {
   "visual": {
     "acento": "#4338ca",
     "icone": "raio",
-    "layout": "lateral",
+    "layout": "ferramenta",
     "padrao": "grade",
     "estilo": "institucional",
-    "setor": "Perícia de informática · Laudos"
+    "setor": "Perícia de informática · Laudos",
+    "casca": "ferramenta",
+    "cabecalho": "compacto",
+    "fonte": "condensada",
+    "densidade": "compacta",
+    "cantos": "suaves",
+    "superficie": "planas",
+    "kpi": "faixa"
   }
 };
 
@@ -1592,6 +1625,54 @@ TELAS["#/dados"] = async ()=>{
       ${sims.map(s=>`<tr><td>${esc(s.identificador_objeto)}</td><td>${celula(s.iccid)}</td><td>${celula(s.operadora)}</td></tr>`).join("")}</table>` : '<p class="sub">Aparelho sem cartão SIM (RN06).</p>'}</div>`;
 };
 TELAS_DEPOIS["#/dados"] = ()=>{ $("#btnReextrair")?.addEventListener("click", async ()=>{ await extrairCaso(await casoAtual()); navegar(); }); };
+
+/* Identidade do Agiliza +.
+   Entra por último no build. A tela-assinatura é a bancada do caso: os passos
+   ficam à esquerda e o trabalho à direita; o menu fica com quatro itens. */
+
+const AG_PASSOS = [["#/arquivos", "Pasta do caso"], ["#/dados", "Conferência"], ["#/textos", "Textos"],
+  ["#/quesitos", "Quesitos"], ["#/gerar", "Gerar laudo"], ["#/revisao", "Revisão final"]];
+async function agBancada(atual, html){
+  const id = await db.meta("caso_atual");
+  const caso = id ? await db.get("casos", id) : null;
+  const indice = AG_PASSOS.findIndex(([r])=>r === atual);
+  const rail = `<aside class="ag-rail"><a class="ag-voltar" href="#/inicio">← Casos</a>
+    <p class="sub">${caso ? esc(caso.protocolo || caso.id) : "sem caso aberto"}</p>
+    <ol>${AG_PASSOS.map(([rota, nome], i)=>`<li class="${i < indice ? "feito" : i === indice ? "atual" : ""}">
+      <a href="${rota}"><span class="n">${i + 1}</span><span>${nome}</span></a></li>`).join("")}</ol></aside>`;
+  return `<div class="ag-bancada">${rail}<div class="ag-trabalho">${html}</div></div>`;
+}
+for (const [rota] of AG_PASSOS){
+  const antes = TELAS[rota];
+  if (typeof antes !== "function") continue;
+  TELAS[rota] = async (p)=>agBancada(rota, await antes(p));
+}
+
+/* a lista de casos vira cartões com o passo em que o perito parou */
+const agInicioAntes = TELAS["#/inicio"];
+TELAS["#/inicio"] = async (p)=>{
+  const html = await agInicioAntes(p);
+  const casos = await db.list("casos");
+  if (!casos.length) return html;
+  const doc = new DOMParser().parseFromString(`<div id="agRaiz">${html}</div>`, "text/html");
+  const raiz = doc.getElementById("agRaiz");
+  if (!raiz) return html;
+  const tabela = [...raiz.querySelectorAll("table")][0];
+  const cards = doc.createElement("div"); cards.className = "ag-casos";
+  cards.innerHTML = casos.map(c=>`<a class="card ag-caso" href="#/arquivos" data-ag-caso="${esc(c.id)}">
+    <span class="mono">${esc(c.protocolo || c.id)}</span>
+    <b>${esc(c.aparelho?.marca || c.nome || "Caso sem aparelho identificado")}</b>
+    <span class="sub">${c.inicio_em ? "aberto em " + dataBR(c.inicio_em) : "sem cronômetro"}</span></a>`).join("");
+  if (tabela) tabela.closest(".card")?.replaceWith(cards); else raiz.insertBefore(cards, raiz.querySelector("h1")?.nextSibling);
+  return raiz.innerHTML;
+};
+const agInicioDepoisAntes = TELAS_DEPOIS["#/inicio"];
+TELAS_DEPOIS["#/inicio"] = async ()=>{
+  await agInicioDepoisAntes?.();
+  $$("[data-ag-caso]").forEach(a=>a.addEventListener("click", async e=>{
+    e.preventDefault(); await db.meta("caso_atual", a.dataset.agCaso); location.hash = "#/arquivos";
+  }));
+};
 
 
 iniciar();

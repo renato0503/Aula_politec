@@ -8,7 +8,14 @@
     "layout": "lateral",
     "padrao": "grade",
     "estilo": "institucional",
-    "setor": "Perícia de informática · Laudos"
+    "setor": "Perícia de informática · Laudos",
+    "casca": "ferramenta",
+    "cabecalho": "compacto",
+    "fonte": "condensada",
+    "densidade": "compacta",
+    "cantos": "suaves",
+    "superficie": "planas",
+    "kpi": "faixa"
   },
   "db": {
     "nome": "agiliza_mais_v1",
@@ -92,7 +99,7 @@
   "rotas": [
     {
       "rota": "#/inicio",
-      "titulo": "Início",
+      "titulo": "Casos",
       "sprint": 1,
       "descricao": "Novo laudo ou retomar um caso."
     },
@@ -100,37 +107,43 @@
       "rota": "#/arquivos",
       "titulo": "Pasta do caso",
       "sprint": 2,
-      "descricao": "Selecionar a pasta e ver o inventário."
+      "descricao": "Selecionar a pasta e ver o inventário.",
+      "menu": false
     },
     {
       "rota": "#/dados",
       "titulo": "Conferência",
       "sprint": 5,
-      "descricao": "Dados extraídos ao lado da origem."
+      "descricao": "Dados extraídos ao lado da origem.",
+      "menu": false
     },
     {
       "rota": "#/textos",
       "titulo": "Textos",
       "sprint": 7,
-      "descricao": "Textos padronizados por seção."
+      "descricao": "Textos padronizados por seção.",
+      "menu": false
     },
     {
       "rota": "#/quesitos",
       "titulo": "Quesitos",
       "sprint": 8,
-      "descricao": "Numeração, enunciado e resposta."
+      "descricao": "Numeração, enunciado e resposta.",
+      "menu": false
     },
     {
       "rota": "#/gerar",
       "titulo": "Gerar laudo",
       "sprint": 4,
-      "descricao": "Conferência automática e geração do .docx."
+      "descricao": "Conferência automática e geração do .docx.",
+      "menu": false
     },
     {
       "rota": "#/revisao",
       "titulo": "Revisão final",
       "sprint": 9,
-      "descricao": "Correções e marcação de revisado."
+      "descricao": "Correções e marcação de revisado.",
+      "menu": false
     },
     {
       "rota": "#/biblioteca",

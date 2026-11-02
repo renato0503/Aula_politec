@@ -82,3 +82,13 @@ mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
+
+## Identidade e usabilidade (02/11/2026)
+
+A identidade é de bancada: cabeçalho compacto, fonte condensada, densidade
+compacta e cantos suaves. A tela-assinatura é a **bancada do caso**: os seis
+passos (Pasta do caso, Conferência, Textos, Quesitos, Gerar laudo e Revisão
+final) ficam à esquerda e o trabalho à direita, com o passo atual marcado. Os
+passos deixaram de aparecer no menu, que fica com Casos, Biblioteca, Histórico e
+Configuração (Biblioteca e Histórico aparecem quando forem construídos). A tela
+de casos ganhou cartões. Código em `src/identidade.js` e `src/app.css`.

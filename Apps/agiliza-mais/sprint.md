@@ -35,6 +35,7 @@ Modelo `.docx` **fictício** com os marcadores pronto e testado no navegador (`m
 | 11 | Histórico, métricas e LGPD | CSV de tempos e correções, limpeza do caso | LGPD |
 | 12 | Aceite e entrega | Roteiro de aceite cumprido, piloto iniciado | todas |
 | 13 | (opcional) Laudo anterior como modelo | Converter um `.docx` antigo em modelo com marcadores | RN12 |
+| Identidade e usabilidade | Feito em 02/11/2026. Casca de ferramenta, cabeçalho compacto, fonte condensada, densidade compacta, cantos suaves, superfícies planas e KPI em faixa; bancada do caso com os 6 passos à esquerda e o trabalho à direita, menu sem os passos do caso e cartões de caso na tela inicial. `python testes/testar.py` e `python testes/cenarios.py` passam. |
 
 **MVP 100% pronto = Sprints 0 a 12.** O Sprint 10 (OCR) pode ser entregue como
 "simulado", que é o que o formulário autoriza. Nesse caso, o perito digita os
