@@ -213,6 +213,9 @@ Glifos de atividade: `glyph="human"` (pessoa) ou `glyph="bot"` (robo = automatiz
 
 ### 3.8 Apps dos grupos (`Apps/`)
 
+> **Atualização de 02/11/2026 (vale sobre o texto abaixo):** cada app passou a ser autônomo (`nucleo/`, `construir.py` e `testes/` próprios, sem base comum) e vai ganhar identidade própria. O que foi feito, o que falta e o prompt de continuação estão em `Apps/CONTINUAR-IDENTIDADE.md`. O diagnóstico e o plano de cada app estão em `Apps/PLANO-USABILIDADE.md`.
+
+
 A partir da Aula 8, cada projeto entregue no formulario ganha uma pasta em
 `Apps/<slug-do-projeto>/`. O material do curso continua em `Aula N/`; o codigo
 dos mini apps fica em `Apps/`.

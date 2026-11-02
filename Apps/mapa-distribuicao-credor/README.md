@@ -48,3 +48,28 @@ Tudo o que foi completado precisa ser confirmado com o aluno no Sprint 0.
 - fontes de dados (`tFontes`): linhas acrescentadas. Acrescentada a fonte da dotação, citada nas entradas do AS-IS.
 - riscos (`tRiscos`): linhas acrescentadas. Acrescentados os riscos do cálculo.
 - referências (`tRefs`): refeita. A Lei nº 4.320/1964 estava com o uso "justificar dados sintéticos"; ajustado para a classificação 3 e 4, que é o que o projeto usa. Acrescentada a homologação (Lei nº 14.133/2021).
+
+## Como construir e testar
+
+Este app é autônomo. `nucleo/`, `construir.py` e `testes/` são só dele e não
+importam nada de `Apps/_base/`, porque esta pasta vai virar um repositório
+próprio no GitHub. O `index.html` é **gerado**: edite as fontes (`app.json`,
+`src/`, `nucleo/`, `exemplos/seed.json`) e rode a construção.
+
+```powershell
+cd "Apps/mapa-distribuicao-credor"
+python construir.py           # gera o index.html a partir de app.json, src/, nucleo/ e os dados
+python testes/testar.py       # estrutura: zero rede, #/testes 100%, rotas por perfil, tema e celular
+python testes/cenarios.py     # cenários dos sprints: usa a tela como uma pessoa usaria
+```
+
+Antes da primeira execução: `pip install playwright` e
+`playwright install chromium`.
+
+Os dados fictícios são gerados por `exemplos/gerar_exemplos.py`; rode-o quando
+mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
+
+
+Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
+importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
+seguem o português do Brasil com acentuação, sem travessões.

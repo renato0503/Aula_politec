@@ -56,3 +56,28 @@ Tudo o que foi completado precisa ser confirmado com o aluno no Sprint 0.
 - marcos (`tMarcos`): linhas acrescentadas. O envio trazia só o marco inicial.
 - riscos (`tRiscos`): refeita. O risco único estava sem mitigação; acrescentados os riscos dos modelos e da duplicidade.
 - referências (`tRefs`): refeita. As referências foram completadas.
+
+## Como construir e testar
+
+Este app é autônomo. `nucleo/`, `construir.py` e `testes/` são só dele e não
+importam nada de `Apps/_base/`, porque esta pasta vai virar um repositório
+próprio no GitHub. O `index.html` é **gerado**: edite as fontes (`app.json`,
+`src/`, `nucleo/`, `exemplos/seed.json`) e rode a construção.
+
+```powershell
+cd "Apps/controle-aquisicoes"
+python construir.py           # gera o index.html a partir de app.json, src/, nucleo/ e os dados
+python testes/testar.py       # estrutura: zero rede, #/testes 100%, rotas por perfil, tema e celular
+python testes/cenarios.py     # cenários dos sprints: usa a tela como uma pessoa usaria
+```
+
+Antes da primeira execução: `pip install playwright` e
+`playwright install chromium`.
+
+Os dados fictícios são gerados por `exemplos/gerar_exemplos.py`; rode-o quando
+mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
+
+
+Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
+importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
+seguem o português do Brasil com acentuação, sem travessões.

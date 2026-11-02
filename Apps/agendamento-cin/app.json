@@ -74,6 +74,7 @@
     "#/comprovante",
     "#/consultar"
   ],
+  "rotaInicial": "#/agendar",
   "rotas": [
     {
       "rota": "#/agendar",

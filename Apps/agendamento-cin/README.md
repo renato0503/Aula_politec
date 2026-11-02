@@ -57,3 +57,35 @@ Tudo o que foi completado precisa ser confirmado com o aluno no Sprint 0.
 **Marcações:**
 
 - `req`: acrescentados Funcionar offline (painel do posto) e Trilha de auditoria (o aluno pede o registro das ações).
+
+## Como construir e testar
+
+Este app é autônomo. `nucleo/`, `construir.py` e `testes/` são só dele e não
+importam nada de `Apps/_base/`, porque esta pasta vai virar um repositório
+próprio no GitHub. O `index.html` é **gerado**: edite as fontes (`app.json`,
+`src/`, `nucleo/`, `exemplos/seed.json`) e rode a construção.
+
+```powershell
+cd "Apps/agendamento-cin"
+python construir.py           # gera o index.html a partir de app.json, src/, nucleo/ e os dados
+python testes/testar.py       # estrutura: zero rede, #/testes 100%, rotas por perfil, tema e celular
+python testes/cenarios.py     # cenários dos sprints: usa a tela como uma pessoa usaria
+```
+
+Antes da primeira execução: `pip install playwright` e
+`playwright install chromium`.
+
+Os dados fictícios são gerados por `planilha-modelo/gerar_planilha.py`
+(com datas relativas a hoje); rode-o quando mudar o esquema.
+
+Este app tem ainda um teste do `Code.gs` (o serviço do Apps Script, quando
+publicado):
+
+```powershell
+node testes/testar_code_gs.js
+```
+
+
+Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
+importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
+seguem o português do Brasil com acentuação, sem travessões.

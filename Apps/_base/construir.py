@@ -43,6 +43,13 @@ PADROES = {
     "topografico": '<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120"><g fill="none" stroke="#fff" stroke-opacity=".07"><circle cx="30" cy="40" r="14"/><circle cx="30" cy="40" r="26"/><circle cx="30" cy="40" r="38"/><circle cx="96" cy="96" r="12"/><circle cx="96" cy="96" r="24"/></g></svg>',
 }
 VISUAL_PADRAO = {"acento": "#12487f", "icone": "escudo", "layout": "topo", "padrao": "linhas", "estilo": "institucional", "setor": ""}
+# identidade própria de cada app (ver Apps/PLANO-USABILIDADE.md, Parte D). Viram atributos data-* do <body>.
+IDENTIDADE = {"casca": None, "cabecalho": "degrade", "fonte": "sistema", "densidade": "normal",
+              "cantos": "suaves", "superficie": "cartoes", "kpi": "barra"}
+
+
+def data_visual(v):
+    return " ".join(f'data-{k}="{v.get(k) or p}"' for k, p in IDENTIDADE.items() if k != "casca")
 
 
 def _rgb(h):
@@ -76,12 +83,15 @@ def construir(pasta):
     raiz = APPS / pasta
     cfg = json.loads((raiz / "app.json").read_text(encoding="utf-8"))
     # src/app.js primeiro; depois os demais src/*.js em ordem (sprint3.js, sprint4.js, ...)
-    extras = sorted(p for p in (raiz / "src").glob("*.js") if p.name != "app.js")
+    # identidade.js (tela-assinatura do app) entra por último, depois de todos os sprints
+    extras = sorted((p for p in (raiz / "src").glob("*.js") if p.name != "app.js"), key=lambda p: (p.name == "identidade.js", p.name))
     js_app = "\n".join(p.read_text(encoding="utf-8") for p in [raiz / "src" / "app.js", *extras])
     css = raiz / "src" / "app.css"
     visual = {**VISUAL_PADRAO, **cfg.get("visual", {})}
+    if visual.get("casca"):
+        visual["layout"] = visual["casca"]
     app = {"id": pasta, "titulo": cfg["titulo"], "db": cfg["db"], "rotas": cfg["rotas"], "visual": visual}
-    for k in ("perfis", "rotaSemPerfil"):
+    for k in ("perfis", "rotaSemPerfil", "perfilPadrao", "rotaInicial", "permissoes", "buscaGlobal"):
         if k in cfg:
             app[k] = cfg[k]
     libs = [f"<!-- LIB:{n} --><!-- /LIB:{n} -->" for n in cfg.get("libs", [])]
@@ -92,7 +102,7 @@ def construir(pasta):
         "%%AVISO%%": f'<div class="aviso-topo">{cfg["aviso"]}</div>' if cfg.get("aviso") else "",
         "%%CSS_BASE%%": (AQUI / "visual.css").read_text(encoding="utf-8"),
         "%%CSS_VISUAL%%": css_visual(visual),
-        "%%LAYOUT%%": visual["layout"], "%%ESTILO%%": visual["estilo"], "%%SETOR%%": visual["setor"] or cfg["subtitulo"],
+        "%%LAYOUT%%": visual["layout"], "%%DATA_VISUAL%%": data_visual(visual), "%%ESTILO%%": visual["estilo"], "%%SETOR%%": visual["setor"] or cfg["subtitulo"],
         "%%APP_ID%%": pasta, "%%ICONES%%": (AQUI / "icones.js").read_text(encoding="utf-8"),
         "%%CSS_APP%%": css.read_text(encoding="utf-8") if css.exists() else "",
         "%%LIBS%%": "\n".join(libs) or "<!-- nenhuma -->",
@@ -113,5 +123,19 @@ def main():
         print(f"{pasta:28s} {rel[-1]}")
 
 
+# ------------------------------------------------------------------------------
+# Desde 02/11/2026 cada app é autônomo (nucleo/, construir.py e testes/ próprios).
+# Este script só chama a ferramenta de cada app; ele não usa mais a base comum.
+# ------------------------------------------------------------------------------
+def _rodar_em_cada_app(script):
+    import subprocess
+    alvos = sys.argv[1:] or sorted(p.parent.name for p in APPS.glob("*/app.json"))
+    erro = False
+    for pasta in alvos:
+        r = subprocess.run([sys.executable, script], cwd=APPS / pasta)
+        erro |= r.returncode != 0
+    sys.exit(1 if erro else 0)
+
+
 if __name__ == "__main__":
-    main()
+    _rodar_em_cada_app("construir.py")

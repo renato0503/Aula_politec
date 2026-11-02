@@ -98,5 +98,19 @@ def main():
     sys.exit(1 if erro else 0)
 
 
+# ------------------------------------------------------------------------------
+# Desde 02/11/2026 cada app é autônomo (nucleo/, construir.py e testes/ próprios).
+# Este script só chama a ferramenta de cada app; ele não usa mais a base comum.
+# ------------------------------------------------------------------------------
+def _rodar_em_cada_app(script):
+    import subprocess
+    alvos = sys.argv[1:] or sorted(p.parent.name for p in APPS.glob("*/app.json"))
+    erro = False
+    for pasta in alvos:
+        r = subprocess.run([sys.executable, script], cwd=APPS / pasta)
+        erro |= r.returncode != 0
+    sys.exit(1 if erro else 0)
+
+
 if __name__ == "__main__":
-    main()
+    _rodar_em_cada_app("testes/testar.py")

@@ -70,6 +70,7 @@
     "#/pedido",
     "#/protocolo"
   ],
+  "rotaInicial": "#/pedido",
   "rotas": [
     {
       "rota": "#/pedido",

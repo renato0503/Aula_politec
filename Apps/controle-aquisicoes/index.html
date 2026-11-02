@@ -259,13 +259,179 @@ ul,ol{padding-left:22px}
 .ajuda-caixa ol{margin:8px 0 0 18px;padding:0}
 .ajuda-caixa li{margin:4px 0}
 
+/* ===================================================================
+   CABEÇALHO: perfil, exibição e tema em menus suspensos (02/11/2026)
+   =================================================================== */
+main:focus,main:focus-visible{outline:none}
+.area{min-width:0}
+main > h1:first-of-type{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+main > h1:first-of-type::before{content:"";width:5px;align-self:stretch;min-height:26px;border-radius:3px;background:linear-gradient(var(--accent), var(--mt-ouro))}
+.btn-cab{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.08);color:#fff;border:1px solid rgba(255,255,255,.28);padding:7px 12px}
+.btn-cab:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.45)}
+.btn-cab[aria-expanded="true"]{background:rgba(255,255,255,.22)}
+.btn-cab .seta{font-size:11px;opacity:.8}
+.btn-cab .rot-perfil{opacity:.75;font-weight:500}
+.btn-cab .aa{font:700 15px/1 var(--titulo);letter-spacing:-.02em}
+body[data-estilo="claro"] .btn-cab,body[data-cabecalho="claro"] .btn-cab{background:var(--painel);color:var(--ink);border-color:var(--linha)}
+body[data-estilo="claro"] .btn-cab:hover,body[data-cabecalho="claro"] .btn-cab:hover{background:var(--accent-suave)}
+.suspenso-wrap{position:relative}
+.suspenso{position:absolute;right:0;top:calc(100% + 8px);z-index:50;min-width:290px;max-width:min(380px,92vw);background:var(--painel);color:var(--ink);
+  border:1px solid var(--linha);border-radius:var(--raio);box-shadow:var(--sombra-alta);padding:8px}
+.suspenso-tit{margin:4px 8px 8px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--ink2)}
+.suspenso [role=menuitemradio]{display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;border:0;background:transparent;padding:9px 10px;border-radius:var(--raio-p)}
+.suspenso [role=menuitemradio]:hover,.suspenso [role=menuitemradio]:focus-visible{background:var(--accent-suave)}
+.suspenso [role=menuitemradio] small{display:block;font-weight:400;color:var(--ink2);font-size:12.5px;line-height:1.35;margin-top:2px}
+.suspenso [role=menuitemradio][aria-checked="true"]{background:var(--accent-suave)}
+.marca-radio{flex:none;width:16px;height:16px;border-radius:50%;border:2px solid var(--linha);margin-top:2px}
+[aria-checked="true"] > .marca-radio{border-color:var(--accent);box-shadow:inset 0 0 0 3px var(--painel);background:var(--accent)}
+.suspenso-ctx{margin:8px 8px 4px;color:var(--ink2)} .suspenso-ctx select{margin-top:4px}
+.suspenso-rodape{margin:8px 8px 2px;padding-top:8px;border-top:1px solid var(--linha);font-size:12px;color:var(--ink2)}
+.suspenso .fonte{margin:0 8px 6px;border-color:var(--linha)}
+.suspenso .fonte button{background:var(--painel);color:var(--ink)} .suspenso .fonte button + button{border-left-color:var(--linha)}
+.link-servidor{color:var(--topo-ink2);font-size:13px;text-decoration:none;border-bottom:1px dashed currentColor}
+.link-servidor:hover{color:var(--topo-ink)}
+
+/* ---------- trilha (você está em) ---------- */
+.trilha{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:18px 0 0;font-size:13px;color:var(--ink2)}
+.trilha a{display:inline-flex;align-items:center;gap:6px;text-decoration:none;font-weight:600}
+.trilha a:hover{text-decoration:underline}
+.trilha .ico{width:15px;height:15px}
+.trilha:not([hidden]) + main{padding-top:10px}
+
+/* ---------- abas das fichas ---------- */
+.abas{display:flex;gap:2px;flex-wrap:wrap;border-bottom:2px solid var(--linha);margin:6px 0 18px}
+.abas [role=tab]{border:0;border-radius:var(--raio-p) var(--raio-p) 0 0;background:transparent;color:var(--ink2);padding:10px 14px;margin-bottom:-2px;border-bottom:3px solid transparent;font-weight:600}
+.abas [role=tab]:hover{background:var(--accent-suave);color:var(--ink)}
+.abas [role=tab][aria-selected="true"]{color:var(--accent);border-bottom-color:var(--accent);background:transparent}
+.abas .conta{display:inline-block;min-width:20px;padding:0 6px;border-radius:99px;background:var(--painel-2);border:1px solid var(--linha);font-size:12px;text-align:center;color:var(--ink2)}
+.abas .aba-alerta .conta{background:color-mix(in srgb, var(--vermelho) 12%, var(--painel));color:var(--vermelho);border-color:color-mix(in srgb, var(--vermelho) 35%, var(--linha))}
+.sem-permissao{display:block;margin-top:4px;font-size:12px}
+.acao-principal{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:12px 16px;border:1px solid var(--accent-borda);background:var(--accent-suave);border-radius:var(--raio);margin:0 0 16px}
+.acao-principal .sub{margin:0;flex:1 1 240px}
+
+/* ---------- menu compacto (celular) ---------- */
+.btn-menu-compacto{display:none}
+@media (max-width:900px){
+  .btn-menu-compacto{display:inline-flex;margin-top:14px}
+  body:not(.menu-aberto) nav.menu{display:none}
+  body.menu-aberto nav.menu{display:flex;flex-direction:column;flex-wrap:nowrap;margin-top:8px}
+  body.rota-publica .btn-menu-compacto{display:none}
+}
+@media (max-width:640px){
+  .faixa-gov .in{gap:8px;flex-wrap:nowrap;overflow:hidden;white-space:nowrap}
+  .faixa-gov .in > span:nth-child(n+3){display:none}
+  .topo-in{padding:10px 14px 12px;gap:10px}
+  .marca small{display:none}
+  .btn-cab .rot-perfil,.btn-cab .rot-exib,.btn-cab .rot-tema{display:none}
+  #perfilNome{max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .grade{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .kpi .v{font-size:22px}
+  main table{display:block;overflow-x:auto;max-width:100%}
+  .suspenso{position:fixed;left:8px;right:8px;top:auto;max-width:none;min-width:0}
+}
+
+/* ===================================================================
+   IDENTIDADE PRÓPRIA DE CADA APP (bloco "visual" do app.json)
+   =================================================================== */
+/* ---------- cabeçalho ---------- */
+body[data-cabecalho="solido"] .topo{background:var(--app-acento-forte,#0a2f5c)}
+body[data-cabecalho="solido"] .topo::before{opacity:.55}
+body[data-cabecalho="claro"] .topo{--topo-ink:var(--ink);--topo-ink2:var(--ink2);background:var(--painel);box-shadow:0 1px 0 var(--linha),0 4px 18px rgba(10,47,92,.06)}
+body[data-cabecalho="claro"] .topo::before{opacity:0}
+body[data-cabecalho="claro"] .marca{color:var(--accent-forte)}
+body[data-cabecalho="claro"] #btnTema{background:var(--painel);color:var(--ink);border-color:var(--linha)}
+body[data-cabecalho="compacto"] .topo-in{padding:7px 20px 9px}
+body[data-cabecalho="compacto"] .emblema{width:34px;height:34px;border-radius:9px}
+body[data-cabecalho="compacto"] .emblema .ico{width:20px;height:20px}
+body[data-cabecalho="compacto"] .marca{font-size:16px}
+body[data-cabecalho="compacto"] .marca small{display:inline;margin-left:10px;font-size:12px}
+body[data-cabecalho="compacto"] .topo{background:var(--app-acento-forte,#0a2f5c)}
+:root[data-theme="dark"] body[data-cabecalho="solido"] .topo,:root[data-theme="dark"] body[data-cabecalho="compacto"] .topo{background:#071a35}
+
+/* ---------- tipografia ---------- */
+body[data-fonte="serifa"]{--titulo:Georgia,Cambria,"Times New Roman",serif}
+body[data-fonte="serifa"] main{font-family:Cambria,Georgia,"Times New Roman",serif;font-size:1.04em}
+body[data-fonte="serifa"] main :is(button,input,select,textarea,label,th,.selo,.abas,.kpi .r){font-family:var(--ui)}
+body[data-fonte="condensada"]{--titulo:Bahnschrift,"Segoe UI Variable Display","Arial Narrow",sans-serif}
+body[data-fonte="condensada"] :is(h1,h2,h3,.kpi .v,.marca,th,nav.menu a,.abas [role=tab]){font-family:Bahnschrift,"Segoe UI Variable Display","Arial Narrow",sans-serif;letter-spacing:0}
+body[data-fonte="condensada"] th{font-variant-caps:normal;text-transform:uppercase;font-size:12px;letter-spacing:.06em}
+body[data-fonte="mono"] :is(td.num,.kpi .v,.valor,.mono-num){font-family:var(--mono);letter-spacing:-.02em}
+body[data-fonte="mono"] td{font-variant-numeric:tabular-nums}
+body[data-fonte="arredondada"]{--ui:"Trebuchet MS","Segoe UI Variable Text","Segoe UI",system-ui,sans-serif;--titulo:"Trebuchet MS","Segoe UI Variable Display",system-ui,sans-serif}
+
+/* ---------- densidade ---------- */
+body[data-densidade="compacta"]{font-size:14px}
+body[data-densidade="compacta"] :is(th,td){padding:6px 10px}
+body[data-densidade="compacta"] .card{padding:14px 16px;margin-bottom:12px}
+body[data-densidade="compacta"] main :is(button,.botao){padding:6px 11px;font-size:13.5px}
+body[data-densidade="compacta"] main :is(input,select,textarea){padding:7px 9px}
+body[data-densidade="compacta"] h1{font-size:23px}
+body[data-densidade="ampla"]{font-size:16px}
+body[data-densidade="ampla"] main :is(button,.botao){min-height:44px;padding:10px 18px;font-size:15px}
+body[data-densidade="ampla"] main :is(input,select){min-height:46px;font-size:16px}
+body[data-densidade="ampla"] :is(th,td){padding:13px 16px}
+body[data-densidade="ampla"] .card{padding:22px 24px}
+body[data-densidade="ampla"] h1{font-size:30px}
+
+/* ---------- cantos ---------- */
+body[data-cantos="retos"]{--raio:3px;--raio-p:2px}
+body[data-cantos="redondos"]{--raio:18px;--raio-p:12px}
+
+/* ---------- superfície ---------- */
+body[data-superficie="planas"]{--sombra:none}
+body[data-superficie="planas"] .card{box-shadow:none}
+body[data-superficie="papel"]{--bg:#f4efe4;--painel:#fffdf8;--painel-2:#faf6ec;--linha:#e2d8c4}
+:root[data-theme="dark"] body[data-superficie="papel"]{--bg:#16130d;--painel:#1f1b13;--painel-2:#1a170f;--linha:#3a3324}
+body[data-superficie="papel"] .card{box-shadow:0 1px 0 var(--linha)}
+
+/* ---------- KPIs ---------- */
+body[data-kpi="numero"] .kpi{background:transparent;border:0;border-bottom:1px solid var(--linha);border-radius:0;box-shadow:none;padding:6px 2px 12px}
+body[data-kpi="numero"] .kpi::before,body[data-kpi="numero"] .kpi::after{display:none}
+body[data-kpi="numero"] .kpi .v{font-size:36px;color:var(--accent-forte)}
+:root[data-theme="dark"] body[data-kpi="numero"] .kpi .v{color:var(--accent)}
+body[data-kpi="faixa"] .kpi::before{left:0;right:0;top:0;bottom:auto;width:auto;height:4px}
+body[data-kpi="faixa"] .kpi::after{display:none}
+body[data-kpi="faixa"] .kpi{padding-top:20px}
+body[data-kpi="anel"] .kpi{display:grid;grid-template-columns:auto 1fr;gap:2px 14px;align-items:center}
+body[data-kpi="anel"] .kpi::before{display:none}
+body[data-kpi="anel"] .kpi::after{position:static;grid-column:1;grid-row:1 / span 2;width:40px;height:40px;border-radius:50%;background:none;border:5px solid var(--accent);border-right-color:color-mix(in srgb, var(--accent) 22%, transparent)}
+body[data-kpi="anel"] .kpi .v,body[data-kpi="anel"] .kpi .r{grid-column:2}
+a.kpi{text-decoration:none;color:inherit;display:block}
+a.kpi:hover{border-color:var(--accent-borda);box-shadow:var(--sombra-alta)}
+.kpi.alerta .v{color:var(--vermelho)} .kpi.zero{opacity:.6}
+
+/* ---------- casca: trilho (coluna estreita de ícones) ---------- */
+body[data-layout="trilho"] .corpo{display:grid;grid-template-columns:92px minmax(0,1fr);gap:24px;align-items:start;max-width:1360px}
+body[data-layout="trilho"] .corpo:has(> nav.menu[hidden]){grid-template-columns:minmax(0,1fr)}
+body[data-layout="trilho"] nav.menu{position:sticky;top:96px;flex-direction:column;flex-wrap:nowrap;margin-top:22px;gap:4px;padding:8px 6px;background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio)}
+body[data-layout="trilho"] nav.menu a{flex-direction:column;gap:5px;padding:10px 4px;font-size:11.5px;text-align:center;line-height:1.2}
+body[data-layout="trilho"] nav.menu a .ico{width:22px;height:22px}
+@media (max-width:900px){
+  body[data-layout="trilho"] .corpo{display:block}
+  body[data-layout="trilho"] nav.menu{position:static}
+  body[data-layout="trilho"] nav.menu a{flex-direction:row;font-size:14px;text-align:left}
+}
+
+/* ---------- casca: cidadão (coluna única) ---------- */
+body[data-layout="cidadao"] .corpo{max-width:1180px}
+body[data-layout="cidadao"] nav.menu{margin:16px 0 0;padding:6px;background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio)}
+body[data-layout="cidadao"].rota-publica .corpo{max-width:760px}
+body[data-layout="cidadao"].rota-publica main{padding-top:32px}
+
+/* ---------- casca: ferramenta (largura total) ---------- */
+body[data-layout="ferramenta"] :is(.corpo,.faixa-gov .in,.topo-in,.rodape .in){max-width:none}
+body[data-layout="ferramenta"] nav.menu{display:flex;flex-wrap:wrap;margin:0 -20px;padding:0 20px;gap:0;background:var(--painel);border-bottom:1px solid var(--linha)}
+body[data-layout="ferramenta"] nav.menu a{border-radius:0;padding:11px 14px;border-bottom:3px solid transparent}
+body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transparent;color:var(--accent);border-bottom-color:var(--accent);box-shadow:none}
+@media (max-width:900px){ body[data-layout="ferramenta"] nav.menu{margin:8px 0 0;border:1px solid var(--linha);border-radius:var(--raio)} }
+
 /* ===== VISUAL DESTE APP (bloco "visual" do app.json) ===== */
 :root{--app-acento:#b23c17;--app-acento-claro:#c3674a;--app-acento-forte:#802b11;--app-acento-escuro:#daa190;--padrao:url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="28" height="28"%3E%3Cpath d="M28 0H0v28" fill="none" stroke="%23fff" stroke-opacity=".07"/%3E%3C/svg%3E')}
 /* ===== CSS DO APP ===== */
 
 </style>
 </head>
-<body data-layout="lateral" data-estilo="institucional">
+<body data-layout="lateral" data-estilo="institucional" data-cabecalho="degrade" data-fonte="sistema" data-densidade="normal" data-cantos="suaves" data-superficie="cartoes" data-kpi="barra">
 <div class="faixa-gov"><div class="in">
   <span class="bandeira" aria-hidden="true"><i style="background:#1e63ae"></i><i style="background:#0b7a3e"></i><i style="background:#e8b931"></i></span>
   <span><b>Governo de Mato Grosso</b></span><span class="sep">|</span>
@@ -279,20 +445,37 @@ ul,ol{padding-left:22px}
     <div class="emblema" id="emblema" aria-hidden="true"></div>
     <div class="marca">Controle do Processo de Aquisição<small>POLITEC/MT · etapas, documentos, prazos e pendências</small></div>
     <div class="acoes">
-      <span id="perfilAtual" class="selo info" hidden></span>
-      <div class="fonte" role="group" aria-label="Tamanho da fonte">
-        <button id="btnFonteMenos" type="button" aria-label="Diminuir a fonte" title="Diminuir a fonte">A−</button>
-        <button id="fonteValor" type="button" aria-label="Voltar ao tamanho padrão" title="Voltar ao tamanho padrão">100%</button>
-        <button id="btnFonteMais" type="button" aria-label="Aumentar a fonte" title="Aumentar a fonte">A+</button>
+      <a id="linkServidor" class="link-servidor" href="#" hidden>Área do servidor</a>
+      <div class="suspenso-wrap" id="perfilMenu" hidden>
+        <button id="btnPerfil" class="btn-cab" type="button" aria-haspopup="menu" aria-expanded="false" aria-controls="perfilLista" title="Trocar o perfil (Alt+P)">
+          <span class="ico-perfil"></span><span class="rot-perfil">Perfil</span><b id="perfilNome"></b><span class="seta" aria-hidden="true">▾</span>
+        </button>
+        <div class="suspenso" id="perfilLista" role="menu" aria-label="Perfis" hidden></div>
       </div>
-      <button id="btnTema" type="button" aria-label="Alternar tema claro e escuro"><span class="sol"></span><span class="lua"></span>Tema</button>
+      <div class="suspenso-wrap" id="exibicaoMenu">
+        <button id="btnExibicao" class="btn-cab" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="exibicaoLista" title="Tamanho da fonte">
+          <span aria-hidden="true" class="aa">Aa</span><span class="rot-exib">Exibição</span>
+        </button>
+        <div class="suspenso" id="exibicaoLista" hidden>
+          <p class="suspenso-tit">Tamanho da fonte</p>
+          <div class="fonte" role="group" aria-label="Tamanho da fonte">
+            <button id="btnFonteMenos" type="button" aria-label="Diminuir a fonte" title="Diminuir a fonte">A−</button>
+            <button id="fonteValor" type="button" aria-label="Voltar ao tamanho padrão" title="Voltar ao tamanho padrão">100%</button>
+            <button id="btnFonteMais" type="button" aria-label="Aumentar a fonte" title="Aumentar a fonte">A+</button>
+          </div>
+        </div>
+      </div>
+      <button id="btnTema" class="btn-cab" type="button" aria-label="Alternar tema claro e escuro"><span class="sol"></span><span class="lua"></span><span class="rot-tema">Tema</span></button>
     </div>
   </div>
 </header>
 <div class="impressao-cab"><b>Controle do Processo de Aquisição</b><span>POLITEC/MT · SESP/MT · Governo de Mato Grosso</span></div>
 <div class="corpo">
   <nav class="menu" id="menu" aria-label="Telas do app"></nav>
-  <main id="conteudo" tabindex="-1"></main>
+  <div class="area">
+    <nav class="trilha" id="trilha" aria-label="Você está em" hidden></nav>
+    <main id="conteudo" tabindex="-1"></main>
+  </div>
 </div>
 <footer class="rodape"><div class="in">
   <span><b>POLITEC/MT</b> · SESP/MT · Governo de Mato Grosso</span>
@@ -465,6 +648,16 @@ const dinheiro = {
     return base;
   }
 };
+
+/* ---------- números no padrão brasileiro ---------- */
+// numBR(46.8) -> "46,8" · numBR(1234.5, 2) -> "1.234,50"
+function numBR(v, casas){
+  if (v === null || v === undefined || v === "" || Number.isNaN(Number(v))) return "—";
+  const n = Number(v), c = casas ?? (Number.isInteger(n) ? 0 : 1);
+  return n.toLocaleString("pt-BR", {minimumFractionDigits: c, maximumFractionDigits: c});
+}
+// plural(1, "dia") -> "1 dia" · plural(2, "dia") -> "2 dias" · plural(3, "pendência", "pendências")
+function plural(n, um, varios){ return `${numBR(n)} ${Math.abs(Number(n)) === 1 ? um : (varios || um + "s")}`; }
 
 /* ---------- documentos ---------- */
 function cpfValido(v){
@@ -645,7 +838,7 @@ function iniciarFonte(){
 }
 
 /* ---------- roteador por hash ---------- */
-const estado = {perfil: null, rota: null};
+const estado = {perfil: null, contexto: null, rota: null};
 function casarRota(hash){
   const partes = hash.replace(/^#\/?/, "").split("?")[0].split("/").filter(Boolean);
   for (const r of APP.rotas){
@@ -658,50 +851,205 @@ function casarRota(hash){
   return null;
 }
 function rotaPermitida(r){ return !r.perfis || !estado.perfil || r.perfis.includes(estado.perfil); }
+// tela construída: existe em TELAS. As pendentes só aparecem no menu com ?dev=1 no endereço.
+const MODO_DEV = /[?&]dev=1/.test(location.search);
+function rotaPronta(r){ return MODO_DEV || !!TELAS[r.rota]; }
+function rotasDoMenu(){
+  return APP.rotas.filter(r=>r.menu !== false && !r.publica && !r.rota.includes(":") && rotaPermitida(r) && rotaPronta(r));
+}
+function perfilAtual(){ return (APP.perfis || []).find(p=>p.id === estado.perfil) || null; }
+// tela inicial: a do perfil, ou a rota inicial do app, ou a primeira tela pronta do menu
+function rotaInicial(){
+  const p = perfilAtual();
+  if (p && p.inicio) return p.inicio;
+  if (APP.rotaInicial) return APP.rotaInicial;
+  const m = rotasDoMenu()[0]; return m ? m.rota : APP.rotas[0].rota;
+}
+// pai de uma rota de detalhe: o campo "pai" do app.json, ou o item do menu com o mesmo radical
+function paiDaRota(r){
+  if (r.pai) return APP.rotas.find(x=>x.rota === r.pai) || null;
+  if (!r.rota.includes(":")) return null;
+  const raiz = normalizar(r.rota.replace(/^#\//, "").split("/")[0]);
+  const menu = rotasDoMenu();
+  return menu.find(x=>{ const s = normalizar(x.rota.replace(/^#\//, "").split("/")[0]); return s === raiz || s === raiz + "s" || s === raiz + "es"; })
+    || menu.find(x=>x.rota === rotaInicial()) || null;
+}
 function montarMenu(){
-  $("#menu").innerHTML = APP.rotas.filter(r=>r.menu !== false && !r.publica && !r.rota.includes(":") && rotaPermitida(r))
-    .map(r=>`<a href="${r.rota}" data-rota="${r.rota}">${icone(iconeDaRota(r))}<span>${esc(r.titulo)}</span></a>`).join("");
-  const p = $("#perfilAtual");
-  if (APP.perfis && estado.perfil){ p.hidden = false; p.textContent = "Perfil: " + estado.perfil; } else p.hidden = true;
+  $("#menu").innerHTML = rotasDoMenu()
+    .map(r=>`<a href="${r.rota}" data-rota="${r.rota}" title="${esc(r.titulo)}">${icone(iconeDaRota(r))}<span>${esc(r.titulo)}</span></a>`).join("");
+  montarSeletorPerfil();
+}
+function montarTrilha(r, params){
+  const t = $("#trilha"), pai = paiDaRota(r);
+  if (!pai || r.publica){ t.hidden = true; t.innerHTML = ""; return; }
+  const id = Object.values(params || {}).join(" · ");
+  t.hidden = false;
+  t.innerHTML = `<a href="${pai.rota}">${icone(iconeDaRota(pai))}${esc(pai.titulo)}</a><span aria-hidden="true">›</span>
+    <span aria-current="page">${esc(r.titulo)}${id ? " " + esc(id) : ""}</span>`;
 }
 async function navegar(){
-  if (APP.perfis && !estado.perfil && !["#/testes", ...(APP.rotaSemPerfil || [])].some(x=>location.hash.startsWith(x))){
-    if (APP.perfilDoServidor){
-      $("#conteudo").innerHTML = `<div class="card pendente"><h1>Acesso restrito</h1><p>Esta área é só para servidores cadastrados. Entre com a conta institucional.</p></div>`;
-      return;
-    }
-    return telaEscolherPerfil();
-  }
-  const hash = location.hash || APP.rotas[0].rota;
+  const hash = location.hash || rotaInicial();
   const achou = hash.startsWith("#/testes") ? {r: {rota: "#/testes", titulo: "Testes", publica: false}, params: {}} : casarRota(hash);
   const alvo = $("#conteudo");
+  fecharSuspensos();
   $$("#menu a").forEach(a=>a.removeAttribute("aria-current"));
-  if (!achou){ alvo.innerHTML = `<div class="card vazio">Tela não encontrada: <code>${esc(hash)}</code></div>`; return; }
-  if (!rotaPermitida(achou.r)){ alvo.innerHTML = `<div class="card vazio">O perfil <b>${esc(estado.perfil)}</b> não usa esta tela.</div>`; return; }
-  $("#menu").hidden = !!achou.r.publica;
-  const link = $(`#menu a[data-rota="${achou.r.rota}"]`); if (link) link.setAttribute("aria-current", "page");
+  if (!achou){ $("#trilha").hidden = true; alvo.innerHTML = `<div class="card vazio">Tela não encontrada: <code>${esc(hash)}</code><p><a href="${rotaInicial()}">Ir para a tela inicial</a></p></div>`; return; }
+  if (!rotaPermitida(achou.r)){
+    const p = perfilAtual();
+    alvo.innerHTML = `<div class="card vazio">O perfil <b>${esc(p ? p.nome : estado.perfil)}</b> não usa esta tela (<b>${esc(achou.r.titulo)}</b>).
+      <p>Troque o perfil no alto da tela ou <a href="${rotaInicial()}">vá para a tela inicial</a>.</p></div>`; return;
+  }
+  const publica = !!achou.r.publica;
+  $("#menu").hidden = publica;
+  document.body.classList.toggle("rota-publica", publica);
+  $("#perfilMenu").hidden = publica || !APP.perfis;
+  const servidor = $("#linkServidor");
+  servidor.hidden = !publica;
+  if (publica){ const r0 = APP.rotas.find(x=>!x.publica && !x.rota.includes(":")); servidor.href = r0 ? r0.rota : "#/config"; }
+  const pai = paiDaRota(achou.r);
+  const link = $(`#menu a[data-rota="${achou.r.rota}"]`) || (pai && $(`#menu a[data-rota="${pai.rota}"]`));
+  if (link) link.setAttribute("aria-current", "page");
+  montarTrilha(achou.r, achou.params);
   estado.rota = achou.r.rota;
+  document.body.dataset.rota = achou.r.rota.replace(/^#\//, "").replace(/\/:.*$/, "").replace(/\//g, "-") || "inicio";
   document.title = achou.r.titulo + " · " + APP.titulo;
   const fn = TELAS[achou.r.rota] || telaPendente(achou.r);
-  try { alvo.innerHTML = await fn(achou.params); if (TELAS_DEPOIS[achou.r.rota]) await TELAS_DEPOIS[achou.r.rota](achou.params); }
+  try { alvo.innerHTML = await fn(achou.params); ligarAbas(alvo); if (TELAS_DEPOIS[achou.r.rota]) await TELAS_DEPOIS[achou.r.rota](achou.params); }
   catch(e){ console.error(e); alvo.innerHTML = `<div class="card pendente"><b>Erro nesta tela.</b><p class="mono">${esc(e.message)}</p></div>`; }
   alvo.focus({preventScroll: true});
 }
 function telaPendente(r){
   return async ()=>`<h1>${esc(r.titulo)}</h1><p class="sub">${esc(r.descricao || "")}</p>
-    <div class="card pendente">Esta tela é construída no <b>Sprint ${esc(r.sprint)}</b> (ver <code>sprint.md</code>).</div>`;
+    <div class="card pendente">Esta tela ainda está em construção.</div>`;
 }
 
-/* ---------- perfis (o perfil escolhe as telas; não é controle de segurança) ---------- */
-function telaEscolherPerfil(){
-  $("#menu").hidden = true;
-  $("#conteudo").innerHTML = `<h1>Escolha o perfil desta cópia</h1>
-    <p class="sub">O perfil define quais telas aparecem neste computador. Ele pode ser trocado em Configuração.</p>
-    <div class="grade">${APP.perfis.map(p=>`<button class="card" data-perfil="${esc(p.id)}" style="text-align:left"><b>${esc(p.nome)}</b><br><span class="sub">${esc(p.descricao)}</span></button>`).join("")}</div>`;
-  $$("[data-perfil]").forEach(b=>b.addEventListener("click", async ()=>{
-    estado.perfil = b.dataset.perfil; await db.meta("perfil", estado.perfil); await registrar("perfil escolhido", {detalhe: estado.perfil});
-    montarMenu(); location.hash = APP.rotas.find(rotaPermitida).rota; navegar();
-  }));
+/* ---------- abas de uma ficha ----------
+   abas("ficha", [{id, titulo, conta, html}]) devolve o HTML das abas e dos painéis.
+   A aba aberta fica no endereço (?aba=id), para o link e o voltar funcionarem.
+   Com localStorage "abas:todas" = "1" (testes de interface) todos os painéis ficam abertos. */
+function abaDoEndereco(){ const m = location.hash.match(/[?&]aba=([\w-]+)/); return m ? m[1] : null; }
+function abas(nome, lista){
+  lista = lista.filter(Boolean);
+  const pedida = abaDoEndereco(), ativa = lista.some(a=>a.id === pedida) ? pedida : lista[0].id;
+  return `<div class="abas" role="tablist" data-abas="${esc(nome)}">${lista.map(a=>`<button type="button" role="tab" id="aba-${a.id}"
+      aria-controls="painel-${a.id}" aria-selected="${a.id === ativa}" data-aba="${a.id}" class="${a.alerta ? "aba-alerta" : ""}">${esc(a.titulo)}${a.conta !== undefined && a.conta !== null ? ` <span class="conta">${esc(a.conta)}</span>` : ""}</button>`).join("")}</div>
+    ${lista.map(a=>`<section class="painel-aba" role="tabpanel" id="painel-${a.id}" aria-labelledby="aba-${a.id}" ${a.id === ativa ? "" : "hidden"}>${a.html}</section>`).join("")}`;
+}
+function ligarAbas(raiz){
+  let todas = false; try { todas = localStorage.getItem("abas:todas") === "1"; } catch(e){}
+  $$(".abas", raiz).forEach(grupo=>{
+    const paineis = $$("[data-aba]", grupo).map(b=>$("#painel-" + b.dataset.aba, raiz)).filter(Boolean);
+    if (todas) paineis.forEach(p=>p.hidden = false);
+    $$("[data-aba]", grupo).forEach(b=>b.addEventListener("click", ()=>{
+      $$("[data-aba]", grupo).forEach(x=>x.setAttribute("aria-selected", x === b));
+      paineis.forEach(p=>p.hidden = p.id !== "painel-" + b.dataset.aba);
+      const base = location.hash.replace(/[?&]aba=[\w-]+/, "");
+      history.replaceState(null, "", base + (base.includes("?") ? "&" : "?") + "aba=" + b.dataset.aba);
+    }));
+    grupo.addEventListener("keydown", e=>{
+      if (!["ArrowLeft", "ArrowRight"].includes(e.key)) return;
+      const bs = $$("[data-aba]", grupo), i = bs.indexOf(document.activeElement); if (i < 0) return;
+      const n = bs[(i + (e.key === "ArrowRight" ? 1 : bs.length - 1)) % bs.length]; n.focus(); n.click();
+    });
+  });
+}
+// abre a aba indicada (usado depois de salvar algo, para continuar na mesma aba)
+function abrirAba(id){ $(`[data-aba="${id}"]`)?.click(); }
+
+/* ---------- permissões por perfil (lente de demonstração, não é segurança) ----------
+   APP.permissoes = {"assinar": ["autoridade"]}. pode("assinar") diz se o perfil atual faz a ação.
+   botaoSe("assinar", html, motivo) devolve o botão, ou o botão desabilitado com o motivo. */
+function pode(acao){
+  const lista = (APP.permissoes || {})[acao];
+  return !lista || !APP.perfis || lista.includes(estado.perfil);
+}
+function quemPode(acao){
+  const ids = (APP.permissoes || {})[acao] || [];
+  return ids.map(id=>(APP.perfis || []).find(p=>p.id === id)?.nome || id).join(", ");
+}
+function botaoSe(acao, html){
+  if (pode(acao)) return html;
+  const motivo = `Só ${quemPode(acao)} faz esta ação.`;
+  return html.replace(/<button/, `<button disabled title="${esc(motivo)}" data-sem-permissao="1"`) + `<small class="sub sem-permissao">${esc(motivo)}</small>`;
+}
+
+/* ---------- perfis: menu suspenso no cabeçalho, trocável a qualquer momento ---------- */
+function fecharSuspensos(exceto){
+  $$(".suspenso").forEach(s=>{ if (s !== exceto){ s.hidden = true; } });
+  $$(".suspenso-wrap > button").forEach(b=>{ if (!exceto || b.nextElementSibling !== exceto) b.setAttribute("aria-expanded", "false"); });
+}
+function alternarSuspenso(botao, lista){
+  const abrir = lista.hidden; fecharSuspensos(lista);
+  lista.hidden = !abrir; botao.setAttribute("aria-expanded", String(abrir));
+  if (abrir) (lista.querySelector("[aria-checked='true']") || lista.querySelector("button,select"))?.focus();
+}
+async function opcoesContexto(p){
+  if (!p || !p.contexto) return [];
+  const c = p.contexto;
+  if (c.opcoes) return c.opcoes.map(o=>Array.isArray(o) ? o : [o, o]);
+  if (!c.store || !APP.db.stores[c.store]) return [];
+  return (await db.list(c.store)).map(x=>[String(x[c.valor || "id"]), String(x[c.texto || c.valor || "nome"])])
+    .sort((a, b)=>a[1].localeCompare(b[1], "pt-BR"));
+}
+async function montarSeletorPerfil(){
+  const caixa = $("#perfilMenu");
+  if (!APP.perfis){ caixa.hidden = true; return; }
+  caixa.hidden = document.body.classList.contains("rota-publica");
+  const p = perfilAtual();
+  $("#perfilNome").textContent = (p ? p.nome : "escolher") + (estado.contexto ? " · " + estado.contexto : "");
+  const ctx = await opcoesContexto(p);
+  $("#perfilLista").innerHTML = `<p class="suspenso-tit">Ver o app como</p>
+    ${APP.perfis.map(x=>`<button type="button" role="menuitemradio" aria-checked="${x.id === estado.perfil}" data-escolher-perfil="${esc(x.id)}">
+      <span class="marca-radio" aria-hidden="true"></span><span><b>${esc(x.nome)}</b><small>${esc(x.descricao || "")}</small></span></button>`).join("")}
+    ${p && p.contexto ? `<label class="suspenso-ctx">${esc(p.contexto.rotulo || "Lotação")}
+      <select id="perfilContexto"><option value="">Todos</option>${ctx.map(([v, t])=>`<option value="${esc(v)}" ${v === estado.contexto ? "selected" : ""}>${esc(t)}</option>`).join("")}</select></label>` : ""}
+    <p class="suspenso-rodape">O perfil escolhe as telas. Não é controle de acesso.</p>`;
+  $$("#perfilLista [data-escolher-perfil]").forEach(b=>b.addEventListener("click", ()=>trocarPerfil(b.dataset.escolherPerfil)));
+  $("#perfilContexto")?.addEventListener("change", async e=>{
+    estado.contexto = e.target.value || null; await db.meta("perfil_contexto", estado.contexto);
+    await registrar("lotação do perfil trocada", {detalhe: estado.contexto || "todas"});
+    fecharSuspensos(); montarSeletorPerfil(); navegar();
+  });
+}
+async function trocarPerfil(novo){
+  const de = estado.perfil;
+  fecharSuspensos();
+  if (novo === de) return;
+  estado.perfil = novo; estado.contexto = null;
+  await db.meta("perfil", novo); await db.meta("perfil_contexto", null);
+  await registrar("perfil trocado", {detalhe: `${de || "nenhum"} -> ${novo}`});
+  montarMenu();
+  const p = perfilAtual();
+  const atual = location.hash ? casarRota(location.hash) : null;
+  if (atual && rotaPermitida(atual.r) && rotaPronta(atual.r)){ toast(`Agora você vê o app como ${p.nome}.`); return navegar(); }
+  toast(`Agora você vê o app como ${p.nome}. Esta é a tela inicial do perfil.`);
+  const ini = rotaInicial();
+  if (location.hash === ini) navegar(); else location.hash = ini;
+}
+function ligarCabecalho(){
+  $("#btnPerfil .ico-perfil").innerHTML = icone("usuario");
+  $("#btnPerfil").addEventListener("click", ()=>alternarSuspenso($("#btnPerfil"), $("#perfilLista")));
+  $("#btnExibicao").addEventListener("click", ()=>alternarSuspenso($("#btnExibicao"), $("#exibicaoLista")));
+  document.addEventListener("click", e=>{ if (!e.target.closest(".suspenso-wrap")) fecharSuspensos(); });
+  document.addEventListener("keydown", e=>{
+    if (e.key === "Escape") fecharSuspensos();
+    if (e.altKey && (e.key === "p" || e.key === "P") && !$("#perfilMenu").hidden){ e.preventDefault(); $("#btnPerfil").click(); }
+    const lista = e.target.closest && e.target.closest(".suspenso[role=menu]");
+    if (lista && ["ArrowDown", "ArrowUp"].includes(e.key)){
+      e.preventDefault(); const bs = $$("button", lista), i = bs.indexOf(e.target);
+      bs[(i + (e.key === "ArrowDown" ? 1 : bs.length - 1)) % bs.length].focus();
+    }
+  });
+  ligarMenuCompacto();
+}
+// menu compacto no celular: botão "Telas" abre e fecha o menu
+function ligarMenuCompacto(){
+  const b = document.createElement("button");
+  b.type = "button"; b.id = "btnMenuCompacto"; b.className = "btn-menu-compacto"; b.setAttribute("aria-expanded", "false"); b.setAttribute("aria-controls", "menu");
+  b.innerHTML = `${icone("lista")}<span>Telas</span>`;
+  $("#menu").before(b);
+  b.addEventListener("click", ()=>{ const ab = !document.body.classList.contains("menu-aberto"); document.body.classList.toggle("menu-aberto", ab); b.setAttribute("aria-expanded", String(ab)); });
+  $("#menu").addEventListener("click", e=>{ if (e.target.closest("a")){ document.body.classList.remove("menu-aberto"); b.setAttribute("aria-expanded", "false"); } });
 }
 
 /* ---------- configuração comum: backup, dados fictícios, perfil, limpeza ---------- */
@@ -718,7 +1066,8 @@ async function blocoConfigComum(){
       <p class="sub">Carrega o conjunto de exemplo para testar. Substitui os dados atuais.</p>
       <button id="btnSeed">Carregar dados fictícios</button></div>` : ""}
     ${APP.perfis ? `<div class="card"><h2 style="margin-top:0">Perfil desta cópia</h2>
-      <p class="sub">Atual: <b>${esc(estado.perfil || "nenhum")}</b></p><button id="btnTrocarPerfil">Trocar perfil</button></div>` : ""}
+      <p class="sub">O perfil também pode ser trocado a qualquer momento no alto da tela (Alt+P).</p>
+      <div class="linha-botoes">${APP.perfis.map(p=>`<button type="button" data-perfil="${esc(p.id)}" class="${p.id === estado.perfil ? "prim" : ""}" aria-pressed="${p.id === estado.perfil}">${esc(p.nome)}</button>`).join("")}</div></div>` : ""}
     <div class="card"><h2 style="margin-top:0">Apagar tudo</h2>
       <p class="sub">Remove todos os dados deste app neste navegador.</p><button class="perigo" id="btnApagar">Apagar todos os dados</button></div>`;
 }
@@ -737,7 +1086,7 @@ function ligarConfigComum(){
     await db.importar({app: APP.id, dados: dadosEmbutidos("seed")}); await registrar("dados fictícios carregados");
     toast("Dados fictícios carregados."); navegar();
   });
-  $("#btnTrocarPerfil")?.addEventListener("click", async ()=>{ estado.perfil = null; await db.meta("perfil", null); montarMenu(); telaEscolherPerfil(); });
+  $$("#conteudo [data-perfil]").forEach(b=>b.addEventListener("click", ()=>trocarPerfil(b.dataset.perfil)));
   $("#btnApagar")?.addEventListener("click", async ()=>{
     if (!confirm("Apagar todos os dados deste app neste navegador?")) return;
     for (const nome of Object.keys(APP.db.stores)) await db.limpar(nome);
@@ -801,10 +1150,20 @@ async function iniciar(){
   iniciarTema();
   await db.abrir();
   if (navigator.storage && navigator.storage.persist) { try { await navigator.storage.persist(); } catch(e){} }
-  if (APP.perfis) estado.perfil = (await db.meta("perfil")) || null;
+  // sem tela de bloqueio: sem perfil gravado, o app entra no perfil padrão e avisa uma vez
+  let avisarPerfil = false;
+  if (APP.perfis){
+    const salvo = await db.meta("perfil");
+    estado.perfil = APP.perfis.some(p=>p.id === salvo) ? salvo : (APP.perfilPadrao || APP.perfis[0].id);
+    estado.contexto = (await db.meta("perfil_contexto")) || null;
+    if (salvo !== estado.perfil){ await db.meta("perfil", estado.perfil); avisarPerfil = true; }
+  }
   if (typeof iniciarApp === "function") await iniciarApp();
+  ligarCabecalho();
   montarMenu();
   ligarAjudaTecnica();
+  if (avisarPerfil && !(casarRota(location.hash || rotaInicial()) || {r: {}}).r.publica)
+    setTimeout(()=>toast(`Você está como ${perfilAtual().nome}. Troque o perfil no alto da tela.`, 5000), 400);
   window.addEventListener("hashchange", navegar);
   await navegar();
 }

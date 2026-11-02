@@ -1,5 +1,8 @@
 # Continuar o desenvolvimento dos apps (passagem para outro agente)
 
+> **Atualização de 02/11/2026:** cada app passou a ser autônomo (`nucleo/`, `construir.py` e `testes/` próprios, sem base comum) e vai ganhar identidade própria. O que foi feito, o que falta e o prompt de continuação estão em `Apps/CONTINUAR-IDENTIDADE.md`. O diagnóstico e o plano de cada app estão em `Apps/PLANO-USABILIDADE.md`.
+
+
 Atualizado em **30/10/2026**.
 
 **Estado geral: 17 dos 20 apps com o MVP completo** (Sprints 1 a 6 ou 7, com

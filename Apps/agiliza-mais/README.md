@@ -57,3 +57,28 @@ Tudo o que foi completado precisa ser confirmado com o aluno no Sprint 0.
 
 - `stack`: era Python; alinhado à arquitetura do curso.
 - `req`: acrescentados Funcionar offline e Trilha de auditoria (o grupo pede registro das conferências).
+
+## Como construir e testar
+
+Este app é autônomo. `nucleo/`, `construir.py` e `testes/` são só dele e não
+importam nada de `Apps/_base/`, porque esta pasta vai virar um repositório
+próprio no GitHub. O `index.html` é **gerado**: edite as fontes (`app.json`,
+`src/`, `nucleo/`, `exemplos/seed.json`) e rode a construção.
+
+```powershell
+cd "Apps/agiliza-mais"
+python construir.py           # gera o index.html a partir de app.json, src/, nucleo/ e os dados
+python testes/testar.py       # estrutura: zero rede, #/testes 100%, rotas por perfil, tema e celular
+python testes/cenarios.py     # cenários dos sprints: usa a tela como uma pessoa usaria
+```
+
+Antes da primeira execução: `pip install playwright` e
+`playwright install chromium`.
+
+Os dados fictícios são gerados por `exemplos/gerar_exemplos.py`; rode-o quando
+mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
+
+
+Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
+importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
+seguem o português do Brasil com acentuação, sem travessões.

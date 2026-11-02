@@ -132,7 +132,7 @@ TELAS["#/processo/:id/prestacao"] = async ({id})=>{
         <span><b>${esc(x.motivo)}</b> · aberta em ${dataCurtaBR(x.aberta_em)} · prazo ${dataCurtaBR(x.prazo)}${x.resolvida_em ? " · resolvida em " + dataCurtaBR(x.resolvida_em) : adPendenciaVencida(x) ? ' · <span class="erro-txt">vencida</span>' : ""}</span>
         ${x.resolvida_em ? "" : `<button data-resolver="${esc(x.id)}">Resolver</button>`}</li>`).join("") || '<li class="vazio">Nenhuma pendência.</li>'}</ul>
       <form id="formPendencia" class="campos" style="align-items:end">${campo("peMotivo", "Nova pendência (motivo)", {})}
-        <div class="campo"><label>&nbsp;</label><button id="btnPendencia">Abrir pendência (10 dias úteis)</button></div></form></div>
+        <div class="campo"><label>&nbsp;</label><button type="button" id="btnPendencia">Abrir pendência (10 dias úteis)</button></div></form></div>
     ${encerrado ? `<div class="card ok"><b>Processo encerrado.</b> Decisão: ${esc(p.decisao_prestacao || "não registrada")}.</div>`
       : `<form class="card" id="formEncerrar"><h2 style="margin-top:0">Encerrar a prestação</h2>
         <p class="sub">A decisão do ordenador é só registrada no app.</p>

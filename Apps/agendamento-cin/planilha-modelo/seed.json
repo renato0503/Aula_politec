@@ -21,12 +21,876 @@
  ],
  "horarios": [
   {
+   "horario_id": "P01-2026-10-26-0800",
+   "posto_id": "P01",
+   "data": "2026-10-26",
+   "hora": "08:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-26-0830",
+   "posto_id": "P01",
+   "data": "2026-10-26",
+   "hora": "08:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-26-0900",
+   "posto_id": "P01",
+   "data": "2026-10-26",
+   "hora": "09:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-26-0930",
+   "posto_id": "P01",
+   "data": "2026-10-26",
+   "hora": "09:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-26-1000",
+   "posto_id": "P01",
+   "data": "2026-10-26",
+   "hora": "10:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-26-1030",
+   "posto_id": "P01",
+   "data": "2026-10-26",
+   "hora": "10:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-26-1100",
+   "posto_id": "P01",
+   "data": "2026-10-26",
+   "hora": "11:00",
+   "capacidade": 2,
+   "ocupadas": 1,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-26-1130",
+   "posto_id": "P01",
+   "data": "2026-10-26",
+   "hora": "11:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-26-1200",
+   "posto_id": "P01",
+   "data": "2026-10-26",
+   "hora": "12:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-26-1230",
+   "posto_id": "P01",
+   "data": "2026-10-26",
+   "hora": "12:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-26-1300",
+   "posto_id": "P01",
+   "data": "2026-10-26",
+   "hora": "13:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-26-1330",
+   "posto_id": "P01",
+   "data": "2026-10-26",
+   "hora": "13:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-26-1400",
+   "posto_id": "P01",
+   "data": "2026-10-26",
+   "hora": "14:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-26-1430",
+   "posto_id": "P01",
+   "data": "2026-10-26",
+   "hora": "14:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-26-1500",
+   "posto_id": "P01",
+   "data": "2026-10-26",
+   "hora": "15:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-26-1530",
+   "posto_id": "P01",
+   "data": "2026-10-26",
+   "hora": "15:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-27-0800",
+   "posto_id": "P01",
+   "data": "2026-10-27",
+   "hora": "08:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-27-0830",
+   "posto_id": "P01",
+   "data": "2026-10-27",
+   "hora": "08:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-27-0900",
+   "posto_id": "P01",
+   "data": "2026-10-27",
+   "hora": "09:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-27-0930",
+   "posto_id": "P01",
+   "data": "2026-10-27",
+   "hora": "09:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-27-1000",
+   "posto_id": "P01",
+   "data": "2026-10-27",
+   "hora": "10:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-27-1030",
+   "posto_id": "P01",
+   "data": "2026-10-27",
+   "hora": "10:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-27-1100",
+   "posto_id": "P01",
+   "data": "2026-10-27",
+   "hora": "11:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-27-1130",
+   "posto_id": "P01",
+   "data": "2026-10-27",
+   "hora": "11:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-27-1200",
+   "posto_id": "P01",
+   "data": "2026-10-27",
+   "hora": "12:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-27-1230",
+   "posto_id": "P01",
+   "data": "2026-10-27",
+   "hora": "12:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-27-1300",
+   "posto_id": "P01",
+   "data": "2026-10-27",
+   "hora": "13:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-27-1330",
+   "posto_id": "P01",
+   "data": "2026-10-27",
+   "hora": "13:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-27-1400",
+   "posto_id": "P01",
+   "data": "2026-10-27",
+   "hora": "14:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-27-1430",
+   "posto_id": "P01",
+   "data": "2026-10-27",
+   "hora": "14:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-27-1500",
+   "posto_id": "P01",
+   "data": "2026-10-27",
+   "hora": "15:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-27-1530",
+   "posto_id": "P01",
+   "data": "2026-10-27",
+   "hora": "15:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-28-0800",
+   "posto_id": "P01",
+   "data": "2026-10-28",
+   "hora": "08:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-28-0830",
+   "posto_id": "P01",
+   "data": "2026-10-28",
+   "hora": "08:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-28-0900",
+   "posto_id": "P01",
+   "data": "2026-10-28",
+   "hora": "09:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-28-0930",
+   "posto_id": "P01",
+   "data": "2026-10-28",
+   "hora": "09:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-28-1000",
+   "posto_id": "P01",
+   "data": "2026-10-28",
+   "hora": "10:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-28-1030",
+   "posto_id": "P01",
+   "data": "2026-10-28",
+   "hora": "10:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-28-1100",
+   "posto_id": "P01",
+   "data": "2026-10-28",
+   "hora": "11:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-28-1130",
+   "posto_id": "P01",
+   "data": "2026-10-28",
+   "hora": "11:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-28-1200",
+   "posto_id": "P01",
+   "data": "2026-10-28",
+   "hora": "12:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-28-1230",
+   "posto_id": "P01",
+   "data": "2026-10-28",
+   "hora": "12:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-28-1300",
+   "posto_id": "P01",
+   "data": "2026-10-28",
+   "hora": "13:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-28-1330",
+   "posto_id": "P01",
+   "data": "2026-10-28",
+   "hora": "13:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-28-1400",
+   "posto_id": "P01",
+   "data": "2026-10-28",
+   "hora": "14:00",
+   "capacidade": 2,
+   "ocupadas": 1,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-28-1430",
+   "posto_id": "P01",
+   "data": "2026-10-28",
+   "hora": "14:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-28-1500",
+   "posto_id": "P01",
+   "data": "2026-10-28",
+   "hora": "15:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-28-1530",
+   "posto_id": "P01",
+   "data": "2026-10-28",
+   "hora": "15:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-29-0800",
+   "posto_id": "P01",
+   "data": "2026-10-29",
+   "hora": "08:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-29-0830",
+   "posto_id": "P01",
+   "data": "2026-10-29",
+   "hora": "08:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-29-0900",
+   "posto_id": "P01",
+   "data": "2026-10-29",
+   "hora": "09:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-29-0930",
+   "posto_id": "P01",
+   "data": "2026-10-29",
+   "hora": "09:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-29-1000",
+   "posto_id": "P01",
+   "data": "2026-10-29",
+   "hora": "10:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-29-1030",
+   "posto_id": "P01",
+   "data": "2026-10-29",
+   "hora": "10:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-29-1100",
+   "posto_id": "P01",
+   "data": "2026-10-29",
+   "hora": "11:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-29-1130",
+   "posto_id": "P01",
+   "data": "2026-10-29",
+   "hora": "11:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-29-1200",
+   "posto_id": "P01",
+   "data": "2026-10-29",
+   "hora": "12:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-29-1230",
+   "posto_id": "P01",
+   "data": "2026-10-29",
+   "hora": "12:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-29-1300",
+   "posto_id": "P01",
+   "data": "2026-10-29",
+   "hora": "13:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-29-1330",
+   "posto_id": "P01",
+   "data": "2026-10-29",
+   "hora": "13:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-29-1400",
+   "posto_id": "P01",
+   "data": "2026-10-29",
+   "hora": "14:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-29-1430",
+   "posto_id": "P01",
+   "data": "2026-10-29",
+   "hora": "14:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-29-1500",
+   "posto_id": "P01",
+   "data": "2026-10-29",
+   "hora": "15:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-29-1530",
+   "posto_id": "P01",
+   "data": "2026-10-29",
+   "hora": "15:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-30-0800",
+   "posto_id": "P01",
+   "data": "2026-10-30",
+   "hora": "08:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-30-0830",
+   "posto_id": "P01",
+   "data": "2026-10-30",
+   "hora": "08:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-30-0900",
+   "posto_id": "P01",
+   "data": "2026-10-30",
+   "hora": "09:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-30-0930",
+   "posto_id": "P01",
+   "data": "2026-10-30",
+   "hora": "09:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-30-1000",
+   "posto_id": "P01",
+   "data": "2026-10-30",
+   "hora": "10:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-30-1030",
+   "posto_id": "P01",
+   "data": "2026-10-30",
+   "hora": "10:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-30-1100",
+   "posto_id": "P01",
+   "data": "2026-10-30",
+   "hora": "11:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-30-1130",
+   "posto_id": "P01",
+   "data": "2026-10-30",
+   "hora": "11:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-30-1200",
+   "posto_id": "P01",
+   "data": "2026-10-30",
+   "hora": "12:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-30-1230",
+   "posto_id": "P01",
+   "data": "2026-10-30",
+   "hora": "12:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-30-1300",
+   "posto_id": "P01",
+   "data": "2026-10-30",
+   "hora": "13:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-30-1330",
+   "posto_id": "P01",
+   "data": "2026-10-30",
+   "hora": "13:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-30-1400",
+   "posto_id": "P01",
+   "data": "2026-10-30",
+   "hora": "14:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-30-1430",
+   "posto_id": "P01",
+   "data": "2026-10-30",
+   "hora": "14:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-30-1500",
+   "posto_id": "P01",
+   "data": "2026-10-30",
+   "hora": "15:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-10-30-1530",
+   "posto_id": "P01",
+   "data": "2026-10-30",
+   "hora": "15:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-11-02-0800",
+   "posto_id": "P01",
+   "data": "2026-11-02",
+   "hora": "08:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-11-02-0830",
+   "posto_id": "P01",
+   "data": "2026-11-02",
+   "hora": "08:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-11-02-0900",
+   "posto_id": "P01",
+   "data": "2026-11-02",
+   "hora": "09:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-11-02-0930",
+   "posto_id": "P01",
+   "data": "2026-11-02",
+   "hora": "09:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-11-02-1000",
+   "posto_id": "P01",
+   "data": "2026-11-02",
+   "hora": "10:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-11-02-1030",
+   "posto_id": "P01",
+   "data": "2026-11-02",
+   "hora": "10:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-11-02-1100",
+   "posto_id": "P01",
+   "data": "2026-11-02",
+   "hora": "11:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-11-02-1130",
+   "posto_id": "P01",
+   "data": "2026-11-02",
+   "hora": "11:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-11-02-1200",
+   "posto_id": "P01",
+   "data": "2026-11-02",
+   "hora": "12:00",
+   "capacidade": 2,
+   "ocupadas": 1,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-11-02-1230",
+   "posto_id": "P01",
+   "data": "2026-11-02",
+   "hora": "12:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-11-02-1300",
+   "posto_id": "P01",
+   "data": "2026-11-02",
+   "hora": "13:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-11-02-1330",
+   "posto_id": "P01",
+   "data": "2026-11-02",
+   "hora": "13:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-11-02-1400",
+   "posto_id": "P01",
+   "data": "2026-11-02",
+   "hora": "14:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-11-02-1430",
+   "posto_id": "P01",
+   "data": "2026-11-02",
+   "hora": "14:30",
+   "capacidade": 2,
+   "ocupadas": 1,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-11-02-1500",
+   "posto_id": "P01",
+   "data": "2026-11-02",
+   "hora": "15:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P01-2026-11-02-1530",
+   "posto_id": "P01",
+   "data": "2026-11-02",
+   "hora": "15:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
    "horario_id": "P01-2026-11-03-0800",
    "posto_id": "P01",
    "data": "2026-11-03",
    "hora": "08:00",
    "capacidade": 2,
-   "ocupadas": 0,
+   "ocupadas": 1,
    "situacao": "aberto"
   },
   {
@@ -197,7 +1061,7 @@
    "data": "2026-11-04",
    "hora": "09:30",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -251,7 +1115,7 @@
    "data": "2026-11-04",
    "hora": "12:30",
    "capacidade": 2,
-   "ocupadas": 0,
+   "ocupadas": 1,
    "situacao": "aberto"
   },
   {
@@ -323,7 +1187,7 @@
    "data": "2026-11-05",
    "hora": "08:30",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -422,7 +1286,7 @@
    "data": "2026-11-05",
    "hora": "14:00",
    "capacidade": 2,
-   "ocupadas": 2,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -485,7 +1349,7 @@
    "data": "2026-11-06",
    "hora": "09:30",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -494,7 +1358,7 @@
    "data": "2026-11-06",
    "hora": "10:00",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -629,7 +1493,7 @@
    "data": "2026-11-09",
    "hora": "09:30",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -665,7 +1529,7 @@
    "data": "2026-11-09",
    "hora": "11:30",
    "capacidade": 2,
-   "ocupadas": 0,
+   "ocupadas": 1,
    "situacao": "aberto"
   },
   {
@@ -719,7 +1583,7 @@
    "data": "2026-11-09",
    "hora": "14:30",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -800,7 +1664,7 @@
    "data": "2026-11-10",
    "hora": "11:00",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -1043,7 +1907,7 @@
    "data": "2026-11-12",
    "hora": "08:30",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -1151,7 +2015,7 @@
    "data": "2026-11-12",
    "hora": "14:30",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -1178,7 +2042,7 @@
    "data": "2026-11-13",
    "hora": "08:00",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -1196,7 +2060,7 @@
    "data": "2026-11-13",
    "hora": "09:00",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -1286,7 +2150,7 @@
    "data": "2026-11-13",
    "hora": "14:00",
    "capacidade": 2,
-   "ocupadas": 0,
+   "ocupadas": 1,
    "situacao": "aberto"
   },
   {
@@ -1317,144 +2181,864 @@
    "situacao": "aberto"
   },
   {
-   "horario_id": "P01-2026-11-16-0800",
-   "posto_id": "P01",
-   "data": "2026-11-16",
+   "horario_id": "P02-2026-10-26-0800",
+   "posto_id": "P02",
+   "data": "2026-10-26",
    "hora": "08:00",
    "capacidade": 2,
    "ocupadas": 0,
    "situacao": "aberto"
   },
   {
-   "horario_id": "P01-2026-11-16-0830",
-   "posto_id": "P01",
-   "data": "2026-11-16",
+   "horario_id": "P02-2026-10-26-0830",
+   "posto_id": "P02",
+   "data": "2026-10-26",
    "hora": "08:30",
    "capacidade": 2,
-   "ocupadas": 0,
+   "ocupadas": 1,
    "situacao": "aberto"
   },
   {
-   "horario_id": "P01-2026-11-16-0900",
-   "posto_id": "P01",
-   "data": "2026-11-16",
+   "horario_id": "P02-2026-10-26-0900",
+   "posto_id": "P02",
+   "data": "2026-10-26",
    "hora": "09:00",
    "capacidade": 2,
    "ocupadas": 0,
    "situacao": "aberto"
   },
   {
-   "horario_id": "P01-2026-11-16-0930",
-   "posto_id": "P01",
-   "data": "2026-11-16",
+   "horario_id": "P02-2026-10-26-0930",
+   "posto_id": "P02",
+   "data": "2026-10-26",
    "hora": "09:30",
    "capacidade": 2,
    "ocupadas": 0,
    "situacao": "aberto"
   },
   {
-   "horario_id": "P01-2026-11-16-1000",
-   "posto_id": "P01",
-   "data": "2026-11-16",
+   "horario_id": "P02-2026-10-26-1000",
+   "posto_id": "P02",
+   "data": "2026-10-26",
    "hora": "10:00",
    "capacidade": 2,
    "ocupadas": 0,
    "situacao": "aberto"
   },
   {
-   "horario_id": "P01-2026-11-16-1030",
-   "posto_id": "P01",
-   "data": "2026-11-16",
+   "horario_id": "P02-2026-10-26-1030",
+   "posto_id": "P02",
+   "data": "2026-10-26",
    "hora": "10:30",
    "capacidade": 2,
    "ocupadas": 0,
    "situacao": "aberto"
   },
   {
-   "horario_id": "P01-2026-11-16-1100",
-   "posto_id": "P01",
-   "data": "2026-11-16",
+   "horario_id": "P02-2026-10-26-1100",
+   "posto_id": "P02",
+   "data": "2026-10-26",
    "hora": "11:00",
-   "capacidade": 2,
-   "ocupadas": 0,
-   "situacao": "aberto"
-  },
-  {
-   "horario_id": "P01-2026-11-16-1130",
-   "posto_id": "P01",
-   "data": "2026-11-16",
-   "hora": "11:30",
    "capacidade": 2,
    "ocupadas": 1,
    "situacao": "aberto"
   },
   {
-   "horario_id": "P01-2026-11-16-1200",
-   "posto_id": "P01",
-   "data": "2026-11-16",
+   "horario_id": "P02-2026-10-26-1130",
+   "posto_id": "P02",
+   "data": "2026-10-26",
+   "hora": "11:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-26-1200",
+   "posto_id": "P02",
+   "data": "2026-10-26",
    "hora": "12:00",
    "capacidade": 2,
    "ocupadas": 0,
    "situacao": "aberto"
   },
   {
-   "horario_id": "P01-2026-11-16-1230",
-   "posto_id": "P01",
-   "data": "2026-11-16",
+   "horario_id": "P02-2026-10-26-1230",
+   "posto_id": "P02",
+   "data": "2026-10-26",
    "hora": "12:30",
    "capacidade": 2,
    "ocupadas": 0,
    "situacao": "aberto"
   },
   {
-   "horario_id": "P01-2026-11-16-1300",
-   "posto_id": "P01",
-   "data": "2026-11-16",
+   "horario_id": "P02-2026-10-26-1300",
+   "posto_id": "P02",
+   "data": "2026-10-26",
    "hora": "13:00",
    "capacidade": 2,
    "ocupadas": 0,
    "situacao": "aberto"
   },
   {
-   "horario_id": "P01-2026-11-16-1330",
-   "posto_id": "P01",
-   "data": "2026-11-16",
+   "horario_id": "P02-2026-10-26-1330",
+   "posto_id": "P02",
+   "data": "2026-10-26",
    "hora": "13:30",
    "capacidade": 2,
    "ocupadas": 0,
    "situacao": "aberto"
   },
   {
-   "horario_id": "P01-2026-11-16-1400",
-   "posto_id": "P01",
-   "data": "2026-11-16",
+   "horario_id": "P02-2026-10-26-1400",
+   "posto_id": "P02",
+   "data": "2026-10-26",
    "hora": "14:00",
    "capacidade": 2,
    "ocupadas": 0,
    "situacao": "aberto"
   },
   {
-   "horario_id": "P01-2026-11-16-1430",
-   "posto_id": "P01",
-   "data": "2026-11-16",
+   "horario_id": "P02-2026-10-26-1430",
+   "posto_id": "P02",
+   "data": "2026-10-26",
    "hora": "14:30",
    "capacidade": 2,
    "ocupadas": 0,
    "situacao": "aberto"
   },
   {
-   "horario_id": "P01-2026-11-16-1500",
-   "posto_id": "P01",
-   "data": "2026-11-16",
+   "horario_id": "P02-2026-10-26-1500",
+   "posto_id": "P02",
+   "data": "2026-10-26",
+   "hora": "15:00",
+   "capacidade": 2,
+   "ocupadas": 1,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-26-1530",
+   "posto_id": "P02",
+   "data": "2026-10-26",
+   "hora": "15:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-27-0800",
+   "posto_id": "P02",
+   "data": "2026-10-27",
+   "hora": "08:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-27-0830",
+   "posto_id": "P02",
+   "data": "2026-10-27",
+   "hora": "08:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-27-0900",
+   "posto_id": "P02",
+   "data": "2026-10-27",
+   "hora": "09:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-27-0930",
+   "posto_id": "P02",
+   "data": "2026-10-27",
+   "hora": "09:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-27-1000",
+   "posto_id": "P02",
+   "data": "2026-10-27",
+   "hora": "10:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-27-1030",
+   "posto_id": "P02",
+   "data": "2026-10-27",
+   "hora": "10:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-27-1100",
+   "posto_id": "P02",
+   "data": "2026-10-27",
+   "hora": "11:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-27-1130",
+   "posto_id": "P02",
+   "data": "2026-10-27",
+   "hora": "11:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-27-1200",
+   "posto_id": "P02",
+   "data": "2026-10-27",
+   "hora": "12:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-27-1230",
+   "posto_id": "P02",
+   "data": "2026-10-27",
+   "hora": "12:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-27-1300",
+   "posto_id": "P02",
+   "data": "2026-10-27",
+   "hora": "13:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-27-1330",
+   "posto_id": "P02",
+   "data": "2026-10-27",
+   "hora": "13:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-27-1400",
+   "posto_id": "P02",
+   "data": "2026-10-27",
+   "hora": "14:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-27-1430",
+   "posto_id": "P02",
+   "data": "2026-10-27",
+   "hora": "14:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-27-1500",
+   "posto_id": "P02",
+   "data": "2026-10-27",
    "hora": "15:00",
    "capacidade": 2,
    "ocupadas": 0,
    "situacao": "aberto"
   },
   {
-   "horario_id": "P01-2026-11-16-1530",
-   "posto_id": "P01",
-   "data": "2026-11-16",
+   "horario_id": "P02-2026-10-27-1530",
+   "posto_id": "P02",
+   "data": "2026-10-27",
+   "hora": "15:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-28-0800",
+   "posto_id": "P02",
+   "data": "2026-10-28",
+   "hora": "08:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-28-0830",
+   "posto_id": "P02",
+   "data": "2026-10-28",
+   "hora": "08:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-28-0900",
+   "posto_id": "P02",
+   "data": "2026-10-28",
+   "hora": "09:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-28-0930",
+   "posto_id": "P02",
+   "data": "2026-10-28",
+   "hora": "09:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-28-1000",
+   "posto_id": "P02",
+   "data": "2026-10-28",
+   "hora": "10:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-28-1030",
+   "posto_id": "P02",
+   "data": "2026-10-28",
+   "hora": "10:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-28-1100",
+   "posto_id": "P02",
+   "data": "2026-10-28",
+   "hora": "11:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-28-1130",
+   "posto_id": "P02",
+   "data": "2026-10-28",
+   "hora": "11:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-28-1200",
+   "posto_id": "P02",
+   "data": "2026-10-28",
+   "hora": "12:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-28-1230",
+   "posto_id": "P02",
+   "data": "2026-10-28",
+   "hora": "12:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-28-1300",
+   "posto_id": "P02",
+   "data": "2026-10-28",
+   "hora": "13:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-28-1330",
+   "posto_id": "P02",
+   "data": "2026-10-28",
+   "hora": "13:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-28-1400",
+   "posto_id": "P02",
+   "data": "2026-10-28",
+   "hora": "14:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-28-1430",
+   "posto_id": "P02",
+   "data": "2026-10-28",
+   "hora": "14:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-28-1500",
+   "posto_id": "P02",
+   "data": "2026-10-28",
+   "hora": "15:00",
+   "capacidade": 2,
+   "ocupadas": 1,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-28-1530",
+   "posto_id": "P02",
+   "data": "2026-10-28",
+   "hora": "15:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-29-0800",
+   "posto_id": "P02",
+   "data": "2026-10-29",
+   "hora": "08:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-29-0830",
+   "posto_id": "P02",
+   "data": "2026-10-29",
+   "hora": "08:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-29-0900",
+   "posto_id": "P02",
+   "data": "2026-10-29",
+   "hora": "09:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-29-0930",
+   "posto_id": "P02",
+   "data": "2026-10-29",
+   "hora": "09:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-29-1000",
+   "posto_id": "P02",
+   "data": "2026-10-29",
+   "hora": "10:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-29-1030",
+   "posto_id": "P02",
+   "data": "2026-10-29",
+   "hora": "10:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-29-1100",
+   "posto_id": "P02",
+   "data": "2026-10-29",
+   "hora": "11:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-29-1130",
+   "posto_id": "P02",
+   "data": "2026-10-29",
+   "hora": "11:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-29-1200",
+   "posto_id": "P02",
+   "data": "2026-10-29",
+   "hora": "12:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-29-1230",
+   "posto_id": "P02",
+   "data": "2026-10-29",
+   "hora": "12:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-29-1300",
+   "posto_id": "P02",
+   "data": "2026-10-29",
+   "hora": "13:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-29-1330",
+   "posto_id": "P02",
+   "data": "2026-10-29",
+   "hora": "13:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-29-1400",
+   "posto_id": "P02",
+   "data": "2026-10-29",
+   "hora": "14:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-29-1430",
+   "posto_id": "P02",
+   "data": "2026-10-29",
+   "hora": "14:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-29-1500",
+   "posto_id": "P02",
+   "data": "2026-10-29",
+   "hora": "15:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-29-1530",
+   "posto_id": "P02",
+   "data": "2026-10-29",
+   "hora": "15:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-30-0800",
+   "posto_id": "P02",
+   "data": "2026-10-30",
+   "hora": "08:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-30-0830",
+   "posto_id": "P02",
+   "data": "2026-10-30",
+   "hora": "08:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-30-0900",
+   "posto_id": "P02",
+   "data": "2026-10-30",
+   "hora": "09:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-30-0930",
+   "posto_id": "P02",
+   "data": "2026-10-30",
+   "hora": "09:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-30-1000",
+   "posto_id": "P02",
+   "data": "2026-10-30",
+   "hora": "10:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-30-1030",
+   "posto_id": "P02",
+   "data": "2026-10-30",
+   "hora": "10:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-30-1100",
+   "posto_id": "P02",
+   "data": "2026-10-30",
+   "hora": "11:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-30-1130",
+   "posto_id": "P02",
+   "data": "2026-10-30",
+   "hora": "11:30",
+   "capacidade": 2,
+   "ocupadas": 1,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-30-1200",
+   "posto_id": "P02",
+   "data": "2026-10-30",
+   "hora": "12:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-30-1230",
+   "posto_id": "P02",
+   "data": "2026-10-30",
+   "hora": "12:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-30-1300",
+   "posto_id": "P02",
+   "data": "2026-10-30",
+   "hora": "13:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-30-1330",
+   "posto_id": "P02",
+   "data": "2026-10-30",
+   "hora": "13:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-30-1400",
+   "posto_id": "P02",
+   "data": "2026-10-30",
+   "hora": "14:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-30-1430",
+   "posto_id": "P02",
+   "data": "2026-10-30",
+   "hora": "14:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-30-1500",
+   "posto_id": "P02",
+   "data": "2026-10-30",
+   "hora": "15:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-10-30-1530",
+   "posto_id": "P02",
+   "data": "2026-10-30",
+   "hora": "15:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-11-02-0800",
+   "posto_id": "P02",
+   "data": "2026-11-02",
+   "hora": "08:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-11-02-0830",
+   "posto_id": "P02",
+   "data": "2026-11-02",
+   "hora": "08:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-11-02-0900",
+   "posto_id": "P02",
+   "data": "2026-11-02",
+   "hora": "09:00",
+   "capacidade": 2,
+   "ocupadas": 1,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-11-02-0930",
+   "posto_id": "P02",
+   "data": "2026-11-02",
+   "hora": "09:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-11-02-1000",
+   "posto_id": "P02",
+   "data": "2026-11-02",
+   "hora": "10:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-11-02-1030",
+   "posto_id": "P02",
+   "data": "2026-11-02",
+   "hora": "10:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-11-02-1100",
+   "posto_id": "P02",
+   "data": "2026-11-02",
+   "hora": "11:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-11-02-1130",
+   "posto_id": "P02",
+   "data": "2026-11-02",
+   "hora": "11:30",
+   "capacidade": 2,
+   "ocupadas": 1,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-11-02-1200",
+   "posto_id": "P02",
+   "data": "2026-11-02",
+   "hora": "12:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-11-02-1230",
+   "posto_id": "P02",
+   "data": "2026-11-02",
+   "hora": "12:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-11-02-1300",
+   "posto_id": "P02",
+   "data": "2026-11-02",
+   "hora": "13:00",
+   "capacidade": 2,
+   "ocupadas": 1,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-11-02-1330",
+   "posto_id": "P02",
+   "data": "2026-11-02",
+   "hora": "13:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-11-02-1400",
+   "posto_id": "P02",
+   "data": "2026-11-02",
+   "hora": "14:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-11-02-1430",
+   "posto_id": "P02",
+   "data": "2026-11-02",
+   "hora": "14:30",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-11-02-1500",
+   "posto_id": "P02",
+   "data": "2026-11-02",
+   "hora": "15:00",
+   "capacidade": 2,
+   "ocupadas": 0,
+   "situacao": "aberto"
+  },
+  {
+   "horario_id": "P02-2026-11-02-1530",
+   "posto_id": "P02",
+   "data": "2026-11-02",
    "hora": "15:30",
    "capacidade": 2,
    "ocupadas": 0,
@@ -1493,7 +3077,7 @@
    "data": "2026-11-03",
    "hora": "09:30",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -1511,7 +3095,7 @@
    "data": "2026-11-03",
    "hora": "10:30",
    "capacidade": 2,
-   "ocupadas": 0,
+   "ocupadas": 1,
    "situacao": "aberto"
   },
   {
@@ -1610,7 +3194,7 @@
    "data": "2026-11-04",
    "hora": "08:00",
    "capacidade": 2,
-   "ocupadas": 0,
+   "ocupadas": 1,
    "situacao": "aberto"
   },
   {
@@ -1628,7 +3212,7 @@
    "data": "2026-11-04",
    "hora": "09:00",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -1664,7 +3248,7 @@
    "data": "2026-11-04",
    "hora": "11:00",
    "capacidade": 2,
-   "ocupadas": 0,
+   "ocupadas": 1,
    "situacao": "aberto"
   },
   {
@@ -1745,7 +3329,7 @@
    "data": "2026-11-04",
    "hora": "15:30",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -1835,7 +3419,7 @@
    "data": "2026-11-05",
    "hora": "12:30",
    "capacidade": 2,
-   "ocupadas": 0,
+   "ocupadas": 1,
    "situacao": "aberto"
   },
   {
@@ -1844,7 +3428,7 @@
    "data": "2026-11-05",
    "hora": "13:00",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -1880,7 +3464,7 @@
    "data": "2026-11-05",
    "hora": "15:00",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -1943,7 +3527,7 @@
    "data": "2026-11-06",
    "hora": "10:30",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -1970,7 +3554,7 @@
    "data": "2026-11-06",
    "hora": "12:00",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -2024,7 +3608,7 @@
    "data": "2026-11-06",
    "hora": "15:00",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -2141,7 +3725,7 @@
    "data": "2026-11-09",
    "hora": "13:30",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -2177,7 +3761,7 @@
    "data": "2026-11-09",
    "hora": "15:30",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -2393,7 +3977,7 @@
    "data": "2026-11-11",
    "hora": "11:30",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -2537,7 +4121,7 @@
    "data": "2026-11-12",
    "hora": "11:30",
    "capacidade": 2,
-   "ocupadas": 1,
+   "ocupadas": 0,
    "situacao": "aberto"
   },
   {
@@ -2755,174 +4339,30 @@
    "capacidade": 2,
    "ocupadas": 0,
    "situacao": "aberto"
-  },
-  {
-   "horario_id": "P02-2026-11-16-0800",
-   "posto_id": "P02",
-   "data": "2026-11-16",
-   "hora": "08:00",
-   "capacidade": 2,
-   "ocupadas": 0,
-   "situacao": "aberto"
-  },
-  {
-   "horario_id": "P02-2026-11-16-0830",
-   "posto_id": "P02",
-   "data": "2026-11-16",
-   "hora": "08:30",
-   "capacidade": 2,
-   "ocupadas": 0,
-   "situacao": "aberto"
-  },
-  {
-   "horario_id": "P02-2026-11-16-0900",
-   "posto_id": "P02",
-   "data": "2026-11-16",
-   "hora": "09:00",
-   "capacidade": 2,
-   "ocupadas": 0,
-   "situacao": "aberto"
-  },
-  {
-   "horario_id": "P02-2026-11-16-0930",
-   "posto_id": "P02",
-   "data": "2026-11-16",
-   "hora": "09:30",
-   "capacidade": 2,
-   "ocupadas": 0,
-   "situacao": "aberto"
-  },
-  {
-   "horario_id": "P02-2026-11-16-1000",
-   "posto_id": "P02",
-   "data": "2026-11-16",
-   "hora": "10:00",
-   "capacidade": 2,
-   "ocupadas": 0,
-   "situacao": "aberto"
-  },
-  {
-   "horario_id": "P02-2026-11-16-1030",
-   "posto_id": "P02",
-   "data": "2026-11-16",
-   "hora": "10:30",
-   "capacidade": 2,
-   "ocupadas": 0,
-   "situacao": "aberto"
-  },
-  {
-   "horario_id": "P02-2026-11-16-1100",
-   "posto_id": "P02",
-   "data": "2026-11-16",
-   "hora": "11:00",
-   "capacidade": 2,
-   "ocupadas": 0,
-   "situacao": "aberto"
-  },
-  {
-   "horario_id": "P02-2026-11-16-1130",
-   "posto_id": "P02",
-   "data": "2026-11-16",
-   "hora": "11:30",
-   "capacidade": 2,
-   "ocupadas": 0,
-   "situacao": "aberto"
-  },
-  {
-   "horario_id": "P02-2026-11-16-1200",
-   "posto_id": "P02",
-   "data": "2026-11-16",
-   "hora": "12:00",
-   "capacidade": 2,
-   "ocupadas": 0,
-   "situacao": "aberto"
-  },
-  {
-   "horario_id": "P02-2026-11-16-1230",
-   "posto_id": "P02",
-   "data": "2026-11-16",
-   "hora": "12:30",
-   "capacidade": 2,
-   "ocupadas": 0,
-   "situacao": "aberto"
-  },
-  {
-   "horario_id": "P02-2026-11-16-1300",
-   "posto_id": "P02",
-   "data": "2026-11-16",
-   "hora": "13:00",
-   "capacidade": 2,
-   "ocupadas": 0,
-   "situacao": "aberto"
-  },
-  {
-   "horario_id": "P02-2026-11-16-1330",
-   "posto_id": "P02",
-   "data": "2026-11-16",
-   "hora": "13:30",
-   "capacidade": 2,
-   "ocupadas": 0,
-   "situacao": "aberto"
-  },
-  {
-   "horario_id": "P02-2026-11-16-1400",
-   "posto_id": "P02",
-   "data": "2026-11-16",
-   "hora": "14:00",
-   "capacidade": 2,
-   "ocupadas": 0,
-   "situacao": "aberto"
-  },
-  {
-   "horario_id": "P02-2026-11-16-1430",
-   "posto_id": "P02",
-   "data": "2026-11-16",
-   "hora": "14:30",
-   "capacidade": 2,
-   "ocupadas": 0,
-   "situacao": "aberto"
-  },
-  {
-   "horario_id": "P02-2026-11-16-1500",
-   "posto_id": "P02",
-   "data": "2026-11-16",
-   "hora": "15:00",
-   "capacidade": 2,
-   "ocupadas": 0,
-   "situacao": "aberto"
-  },
-  {
-   "horario_id": "P02-2026-11-16-1530",
-   "posto_id": "P02",
-   "data": "2026-11-16",
-   "hora": "15:30",
-   "capacidade": 2,
-   "ocupadas": 0,
-   "situacao": "aberto"
   }
  ],
  "agendamentos": [
   {
    "protocolo": "CIN-100000",
-   "posto_id": "P02",
-   "horario_id": "P02-2026-11-12-0830",
-   "nome": "Katia Ramos",
-   "telefone": "(65) 99987-6717",
+   "posto_id": "P01",
+   "horario_id": "P01-2026-11-02-1430",
+   "nome": "Nilo Prado",
+   "telefone": "(65) 98206-4054",
    "email": "",
    "cpf_final4": "",
-   "status": "cancelado",
+   "status": "confirmado",
    "criado_em": "2026-10-27T09:00:00-04:00",
-   "cancelado_em": "2026-10-28T09:00:00-04:00",
+   "cancelado_em": "",
    "compareceu_em": ""
   },
   {
    "protocolo": "CIN-107919",
-   "posto_id": "P02",
-   "horario_id": "P02-2026-11-09-1330",
-   "nome": "Leo Vieira",
-   "telefone": "(65) 99402-8511",
-   "email": "leo@exemplo.com",
-   "cpf_final4": "6948",
+   "posto_id": "P01",
+   "horario_id": "P01-2026-11-02-1200",
+   "nome": "Elaine Paz",
+   "telefone": "(65) 98208-4504",
+   "email": "elaine@exemplo.com",
+   "cpf_final4": "7977",
    "status": "confirmado",
    "criado_em": "2026-10-27T12:00:00-04:00",
    "cancelado_em": "",
@@ -2930,26 +4370,26 @@
   },
   {
    "protocolo": "CIN-115838",
-   "posto_id": "P01",
-   "horario_id": "P01-2026-11-05-1400",
-   "nome": "Leo Vieira",
-   "telefone": "(65) 98535-3412",
-   "email": "leo@exemplo.com",
+   "posto_id": "P02",
+   "horario_id": "P02-2026-11-02-1130",
+   "nome": "Elaine Paz",
+   "telefone": "(65) 98855-3115",
+   "email": "elaine@exemplo.com",
    "cpf_final4": "",
-   "status": "compareceu",
+   "status": "confirmado",
    "criado_em": "2026-10-27T15:00:00-04:00",
    "cancelado_em": "",
-   "compareceu_em": "2026-11-05T14:00:00-04:00"
+   "compareceu_em": ""
   },
   {
    "protocolo": "CIN-123757",
    "posto_id": "P02",
-   "horario_id": "P02-2026-11-06-1200",
-   "nome": "Katia Ramos",
-   "telefone": "(65) 98473-9204",
+   "horario_id": "P02-2026-11-02-0900",
+   "nome": "Carla Dias",
+   "telefone": "(65) 99107-7949",
    "email": "",
-   "cpf_final4": "2196",
-   "status": "ausente",
+   "cpf_final4": "9866",
+   "status": "confirmado",
    "criado_em": "2026-10-27T18:00:00-04:00",
    "cancelado_em": "",
    "compareceu_em": ""
@@ -2957,64 +4397,64 @@
   {
    "protocolo": "CIN-131676",
    "posto_id": "P01",
-   "horario_id": "P01-2026-11-13-0900",
-   "nome": "Jonas Melo",
-   "telefone": "(65) 99874-2712",
-   "email": "jonas@exemplo.com",
+   "horario_id": "P01-2026-11-13-1030",
+   "nome": "Gisele Mota",
+   "telefone": "(65) 98864-1241",
+   "email": "gisele@exemplo.com",
    "cpf_final4": "",
-   "status": "confirmado",
+   "status": "cancelado",
    "criado_em": "2026-10-27T21:00:00-04:00",
-   "cancelado_em": "",
+   "cancelado_em": "2026-10-28T21:00:00-04:00",
    "compareceu_em": ""
   },
   {
    "protocolo": "CIN-139595",
-   "posto_id": "P01",
-   "horario_id": "P01-2026-11-12-1430",
-   "nome": "Katia Ramos",
-   "telefone": "(65) 98573-4201",
-   "email": "katia@exemplo.com",
-   "cpf_final4": "7204",
-   "status": "confirmado",
+   "posto_id": "P02",
+   "horario_id": "P02-2026-10-26-1300",
+   "nome": "Mara Nunes",
+   "telefone": "(65) 98082-9430",
+   "email": "mara@exemplo.com",
+   "cpf_final4": "9746",
+   "status": "cancelado",
    "criado_em": "2026-10-28T00:00:00-04:00",
-   "cancelado_em": "",
+   "cancelado_em": "2026-10-29T00:00:00-04:00",
    "compareceu_em": ""
   },
   {
    "protocolo": "CIN-147514",
    "posto_id": "P02",
-   "horario_id": "P02-2026-11-05-1300",
-   "nome": "Iara Costa",
-   "telefone": "(65) 99036-2998",
+   "horario_id": "P02-2026-11-02-1030",
+   "nome": "Nilo Prado",
+   "telefone": "(65) 99299-7917",
    "email": "",
    "cpf_final4": "",
-   "status": "confirmado",
+   "status": "cancelado",
    "criado_em": "2026-10-28T03:00:00-04:00",
-   "cancelado_em": "",
+   "cancelado_em": "2026-10-29T03:00:00-04:00",
    "compareceu_em": ""
   },
   {
    "protocolo": "CIN-155433",
    "posto_id": "P01",
-   "horario_id": "P01-2026-11-06-0930",
-   "nome": "Bruno Lima",
-   "telefone": "(65) 98438-8977",
-   "email": "bruno@exemplo.com",
-   "cpf_final4": "4781",
-   "status": "confirmado",
+   "horario_id": "P01-2026-11-13-1530",
+   "nome": "Carla Dias",
+   "telefone": "(65) 98896-8227",
+   "email": "carla@exemplo.com",
+   "cpf_final4": "5037",
+   "status": "cancelado",
    "criado_em": "2026-10-28T06:00:00-04:00",
-   "cancelado_em": "",
+   "cancelado_em": "2026-10-29T06:00:00-04:00",
    "compareceu_em": ""
   },
   {
    "protocolo": "CIN-163352",
    "posto_id": "P02",
-   "horario_id": "P02-2026-11-06-1030",
-   "nome": "Carla Dias",
-   "telefone": "(65) 99107-7949",
-   "email": "carla@exemplo.com",
+   "horario_id": "P02-2026-11-05-1230",
+   "nome": "Mara Nunes",
+   "telefone": "(65) 99301-7054",
+   "email": "mara@exemplo.com",
    "cpf_final4": "",
-   "status": "ausente",
+   "status": "confirmado",
    "criado_em": "2026-10-28T09:00:00-04:00",
    "cancelado_em": "",
    "compareceu_em": ""
@@ -3022,101 +4462,101 @@
   {
    "protocolo": "CIN-171271",
    "posto_id": "P02",
-   "horario_id": "P02-2026-11-16-1000",
-   "nome": "Jonas Melo",
-   "telefone": "(65) 98971-7595",
+   "horario_id": "P02-2026-11-04-1100",
+   "nome": "Felipe Reis",
+   "telefone": "(65) 98653-5250",
    "email": "",
-   "cpf_final4": "6915",
-   "status": "cancelado",
+   "cpf_final4": "7302",
+   "status": "confirmado",
    "criado_em": "2026-10-28T12:00:00-04:00",
-   "cancelado_em": "2026-10-29T12:00:00-04:00",
+   "cancelado_em": "",
    "compareceu_em": ""
   },
   {
    "protocolo": "CIN-179190",
-   "posto_id": "P01",
-   "horario_id": "P01-2026-11-03-1130",
-   "nome": "Otávio Luz",
-   "telefone": "(65) 99223-1661",
-   "email": "otavio@exemplo.com",
+   "posto_id": "P02",
+   "horario_id": "P02-2026-10-26-0830",
+   "nome": "Mara Nunes",
+   "telefone": "(65) 99200-8124",
+   "email": "mara@exemplo.com",
    "cpf_final4": "",
-   "status": "cancelado",
+   "status": "ausente",
    "criado_em": "2026-10-28T15:00:00-04:00",
-   "cancelado_em": "2026-10-29T15:00:00-04:00",
+   "cancelado_em": "",
    "compareceu_em": ""
   },
   {
    "protocolo": "CIN-187109",
-   "posto_id": "P02",
-   "horario_id": "P02-2026-11-11-1130",
-   "nome": "Otávio Luz",
-   "telefone": "(65) 99291-5696",
-   "email": "otavio@exemplo.com",
-   "cpf_final4": "6917",
-   "status": "compareceu",
+   "posto_id": "P01",
+   "horario_id": "P01-2026-11-05-1130",
+   "nome": "Iara Costa",
+   "telefone": "(65) 98604-3778",
+   "email": "iara@exemplo.com",
+   "cpf_final4": "0169",
+   "status": "cancelado",
    "criado_em": "2026-10-28T18:00:00-04:00",
-   "cancelado_em": "",
-   "compareceu_em": "2026-11-11T11:30:00-04:00"
+   "cancelado_em": "2026-10-29T18:00:00-04:00",
+   "compareceu_em": ""
   },
   {
    "protocolo": "CIN-195028",
    "posto_id": "P02",
-   "horario_id": "P02-2026-11-09-1530",
-   "nome": "Hugo Pires",
-   "telefone": "(65) 98903-6037",
+   "horario_id": "P02-2026-11-03-1400",
+   "nome": "Davi Rocha",
+   "telefone": "(65) 99741-8979",
    "email": "",
    "cpf_final4": "",
-   "status": "confirmado",
+   "status": "cancelado",
    "criado_em": "2026-10-28T21:00:00-04:00",
-   "cancelado_em": "",
+   "cancelado_em": "2026-10-29T21:00:00-04:00",
    "compareceu_em": ""
   },
   {
    "protocolo": "CIN-202947",
    "posto_id": "P01",
-   "horario_id": "P01-2026-11-10-1100",
-   "nome": "Otávio Luz",
-   "telefone": "(65) 98756-9802",
-   "email": "otavio@exemplo.com",
-   "cpf_final4": "1518",
-   "status": "compareceu",
+   "horario_id": "P01-2026-11-05-1130",
+   "nome": "Felipe Reis",
+   "telefone": "(65) 98308-5417",
+   "email": "felipe@exemplo.com",
+   "cpf_final4": "8308",
+   "status": "cancelado",
    "criado_em": "2026-10-29T00:00:00-04:00",
-   "cancelado_em": "",
-   "compareceu_em": "2026-11-10T11:00:00-04:00"
+   "cancelado_em": "2026-10-30T00:00:00-04:00",
+   "compareceu_em": ""
   },
   {
    "protocolo": "CIN-210866",
    "posto_id": "P02",
-   "horario_id": "P02-2026-11-04-1530",
-   "nome": "Elaine Paz",
-   "telefone": "(65) 98912-8733",
-   "email": "elaine@exemplo.com",
+   "horario_id": "P02-2026-10-26-1100",
+   "nome": "Iara Costa",
+   "telefone": "(65) 99642-7661",
+   "email": "iara@exemplo.com",
    "cpf_final4": "",
-   "status": "ausente",
+   "status": "compareceu",
    "criado_em": "2026-10-29T03:00:00-04:00",
    "cancelado_em": "",
-   "compareceu_em": ""
+   "compareceu_em": "2026-10-26T11:00:00-04:00"
   },
   {
    "protocolo": "CIN-218785",
    "posto_id": "P02",
-   "horario_id": "P02-2026-11-06-1500",
-   "nome": "Gisele Mota",
-   "telefone": "(65) 98543-8287",
+   "horario_id": "P02-2026-10-28-1500",
+   "nome": "Nilo Prado",
+   "telefone": "(65) 98271-4957",
    "email": "",
-   "cpf_final4": "8320",
-   "status": "compareceu",
+   "cpf_final4": "8072",
+   "status": "cancelado",
    "criado_em": "2026-10-29T06:00:00-04:00",
-   "cancelado_em": "",
-   "compareceu_em": "2026-11-06T15:00:00-04:00"
+   "cancelado_em": "2026-10-30T06:00:00-04:00",
+   "compareceu_em": ""
   },
   {
    "protocolo": "CIN-226704",
    "posto_id": "P01",
-   "horario_id": "P01-2026-11-16-1130",
-   "nome": "Katia Ramos",
-   "telefone": "(65) 99995-8065",
-   "email": "katia@exemplo.com",
+   "horario_id": "P01-2026-11-09-1130",
+   "nome": "Jonas Melo",
+   "telefone": "(65) 98772-6737",
+   "email": "jonas@exemplo.com",
    "cpf_final4": "",
    "status": "confirmado",
    "criado_em": "2026-10-29T09:00:00-04:00",
@@ -3125,128 +4565,128 @@
   },
   {
    "protocolo": "CIN-234623",
-   "posto_id": "P01",
-   "horario_id": "P01-2026-11-12-0830",
-   "nome": "Hugo Pires",
-   "telefone": "(65) 98542-6576",
-   "email": "hugo@exemplo.com",
-   "cpf_final4": "5519",
-   "status": "compareceu",
+   "posto_id": "P02",
+   "horario_id": "P02-2026-11-03-1030",
+   "nome": "Mara Nunes",
+   "telefone": "(65) 99858-3996",
+   "email": "mara@exemplo.com",
+   "cpf_final4": "1688",
+   "status": "confirmado",
    "criado_em": "2026-10-29T12:00:00-04:00",
    "cancelado_em": "",
-   "compareceu_em": "2026-11-12T08:30:00-04:00"
+   "compareceu_em": ""
   },
   {
    "protocolo": "CIN-242542",
    "posto_id": "P01",
-   "horario_id": "P01-2026-11-09-1430",
-   "nome": "Iara Costa",
-   "telefone": "(65) 99977-8879",
+   "horario_id": "P01-2026-10-26-1100",
+   "nome": "Davi Rocha",
+   "telefone": "(65) 99776-2100",
    "email": "",
    "cpf_final4": "",
-   "status": "confirmado",
+   "status": "compareceu",
    "criado_em": "2026-10-29T15:00:00-04:00",
    "cancelado_em": "",
-   "compareceu_em": ""
+   "compareceu_em": "2026-10-26T11:00:00-04:00"
   },
   {
    "protocolo": "CIN-250461",
    "posto_id": "P01",
-   "horario_id": "P01-2026-11-12-1200",
-   "nome": "Mara Nunes",
-   "telefone": "(65) 99530-7661",
-   "email": "mara@exemplo.com",
-   "cpf_final4": "9181",
-   "status": "cancelado",
+   "horario_id": "P01-2026-10-28-1400",
+   "nome": "Otávio Luz",
+   "telefone": "(65) 99101-8105",
+   "email": "otavio@exemplo.com",
+   "cpf_final4": "7429",
+   "status": "ausente",
    "criado_em": "2026-10-29T18:00:00-04:00",
-   "cancelado_em": "2026-10-30T18:00:00-04:00",
+   "cancelado_em": "",
    "compareceu_em": ""
   },
   {
    "protocolo": "CIN-258380",
-   "posto_id": "P01",
-   "horario_id": "P01-2026-11-09-0930",
-   "nome": "Davi Rocha",
-   "telefone": "(65) 99009-6358",
-   "email": "davi@exemplo.com",
+   "posto_id": "P02",
+   "horario_id": "P02-2026-11-04-0800",
+   "nome": "Otávio Luz",
+   "telefone": "(65) 99458-5786",
+   "email": "otavio@exemplo.com",
    "cpf_final4": "",
-   "status": "compareceu",
+   "status": "confirmado",
    "criado_em": "2026-10-29T21:00:00-04:00",
    "cancelado_em": "",
-   "compareceu_em": "2026-11-09T09:30:00-04:00"
+   "compareceu_em": ""
   },
   {
    "protocolo": "CIN-266299",
    "posto_id": "P01",
-   "horario_id": "P01-2026-11-04-0930",
-   "nome": "Otávio Luz",
-   "telefone": "(65) 98717-2091",
+   "horario_id": "P01-2026-11-03-0800",
+   "nome": "Gisele Mota",
+   "telefone": "(65) 98581-5709",
    "email": "",
-   "cpf_final4": "2996",
-   "status": "compareceu",
+   "cpf_final4": "1971",
+   "status": "confirmado",
    "criado_em": "2026-10-30T00:00:00-04:00",
    "cancelado_em": "",
-   "compareceu_em": "2026-11-04T09:30:00-04:00"
+   "compareceu_em": ""
   },
   {
    "protocolo": "CIN-274218",
-   "posto_id": "P01",
-   "horario_id": "P01-2026-11-06-1000",
-   "nome": "Davi Rocha",
-   "telefone": "(65) 98401-2100",
-   "email": "davi@exemplo.com",
+   "posto_id": "P02",
+   "horario_id": "P02-2026-10-30-1130",
+   "nome": "Ana Souza",
+   "telefone": "(65) 99372-1104",
+   "email": "ana@exemplo.com",
    "cpf_final4": "",
-   "status": "confirmado",
+   "status": "ausente",
    "criado_em": "2026-10-30T03:00:00-04:00",
    "cancelado_em": "",
    "compareceu_em": ""
   },
   {
    "protocolo": "CIN-282137",
-   "posto_id": "P01",
-   "horario_id": "P01-2026-11-05-1400",
+   "posto_id": "P02",
+   "horario_id": "P02-2026-10-26-1500",
    "nome": "Otávio Luz",
-   "telefone": "(65) 99101-8105",
+   "telefone": "(65) 99112-5013",
    "email": "otavio@exemplo.com",
-   "cpf_final4": "7429",
-   "status": "ausente",
+   "cpf_final4": "9537",
+   "status": "compareceu",
    "criado_em": "2026-10-30T06:00:00-04:00",
    "cancelado_em": "",
-   "compareceu_em": ""
+   "compareceu_em": "2026-10-26T15:00:00-04:00"
   },
   {
    "protocolo": "CIN-290056",
-   "posto_id": "P01",
-   "horario_id": "P01-2026-11-05-0830",
-   "nome": "Elaine Paz",
-   "telefone": "(65) 98387-3316",
+   "posto_id": "P02",
+   "horario_id": "P02-2026-10-28-1500",
+   "nome": "Bruno Lima",
+   "telefone": "(65) 99900-6214",
    "email": "",
    "cpf_final4": "",
-   "status": "ausente",
+   "status": "compareceu",
    "criado_em": "2026-10-30T09:00:00-04:00",
    "cancelado_em": "",
-   "compareceu_em": ""
+   "compareceu_em": "2026-10-28T15:00:00-04:00"
   },
   {
    "protocolo": "CIN-297975",
    "posto_id": "P02",
-   "horario_id": "P02-2026-11-05-1500",
-   "nome": "Nilo Prado",
-   "telefone": "(65) 98588-2971",
-   "email": "nilo@exemplo.com",
-   "cpf_final4": "9969",
-   "status": "confirmado",
+   "horario_id": "P02-2026-11-06-1430",
+   "nome": "Davi Rocha",
+   "telefone": "(65) 99823-2397",
+   "email": "davi@exemplo.com",
+   "cpf_final4": "4421",
+   "status": "cancelado",
    "criado_em": "2026-10-30T12:00:00-04:00",
-   "cancelado_em": "",
+   "cancelado_em": "2026-10-31T12:00:00-04:00",
    "compareceu_em": ""
   },
   {
    "protocolo": "CIN-305894",
-   "posto_id": "P02",
-   "horario_id": "P02-2026-11-04-0900",
-   "nome": "Ana Souza",
-   "telefone": "(65) 99019-4624",
-   "email": "ana@exemplo.com",
+   "posto_id": "P01",
+   "horario_id": "P01-2026-11-13-1400",
+   "nome": "Davi Rocha",
+   "telefone": "(65) 98014-8241",
+   "email": "davi@exemplo.com",
    "cpf_final4": "",
    "status": "confirmado",
    "criado_em": "2026-10-30T15:00:00-04:00",
@@ -3255,39 +4695,39 @@
   },
   {
    "protocolo": "CIN-313813",
-   "posto_id": "P02",
-   "horario_id": "P02-2026-11-12-1130",
-   "nome": "Katia Ramos",
-   "telefone": "(65) 99285-1627",
+   "posto_id": "P01",
+   "horario_id": "P01-2026-11-04-1230",
+   "nome": "Hugo Pires",
+   "telefone": "(65) 99546-2890",
    "email": "",
-   "cpf_final4": "1212",
-   "status": "compareceu",
+   "cpf_final4": "5964",
+   "status": "confirmado",
    "criado_em": "2026-10-30T18:00:00-04:00",
    "cancelado_em": "",
-   "compareceu_em": "2026-11-12T11:30:00-04:00"
+   "compareceu_em": ""
   },
   {
    "protocolo": "CIN-321732",
    "posto_id": "P02",
-   "horario_id": "P02-2026-11-03-0930",
-   "nome": "Nilo Prado",
-   "telefone": "(65) 99468-6104",
-   "email": "nilo@exemplo.com",
+   "horario_id": "P02-2026-10-30-1530",
+   "nome": "Iara Costa",
+   "telefone": "(65) 98428-2703",
+   "email": "iara@exemplo.com",
    "cpf_final4": "",
-   "status": "compareceu",
+   "status": "cancelado",
    "criado_em": "2026-10-30T21:00:00-04:00",
-   "cancelado_em": "",
-   "compareceu_em": "2026-11-03T09:30:00-04:00"
+   "cancelado_em": "2026-10-31T21:00:00-04:00",
+   "compareceu_em": ""
   },
   {
    "protocolo": "CIN-329651",
-   "posto_id": "P01",
-   "horario_id": "P01-2026-11-13-0800",
-   "nome": "Nilo Prado",
-   "telefone": "(65) 99428-5421",
-   "email": "nilo@exemplo.com",
-   "cpf_final4": "7575",
-   "status": "ausente",
+   "posto_id": "P02",
+   "horario_id": "P02-2026-11-02-1300",
+   "nome": "Ana Souza",
+   "telefone": "(65) 99807-7937",
+   "email": "ana@exemplo.com",
+   "cpf_final4": "7515",
+   "status": "confirmado",
    "criado_em": "2026-10-31T00:00:00-04:00",
    "cancelado_em": "",
    "compareceu_em": ""

@@ -32,7 +32,7 @@ function carregar(email) {
     SpreadsheetApp: { getActive: () => pl, openById: () => pl },
     PropertiesService: { getScriptProperties: () => ({ getProperty: () => null }) },
     Session: { getActiveUser: () => ({ getEmail: () => email }), getScriptTimeZone: () => "America/Cuiaba" },
-    Utilities: { formatDate: (d, tz, f) => f === "yyyy-MM-dd" ? "2026-10-29" : "", getUuid: () => Math.random().toString(36).slice(2) },
+    Utilities: { formatDate: (d, tz, f) => f === "yyyy-MM-dd" ? new Date(d).toISOString().slice(0, 10) : "", getUuid: () => Math.random().toString(36).slice(2) },
     LockService: { getScriptLock: () => ({ waitLock: () => {}, releaseLock: () => {} }) },
     HtmlService: {}
   };
@@ -44,16 +44,21 @@ function carregar(email) {
 const resultados = [];
 const ok = (nome, cond) => resultados.push([nome, !!cond]);
 const falha = (fn) => { try { fn(); return null; } catch (e) { return e.message; } };
-const grade = { de: "2026-11-16", ate: "2026-11-27", dias: [1, 2, 3, 4, 5], inicio: "08:00", fim: "16:00", intervalo: 30, vagas: 2 };
+// a grade do teste parte do último dia da planilha modelo e cobre 10 dias úteis,
+// para não depender da data de hoje nem de datas fixas no arquivo
+const somarDias = (iso, n) => new Date(Date.parse(iso + "T12:00:00Z") + n * 86400000).toISOString().slice(0, 10);
+const datasSeed = [...new Set(seed.horarios.map(h => h.data))].sort();
+const diaBase = datasSeed[datasSeed.length - 1];
+const grade = { de: diaBase, ate: somarDias(diaBase, 13), dias: [1, 2, 3, 4, 5], inicio: "08:00", fim: "16:00", intervalo: 30, vagas: 2 };
 
 // servidor do posto P01
 let { ctx, pl } = carregar("servidor.centro@politec.mt.gov.br");
 ok("quemSou reconhece o posto P01", ctx.quemSou().posto_id === "P01");
 const r1 = ctx.gerarHorarios("P01", grade);
-ok("2 semanas úteis = 160 horários (a planilha modelo já tem os de 16/11)", r1.criados + r1.existentes === 160 && r1.existentes === 16);
+ok("10 dias úteis = 160 horários (a planilha modelo já tem os do primeiro dia)", r1.criados + r1.existentes === 160 && r1.existentes === 16);
 ok("gerar de novo não duplica", ctx.gerarHorarios("P01", grade).criados === 0);
-ok("bloquear o dia 16/11 afeta 16 horários", ctx.bloquear("P01", { data: "2026-11-16" }, true) === 16);
-ok("dia bloqueado sai da lista pública", ctx.listarHorarios("P01").filter(h => h.data === "2026-11-16").length === 0);
+ok("bloquear o primeiro dia da grade afeta 16 horários", ctx.bloquear("P01", { data: grade.de }, true) === 16);
+ok("dia bloqueado sai da lista pública", ctx.listarHorarios("P01").filter(h => h.data === grade.de).length === 0);
 ok("RN05: P01 não mexe em P02", /RN05/.test(falha(() => ctx.gerarHorarios("P02", grade))));
 ok("posto não cadastra posto", /gestão/.test(falha(() => ctx.salvarPosto({ posto_id: "P09", nome: "x", municipio: "y" }))));
 ok("cada ação vai para o log", pl.abas.log.length > 1);
@@ -70,10 +75,11 @@ ok("posto inativo sai da lista pública (RN01)", ctx.listarPostos().length === 2
 ok("cidadão vê os postos ativos", ctx.listarPostos().length === 2);
 ok("cidadão não gera horários", /RN05/.test(falha(() => ctx.gerarHorarios("P01", grade))));
 
-// Sprint 3: cidadão agenda (hoje simulado = 2026-10-29)
+// Sprint 3: cidadão agenda dentro da janela de 1 a 30 dias
 ({ ctx, pl } = carregar(""));
+const hoje = new Date().toISOString().slice(0, 10);
 const vagas = ctx.listarVagas("P01");
-ok("vagas só dentro de 1 a 30 dias e com lugar", vagas.length > 0 && vagas.every(h => h.data >= "2026-10-30" && h.data <= "2026-11-28" && h.ocupadas < h.capacidade));
+ok("vagas só dentro de 1 a 30 dias e com lugar", vagas.length > 0 && vagas.every(h => h.data >= somarDias(hoje, 1) && h.data <= somarDias(hoje, 30) && h.ocupadas < h.capacidade));
 const r = ctx.reservar({ horario_id: vagas[0].horario_id, nome: "Ana Teste", telefone: "(65) 99999-0000", cpf: "52998224725" });
 ok("reserva gera protocolo CIN-XXXXXX", /^CIN-[A-Z2-9]{6}$/.test(r.protocolo));
 ok("a reserva aparece na aba agendamentos, com só 4 dígitos do CPF", pl.abas.agendamentos.some(l => l.includes(r.protocolo) && l.includes("4725") && !l.includes("52998224725")));
