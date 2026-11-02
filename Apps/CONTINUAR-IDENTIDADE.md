@@ -207,6 +207,7 @@ feito em cada um está resumido aqui e no `README.md` e no `sprint.md` do app.
 | adiantamento | (este commit) | Casca lateral, sólido, mono, compacta, cantos retos, planas, KPI em número. Tela `#/processos` com régua de prazos e prazo em destaque no topo da ficha. |
 | metas-bi-ocr | (este commit) | Casca de topo, claro, sistema, ampla, cantos suaves, cartões, KPI em anel. Ano em 12 meses com situação e passos 1-2-3. |
 | inscricoes-cursos | (este commit) | Casca de topo, degradê, arredondada, ampla, redondos, cartões, KPI em faixa. Cartões de curso com esteira e tela central do curso. |
+| mapa-distribuicao-credor | (este commit) | Casca de ferramenta, compacto, mono, compacta, cantos retos, planas, KPI em número. Esteira das 8 etapas e grade em planilha. |
 
 ---
 
@@ -298,7 +299,7 @@ Checklist resumido por app (detalhes nas Partes B e D do plano):
 | adiantamento | lateral · solido · mono · compacta · retos · planas · numero | Régua de prazos por processo | tela `#/processos`; prazo da prestação de contas no topo da ficha |
 | metas-bi-ocr | topo · claro · sistema · ampla · suaves · cartoes · anel | Ano em 12 meses com a situação de cada mês | assistente em 3 passos; histórico em tabela; "Usar arquivo de exemplo" |
 | inscricoes-cursos | topo · degrade · arredondada · ampla · redondos · cartoes · faixa | Cartões de curso com a esteira Divulgar → Turma | curso como centro com barra de passos; "＋ Novo curso" |
-| mapa-distribuicao-credor | ferramenta · compacto · mono · compacta · retos · planas · numero | Esteira das 8 etapas + grade em formato planilha | barra de etapas em todas as telas `/:proc`; importação em tabela de 3 linhas |
+| ~~mapa-distribuicao-credor~~ ✅ | ferramenta · compacto · mono · compacta · retos · planas · numero | Esteira das 8 etapas + grade em formato planilha | barra de etapas em todas as telas `/:proc`; importação em tabela de 3 linhas |
 | equipamentos-google-earth | ferramenta · compacto · sistema · compacta · suaves · planas · numero | Mapa de MT em SVG (os 142 municípios de `dados-base/mt-municipios.json` têm `lat`, `lon` e o polígono `p`) | tela inicial = Equipamentos até o mapa existir; lista paginada; contexto de unidade |
 | agiliza-mais | ferramenta · compacto · condensada · compacta · suaves · planas · faixa | Bancada do caso (passos à esquerda, trabalho à direita) | menu com 4 itens; barra de passos dentro do caso; seed com 1 caso |
 

@@ -73,3 +73,12 @@ mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
+
+## Identidade e usabilidade (02/11/2026)
+
+A identidade é de ferramenta de planilha: cabeçalho compacto, fonte
+monoespaçada, densidade compacta e cantos retos. A tela-assinatura é a **esteira
+das 8 etapas** (Importar, Mapa, Resultado, Empresas, Conferência, Orçamentária,
+Exportar e Auditoria), fixa no topo de todas as telas do processo, com a etapa
+atual marcada. A tela do mapa usa a **grade em formato planilha**, com cabeçalho
+fixo, subtotais e total. Código em `src/identidade.js` e `src/app.css`.

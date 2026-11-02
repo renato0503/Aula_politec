@@ -432,9 +432,25 @@ tr.subtotal td{background:color-mix(in srgb, var(--accent) 8%, transparent)}
 tr.total td{background:color-mix(in srgb, var(--accent) 16%, transparent)}
 [data-origem]:hover{outline:1px dashed var(--accent)}
 
+.mapa-passos{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin:0 0 16px;padding:6px;background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio);position:sticky;top:64px;z-index:5}
+.mapa-passos a{display:inline-flex;align-items:center;gap:5px;padding:6px 9px;font-size:12px;color:var(--ink2);text-decoration:none;border-radius:calc(var(--raio) - 4px);white-space:nowrap}
+.mapa-passos a:hover{background:var(--accent-suave);color:var(--accent)}
+.mapa-passos a.atual{background:var(--accent);color:#fff}
+.mapa-passos a.atual .n{background:#fff;color:var(--accent)}
+.mapa-passos .n{display:grid;place-items:center;width:17px;height:17px;border-radius:3px;background:var(--painel-2);border:1px solid var(--linha);font-size:10px;font-weight:700}
+.mapa-passos .mapa-voltar{margin-right:4px;font-weight:700;color:var(--accent);border-right:1px solid var(--linha);border-radius:0;padding-right:10px}
+@media (max-width:900px){ .mapa-passos{position:static;flex-wrap:nowrap;overflow-x:auto} }
+
+/* grade em formato planilha */
+#tabelaMapa{border-collapse:collapse;font-variant-numeric:tabular-nums}
+#tabelaMapa th{position:sticky;top:0;background:var(--painel-2);border-bottom:2px solid var(--linha);white-space:nowrap}
+#tabelaMapa td,#tabelaMapa th{border-right:1px solid var(--linha);padding:5px 8px}
+#tabelaMapa td.num,#tabelaMapa th.num{text-align:right;font-family:var(--mono)}
+#tabelaMapa tr:nth-child(even) td{background:color-mix(in srgb, var(--painel-2) 55%, transparent)}
+
 </style>
 </head>
-<body data-layout="lateral" data-estilo="institucional" data-cabecalho="degrade" data-fonte="sistema" data-densidade="normal" data-cantos="suaves" data-superficie="cartoes" data-kpi="barra">
+<body data-layout="ferramenta" data-estilo="institucional" data-cabecalho="compacto" data-fonte="mono" data-densidade="compacta" data-cantos="retos" data-superficie="planas" data-kpi="numero">
 <div class="faixa-gov"><div class="in">
   <span class="bandeira" aria-hidden="true"><i style="background:#1e63ae"></i><i style="background:#0b7a3e"></i><i style="background:#e8b931"></i></span>
   <span><b>Governo de Mato Grosso</b></span><span class="sep">|</span>
@@ -1341,10 +1357,17 @@ const APP = {
   "visual": {
     "acento": "#047857",
     "icone": "tabela",
-    "layout": "lateral",
+    "layout": "ferramenta",
     "padrao": "grade",
     "estilo": "institucional",
-    "setor": "Licitações · Distribuição orçamentária"
+    "setor": "Licitações · Distribuição orçamentária",
+    "casca": "ferramenta",
+    "cabecalho": "compacto",
+    "fonte": "mono",
+    "densidade": "compacta",
+    "cantos": "retos",
+    "superficie": "planas",
+    "kpi": "numero"
   }
 };
 
@@ -1687,6 +1710,29 @@ TELAS_DEPOIS["#/mapa/:proc"] = ()=>{
   const mostrar = el=>{ const box = $("#origemValor"); box.hidden = false; box.innerHTML = `<b>Origem:</b> ${esc(el.dataset.origem)}`; };
   $$("[data-origem]").forEach(el=>{ el.style.cursor = "pointer"; el.addEventListener("click", ()=>mostrar(el)); el.addEventListener("keydown", e=>{ if (e.key === "Enter") mostrar(el); }); });
 };
+
+/* Identidade do Mapa de Distribuição.
+   Entra por último no build. A tela-assinatura é a esteira das 8 etapas, fixa
+   em todas as telas do processo, e a grade em formato planilha. */
+
+const MAPA_ETAPAS = [["importar", "Importar"], ["mapa", "Mapa"], ["resultado", "Resultado"], ["empresas", "Empresas"],
+  ["conferencia", "Conferência"], ["orcamento", "Orçamentária"], ["exportar", "Exportar"], ["auditoria", "Auditoria"]];
+function mapaEtapas(proc, atual){
+  return `<nav class="mapa-passos" aria-label="Etapas do processo">
+    <a class="mapa-voltar" href="#/processos">← Processos</a>
+    ${MAPA_ETAPAS.map(([id, nome], i)=>`<a href="#/${id}/${encodeURIComponent(proc)}" class="${id === atual ? "atual" : ""}">
+      <span class="n">${i + 1}</span>${nome}</a>`).join("")}</nav>`;
+}
+
+for (const [id, nome] of MAPA_ETAPAS){
+  const rota = "#/" + id + "/:proc";
+  const antes = TELAS[rota];
+  if (typeof antes !== "function") continue;
+  TELAS[rota] = async (p)=>{
+    const html = await antes(p);
+    return mapaEtapas(p.proc, id) + html;
+  };
+}
 
 
 iniciar();

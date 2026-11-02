@@ -1,3 +1,19 @@
 tr.subtotal td{background:color-mix(in srgb, var(--accent) 8%, transparent)}
 tr.total td{background:color-mix(in srgb, var(--accent) 16%, transparent)}
 [data-origem]:hover{outline:1px dashed var(--accent)}
+
+.mapa-passos{display:flex;flex-wrap:wrap;align-items:center;gap:4px;margin:0 0 16px;padding:6px;background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio);position:sticky;top:64px;z-index:5}
+.mapa-passos a{display:inline-flex;align-items:center;gap:5px;padding:6px 9px;font-size:12px;color:var(--ink2);text-decoration:none;border-radius:calc(var(--raio) - 4px);white-space:nowrap}
+.mapa-passos a:hover{background:var(--accent-suave);color:var(--accent)}
+.mapa-passos a.atual{background:var(--accent);color:#fff}
+.mapa-passos a.atual .n{background:#fff;color:var(--accent)}
+.mapa-passos .n{display:grid;place-items:center;width:17px;height:17px;border-radius:3px;background:var(--painel-2);border:1px solid var(--linha);font-size:10px;font-weight:700}
+.mapa-passos .mapa-voltar{margin-right:4px;font-weight:700;color:var(--accent);border-right:1px solid var(--linha);border-radius:0;padding-right:10px}
+@media (max-width:900px){ .mapa-passos{position:static;flex-wrap:nowrap;overflow-x:auto} }
+
+/* grade em formato planilha */
+#tabelaMapa{border-collapse:collapse;font-variant-numeric:tabular-nums}
+#tabelaMapa th{position:sticky;top:0;background:var(--painel-2);border-bottom:2px solid var(--linha);white-space:nowrap}
+#tabelaMapa td,#tabelaMapa th{border-right:1px solid var(--linha);padding:5px 8px}
+#tabelaMapa td.num,#tabelaMapa th.num{text-align:right;font-family:var(--mono)}
+#tabelaMapa tr:nth-child(even) td{background:color-mix(in srgb, var(--painel-2) 55%, transparent)}

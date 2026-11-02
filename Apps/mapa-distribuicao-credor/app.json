@@ -8,7 +8,14 @@
     "layout": "lateral",
     "padrao": "grade",
     "estilo": "institucional",
-    "setor": "Licitações · Distribuição orçamentária"
+    "setor": "Licitações · Distribuição orçamentária",
+    "casca": "ferramenta",
+    "cabecalho": "compacto",
+    "fonte": "mono",
+    "densidade": "compacta",
+    "cantos": "retos",
+    "superficie": "planas",
+    "kpi": "numero"
   },
   "db": {
     "nome": "mapa_distribuicao_v1",

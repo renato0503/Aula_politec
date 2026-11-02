@@ -30,6 +30,7 @@ O `mapa-manual-referencia.xlsx` é calculado por um script independente (Decimal
 | 6 | Distribuição orçamentária | 8 | Tabela por credor e órgão com ano seguinte |
 | 7 | Exportação e auditoria | | `.xlsx` de 8 abas, relatório de divergências, trilha |
 | 8 | Aceite e piloto | todas | Diferença zero contra o gabarito e piloto com processo encerrado |
+| Identidade e usabilidade | Feito em 02/11/2026. Casca de ferramenta, cabeçalho compacto, fonte monoespaçada, densidade compacta, cantos retos, superfícies planas e KPI em número; esteira das 8 etapas fixa em todas as telas do processo e grade em formato planilha na tela do mapa. `python testes/testar.py` e `python testes/cenarios.py` passam. |
 
 **MVP 100% pronto = Sprints 0 a 8.**
 
