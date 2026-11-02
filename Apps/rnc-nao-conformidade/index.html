@@ -428,10 +428,30 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 /* ===== VISUAL DESTE APP (bloco "visual" do app.json) ===== */
 :root{--app-acento:#b42318;--app-acento-claro:#c4534b;--app-acento-forte:#821911;--app-acento-escuro:#db9590;--padrao:url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="22" height="22"%3E%3Cpath d="M-2 24 24-2M9 24l15-15M-2 13 13-2" stroke="%23fff" stroke-opacity=".07" stroke-width="1.2"/%3E%3C/svg%3E')}
 /* ===== CSS DO APP ===== */
+/* Identidade das Não Conformidades: quadro por etapa do ciclo. */
+
+.rnc-quadro-card{border-top:4px solid var(--accent)}
+.rnc-quadro-topo{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.rnc-quadro-topo h2{margin:2px 0 4px}
+.rnc-quadro-topo .conta{background:var(--accent-suave);border-radius:999px;padding:1px 8px;font-size:12px}
+.rnc-quadro{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:start;margin-top:12px}
+.rnc-col{background:var(--painel-2);border:1px solid var(--linha);border-radius:var(--raio);padding:10px;min-height:120px}
+.rnc-col h3{margin:0;font-size:14px;display:flex;justify-content:space-between;gap:6px}
+.rnc-col h3 .conta{background:var(--painel);border:1px solid var(--linha);border-radius:999px;padding:0 7px;font-size:11px}
+.rnc-prazo{margin:2px 0 8px;font-size:11.5px}
+.rnc-col-lista{display:flex;flex-direction:column;gap:8px}
+.rnc-card{display:flex;flex-direction:column;gap:4px;padding:11px 12px;border:1px solid var(--linha);border-left:4px solid var(--accent);border-radius:calc(var(--raio) - 4px);background:var(--painel);color:var(--ink);text-decoration:none}
+.rnc-card:hover{border-color:var(--accent);background:var(--accent-suave)}
+.rnc-card.atrasada{border-left-color:var(--vermelho)}
+.rnc-card-topo{display:flex;justify-content:space-between;align-items:center;gap:6px}
+.rnc-card-desc{display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;font-weight:600;line-height:1.3}
+.rnc-card .sub{font-size:11.5px}
+@media (max-width:1100px){ .rnc-quadro{grid-template-columns:repeat(2,minmax(0,1fr))} }
+@media (max-width:640px){ .rnc-quadro{grid-template-columns:1fr} }
 
 </style>
 </head>
-<body data-layout="lateral" data-estilo="institucional" data-cabecalho="degrade" data-fonte="sistema" data-densidade="normal" data-cantos="suaves" data-superficie="cartoes" data-kpi="barra">
+<body data-layout="lateral" data-estilo="institucional" data-cabecalho="solido" data-fonte="sistema" data-densidade="normal" data-cantos="suaves" data-superficie="cartoes" data-kpi="faixa">
 <div class="faixa-gov"><div class="in">
   <span class="bandeira" aria-hidden="true"><i style="background:#1e63ae"></i><i style="background:#0b7a3e"></i><i style="background:#e8b931"></i></span>
   <span><b>Governo de Mato Grosso</b></span><span class="sep">|</span>
@@ -1271,7 +1291,7 @@ const APP = {
     },
     {
       "rota": "#/exportar",
-      "titulo": "Arquivo do setor",
+      "titulo": "Enviar ao setor",
       "sprint": 4,
       "descricao": "RNCs de cada setor.",
       "perfis": [
@@ -1291,7 +1311,14 @@ const APP = {
     "layout": "lateral",
     "padrao": "linhas",
     "estilo": "institucional",
-    "setor": "CQUAL · Qualidade"
+    "setor": "CQUAL · Qualidade",
+    "casca": "lateral",
+    "cabecalho": "solido",
+    "fonte": "sistema",
+    "densidade": "normal",
+    "cantos": "suaves",
+    "superficie": "cartoes",
+    "kpi": "faixa"
   },
   "perfis": [
     {
@@ -1302,7 +1329,13 @@ const APP = {
     {
       "id": "setor",
       "nome": "Setor",
-      "descricao": "Vê as RNCs em que é relator ou notificado."
+      "descricao": "Vê as RNCs em que é relator ou notificado.",
+      "contexto": {
+        "rotulo": "Setor",
+        "store": "setores",
+        "valor": "sigla",
+        "texto": "sigla"
+      }
     }
   ]
 };
@@ -1690,6 +1723,66 @@ TELAS["#/painel"] = async ()=>{
       ${recorrencia.length ? `<ul>${recorrencia.map(x=>`<li><b>${esc(x.cat)}</b>: ${x.n} ocorrências, em ${x.setores.map(esc).join(", ")}</li>`).join("")}</ul>`
         : '<p class="sub">Nenhuma categoria recorrente no mesmo setor.</p>'}</div>`;
 };
+
+/* Identidade das Não Conformidades.
+   Entra por último no build. A tela-assinatura é o quadro por etapa do ciclo,
+   com o setor como contexto do perfil. */
+
+const RNC_COLUNAS = [["validação", "Validação", "5 dias"], ["plano", "Plano de ação", "30 dias"],
+  ["avaliação", "Avaliação", "15 dias"], ["encerramento", "Encerramento", "—"]];
+function rncEtapaAtual(r, etapas){
+  const e = etapas.filter(x=>x.rnc === r.numero).sort((a, b)=>(a.inicio + a.id).localeCompare(b.inicio + b.id)).filter(x=>!x.fim).pop();
+  return e ? e.etapa : r.etapa;
+}
+async function rncQuadro(){
+  const [rs, es, setores] = await Promise.all([db.list("rncs"), db.list("etapas"), db.list("setores")]);
+  const nomeSetor = Object.fromEntries(setores.map(s=>[s.sigla, s.nome || s.sigla]));
+  const hoje = hojeISO();
+  const por = Object.fromEntries(RNC_COLUNAS.map(([id])=>[id, []]));
+  rs.filter(r=>!["anulada", "encerrada", "encaminhada à corregedoria"].includes(r.situacao)).forEach(r=>{
+    const et = rncEtapaAtual(r, es);
+    (por[et] || por["validação"]).push(r);
+  });
+  const card = r=>{
+    const e = es.filter(x=>x.rnc === r.numero && !x.fim).pop();
+    const atrasada = e && e.prazo && e.prazo < hoje;
+    return `<a class="rnc-card ${atrasada ? "atrasada" : ""}" href="#/rnc/${encodeURIComponent(r.numero)}">
+      <span class="rnc-card-topo"><b class="mono">${esc(r.numero)}</b>${atrasada ? '<span class="selo erro">vencida</span>' : ""}</span>
+      <span class="rnc-card-desc" title="${esc(r.descricao || "")}">${esc(r.descricao || "Sem descrição")}</span>
+      <span class="sub">${esc(nomeSetor[r.setor_notificado] || r.setor_notificado || "")}</span>
+      <span class="sub">${esc(r.categoria || "")}${e?.prazo ? " · prazo " + dataCurtaBR(e.prazo) : ""}</span></a>`;
+  };
+  return `<div class="card rnc-quadro-card"><div class="rnc-quadro-topo"><div><span class="sub">Ciclo da RNC</span>
+      <h2>Quadro por etapa <span class="conta">${rs.length}</span></h2></div>
+      <p class="sub" style="margin:0">Cada coluna é uma etapa; o cartão vermelho está com o prazo vencido.</p></div>
+    <div class="rnc-quadro">${RNC_COLUNAS.map(([id, titulo, prazo])=>`<section class="rnc-col">
+      <h3>${titulo} <span class="conta">${por[id].length}</span></h3>
+      <p class="sub rnc-prazo">${prazo === "—" ? "sem prazo próprio" : "prazo de " + prazo}</p>
+      <div class="rnc-col-lista">${por[id].map(card).join("") || '<p class="sub">Nenhuma RNC.</p>'}</div></section>`).join("")}</div></div>`;
+}
+
+const rncPainelAntes = TELAS["#/painel"];
+TELAS["#/painel"] = async ()=>{
+  const html = await rncPainelAntes();
+  const quadro = await rncQuadro();
+  const doc = new DOMParser().parseFromString(`<div id="rncRaiz">${html}</div>`, "text/html");
+  const raiz = doc.getElementById("rncRaiz");
+  if (!raiz) return html;
+  const bloco = doc.createElement("div"); bloco.innerHTML = quadro;
+  const h1 = raiz.querySelector("h1");
+  if (h1 && h1.nextElementSibling) h1.nextElementSibling.after(bloco.firstElementChild);
+  else raiz.insertBefore(bloco.firstElementChild, raiz.firstChild);
+  return raiz.innerHTML;
+};
+
+/* o setor escolhido no menu do perfil vira o setor da tela “Minhas RNCs” */
+const rncMinhasAntes = TELAS["#/minhas"];
+if (typeof rncMinhasAntes === "function"){
+  TELAS["#/minhas"] = async (p)=>{
+    if (estado.contexto) await db.meta("meu_setor", estado.contexto);
+    return rncMinhasAntes(p);
+  };
+}
 
 
 iniciar();

@@ -91,3 +91,12 @@ mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
+
+## Identidade e usabilidade (02/11/2026)
+
+A identidade é de qualidade: cabeçalho sólido, cantos suaves e KPI em faixa. A
+tela-assinatura é o **quadro por etapa do ciclo** (Validação, Plano de ação,
+Avaliação e Encerramento), com o prazo de cada cartão e a marca vermelha para a
+etapa vencida. O perfil Setor ganhou o **setor como contexto** no menu do perfil,
+que já abre “Minhas RNCs” no setor escolhido. O item “Arquivo do setor” passou a
+“Enviar ao setor”. Código em `src/identidade.js` e `src/app.css`.

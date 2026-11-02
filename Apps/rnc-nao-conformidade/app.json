@@ -8,7 +8,14 @@
     "layout": "lateral",
     "padrao": "linhas",
     "estilo": "institucional",
-    "setor": "CQUAL · Qualidade"
+    "setor": "CQUAL · Qualidade",
+    "casca": "lateral",
+    "cabecalho": "solido",
+    "fonte": "sistema",
+    "densidade": "normal",
+    "cantos": "suaves",
+    "superficie": "cartoes",
+    "kpi": "faixa"
   },
   "db": {
     "nome": "rnc_v1",
@@ -78,7 +85,13 @@
     {
       "id": "setor",
       "nome": "Setor",
-      "descricao": "Vê as RNCs em que é relator ou notificado."
+      "descricao": "Vê as RNCs em que é relator ou notificado.",
+      "contexto": {
+        "rotulo": "Setor",
+        "store": "setores",
+        "valor": "sigla",
+        "texto": "sigla"
+      }
     }
   ],
   "rotas": [
@@ -114,7 +127,7 @@
     },
     {
       "rota": "#/exportar",
-      "titulo": "Arquivo do setor",
+      "titulo": "Enviar ao setor",
       "sprint": 4,
       "descricao": "RNCs de cada setor.",
       "perfis": [

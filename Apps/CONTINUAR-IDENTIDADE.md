@@ -202,6 +202,7 @@ feito em cada um está resumido aqui e no `README.md` e no `sprint.md` do app.
 | distribuicao-casos-dna | (este commit) | Casca de topo, degradê, sistema, redondos, cartões, KPI em anel. Placa de 96 poços, “Meus casos” do perito e rodada em abas. |
 | comissao-etica-denuncias | (este commit) | Casca lateral, sólido, serifa, ampla, cantos retos, papel, KPI em faixa. Funil de 7 etapas, dossiê “Reservado” com barra de etapas e seed distribuído. |
 | passivo-ambiental | (este commit) | Casca de topo, degradê, sistema, cantos suaves, cartões, KPI em faixa. Fila de laudos com prazo e miniatura, painel do perito separado, laudo em abas e seed relativo a hoje. |
+| rnc-nao-conformidade | (este commit) | Casca lateral, sólido, sistema, cantos suaves, cartões, KPI em faixa. Quadro por etapa do ciclo e setor como contexto do perfil. |
 
 ---
 
@@ -288,7 +289,7 @@ Checklist resumido por app (detalhes nas Partes B e D do plano):
 | ~~distribuicao-casos-dna~~ ✅ | topo · degrade · sistema · normal · redondos · cartoes · anel | Placa de 96 poços com a cor do perito | "Meus casos" do perito; rodada em abas |
 | ~~comissao-etica-denuncias~~ ✅ | lateral · solido · serifa · ampla · retos · papel · faixa | Funil do processo ético + dossiê "Reservado" | barra de etapas e abas no caso; seed em todas as etapas |
 | ~~passivo-ambiental~~ ✅ | topo · degrade · sistema · normal · suaves · cartoes · faixa | Fila de laudos com prazo e miniatura do mapa | laudo em abas; painel do perito separado do gestor; seed com datas de hoje |
-| rnc-nao-conformidade | lateral · solido · sistema · normal · suaves · cartoes · faixa | Quadro por etapa do ciclo | setor como contexto do perfil |
+| ~~rnc-nao-conformidade~~ ✅ | lateral · solido · sistema · normal · suaves · cartoes · faixa | Quadro por etapa do ciclo | setor como contexto do perfil |
 | tap-portfolio-projetos | topo · degrade · serifa · ampla · redondos · cartoes · anel | Matriz do portfólio (valor × prioridade) | `inicio` por perfil (Equipe → Triagem, Autoridade → Portfólio) |
 | adiantamento | lateral · solido · mono · compacta · retos · planas · numero | Régua de prazos por processo | tela `#/processos`; prazo da prestação de contas no topo da ficha |
 | metas-bi-ocr | topo · claro · sistema · ampla · suaves · cartoes · anel | Ano em 12 meses com a situação de cada mês | assistente em 3 passos; histórico em tabela; "Usar arquivo de exemplo" |

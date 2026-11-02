@@ -27,6 +27,7 @@ A planilha `respostas-forms-ficticio.csv` tem colunas **supostas**; trocar pelo 
 | 4 | Cópia do setor | Arquivo por setor, plano e avaliação de volta |
 | 5 | Painel | Setores, categorias, recorrência, vencidas |
 | 6 | Aceite e piloto | 30 dias no Laboratório Forense |
+| Identidade e usabilidade | Feito em 02/11/2026. Casca lateral, cabeçalho sólido, fonte do sistema, cantos suaves, cartões e KPI em faixa; quadro por etapa do ciclo com cartões e prazo vencido em vermelho, setor como contexto do perfil e o antigo “Arquivo do setor” renomeado para “Enviar ao setor”. `python testes/testar.py` e `python testes/cenarios.py` passam. |
 
 **MVP 100% pronto = Sprints 0 a 6.**
 
