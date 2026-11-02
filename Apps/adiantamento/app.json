@@ -8,7 +8,14 @@
     "layout": "lateral",
     "padrao": "linhas",
     "estilo": "institucional",
-    "setor": "DAS · Suprimento de fundos"
+    "setor": "DAS · Suprimento de fundos",
+    "casca": "lateral",
+    "cabecalho": "solido",
+    "fonte": "mono",
+    "densidade": "compacta",
+    "cantos": "retos",
+    "superficie": "planas",
+    "kpi": "numero"
   },
   "db": {
     "nome": "adiantamento_v1",
@@ -74,6 +81,12 @@
       "titulo": "Painel",
       "sprint": 6,
       "descricao": "Processos por situação, prazos e tempo por etapa."
+    },
+    {
+      "rota": "#/processos",
+      "titulo": "Processos",
+      "sprint": 4,
+      "descricao": "Lista de processos com a régua de prazos."
     },
     {
       "rota": "#/pedido/novo",

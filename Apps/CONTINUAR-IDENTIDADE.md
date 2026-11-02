@@ -204,6 +204,7 @@ feito em cada um está resumido aqui e no `README.md` e no `sprint.md` do app.
 | passivo-ambiental | (este commit) | Casca de topo, degradê, sistema, cantos suaves, cartões, KPI em faixa. Fila de laudos com prazo e miniatura, painel do perito separado, laudo em abas e seed relativo a hoje. |
 | rnc-nao-conformidade | (este commit) | Casca lateral, sólido, sistema, cantos suaves, cartões, KPI em faixa. Quadro por etapa do ciclo e setor como contexto do perfil. |
 | tap-portfolio-projetos | (este commit) | Casca de topo, degradê, serifa, ampla, redondos, cartões, KPI em anel. Matriz valor × prioridade e início por perfil (Equipe → Triagem; Autoridade → Portfólio). |
+| adiantamento | (este commit) | Casca lateral, sólido, mono, compacta, cantos retos, planas, KPI em número. Tela `#/processos` com régua de prazos e prazo em destaque no topo da ficha. |
 
 ---
 

@@ -90,3 +90,13 @@ mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
+
+## Identidade e usabilidade (02/11/2026)
+
+A identidade é de controle: cabeçalho sólido, números em fonte monoespaçada,
+densidade compacta, cantos retos e superfícies planas. A tela-assinatura é a
+**régua de prazos por processo**: cada linha mostra a posição entre a abertura e
+o limite, o tipo de contagem e os dias restantes, com busca e filtro de vencidos
+e de quem vence em 7 dias. A ficha abre com o **prazo em destaque** no topo,
+acima do número do SICAD e da linha do tempo. Código em `src/identidade.js` e
+`src/app.css`.

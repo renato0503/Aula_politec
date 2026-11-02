@@ -29,6 +29,7 @@ Feriados: só os nacionais de 2026 e 2027; os de MT e do município entram pela 
 | 5 | Pendências e prestação de contas | Devoluções com prazo e notas fiscais (RN05, RN06) |
 | 6 | Painel e relatório | Vencidos, a vencer, tempo por etapa, CSV |
 | 7 | Aceite e piloto | Roteiro cumprido e 4 semanas de registro |
+| Identidade e usabilidade | Feito em 02/11/2026. Casca lateral, cabeçalho sólido, fonte monoespaçada nos números, densidade compacta, cantos retos, superfícies planas e KPI em número; tela de Processos com a régua de prazos (busca e filtros de vencidos e de 7 dias) e prazo em destaque no topo da ficha. `python testes/testar.py` e `python testes/cenarios.py` passam. |
 
 **MVP 100% pronto = Sprints 0 a 7.**
 
