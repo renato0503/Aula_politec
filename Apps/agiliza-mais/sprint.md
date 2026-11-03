@@ -14,6 +14,8 @@
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py agiliza-mais` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py agiliza-mais` passa (cenário do "Pronto quando"). |
 | 3 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py agiliza-mais` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). Os testes dos extratores ficaram na tela `#/testes` do próprio app (padrão dos apps), e não num `testes/testes.html` separado; o cenário confere a extração dos 3 casos contra o `GABARITO.json`. |
+| 4 a 11 | Versão mínima feita em 03/11/2026 (`src/sprint4.js`). Geração do Word com o modelo embutido (docxtemplater e PizZip em `vendor/`, modelo em `modelos/modelo-laudo-celular.json`), conferência campo a campo com a origem e o registro das correções (RN04), textos padronizados e biblioteca com versão (RN08), quesitos colados e numerados (RN09) com resposta obrigatória (RN10), conferência automática com bloqueios e alertas (RN11), rascunho com pendências, revisão final que conclui o caso (RN14), histórico com tempo e correções, CSV e limpeza dos dados do caso (LGPD). Cenário `s4_a_s11_laudo_completo` passa (10/10). **Simplificações**: a requisição em PDF (S6) e o OCR (S10) viraram digitação na conferência, o que o formulário autoriza; os itens finos de cada sprint continuam abertos abaixo. |
+| 12 | Aceite e piloto: dependem do grupo. |
 
 Modelo `.docx` **fictício** com os marcadores pronto e testado no navegador (`modelos/`); falta pôr os marcadores no modelo institucional. Formatos dos TXT e HTML **supostos** (`exemplos/FORMATOS.md`). `textos.json` fictício.
 

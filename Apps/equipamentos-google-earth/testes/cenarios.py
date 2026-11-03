@@ -251,6 +251,26 @@ def s9_importar(pg, url, ok):
     ok("o equipamento novo foi gravado", pg.evaluate("async ()=> !!(await db.porIndice('equipamentos','patrimonio','PAT-NOVO-1'))"))
 
 
+# origem: sprint.md · Sprints 5, 7, 9 e 10 (parâmetros, gráficos, KPI no mapa, LGPD)
+@cenario
+def s10_config_e_graficos(pg, url, ok):
+    perfil(pg, url, "coordenadoria")
+    semear(pg, url)
+    ir(pg, url, "#/config", 1000)
+    ok("os parâmetros de custo aparecem", pg.locator("#par_valor_referencia_atendimento").count() == 1)
+    ok("o texto de privacidade aparece", "Privacidade" in pg.inner_text("main"))
+    pg.fill("#par_valor_referencia_atendimento", "200,00")
+    pg.click("#formParametros button[type=submit]"); pg.wait_for_timeout(900)
+    v = pg.evaluate("async ()=> (await db.get('parametros','valor_referencia_atendimento'))")
+    ok("o parâmetro foi gravado com a data", v and abs(v["valor"] - 200) < 0.01 and bool(v.get("alterado_em")))
+    ir(pg, url, "#/painel", 1500)
+    ok("o painel tem os gráficos em SVG", pg.locator("svg.eq-grafico").count() == 2)
+    ok("o KPI mostra a fórmula", "Fórmula" in (pg.get_attribute("#kpiPontos", "title") or ""))
+    pg.click("#kpiSemContrato"); pg.wait_for_timeout(1500)
+    ok("clicar no KPI abre o mapa filtrado", "#/mapa" in pg.url and pg.is_checked("#mfSemContrato"))
+    ok("RN09: o padrão de CPF é detectado", pg.evaluate("()=> temCPF('529.982.247-25')"))
+
+
 def main():
     erro = False
     with sync_playwright() as p:

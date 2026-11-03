@@ -8,17 +8,18 @@
 > **Atualização de 02/11/2026:** cada app passou a ser autônomo (`nucleo/`, `construir.py` e `testes/` próprios, sem base comum) e vai ganhar identidade própria. O que foi feito, o que falta e o prompt de continuação estão em `Apps/CONTINUAR-IDENTIDADE.md`. O diagnóstico e o plano de cada app estão em `Apps/PLANO-USABILIDADE.md`.
 
 
-Atualizado em **03/11/2026** (histórico; ver `CONTINUAR-IDENTIDADE.md` para o estado atual).
+Atualizado em **03/11/2026, fim do dia** (histórico; ver `CONTINUAR-IDENTIDADE.md` para o estado atual).
 
 **Estado geral: a maior parte dos 21 apps com o MVP completo** (Sprints 1 a 6 ou 7, com
-roteiro de aceite em `modelos/`). Faltam as sprints dos 4 apps maiores:
+roteiro de aceite em `modelos/`). **Em 03/11/2026, fim do dia, os 21 apps estão minimamente funcionais de ponta a ponta**; o que sobra depende de pessoas (Sprint 0, aceite, piloto), de serviço externo (Apps Script do agendamento) ou é refinamento. Em 03/11/2026 os quatro apps maiores avançaram
+(commits `fb0005b`, `0b67e02`, `ca57d14` e `0556119`). Situação ao fim do dia:
 
-| App | Falta |
-|---|---|
-| `mapa-distribuicao-credor` | S4 a S8 (resultado do pregoeiro, empresas, orçamento, exportação, auditoria) |
-| `inscricoes-cursos` | S4 a S9 (importação, conferência SEAP, triagem, convocação, turma, publicação) |
-| `equipamentos-google-earth` | S4 a S11 (contratos, paradas, mapa offline, KPIs, Google Earth, importação, LGPD) |
-| `agiliza-mais` | S4 a S13 (Word, conferência, PDF, textos, quesitos, revisão, OCR, métricas, aceite) |
+| App | Feito | Falta |
+|---|---|---|
+| `mapa-distribuicao-credor` | S1 a S7 | Testes contra o gabarito (S4, S5, S6, que depende do `mapa-manual-referencia.xlsx` do Sprint 0) e S8 (aceite, GitHub Pages, piloto, LEIA-ME) |
+| `inscricoes-cursos` | S1 a S8 | Teste no Outlook e no celular (S3), acessibilidade do formulário (S8) e S9 (publicação, aceite, piloto) |
+| `equipamentos-google-earth` | S1 a S10 em versão mínima (`src/sprint6.js`), mais a tela do município com os distritos | Tela de conflitos campo a campo, foto no balão do KML, Lighthouse e S11 (aceite e piloto) |
+| `agiliza-mais` | S1 a S11 em versão mínima (`src/sprint4.js`): conferência, textos, quesitos, Word, revisão, histórico | Leitura da requisição em PDF (S6) e OCR (S10), hoje digitados; itens finos de cada sprint; S12 (aceite) e S13 (opcional) |
 
 O que depende de serviço externo (Apps Script, `LockService`, `MailApp`, gatilho,
 banco, biblioteca de QR) está marcado como **a implementar** no `sprint.md`, com o
@@ -168,15 +169,8 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Agiliza + (`agiliza-mais`)
 
 - **Visual**: acento `#4338ca`, emblema `raio`, layout `lateral`, padrão `grade`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2, 3.
-- **Próximo**: Sprint 4 · Geração do Word (RN12, RN13)
-  - [ ] Embutir PizZip e docxtemplater.
-  - [ ] Carregar o modelo em `#/config` e guardar como Blob no store `modelos`.
-  - [ ] Listar os marcadores encontrados no modelo e acusar os que não têm dado.
-  - [ ] Gerar o `.docx` com os dados do Sprint 3, com laço de SIMs e o bloco "sem SIM".
-  - [ ] Gravar em `LAUDO_GERADO/laudo_<protocolo>_v<N>.docx`. Pedir permissão de escrita só nessa subpasta e nunca sobrescrever (incrementa `v<N>`).
-  - [ ] Sem permissão de escrita: oferecer o download do arquivo.
-  - [ ] Registrar em `laudos` (versão, data, nome).
+- **Sprints concluídos**: 1 a 3; 4 a 11 em versão mínima em 03/11/2026 (`src/sprint4.js`). O fluxo completo funciona: pasta, extração, conferência com correção registrada (RN04), textos (RN08), quesitos (RN09, RN10), conferência automática (RN11), `.docx` gerado pelo modelo embutido (RN12), revisão que conclui o caso (RN14), histórico com CSV e limpeza do caso (LGPD). Cenário `s4_a_s11_laudo_completo` passa (10/10).
+- **Falta**: ler a requisição em PDF com o pdf.js (já em `vendor/`, mas não embutido) e o OCR, que hoje são digitação na conferência; o caso de exemplo sem pasta não tem dados para extrair; os itens finos de cada sprint no `sprint.md`; S12 (aceite e piloto) e S13 (opcional).
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Conferir com o perito o formato real dos TXT e HTML (amostra anonimizada) e anotar os rótulos exatos em `exemplos/FORMATOS.md`.
@@ -253,13 +247,18 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Mapa de Equipamentos (`equipamentos-google-earth`)
 
 - **Visual**: acento `#2f7d32`, emblema `globo`, layout `topo`, padrão `topografico`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2, 3.
-- **Próximo**: Sprint 4 · Contratos e manutenções
-  - [ ] `#/contratos`: cadastro com fornecedor, vigência, valor mensal, SLA e seleção dos equipamentos cobertos.
-  - [ ] Cálculo de contrato vigente (RN05) e alerta de 60 dias para o vencimento.
-  - [ ] Registro de manutenção (preventiva ou corretiva) na ficha, com custo, fornecedor e **comprovante** anexado (PDF ou imagem, até 2 MB).
-  - [ ] Histórico em linha do tempo na ficha.
-  - [ ] MTTR por equipamento (RN06).
+- **Sprints concluídos**: 1 a 9 (S4 a S9 em 03/11/2026, commit `ca57d14`). Detalhe por sprint em `equipamentos-google-earth/sprint.md`.
+- **Feito em 03/11/2026, commit `0556119`**:
+  - Clicar no município no mapa abre `#/municipio/<código IBGE>`, com os distritos do município, as unidades do app ali, a busca de equipamento por distrito e o botão "Abrir no Google Maps".
+  - Os distritos vêm do IBGE: `dados-base/mt-distritos.json` (258 distritos em 141 dos 142 municípios; Boa Esperança do Norte não tem registro). O arquivo é gerado por `dados-base/gerar_distritos.py`, que baixa `api/v1/localidades/distritos` uma vez e filtra MT. O app não chama a API em tempo de execução.
+  - **Atenção: o IBGE publica distritos, não bairros.** Cuiabá tem 7 distritos (Cuiabá, Coxipó da Ponte, Guia...), e não os bairros da cidade. Bairro de verdade vem de lei municipal e não tem base estadual aberta. O app chama o campo de "Bairro (distrito)".
+  - A ficha do equipamento ganhou o campo `bairro`, com sugestões dos distritos e entrada no CSV. O seed foi regerado com um distrito sorteado do município da unidade. A malha `mt-municipios.json` ficou igual.
+  - O mapa ganhou zoom pelos botões, arrasto, filtros (sem contrato, parados, ponto único, diretoria, tipo), pinos coloridos por risco, painel lateral no pino e a tabela de municípios com a coluna de distritos.
+  - `#/exportar` ganhou o GeoJSON (QGIS, ArcGIS, Google Earth Engine). A ficha do equipamento ganhou o link para o Google Maps.
+  - Testes: `python testes/testar.py` passa, e o cenário `s6_mapa_e_municipio` passa em `testes/cenarios.py`.
+- **Pergunta em aberto: Google Maps ou Google Earth "de verdade"**. O usuário perguntou se algum projeto de `github.com/topics/google-earth-engine` resolveria. Resposta: o Google Earth Engine analisa imagem de satélite, e não é mapa de cadastro, por isso não serve de base do app. Hoje o app chega ao mapa real por três caminhos sem chave de API: o `.kmz` (Google Earth Pro e Web), o GeoJSON (QGIS, ArcGIS, GEE, geojson.io) e o link para o Google Maps. **Para decidir amanhã**: colocar um mapa de fundo real (ruas e satélite) dentro do app. A opção indicada é Leaflet em `vendor/` com tiles do OpenStreetMap, mas isso exige internet e quebra a regra "offline first, zero requisição de rede" que o `testar.py` cobra. Por isso, se for feito, fica como camada opcional, ligada só com internet. A alternativa é a Google Maps JavaScript API, que pede chave e cobrança.
+- **Feito no fim do dia (`src/sprint6.js`)**: parâmetros de custo editáveis com data da alteração, unidade dona da cópia, `.json` com ou sem fotos, gráficos de barras e de linha em SVG no painel, fórmula no hover dos KPIs, KPI que abre o mapa filtrado, aviso de CPF antes de salvar (RN09) e texto de privacidade. Cenário `s10_config_e_graficos` passa (7/7).
+- **Falta**: tela de conflitos campo a campo na mesclagem (hoje a escolha é por unidade inteira), foto no balão do KML, conferência no Lighthouse, teste manual no Google Earth Pro e Web, e o Sprint 11 (aceite, LEIA-ME e piloto).
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Ler o `contexto.md` com a coordenadora e marcar cada **[validar]** como aceito, alterado ou recusado.
@@ -297,9 +296,11 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Inscrições em Cursos (`inscricoes-cursos`)
 
 - **Visual**: acento `#0369a1`, emblema `capelo`, layout `topo`, padrão `ondas`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2, 3.
-- **Próximo**: Sprint 3 · Formulário de inscrição (parcial: 6 item(ns) já feito(s))
-  - [ ] Testar no Outlook desktop, no Outlook Web e no celular.
+- **Sprints concluídos**: 1 a 8 (S4 a S8 em 03/11/2026, commit `0b67e02`). Detalhe em `inscricoes-cursos/sprint.md`.
+- **Falta**:
+  - S3: testar o formulário no Outlook desktop, no Outlook Web e no celular (manual).
+  - S8: acessibilidade do formulário de inscrição (rótulos, teclado, contraste).
+  - S9: publicar no GitHub Pages, roteiro de aceite com a gerência e uma diretoria, piloto com uma turma reduzida.
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Ler o `contexto.md` com a aluna e decidir cada **[validar]**.
@@ -312,13 +313,13 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Mapa de Distribuição (`mapa-distribuicao-credor`)
 
 - **Visual**: acento `#047857`, emblema `tabela`, layout `lateral`, padrão `grade`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2, 3.
-- **Próximo**: Sprint 4 · Resultado do pregoeiro (etapas 3, 4 e 5)
-  - [ ] Aplicar a situação de cada grupo (RN02): homologado, fracassado, deserto, com a observação padrão.
-  - [ ] Substituir o estimado pelo homologado (RN03), pela regra decidida no Sprint 0 (por item, ou desconto do grupo aplicado aos itens).
-  - [ ] Grupos fracassados e desertos mantêm as colunas e recebem a observação.
-  - [ ] `#/resultado/:proc`: resultado geral e por órgão, estimado x homologado e economia.
-  - [ ] Teste contra o gabarito.
+- **Sprints concluídos**: 1 a 7 (S4 a S7 em 03/11/2026, commit `fb0005b`). Detalhe em `mapa-distribuicao-credor/sprint.md`.
+- **Falta**:
+  - S4: a regra de substituição do estimado pelo homologado (RN03) segue a premissa, porque a decisão "por item ou por desconto do grupo" é do Sprint 0. Falta o teste contra o gabarito.
+  - S5: teste de que todas as divergências de `DIVERGENCIAS.md` são apontadas.
+  - S6: teste contra o gabarito, com um caso de dotação insuficiente.
+  - Os três testes dependem do `mapa-manual-referencia.xlsx` (Sprint 0, feito à mão pela equipe).
+  - S8: teste de aceite do aluno, publicação no GitHub Pages, piloto com um processo encerrado, LEIA-ME e atualização do `PROJETO.md` e do `README.md`.
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Anexar o `WorkFlow.docx` (exemplos 1 a 8) à pasta e conferir as colunas de cada exemplo com o `contexto.md`.

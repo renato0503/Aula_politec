@@ -19,6 +19,7 @@
 | 6 | Feito em 03/11/2026: mapa com zoom (roda e botões), arrasto, filtros por contrato, parada, ponto único, diretoria e tipo, pinos coloridos por risco, painel lateral no pino e tabela equivalente. Cenário `s6_mapa_e_municipio` passa. |
 | 7 | Feito em 03/11/2026: painel com os 7 indicadores, período selecionável, ranking por custo de parada e a lista de pontos únicos de falha sem contrato. Cenário `s7_painel` passa. |
 | 8 | Feito em 03/11/2026: KML com pastas por diretoria e unidade, `.kmz` com JSZip, opção de exportar só os sem contrato, JSON da base e CSV. Cenário `s8_exportar` passa. |
+| 10 | Parcial em 03/11/2026 (`src/sprint6.js`): parâmetros de custo com data da alteração, unidade dona da cópia, `.json` com ou sem fotos, gráficos de barras e de linha em SVG, fórmula no hover dos KPIs, KPI que abre o mapa filtrado, aviso de CPF antes de salvar (RN09) e texto de privacidade. Cenário `s10_config_e_graficos` passa. Faltam a tela de conflitos campo a campo, a foto no balão do KML, a conferência no Lighthouse e o Sprint 11 (aceite e piloto, que dependem de pessoas). |
 | 9 | Feito em 03/11/2026: importação da planilha em CSV com relatório de aceitas e recusadas, e mesclagem do `.json` de uma unidade com escolha de versão (RN10). Cenário `s9_importar` passa. |
 
 Malha do IBGE: 141 polígonos para 142 municípios (Boa Esperança do Norte, criado em 2023, ainda sem polígono). Coordenada da unidade = centroide do município.
@@ -30,6 +31,18 @@ A divisão por bairros veio do IBGE (`dados-base/mt-distritos.json`, gerado por
 no município no mapa abre `#/municipio/<código>`, com a lista de distritos, as
 unidades do app naquele município e a busca de equipamento por bairro (campo
 "bairro" da ficha do equipamento).
+
+O IBGE publica **distritos**, e não bairros: Cuiabá aparece com 7 distritos, e não
+com os bairros da cidade. Bairro de verdade vem de lei municipal, sem base
+estadual aberta, por isso o campo se chama "Bairro (distrito)".
+
+**Decisão pendente (para 04/11/2026)**: colocar um mapa de fundo real (ruas e
+satélite) dentro do app. Hoje o mapa real chega por fora: `.kmz` (Google Earth),
+GeoJSON (QGIS, ArcGIS, Google Earth Engine) e o link "Abrir no Google Maps". O
+Google Earth Engine analisa imagem de satélite e não serve de base do app. A
+opção indicada é Leaflet em `vendor/` com tiles do OpenStreetMap, como camada
+opcional ligada só com internet, porque o app é offline first e o `testar.py`
+cobra zero requisição de rede.
 
 ## Visão geral
 
@@ -145,7 +158,7 @@ mostra o histórico com o comprovante abrindo em nova aba.
 - [x] Funções de cálculo isoladas e testadas em `testes/testes.html`:
       `custoDiarioParada` (RN02), `custoParada` (RN03), `risco` (RN04),
       `pontoUnicoDeFalha` (RN01), `disponibilidade` (RN07).
-- [ ] `#/config`: parâmetros de custo editáveis, com data da última alteração.
+- [x] `#/config`: parâmetros de custo editáveis, com data da última alteração.
 - [x] Na ficha: custo diário estimado, custo acumulado das paradas e a fórmula
       com os valores usados.
 
@@ -170,10 +183,10 @@ o filtro "sem contrato" reduz os pinos de acordo.
 - [x] `#/painel`: os 7 KPIs do `contexto.md`, seção 8, com o período selecionável.
 - [x] Ranking de unidades e de diretorias por custo de parada.
 - [x] Lista dos pontos únicos de falha sem contrato, ordenada pela exposição diária.
-- [ ] Gráfico de barras em SVG próprio (custo de parada por unidade) e linha
+- [x] Gráfico de barras em SVG próprio (custo de parada por unidade) e linha
       (paradas por mês). Sem biblioteca externa.
-- [ ] Cada número mostra a fórmula e os parâmetros ao passar o mouse.
-- [ ] Clique num KPI filtra o mapa.
+- [x] Cada número mostra a fórmula e os parâmetros ao passar o mouse.
+- [x] Clique num KPI filtra o mapa.
 
 **Pronto quando**: os KPIs do seed batem com a conta feita à mão numa planilha
 para 2 unidades.
@@ -198,8 +211,8 @@ fotos nos balões.
 - [x] Importar o `.json` de uma unidade e mesclar (RN10): novos, atualizados,
       excluídos e conflitos.
 - [ ] Tela de conflitos: escolher a versão da unidade ou a da coordenadoria.
-- [ ] Exportar `.json` com ou sem fotos.
-- [ ] `#/config`: escolher o perfil da cópia (unidade ou coordenadoria) e a
+- [x] Exportar `.json` com ou sem fotos.
+- [x] `#/config`: escolher o perfil da cópia (unidade ou coordenadoria) e a
       unidade dona.
 
 **Pronto quando**: duas cópias do app, alteradas em paralelo, são mescladas na
@@ -212,9 +225,9 @@ coordenadoria sem duplicar nenhum equipamento.
 - [ ] `aria-label` em botões de ícone e `<label>` em todos os campos.
 - [x] Relatório impresso (`@media print`): resumo dos KPIs, pontos únicos de
       falha sem contrato e lista por unidade, em A4.
-- [ ] Varredura de dados pessoais: aviso se algum campo de texto livre tiver
+- [x] Varredura de dados pessoais: aviso se algum campo de texto livre tiver
       padrão de CPF (RN09).
-- [ ] Texto de privacidade em `#/config` e botão "limpar dados desta cópia".
+- [x] Texto de privacidade em `#/config` e botão "limpar dados desta cópia".
 
 **Pronto quando**: o Lighthouse marca acessibilidade 90 ou mais, e o relatório
 impresso cabe em A4 sem cortar tabela.

@@ -30,3 +30,13 @@
 .eq-barra-trilho{background:var(--painel-2);border:1px solid var(--linha);border-radius:99px;height:12px;overflow:hidden}
 .eq-barra-fill{display:block;height:100%;background:var(--accent);border-radius:99px}
 .eq-barra-valor{font:600 12px var(--mono);white-space:nowrap}
+/* gráficos do painel em SVG e KPI clicável */
+.eq-grafico{display:block;width:100%;height:auto}
+.eq-g-barra{fill:var(--accent)}
+.eq-g-linha{fill:none;stroke:var(--accent);stroke-width:2.5}
+.eq-g-ponto{fill:var(--painel);stroke:var(--accent);stroke-width:2}
+.eq-g-grade{stroke:var(--linha);stroke-dasharray:3 3}
+.eq-g-rot{font:12px var(--ui, system-ui);fill:var(--ink2)}
+.eq-g-val{font:600 11px var(--mono);fill:var(--ink)}
+.eq-kpi-link{cursor:pointer}
+.eq-kpi-link:hover{border-color:var(--accent)}

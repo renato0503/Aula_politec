@@ -164,11 +164,18 @@
       "descricao": ""
     }
   ],
-  "libs": [],
+  "libs": [
+    "pizzip.min.js",
+    "docxtemplater.js"
+  ],
   "dados": [
     [
       "seed",
       "exemplos/seed.json"
+    ],
+    [
+      "modelo-docx",
+      "modelos/modelo-laudo-celular.json"
     ]
   ]
 }
