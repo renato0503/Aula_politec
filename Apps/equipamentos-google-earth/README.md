@@ -77,14 +77,15 @@ Tudo o que foi completado precisa ser confirmado com o aluno no Sprint 0.
 
 | Rota | O que faz |
 |---|---|
-| `#/mapa` | Mapa de MT com os 142 municípios, pinos por unidade e legenda |
+| `#/mapa` | Mapa de MT com os 142 municípios, pinos coloridos por risco, zoom, arrasto e filtros |
+| `#/municipio/:cod` | Município aberto pelo mapa: divisão por distritos (IBGE), unidades do app e busca de equipamento por bairro |
 | `#/unidades` | Diretorias e unidades, com município e coordenadas (RN08) |
 | `#/equipamentos` | Lista com busca, filtros e paginação de 25 em 25 |
 | `#/equipamento/:id` | Ficha com fotos, contrato, histórico de manutenção, paradas, MTTR e custo |
 | `#/contratos` | Contratos, cobertura, vencimento e alerta de 60 dias (RN05) |
 | `#/paradas` | Abertura e fechamento de paradas, com custo diário (RN02) e acumulado (RN03) |
 | `#/painel` | Os 7 indicadores do projeto, ranking por custo de parada e pontos únicos de falha sem contrato |
-| `#/exportar` | KML e `.kmz` para o Google Earth, JSON da base, CSV e relatório |
+| `#/exportar` | KML e `.kmz` para o Google Earth, GeoJSON para QGIS, ArcGIS e Google Earth Engine, JSON da base, CSV e relatório |
 | `#/importar` | Planilha em CSV com relatório de aceitas e recusadas, e mesclagem do `.json` da unidade (RN10) |
 
 Sete cenários de interface cobrem os Sprints 2 a 9.
@@ -128,3 +129,19 @@ Código em `src/identidade.js` e `src/app.css`.
 O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o
 **TO-BE** (como fica com o MVP), com as métricas, regras e papéis do projeto.
 Abra ao lado do `index.html`.
+
+## Plotar os dados em um mapa de verdade
+
+O app é um arquivo único, offline, sem CDN e sem chave de API. Por isso, o mapa
+de dentro é desenhado em SVG com a malha do IBGE. Para ver os mesmos dados em
+um mapa de rua, há quatro caminhos, todos sem biblioteca:
+
+| Caminho | Como | Para que serve |
+|---|---|---|
+| Google Earth | botão "Baixar .kmz" em `#/exportar`; abrir o arquivo no Google Earth Pro ou Web | ver os equipamentos no satélite, com pasta por diretoria e unidade |
+| Google Maps | botão "Abrir no Google Maps" na ficha do equipamento e na tela do município | conferir a localização de um equipamento, no navegador de quem está no local |
+| QGIS, ArcGIS ou Google Earth Engine | botão "Baixar o GeoJSON" em `#/exportar` | cruzar os equipamentos com imagem de satélite e montar análise |
+| OpenStreetMap, Leaflet ou MapLibre dentro do app | exige biblioteca, internet e afrouxar a CSP `connect-src 'none'` | mapa de rua dentro do app, em troca do offline |
+
+O `AJUDA_TECNICA` do app explica os passos que dependem de programa instalado
+na máquina da unidade.

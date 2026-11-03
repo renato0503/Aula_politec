@@ -13,3 +13,20 @@
 .eq-mapa-legenda i{width:12px;height:12px;border-radius:2px;background:var(--painel);border:1px solid var(--accent)}
 .eq-mapa-legenda i.tem{background:color-mix(in srgb, var(--accent) 16%, var(--painel))}
 .eq-mapa-legenda i.pino{background:var(--vermelho);border-radius:50%;border:0}
+
+/* pinos por risco e painel da unidade */
+.eq-pino-verde circle{fill:var(--verde)}
+.eq-pino-ambar circle{fill:var(--ambar)}
+.eq-pino-vermelho circle{fill:var(--vermelho)}
+.eq-pino-neutro circle{fill:var(--ink3);fill-opacity:.5}
+.eq-mapa-legenda i.pino.verde{background:var(--verde);border-radius:50%;border:0}
+.eq-mapa-legenda i.pino.ambar{background:var(--ambar);border-radius:50%;border:0}
+.eq-mapa-legenda i.pino.vermelho{background:var(--vermelho);border-radius:50%;border:0}
+.eq-painel{margin-top:12px;border-left:4px solid var(--accent)}
+.eq-mun{cursor:pointer}
+/* barras do ranking de custo (painel) */
+.eq-barra{display:grid;grid-template-columns:minmax(120px,1fr) 2fr auto;gap:10px;align-items:center;margin-bottom:6px}
+.eq-barra-nome{font-size:13px;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.eq-barra-trilho{background:var(--painel-2);border:1px solid var(--linha);border-radius:99px;height:12px;overflow:hidden}
+.eq-barra-fill{display:block;height:100%;background:var(--accent);border-radius:99px}
+.eq-barra-valor{font:600 12px var(--mono);white-space:nowrap}

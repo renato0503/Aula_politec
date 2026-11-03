@@ -91,7 +91,8 @@ FORNECEDORES = ["Manutec Serviços Técnicos (fictícia)", "Labcare Assistência
 HOJE = dt.date(2026, 10, 29)
 
 
-def seed(municipios):
+def seed(municipios, distritos):
+
     diretorias = [{"id": U(), "nome": n, "sigla": s} for n, s in DIRETORIAS]
     unidades = []
     for nome, mun, d, tipo, atend in UNIDADES:
@@ -116,7 +117,8 @@ def seed(municipios):
               "setor": random.choice(["Laboratório", "Identificação", "Necropsia", "Local de crime", "Administrativo"]),
               "criticidade": max(1, min(5, crit + random.choice([-1, 0, 0, 1]))), "tem_redundancia": random.random() < 0.35,
               "data_aquisicao": aquis.isoformat(), "valor_aquisicao": round(valor * random.uniform(0.8, 1.2), 2),
-              "status": "operando", "latitude": u["latitude"], "longitude": u["longitude"], "contrato_id": None, "foto_ids": []}
+              "status": "operando", "latitude": u["latitude"], "longitude": u["longitude"], "contrato_id": None, "foto_ids": [],
+              "bairro": random.choice(distritos.get(u["municipio_ibge"]) or [u["municipio"]])}
         if random.random() < 0.55:
             c = random.choice(contratos); eq["contrato_id"] = c["id"]; c["equipamento_ids"].append(eq["id"])
         equipamentos.append(eq)
@@ -150,7 +152,8 @@ def main():
     if len(sys.argv) < 2:
         sys.exit(__doc__)
     municipios, sem_malha = base_mt(pathlib.Path(sys.argv[1]))
-    s = seed(municipios)
+    distritos = json.loads((BASE / "mt-distritos.json").read_text(encoding="utf-8"))
+    s = seed(municipios, distritos)
     (AQUI / "seed.json").write_text(json.dumps(s, ensure_ascii=False, indent=1), encoding="utf-8")
     tam = (BASE / "mt-municipios.json").stat().st_size
     print(f"municípios {len(municipios)} (sem polígono: {sem_malha}) | base {tam / 1024:.0f} KB")

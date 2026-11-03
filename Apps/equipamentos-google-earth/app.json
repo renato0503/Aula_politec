@@ -145,6 +145,12 @@
       "descricao": "Fotos, contrato, manutenções, paradas e custo."
     },
     {
+      "rota": "#/municipio/:cod",
+      "titulo": "Município",
+      "sprint": 6,
+      "descricao": "Divisão por distritos e unidades do município."
+    },
+    {
       "rota": "#/unidades",
       "titulo": "Unidades",
       "sprint": 2,
@@ -205,6 +211,10 @@
     [
       "seed",
       "exemplos/seed.json"
+    ],
+    [
+      "mt-distritos",
+      "dados-base/mt-distritos.json"
     ]
   ],
   "rotaInicial": "#/mapa"

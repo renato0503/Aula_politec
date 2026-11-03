@@ -312,7 +312,9 @@ TELAS["#/exportar"] = async ()=>{
     <div class="card"><h2 style="margin-top:0">Outros arquivos</h2>
       <div class="linha-botoes nao-imprimir"><button id="btnJsonUnidade">Baixar o .json da base</button>
         <button id="btnCsvEquip">Baixar o CSV dos equipamentos</button>
-        <button onclick="window.print()">Imprimir o relatório</button></div></div>
+        <button id="btnGeoJson">Baixar o GeoJSON (QGIS, ArcGIS, Google Earth Engine)</button>
+        <button onclick="window.print()">Imprimir o relatório</button></div>
+      <p class="sub">O GeoJSON é o formato que o QGIS, o ArcGIS e o Google Earth Engine leem: os mesmos pontos, com os atributos, para cruzar com imagem de satélite.</p></div>
     <div class="card documento-a4"><div class="impressao-cab"><b>Mapa de Equipamentos</b><span>Relatório de ${dataBR(agora())}</span></div>
       <h2 style="margin-top:0">Resumo da base</h2>
       <p class="sub">${b.eqs.length} equipamentos · ${b.unis.length} unidades · ${b.contratos.length} contratos · ${b.paradas.length} paradas registradas.</p>
@@ -348,6 +350,19 @@ TELAS_DEPOIS["#/exportar"] = async ()=>{
     const pacote = await db.exportar();
     baixar("mapa-equipamentos.json", JSON.stringify(pacote, null, 2), "application/json");
     await registrar("JSON da base exportado", {});
+  });
+  $("#btnGeoJson").addEventListener("click", ()=>{
+    // GeoJSON: mesma informação do KML, em formato que QGIS, ArcGIS e GEE abrem
+    const recursos = b.eqs.filter(e=> e.latitude !== null && e.longitude !== null).map(e=>({
+      type:"Feature",
+      geometry:{type:"Point", coordinates:[e.longitude, e.latitude]},
+      properties:{patrimonio:e.patrimonio, nome:e.nome, tipo:e.tipo, fabricante:e.fabricante, modelo:e.modelo,
+        unidade:e.unidade.nome, município:e.unidade.municipio, bairro:e.bairro || null, setor:e.setor,
+        criticidade:e.criticidade, situacao:e.status, contrato:e.temContrato ? e.contrato.numero : null,
+        custo_diario:e.custoDiario, risco:e.risco, ponto_unico_de_falha:e.pontoUnico}}));
+    const fc = {type:"FeatureCollection", name:"equipamentos-politec", crs:{type:"name", properties:{name:"urn:ogc:def:crs:OGC:1.3:CRS84"}}, features:recursos};
+    baixar("equipamentos-politec.geojson", JSON.stringify(fc, null, 2), "application/geo+json");
+    registrar("GeoJSON exportado", {detalhe:recursos.length});
   });
   $("#btnCsvEquip").addEventListener("click", ()=>{
     const cols = ["patrimonio", "nome", "tipo", "unidade", "diretoria", "criticidade", "status", "contrato", "custo_diario", "risco"];
@@ -476,6 +491,8 @@ TELAS["#/equipamento/:id"] = async (p)=>{
   const linhaPar = p2=> `<tr><td>${dataCurtaBR(p2.inicio)}</td><td>${p2.fim ? dataCurtaBR(p2.fim) : '<span class="selo erro">aberta</span>'}</td>
     <td>${esc(p2.motivo || "")}</td><td class="num">${dinheiro.fmt(Math.round((e.custoDiario || 0) * Math.max(1, diasUteis(dataDe(p2.inicio), p2.fim ? dataDe(p2.fim) : hojeISO()))))}</td></tr>`;
   const card = `<div class="card" id="historicoEq"><h2 style="margin-top:0">Histórico, MTTR e custo</h2>
+    <p class="linha-botoes nao-imprimir">${linkMaps(e.latitude ?? e.unidade.latitude, e.longitude ?? e.unidade.longitude, "Abrir no Google Maps")}
+      <a class="botao" href="#/municipio/${encodeURIComponent(e.unidade.municipio_ibge || "")}">Município e distritos</a></p>
     <div class="grade">
       ${cardKpiEq(e.temContrato ? e.contrato.numero : "sem contrato", "contrato vigente")}
       ${cardKpiEq(e.mttr === null ? "—" : e.mttr + " dias", "MTTR (RN06)")}

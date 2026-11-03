@@ -163,7 +163,7 @@ TELAS_DEPOIS["#/equipamentos"] = ()=>{
   $("#btnEqAnterior")?.addEventListener("click", ()=>{ estado.eqPagina = Math.max(1, (Number(estado.eqPagina) || 1) - 1); navegar(); });
   $("#btnEqProxima")?.addEventListener("click", ()=>{ estado.eqPagina = (Number(estado.eqPagina) || 1) + 1; navegar(); });
   $("#btnCsvEq").addEventListener("click", ()=>{
-    const cols = ["patrimonio", "nome", "tipo", "fabricante", "modelo", "numero_serie", "unidade", "setor", "criticidade", "tem_redundancia", "status", "data_aquisicao", "valor_aquisicao", "latitude", "longitude"];
+    const cols = ["patrimonio", "nome", "tipo", "fabricante", "modelo", "numero_serie", "unidade", "setor", "bairro", "criticidade", "tem_redundancia", "status", "data_aquisicao", "valor_aquisicao", "latitude", "longitude"];
     const cel = v => { const s = String(v ?? ""); return /[;"\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };
     baixar(`equipamentos-${hojeISO()}.csv`, "﻿" + [cols.join(";"), ...estado.eqVisiveis.map(e=>cols.map(c=>cel(c === "valor_aquisicao" && e[c] != null ? String(e[c]).replace(".", ",") : e[c])).join(";"))].join("\n"), "text/csv;charset=utf-8");
   });
@@ -193,13 +193,15 @@ async function telaEquipamento({id}){
       ${campo("eFab", "Fabricante", {valor: v.fabricante || ""})}${campo("eModelo", "Modelo", {valor: v.modelo || ""})}${campo("eSerie", "Número de série", {valor: v.numero_serie || ""})}
       ${campo("eUnidade", "Unidade", {tipo: "select", opcoes: [["", "Escolha"], ...unidades.map(u=>[u.id, u.nome])], valor: v.unidade_id, obrigatorio: true})}
       ${campo("eSetor", "Setor", {tipo: "select", opcoes: SETORES_EQ, valor: v.setor || SETORES_EQ[0]})}
+      ${campo("eBairro", "Bairro (distrito)", {valor: v.bairro || "", attrs: 'list="listaBairros" autocomplete="off"', ajuda: "O bairro do município, como no cadastro do IBGE. Serve para filtrar no mapa."})}
       ${campo("eCrit", "Criticidade (1 a 5)", {tipo: "select", opcoes: ["1", "2", "3", "4", "5"], valor: String(v.criticidade), ajuda: "5: a parada interrompe o setor."})}
       ${campo("eRed", "Existe outro igual na unidade?", {tipo: "select", opcoes: [["nao", "Não"], ["sim", "Sim"]], valor: v.tem_redundancia ? "sim" : "nao"})}
       ${campo("eStatus", "Situação", {tipo: "select", opcoes: STATUS_EQ, valor: v.status})}
       ${campo("eAquis", "Data de aquisição", {tipo: "date", valor: v.data_aquisicao || ""})}
       ${campo("eValor", "Valor de aquisição (R$)", {valor: v.valor_aquisicao ? dinheiro.fmt(Math.round(v.valor_aquisicao * 100)).replace("R$ ", "") : "", attrs: 'inputmode="decimal"'})}
       ${campo("eContrato", "Contrato de manutenção", {tipo: "select", opcoes: [["", "Sem contrato"], ...contratos.map(c=>[c.id, `${c.numero} · ${c.fornecedor}`])], valor: v.contrato_id || ""})}
-    </div><datalist id="listaTipos">${[...new Set((await db.list("equipamentos")).map(x=>x.tipo))].map(t=>`<option value="${esc(t)}">`).join("")}</datalist>
+    </div><datalist id="listaBairros">${[...new Set(Object.values(DISTRITOS_MUNICIPIO || {}).flat())].sort().map(d=>`<option value="${esc(d)}">`).join("")}</datalist>
+    <datalist id="listaTipos">${[...new Set((await db.list("equipamentos")).map(x=>x.tipo))].map(t=>`<option value="${esc(t)}">`).join("")}</datalist>
     <div id="errosEq"></div><div class="linha-botoes"><button class="prim" type="submit">Salvar</button><a class="botao" href="#/equipamentos">Voltar</a></div></form>
     ${novo ? "" : `<div class="card"><h2 style="margin-top:0">Contrato</h2>${contrato ? `${esc(contrato.numero)} · ${esc(contrato.fornecedor)} · vigência ${dataCurtaBR(contrato.inicio)} a ${dataCurtaBR(contrato.fim)}` : '<p class="sub">Sem contrato. O controle de contratos chega no Sprint 4.</p>'}</div>
       <div id="historicoEq"></div>`}`;
@@ -227,7 +229,8 @@ TELAS_DEPOIS["#/equipamento/:id"] = async ({id})=>{
     const d = {patrimonio: valorDe("ePat"), nome: valorDe("eNome"), tipo: valorDe("eTipo"), fabricante: valorDe("eFab"), modelo: valorDe("eModelo"),
       numero_serie: valorDe("eSerie"), unidade_id: valorDe("eUnidade"), setor: valorDe("eSetor"), criticidade: Number(valorDe("eCrit")),
       tem_redundancia: valorDe("eRed") === "sim", status: valorDe("eStatus"), data_aquisicao: valorDe("eAquis"),
-      valor_aquisicao: valorDe("eValor") ? (dinheiro.de(valorDe("eValor")) || 0) / 100 : null, contrato_id: valorDe("eContrato") || null};
+      valor_aquisicao: valorDe("eValor") ? (dinheiro.de(valorDe("eValor")) || 0) / 100 : null, contrato_id: valorDe("eContrato") || null,
+      bairro: valorDe("eBairro") || null};
     const erros = [];
     if (!d.patrimonio) erros.push("Informe o patrimônio.");
     if (!d.nome) erros.push("Informe o nome.");

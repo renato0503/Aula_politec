@@ -16,12 +16,20 @@
 | 3 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py equipamentos-google-earth` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
 | 4 | Feito em 03/11/2026: tela de contratos com vigência, alerta de 60 dias (RN05) e a ficha do equipamento com histórico, MTTR (RN06) e custo. Cenário `s4_contratos` passa. |
 | 5 | Feito em 03/11/2026: paradas com abertura e fechamento, equipamento parado enquanto a parada está aberta, custo diário (RN02) e custo acumulado (RN03). Cenário `s5_paradas` passa. |
-| 6 | Parcial: o mapa de MT com os 142 municípios, os pinos das unidades e a legenda já existiam. Faltam zoom, filtros por risco, painel lateral do pino e a tabela equivalente. |
+| 6 | Feito em 03/11/2026: mapa com zoom (roda e botões), arrasto, filtros por contrato, parada, ponto único, diretoria e tipo, pinos coloridos por risco, painel lateral no pino e tabela equivalente. Cenário `s6_mapa_e_municipio` passa. |
 | 7 | Feito em 03/11/2026: painel com os 7 indicadores, período selecionável, ranking por custo de parada e a lista de pontos únicos de falha sem contrato. Cenário `s7_painel` passa. |
 | 8 | Feito em 03/11/2026: KML com pastas por diretoria e unidade, `.kmz` com JSZip, opção de exportar só os sem contrato, JSON da base e CSV. Cenário `s8_exportar` passa. |
 | 9 | Feito em 03/11/2026: importação da planilha em CSV com relatório de aceitas e recusadas, e mesclagem do `.json` de uma unidade com escolha de versão (RN10). Cenário `s9_importar` passa. |
 
 Malha do IBGE: 141 polígonos para 142 municípios (Boa Esperança do Norte, criado em 2023, ainda sem polígono). Coordenada da unidade = centroide do município.
+
+### Divisão por distritos (03/11/2026)
+
+A divisão por bairros veio do IBGE (`dados-base/mt-distritos.json`, gerado por
+`dados-base/gerar_distritos.py`): 258 distritos em 141 dos 142 municípios. Clicar
+no município no mapa abre `#/municipio/<código>`, com a lista de distritos, as
+unidades do app naquele município e a busca de equipamento por bairro (campo
+"bairro" da ficha do equipamento).
 
 ## Visão geral
 
@@ -146,13 +154,13 @@ ponto único de falha sem contrato muda o risco para **alto** na ficha.
 
 ## Sprint 6 · Mapa offline de MT
 
-- [ ] Desenhar o contorno de MT e os municípios em SVG a partir do GeoJSON embutido.
-- [ ] Pinos agrupados por unidade, na cor do maior risco, com o número de equipamentos.
-- [ ] Zoom (roda do mouse e botões) e arrasto via `viewBox`.
-- [ ] Filtros: sem contrato, parados, ponto único de falha, diretoria, tipo.
-- [ ] Clique no pino: painel lateral com os equipamentos da unidade e o link para a ficha.
-- [ ] Legenda das cores e do tamanho dos pinos.
-- [ ] Tabela equivalente abaixo do mapa (acessibilidade).
+- [x] Desenhar o contorno de MT e os municípios em SVG a partir do GeoJSON embutido.
+- [x] Pinos agrupados por unidade, na cor do maior risco, com o número de equipamentos.
+- [x] Zoom (roda do mouse e botões) e arrasto via `viewBox`.
+- [x] Filtros: sem contrato, parados, ponto único de falha, diretoria, tipo.
+- [x] Clique no pino: painel lateral com os equipamentos da unidade e o link para a ficha.
+- [x] Legenda das cores e do tamanho dos pinos.
+- [x] Tabela equivalente abaixo do mapa (acessibilidade).
 
 **Pronto quando**: com o Wi-Fi desligado, o mapa mostra as 12 unidades do seed e
 o filtro "sem contrato" reduz os pinos de acordo.

@@ -174,7 +174,39 @@ def s7_painel(pg, url, ok):
     pg.select_option("#eqPeriodo", "30"); pg.wait_for_timeout(900)
     ok("o período pode ser trocado", "Últimos 30 dias" in pg.inner_text("main"))
 
-# origem: sprint.md · Sprint 8
+# origem: sprint.md · Sprint 6 e 10 (mapa, município e distritos)
+@cenario
+def s6_mapa_e_municipio(pg, url, ok):
+    perfil(pg, url, "coordenadoria")
+    semear(pg, url)
+    ir(pg, url, "#/mapa", 1500)
+    ok("o mapa abre", "Mapa de Mato Grosso" in pg.inner_text("main"))
+    ok("os pinos das unidades aparecem", pg.locator(".eq-pino").count() == 12)
+    ok("os municípios são clicáveis", pg.locator("[data-cod]").count() == 141)
+    ok("os filtros do mapa estão no topo", pg.locator("#mfSemContrato").count() == 1 and pg.locator("#mfDiretoria").count() == 1)
+    pg.check("#mfSemContrato"); pg.wait_for_timeout(1200)
+    ok("o filtro sem contrato muda o total do mapa", "de 150 equipamentos" in pg.inner_text("#mfResumo") or pg.inner_text("#mfResumo") != "")
+    pg.click("#mfLimpar"); pg.wait_for_timeout(1000)
+    # clicar no município abre a divisão por distritos
+    # o clique vai pelo evento: o centroide do município pode estar coberto por outro polígono
+    pg.locator('[data-cod="5103403"]').dispatch_event("click"); pg.wait_for_timeout(1200)
+    ok("o município abre", "Cuiabá" in pg.inner_text("h1"))
+    ok("a divisão por distritos aparece", pg.locator("#municipioDistrito").count() == 1)
+    distritos = pg.locator("#municipioDistrito option").count()
+    ok(f"o município tem {distritos - 1} distritos no IBGE", distritos - 1 == 7)
+    ok("a sede aparece marcada", "sede" in pg.inner_text("main"))
+    ok("as unidades do município aparecem", "Sede Cuiabá" in pg.inner_text("main"))
+    ok("o link para o Google Maps existe", pg.locator('a[href*="google.com/maps"]').count() == 1)
+    # filtrar equipamento por distrito
+    pg.select_option("#municipioDistrito", "Guia"); pg.wait_for_timeout(900)
+    ok("a busca por distrito filtra os equipamentos", "equipamento(s) com o bairro informado" in pg.inner_text("#municipioDistritoResultado"))
+    # a ficha do equipamento tem bairro
+    eq = pg.evaluate("async ()=> (await db.list('equipamentos')).find(e=>e.bairro).id")
+    ir(pg, url, "#/equipamento/" + eq, 1200)
+    ok("a ficha mostra o bairro do equipamento", pg.input_value("#eBairro") != "")
+    ok("a ficha tem o link para o Google Maps", pg.locator('#historicoEq a[href*="google.com/maps"]').count() == 1)
+
+# origem: sprint.md · Sprint 8 (GeoJSON)
 @cenario
 def s8_exportar(pg, url, ok):
     perfil(pg, url, "coordenadoria")
@@ -194,6 +226,14 @@ def s8_exportar(pg, url, ok):
     info2.value.save_as(kmz)
     import zipfile
     ok("o KMZ é um zip com o KML dentro", zipfile.is_zipfile(kmz) and "doc.kml" in zipfile.ZipFile(kmz).namelist())
+    with pg.expect_download() as info3:
+        pg.click("#btnGeoJson")
+    geo = TMP / "equipamentos.geojson"
+    info3.value.save_as(geo)
+    import json as _json
+    dados = _json.loads(geo.read_text(encoding="utf-8"))
+    ok("o GeoJSON tem 150 pontos", len(dados["features"]) == 150)
+    ok("o GeoJSON traz o bairro e o risco", "bairro" in dados["features"][0]["properties"] and "risco" in dados["features"][0]["properties"])
 
 # origem: sprint.md · Sprint 9
 @cenario
