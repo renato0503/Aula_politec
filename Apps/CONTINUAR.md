@@ -18,8 +18,8 @@ roteiro de aceite em `modelos/`). **Em 03/11/2026, fim do dia, os 21 apps estão
 |---|---|---|
 | `mapa-distribuicao-credor` | S1 a S7 | Testes contra o gabarito (S4, S5, S6, que depende do `mapa-manual-referencia.xlsx` do Sprint 0) e S8 (aceite, GitHub Pages, piloto, LEIA-ME) |
 | `inscricoes-cursos` | S1 a S8 | Teste no Outlook e no celular (S3), acessibilidade do formulário (S8) e S9 (publicação, aceite, piloto) |
-| `equipamentos-google-earth` | S1 a S10 em versão mínima (`src/sprint6.js`), mais a tela do município com os distritos | Tela de conflitos campo a campo, foto no balão do KML, Lighthouse e S11 (aceite e piloto) |
-| `agiliza-mais` | S1 a S11 em versão mínima (`src/sprint4.js`): conferência, textos, quesitos, Word, revisão, histórico | Leitura da requisição em PDF (S6) e OCR (S10), hoje digitados; itens finos de cada sprint; S12 (aceite) e S13 (opcional) |
+| `equipamentos-google-earth` | S1 a S10, com a tela do município, conflitos campo a campo e foto no balão do `.kmz` | Teste manual no Google Earth e S11 (aceite e piloto) |
+| `agiliza-mais` | S1 a S11 (`src/sprint4.js`), com a requisição em PDF lida pelo pdf.js e o caso de exemplo embutido | OCR simulado (registrar no `PROJETO.md`), S12 (aceite e piloto) e S13 (opcional) |
 
 O que depende de serviço externo (Apps Script, `LockService`, `MailApp`, gatilho,
 banco, biblioteca de QR) está marcado como **a implementar** no `sprint.md`, com o
@@ -29,6 +29,10 @@ Este arquivo registra o que já foi feito nos 20 apps anteriores (o TEIA está e
 de `Apps/` e o que falta em cada um, para que outro agente de IA continue de onde
 paramos. Leia também `AGENTS.md` (seção 3.8), `Apps/README.md` e
 `Apps/IDENTIDADE-VISUAL.md`.
+
+## 0. Links para os alunos
+
+`Apps/LINKS-ALUNOS.md` traz, por app, a equipe, o link do app, o link do hub (`processo.html`) e o repositório. Os links apontam para o GitHub Pages do repositório `Aula_politec` (os repositórios separados não têm Pages). As mudanças só aparecem no site depois do `git push origin main`.
 
 ## 1. Como o projeto funciona (o mínimo para começar)
 
