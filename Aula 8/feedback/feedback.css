@@ -1,0 +1,73 @@
+/* Formulário de feedback dos apps (Aula 8). Mesma paleta do formulário de ideação. */
+:root{
+  --paper:#faf9f6; --surface:#ffffff; --raised:#f3f1ec; --border:#e3e0d8;
+  --ink:#1a1d1e; --ink-soft:#4a4f52; --ink-faint:#6b7176;
+  --accent:#12507f; --accent-soft:#e6eff7;
+  --verde:#1c7a51; --verde-soft:#e6f4ec;
+  --ambar:#8a5d06; --ambar-soft:#fbf1de;
+  --vermelho:#b03224; --vermelho-soft:#fbeae8;
+  --shadow:0 1px 2px rgba(0,0,0,.04),0 8px 26px -14px rgba(20,30,40,.25);
+  --radius:14px;
+}
+html[data-tema="escuro"]{
+  --paper:#15171a; --surface:#1b1e22; --raised:#20242a; --border:#2c3036;
+  --ink:#eceeef; --ink-soft:#b6bcc2; --ink-faint:#9aa2a9;
+  --accent:#6fb2e3; --accent-soft:#16283a;
+  --verde:#5cc995; --verde-soft:#152c23;
+  --ambar:#e6ad48; --ambar-soft:#2b2415;
+  --vermelho:#ef7d6d; --vermelho-soft:#2e1a17;
+  --shadow:0 1px 2px rgba(0,0,0,.3),0 10px 30px -16px rgba(0,0,0,.7);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.55 system-ui,"Segoe UI",Roboto,Arial,sans-serif}
+.wrap{max-width:920px;margin:0 auto;padding:0 20px}
+header.top{background:#0d2f4f;color:#fff;padding:26px 0 22px;border-bottom:4px solid #c9a227}
+header.top .kicker{font-size:12px;letter-spacing:.08em;text-transform:uppercase;opacity:.85}
+header.top h1{margin:6px 0 4px;font-size:28px;line-height:1.2}
+header.top p{margin:0;opacity:.92}
+header.top a{color:#ffe08a}
+.barra{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.barra a,.barra button{font:600 13px system-ui;padding:7px 12px;border-radius:999px;border:1px solid rgba(255,255,255,.4);background:rgba(255,255,255,.08);color:#fff;text-decoration:none;cursor:pointer}
+main{padding:22px 0 60px}
+.bloco{background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px 20px;margin:0 0 16px}
+.bloco h2{margin:0 0 4px;font-size:19px}
+.bloco .ajuda{margin:0 0 12px;color:var(--ink-soft);font-size:14px}
+.campo{margin:0 0 14px}
+.campo label,.rotulo{display:block;font-weight:600;margin:0 0 5px}
+.campo small{display:block;color:var(--ink-faint);font-size:13px;margin-top:3px}
+input[type=text],input[type=email],select,textarea{width:100%;font:inherit;color:var(--ink);background:var(--paper);border:1px solid var(--border);border-radius:10px;padding:9px 11px}
+textarea{min-height:92px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:3px solid var(--accent-soft);border-color:var(--accent)}
+:focus-visible{outline:3px solid #c9a227;outline-offset:2px}
+.grade2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:680px){.grade2{grid-template-columns:1fr}header.top h1{font-size:23px}}
+.opcoes{display:flex;flex-wrap:wrap;gap:8px}
+.opcoes label{display:inline-flex;align-items:center;gap:6px;font-weight:500;padding:7px 12px;border:1px solid var(--border);border-radius:999px;background:var(--raised);cursor:pointer}
+.opcoes input{accent-color:var(--accent)}
+.opcoes label:has(input:checked){border-color:var(--accent);background:var(--accent-soft)}
+.tela{border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin:0 0 10px;background:var(--raised)}
+.tela .nome{font-weight:700}
+.tela .desc{color:var(--ink-soft);font-size:14px;margin:2px 0 8px}
+.tela .rota{font:12px Consolas,monospace;color:var(--ink-faint)}
+.tela textarea{min-height:56px;margin-top:8px}
+.acoes{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+button.prim,button.sec{font:700 15px system-ui;padding:11px 18px;border-radius:10px;border:1px solid var(--accent);cursor:pointer}
+button.prim{background:var(--accent);color:#fff}
+html[data-tema="escuro"] button.prim{color:#0b1220}
+button.sec{background:transparent;color:var(--accent)}
+button:disabled{opacity:.55;cursor:not-allowed}
+.aviso{border-radius:12px;padding:12px 14px;margin:0 0 14px;border:1px solid}
+.aviso.ok{background:var(--verde-soft);border-color:var(--verde);color:var(--ink)}
+.aviso.erro{background:var(--vermelho-soft);border-color:var(--vermelho);color:var(--ink)}
+.aviso.info{background:var(--ambar-soft);border-color:var(--ambar);color:var(--ink)}
+.erro-campo{color:var(--vermelho);font-size:13px}
+footer.foot{color:var(--ink-faint);font-size:13px;padding:20px 0 40px;border-top:1px solid var(--border)}
+/* página de respostas */
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:7px 8px;border-bottom:1px solid var(--border);vertical-align:top}
+th{background:var(--raised)}
+.num{text-align:right}
+.selo{display:inline-block;font:600 12px system-ui;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent)}
+.selo.ok{background:var(--verde-soft);color:var(--verde)}.selo.alerta{background:var(--ambar-soft);color:var(--ambar)}.selo.erro{background:var(--vermelho-soft);color:var(--vermelho)}
+details{border:1px solid var(--border);border-radius:10px;padding:8px 12px;margin:0 0 8px;background:var(--surface)}
+summary{cursor:pointer;font-weight:600}

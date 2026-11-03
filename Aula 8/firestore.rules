@@ -26,6 +26,19 @@ service cloud.firestore {
                     && request.resource.data.base64.size() < 900000;
       allow update, delete: if false;
     }
+    // Feedback dos alunos sobre os apps (Aula 8/feedback/<app>.html).
+    // Leitura pública: a página de respostas e o Apps/_base/baixar_feedback.py.
+    // Criação com os campos mínimos; ninguém altera nem apaga uma resposta.
+    match /feedback_apps/{id} {
+      allow read: if true;
+      allow create: if request.resource.data.keys().hasAll(['app', 'aluno', 'papel', 'nota', 'usaria', 'criadoEm'])
+                    && request.resource.data.app is string && request.resource.data.app.size() < 60
+                    && request.resource.data.aluno is string && request.resource.data.aluno.size() > 0
+                    && request.resource.data.aluno.size() < 120
+                    && request.resource.data.nota is int && request.resource.data.nota >= 1 && request.resource.data.nota <= 5
+                    && request.resource.data.criadoEm == request.time;
+      allow update, delete: if false;
+    }
     match /{document=**} {
       allow read, write: if false;
     }

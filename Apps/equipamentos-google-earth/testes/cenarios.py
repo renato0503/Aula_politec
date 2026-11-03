@@ -295,6 +295,28 @@ def s9_conflitos(pg, url, ok):
     ok("o setor escolhido na tela ficou o da coordenadoria", eq["setor"] == "Setor alterado na coordenadoria")
 
 
+# origem: sprint.md · Sprint 8 (o .kmz abre no Google Earth: KML válido no esquema OGC 2.2, com a foto no balão)
+@cenario
+def s8_kml_valido(pg, url, ok):
+    import io, zipfile
+    from lxml import etree
+    perfil(pg, url, "coordenadoria")
+    semear(pg, url)
+    pg.evaluate("""async ()=>{ const c = document.createElement('canvas'); c.width = c.height = 8;
+      const blob = await new Promise(r=> c.toBlob(r, 'image/jpeg'));
+      const e = (await db.list('equipamentos'))[0]; await db.put('arquivos', {id: 'fototeste-mini', blob});
+      await db.put('equipamentos', {...e, foto_ids: ['fototeste']}); }""")
+    ir(pg, url, "#/exportar", 1200)
+    with pg.expect_download() as d:
+        pg.click("#btnKmz")
+    arq = TMP / "teste.kmz"; d.value.save_as(arq)
+    z = zipfile.ZipFile(arq)
+    kml = z.read("doc.kml")
+    ok("o .kmz leva a foto e o balão aponta para ela", "fotos/fototeste.jpg" in z.namelist() and b'<img src="fotos/fototeste.jpg"' in kml)
+    xsd = etree.XMLSchema(etree.parse(str(PASTA / "testes" / "xsd" / "ogckml22.xsd")))
+    ok("o doc.kml é válido no esquema OGC KML 2.2", xsd.validate(etree.parse(io.BytesIO(kml))))
+
+
 def main():
     erro = False
     with sync_playwright() as p:

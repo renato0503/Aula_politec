@@ -13,7 +13,10 @@ e = json.loads((APPS / "equipes.json").read_text(encoding="utf-8"))
 
 def sprints(pasta):
     t = (pasta / "sprint.md").read_text(encoding="utf-8")
-    feitos = sorted({int(x) for x in re.findall(r"(?m)^\| (\d) \| Feito", t)})
+    feitos = set()
+    for a, b in re.findall(r"(?m)^\| (\d+)(?: a (\d+))? \| Feito", t):  # "| 4 |" ou "| 4 a 11 |"
+        feitos.update(range(int(a), int(b or a) + 1))
+    feitos = sorted(feitos)
     return f"Sprints {min(feitos)}-{max(feitos)}" if feitos else "Sprint 1"
 
 
@@ -23,13 +26,14 @@ for pasta in sorted(p for p in APPS.iterdir() if (p / "app.json").exists()):
     time_ = e["apps"].get(pasta.name, {}).get("alunos", [])
     quem = ", ".join(a["nome"] for a in time_) or "equipe a confirmar"
     rotas = len(cfg.get("rotas", []))
-    linhas.append(f"""    <a class="card" href="{pasta.name}/index.html">
+    linhas.append(f"""    <div class="card">
       <span class="dia">{html.escape(sprints(pasta))} · {rotas} rotas</span>
-      <h3>{html.escape(cfg["titulo"])}</h3>
+      <h3><a href="{pasta.name}/index.html">{html.escape(cfg["titulo"])}</a></h3>
       <p>{html.escape(cfg.get("descricao", ""))}</p>
       <small>{html.escape(quem)}</small>
-      <span class="abrir">Abrir o app &rarr;</span>
-    </a>""")
+      <span class="abrir"><a href="{pasta.name}/index.html">Abrir o app</a> · <a href="{pasta.name}/processo.html">Hub</a> ·
+        <a href="../Aula%208/feedback/{pasta.name}.html">Feedback</a></span>
+    </div>""")
 
 pagina = f"""<!doctype html>
 <html lang="pt-BR">
@@ -37,7 +41,7 @@ pagina = f"""<!doctype html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Apps dos grupos · POLITEC/MT</title>
-<meta name="description" content="Mini apps construídos pelos grupos da Capacitação POLITEC/MT: 20 projetos, offline first, com dados fictícios.">
+<meta name="description" content="Mini apps construídos pelos grupos da Capacitação POLITEC/MT: {len(linhas)} projetos, offline first, com dados fictícios.">
 <style>
 :root{{--bg:#f6f4ef;--surface:#fff;--ink:#1c1a17;--soft:#5c574f;--line:#e2ddd2;--accent:#0f766e}}
 @media (prefers-color-scheme:dark){{:root{{--bg:#141412;--surface:#1d1c19;--ink:#f2efe8;--soft:#b5afa3;--line:#33302a;--accent:#2dd4bf}}}}
@@ -51,7 +55,7 @@ h1{{font-size:clamp(28px,4vw,44px);line-height:1.1;margin:8px 0 12px;letter-spac
 .card{{display:flex;flex-direction:column;gap:8px;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;text-decoration:none;color:inherit;border-top:4px solid var(--accent)}}
 .card:hover{{border-color:var(--accent)}}
 .card .dia{{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent)}}
-.card h3{{margin:0;font-size:19px;letter-spacing:-.01em}}
+.card h3{{margin:0;font-size:19px;letter-spacing:-.01em}}.card h3 a{{color:inherit;text-decoration:none}}
 .card p{{margin:0;color:var(--soft);font-size:14.5px}}
 .card small{{color:var(--soft);font-size:12.5px}}
 .abrir{{margin-top:auto;font-weight:700;font-size:14px;color:var(--accent)}}
@@ -67,13 +71,13 @@ a{{color:var(--accent)}}
     abre no navegador, funciona sem internet, guarda os dados no próprio computador e usa
     apenas dados fictícios. As decisões continuam com as pessoas.</p>
   <p class="meta"><a href="../index.html">&larr; Voltar ao hub do curso</a> ·
-    <a href="painel.html">Painel de desenvolvimento</a> · 20 projetos ·
+    <a href="painel.html">Painel de desenvolvimento</a> · <a href="../Aula%208/feedback/index.html">Respostas do feedback</a> · {len(linhas)} projetos ·
     fonte dos contatos e logins: <code>Apps/equipes.json</code></p>
   <div class="grid">
 {chr(10).join(linhas)}
   </div>
   <footer>Para editar um app, mexa nas fontes (<code>app.json</code>, <code>src/</code>)
-    e rode <code>python Apps/_base/construir.py &lt;app&gt;</code>. O <code>index.html</code> é gerado.
+    e rode <code>python construir.py</code> dentro da pasta do app. O <code>index.html</code> é gerado.
     Guia completo em <a href="https://github.com/renato0503/Aula_politec/blob/main/Apps/README.md">Apps/README.md</a>.</footer>
 </main>
 </body>

@@ -285,8 +285,7 @@ function kmlDe(b, filtro, comFotos){
           `Risco: ${e.risco}`].map(esc2).join("<br/>");
         const foto = comFotos && (e.foto_ids || [])[0] ? `<img src="fotos/${e.foto_ids[0]}.jpg" width="220"/><br/>` : "";
         pasta += `<Placemark><name>${esc2(e.patrimonio)} - ${esc2(e.nome)}</name><description><![CDATA[${foto}${desc}]]></description>
-          <Point><coordinates>${lon},${lat},0</coordinates></Point>
-          <Style id="eq${e.temContrato ? "ok" : "erro"}"><IconStyle><color>${e.temContrato ? "ff00aa00" : "ff0000ff"}</color></IconStyle></Style></Placemark>`;
+          <styleUrl>#eq${e.temContrato ? "ok" : "erro"}</styleUrl><Point><coordinates>${lon},${lat},0</coordinates></Point></Placemark>`;
       }
       pasta += `</Folder>`;
     }

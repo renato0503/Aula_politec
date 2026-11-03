@@ -112,6 +112,10 @@ projeto, no momento do envio.
 | `prompt-bpmn-mermaid.md` | O **papel (role)** que gera os diagramas AS-IS, TO-BE e TO-BE com automação em Mermaid, no padrão BPMN, com as convenções e os três comandos |
 | `formulario-ideacao.md` | As mesmas perguntas em texto, para Google Forms, Moodle ou papel |
 | `template-metricas.md` | Conjunto mínimo de métricas, fórmulas de ganho, frase de defesa, exemplo preenchido e checklist do professor |
+| `feedback/<app>.html` | O **formulário de feedback** de cada app (21): quem responde, nota de 1 a 5, se usaria, **tela por tela** (situação e o que mudar), o que falta, erros, regras que não batem, três prioridades e piloto. Grava na coleção `feedback_apps` do Firestore; sem conexão, guarda o rascunho e baixa o `.json` |
+| `feedback/index.html` | As **respostas do feedback** por app, lidas do Firestore, com a nota média e o download de tudo em `.json` |
+| `feedback/feedback.js` e `feedback.css` | O código e o estilo comuns aos 21 formulários |
+| `gerar_feedback.py` | Gera os 21 formulários a partir do `app.json` de cada app (as telas) e do `Apps/equipes.json` (a equipe). Uso: `python "Aula 8/gerar_feedback.py"` |
 | `README.md` | Este roteiro da fase |
 
 ---
@@ -177,6 +181,7 @@ O botão **Enviar projeto e arquivos ao professor** passou a validar:
 | 6 | **Importar `.md` e `.json`** para continuar de onde parou, e **copiar modelo, copiar tabela e colar tudo de uma vez** em todas as tabelas, para quem prefere trabalhar no Excel |
 | 7 | **Validação do envio**: não envia formulário vazio, avisa as pendências antes de enviar e oferece o envio por e-mail quando o Firebase está bloqueado |
 | 8 | **Publicação** no GitHub Pages (link dos alunos) e no Firebase Hosting (espelho), com as regras do Firestore publicadas |
+| 9 | **Feedback dos apps (03/11/2026)**: um formulário por app em `feedback/`, coleção `feedback_apps` no Firestore (leitura pública, criação validada com nome, papel, nota de 1 a 5 e data do servidor; ninguém altera nem apaga), página de respostas e o `Apps/_base/baixar_feedback.py`, que escreve o `Apps/<app>/FEEDBACK.md` com as prioridades, as telas com erro ou ajuste e o que falta, como checklist para o próximo sprint. Os links vão aos alunos em `Apps/LINKS-ALUNOS.md` (gerado por `Apps/_base/gerar_links_alunos.py`) |
 
 ---
 
@@ -196,6 +201,8 @@ firebase deploy --only hosting
 | Aluno (formulário) | `https://renato0503.github.io/Aula_politec/Aula%208/formulario-ideacao.html` |
 | Professor (hub) | `https://renato0503.github.io/Aula_politec/Aula%208/` |
 | Professor (hub, espelho no Firebase) | `https://aulapolitec.web.app/Aula%208/` |
+| Aluno (feedback do app) | `https://renato0503.github.io/Aula_politec/Aula%208/feedback/<app>.html` (lista completa em `Apps/LINKS-ALUNOS.md`) |
+| Professor (respostas do feedback) | `https://renato0503.github.io/Aula_politec/Aula%208/feedback/` |
 
 O aluno abre o formulário no GitHub Pages e clica em **Enviar projeto e arquivos
 ao professor**: a resposta vai para o Firestore e aparece no hub, sem e-mail e

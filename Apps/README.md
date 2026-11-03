@@ -39,10 +39,13 @@ recebe o código do app.
 > `distribuicao-casos-dna` continua como a fase anterior.
 
 
-Os 21 apps andam juntos, sprint a sprint. **A maior parte dos 21 está com o MVP completo**
-(17 dos 20 anteriores, mais o TEIA, que já nasceu com o MVP). Faltam **22 rotas em
-4 apps**: `mapa-distribuicao-credor`, `inscricoes-cursos`,
-`equipamentos-google-earth` e `agiliza-mais`. O estado de cada app e o próximo
+Os 21 apps andam juntos, sprint a sprint. **Desde 03/11/2026 os 21 estão com o MVP
+funcional de ponta a ponta** (o painel marca 157 de 157 telas prontas). O que falta
+depende de pessoas (Sprint 0, aceite e piloto) ou de serviço externo (Apps Script do
+agendamento). O próximo ciclo sai do **feedback dos alunos**: cada app tem um
+formulário (`Aula 8/feedback/<app>.html`), e `python Apps/_base/baixar_feedback.py`
+escreve o `Apps/<app>/FEEDBACK.md` com o que mudar. Os links para os alunos estão em
+[LINKS-ALUNOS.md](LINKS-ALUNOS.md). O estado de cada app e o próximo
 passo estão em [CONTINUAR-IDENTIDADE.md](CONTINUAR-IDENTIDADE.md); o histórico
 por app está em [CONTINUAR.md](CONTINUAR.md).
 

@@ -30,9 +30,19 @@ de `Apps/` e o que falta em cada um, para que outro agente de IA continue de ond
 paramos. Leia também `AGENTS.md` (seção 3.8), `Apps/README.md` e
 `Apps/IDENTIDADE-VISUAL.md`.
 
-## 0. Links para os alunos
+## 0. Próximo ciclo: o feedback dos alunos
 
-`Apps/LINKS-ALUNOS.md` traz, por app, a equipe, o link do app, o link do hub (`processo.html`) e o repositório. Os links apontam para o GitHub Pages do repositório `Aula_politec` (os repositórios separados não têm Pages). As mudanças só aparecem no site depois do `git push origin main`.
+Cada app tem um formulário de feedback (`Aula 8/feedback/<app>.html`), que grava na coleção `feedback_apps` do Firestore. Para continuar um app:
+
+1. `python Apps/_base/baixar_feedback.py <app>` escreve o `Apps/<app>/FEEDBACK.md` (prioridades, telas com erro ou ajuste, o que falta, regras que não batem).
+2. Abra um sprint novo no `sprint.md` do app com os itens do `FEEDBACK.md`, na ordem das prioridades.
+3. Siga a sequência de sempre: fontes em `src/`, `python construir.py`, `testes/testar.py`, `testes/cenarios.py` e um cenário novo para cada item.
+
+As respostas podem ser lidas na página `Aula 8/feedback/index.html`. Os formulários são regerados por `python "Aula 8/gerar_feedback.py"` quando as telas de um app mudam.
+
+## 0.1 Links para os alunos
+
+`Apps/LINKS-ALUNOS.md` (gerado por `python Apps/_base/gerar_links_alunos.py`) traz, por app, a equipe, o link do app, o hub (`processo.html`), o formulário de feedback e o repositório. Os links apontam para o GitHub Pages do repositório `Aula_politec` (os repositórios separados não têm Pages). As mudanças só aparecem no site depois do `git push origin main`.
 
 ## 1. Como o projeto funciona (o mínimo para começar)
 
