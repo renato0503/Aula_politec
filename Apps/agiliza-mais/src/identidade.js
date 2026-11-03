@@ -34,7 +34,7 @@ TELAS["#/inicio"] = async (p)=>{
   if (!raiz) return html;
   const exemplo = doc.createElement("div"); exemplo.className = "card";
   exemplo.innerHTML = `<h2 style="margin-top:0">Caso de exemplo</h2>
-    <p class="sub">Carrega um caso com a pasta fictícia do caso 001, sem precisar escolher arquivos. Os extratores continuam exigindo a pasta real.</p>
+    <p class="sub">Carrega o caso fictício 001 (requisição em PDF, DEVICE INFO, hash e dois SIMs) sem precisar escolher a pasta.</p>
     <button class="prim" type="button" id="btnCasoExemplo">Carregar caso de exemplo</button>`;
   const primeira = [...raiz.children].find(n=>n.classList?.contains("card"));
   raiz.insertBefore(exemplo, primeira || null);
@@ -53,9 +53,17 @@ const agInicioDepoisAntes = TELAS_DEPOIS["#/inicio"];
 TELAS_DEPOIS["#/inicio"] = async ()=>{
   await agInicioDepoisAntes?.();
   $("#btnCasoExemplo")?.addEventListener("click", async ()=>{
-    const caso = {id_caso: uuid(), numero_protocolo: "EXEMPLO-001", status: "em elaboração", inicio_em: null, fim_em: null, criado_em: agora(),
-      pasta_nome: "caso-ficticio-001", inventariado_em: agora(), informar_manual: [],
-      inventario: inventariar(["Requisicao.pdf", "Requisicao-digitalizada.pdf", "DEVICE INFO.txt", "HASHDOHASH.txt", "OBJ 01-A/SIM.html", "OBJ 01-B/SIM.html"])};
+    // os arquivos do caso fictício 001 vão embutidos (exemplos/caso-exemplo.json): os extratores leem como se a pasta tivesse sido escolhida
+    const pacote = dadosEmbutidos("caso-exemplo");
+    arquivosDaSessao.clear();
+    for (const a of pacote?.arquivos || []){
+      const bytes = Uint8Array.from(atob(a.b64), ch=> ch.charCodeAt(0));
+      arquivosDaSessao.set(a.caminho, new File([bytes], a.caminho.split("/").pop()));
+    }
+    const caminhos = arquivosDaSessao.size ? [...arquivosDaSessao.keys()]
+      : ["Requisicao.pdf", "Requisicao-digitalizada.pdf", "DEVICE INFO.txt", "HASHDOHASH.txt", "OBJ 01-A/SIM.html", "OBJ 01-B/SIM.html"];
+    const caso = {id_caso: uuid(), numero_protocolo: "EXEMPLO-001", status: "em elaboração", inicio_em: agora(), fim_em: null, criado_em: agora(),
+      pasta_nome: pacote?.pasta || "caso-ficticio-001", inventariado_em: agora(), informar_manual: [], inventario: inventariar(caminhos)};
     await db.put("casos", caso); await db.meta("caso_atual", caso.id_caso);
     await registrar("caso de exemplo carregado", {id_caso: caso.id_caso});
     location.hash = "#/arquivos";

@@ -166,7 +166,9 @@
   ],
   "libs": [
     "pizzip.min.js",
-    "docxtemplater.js"
+    "docxtemplater.js",
+    "pdf.min.js",
+    "pdf.worker.min.js"
   ],
   "dados": [
     [
@@ -176,6 +178,10 @@
     [
       "modelo-docx",
       "modelos/modelo-laudo-celular.json"
+    ],
+    [
+      "caso-exemplo",
+      "exemplos/caso-exemplo.json"
     ]
   ]
 }

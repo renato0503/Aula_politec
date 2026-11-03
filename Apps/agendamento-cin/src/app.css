@@ -79,3 +79,5 @@
 .cin-slot.bloqueado{background:var(--painel-2);color:var(--ink2);text-decoration:line-through}
 .cin-slot.lotado,.cin-slot.bloqueado{cursor:pointer}
 .cin-vazio{color:var(--ink2);opacity:.5}
+/* tema escuro: o acento fica claro, então o número do passo atual e do feito usa texto escuro (contraste AA) */
+:root[data-theme="dark"] .cin-passos .atual .n, :root[data-theme="dark"] .cin-passos .feito .n{color:#0b1220}

@@ -114,50 +114,70 @@ def s3_extratores(pg, url, ok):
     ir(pg, url, "#/testes", 800)
     ok("testes dos extratores todos verdes", pg.evaluate("window.__testes.every(t=>t.ok)"))
 
-# origem: sprint.md · Sprints 4 a 11 (conferência, textos, quesitos, Word, revisão e histórico)
+# origem: sprint.md · Sprints 4 a 11 (conferência, requisição em PDF, textos, quesitos, Word, revisão e histórico)
 @cenario
 def s4_a_s11_laudo_completo(pg, url, ok):
-    import json
+    import json, zipfile
     ex = PASTA / "exemplos" / "caso-ficticio-001"
     g = json.loads((ex / "GABARITO.json").read_text(encoding="utf-8"))["caso"]
     ir(pg, url, "#/inicio", 300); pg.click("#btnNovoCaso"); pg.wait_for_timeout(400)
     pg.set_input_files("#inpPasta", str(ex)); pg.wait_for_timeout(700)
     pg.click("#btnAvancar"); pg.wait_for_timeout(1200)
-    ok("a conferência mostra os campos com a origem", pg.locator("#formConferencia #ap_imei_1").count() == 1)
-    pg.fill("#req_numero_protocolo", g["protocolo"]); pg.fill("#req_numero_oficio", g["oficio"])
-    pg.fill("#req_numero_processo", g["processo"]); pg.fill("#req_autoridade_solicitante", g["autoridade"]); pg.fill("#req_data_solicitacao", g["data"])
-    pg.fill("#ap_cor", "Azul-escuro")
-    pg.click("#formConferencia button[type=submit]"); pg.wait_for_timeout(900)
+    ok("a conferência mostra os campos com o selo de origem", pg.locator("#formConferencia #ap_imei_1").count() == 1 and "extraído" in pg.inner_text("#formConferencia"))
+    pg.click("#btnLerPdf"); pg.wait_for_timeout(2500)
+    ok("a requisição em PDF preenche protocolo, ofício, processo e data (Sprint 6)",
+       pg.input_value("#req_numero_protocolo") == g["protocolo"] and pg.input_value("#req_numero_oficio") == g["oficio"]
+       and pg.input_value("#req_numero_processo") == g["processo"] and pg.input_value("#req_data_solicitacao") == g["data"])
+    pg.fill("#ap_imei_1", "358735742761448"); pg.wait_for_timeout(200)
+    ok("IMEI errado mostra a mensagem e trava o botão (validação em tempo real)", pg.is_disabled("#btnConfirmarTodos") and "Luhn" in pg.inner_text("#ap_imei_1-msg"))
+    pg.fill("#ap_imei_1", "358735742761447"); pg.fill("#ap_cor", "Azul-escuro"); pg.wait_for_timeout(200)
+    pg.click("#btnConfirmarTodos"); pg.wait_for_timeout(900)
     caso = pg.evaluate("async ()=> await db.get('casos', await db.meta('caso_atual'))")
-    ok("a conferência fica registrada com a correção", bool(caso.get("conferido_em")) and caso.get("correcoes", 0) >= 1)
-    ir(pg, url, "#/textos", 600); pg.click("#formTextos button[type=submit]"); pg.wait_for_timeout(800)
-    ok("os textos foram escolhidos", bool(pg.evaluate("async ()=> (await db.get('casos', await db.meta('caso_atual'))).textos")))
+    ok("a conferência fica registrada com a correção", bool(caso.get("conferido_em")) and caso.get("correcoes", 0) >= 1 and "corrigido" in pg.inner_text("#formConferencia"))
+    ir(pg, url, "#/textos", 800)
+    ok("a prévia do texto traz os dados do caso", pg.locator(".ag-previa").count() >= 4)
+    pg.click("#formTextos button[type=submit]"); pg.wait_for_timeout(800)
     ir(pg, url, "#/quesitos", 600)
-    pg.fill("#qsColar", chr(10).join(f"{i}) {q}" for i, q in enumerate(g["quesitos"], 1)))
-    pg.click("#btnQuesitos"); pg.wait_for_timeout(800)
-    ok("os quesitos foram numerados (RN09)", pg.locator("#formRespostas textarea").count() == len(g["quesitos"]))
+    pg.click("#btnQuesitosPdf"); pg.wait_for_timeout(1000)
+    ok("os quesitos da requisição entram numerados (RN09)", pg.locator("#formRespostas textarea").count() == len(g["quesitos"]))
+    ok("as respostas nascem como sugestão não aprovada (RN10)", pg.locator("text=sugestão, não aprovada").count() == len(g["quesitos"]))
     ir(pg, url, "#/gerar", 600)
-    ok("sem resposta e sem número do laudo, gerar fica bloqueado (RN10, RN11)", pg.is_disabled("#btnGerarDocx"))
+    ok("sem aprovação e sem número do laudo, gerar fica bloqueado (RN10, RN11)", pg.is_disabled("#btnGerarDocx"))
     ir(pg, url, "#/quesitos", 600)
-    for t in pg.locator("#formRespostas textarea").all(): t.fill("Resposta conferida pelo perito.")
-    pg.click("#formRespostas button[type=submit]"); pg.wait_for_timeout(600)
+    for c in pg.locator("[data-aprovar]").all(): c.check()
+    pg.click("#formRespostas button[type=submit]"); pg.wait_for_timeout(800)
     ir(pg, url, "#/gerar", 600)
     pg.fill("#lNumero", "123/2026"); pg.fill("#lPerito", "Perito Fictício"); pg.click("#formLaudo button[type=submit]"); pg.wait_for_timeout(800)
-    ok("com tudo preenchido, gerar fica liberado", pg.is_enabled("#btnGerarDocx"))
+    ok("com tudo aprovado, gerar fica liberado", pg.is_enabled("#btnGerarDocx"))
     with pg.expect_download() as d:
         pg.click("#btnGerarDocx")
+    ok("o nome segue laudo_<protocolo>_v<N>.docx", d.value.suggested_filename == f"laudo_{g['protocolo']}_v1.docx")
     arq = TMP / d.value.suggested_filename; d.value.save_as(arq)
-    import zipfile
     xml = zipfile.ZipFile(arq).read("word/document.xml").decode("utf-8")
-    ok("o .docx traz IMEI, ICCID e protocolo, sem marcador sobrando (RN12)",
-       "358735742761447" in xml and "8955117633881124130" in xml and g["protocolo"] in xml and "{" not in xml.replace("{/", ""))
+    ok("o .docx traz IMEI, ICCID, protocolo e a resposta sugerida, sem marcador sobrando (RN12)",
+       "358735742761447" in xml and "8955117633881124130" in xml and g["protocolo"] in xml and "Xiaomi" in xml and "{" not in xml.replace("{/", ""))
     ir(pg, url, "#/revisao", 800)
+    pg.fill("#revNotas", "Ajuste de redação no histórico."); pg.fill("#revQtd", "1"); pg.check("#revOk")
     pg.click("#btnConcluir"); pg.wait_for_timeout(800)
-    ok("o caso é concluído na revisão (RN14)", pg.evaluate("async ()=> (await db.get('casos', await db.meta('caso_atual'))).status") == "concluído")
+    ok("o caso é concluído só com a marcação de revisão (RN14)", pg.evaluate("async ()=> (await db.get('casos', await db.meta('caso_atual'))).status") == "concluído")
     ir(pg, url, "#/historico", 800)
-    ok("o histórico mostra o caso concluído", "concluído" in pg.inner_text("main"))
+    ok("o histórico mostra a taxa de correção", "taxa de correção" in pg.inner_text("main"))
     pg.click("[data-limpar-caso]"); pg.wait_for_timeout(800)
     ok("limpar o caso apaga o aparelho e mantém a métrica", pg.evaluate("async ()=> (await db.porIndice('aparelhos','id_caso', await db.meta('caso_atual'))).length") == 0)
+
+@cenario
+def s5_caso_de_exemplo_e_modelo(pg, url, ok):
+    ir(pg, url, "#/inicio", 400); pg.click("#btnCasoExemplo"); pg.wait_for_timeout(800)
+    pg.click("#btnAvancar"); pg.wait_for_timeout(1200)
+    ok("o caso de exemplo extrai o aparelho sem escolher pasta", pg.input_value("#ap_imei_1") == "358735742761447")
+    pg.click("#btnRemoverSimTeste") if pg.locator("#btnRemoverSimTeste").count() else None
+    ir(pg, url, "#/config", 600)
+    ok("a configuração mostra o modelo e a privacidade", "Modelo do laudo" in pg.inner_text("main") and "Finalidade" in pg.inner_text("main"))
+    pg.set_input_files("#arqModelo", str(PASTA / "modelos" / "modelo-laudo-celular.docx")); pg.wait_for_timeout(900)
+    ok("o modelo carregado vira o modelo em uso", pg.evaluate("async ()=> (await db.get('modelos','atual'))?.marcadores?.length") > 20)
+    ir(pg, url, "#/biblioteca", 600)
+    pg.click("[data-ativar-texto='T05']"); pg.wait_for_timeout(600)
+    ok("desativar um texto o tira da lista ativa", pg.evaluate("async ()=> (await db.get('textos','T05')).ativo") is False)
 
 def main():
     erro = False

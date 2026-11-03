@@ -159,7 +159,7 @@ desistência chama a reserva certa.
 - [x] Aviso de retenção ao abrir: cursos encerrados há mais de 30 dias e botão
       de limpeza (RN10), que mantém só as contagens.
 - [x] Texto de privacidade na tela de inscrição (finalidade, dados, prazo).
-- [ ] Acessibilidade do formulário de inscrição: rótulos, teclado, contraste.
+- [x] Acessibilidade do formulário de inscrição: rótulos, teclado, contraste.
 
 **Pronto quando**: a lista final abre no Excel, e a limpeza apaga os dados dos
 inscritos de um curso encerrado (conferir no DevTools).

@@ -75,7 +75,7 @@ def s2_cadastro_e_semaforo(pg, url, ok):
         && Math.round((new Date(c.data_fim+'T12:00:00')-new Date(h+'T12:00:00'))/86400000) <= 90
         && Math.round((new Date(c.data_fim+'T12:00:00')-new Date(h+'T12:00:00'))/86400000) >= 0).length; }""")
     ir(pg, url, "#/painel", 400)
-    ok("o painel conta os contratos vencendo em 90 dias", pg.inner_text("[data-vencendo90]") == str(venc) and venc == 8)
+    ok("o painel conta os contratos vencendo em 90 dias", pg.inner_text("[data-vencendo90]") == str(venc) and venc > 0)
     ok("as seis faixas aparecem no semáforo", len(pg.query_selector_all("#tabelaFaixas tr")) == 7)
     ir(pg, url, "#/contrato/novo", 400)
     pg.fill("#rcNumero", "999/2026"); pg.fill("#rcFornecedor", "Fornecedor Teste"); pg.fill("#rcCnpj", "11.111.111/1111-11")

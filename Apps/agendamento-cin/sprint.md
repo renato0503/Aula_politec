@@ -125,7 +125,7 @@ eles aparecem na planilha quando a conexão volta.
       posto e por semana (KPIs do `contexto.md`).
 - [x] Cadastro de usuários (posto ou gestão) e desativação.
 - [ ] Rotina diária (`trigger`) que apaga os dados do cidadão após 90 dias (RN10) e mantém as contagens. **A implementar no Apps Script** — o botão em `#/gestao` já faz a retenção; o gatilho é o passo 3 do botão escondido.
-- [ ] Acessibilidade (requisito marcado): rótulos, navegação por teclado,
+- [x] Acessibilidade (requisito marcado): rótulos, navegação por teclado,
       contraste, mensagens de erro lidas por leitor de tela.
 
 **Pronto quando**: os indicadores batem com a contagem manual na planilha

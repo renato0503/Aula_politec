@@ -160,6 +160,6 @@ aparece na auditoria com o valor anterior.
 - [ ] **Piloto**: rodar um processo encerrado (com autorização) e comparar
       totais e tempo com o mapa manual, cronometrando as duas versões.
 - [ ] Comparar com a linha de base do Sprint 0 (tempo, divergências, número de planilhas).
-- [ ] `LEIA-ME` de uso e atualização de `PROJETO.md` e `README.md`.
+- [x] `LEIA-ME` de uso e atualização de `PROJETO.md` e `README.md`.
 
 **Pronto quando**: diferença zero contra o gabarito e piloto medido.

@@ -1,6 +1,6 @@
-/* ================= Sprints 4 a 11 · conferência, textos, quesitos, Word, revisão e histórico (versão mínima) =================
-   A requisição em PDF (Sprint 6) e o OCR (Sprint 10) ficam como digitação: o perito lê o PDF ao lado e preenche os campos
-   da requisição na conferência, o que o formulário autoriza ("simulado"). */
+/* ================= Sprints 4 a 11 · conferência, requisição em PDF, textos, quesitos, Word, revisão e histórico =================
+   O OCR do PDF digitalizado (Sprint 10) fica simulado, como o formulário autoriza: o app detecta o PDF sem camada de texto
+   e o perito digita os campos com o PDF aberto ao lado. */
 "use strict";
 
 const CATEGORIAS_TEXTO = [["historico", "Histórico"], ["descricao_objetos", "Descrição dos objetos"], ["sem_sim", "Aparelho sem SIM"],
@@ -42,7 +42,10 @@ function conferir(caso, d){
   for (const [k, r] of CAMPOS_REQUISICAO) if (!req[k]) (k === "numero_protocolo" ? bloqueios : alertas).push(`Requisição: ${r} não informado.`);
   if (!caso.conferido_em) bloqueios.push("A conferência dos dados não foi confirmada (RN04).");
   if (!d.qs.length) alertas.push("Nenhum quesito cadastrado.");
-  for (const q of d.qs) if (!String(q.resposta || "").trim()) bloqueios.push(`Quesito ${q.numero} sem resposta (RN10).`);
+  for (const q of d.qs){
+    if (!String(q.resposta || "").trim()) bloqueios.push(`Quesito ${q.numero} sem resposta (RN10).`);
+    else if (!q.aprovada) bloqueios.push(`Quesito ${q.numero}: resposta não aprovada pelo perito (RN10).`);
+  }
   const l = caso.laudo || {};
   if (!l.numero_laudo) bloqueios.push("Número do laudo não informado.");
   if (!l.nome_perito) bloqueios.push("Nome do perito não informado.");
@@ -51,42 +54,144 @@ function conferir(caso, d){
 teste("RN11: caso vazio tem bloqueios", ()=> conferir({}, {ap:null, hs:null, sims:[], qs:[]}).bloqueios.length >= 3);
 teste("RN10: quesito sem resposta bloqueia", ()=> conferir({}, {ap:null, hs:null, sims:[], qs:[{numero:1, resposta:""}]}).bloqueios.some(b=> b.includes("Quesito 1")));
 
-/* ---------- Sprint 5 · conferência campo a campo (RN04) ---------- */
+/* ---------- Sprint 5 e 6 · conferência campo a campo (RN04) e requisição em PDF ---------- */
+// selo de cada campo: extraído do arquivo, corrigido pelo perito, digitado (sem arquivo) e confirmado
+function seloCampo(c, conferido){
+  if (!c || !val(c)) return '<span class="selo alerta">ausente</span>';
+  const tipo = c.corrigido_de !== undefined ? ["alerta", "corrigido"] : c.origem === "perito" ? ["info", "digitado"] : ["ok", "extraído"];
+  return `<span class="selo ${tipo[0]}">${tipo[1]}</span>${conferido ? ' <span class="selo ok">confirmado</span>' : ""}`;
+}
+// validação em tempo real: devolve a mensagem ou ""
+const VALIDA_CAMPO = {imei: v=> !v ? "" : imeiValido(v) ? "" : "IMEI precisa de 15 dígitos com o dígito verificador certo (Luhn).",
+  iccid: v=> !v ? "" : iccidValido(v) ? "" : "ICCID começa com 89, tem 19 ou 20 dígitos e o último confere pelo Luhn.",
+  hash: v=> !v ? "" : sha256Valido(v) ? "" : "SHA-256 tem 64 caracteres de 0 a 9 e de a a f.",
+  obrigatorio: v=> v ? "" : "Campo obrigatório."};
+teste("validação: IMEI certo não gera mensagem", ()=> VALIDA_CAMPO.imei("358735742761447") === "" && VALIDA_CAMPO.imei("358735742761448") !== "");
+
+/* requisição em PDF: camada de texto pelo pdf.js (o worker embutido roda na própria página) */
+async function textoDoPdf(file){
+  if (typeof pdfjsLib === "undefined") throw new Error("pdf.js não embutido");
+  const pdf = await pdfjsLib.getDocument({data: new Uint8Array(await lerArrayBuffer(file)), isEvalSupported: false}).promise;
+  const paginas = [];
+  for (let i = 1; i <= pdf.numPages; i++){
+    const c = await (await pdf.getPage(i)).getTextContent();
+    paginas.push(c.items.map(it=> it.str + (it.hasEOL ? "\n" : "")).join(""));
+  }
+  return paginas.join("\n");
+}
+// regex dos campos da requisição; os quesitos são o bloco depois de "QUESITOS"
+function extrairRequisicao(txt){
+  const pega = re=> (String(txt).match(re) || [])[1]?.trim() || "";
+  const r = {numero_protocolo: pega(/Protocolo\s*:?\s*([\d./-]+)/i), numero_oficio: pega(/Of[ií]cio\s*(?:n[ºo°.]*)?\s*:?\s*([\w/.-]+)/i),
+    numero_processo: pega(/Processo\s*(?:n[ºo°.]*)?\s*:?\s*([\d.-]+)/i), autoridade_solicitante: pega(/Autoridade(?: requisitante)?\s*:\s*(.+)/i),
+    data_solicitacao: pega(/Data da solicita[cç][aã]o\s*:\s*(\d{2}\/\d{2}\/\d{4})/i)};
+  const bloco = (String(txt).split(/\n\s*QUESITOS\s*\n/i)[1] || "").split(/\n(?=Documento|Atenciosamente|Cuiabá,)/i)[0];
+  const quesitos = [];
+  for (const l of bloco.split(/\r?\n/)){
+    if (/^\s*\d+\s*[).\-–]/.test(l)) quesitos.push(l.replace(/^\s*\d+\s*[).\-–:]\s*/, "").trim());
+    else if (l.trim() && quesitos.length) quesitos[quesitos.length - 1] += " " + l.trim();  // quesito quebrado em duas linhas
+  }
+  return {...r, quesitos};
+}
+teste("requisição: protocolo, ofício, processo, data e 2 quesitos", ()=>{
+  const r = extrairRequisicao("Protocolo: 2026.0001001\nOfício nº 101/2026/DPF-CBA\nProcesso nº 0001231-56.2026.8.11.0041\nAutoridade requisitante: Delegado X\nData da solicitação: 19/10/2026\nQUESITOS\n1) Qual a marca?\n2) Havia SIM? Em caso\npositivo, qual?\nDocumento fictício.");
+  return r.numero_protocolo === "2026.0001001" && r.numero_oficio === "101/2026/DPF-CBA" && r.numero_processo === "0001231-56.2026.8.11.0041"
+    && r.data_solicitacao === "19/10/2026" && r.quesitos.length === 2 && r.quesitos[1] === "Havia SIM? Em caso positivo, qual?";
+});
+// o PDF com texto vem antes do digitalizado
+const arquivoRequisicao = caso=> (caso.inventario?.itens.find(i=> i.chave === "requisicao")?.arquivos || [])
+  .filter(c=> arquivosDaSessao.get(c)).sort((a, b)=> /digitaliz/i.test(a) - /digitaliz/i.test(b))[0];
+
 const agDadosAntes = TELAS["#/dados"];
 TELAS["#/dados"] = async (p)=>{
   const html = await agDadosAntes(p);
   const caso = await casoAtual();
   if (!caso?.inventario) return html;
-  const d = await dadosDoCaso(caso), req = caso.requisicao || {};
-  const linhaCampo = (id, rotulo, c)=> `<tr><th><label for="${id}">${esc(rotulo)}</label></th>
-    <td><input id="${id}" value="${esc(val(c))}" class="mono"></td>
-    <td class="sub">${c ? esc(c.origem || "") + (c.linha ? ", linha " + c.linha : "") + (c.corrigido_de !== undefined ? ` · corrigido (era ${esc(c.corrigido_de || "vazio")})` : "") : "ausente"}</td></tr>`;
-  const ap = d.ap || {};
+  const d = await dadosDoCaso(caso), req = caso.requisicao || {}, conf = !!caso.conferido_em;
+  const linhaCampo = (id, rotulo, c, valida)=> `<tr><th><label for="${id}">${esc(rotulo)}</label></th>
+    <td><input id="${id}" value="${esc(val(c))}" class="mono" ${valida ? `data-valida="${valida}" aria-describedby="${id}-msg"` : ""}><small class="erro-campo" id="${id}-msg" aria-live="polite"></small></td>
+    <td>${seloCampo(c, conf)}<br><small class="sub">${c ? esc(c.origem || "") + (c.linha ? ", linha " + c.linha : "") + (c.corrigido_de !== undefined ? ` · era ${esc(c.corrigido_de || "vazio")}` : "") : ""}</small></td></tr>`;
+  const ap = d.ap || {}, pdf = arquivoRequisicao(caso);
+  const doPdf = String(caso.requisicao_origem || "").includes("PDF");
   return html.replace("A conferência campo a campo chega no Sprint 5.", "Confira cada valor com a origem ao lado e corrija o que precisar (RN04).") + `
+    <div class="card"><h2 style="margin-top:0">Requisição</h2>
+      ${pdf ? `<div class="linha-botoes" style="margin-top:0"><button id="btnLerPdf" class="prim">Ler os dados da requisição em PDF</button>
+        <button id="btnVerPdf">Ver o PDF ao lado</button></div><div id="avisoPdf"></div>`
+        : '<p class="sub">A requisição em PDF não está na sessão (selecione a pasta de novo para ler o PDF). Os campos podem ser digitados.</p>'}</div>
+    <div class="ag-conf">
     <form class="card tabela-wrap" id="formConferencia"><h2 style="margin-top:0">Conferência</h2>
-      <p class="sub">${caso.conferido_em ? `<span class="selo ok">conferido em ${dataBR(caso.conferido_em)}</span>` : '<span class="selo alerta">não conferido</span>'}
-        Os dados da requisição são digitados com o PDF aberto ao lado (a leitura do PDF e o OCR ficam para depois).</p>
-      <table><tr><th>Campo</th><th>Valor</th><th>Origem</th></tr>
-        ${CAMPOS_REQUISICAO.map(([k, r])=> `<tr><th><label for="req_${k}">${esc(r)}</label></th><td><input id="req_${k}" value="${esc(req[k] || (k === "numero_protocolo" ? caso.numero_protocolo || "" : ""))}"></td><td class="sub">requisição (digitado)</td></tr>`).join("")}
-        ${Object.keys(ROTULOS_APARELHO).map(k=> linhaCampo("ap_" + k, k.replace("_", " "), ap[k])).join("")}
-        ${linhaCampo("hs_valor", "hash", d.hs?.valor_hash)}${linhaCampo("hs_arquivo", "arquivo do hash", d.hs?.hash_arquivo)}
-        ${d.sims.map(s=> linhaCampo("sim_iccid_" + s.identificador_objeto, `ICCID ${s.identificador_objeto}`, s.iccid) + linhaCampo("sim_op_" + s.identificador_objeto, `operadora ${s.identificador_objeto}`, s.operadora)).join("")}
+      <p class="sub">${conf ? `<span class="selo ok">conferido em ${dataBR(caso.conferido_em)}</span>` : '<span class="selo alerta">não conferido</span>'}
+        O botão confirma todos os campos de uma vez e só libera com IMEI 1 e hash válidos.</p>
+      <table><tr><th>Campo</th><th>Valor</th><th>Situação e origem</th></tr>
+        ${CAMPOS_REQUISICAO.map(([k, r])=> `<tr><th><label for="req_${k}">${esc(r)}</label></th><td><input id="req_${k}" value="${esc(req[k] || (k === "numero_protocolo" ? caso.numero_protocolo || "" : ""))}"
+          ${k === "numero_protocolo" ? `data-valida="obrigatorio" aria-describedby="req_${k}-msg"` : ""}><small class="erro-campo" id="req_${k}-msg" aria-live="polite"></small></td>
+          <td>${req[k] ? `<span class="selo ${doPdf ? "ok" : "info"}">${doPdf ? "extraído" : "digitado"}</span>${conf ? ' <span class="selo ok">confirmado</span>' : ""}` : '<span class="selo alerta">vazio</span>'}
+          <br><small class="sub">${esc(caso.requisicao_origem || "digitado pelo perito")}</small></td></tr>`).join("")}
+        ${Object.keys(ROTULOS_APARELHO).map(k=> linhaCampo("ap_" + k, k.replace("_", " "), ap[k], k.startsWith("imei") ? "imei" : "")).join("")}
+        ${linhaCampo("hs_valor", "hash", d.hs?.valor_hash, "hash")}${linhaCampo("hs_arquivo", "arquivo do hash", d.hs?.hash_arquivo)}
+        ${d.sims.map(s=> linhaCampo("sim_iccid_" + s.identificador_objeto, `ICCID ${s.identificador_objeto}`, s.iccid, "iccid")
+          + linhaCampo("sim_op_" + s.identificador_objeto, `operadora ${s.identificador_objeto}`, s.operadora)
+          + `<tr><td></td><td colspan="2"><button type="button" data-remover-sim="${esc(s.id_sim)}">Remover o SIM ${esc(s.identificador_objeto)}</button></td></tr>`).join("")}
       </table>
-      <div class="linha-botoes"><button class="prim" type="submit">Confirmar a conferência</button><a class="botao" href="#/textos">Próximo: textos</a></div></form>`;
+      ${d.sims.length ? "" : `<p class="sub"><label style="display:inline-flex;gap:6px"><input type="checkbox" id="semSimConfirmado" style="width:auto" ${caso.sem_sim_confirmado ? "checked" : ""}> confirmo que o aparelho não tem cartão SIM (RN06)</label></p>`}
+      <div class="linha-botoes"><button type="button" id="btnAdicionarSim">Adicionar SIM à mão</button></div>
+      <div id="errosConferencia"></div>
+      <div class="linha-botoes"><button class="prim" type="submit" id="btnConfirmarTodos">Confirmar todos os campos</button><a class="botao" href="#/textos">Próximo: textos</a></div></form>
+    <div id="painelPdf"></div></div>`;
 };
 const agDadosDepois = TELAS_DEPOIS["#/dados"];
 TELAS_DEPOIS["#/dados"] = async (p)=>{
   await agDadosDepois?.(p);
-  $("#formConferencia")?.addEventListener("submit", async ev=>{
+  const form = $("#formConferencia"); if (!form) return;
+  // validação em tempo real e o botão "Confirmar todos" preso aos identificadores essenciais
+  const essenciais = ()=> !!valorDe("ap_imei_1") && !VALIDA_CAMPO.imei(valorDe("ap_imei_1")) && !!valorDe("hs_valor") && !VALIDA_CAMPO.hash(valorDe("hs_valor"));
+  const validar = el=>{ const msg = VALIDA_CAMPO[el.dataset.valida]?.(el.value.trim()) || ""; $("#" + CSS.escape(el.id) + "-msg").textContent = msg; el.setAttribute("aria-invalid", msg ? "true" : "false"); };
+  const atualizar = ()=>{ $$("[data-valida]").forEach(validar); $("#btnConfirmarTodos").disabled = !essenciais(); };
+  $$("[data-valida]").forEach(el=> el.addEventListener("input", atualizar)); atualizar();
+  $("#btnAdicionarSim")?.addEventListener("click", async ()=>{
+    const obj = (prompt("Identificador do objeto do SIM (ex.: 01-A)") || "").trim().toUpperCase();
+    if (!/^\d{2}-[A-Z]$/.test(obj)) return obj && toast("Use o formato 01-A (RN07).");
+    const caso = await casoAtual();
+    await db.put("sims", {id_sim: `${caso.id_caso}-${obj}`, id_caso: caso.id_caso, identificador_objeto: obj, objeto_no_html: null,
+      iccid: null, operadora: null, incluido_a_mao: true});
+    await registrar("SIM incluído à mão", {id_caso: caso.id_caso, campo_verificado: "SIM " + obj}); navegar();
+  });
+  $$("[data-remover-sim]").forEach(b=> b.addEventListener("click", async ()=>{
+    if (!confirm("Remover este SIM do laudo?")) return;
+    const caso = await casoAtual();
+    await db.del("sims", b.dataset.removerSim); await registrar("SIM removido", {id_caso: caso.id_caso, campo_verificado: b.dataset.removerSim}); navegar();
+  }));
+  $("#btnVerPdf")?.addEventListener("click", async ()=>{
+    const caso = await casoAtual(), f = arquivosDaSessao.get(arquivoRequisicao(caso));
+    $("#painelPdf").innerHTML = `<div class="card"><h2 style="margin-top:0">Requisição</h2><iframe class="ag-pdf" title="Requisição em PDF" src="${URL.createObjectURL(new Blob([f], {type: "application/pdf"}))}"></iframe></div>`;
+  });
+  $("#btnLerPdf")?.addEventListener("click", async ()=>{
+    const caso = await casoAtual(), caminho = arquivoRequisicao(caso);
+    try {
+      const txt = await textoDoPdf(arquivosDaSessao.get(caminho));
+      if (txt.replace(/\s/g, "").length < 20){
+        $("#avisoPdf").innerHTML = `<div class="card pendente" role="alert">PDF digitalizado, sem camada de texto. Digite os dados com o PDF aberto ao lado (o OCR não está embutido).</div>`;
+        return registrar("requisição sem texto", {id_caso: caso.id_caso, resultado: caminho});
+      }
+      const r = extrairRequisicao(txt);
+      await db.put("casos", {...caso, requisicao: Object.fromEntries(CAMPOS_REQUISICAO.map(([k])=> [k, r[k] || (caso.requisicao || {})[k] || ""])),
+        numero_protocolo: r.numero_protocolo || caso.numero_protocolo, requisicao_origem: `requisição em PDF (${caminho})`, quesitos_requisicao: r.quesitos});
+      await registrar("requisição lida do PDF", {id_caso: caso.id_caso, resultado: `${CAMPOS_REQUISICAO.filter(([k])=> r[k]).length} campos, ${r.quesitos.length} quesitos`});
+      toast(`Requisição lida: ${r.quesitos.length} quesito(s) prontos para a tela de quesitos.`); navegar();
+    } catch(e){ $("#avisoPdf").innerHTML = `<div class="card pendente">Não consegui ler o PDF: ${esc(e.message)}</div>`; }
+  });
+  form.addEventListener("submit", async ev=>{
     ev.preventDefault();
     const caso = await casoAtual(), d = await dadosDoCaso(caso);
+    if (!d.sims.length && !$("#semSimConfirmado")?.checked) return mostrarErros("#errosConferencia", ["Confirme que o aparelho não tem cartão SIM, ou adicione o SIM (RN06)."]);
     let correcoes = 0;
     const corrigir = (c, id, origemPadrao)=>{
       const novo = valorDe(id);
       if (val(c) === novo) return c;
       correcoes++;
       registrar("campo corrigido", {id_caso: caso.id_caso, campo_verificado: id, de: val(c), para: novo});
-      return novo ? {...(c || {}), valor: novo, origem: c?.origem || origemPadrao, corrigido_de: val(c), valido: true} : null;
+      if (!novo) return null;
+      return c ? {...c, valor: novo, corrigido_de: val(c), valido: true} : {valor: novo, origem: origemPadrao, valido: true};
     };
     const ap = d.ap || {id_aparelho: caso.id_caso + "-A1", id_caso: caso.id_caso};
     for (const k of Object.keys(ROTULOS_APARELHO)) ap[k] = corrigir(ap[k], "ap_" + k, "perito");
@@ -104,44 +209,69 @@ TELAS_DEPOIS["#/dados"] = async (p)=>{
       await db.put("sims", s);
     }
     const requisicao = Object.fromEntries(CAMPOS_REQUISICAO.map(([k])=> [k, valorDe("req_" + k)]));
+    const reqCorrigidos = CAMPOS_REQUISICAO.filter(([k])=> (caso.requisicao || {})[k] && caso.requisicao[k] !== requisicao[k]).length;
+    const total = correcoes + reqCorrigidos;
     await db.put("casos", {...caso, requisicao, numero_protocolo: requisicao.numero_protocolo || caso.numero_protocolo,
-      conferido_em: agora(), correcoes: (caso.correcoes || 0) + correcoes});
-    await registrar("conferência confirmada", {id_caso: caso.id_caso, resultado: correcoes + " correção(ões)"});
-    toast(`Conferência confirmada${correcoes ? `, com ${correcoes} correção(ões)` : ""}.`); navegar();
+      conferido_em: agora(), sem_sim_confirmado: !d.sims.length, correcoes: (caso.correcoes || 0) + total,
+      campos_conferidos: (caso.campos_conferidos || 0) + $$("#formConferencia input:not([type=checkbox])").length});
+    await registrar("conferência confirmada", {id_caso: caso.id_caso, resultado: total + " correção(ões)"});
+    toast(`Conferência confirmada${total ? `, com ${total} correção(ões)` : ""}.`); navegar();
   });
 };
 
 /* ---------- Sprint 7 · textos padronizados (RN08) e biblioteca ---------- */
+// marcadores dentro dos textos ({marca}, {qtd_sims}...) recebem os dados confirmados
+function preencherMarcadores(texto, dados){
+  return String(texto || "").replace(/\{(\w+)\}/g, (m, k)=> dados[k] !== undefined && dados[k] !== null && typeof dados[k] !== "object" ? String(dados[k]) : m);
+}
+teste("RN08: marcador dentro do texto recebe o dado", ()=> preencherMarcadores("Aparelho {marca} com {qtd_sims} SIM", {marca: "Xiaomi", qtd_sims: 2}) === "Aparelho Xiaomi com 2 SIM");
+// sugestão por condição: sem SIM, a seção "Aparelho sem SIM" entra; com SIM, sai
+const secoesDoCaso = d=> CATEGORIAS_TEXTO.filter(([c])=> c !== "sem_sim" || !d.sims.length);
+
 TELAS["#/textos"] = async ()=>{
   const caso = await casoAtual(); if (!caso) return semCaso("Textos");
   const ts = await textosDaBiblioteca(), escolhidos = caso.textos || {};
-  const d = await dadosDoCaso(caso);
-  return `<h1>Textos padronizados</h1><p class="sub">Escolha o texto de cada seção do laudo. A biblioteca fica em <a href="#/biblioteca">Biblioteca</a> (RN08).</p>
-    <form class="card" id="formTextos"><div class="campos">
-      ${CATEGORIAS_TEXTO.filter(([c])=> c !== "sem_sim" || !d.sims.length).map(([c, r])=>{
-        const op = ts.filter(t=> t.categoria === c);
-        return campo("tx_" + c, r, {tipo:"select", opcoes:[["", "(sem texto)"], ...op.map(t=> [t.id_texto, t.titulo])], valor: escolhidos[c] ?? op[0]?.id_texto ?? ""});
-      }).join("")}</div>
+  const d = await dadosDoCaso(caso), dados = await dadosDoLaudo(caso, true);
+  return `<h1>Textos padronizados</h1><p class="sub">Escolha o texto de cada seção. A prévia já traz os dados do caso no lugar dos marcadores. A biblioteca fica em <a href="#/biblioteca">Biblioteca</a> (RN08).
+    ${d.sims.length ? "" : '<br><span class="selo info">sugestão</span> O caso não tem SIM: a seção "Aparelho sem SIM" entrou na lista.'}</p>
+    <form class="card" id="formTextos">
+      ${secoesDoCaso(d).map(([c, r])=>{
+        const op = ts.filter(t=> t.categoria === c), atual = escolhidos[c] ?? op[0]?.id_texto ?? "";
+        const t = op.find(x=> x.id_texto === atual);
+        return `<div class="ag-texto">${campo("tx_" + c, r, {tipo:"select", opcoes:[["", "(sem texto)"], ...op.map(x=> [x.id_texto, `${x.titulo} · v${x.versao || 1}`])], valor: atual})}
+          <p class="ag-previa" id="previa_${c}">${esc(preencherMarcadores(t?.conteudo || "", dados)) || '<span class="sub">sem texto</span>'}</p></div>`;
+      }).join("")}
       <div class="linha-botoes"><button class="prim" type="submit">Salvar os textos</button><a class="botao" href="#/quesitos">Próximo: quesitos</a></div></form>`;
 };
-TELAS_DEPOIS["#/textos"] = ()=>{
+TELAS_DEPOIS["#/textos"] = async ()=>{
+  const caso = await casoAtual(); if (!caso) return;
+  const ts = await textosDaBiblioteca(), dados = await dadosDoLaudo(caso, true);
+  $$("#formTextos select").forEach(s=> s.addEventListener("change", ()=>{
+    const t = ts.find(x=> x.id_texto === s.value);
+    $("#previa_" + s.id.slice(3)).textContent = preencherMarcadores(t?.conteudo || "", dados);
+  }));
   $("#formTextos")?.addEventListener("submit", async ev=>{
     ev.preventDefault();
-    const caso = await casoAtual();
-    const textos = Object.fromEntries(CATEGORIAS_TEXTO.filter(([c])=> $("#tx_" + c)).map(([c])=> [c, valorDe("tx_" + c)]));
-    await db.put("casos", {...caso, textos}); await registrar("textos escolhidos", {id_caso: caso.id_caso});
+    const c = await casoAtual();
+    const textos = Object.fromEntries(CATEGORIAS_TEXTO.filter(([k])=> $("#tx_" + k)).map(([k])=> [k, valorDe("tx_" + k)]));
+    await db.put("casos", {...c, textos}); await registrar("textos escolhidos", {id_caso: c.id_caso});
     toast("Textos salvos."); location.hash = "#/quesitos";
   });
 };
 TELAS["#/biblioteca"] = async ()=>{
-  const ts = await textosDaBiblioteca();
+  let ts = await textosDaBiblioteca(); ts = await db.list("textos");
   const cats = [...CATEGORIAS_TEXTO, ["resposta", "Resposta de quesito"]];
-  return `<h1>Biblioteca de textos</h1><p class="sub">${ts.length} textos ativos. Editar um texto cria a versão seguinte (RN08).</p>
-    <div class="card tabela-wrap"><table><tr><th>Categoria</th><th>Título</th><th>Texto</th><th>Versão</th><th></th></tr>
+  return `<h1>Biblioteca de textos</h1><p class="sub">${ts.filter(t=> t.ativo !== false).length} textos ativos de ${ts.length}. Editar um texto cria a versão seguinte; desativar tira o texto das listas sem apagar (RN08).
+    Marcadores aceitos no texto: <span class="mono">{marca} {modelo} {cor} {imei_1} {qtd_sims} {numero_protocolo} {hash_arquivo}</span>. Respostas de quesito usam o campo "palavras-chave" para a sugestão.</p>
+    <div class="card"><div class="linha-botoes" style="margin-top:0"><button id="btnExportarTextos">Exportar a biblioteca (textos.json)</button>
+      <label class="botao">Importar textos.json<input type="file" id="arqTextos" accept=".json" hidden></label></div></div>
+    <div class="card tabela-wrap"><table><tr><th>Categoria</th><th>Título</th><th>Texto</th><th>Versão</th><th>Situação</th><th></th></tr>
       ${ts.map(t=> `<tr><td>${esc(cats.find(c=> c[0] === t.categoria)?.[1] || t.categoria)}</td><td><b>${esc(t.titulo)}</b></td>
-        <td>${esc(t.conteudo)}</td><td class="num">${esc(t.versao || "1")}</td><td><button data-editar-texto="${esc(t.id_texto)}">Editar</button></td></tr>`).join("")}</table></div>
+        <td>${esc(t.conteudo)}</td><td class="num">${esc(t.versao || "1")}</td><td>${t.ativo === false ? '<span class="selo alerta">inativo</span>' : '<span class="selo ok">ativo</span>'}</td>
+        <td><button data-editar-texto="${esc(t.id_texto)}">Editar</button> <button data-ativar-texto="${esc(t.id_texto)}">${t.ativo === false ? "Ativar" : "Desativar"}</button></td></tr>`).join("")}</table></div>
     <form class="card" id="formTexto"><h2 style="margin-top:0" id="tituloFormTexto">Novo texto</h2><input type="hidden" id="txId">
-      <div class="campos">${campo("txCategoria", "Categoria", {tipo:"select", opcoes:cats})}${campo("txTitulo", "Título", {obrigatorio:true})}</div>
+      <div class="campos">${campo("txCategoria", "Categoria", {tipo:"select", opcoes:cats})}${campo("txTitulo", "Título", {obrigatorio:true})}
+        ${campo("txChaves", "Palavras-chave (respostas)", {ajuda: "Separadas por vírgula, ex.: marca, modelo, imei"})}</div>
       ${campo("txConteudo", "Texto", {tipo:"textarea", obrigatorio:true})}
       <div id="errosTexto"></div><div class="linha-botoes"><button class="prim" type="submit">Salvar o texto</button></div></form>`;
 };
@@ -149,8 +279,23 @@ TELAS_DEPOIS["#/biblioteca"] = ()=>{
   $$("[data-editar-texto]").forEach(b=> b.addEventListener("click", async ()=>{
     const t = await db.get("textos", b.dataset.editarTexto);
     $("#txId").value = t.id_texto; $("#txCategoria").value = t.categoria; $("#txTitulo").value = t.titulo; $("#txConteudo").value = t.conteudo;
+    $("#txChaves").value = (t.palavras_chave || []).join(", ");
     $("#tituloFormTexto").textContent = "Editar texto"; $("#formTexto").scrollIntoView({block:"nearest"});
   }));
+  $$("[data-ativar-texto]").forEach(b=> b.addEventListener("click", async ()=>{
+    const t = await db.get("textos", b.dataset.ativarTexto);
+    await db.put("textos", {...t, ativo: t.ativo === false}); await registrar(t.ativo === false ? "texto ativado" : "texto desativado", {detalhe: t.id_texto}); navegar();
+  }));
+  $("#btnExportarTextos")?.addEventListener("click", async ()=> baixar("textos.json", JSON.stringify(await db.list("textos"), null, 2), "application/json"));
+  $("#arqTextos")?.addEventListener("change", async e=>{
+    const f = e.target.files[0]; if (!f) return;
+    try {
+      const lista = JSON.parse(await lerArquivoTexto(f)), arr = Array.isArray(lista) ? lista : lista.textos || [];
+      let n = 0;
+      for (const t of arr) if (t.id_texto && t.conteudo){ await db.put("textos", {ativo: true, versao: "1", ...t}); n++; }
+      await registrar("biblioteca importada", {detalhe: f.name, resultado: n + " textos"}); toast(`${n} textos importados.`); navegar();
+    } catch(err){ toast("Arquivo ilegível: " + err.message, 5000); }
+  });
   $("#formTexto")?.addEventListener("submit", async ev=>{
     ev.preventDefault();
     const erros = [];
@@ -159,7 +304,9 @@ TELAS_DEPOIS["#/biblioteca"] = ()=>{
     if (!mostrarErros("#errosTexto", erros)) return;
     const id = valorDe("txId"), ant = id ? await db.get("textos", id) : null;
     const t = {id_texto: id || "T" + Date.now().toString(36), categoria: valorDe("txCategoria"), titulo: valorDe("txTitulo"),
-      conteudo: valorDe("txConteudo"), versao: String(Number(ant?.versao || 0) + 1), ativo: true};
+      conteudo: valorDe("txConteudo"), versao: String(Number(ant?.versao || 0) + 1), ativo: ant ? ant.ativo !== false : true,
+      palavras_chave: valorDe("txChaves").split(",").map(x=> x.trim()).filter(Boolean)};
+    if (ant) t.versoes_anteriores = [...(ant.versoes_anteriores || []), {versao: ant.versao, conteudo: ant.conteudo}];
     await db.put("textos", t); await registrar(ant ? "texto alterado" : "texto criado", {detalhe: t.id_texto, versao: t.versao});
     toast("Texto salvo."); navegar();
   });
@@ -169,82 +316,184 @@ TELAS_DEPOIS["#/biblioteca"] = ()=>{
 // RN09: um quesito por linha, com ou sem número na frente ("1)", "1.", "1 -")
 const separarQuesitos = txt=> String(txt || "").split(/\r?\n/).map(l=> l.replace(/^\s*\d+\s*[).\-–:]\s*/, "").trim()).filter(Boolean);
 teste("RN09: separa e numera os quesitos colados", ()=>{ const q = separarQuesitos("1) Qual a marca?\n2. Havia SIM?\n\n3 - Houve extração?"); return q.length === 3 && q[1] === "Havia SIM?"; });
+// palavras-chave das respostas do exemplo, quando o texto da biblioteca não traz as dele
+const CHAVES_PADRAO = {T08: ["marca", "modelo", "imei", "aparelho examinado"], T09: ["sim", "operadora", "iccid", "chip"],
+  T10: ["extrair", "extração", "dados armazenados"], T11: ["integridade", "preservad", "hash"]};
+function sugerirResposta(enunciado, respostas){
+  const e = normalizar(enunciado);
+  let melhor = null, pontos = 0;
+  for (const t of respostas){
+    const chaves = (t.palavras_chave && t.palavras_chave.length ? t.palavras_chave : CHAVES_PADRAO[t.id_texto] || []).map(normalizar);
+    const n = chaves.filter(k=> k && (k.length <= 3 ? new RegExp(`\\b${k}\\b`).test(e) : e.includes(k))).length;
+    if (n > pontos){ melhor = t; pontos = n; }
+  }
+  return melhor;
+}
+teste("RN10: sugestão de resposta por palavra-chave", ()=> sugerirResposta("O aparelho continha cartão SIM? Qual o ICCID?", [{id_texto: "T08"}, {id_texto: "T09"}])?.id_texto === "T09");
+
+async function gravarQuesitos(caso, lista){
+  const dados = await dadosDoLaudo(caso, true), respostas = (await textosDaBiblioteca()).filter(t=> t.categoria === "resposta");
+  for (const q of await db.porIndice("quesitos", "id_caso", caso.id_caso)) await db.del("quesitos", q.id_quesito);
+  for (const [i, enunciado] of lista.entries()){
+    const s = sugerirResposta(enunciado, respostas);
+    // a resposta sugerida nasce como "sugestão, não aprovada" e só entra no laudo depois de aprovada
+    await db.put("quesitos", {id_quesito: `${caso.id_caso}-Q${uuid().slice(0, 8)}`, id_caso: caso.id_caso, numero: i + 1, enunciado,
+      resposta: s ? preencherMarcadores(s.conteudo, dados) : "", sugestao: !!s, aprovada: false, texto_sugerido: s?.id_texto || null});
+  }
+}
+async function renumerar(caso, ordem){
+  for (const [i, q] of ordem.entries()) await db.put("quesitos", {...q, numero: i + 1});
+}
 TELAS["#/quesitos"] = async ()=>{
   const caso = await casoAtual(); if (!caso) return semCaso("Quesitos");
   const {qs} = await dadosDoCaso(caso);
   const respostas = (await textosDaBiblioteca()).filter(t=> t.categoria === "resposta");
-  return `<h1>Quesitos</h1><p class="sub">Cole os quesitos da requisição, um por linha. Cada quesito precisa de resposta antes de gerar o laudo (RN10).</p>
-    <div class="card">${campo("qsColar", "Quesitos da requisição", {tipo:"textarea", ajuda:"A numeração da requisição é refeita na ordem colada (RN09)."})}
-      <div class="linha-botoes"><button class="prim" id="btnQuesitos">${qs.length ? "Substituir os quesitos" : "Cadastrar os quesitos"}</button></div></div>
+  const daReq = caso.quesitos_requisicao || [];
+  return `<h1>Quesitos</h1><p class="sub">Os quesitos vêm da requisição em PDF ou são colados, um por linha (RN09). O app sugere a resposta pela biblioteca; a sugestão só entra no laudo depois de aprovada (RN10).</p>
+    ${daReq.length ? `<div class="card"><p><b>${daReq.length} quesito(s)</b> lidos da requisição em PDF.</p>
+      <div class="linha-botoes" style="margin-top:0"><button class="prim" id="btnQuesitosPdf">Usar os quesitos da requisição</button></div></div>` : ""}
+    <div class="card">${campo("qsColar", "Colar quesitos", {tipo:"textarea", ajuda:"A numeração é refeita na ordem colada (RN09)."})}
+      <div class="linha-botoes"><button ${daReq.length ? "" : 'class="prim"'} id="btnQuesitos">${qs.length ? "Substituir os quesitos" : "Cadastrar os quesitos"}</button></div></div>
     ${qs.length ? `<form class="card" id="formRespostas"><h2 style="margin-top:0">Respostas</h2>
-      ${qs.map(q=> `<div class="campo"><label for="resp_${esc(q.id_quesito)}"><b>${q.numero})</b> ${esc(q.enunciado)}</label>
-        <select data-resp-texto="${esc(q.id_quesito)}" aria-label="Inserir resposta padrão no quesito ${q.numero}"><option value="">Inserir resposta padrão…</option>
-          ${respostas.map(t=> `<option value="${esc(t.id_texto)}">${esc(t.titulo)}</option>`).join("")}</select>
-        <textarea id="resp_${esc(q.id_quesito)}" rows="3">${esc(q.resposta || "")}</textarea></div>`).join("")}
+      ${qs.map((q, i)=> `<div class="campo ag-quesito"><label for="resp_${esc(q.id_quesito)}"><b>${q.numero})</b> ${esc(q.enunciado)}
+          ${q.sugestao && !q.aprovada ? '<span class="selo alerta">sugestão, não aprovada</span>' : q.aprovada ? '<span class="selo ok">aprovada</span>' : ""}</label>
+        <div class="linha-botoes" style="margin:4px 0">
+          <button type="button" data-mover="${esc(q.id_quesito)}" data-dir="-1" ${i ? "" : "disabled"} aria-label="Subir o quesito ${q.numero}">↑</button>
+          <button type="button" data-mover="${esc(q.id_quesito)}" data-dir="1" ${i < qs.length - 1 ? "" : "disabled"} aria-label="Descer o quesito ${q.numero}">↓</button>
+          <button type="button" data-excluir-quesito="${esc(q.id_quesito)}" aria-label="Excluir o quesito ${q.numero}">Excluir</button>
+          <select data-resp-texto="${esc(q.id_quesito)}" aria-label="Inserir resposta padrão no quesito ${q.numero}"><option value="">Inserir resposta padrão…</option>
+            ${respostas.map(t=> `<option value="${esc(t.id_texto)}">${esc(t.titulo)}</option>`).join("")}</select></div>
+        <textarea id="resp_${esc(q.id_quesito)}" rows="3">${esc(q.resposta || "")}</textarea>
+        <label style="display:inline-flex;gap:6px"><input type="checkbox" data-aprovar="${esc(q.id_quesito)}" style="width:auto" ${q.aprovada ? "checked" : ""}> resposta aprovada pelo perito</label></div>`).join("")}
+      <div class="linha-botoes"><button type="button" id="btnNovoQuesito">Inserir quesito</button></div>
       <div class="linha-botoes"><button class="prim" type="submit">Salvar as respostas</button><a class="botao" href="#/gerar">Próximo: gerar o laudo</a></div></form>` : ""}`;
 };
 TELAS_DEPOIS["#/quesitos"] = async ()=>{
+  $("#btnQuesitosPdf")?.addEventListener("click", async ()=>{
+    const caso = await casoAtual(); await gravarQuesitos(caso, caso.quesitos_requisicao || []);
+    await registrar("quesitos da requisição", {id_caso: caso.id_caso, resultado: (caso.quesitos_requisicao || []).length + " quesitos"}); navegar();
+  });
   $("#btnQuesitos")?.addEventListener("click", async ()=>{
     const caso = await casoAtual(), lista = separarQuesitos(valorDe("qsColar"));
     if (!lista.length) return toast("Cole pelo menos um quesito.");
-    for (const q of await db.porIndice("quesitos", "id_caso", caso.id_caso)) await db.del("quesitos", q.id_quesito);
-    for (const [i, enunciado] of lista.entries()) await db.put("quesitos", {id_quesito: `${caso.id_caso}-Q${i + 1}`, id_caso: caso.id_caso, numero: i + 1, enunciado, resposta: ""});
+    await gravarQuesitos(caso, lista);
     await registrar("quesitos cadastrados", {id_caso: caso.id_caso, resultado: lista.length + " quesitos"});
     navegar();
   });
+  const salvarTudo = async ()=>{
+    const caso = await casoAtual();
+    for (const q of await db.porIndice("quesitos", "id_caso", caso.id_caso)){
+      const area = $("#resp_" + CSS.escape(q.id_quesito)); if (!area) continue;
+      await db.put("quesitos", {...q, resposta: area.value.trim(), aprovada: $(`[data-aprovar="${CSS.escape(q.id_quesito)}"]`).checked});
+    }
+    return caso;
+  };
+  $$("[data-mover]").forEach(b=> b.addEventListener("click", async ()=>{
+    const caso = await salvarTudo(), {qs} = await dadosDoCaso(caso);
+    const i = qs.findIndex(q=> q.id_quesito === b.dataset.mover), j = i + Number(b.dataset.dir);
+    [qs[i], qs[j]] = [qs[j], qs[i]]; await renumerar(caso, qs); navegar();
+  }));
+  $$("[data-excluir-quesito]").forEach(b=> b.addEventListener("click", async ()=>{
+    if (!confirm("Excluir este quesito?")) return;
+    const caso = await salvarTudo();
+    await db.del("quesitos", b.dataset.excluirQuesito);
+    await renumerar(caso, (await dadosDoCaso(caso)).qs); await registrar("quesito excluído", {id_caso: caso.id_caso}); navegar();
+  }));
+  $("#btnNovoQuesito")?.addEventListener("click", async ()=>{
+    const enunciado = (prompt("Texto do quesito") || "").trim(); if (!enunciado) return;
+    const caso = await salvarTudo(), {qs} = await dadosDoCaso(caso);
+    await db.put("quesitos", {id_quesito: `${caso.id_caso}-Q${uuid().slice(0, 8)}`, id_caso: caso.id_caso, numero: qs.length + 1, enunciado, resposta: "", sugestao: false, aprovada: false});
+    navegar();
+  });
   const ts = await textosDaBiblioteca();
+  const caso = await casoAtual(), dados = caso ? await dadosDoLaudo(caso, true) : {};
   $$("[data-resp-texto]").forEach(s=> s.addEventListener("change", ()=>{
     const t = ts.find(x=> x.id_texto === s.value); if (!t) return;
-    const area = $("#resp_" + CSS.escape(s.dataset.respTexto)); area.value = (area.value ? area.value + "\n" : "") + t.conteudo; s.value = "";
+    const area = $("#resp_" + CSS.escape(s.dataset.respTexto)); area.value = (area.value ? area.value + "\n" : "") + preencherMarcadores(t.conteudo, dados); s.value = "";
   }));
   $("#formRespostas")?.addEventListener("submit", async ev=>{
     ev.preventDefault();
-    const caso = await casoAtual();
-    for (const q of await db.porIndice("quesitos", "id_caso", caso.id_caso)) await db.put("quesitos", {...q, resposta: $("#resp_" + CSS.escape(q.id_quesito)).value.trim()});
-    await registrar("respostas salvas", {id_caso: caso.id_caso}); toast("Respostas salvas.");
+    const c = await salvarTudo();
+    await registrar("respostas salvas", {id_caso: c.id_caso}); toast("Respostas salvas."); navegar();
   });
 };
 
 /* ---------- Sprint 4 · geração do Word (RN12, RN13) ---------- */
-async function dadosDoLaudo(caso){
+// rascunho = true devolve os dados mesmo sem a conferência (para as prévias)
+async function dadosDoLaudo(caso, rascunho){
   const d = await dadosDoCaso(caso), ts = await textosDaBiblioteca(), req = caso.requisicao || {}, l = caso.laudo || {};
-  const texto = c=> ts.find(t=> t.id_texto === (caso.textos || {})[c])?.conteudo || "";
-  return {...req, numero_protocolo: req.numero_protocolo || caso.numero_protocolo || "",
+  const base = {...req, numero_protocolo: req.numero_protocolo || caso.numero_protocolo || "",
     numero_laudo: l.numero_laudo || "", nome_perito: l.nome_perito || "", data_laudo: l.data_laudo || new Date().toLocaleDateString("pt-BR"),
     marca: val(d.ap?.marca), modelo: val(d.ap?.modelo), cor: val(d.ap?.cor) || "não informada", imei_1: val(d.ap?.imei_1), imei_2: val(d.ap?.imei_2),
-    sims: d.sims.map(s=> ({identificador_objeto: s.identificador_objeto, operadora: val(s.operadora), iccid: val(s.iccid)})),
-    hash_arquivo: val(d.hs?.hash_arquivo), hash_algoritmo: d.hs?.algoritmo || "SHA-256", valor_hash: val(d.hs?.valor_hash),
-    quesitos: d.qs.map(q=> ({numero_quesito: q.numero, enunciado: q.enunciado, resposta: q.resposta || ""})),
-    ...Object.fromEntries(CATEGORIAS_TEXTO.map(([c])=> ["texto_" + c, texto(c)]))};
+    qtd_sims: d.sims.length, sims: d.sims.map(s=> ({identificador_objeto: s.identificador_objeto, operadora: val(s.operadora), iccid: val(s.iccid)})),
+    hash_arquivo: val(d.hs?.hash_arquivo), hash_algoritmo: d.hs?.algoritmo || "SHA-256", valor_hash: val(d.hs?.valor_hash)};
+  const texto = c=> preencherMarcadores(ts.find(t=> t.id_texto === (caso.textos || {})[c])?.conteudo || "", base);
+  // só respostas aprovadas entram no laudo final (RN10)
+  base.quesitos = d.qs.map(q=> ({numero_quesito: q.numero, enunciado: q.enunciado, resposta: q.aprovada || rascunho ? q.resposta || "" : ""}));
+  for (const [c] of CATEGORIAS_TEXTO) base["texto_" + c] = texto(c);
+  return base;
 }
-function gerarDocx(dados){
-  const modelo = dadosEmbutidos("modelo-docx");
-  if (!modelo?.b64 || typeof PizZip === "undefined" || typeof docxtemplater === "undefined") throw new Error("modelo ou biblioteca do Word não embutidos");
-  const doc = new docxtemplater(new PizZip(atob(modelo.b64)), {paragraphLoop: true, linebreaks: true, nullGetter: ()=> ""});
+async function modeloAtual(){
+  const m = await db.get("modelos", "atual");
+  if (m?.b64) return m;
+  const e = dadosEmbutidos("modelo-docx");
+  return e ? {id_modelo: "embutido", nome: e.nome + " (fictício, embutido)", b64: e.b64} : null;
+}
+// marcadores encontrados no modelo: o texto do document.xml sem as tags
+function marcadoresDoModelo(b64){
+  const xml = new PizZip(atob(b64)).file("word/document.xml").asText();
+  const txt = xml.replace(/<[^>]+>/g, "");
+  return [...new Set([...txt.matchAll(/\{[#^/]?(\w+)\}/g)].map(m=> m[1]))].sort();
+}
+function gerarDocx(dados, b64){
+  if (!b64 || typeof PizZip === "undefined" || typeof docxtemplater === "undefined") throw new Error("modelo ou biblioteca do Word não embutidos");
+  const doc = new docxtemplater(new PizZip(atob(b64)), {paragraphLoop: true, linebreaks: true, nullGetter: ()=> ""});
   doc.render(dados);
   return doc.getZip().generate({type: "blob", mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"});
 }
 teste("RN12: o modelo do Word preenche os marcadores", ()=>{
-  const blob = gerarDocx({numero_laudo: "1/2026", sims: [], quesitos: [{numero_quesito: 1, enunciado: "a", resposta: "b"}]});
+  const blob = gerarDocx({numero_laudo: "1/2026", sims: [], quesitos: [{numero_quesito: 1, enunciado: "a", resposta: "b"}]}, dadosEmbutidos("modelo-docx")?.b64);
   return blob.size > 10000;
 });
+teste("RN12: o modelo embutido tem os marcadores do laço de SIMs e de quesitos", ()=>{
+  const m = marcadoresDoModelo(dadosEmbutidos("modelo-docx").b64); return m.includes("sims") && m.includes("quesitos") && m.includes("imei_1");
+});
+// RN13: os originais não mudam; o laudo vai para LAUDO_GERADO dentro da pasta, se o perito permitir
+async function gravarNaPasta(caso, nome, blob){
+  const h = caso.pasta_handle;
+  if (!h || !h.requestPermission) return false;
+  try {
+    if (await h.requestPermission({mode: "readwrite"}) !== "granted") return false;
+    const dir = await h.getDirectoryHandle("LAUDO_GERADO", {create: true});
+    const w = await (await dir.getFileHandle(nome, {create: true})).createWritable();
+    await w.write(blob); await w.close(); return true;
+  } catch(e){ return false; }
+}
 TELAS["#/gerar"] = async ()=>{
   const caso = await casoAtual(); if (!caso) return semCaso("Gerar laudo");
   const {bloqueios, alertas} = conferir(caso, await dadosDoCaso(caso)), l = caso.laudo || {};
   const laudos = await db.porIndice("laudos", "id_caso", caso.id_caso);
-  return `<h1>Gerar o laudo</h1><p class="sub">O Word sai do modelo com os marcadores (RN12). Os originais da pasta não mudam (RN13).</p>
+  const modelo = await modeloAtual(), dados = await dadosDoLaudo(caso, true);
+  const marc = modelo ? marcadoresDoModelo(modelo.b64) : [];
+  const ITENS = new Set(["identificador_objeto", "operadora", "iccid", "numero_quesito", "enunciado", "resposta"]);
+  const semDado = marc.filter(m=> !ITENS.has(m) && (dados[m] === undefined || dados[m] === "" || (Array.isArray(dados[m]) && !dados[m].length && m !== "sims")));
+  return `<h1>Gerar o laudo</h1><p class="sub">O Word sai do modelo com os marcadores (RN12). Os originais da pasta não mudam: o arquivo vai para <span class="mono">LAUDO_GERADO</span>, quando o navegador permite, ou para Downloads (RN13).</p>
     <form class="card" id="formLaudo"><div class="campos">
       ${campo("lNumero", "Número do laudo", {valor: l.numero_laudo || "", obrigatorio: true})}
       ${campo("lPerito", "Nome do perito", {valor: l.nome_perito || "", obrigatorio: true})}
       ${campo("lData", "Data do laudo", {valor: l.data_laudo || new Date().toLocaleDateString("pt-BR")})}</div>
       <div class="linha-botoes"><button type="submit">Salvar</button></div></form>
+    <div class="card"><h2 style="margin-top:0">Modelo</h2><p class="sub">${esc(modelo?.nome || "nenhum")} · ${marc.length} marcadores.
+      ${semDado.length ? `<span class="selo alerta">${semDado.length} sem dado</span> <span class="mono">${semDado.map(esc).join(", ")}</span>` : '<span class="selo ok">todos os marcadores com dado</span>'}
+      Troque o modelo em <a href="#/config">Configuração</a>.</p></div>
     <div class="card" id="resultadoConferencia"><h2 style="margin-top:0">Conferência automática (RN11)</h2>
-      ${bloqueios.length ? `<div class="pendente" role="alert"><b>${bloqueios.length} bloqueio(s):</b><ul>${bloqueios.map(b=> `<li>${esc(b)}</li>`).join("")}</ul></div>` : '<p><span class="selo ok">sem bloqueios</span></p>'}
-      ${alertas.length ? `<p><b>Alertas</b></p><ul>${alertas.map(a=> `<li>${esc(a)}</li>`).join("")}</ul>` : ""}
+      ${bloqueios.length ? `<div class="pendente" role="alert"><b>Bloqueia (${bloqueios.length}):</b><ul>${bloqueios.map(b=> `<li>${esc(b)}</li>`).join("")}</ul></div>` : '<p><span class="selo ok">sem bloqueios</span></p>'}
+      ${alertas.length ? `<p><b>Alerta (${alertas.length})</b></p><ul>${alertas.map(a=> `<li>${esc(a)}</li>`).join("")}</ul>` : ""}
+      <p class="sub"><b>Informa:</b> ${dados.qtd_sims} SIM(s), ${dados.quesitos.length} quesito(s), ${laudos.length} versão(ões) já gerada(s).</p>
       <div class="linha-botoes"><button class="prim" id="btnGerarDocx" ${bloqueios.length ? "disabled" : ""}>Gerar o .docx</button>
         <button id="btnRascunho">Gerar rascunho (com pendências)</button></div></div>
-    ${laudos.length ? `<div class="card tabela-wrap"><h2 style="margin-top:0">Versões geradas</h2><table><tr><th>Quando</th><th>Arquivo</th><th>Tipo</th></tr>
-      ${laudos.sort((a, b)=> b.gerado_em.localeCompare(a.gerado_em)).map(x=> `<tr><td>${dataBR(x.gerado_em)}</td><td class="mono">${esc(x.arquivo)}</td><td>${x.rascunho ? "rascunho" : "final"}</td></tr>`).join("")}</table></div>` : ""}`;
+    ${laudos.length ? `<div class="card tabela-wrap"><h2 style="margin-top:0">Versões geradas</h2><table><tr><th>Versão</th><th>Quando</th><th>Arquivo</th><th>Tipo</th><th>Onde</th></tr>
+      ${laudos.sort((a, b)=> (b.versao || 0) - (a.versao || 0)).map(x=> `<tr><td class="num">${x.versao || ""}</td><td>${dataBR(x.gerado_em)}</td><td class="mono">${esc(x.arquivo)}</td><td>${x.rascunho ? "rascunho" : "final"}</td><td>${x.na_pasta ? "LAUDO_GERADO" : "Downloads"}</td></tr>`).join("")}</table></div>` : ""}`;
 };
 TELAS_DEPOIS["#/gerar"] = async ()=>{
   $("#formLaudo")?.addEventListener("submit", async ev=>{
@@ -256,17 +505,47 @@ TELAS_DEPOIS["#/gerar"] = async ()=>{
   const gerar = async rascunho=>{
     const caso = await casoAtual();
     try {
-      const blob = gerarDocx(await dadosDoLaudo(caso));
-      const nome = `laudo-${(caso.numero_protocolo || "caso").replace(/[^\w.-]+/g, "_")}${rascunho ? "-rascunho" : ""}.docx`;
-      baixar(nome, blob, blob.type);
-      await db.put("laudos", {id_laudo: uuid(), id_caso: caso.id_caso, arquivo: nome, gerado_em: agora(), rascunho});
+      const blob = gerarDocx(await dadosDoLaudo(caso, rascunho), (await modeloAtual())?.b64);
+      const versao = (await db.porIndice("laudos", "id_caso", caso.id_caso)).length + 1;
+      const nome = `laudo_${(caso.numero_protocolo || "caso").replace(/[^\w.-]+/g, "_")}_v${versao}${rascunho ? "_rascunho" : ""}.docx`;
+      const naPasta = await gravarNaPasta(caso, nome, blob);
+      if (!naPasta) baixar(nome, blob, blob.type);
+      await db.put("laudos", {id_laudo: uuid(), id_caso: caso.id_caso, versao, arquivo: nome, gerado_em: agora(), rascunho, na_pasta: naPasta});
       await registrar("laudo gerado", {id_caso: caso.id_caso, resultado: nome});
-      toast("Laudo gerado: " + nome); navegar();
+      toast((naPasta ? "Laudo gravado em LAUDO_GERADO: " : "Laudo baixado: ") + nome); navegar();
     } catch(e){ toast("Não consegui gerar o Word: " + e.message, 6000); }
   };
   $("#btnGerarDocx")?.addEventListener("click", ()=> gerar(false));
   $("#btnRascunho")?.addEventListener("click", ()=> gerar(true));
 };
+
+/* ---------- configuração: modelo .docx da unidade e privacidade ---------- */
+async function configExtra(){
+  const m = await modeloAtual();
+  return `<div class="card"><h2 style="margin-top:0">Modelo do laudo</h2>
+      <p class="sub">Em uso: <b>${esc(m?.nome || "nenhum")}</b>. O modelo institucional precisa ter os marcadores de <span class="mono">modelos/MARCADORES.md</span>, escritos de uma vez no Word.</p>
+      <div class="linha-botoes"><label class="botao">Carregar modelo .docx<input type="file" id="arqModelo" accept=".docx" hidden></label>
+        ${m?.id_modelo === "atual" ? '<button id="btnModeloPadrao">Voltar ao modelo fictício</button>' : ""}</div><div id="modeloInfo"></div></div>
+    <div class="card"><h2 style="margin-top:0">Privacidade</h2>
+      <p><b>Finalidade:</b> montar o laudo de exame em aparelho celular a partir dos arquivos da extração. <b>Dados tratados:</b> IMEI, ICCID, operadora, hash e os dados da requisição.
+        <b>Onde ficam:</b> só neste navegador; o app não acessa a rede. <b>Retenção:</b> depois de concluído o laudo, use "Limpar os dados do caso" no Histórico; as métricas ficam.
+        <b>Base legal:</b> execução de competência legal da perícia oficial (art. 7º, III e art. 23 da LGPD), <i>a validar com o encarregado de dados</i>.</p></div>`;
+}
+async function ligarConfigExtra(){
+  $("#arqModelo")?.addEventListener("change", async e=>{
+    const f = e.target.files[0]; if (!f) return;
+    const buf = new Uint8Array(await lerArrayBuffer(f));
+    let bin = ""; for (let i = 0; i < buf.length; i += 32768) bin += String.fromCharCode(...buf.subarray(i, i + 32768));
+    const b64 = btoa(bin);
+    try {
+      const marc = marcadoresDoModelo(b64);
+      await db.put("modelos", {id_modelo: "atual", nome: f.name, b64, carregado_em: agora(), marcadores: marc});
+      await registrar("modelo carregado", {detalhe: f.name, resultado: marc.length + " marcadores"});
+      toast(`Modelo carregado: ${marc.length} marcadores.`); navegar();
+    } catch(err){ $("#modeloInfo").innerHTML = `<div class="card pendente">O arquivo não é um .docx válido: ${esc(err.message)}</div>`; }
+  });
+  $("#btnModeloPadrao")?.addEventListener("click", async ()=>{ await db.del("modelos", "atual"); toast("Voltou ao modelo fictício."); navegar(); });
+}
 
 /* ---------- Sprint 9 · revisão final (RN14) ---------- */
 TELAS["#/revisao"] = async ()=>{
@@ -274,18 +553,24 @@ TELAS["#/revisao"] = async ()=>{
   const d = await dadosDoCaso(caso), {bloqueios, alertas} = conferir(caso, d);
   const laudos = (await db.porIndice("laudos", "id_caso", caso.id_caso)).filter(x=> !x.rascunho);
   const itens = [["Pasta inventariada", !!caso.inventario], ["Dados conferidos (RN04)", !!caso.conferido_em], ["Textos escolhidos", !!caso.textos],
-    ["Quesitos respondidos", d.qs.length > 0 && d.qs.every(q=> q.resposta)], ["Laudo final gerado", laudos.length > 0], ["Sem bloqueios (RN11)", !bloqueios.length]];
-  return `<h1>Revisão final</h1><p class="sub">O caso só é concluído com todos os itens marcados (RN14). Situação: <span class="selo info">${esc(caso.status)}</span></p>
+    ["Quesitos respondidos e aprovados", d.qs.length > 0 && d.qs.every(q=> q.resposta && q.aprovada)], ["Laudo final gerado", laudos.length > 0], ["Sem bloqueios (RN11)", !bloqueios.length]];
+  const prontos = itens.every(i=> i[1]);
+  return `<h1>Revisão final</h1><p class="sub">Abra o <span class="mono">.docx</span> no Word, revise e anote abaixo o que mudou. Só a marcação de revisão encerra o caso e para o cronômetro (RN14). Situação: <span class="selo info">${esc(caso.status)}</span></p>
     <div class="card"><ul class="checklist">${itens.map(([t, okI])=> `<li>${okI ? '<span class="selo ok">ok</span>' : '<span class="selo alerta">pendente</span>'} ${esc(t)}</li>`).join("")}</ul>
-      ${bloqueios.length ? `<p><b>Bloqueios:</b> ${bloqueios.map(esc).join(" ")}</p>` : ""}${alertas.length ? `<p class="sub">Alertas: ${alertas.map(esc).join(" ")}</p>` : ""}
-      <div class="linha-botoes"><button class="prim" id="btnConcluir" ${itens.every(i=> i[1]) && caso.status !== "concluído" ? "" : "disabled"}>Concluir o caso</button>
-        <a class="botao" href="#/historico">Histórico e métricas</a></div></div>`;
+      ${bloqueios.length ? `<p><b>Bloqueios:</b> ${bloqueios.map(esc).join(" ")}</p>` : ""}${alertas.length ? `<p class="sub">Alertas: ${alertas.map(esc).join(" ")}</p>` : ""}</div>
+    <form class="card" id="formRevisao">${campo("revNotas", "Correções feitas no Word", {tipo: "textarea", valor: caso.revisao_notas || "", ajuda: "Ex.: ajuste de redação no histórico. Fica no histórico do caso para medir o retrabalho."})}
+      ${campo("revQtd", "Quantidade de correções no Word", {tipo: "number", valor: caso.correcoes_word ?? 0, attrs: 'min="0"'})}
+      <label style="display:inline-flex;gap:6px"><input type="checkbox" id="revOk" style="width:auto" ${prontos ? "" : "disabled"}> revisei o laudo e ele está pronto para assinatura</label>
+      <div class="linha-botoes"><button class="prim" type="submit" id="btnConcluir" ${prontos && caso.status !== "concluído" ? "" : "disabled"}>Concluir o caso</button>
+        <a class="botao" href="#/historico">Histórico e métricas</a></div></form>`;
 };
 TELAS_DEPOIS["#/revisao"] = ()=>{
-  $("#btnConcluir")?.addEventListener("click", async ()=>{
+  $("#formRevisao")?.addEventListener("submit", async ev=>{
+    ev.preventDefault();
+    if (!$("#revOk").checked) return toast("Marque a revisão para concluir o caso.");
     const caso = await casoAtual();
-    await db.put("casos", {...caso, status: "concluído", fim_em: agora()});
-    await registrar("caso concluído", {id_caso: caso.id_caso}); toast("Caso concluído."); navegar();
+    await db.put("casos", {...caso, status: "concluído", fim_em: agora(), revisado_em: agora(), revisao_notas: valorDe("revNotas"), correcoes_word: Number(valorDe("revQtd")) || 0});
+    await registrar("caso concluído", {id_caso: caso.id_caso, resultado: "revisado"}); toast("Caso concluído."); navegar();
   });
 };
 
@@ -293,24 +578,29 @@ TELAS_DEPOIS["#/revisao"] = ()=>{
 const minutosDoCaso = c=> c.inicio_em && c.fim_em ? Math.round((new Date(c.fim_em) - new Date(c.inicio_em)) / 60000) : null;
 TELAS["#/historico"] = async ()=>{
   const casos = (await db.list("casos")).sort((a, b)=> String(b.criado_em).localeCompare(String(a.criado_em)));
+  const laudos = await db.list("laudos");
   const concl = casos.filter(c=> minutosDoCaso(c) !== null);
   const media = concl.length ? Math.round(concl.reduce((a, c)=> a + minutosDoCaso(c), 0) / concl.length) : null;
-  return `<h1>Histórico e métricas</h1><p class="sub">Tempo de cada laudo, da pasta inventariada à conclusão, e as correções feitas na conferência.</p>
-    <div class="grade"><div class="card kpi"><div class="v">${casos.length}</div><div class="r">casos</div></div>
-      <div class="card kpi"><div class="v">${concl.length}</div><div class="r">concluídos</div></div>
+  const corr = casos.reduce((a, c)=> a + (c.correcoes || 0), 0), conf = casos.reduce((a, c)=> a + (c.campos_conferidos || 0), 0);
+  const conferidos = casos.filter(c=> c.conferido_em).length;
+  return `<h1>Histórico e métricas</h1><p class="sub">Tempo de cada laudo, da pasta inventariada à revisão, e as correções feitas na conferência e no Word.</p>
+    <div class="grade"><div class="card kpi"><div class="v">${casos.length}</div><div class="r">casos (${concl.length} concluídos)</div></div>
       <div class="card kpi"><div class="v">${media === null ? "—" : media + " min"}</div><div class="r">tempo médio</div></div>
-      <div class="card kpi"><div class="v">${casos.reduce((a, c)=> a + (c.correcoes || 0), 0)}</div><div class="r">correções na conferência</div></div></div>
-    <div class="card tabela-wrap"><table><tr><th>Protocolo</th><th>Situação</th><th class="num">Minutos</th><th class="num">Correções</th><th></th></tr>
+      <div class="card kpi"><div class="v">${conf ? numBR(corr / conf * 100, 1) + "%" : "—"}</div><div class="r">taxa de correção dos campos</div></div>
+      <div class="card kpi"><div class="v">${conferidos ? numBR(corr / conferidos, 1) : "—"}</div><div class="r">campos corrigidos por caso</div></div></div>
+    <div class="card tabela-wrap"><table><tr><th>Protocolo</th><th>Situação</th><th class="num">Minutos</th><th class="num">Correções</th><th class="num">No Word</th><th class="num">Versões</th><th></th></tr>
       ${casos.map(c=> `<tr><td>${esc(c.numero_protocolo || "(sem protocolo)")}</td><td>${esc(c.status)}</td><td class="num">${minutosDoCaso(c) ?? "—"}</td>
-        <td class="num">${c.correcoes || 0}</td><td>${c.dados_limpos_em ? '<span class="selo info">dados limpos</span>' : `<button data-limpar-caso="${esc(c.id_caso)}">Limpar os dados do caso</button>`}</td></tr>`).join("") || '<tr><td colspan="5" class="vazio">Nenhum caso.</td></tr>'}</table>
-      <div class="linha-botoes"><button class="prim" id="btnCsvTempos">Baixar o CSV de tempos e correções</button></div>
-      <p class="sub">Limpar os dados apaga aparelho, SIMs, hash e quesitos do caso e mantém só as métricas (LGPD).</p></div>`;
+        <td class="num">${c.correcoes || 0}</td><td class="num">${c.correcoes_word ?? "—"}</td><td class="num">${laudos.filter(l=> l.id_caso === c.id_caso).length}</td>
+        <td>${c.dados_limpos_em ? '<span class="selo info">dados limpos</span>' : `<button data-limpar-caso="${esc(c.id_caso)}">Limpar os dados do caso</button>`}</td></tr>`).join("") || '<tr><td colspan="7" class="vazio">Nenhum caso.</td></tr>'}</table>
+      <div class="linha-botoes"><button class="prim" id="btnCsvTempos">Baixar historico.csv</button></div>
+      <p class="sub">Limpar os dados apaga aparelho, SIMs, hash, quesitos e a requisição do caso e mantém só as métricas (LGPD).</p></div>`;
 };
 TELAS_DEPOIS["#/historico"] = ()=>{
   $("#btnCsvTempos")?.addEventListener("click", async ()=>{
-    const casos = await db.list("casos");
-    const linhas = casos.map(c=> [c.numero_protocolo || "", c.status, c.inicio_em || "", c.fim_em || "", minutosDoCaso(c) ?? "", c.correcoes || 0].join(";"));
-    baixar("agiliza-tempos.csv", "﻿" + ["protocolo;situacao;inicio;fim;minutos;correcoes", ...linhas].join("\n"), "text/csv;charset=utf-8");
+    const [casos, laudos] = await Promise.all([db.list("casos"), db.list("laudos")]);
+    const linhas = casos.map(c=> [c.numero_protocolo || "", c.status, c.inicio_em || "", c.fim_em || "", minutosDoCaso(c) ?? "", c.campos_conferidos || 0,
+      c.correcoes || 0, c.correcoes_word ?? "", laudos.filter(l=> l.id_caso === c.id_caso).length].join(";"));
+    baixar("historico.csv", "﻿" + ["protocolo;situacao;inicio;fim;minutos;campos_conferidos;correcoes;correcoes_word;versoes", ...linhas].join("\n"), "text/csv;charset=utf-8");
   });
   $$("[data-limpar-caso]").forEach(b=> b.addEventListener("click", async ()=>{
     if (!confirm("Apagar os dados do aparelho, SIMs, hash e quesitos deste caso? As métricas ficam.")) return;
@@ -318,7 +608,7 @@ TELAS_DEPOIS["#/historico"] = ()=>{
     for (const [s, k] of [["aparelhos", "id_aparelho"], ["sims", "id_sim"], ["hashes", "id_hash"], ["quesitos", "id_quesito"]])
       for (const r of await db.porIndice(s, "id_caso", id)) await db.del(s, r[k]);
     const c = await db.get("casos", id);
-    await db.put("casos", {...c, inventario: c.inventario ? {...c.inventario, itens: []} : null, requisicao: null, dados_limpos_em: agora()});
+    await db.put("casos", {...c, inventario: c.inventario ? {...c.inventario, itens: []} : null, requisicao: null, quesitos_requisicao: null, dados_limpos_em: agora()});
     await registrar("dados do caso limpos", {id_caso: id}); toast("Dados do caso apagados."); navegar();
   }));
 };

@@ -22,3 +22,15 @@
 .ag-rail li.pendente a, .ag-rail .em-breve{opacity:.55;cursor:default}
 .ag-rail .em-breve{display:flex;align-items:center;gap:7px;padding:7px 8px;border-radius:calc(var(--raio) - 4px);font-size:12.5px;color:var(--ink2)}
 .ag-rail .em-breve .n{border-style:dashed}
+/* conferência com o PDF ao lado, prévia dos textos e quesitos */
+.ag-conf{display:grid;grid-template-columns:minmax(0,1fr);gap:12px}
+.ag-conf:has(#painelPdf .card){grid-template-columns:minmax(0,3fr) minmax(0,2fr)}
+.ag-pdf{width:100%;height:70vh;border:1px solid var(--linha);border-radius:var(--raio)}
+.erro-campo{display:block;color:var(--vermelho);font-size:12px}
+.ag-texto{border-bottom:1px solid var(--linha);padding-bottom:8px;margin-bottom:8px}
+.ag-previa{background:var(--painel-2);border-left:3px solid var(--accent);padding:8px 10px;margin:6px 0 0;font-size:14px}
+.ag-quesito{border-bottom:1px solid var(--linha);padding-bottom:10px;margin-bottom:10px}
+/* tema escuro: o acento fica claro, então o passo atual e o passo feito usam texto escuro (contraste AA) */
+:root[data-theme="dark"] .ag-rail li.atual a{color:#0b1220}
+:root[data-theme="dark"] .ag-rail li.atual .n{background:#0b1220;color:#fff;border-color:#0b1220}
+:root[data-theme="dark"] .ag-rail li.feito .n{color:#0b1220}

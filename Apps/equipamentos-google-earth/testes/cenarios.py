@@ -271,6 +271,30 @@ def s10_config_e_graficos(pg, url, ok):
     ok("RN09: o padrão de CPF é detectado", pg.evaluate("()=> temCPF('529.982.247-25')"))
 
 
+# origem: sprint.md · Sprint 9 (duas cópias alteradas em paralelo, mescladas sem duplicar)
+@cenario
+def s9_conflitos(pg, url, ok):
+    import json
+    perfil(pg, url, "coordenadoria")
+    semear(pg, url)
+    pacote = pg.evaluate("""async ()=>{ const p = await db.exportar(); const u = p.dados.unidades[0];
+        p.dados.unidades = [u]; p.dados.equipamentos = p.dados.equipamentos.filter(e=> e.unidade_id === u.id);
+        p.dados.equipamentos[0].nome = 'Nome alterado na unidade'; p.dados.equipamentos[0].atualizadoEm = '2099-01-01T00:00:00';
+        const local = await db.get('equipamentos', p.dados.equipamentos[0].id); await db.put('equipamentos', {...local, setor: 'Setor alterado na coordenadoria'});
+        return p; }""")
+    antes = pg.evaluate("async ()=> (await db.list('equipamentos')).length")
+    arq = TMP / "unidade.json"; arq.write_text(json.dumps(pacote, ensure_ascii=False), encoding="utf-8")
+    ir(pg, url, "#/importar", 1000)
+    pg.set_input_files("#arqUnidade", str(arq)); pg.wait_for_timeout(1500)
+    ok("a tela de conflitos mostra o campo de cada lado", pg.locator("#tabelaConflitos tr").count() >= 3)
+    pg.check("#tabelaConflitos input[name$='_setor'][value=local]")
+    pg.click("#btnMesclar"); pg.wait_for_timeout(1500)
+    eq = pg.evaluate(f"async ()=> await db.get('equipamentos', '{pacote['dados']['equipamentos'][0]['id']}')")
+    ok("nenhum equipamento duplicado", pg.evaluate("async ()=> (await db.list('equipamentos')).length") == antes)
+    ok("o nome veio do arquivo (mais novo)", eq["nome"] == "Nome alterado na unidade")
+    ok("o setor escolhido na tela ficou o da coordenadoria", eq["setor"] == "Setor alterado na coordenadoria")
+
+
 def main():
     erro = False
     with sync_playwright() as p:

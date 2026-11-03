@@ -80,7 +80,7 @@ TELAS["#/importar"] = async ()=>{
   const cursos = await db.list("cursos");
   return `<h1>Importar inscrições</h1><p class="sub">Cole os e-mails recebidos (o app acha todos os blocos de inscrição), ou importe uma planilha CSV.
     O bloco de cada inscrição tem um código de verificação: bloco cortado ou alterado é recusado e apontado.</p>
-    <div class="card"><h2 style="margin-top:0">1 · Colar os e-mails</h2>
+    <div class="card"><h2 style="margin-top:0"><label for="txtEmails">1 · Colar os e-mails</label></h2>
       <textarea id="txtEmails" rows="10" placeholder="Cole aqui os e-mails de inscrição, um abaixo do outro"></textarea>
       <div class="linha-botoes nao-imprimir"><button class="prim" id="btnLer">Ler e classificar</button>
         <button id="btnExemploEmails">Carregar os 60 e-mails de exemplo</button></div></div>

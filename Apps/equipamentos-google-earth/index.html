@@ -1976,7 +1976,7 @@ TELAS_DEPOIS["#/painel"] = ()=>{
 };
 
 /* ================= Sprint 8 · Exportação para o Google Earth (.kml e .kmz) ================= */
-function kmlDe(b, filtro){
+function kmlDe(b, filtro, comFotos){
   const dirs = b.dirs, porDir = {};
   for (const e of b.eqs){
     if (filtro && filtro(e) === false) continue;
@@ -1996,8 +1996,9 @@ function kmlDe(b, filtro){
         if (lat === null || lon === null) continue;
         const desc = [`Patrimônio: ${e.patrimonio}`, `Equipamento: ${e.nome}`, `Tipo: ${e.tipo}`, `Situação: ${e.status}`,
           `Contrato: ${e.temContrato ? e.contrato.numero : "sem contrato"}`, `Custo diário: ${dinheiro.fmt(Math.round(e.custoDiario))}`,
-          `Risco: ${e.risco}`].join("<br/>");
-        pasta += `<Placemark><name>${esc2(e.patrimonio)} - ${esc2(e.nome)}</name><description>${desc}</description>
+          `Risco: ${e.risco}`].map(esc2).join("<br/>");
+        const foto = comFotos && (e.foto_ids || [])[0] ? `<img src="fotos/${e.foto_ids[0]}.jpg" width="220"/><br/>` : "";
+        pasta += `<Placemark><name>${esc2(e.patrimonio)} - ${esc2(e.nome)}</name><description><![CDATA[${foto}${desc}]]></description>
           <Point><coordinates>${lon},${lat},0</coordinates></Point>
           <Style id="eq${e.temContrato ? "ok" : "erro"}"><IconStyle><color>${e.temContrato ? "ff00aa00" : "ff0000ff"}</color></IconStyle></Style></Placemark>`;
       }
@@ -2022,7 +2023,7 @@ TELAS["#/exportar"] = async ()=>{
       <div class="linha-botoes nao-imprimir"><button class="prim" id="btnKmz">Baixar .kmz (com miniaturas)</button>
         <button id="btnKml">Baixar .kml (só os dados)</button>
         <button id="btnKmzSemContrato">Baixar só os sem contrato</button></div>
-      <p class="sub">O balão traz patrimônio, situação, contrato, custo diário e risco. A cor do ponto é verde com contrato e vermelho sem contrato.</p></div>
+      <p class="sub">O balão traz a miniatura da foto (no .kmz), patrimônio, situação, contrato, custo diário e risco. A cor do ponto é verde com contrato e vermelho sem contrato.</p></div>
     <div class="card"><h2 style="margin-top:0">Outros arquivos</h2>
       <div class="linha-botoes nao-imprimir"><button id="btnJsonUnidade">Baixar o .json da base</button>
         <button id="btnCsvEquip">Baixar o CSV dos equipamentos</button>
@@ -2045,7 +2046,7 @@ TELAS_DEPOIS["#/exportar"] = async ()=>{
   });
   const kmz = async (filtro, nome)=>{
     const zip = new JSZip();
-    zip.file("doc.kml", kmlDe(b, filtro));
+    zip.file("doc.kml", kmlDe(b, filtro, true));
     const eqs = b.eqs.filter(e=> !filtro || filtro(e));
     for (const e of eqs){
       for (const fid of e.foto_ids || []){
@@ -2158,35 +2159,49 @@ TELAS_DEPOIS["#/importar"] = async ()=>{
       const local = (await db.list("unidades")).find(u=> u.id === uni.id || normalizar(u.nome) === normalizar(uni.nome));
       const eqs = dados.equipamentos || [];
       const Info = {uni, local, eqs:eqs.length, paradas:(dados.paradas || []).length, mantens:(dados.manutencoes || []).length};
+      // RN10: o que existe dos dois lados e mudou vira conflito, campo a campo; o resto entra sem perguntar
+      const CAMPOS_CONF = [["nome", "Nome"], ["tipo", "Tipo"], ["status", "Situação"], ["criticidade", "Criticidade"], ["setor", "Setor"],
+        ["bairro", "Bairro"], ["tem_redundancia", "Redundância"], ["contrato_id", "Contrato"]];
+      const conflitos = [], novos = [], iguais = [];
+      for (const e of eqs){
+        const ex = (await db.porIndice("equipamentos", "patrimonio", e.patrimonio))[0];
+        if (!ex){ novos.push(e); continue; }
+        const dif = CAMPOS_CONF.filter(([k])=> String(ex[k] ?? "") !== String(e[k] ?? ""));
+        if (dif.length) conflitos.push({e, ex, dif}); else iguais.push(e);
+      }
+      const mostra = v=> v === true ? "sim" : v === false ? "não" : esc(v ?? "—");
       $("#mergeRelatorio").innerHTML = `<div class="card"><h2 style="margin-top:0">Arquivo recebido</h2>
         <p>Unidade <b>${esc(uni.nome)}</b> · ${Info.eqs} equipamentos · ${Info.paradas} paradas · ${Info.mantens} manutenções.</p>
-        ${local ? `<p class="sub">Esta cópia já tem uma unidade com esse nome (${esc(local.municipio || "")}). O app pergunta qual versão vale.</p>
-          <div class="linha-botoes nao-imprimir"><button class="prim" id="btnMergeLocal">Manter a versão desta cópia</button>
-            <button id="btnMergeArquivo">Usar a versão do arquivo</button></div>` : `<div class="linha-botoes nao-imprimir"><button class="prim" id="btnMergeArquivo">Importar a unidade do arquivo</button></div>`}
+        <p class="sub">${novos.length} novos · ${iguais.length} sem mudança · <b>${conflitos.length} com conflito</b>. Nos conflitos, escolha a versão de cada campo.
+          A sugestão é a versão alterada por último.</p>
+        ${local ? `<p><label style="display:inline-flex;gap:6px"><input type="radio" name="mgUni" value="local" checked style="width:auto"> manter os dados da unidade desta cópia</label>
+          <label style="display:inline-flex;gap:6px;margin-left:12px"><input type="radio" name="mgUni" value="arquivo" style="width:auto"> usar os dados da unidade do arquivo</label></p>` : ""}
+        ${conflitos.length ? `<div class="tabela-wrap"><table id="tabelaConflitos"><tr><th>Patrimônio</th><th>Campo</th><th>Nesta cópia</th><th>No arquivo</th></tr>
+          ${conflitos.map((c, ci)=>{ const arquivoMaisNovo = String(c.e.atualizadoEm || "") > String(c.ex.atualizadoEm || "");
+            return c.dif.map(([k, r], di)=> `<tr><td>${di ? "" : `<b>${esc(c.e.patrimonio)}</b>`}</td><td>${esc(r)}</td>
+              <td><label style="display:inline-flex;gap:6px"><input type="radio" name="cf_${ci}_${k}" value="local" style="width:auto" ${arquivoMaisNovo ? "" : "checked"}> ${mostra(c.ex[k])}</label></td>
+              <td><label style="display:inline-flex;gap:6px"><input type="radio" name="cf_${ci}_${k}" value="arquivo" style="width:auto" ${arquivoMaisNovo ? "checked" : ""}> ${mostra(c.e[k])}</label></td></tr>`).join(""); }).join("")}
+          </table></div>` : ""}
+        <div class="linha-botoes nao-imprimir"><button class="prim" id="btnMesclar">Mesclar com estas escolhas</button></div>
         <div id="mergeDetalhe"></div></div>`;
-      $("#btnMergeArquivo")?.addEventListener("click", async ()=>{
-        // a versão do arquivo entra; quando o patrimônio já existe, a do arquivo prevalece
-        const reg = await novoRegistro({...uni, id: local ? local.id : uni.id});
-        await db.put("unidades", {...(local || {}), ...reg, id: local ? local.id : reg.id});
-        let novos = 0, atualizados = 0;
-        for (const e of eqs){
-          const ex = (await db.porIndice("equipamentos", "patrimonio", e.patrimonio))[0];
-          if (ex){ await db.put("equipamentos", {...ex, ...e, id:ex.id, atualizadoEm:agora()}); atualizados++; }
-          else { await db.put("equipamentos", await novoRegistro({...e, foto_ids:[]})); novos++; }
+      $("#btnMesclar").addEventListener("click", async ()=>{
+        const versaoUni = $("input[name=mgUni]:checked")?.value || "arquivo";
+        if (!local || versaoUni === "arquivo"){
+          const reg = await novoRegistro({...uni, id: local ? local.id : uni.id});
+          await db.put("unidades", {...(local || {}), ...reg, id: local ? local.id : reg.id});
         }
-        for (const p of (dados.paradas || [])) await db.put("paradas", p);
-        for (const m of (dados.manutencoes || [])) await db.put("manutencoes", m);
-        await registrar("unidade mesclada (RN10)", {detalhe:uni.nome, versao:"arquivo", novos, atualizados});
-        toast(`Unidade do arquivo: ${novos} equipamentos novos, ${atualizados} atualizados.`); navegar();
-      });
-      $("#btnMergeLocal")?.addEventListener("click", async ()=>{
-        for (const e of eqs){
-          const ex = (await db.porIndice("equipamentos", "patrimonio", e.patrimonio))[0];
-          if (ex) await db.put("equipamentos", {...ex, atualizadoEm:agora()});
-          else await db.put("equipamentos", await novoRegistro({...e, foto_ids:[]}));
+        for (const e of novos) await db.put("equipamentos", await novoRegistro({...e, foto_ids:[]}));
+        for (const c of conflitos){
+          const ci = conflitos.indexOf(c), final = {...c.ex};
+          for (const [k] of c.dif) if ($(`input[name="cf_${ci}_${k}"]:checked`)?.value === "arquivo") final[k] = c.e[k];
+          await db.put("equipamentos", {...final, atualizadoEm: agora()});
         }
-        await registrar("unidade mesclada (RN10)", {detalhe:uni.nome, versao:"local"});
-        toast("Equipamentos do arquivo mesclados com a base local."); navegar();
+        const ids = new Set((await db.list("paradas")).map(x=> x.id));
+        for (const p of (dados.paradas || [])) if (!ids.has(p.id)) await db.put("paradas", p);
+        const idsM = new Set((await db.list("manutencoes")).map(x=> x.id));
+        for (const m of (dados.manutencoes || [])) if (!idsM.has(m.id)) await db.put("manutencoes", m);
+        await registrar("unidade mesclada (RN10)", {detalhe: uni.nome, unidade: versaoUni, novos: novos.length, conflitos: conflitos.length});
+        toast(`Mesclado: ${novos.length} novos, ${conflitos.length} com conflito resolvido, nenhum duplicado.`); navegar();
       });
     } catch(err){ $("#mergeRelatorio").innerHTML = `<div class="card pendente">Arquivo ilegível: ${esc(err.message)}</div>`; }
   });

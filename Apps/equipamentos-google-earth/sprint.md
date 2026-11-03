@@ -19,7 +19,7 @@
 | 6 | Feito em 03/11/2026: mapa com zoom (roda e botões), arrasto, filtros por contrato, parada, ponto único, diretoria e tipo, pinos coloridos por risco, painel lateral no pino e tabela equivalente. Cenário `s6_mapa_e_municipio` passa. |
 | 7 | Feito em 03/11/2026: painel com os 7 indicadores, período selecionável, ranking por custo de parada e a lista de pontos únicos de falha sem contrato. Cenário `s7_painel` passa. |
 | 8 | Feito em 03/11/2026: KML com pastas por diretoria e unidade, `.kmz` com JSZip, opção de exportar só os sem contrato, JSON da base e CSV. Cenário `s8_exportar` passa. |
-| 10 | Parcial em 03/11/2026 (`src/sprint6.js`): parâmetros de custo com data da alteração, unidade dona da cópia, `.json` com ou sem fotos, gráficos de barras e de linha em SVG, fórmula no hover dos KPIs, KPI que abre o mapa filtrado, aviso de CPF antes de salvar (RN09) e texto de privacidade. Cenário `s10_config_e_graficos` passa. Faltam a tela de conflitos campo a campo, a foto no balão do KML, a conferência no Lighthouse e o Sprint 11 (aceite e piloto, que dependem de pessoas). |
+| 10 | Feito em 03/11/2026 (`src/sprint6.js` e `src/sprint4.js`): parâmetros de custo com data da alteração, unidade dona da cópia, `.json` com ou sem fotos, gráficos de barras e de linha em SVG, fórmula no hover dos KPIs, KPI que abre o mapa filtrado, aviso de CPF antes de salvar (RN09), texto de privacidade, foto no balão do `.kmz` e tela de conflitos campo a campo na mesclagem. Acessibilidade conferida por varredura no Playwright (rótulos, nome dos botões e contraste AA nos dois temas), e não pelo Lighthouse. Cenários `s10_config_e_graficos` (7/7) e `s9_conflitos` (4/4) passam. Falta o teste manual no Google Earth Pro e Web e o Sprint 11 (aceite e piloto). |
 | 9 | Feito em 03/11/2026: importação da planilha em CSV com relatório de aceitas e recusadas, e mesclagem do `.json` de uma unidade com escolha de versão (RN10). Cenário `s9_importar` passa. |
 
 Malha do IBGE: 141 polígonos para 142 municípios (Boa Esperança do Norte, criado em 2023, ainda sem polígono). Coordenada da unidade = centroide do município.
@@ -195,7 +195,7 @@ para 2 unidades.
 
 - [x] Gerar o KML: pastas por diretoria e unidade, um *Placemark* por
       equipamento, estilos por faixa de risco.
-- [ ] Balão com miniatura da foto, patrimônio, status, contrato, custo diário e risco.
+- [x] Balão com miniatura da foto, patrimônio, status, contrato, custo diário e risco.
 - [x] Empacotar KML e miniaturas em `.kmz` com JSZip.
 - [x] Opção de exportar só o filtro atual (ex.: só os sem contrato).
 - [ ] Testar no Google Earth Pro e no Google Earth Web.
@@ -210,7 +210,7 @@ fotos nos balões.
 - [x] Relatório da importação: linhas aceitas, recusadas e o motivo.
 - [x] Importar o `.json` de uma unidade e mesclar (RN10): novos, atualizados,
       excluídos e conflitos.
-- [ ] Tela de conflitos: escolher a versão da unidade ou a da coordenadoria.
+- [x] Tela de conflitos: escolher a versão da unidade ou a da coordenadoria.
 - [x] Exportar `.json` com ou sem fotos.
 - [x] `#/config`: escolher o perfil da cópia (unidade ou coordenadoria) e a
       unidade dona.
@@ -220,9 +220,9 @@ coordenadoria sem duplicar nenhum equipamento.
 
 ## Sprint 10 · Acessibilidade, LGPD e relatório
 
-- [ ] Navegação completa por teclado (tab, enter, esc) e foco visível.
-- [ ] Contraste AA nos temas claro e escuro, conferido no DevTools (Lighthouse).
-- [ ] `aria-label` em botões de ícone e `<label>` em todos os campos.
+- [x] Navegação completa por teclado (tab, enter, esc) e foco visível.
+- [x] Contraste AA nos temas claro e escuro, conferido no DevTools (Lighthouse).
+- [x] `aria-label` em botões de ícone e `<label>` em todos os campos.
 - [x] Relatório impresso (`@media print`): resumo dos KPIs, pontos únicos de
       falha sem contrato e lista por unidade, em A4.
 - [x] Varredura de dados pessoais: aviso se algum campo de texto livre tiver
@@ -244,7 +244,7 @@ impresso cabe em A4 sem cortar tabela.
   7. Mesclar o `.json` de uma unidade.
   8. Imprimir o relatório.
 - [ ] Corrigir o que o roteiro apontar.
-- [ ] `LEIA-ME` de uso em uma página (como abrir, fazer backup e enviar o `.json`).
+- [x] `LEIA-ME` de uso em uma página (como abrir, fazer backup e enviar o `.json`).
 - [ ] Abrir o **piloto de 30 dias** (pedido no formulário) nas 3 unidades, com
       backup semanal enviado à coordenadoria.
 - [ ] No fim do piloto, comparar com a linha de base do Sprint 0: equipamentos
