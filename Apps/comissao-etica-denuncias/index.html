@@ -20,7 +20,7 @@
   --mt-ouro:#c99a2e; --mt-ouro-claro:#e8b931; --mt-verde:#0b7a3e;
   /* superfícies */
   --bg:#f3f5f9; --painel:#ffffff; --painel-2:#f8fafc; --ink:#14213d; --ink2:#55627a; --linha:#dfe4ec;
-  --verde:#127a45; --ambar:#a35f00; --vermelho:#b42318;
+  --verde:#127a45; --ambar:#8a5000; --vermelho:#b42318;
   /* acento do app (sobrescrito pelo construir.py) */
   --accent:var(--app-acento,#12487f); --accent-ink:#ffffff; --accent-forte:var(--app-acento-forte,#0a2f5c); --accent-claro:var(--app-acento-claro,#1e63ae);
   --accent-suave:color-mix(in srgb, var(--accent) 10%, var(--painel));
@@ -434,7 +434,7 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 .ce-etapa{display:flex;flex-direction:column;gap:5px;align-items:flex-start;padding:12px;min-height:96px;border:1px solid var(--linha);border-top:4px solid var(--accent);border-radius:var(--raio);background:var(--painel);text-align:left}
 .ce-etapa:hover{border-color:var(--accent)}
 .ce-etapa.escolhida{background:var(--accent-suave);box-shadow:0 0 0 2px var(--accent)}
-.ce-etapa.zero{opacity:.55;border-top-color:var(--linha)}
+.ce-etapa.zero{border-top-color:var(--linha);background:var(--painel-2)}
 .ce-etapa-nome{font-size:11.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ink2)}
 .ce-etapa-num{font-size:30px;font-weight:700;line-height:1}
 .ce-etapa-barra{display:block;width:100%;height:5px;border-radius:99px;background:var(--painel-2);overflow:hidden}

@@ -18,6 +18,6 @@
 .metas-mes.importado{border-color:color-mix(in srgb, var(--ambar) 55%, var(--linha));background:color-mix(in srgb, var(--ambar) 10%, var(--painel));color:var(--ambar)}
 .metas-mes.conferido{border-color:var(--accent);background:var(--accent-suave);color:var(--accent-forte)}
 .metas-mes.gerado{border-color:color-mix(in srgb, var(--verde) 55%, var(--linha));background:color-mix(in srgb, var(--verde) 10%, var(--painel));color:var(--verde)}
-.metas-mes.vazio{opacity:.6;border-style:dashed}
+.metas-mes.vazio{border-style:dashed;background:var(--painel)}
 @media (max-width:900px){ .metas-meses{grid-template-columns:repeat(6,minmax(0,1fr))} }
 @media (max-width:520px){ .metas-meses{grid-template-columns:repeat(3,minmax(0,1fr))} }

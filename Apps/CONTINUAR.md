@@ -40,6 +40,8 @@ Cada app tem um formulário de feedback (`Aula 8/feedback/<app>.html`), que grav
 
 As respostas podem ser lidas na página `Aula 8/feedback/index.html`. Os formulários são regerados por `python "Aula 8/gerar_feedback.py"` quando as telas de um app mudam.
 
+**Acessibilidade (03/11/2026):** Lighthouse de acessibilidade com 100 nos 21 apps e no formulário de feedback, depois de escurecer o âmbar do tema claro (`--ambar:#8a5000` no `nucleo/visual.css` de todos) e tirar a opacidade das etapas vazias da Comissão de Ética e dos meses vazios do Metas BI.
+
 ## 0.1 Links para os alunos
 
 `Apps/LINKS-ALUNOS.md` (gerado por `python Apps/_base/gerar_links_alunos.py`) traz, por app, a equipe, o link do app, o hub (`processo.html`), o formulário de feedback e o repositório. Os links apontam para o GitHub Pages do repositório `Aula_politec` (os repositórios separados não têm Pages). As mudanças só aparecem no site depois do `git push origin main`.

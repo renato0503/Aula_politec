@@ -20,7 +20,7 @@
   --mt-ouro:#c99a2e; --mt-ouro-claro:#e8b931; --mt-verde:#0b7a3e;
   /* superfícies */
   --bg:#f3f5f9; --painel:#ffffff; --painel-2:#f8fafc; --ink:#14213d; --ink2:#55627a; --linha:#dfe4ec;
-  --verde:#127a45; --ambar:#a35f00; --vermelho:#b42318;
+  --verde:#127a45; --ambar:#8a5000; --vermelho:#b42318;
   /* acento do app (sobrescrito pelo construir.py) */
   --accent:var(--app-acento,#12487f); --accent-ink:#ffffff; --accent-forte:var(--app-acento-forte,#0a2f5c); --accent-claro:var(--app-acento-claro,#1e63ae);
   --accent-suave:color-mix(in srgb, var(--accent) 10%, var(--painel));
@@ -448,7 +448,7 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 .metas-mes.importado{border-color:color-mix(in srgb, var(--ambar) 55%, var(--linha));background:color-mix(in srgb, var(--ambar) 10%, var(--painel));color:var(--ambar)}
 .metas-mes.conferido{border-color:var(--accent);background:var(--accent-suave);color:var(--accent-forte)}
 .metas-mes.gerado{border-color:color-mix(in srgb, var(--verde) 55%, var(--linha));background:color-mix(in srgb, var(--verde) 10%, var(--painel));color:var(--verde)}
-.metas-mes.vazio{opacity:.6;border-style:dashed}
+.metas-mes.vazio{border-style:dashed;background:var(--painel)}
 @media (max-width:900px){ .metas-meses{grid-template-columns:repeat(6,minmax(0,1fr))} }
 @media (max-width:520px){ .metas-meses{grid-template-columns:repeat(3,minmax(0,1fr))} }
 
