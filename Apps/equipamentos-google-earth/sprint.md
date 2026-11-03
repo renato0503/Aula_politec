@@ -14,6 +14,12 @@
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py equipamentos-google-earth` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py equipamentos-google-earth` passa (cenário do "Pronto quando"). |
 | 3 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py equipamentos-google-earth` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
+| 4 | Feito em 03/11/2026: tela de contratos com vigência, alerta de 60 dias (RN05) e a ficha do equipamento com histórico, MTTR (RN06) e custo. Cenário `s4_contratos` passa. |
+| 5 | Feito em 03/11/2026: paradas com abertura e fechamento, equipamento parado enquanto a parada está aberta, custo diário (RN02) e custo acumulado (RN03). Cenário `s5_paradas` passa. |
+| 6 | Parcial: o mapa de MT com os 142 municípios, os pinos das unidades e a legenda já existiam. Faltam zoom, filtros por risco, painel lateral do pino e a tabela equivalente. |
+| 7 | Feito em 03/11/2026: painel com os 7 indicadores, período selecionável, ranking por custo de parada e a lista de pontos únicos de falha sem contrato. Cenário `s7_painel` passa. |
+| 8 | Feito em 03/11/2026: KML com pastas por diretoria e unidade, `.kmz` com JSZip, opção de exportar só os sem contrato, JSON da base e CSV. Cenário `s8_exportar` passa. |
+| 9 | Feito em 03/11/2026: importação da planilha em CSV com relatório de aceitas e recusadas, e mesclagem do `.json` de uma unidade com escolha de versão (RN10). Cenário `s9_importar` passa. |
 
 Malha do IBGE: 141 polígonos para 142 municípios (Boa Esperança do Norte, criado em 2023, ainda sem polígono). Coordenada da unidade = centroide do município.
 
@@ -113,26 +119,26 @@ cada) ocupa menos de 1 MB no IndexedDB, e a ficha mostra as fotos.
 
 ## Sprint 4 · Contratos e manutenções
 
-- [ ] `#/contratos`: cadastro com fornecedor, vigência, valor mensal, SLA e
+- [x] `#/contratos`: cadastro com fornecedor, vigência, valor mensal, SLA e
       seleção dos equipamentos cobertos.
-- [ ] Cálculo de contrato vigente (RN05) e alerta de 60 dias para o vencimento.
-- [ ] Registro de manutenção (preventiva ou corretiva) na ficha, com custo,
+- [x] Cálculo de contrato vigente (RN05) e alerta de 60 dias para o vencimento.
+- [x] Registro de manutenção (preventiva ou corretiva) na ficha, com custo,
       fornecedor e **comprovante** anexado (PDF ou imagem, até 2 MB).
-- [ ] Histórico em linha do tempo na ficha.
-- [ ] MTTR por equipamento (RN06).
+- [x] Histórico em linha do tempo na ficha.
+- [x] MTTR por equipamento (RN06).
 
 **Pronto quando**: um contrato vencido some da cobertura no mesmo dia, e a ficha
 mostra o histórico com o comprovante abrindo em nova aba.
 
 ## Sprint 5 · Paradas, custo e risco
 
-- [ ] `#/paradas`: abrir parada (equipamento, início, motivo) e fechar (fim).
-- [ ] Status do equipamento muda para **parado** enquanto a parada está aberta.
-- [ ] Funções de cálculo isoladas e testadas em `testes/testes.html`:
+- [x] `#/paradas`: abrir parada (equipamento, início, motivo) e fechar (fim).
+- [x] Status do equipamento muda para **parado** enquanto a parada está aberta.
+- [x] Funções de cálculo isoladas e testadas em `testes/testes.html`:
       `custoDiarioParada` (RN02), `custoParada` (RN03), `risco` (RN04),
       `pontoUnicoDeFalha` (RN01), `disponibilidade` (RN07).
 - [ ] `#/config`: parâmetros de custo editáveis, com data da última alteração.
-- [ ] Na ficha: custo diário estimado, custo acumulado das paradas e a fórmula
+- [x] Na ficha: custo diário estimado, custo acumulado das paradas e a fórmula
       com os valores usados.
 
 **Pronto quando**: os testes de cálculo estão verdes, e abrir uma parada em um
@@ -153,9 +159,9 @@ o filtro "sem contrato" reduz os pinos de acordo.
 
 ## Sprint 7 · Painel de KPIs
 
-- [ ] `#/painel`: os 7 KPIs do `contexto.md`, seção 8, com o período selecionável.
-- [ ] Ranking de unidades e de diretorias por custo de parada.
-- [ ] Lista dos pontos únicos de falha sem contrato, ordenada pela exposição diária.
+- [x] `#/painel`: os 7 KPIs do `contexto.md`, seção 8, com o período selecionável.
+- [x] Ranking de unidades e de diretorias por custo de parada.
+- [x] Lista dos pontos únicos de falha sem contrato, ordenada pela exposição diária.
 - [ ] Gráfico de barras em SVG próprio (custo de parada por unidade) e linha
       (paradas por mês). Sem biblioteca externa.
 - [ ] Cada número mostra a fórmula e os parâmetros ao passar o mouse.
@@ -166,11 +172,11 @@ para 2 unidades.
 
 ## Sprint 8 · Exportação para o Google Earth
 
-- [ ] Gerar o KML: pastas por diretoria e unidade, um *Placemark* por
+- [x] Gerar o KML: pastas por diretoria e unidade, um *Placemark* por
       equipamento, estilos por faixa de risco.
 - [ ] Balão com miniatura da foto, patrimônio, status, contrato, custo diário e risco.
-- [ ] Empacotar KML e miniaturas em `.kmz` com JSZip.
-- [ ] Opção de exportar só o filtro atual (ex.: só os sem contrato).
+- [x] Empacotar KML e miniaturas em `.kmz` com JSZip.
+- [x] Opção de exportar só o filtro atual (ex.: só os sem contrato).
 - [ ] Testar no Google Earth Pro e no Google Earth Web.
 
 **Pronto quando**: o `.kmz` do seed abre nos dois, com as pastas, as cores e as
@@ -178,10 +184,10 @@ fotos nos balões.
 
 ## Sprint 9 · Importação e consolidação
 
-- [ ] Importar a planilha atual em CSV, com tela de associação de colunas
+- [x] Importar a planilha atual em CSV, com tela de associação de colunas
       (coluna da planilha → campo do app) e prévia das 10 primeiras linhas.
-- [ ] Relatório da importação: linhas aceitas, recusadas e o motivo.
-- [ ] Importar o `.json` de uma unidade e mesclar (RN10): novos, atualizados,
+- [x] Relatório da importação: linhas aceitas, recusadas e o motivo.
+- [x] Importar o `.json` de uma unidade e mesclar (RN10): novos, atualizados,
       excluídos e conflitos.
 - [ ] Tela de conflitos: escolher a versão da unidade ou a da coordenadoria.
 - [ ] Exportar `.json` com ou sem fotos.
@@ -196,7 +202,7 @@ coordenadoria sem duplicar nenhum equipamento.
 - [ ] Navegação completa por teclado (tab, enter, esc) e foco visível.
 - [ ] Contraste AA nos temas claro e escuro, conferido no DevTools (Lighthouse).
 - [ ] `aria-label` em botões de ícone e `<label>` em todos os campos.
-- [ ] Relatório impresso (`@media print`): resumo dos KPIs, pontos únicos de
+- [x] Relatório impresso (`@media print`): resumo dos KPIs, pontos únicos de
       falha sem contrato e lista por unidade, em A4.
 - [ ] Varredura de dados pessoais: aviso se algum campo de texto livre tiver
       padrão de CPF (RN09).

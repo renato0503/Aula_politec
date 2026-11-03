@@ -202,8 +202,7 @@ async function telaEquipamento({id}){
     </div><datalist id="listaTipos">${[...new Set((await db.list("equipamentos")).map(x=>x.tipo))].map(t=>`<option value="${esc(t)}">`).join("")}</datalist>
     <div id="errosEq"></div><div class="linha-botoes"><button class="prim" type="submit">Salvar</button><a class="botao" href="#/equipamentos">Voltar</a></div></form>
     ${novo ? "" : `<div class="card"><h2 style="margin-top:0">Contrato</h2>${contrato ? `${esc(contrato.numero)} · ${esc(contrato.fornecedor)} · vigência ${dataCurtaBR(contrato.inicio)} a ${dataCurtaBR(contrato.fim)}` : '<p class="sub">Sem contrato. O controle de contratos chega no Sprint 4.</p>'}</div>
-      <div class="card"><h2 style="margin-top:0">Manutenções (${manut.length})</h2><p class="sub">O histórico com comprovantes chega no Sprint 4.</p></div>
-      <div class="card"><h2 style="margin-top:0">Paradas (${paradas.length})</h2><p class="sub">O registro de paradas e o custo chegam no Sprint 5.</p></div>`}`;
+      <div id="historicoEq"></div>`}`;
 }
 TELAS["#/equipamento/:id"] = telaEquipamento;
 TELAS_DEPOIS["#/equipamento/:id"] = async ({id})=>{

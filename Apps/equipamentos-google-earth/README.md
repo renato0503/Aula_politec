@@ -73,6 +73,22 @@ Tudo o que foi completado precisa ser confirmado com o aluno no Sprint 0.
 - `req`: mantida Acessibilidade; acrescentados Funcionar offline e Impressão (relatório A4).
 - `evid`: acrescentada a planilha parcial citada pelo aluno.
 
+## Telas prontas (03/11/2026)
+
+| Rota | O que faz |
+|---|---|
+| `#/mapa` | Mapa de MT com os 142 municípios, pinos por unidade e legenda |
+| `#/unidades` | Diretorias e unidades, com município e coordenadas (RN08) |
+| `#/equipamentos` | Lista com busca, filtros e paginação de 25 em 25 |
+| `#/equipamento/:id` | Ficha com fotos, contrato, histórico de manutenção, paradas, MTTR e custo |
+| `#/contratos` | Contratos, cobertura, vencimento e alerta de 60 dias (RN05) |
+| `#/paradas` | Abertura e fechamento de paradas, com custo diário (RN02) e acumulado (RN03) |
+| `#/painel` | Os 7 indicadores do projeto, ranking por custo de parada e pontos únicos de falha sem contrato |
+| `#/exportar` | KML e `.kmz` para o Google Earth, JSON da base, CSV e relatório |
+| `#/importar` | Planilha em CSV com relatório de aceitas e recusadas, e mesclagem do `.json` da unidade (RN10) |
+
+Sete cenários de interface cobrem os Sprints 2 a 9.
+
 ## Como construir e testar
 
 Este app é autônomo. `nucleo/`, `construir.py` e `testes/` são só dele e não

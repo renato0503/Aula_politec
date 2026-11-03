@@ -124,6 +124,93 @@ def s3_equipamentos_e_fotos(pg, url, ok):
     csv = pathlib.Path(dl.value.path()).read_bytes()
     ok("CSV com BOM e ponto e vírgula", csv.startswith(b"\xef\xbb\xbf") and b"patrimonio;nome" in csv)
 
+# origem: sprint.md · Sprint 4
+@cenario
+def s4_contratos(pg, url, ok):
+    perfil(pg, url, "coordenadoria")
+    semear(pg, url)
+    ir(pg, url, "#/contratos", 1200)
+    texto = pg.inner_text("main")
+    ok("a tela de contratos abre", "Contratos" in texto)
+    ok("os 20 contratos do exemplo aparecem", pg.locator("table tr").count() >= 21)
+    ok("o alerta de vencimento em 60 dias aparece", "60 dias" in texto or "vigente" in texto)
+    pg.locator("[data-contrato]").first.click(); pg.wait_for_timeout(700)
+    ok("o contrato abre com a lista de equipamentos", pg.locator("#detalheContrato table tr").count() >= 2 and "vigência" in pg.inner_text("#detalheContrato"))
+    # a ficha do equipamento mostra histórico, MTTR e custo
+    eq = pg.evaluate("async ()=>{ const e = await db.list('equipamentos'); return e[0].id; }")
+    ir(pg, url, "#/equipamento/" + eq, 1200)
+    ok("a ficha mostra o histórico com MTTR e custo", pg.locator("#historicoEq").count() == 1 and "MTTR" in pg.inner_text("#historicoEq"))
+
+# origem: sprint.md · Sprint 5
+@cenario
+def s5_paradas(pg, url, ok):
+    perfil(pg, url, "coordenadoria")
+    semear(pg, url)
+    ir(pg, url, "#/paradas", 1200)
+    ok("a tela de paradas abre", "Paradas" in pg.inner_text("main"))
+    ok("as paradas do exemplo aparecem", pg.locator("table tr").count() >= 41)
+    ok("o custo das paradas abertas aparece", "custo das abertas" in pg.inner_text("main"))
+    eq = pg.evaluate("async ()=> (await db.list('equipamentos'))[0].id")
+    pg.select_option("#paEq", eq)
+    pg.fill("#paInicio", "2026-03-02T08:00"); pg.fill("#paMotivo", "Falha elétrica")
+    pg.click("#formParada button[type=submit]"); pg.wait_for_timeout(900)
+    ok("a parada foi gravada", contar(pg, "paradas") == 41)
+    ok("o equipamento ficou parado", pg.evaluate("async id=> (await db.get('equipamentos', id)).status === 'parado'", eq))
+    pg.locator("[data-fechar]").first.click(); pg.wait_for_timeout(900)
+    ok("fechar a parada devolve o equipamento", pg.evaluate("async id=> { const e = await db.get('equipamentos', id); const p = (await db.porIndice('paradas','equipamento_id', id)).filter(x=>!x.fim); return e.status !== 'parado' || p.length > 0; }", eq))
+
+# origem: sprint.md · Sprint 7
+@cenario
+def s7_painel(pg, url, ok):
+    perfil(pg, url, "coordenadoria")
+    semear(pg, url)
+    ir(pg, url, "#/painel", 1500)
+    texto = pg.inner_text("main")
+    ok("a tela do painel abre", "Painel" in texto)
+    ok("os 7 indicadores aparecem", pg.locator(".card.kpi").count() >= 7)
+    ok("a exposição diária aparece", "exposição diária" in texto)
+    ok("o gráfico de custo por unidade aparece", "Custo de parada por unidade" in texto)
+    ok("a lista de pontos únicos sem contrato aparece", "Pontos únicos de falha sem contrato" in texto)
+    pg.select_option("#eqPeriodo", "30"); pg.wait_for_timeout(900)
+    ok("o período pode ser trocado", "Últimos 30 dias" in pg.inner_text("main"))
+
+# origem: sprint.md · Sprint 8
+@cenario
+def s8_exportar(pg, url, ok):
+    perfil(pg, url, "coordenadoria")
+    semear(pg, url)
+    ir(pg, url, "#/exportar", 1500)
+    ok("a tela de exportar abre", "Exportar" in pg.inner_text("main"))
+    with pg.expect_download() as info:
+        pg.click("#btnKml")
+    kml = TMP / "doc.kml"
+    info.value.save_as(kml)
+    texto = kml.read_text(encoding="utf-8")
+    ok("o KML tem pastas por diretoria e unidade", "<Folder>" in texto and "<Placemark>" in texto)
+    ok("o KML traz o patrimônio do equipamento", "PAT-" in texto)
+    with pg.expect_download() as info2:
+        pg.click("#btnKmz")
+    kmz = TMP / "equipamentos.kmz"
+    info2.value.save_as(kmz)
+    import zipfile
+    ok("o KMZ é um zip com o KML dentro", zipfile.is_zipfile(kmz) and "doc.kml" in zipfile.ZipFile(kmz).namelist())
+
+# origem: sprint.md · Sprint 9
+@cenario
+def s9_importar(pg, url, ok):
+    perfil(pg, url, "coordenadoria")
+    semear(pg, url)
+    arq = TMP / "equipamentos.csv"
+    arq.write_text("patrimonio;nome;tipo;unidade;criticidade;situacao\nPAT-NOVO-1;Microscópio novo;Microscópio;Sede Cuiabá (fictícia);4;operando\nPAT-NOVO-2;;Equipamento sem nome;Sede Cuiabá (fictícia);9;operando\n", encoding="utf-8")
+    ir(pg, url, "#/importar", 1000)
+    pg.set_input_files("#arqEqCsv", str(arq)); pg.wait_for_timeout(900)
+    rel = pg.inner_text("#csvEqRelatorio")
+    ok("o relatório diz quantas linhas foram aceitas", "aceitas" in rel)
+    ok("a linha sem nome é recusada com o motivo", "recusadas" in rel)
+    pg.click("#btnGravarCsv"); pg.wait_for_timeout(1000)
+    ok("o equipamento novo foi gravado", pg.evaluate("async ()=> !!(await db.porIndice('equipamentos','patrimonio','PAT-NOVO-1'))"))
+
+
 def main():
     erro = False
     with sync_playwright() as p:
