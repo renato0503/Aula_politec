@@ -99,3 +99,9 @@ lista, porque os botões são “Aceitar e próximo” e “Recusar e próximo�
 cobre protocolo, nome e CPF; cada item mostra a espera em horas ou dias, a
 elegibilidade e a situação em selo. Atalhos: J e K percorrem, A aceita e R leva
 ao motivo da recusa. Código em `src/identidade.js` e `src/app.css`.
+
+## Mapa do processo
+
+O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o
+**TO-BE** (como fica com o MVP), com as métricas, regras e papéis do projeto.
+Abra ao lado do `index.html`.

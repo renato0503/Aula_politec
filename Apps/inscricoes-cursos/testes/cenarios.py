@@ -72,6 +72,7 @@ def s2_curso_e_link(pg, url, ok):
     perfil(pg, url, "gerencia")
     semear(pg, url)
     ir(pg, url, "#/cursos")
+    pg.click("#btnNovoCurso")
     pg.fill("#cNome", "Perícia em Local de Crime"); pg.fill("#cCarga", "16"); pg.fill("#cLocal", "Auditório")
     pg.fill("#cInicio", "2026-12-07"); pg.fill("#cFim", "2026-12-08"); pg.fill("#cInscIni", "2026-11-01"); pg.fill("#cInscFim", "2026-11-20")
     pg.fill("#cTriagem", "2026-11-25"); pg.fill("#cGrupo", "https://chat.exemplo/turma")

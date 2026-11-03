@@ -1,0 +1,815 @@
+{
+ "afetados": [
+  "Cidadão externo",
+  "Servidor da unidade",
+  "Equipe interna",
+  "Unidade parceira",
+  "Chefia",
+  "Autoridade"
+ ],
+ "aluno": "Nelson e Luciana",
+ "criadoEm": "2026-11-03T00:43:58.279Z",
+ "limite": "Homologação e Validação dos Dados (Fé Pública)\nO que é: A confirmação de que os dados extraídos pelo script para a planilha correspondem exatamente ao documento original.\nPor que não automatizar: O script atua como um assistente de leitura e pré-preenchimento, mas a fé pública e a responsabilidade legal sobre a exatidão das informações registradas no sistema institucional permanecem integralmente com o servidor público.\n\nDeferimento, Triagem Crítica e Recusa de Requisições\nO que é: A decisão de aceitar o pedido, devolvê-lo por falta de requisitos formais ou priorizar o trâmite devido à urgência da diligência.\nPor que não automatizar: Avaliar se um ofício atende aos requisitos jurídicos/técnicos para instauração do laudo envolve juízo discricionário e interpretação do contexto processual, prerrogativas indelegáveis a códigos ou algoritmos.\n\nResolução de Conflitos e Inconsistências Contextuais\nO que é: A deliberação quando há divergências entre o corpo do e-mail e o anexo (ex: corpo do e-mail cita crime de homicídio, mas o PDF do inquérito refere-se a furto).\nPor que não automatizar: Identificar a intenção real da autoridade requisitante (MP/Polícia Civil) e decidir se o e-mail deve ser retificado exige contato humano, bom senso e alinhamento institucional.\n\nValidação da Cadeia de Custódia da Amostra de Referência (AR)\nO que é: A confirmação de que o material físico para confronto (sangue, DNA, projétil) efetivamente chegou à regional e está devidamente lacrado.\nPor que não automatizar: O script identifica no texto a menção à existência de AR, mas a conferência física do invólucro, verificação do lacre e recepção do material biológico/físico são atos estritamente presenciais e periciais.\n\nAo delimitar esses pontos na proposta, o projeto se posiciona claramente como uma ferramenta de copiloto administrativo (automação da digitação repetitiva), mantendo a autoridade, a segurança jurídica e a tomada de decisão 100% sob o controle do servidor público.",
+ "impacto": "Dimensão: Tempo; Impacto Atual (Estimativa Operacional): 12 a 15 minutos dedicados por e-mail/requisição recebida; Evidência / Métrica do Número: Medição de tempo médio de ciclo: abertura do e-mail, download e varredura de 3 a 5 anexos em PDF, localização visual dos 8 campos e cópia/digitação na planilha. Em um volume de 40 e-mails/dia, representa 8 a 10 horas/dia de trabalho manual contínuo.\n\t\t\nDimensão: Custo; Impacto Atual (Estimativa Operacional): R$ 6.000 a R$ 10.000/mês por regional em horas-homem pagas para digitação; Evidência / Métrica do Número: Custo/hora médio do servidor público alocado × ~160 a 200 horas mensais consumidas exclusivamente com triagem administrativa em vez de atividades periciais de ponta.\n\t\t\nDimensão: Qualidade; Impacto Atual (Estimativa Operacional): 8% a 15% de erro de transcrição ou omissão de dados; Evidência / Métrica do Número: Taxa padrão de erro humano em entrada manual de dados não estruturados (troca de dígitos em protocolos, erro no tipo de crime ou não marcação da existência de Amostra de Referência - AR).\n\t\t\nDimensão: Risco; Impacto Atual (Estimativa Operacional): Alto risco legal e de conformidade (LGPD/Sigilo); Evidência / Métrica do Número: 1. Atravancamento processual: Perda de prazos judiciais por erro na identificação do nível de urgência ou regional incorreta; 2. Vazamento de dados: Manuseio manual recorrente de arquivos contendo dados sensíveis de inquéritos e segredos de justiça.\n\t\t\nDimensão: Retrabalho; Impacto Atual (Estimativa Operacional):\t15% a 20% do volume precisa ser reanalisado ou corrigido posteriormente; Evidência / Métrica do Número: Amostra de chamados e e-mails de acompanhamento enviados pelo MP/Delegacias para corrigir dados cadastrados errados, solicitar reenvio de laudos ou reencaminhar peças para a regional correta.",
+ "unidade": "Coordenadoria de Perícias em Biologia Molecular",
+ "resumo": "O projeto consiste no desenvolvimento de um script local, treinado com auxílio de IA, para automatizar a extração de dados de cobranças recebidas por e-mail institucional da POLITEC, garantindo a total proteção e o sigilo das informações sensíveis.",
+ "contato": "nelsonyoshitake@politec.mt.gov.br",
+ "projeto": "Projeto TEIA (Triagem de E-mails com Isolação Automatizada)",
+ "requisitos": {
+  "lacunas": "Mesmo com a estruturação completa do projeto, a validação de campo do MVP da POLITEC possui 5 lacunas técnicas e operacionais que não puderam ser totalmente sanadas apenas com levantamentos teóricos e documentais. Elas representam os pontos exatos que precisam ser testados e ajustados durante as primeiras 2 semanas do piloto:\n\n1. Taxa Real de Formatação Vetorial vs. PDFs Escaneados na POLITEC\nO que não se sabe: Qual é a proporção exata, no volume diário real de entrada da POLITEC, entre PDFs com texto pesquisável (vetoriais) e documentos digitalizados como imagem (bitmap/escaneados) enviados pelas delegacias.\nPor que é uma lacuna: A estimativa inicial adota 70% vetorial / 30% imagem/manuscrito. Se o volume real de PDFs escaneados for superior a 50%, o processamento exigirá uso intensivo do motor Tesseract OCR, aumentando a carga de processamento das estações locais.\nComo verificar: Rodar uma amostragem cega em um lote real de 200 e-mails recebidos na primeira semana para classificar a natureza do arquivo antes do parsing.\n\n2. Acurácia das Expressões Regulares (Regex) em Ofícios com Layouts fora do Padrão\nO que não se sabe: A variação exata da sintaxe e da estrutura do texto nos ofícios expedidos por diferentes comarcas e delegacias do interior de Mato Grosso.\nPor que é uma lacuna: Expressões regulares dependem de padrões textuais previsíveis. Variações na ordem dos campos (ex.: Número do Inquérito vindo antes de Delegacia de Origem em algumas unidades) podem causar falha de extração em variáveis específicas.\nComo verificar: Criar um repositório de divergências no arquivo execucao.log durante os testes em sandbox para refinar e expandir o dicionário mapeamento.json antes de ir para produção.\n\n3. Impacto de Desempenho do Tesseract OCR nas Estações de Trabalho Atuais\nO que não se sabe: As configurações exatas de hardware (processador, memória RAM e armazenamento SSD/HDD) das estações de trabalho físicas onde o script rodará.\nPor que é uma lacuna: O processamento OCR em lote consome bastante CPU. Em máquinas mais antigas com discos rígidos convencionais (HDD), o tempo de processamento por página pode subir de segundos para minutos, afetando a meta da métrica M01.\nComo verificar: Executar um benchmark de leitura de 10 páginas escaneadas diretamente no computador do triador durante a etapa de instalação do ambiente.\n\n4. Nível de Legibilidade e Ruído em Documentos Manuscritos\nO que não se sabe: A frequência de requisições preenchidas manualmente à caneta ou enviadas com carimbos sobrepostos ao texto das 8 variáveis essenciais.\nPor que é uma lacuna: O motor Tesseract em modo offline possui baixa taxa de acerto em caligrafias manuais. Tentar forçar o OCR nesses arquivos pode gerar falsos positivos na extração.\nComo verificar: Confirmar e ajustar a sensibilidade da flag amarela/vermelha para interromper imediatamente a extração quando o índice de confiança do OCR for inferior a 70%, direcionando o caso direto para a validação humana.\n\n5. Resposta dos Servidores Triadores à Mudança de Fluxo (Curva de Aprendizado)\nO que não se sabe: Se o tempo de validação humana no Painel SPA (conferência visual e fé pública) se manterá abaixo de 1 minuto logo nos primeiros dias de uso.\nPor que é uma lacuna: O ganho de tempo projetado (de 15 min para < 1 min) pressupõe que o operador se adapte rapidamente à interface visual e ao fluxo de clique para homologação.\nComo verificar: Acompanhar presencialmente os 3 primeiros dias de operação do triador, cronometrando a validação interativa e coletando o feedback de usabilidade do painel.",
+  "referencias": [
+   {
+    "n": "",
+    "ref": "Lei Geral de Proteção de Dados (LGPD)",
+    "tipo": "Norma ou lei",
+    "fonte": "Lei nº 13.709/2018 (Art. 4º, III, Art. 7º, III e Art. 11, II, \"s\")",
+    "ano": "2018",
+    "dado": "Dispensa de consentimento para tratamento de dados operados pela segurança pública e persecução penal, exigindo salvaguardas de sigilo e segurança.",
+    "uso": "Justifica a legalidade do processamento automatizado local de dados sensíveis e respalda a escolha da Opção 3 (arquitetura 100% offline e isolada).",
+    "conferido": "Sim",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "ref": "Marco Civil da Internet",
+    "tipo": "Norma ou lei",
+    "fonte": "Lei nº 12.965/2014 (Art. 15)",
+    "ano": "2014",
+    "dado": "Obrigatoriedade de guarda dos registros de acesso a aplicações pelo prazo mínimo de 6 meses (180 dias) em ambiente controlado e seguro.",
+    "uso": "Fundamenta o prazo de retenção definido para os arquivos técnicos de auditabilidade e rastreabilidade (execucao.log).",
+    "conferido": "Sim",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "ref": "Anuário Brasileiro de Segurança Pública",
+    "tipo": "Dado oficial",
+    "fonte": "Fórum Brasileiro de Segurança Pública (FBSP",
+    "ano": "2024",
+    "dado": "Crescimento contínuo da demanda de perícias criminais e volume de inquéritos policiais dependentes de laudos oficiais nos estados.",
+    "uso": "Comprova o gargalo operacional na entrada de processos e a necessidade crítica de ganho de eficiência no fluxo pericial da POLITEC.",
+    "conferido": "Sim",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "ref": "Relatório Metodológico do Motor Tesseract OCR",
+    "tipo": "Artigo científico",
+    "fonte": "Google Open Source Software Repository",
+    "ano": "2021",
+    "dado": "Motor de visão computacional open-source com acurácia média superior a 95% em textos impressos de alta densidade e PDFs de resolução padrão.",
+    "uso": "Embasa tecnicamente a viabilidade da métrica M02 (Acurácia $\\ge 95\\%$) sem custo de licença proprietária de software.",
+    "conferido": "Sim",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "ref": "Tabela de Temporalidade de Documentos do Governo de MT",
+    "tipo": "Documento interno",
+    "fonte": "Instrução Normativa / Arquivo Público do Estado de Mato Grosso",
+    "ano": "2022",
+    "dado": "Classificação e temporalidade de documentos relativos a procedimentos de persecução penal e exames periciais da POLITEC.",
+    "uso": "Valida a regra de retenção permanente para a Planilha Consolidada e a manutenção dos anexos durante a vigência do inquérito policial.",
+    "conferido": "Sim",
+    "rm": ""
+   }
+  ],
+  "hipotese": "A automação da leitura e padronização dos dados das requisições via script local reduzirá o tempo médio de triagem de 15 minutos para menos de 1 minuto por processo, mantendo acurácia igual ou superior a 95% e zero vazamento de dados sensíveis.",
+  "itens": [
+   "LGPD e dado pessoal",
+   "Segurança e controle de acesso",
+   "Funcionar offline",
+   "Trilha de auditoria"
+  ],
+  "restricoes": "As restrições mapeadas para o MVP da POLITEC dividem-se em quatro pilares fundamentais (técnicas, operacionais, regulatórias e de infraestrutura) que delimitam o escopo de atuação do protótipo:\n\n1. Restrições Regulatórias e de Compliance (LGPD e Segredo de Justiça)\nVeto Absoluto a Conexões Externas (Air-Gapped / Offline): O motor de processamento (Python + Tesseract) e a interface SPA não podem realizar qualquer chamada HTTP/HTTPS para APIs externas de LLM (como OpenAI, Anthropic) ou serviços em nuvem pública (M05 = 0 conexões).\nTratamento de Dados Pessoais Sensíveis: A manipulação de nomes de envolvidos, relatos de infrações penais, laudos toxicológicos e menções a amostras de DNA deve ocorrer estritamente na memória e disco rígido local da estação de trabalho.\n\n2. Restrições Técnicas de Processamento\nIndependência de Servidores Web (Zero-Backend Web): O MVP não pode depender de servidores de aplicação rodando em background (como Flask, Django ou Node.js) nem de bancos de dados relacionais instalados (PostgreSQL, MySQL), devendo gravar dados diretamente em arquivos locais (dados.json e .xlsx).\nFormatos de Entrada Heterogêneos: O motor de extração é limitado a processar requisições em formato PDF (pesquisáveis vetoriais ou escaneados em bitmap) e e-mails estruturados, acionando o OCR local apenas em arquivos de imagem.\nFallbacks de OCR: Arquivos com grafia exclusivamente manuscrita ou de péssima qualidade de digitalização não serão forçados a passar por extração automática total; devem ser sinalizados imediatamente com flag amarela/vermelha para triagem manual.\n\n3. Restrições Operacionais e Governança\nPreservação da Fé Pública Humana: O sistema automatizado nunca autua ou homologa uma requisição sozinho. A validação final e a confirmação dos 8 campos extraídos dependem obrigatoriamente da ação manual do Servidor Triador na coluna de decisão do painel.\nInvariabilidade de Escopo (MVP): Limitação estrita à triagem e renomeação de anexos da fase de entrada. O MVP não abrange a confecção do laudo pericial final nem a gestão do fluxo de custódia posterior.\n\n4. Restrições de Infraestrutura e Custos\nTeto Orçamentário Zero (Custo R$ 0,00): Proibição de contratação de softwares proprietários, licenças de suítes de OCR pagas ou serviços pagos por requisição.\nSem Privilégios de Administrador Global: O script e o painel devem rodar dentro do perfil padrão de usuário do Active Directory/SO já atribuído ao servidor na sua estação física."
+ },
+ "defesa": {
+  "piloto": "O teste de funcionamento da proposta será realizado por meio de um Piloto de Campo controlado de 10 dias úteis (Marcos M04 a M06), rodando diretamente na estação de trabalho do servidor triador com um lote real e histórico de 200 a 300 requisições periciais.\nO protocolo de validação é dividido em 4 etapas empíricas:\n\n1. Teste de Acurácia de Extração (Métrica M02)\nComo testar: Comparar os dados extraídos automaticamente pelo script no arquivo dados.json com os documentos originais em PDF.\nCritério de Sucesso: Acurácia >= 95% na captura correta das 8 variáveis essenciais nos PDFs vetoriais e >= 85% nos arquivos submetidos ao Tesseract OCR.\n\n2. Cronometragem do Lead Time de Triagem (Métrica M01)\nComo testar: Medir o tempo total do fluxo (desde o recebimento do e-mail até a validação final do operador no Painel SPA) e comparar com a linha de base manual de 15 minutos.\nCritério de Sucesso: Tempo médio por processo reduzido para menos de 1 minuto (sendo ~5 a 10 segundos de extração da máquina e ~30 a 45 segundos de conferência e fé pública humana).\n\n3. Teste Estresse e Ruído de Entrada (Métrica M03 e M04)\nComo testar: Submeter intencionalmente ao motor de leitura um subconjunto de arquivos com desafios conhecidos: PDFs escaneados de baixa resolução e inclinados; Ofícios com texto manuscrito à caneta; Requisições vindas de comarcas do interior com layout fora do padrão.\nCritério de Sucesso: Acionamento correto das flags de alerta (amarela para revisão e vermelha para triagem 100% manual), provando que o sistema não homologa dados errados nem trava o lote.\n\n4. Auditoria de Isolamento e Sigilo (Métrica M05)\nComo testar: Executar o script com o monitoramento de conexões de rede ativo no sistema operacional (via comandos de terminal como netstat ou software de inspeção de tráfego local).\nCritério de Sucesso: Registrar exatamente 0 conexões de saída (outbound) para a internet durante todo o processamento do lote, comprovando conformidade total com a LGPD e a execução air-gapped.",
+  "frase": "Se o tempo médio de triagem por processo passar de 15 minutos para menos de 1 minuto, a equipe de triadores da POLITEC deixa de desperdiçar centenas de horas operacionais digitando dados manuais e atrasando o início das perícias criminais.",
+  "provas": "1. Arquitetura 100% Offline (Air-Gapped) com Compliance Total:\nO processamento é realizado estritamente no motor Python/Tesseract e Painel SPA estático dentro da máquina física do triador (0 conexões de rede externas), garantindo conformidade absoluta com o Art. 4º da LGPD e o segredo de justiça de processos criminais sensíveis a um custo financeiro de R$ 0,00.\n\n2. Ganhos Exponenciais de Eficiência e Lead Time:\nAo substituir a digitação manual pela extração automatizada de texto e renomeação padronizada de anexos, o ciclo de triagem é reduzido de 15 minutos para menos de 1 minuto por requisição, eliminando gargalos de entrada sem afastar o servidor do seu papel legal de exercer a fé pública humana.\n\n3. Total Independência de Infraestrutura e Agilidade de Implantação:\nA solução não requer provisionamento prévio de servidores de aplicação web, bancos de dados complexos ou licenças proprietárias pela TI Central. O uso de ativos locais existentes possibilita a execução de um piloto funcional em 20 dias (Marcos M01 a M06), preservando o fluxo habitual de trabalho por meio da gravação paralela na planilha consolidada .xlsx.",
+  "risco": "O maior risco da proposta do MVP não é uma falha de código ou uma limitação de hardware, mas a Resistência Operacional e a Perda de Confiança dos Servidores Triadores ao lidarem com a automação de documentos judiciais e policiais.\n\nNa perícia criminal, um dado extraído de forma incorreta (como o número do inquérito policial ou a comarca de origem) pode impactar a cadeia de custódia e invalidar prazos legais. Se nos primeiros dias o motor de extração apresentar falhas não sinalizadas ou parecer uma \"caixa-preta\" incontrolável, os servidores abandonarão o painel e voltarão ao método 100% manual.\n\nComo Tratar Este Risco (Estratégia de Mitigação)\nPreservação Rígida da Fé Pública Humana (Automação Assistida, Não Autônoma):\n\nO sistema foi desenhado para nunca autuar ou validar um registro sozinho.\n\nA máquina atua apenas como uma \"estagiária de alta velocidade\" que pré-preenche os campos; a palavra final e a atribuição de fé pública permanecem 100% no controle do servidor triador.\n\nSistema Transparente de Flags de Confiança (Sinalização Amarela/Vermelha):\n\nO motor de OCR/Regex atribui uma nota de confiança visual para cada campo e documento extraído:\n\nVerde (≥85% de confiança): Dados extraídos de PDFs vetoriais limpos — revisão rápida.\n\nAmarelo (70% a 84%): Padrão de layout divergente ou OCR com ruído — exige atenção visual do operador no campo destacado.\n\nVermelho (<70% ou Manuscrito): O motor interrompe a extração técnica e entrega o documento para triagem manual direta, garantindo que o sistema prefira declarar incapacidade a entregar um dado errado.\n\nInexistência de Mão Única (Transição Amigável via .xlsx Nativo):\n\nA base de dados continua sendo espelhada e gravada em formato de planilha Excel tradicional (.xlsx).\n\nSe a interface web falhar ou o operador quiser auditá-la de forma convencional, a planilha consolidada estará atualizada e acessível em tempo real na pasta local, sem perda de trabalho."
+ },
+ "versaoFormulario": 4,
+ "plano": {
+  "marcos": [
+   {
+    "marco": "M01: Aprovação da Especificação e Conformidade LGPD",
+    "data": "Dia 1",
+    "resp": "Líder do Piloto / Chefia da Triagem",
+    "dep": "Parecer de sigilo local e validação das 8 variáveis essenciais",
+    "sit": "Feito",
+    "rm": ""
+   },
+   {
+    "marco": "M02: Liberação do Ambiente Técnico e Permissões Locais",
+    "data": "Dia 3",
+    "resp": "Gerência de TI da POLITEC",
+    "dep": "Perfilamento de instalação do Python 3.10+ / Tesseract OCR e permissões de diretório (/entrada, /painel)",
+    "sit": "Planejado",
+    "rm": ""
+   },
+   {
+    "marco": "M03: Construção do Dicionário De/Para e Base Sintética",
+    "data": "Dia 5",
+    "resp": "TI / Chefia da Triagem",
+    "dep": "Coleta de nomenclaturas oficiais de regionais/crimes e geração de 30 PDFs de teste",
+    "sit": "Planejado",
+    "rm": ""
+   },
+   {
+    "marco": "M04: Entrega dos Scripts e Painel SPA (main.py + index.html)",
+    "data": "Dia 8",
+    "resp": "Desenvolvedor / TI",
+    "dep": "Homologação em sandbox dos motores de parsing, regex e",
+    "sit": "Planejado",
+    "rm": ""
+   },
+   {
+    "marco": "M05: Execução do Piloto de Campo e Coleta da Linha de Base",
+    "data": "Dias 9 a 18",
+    "resp": "Servidor Triador / Líder do Piloto",
+    "dep": "Execução do script com 200 a 300 requisições reais e auditoria dos logs (execucao.log)",
+    "sit": "Planejado",
+    "rm": ""
+   },
+   {
+    "marco": "M06: Apresentação dos Resultados e Consolidação das Métricas",
+    "data": "Dia 20",
+    "resp": "Líder do Piloto",
+    "dep": "Apuração das métricas M01 a M05 e validação final da hi",
+    "sit": "Planejado",
+    "rm": ""
+   }
+  ],
+  "aprendizado": "Para transformar a especificação técnica do MVP da POLITEC em um motor funcional de triagem automatizada sem dependências externas, o aprendizado necessário divide-se em quatro eixos práticos:\n\n1. Engenharia de Expressões Regulares (Regex) e Sintaxe Documental\nPadrões de Ofícios da PJC/PJ: Mapear a variabilidade de sintaxe utilizada pelas diferentes delegacias e comarcas de Mato Grosso para extrair de forma precisa os 8 campos essenciais (ex.: capturar variações como Nº IP:, Inquérito Policial nº, Procedimento nº, Autos nº).\nTratamento de Exceções e Ruídos: Desenvolver regras flexíveis que ignorem cabeçalhos institucionais, marcas d'água e carimbos mantendo a precisão na captura de datas, nomes de envolvidos e qualificações.\n\n2. Otimização e Calibração do Motor Tesseract OCR Local\nTratamento de Imagem Pré-Parsing: Aprender a aplicar filtros simples de binarização, escala de cinza e contraste em imagens Bitmap via biblioteca Python (Pillow/OpenCV) antes de submetê-las ao Tesseract.\nMétricas de Confiança do OCR: Calibrar os limiares de acurácia da biblioteca (pytesseract.image_to_data) para definir a regra exata de acionamento das flags visuais:\nConfiança >= 85%: Ingestão direta com flag verde.\nConfiança entre 70% e 84%: Ingestão com solicitação de revisão (flag amarela).\nConfiança < 70% ou Manuscrito: Interrupção imediata da extração técnica e marcação para triagem 100% manual (flag vermelha).\n\n3. Manipulação Nativa de Dados e Sistema de Arquivos Local\nLeitura e Gravação Assíncrona (dados.json): Estruturar o script para atualizar o arquivo dados.json incrementalmente à medida que cada PDF é processado, garantindo que o Painel SPA renderize os novos itens em tempo real sem travar a interface.\nManipulação da Biblioteca openpyxl: Integrar a escrita na Planilha Consolidada .xlsx respeitando a formatação original da POLITEC, sem corromper células ou fórmulas existentes.\nRegras de I/O de Arquivos (os/shutil): Lidar de forma resiliente com nomes de anexos contendo caracteres especiais, acentuação ou espaços, padronizando a nomenclatura para o formato [PROTOCOLO]_[REGIONAL]_[NOME].pdf.\n\n4. Usabilidade do Painel SPA e Auditoria Local\nComunicação Front-end/Back-end Offline: Ajustar o consumo do arquivo dados.json via JavaScript estático (Fetch API local) tratando eventuais bloqueios de segurança do navegador no protocolo file://.\nFormatação Rigorosa de Logs (execucao.log): Estruturar a gravação de logs técnicos contendo carimbos de data/hora (timestamp), tipo de operação, erros isolados e contadores para auditoria da TI e validação direta da métrica M05 (0 conexões de rede).",
+  "apoio": "Para garantir a execução fluida do piloto e o cumprimento rigoroso do cronograma de 20 dias, o projeto depende da formalização e entrega dos seguintes apoios por parte de três áreas da instituição:\n\n1. Apoio da Gerência de Tecnologia da Informação (TI)\nO que é necessário:\nAutorização para instalação e execução local do ambiente Python 3.10+ e do motor Tesseract OCR (com pacote de dados em português por.traineddata) na estação de trabalho do triador.\nLiberação de acesso com permissão de leitura/escrita na pasta local do projeto (/entrada, /anexos, /logs e /painel).\nMonitoramento pontual na Semana 1 (com ferramenta de auditoria de rede local/firewall) para validar formalmente a métrica M05 (comprovação de 0 conexões externas/outbound).\nPrazo de Entrega: Até o Dia 3 do cronograma (Marco M02).\n\n2. Apoio da Chefia Imediata da Triagem Pericial\nO que é necessário:\nFornecimento da tabela oficial de De/Para com a nomenclatura padronizada das Regionais da POLITEC e o catálogo de Infrações Penais para alimentação do arquivo mapeamento.json.\nLiberação de 2 a 3 horas úteis do Servidor Triador na Fase de Setup para acompanhamento presencial da cronometragem da linha de base manual (M01).\nDesignação formal dos servidores habilitados para o exercício da fé pública no Painel SPA.\nPrazo de Entrega: Até o Dia 5 do cronograma (Marco M03).\n\n3. Apoio da Coordenação Pericial / Assessoria Jurídica\nO que é necessário:\nEmissão de parecer/termo de validação simples confirmando a conformidade do projeto com a LGPD (Art. 4º, III da Lei nº 13.709/2018), atestando que a execução 100% offline atende aos requisitos institucionais de sigilo e persecução penal.\nPrazo de Entrega: Concluído / Validação formal no Dia 1 (Marco M01).",
+  "riscos": [
+   {
+    "risco": "Arquivos exclusivamente manuscritos ou com baixíssima resolução de digitalização",
+    "prob": "Alta",
+    "imp": "Médio",
+    "mit": "Acionamento automático da flag vermelha pelo script, interrompendo o OCR para o arquivo e direcionando a requisição para triagem 100% manual sem travar o processamento do lote.",
+    "rm": ""
+   },
+   {
+    "risco": "RiscoProbabilidadeImpactoMitigaçãoArquivos exclusivamente manuscritos ou com baixíssima resolução de digitalizaçãoAltaMédioAcionamento automático da flag vermelha pelo script, interrompendo o OCR para o arquivo e direcionando a requisição para triagem 100% manual sem travar o processamento do lote.Falta de padronização nos modelos de ofício expedidos pelas delegacias do interior",
+    "prob": "Média",
+    "imp": "Alto",
+    "mit": "Construção e atualização contínua do dicionário de sinônimos (mapeamento.json) com suporte a expressões regulares flexíveis (Regex), prevendo variação de termos e sintaxes.",
+    "rm": ""
+   },
+   {
+    "risco": "Resistência ou lentidão na adaptação dos servidores triadores ao novo painel",
+    "prob": "Média",
+    "imp": "Médio",
+    "mit": "Treinamento prático direto na estação de trabalho e manutenção da planilha em formato .xlsx nativo, garantindo familiaridade visual e validação rápida via fé pública humana.",
+    "rm": ""
+   },
+   {
+    "risco": "Demora na liberação de permissões de instalação do Python/Tesseract pela TI",
+    "prob": "Baixa",
+    "imp": "Alto",
+    "mit": "Uso do pacote executável standalone ou instalação perfilada em ambiente de usuário (sem requisição de privilégios de administrador global da rede).",
+    "rm": ""
+   },
+   {
+    "risco": "Limitação de hardware das estações locais ao rodar OCR em lotes grandes de PDFs",
+    "prob": "Baixa",
+    "imp": "Médio",
+    "mit": "Priorização do parsing direto de texto em PDFs vetoriais e execução do Tesseract apenas em páginas identificadas como imagem (bitmap), otimizando a memória da CPU.",
+    "rm": ""
+   }
+  ]
+ },
+ "documentos": {
+  "descricao": "",
+  "faltando": ""
+ },
+ "estadoAtual": "Recebimento da Requisição: O coordenador acessa a caixa de e-mails institucional da POLITEC e abre a mensagem enviada pelo Ministério Público, Delegacia ou Poder Judiciário;\nDownload e Abertura Manual de Anexos: O coordenador faz o download e abre individualmente cada arquivo anexado (ofícios em PDF, cópias de inquéritos, despachos e termos de apreensão);\nLeitura e Varredura Visual: A pessoa lê o corpo do e-mail e navega pelas páginas dos anexos buscando manualmente os campos essenciais (número do ofício/cobrança, data, protocolo, tipo de crime, regional de destino, se há Amostra de Referência e qual é o objetivo exato da perícia);\nDigitação e Consolidação na Planilha: Os dados localizados são digitados um a um nos campos correspondentes de uma planilha de controle;\nTratamento de Pendências e Encaminhamento: Se alguma informação crítica estiver ausente ou confusa no e-mail, o servidor precisa redigir uma resposta solicitando complementação; caso esteja tudo correto, realiza o direcionamento do pedido para o setor de custódia para posterior processamento.",
+ "arquivosExternos": [],
+ "especificacao": {
+  "lgpd": {
+   "dados": "Categoria de Dado Pessoal: Dados do Requisitante / Servidor Público\nDados Específicos Tratados: Nome completo, cargo/função, e-mail institucional e unidade policial/judiciária de origem.\nOrigem / Fonte: Cabeçalho e corpo do e-mail recebido; cabeçalho do ofício PDF.\nBase Legal (LGPD): Art. 7º, III (Execução de políticas públicas)\nFinalidade do Tratamento no MVP: Identificar a autoridade competente e validar a origem oficial da requisição pericial.\nMedida de Segurança e Sigilo: Isolamento 100% offline (ambiente local/sandbox), sem compartilhamento com APIs externas.\n\nCategoria de Dado Pessoal: Dados de Envolvidos (Vítimas, Suspeitos, Testemunhas)\nDados Específicos Tratados: Nome completo, CPF, RG, filiação, data de nascimento e endereço (quando citados no texto do ofício).\nOrigem / Fonte: Corpo do PDF da requisição pericial anexa.\nBase Legal (LGPD): Art. 7º, III c/c Art. 11, II, \"s\" (Perícia e instrução criminal)\nFinalidade do Tratamento no MVP: Permitir a correta vinculação do procedimento e conferência dos dados no ato da triagem.\nMedida de Segurança e Sigilo: Armazenamento temporário em diretório local com restrição de acesso por permissões do SO.\n\nCategoria de Dado Pessoal: Dados Pessoais Sensíveis\nDados Específicos Tratados: Dados genéticos (menção a amostras de DNA), dados de saúde/toxicológicos e histórico criminal/inquéritos.\nOrigem / Fonte: Texto descritivo do OBJETIVO CLARO e tipo de perícia solicitada no ofício.\nBase Legal (LGPD): Art. 11, II, \"s\" (Instrução policial/pericial e sigilo de justiça)\nFinalidade do Tratamento no MVP: Classificar o TIPO DE CRIME, nível de prioridade e identificar a necessidade de Amostra de Referência (AR).\nMedida de Segurança e Sigilo: Restrição estrita de leitura aos servidores da triagem; ausência de envio para nuvem; logs auditáveis sem exposição de dados sensíveis corporais.\n",
+   "acesso": "Controle de Acesso e Perfis de Usuário\nQuem acessa: Servidor Triador (Operador)\nTipo de Permissão: Leitura e Edição da planilha consolidada (.xlsx) e visualização dos PDFs na pasta local.\nComo o acesso é autenticado: Credenciais nativas de login/senha no Sistema Operacional (Windows/Linux) da estação de trabalho da POLITEC.\n\nQuem acessa: Script de Automação (Máquina)\nTipo de Permissão: Execução e Gravação local (leitura da pasta de entrada, parsing/OCR, renomeação de PDFs e escrita no log/planilha).\nComo o acesso é autenticado: Perfil de execução sob o contexto do usuário logado no sistema operacional (processo local sem privilégios de administrador de rede).\n\nQuem acessa: Administrador de TI / Suporte\nTipo de Permissão: Leitura e Manutenção dos arquivos de log técnico (.log), dicionários de referência em JSON e regras em Regex.\nComo o acesso é autenticado: Autenticação administrativa no domínio/máquina física sandbox.\n",
+   "retencao": "Arquivos Temporários de Entrada (/entrada_emails): 30 dias (ou até a validação do lote pelo servidor)",
+   "base": "A fundamentação jurídica e a destinação do tratamento de dados no âmbito do MVP da POLITEC estão estruturadas da seguinte forma:  1. Base Legal para o Tratamento de Dados (LGPD - Lei nº 13.709/2018) O tratamento de dados pessoais e dados pessoais sensíveis efetuado pelo script e pela planilha de triagem ampara-se nas seguintes hipóteses legais:  Execução de Políticas Públicas (Art. 7º, Inciso III): Tratamento e processamento de dados necessários à execução de políticas públicas dispostas em leis e regulamentos ou baseadas em contratos, convênios ou instrumentos congêneres.  Cumprimento de Obrigação Legal ou Regulatória (Art. 7º, Inciso II): Atendimento aos deveres institucionais de instrução criminal, atendimento a requisições judiciais, policiais e do Ministério Público.  Segurança Pública e Perícia Criminal (Art. 11, Inciso II, Alínea \"s\" - Dados Sensíveis): Tratamento de dados sensíveis (dados de saúde, toxicológicos e genéticos/DNA) indispensáveis para a instrução de processos criminais, perícias oficiais e persecução penal.  Garantia da Inviolabilidade e Sigilo (Art. 4º, Inciso III, Alínea \"a\"): A LGPD estabelece que a lei não se aplica ao tratamento de dados realizado para fins exclusivos de segurança pública, defesa nacional, segurança do Estado ou atividades de investigação e repressão de infrações penais — hipótese na qual a POLITEC se enquadra plenamente no exercício da atividade pericial.  2. Finalidade Específica do Tratamento no MVP O uso dos dados pelo MVP restringe-se às seguintes finalidades institucionais diretas:  Automação e Padronização da Triagem Pericial: Identificar, capturar e estruturar os 8 campos obrigatórios das requisições para eliminar o preenchimento manual repetitivo e reduzir o tempo de autuação de 15 minutos para menos de 1 minuto por processo.  Rastreabilidade e Organização Institucional: Garantir a correta vinculação dos anexos, nomes de envolvidos, delegacias de origem e regionais de destino no repositório de arquivos local da POLITEC.  Mitigação de Riscos de Vazamento (Isolamento Térmico/Offline): Garantir que a finalidade de análise textual ocorra 100% em ambiente local (sandbox), assegurando que nenhum dado pessoal ou segredo de justiça seja transmitido para fora da infraestrutura do órgão."
+  },
+  "stack": "HTML único (CSS/JS inline), dados em JSON embutido, GitHub Pages",
+  "regras": [
+   {
+    "id": "RN01",
+    "regra": "Processamento 100% Local e Offline: Nenhum dado, texto extraído ou anexo pode ser enviado para servidores externos ou APIs de IA em nuvem pública (OpenAI, Anthropic, Gemini Cloud).",
+    "quando": "Em todas as etapas de ingestão, parsing, OCR e gravação de arquivos do sistema.",
+    "excecao": "Nenhuma.",
+    "valida": "Script de Automação / Auditoria de TI",
+    "tipo": "LGPD",
+    "rm": ""
+   },
+   {
+    "id": "RN02",
+    "regra": "Padronização Obrigatória das 8 Variáveis: Os campos obrigatoriamente capturados devem seguir os tipos e formatos definidos (DATA COBRANÇA, Nº COBRANÇAS, Nível, TIPO DE CRIME, PROTOCOLO, AR PARA CONFRONTO, OBJETIVO CLARO, NOME DA REGIONAL).",
+    "quando": "Na etapa de parsing e estruturação do texto extraído do PDF/e-mail.",
+    "excecao": "Nenhuma.",
+    "valida": "Engine de Regex / Script Local",
+    "tipo": "Negócio",
+    "rm": ""
+   },
+   {
+    "id": "RN03",
+    "regra": "Sinalização Visual de Ausência de Dados (PENDENTE): Se o script não identificar com certeza qualquer uma das 8 variáveis, o campo deve ser preenchido como PENDENTE e a linha sinalizada em amarelo na planilha.",
+    "quando": "Na gravação do registro na planilha consolidada quando a confiança da extração for incompleta.",
+    "excecao": "Nenhuma.",
+    "valida": "Script Local / Servidor Triador",
+    "tipo": "Negócio",
+    "rm": ""
+   },
+   {
+    "id": "RN04",
+    "regra": "Tratamento Obrigatorio de Manuscritos / Imagens: Documentos identificados como escaneados sem camada vetorial de texto ou com caligrafia manuscrita devem ter a flag LEITURA_MANUSCRITA_PENDENTE (linha em vermelho) ativada sem interromper o lote.",
+    "quando": "Ao processar PDFs bitmap ou imagens escaneadas via OCR Tesseract.",
+    "excecao": "Nenhuma.",
+    "valida": "Engine de OCR / Servidor Triador",
+    "tipo": "Negócio",
+    "rm": ""
+   },
+   {
+    "id": "RN05",
+    "regra": "Padronização e Nomenclatura da Pasta Local: Os arquivos anexos extraídos devem ser obrigatoriamente salvos e renomeados no formato [PROTOCOLO]_[REGIONAL]_[NOME_ORIGINAL].pdf no diretório local configurado.",
+    "quando": "No momento do download e armazenamento local dos anexos.",
+    "excecao": "Caso o protocolo seja PENDENTE, utilizar o nome SEM_PROTOCOLO_[TIMESTAMP]_[NOME_ORIGINAL].pdf.",
+    "valida": "Script de Automação (Máquina)",
+    "tipo": "Negócio",
+    "rm": ""
+   },
+   {
+    "id": "RN06",
+    "regra": "Imutabilidade e Registro de Auditoria em Log: Todas as execuções, falhas, leituras e alterações de status devem ser gravadas em arquivo de log local (execucao.log) em modo append com timestamp, sem substituição de histórico.",
+    "quando": "A cada ação executada pela automação ou alteração efetuada na planilha.",
+    "excecao": "Nenhuma.",
+    "valida": "Módulo de Logging Python",
+    "tipo": "Validação",
+    "rm": ""
+   },
+   {
+    "id": "RN07",
+    "regra": "Soberania Exclusiva da Fé Pública Humana: O aceite formal, a validação de impedimentos jurídicos e o deferimento da requisição cabem exclusivamente ao servidor público, sendo proibida a aprovação 100% autônoma pelo script.",
+    "quando": "Na homologação final e alteração do status da requisição para VALIDADO na planilha.",
+    "excecao": "Nenhuma.",
+    "valida": "Servidor Triador (Operador Humano)",
+    "tipo": "Negócio",
+    "rm": ""
+   }
+  ],
+  "stackDetalhe": "Para a fase de prototipagem e demonstração do MVP da POLITEC, adotamos a abordagem de Stack Dupla (Script de Processamento + Dashboard HTML Único).\nA escolha justifica-se pela natureza do projeto: um arquivo HTML estático não consegue acesar o sistema de arquivos local da estação de trabalho para ler PDFs, executar OCR (Tesseract) nem renomear arquivos. Por isso, dividimos a solução em duas camadas locais e conectadas:\n1. Camada do Motor Local (Back-end de Processamento)\nLinguagem / Runtime: Python 3.10+ (executado localmente via script ou executável empacotado via PyInstaller .exe).\nFunção: Monitorar a pasta local /entrada_emails, fazer o parsing dos PDFs/e-mails, rodar o Tesseract OCR offline quando necessário, renomear os arquivos anexos para a pasta /anexos e gerar/atualizar o arquivo de dados consolidado (dados.json ou dados.js).\nExecução: 100% offline e sem necessidade de servidor de aplicação (Flask/Django), utilizando apenas o sistema de arquivos da máquina.\n\n2. Camada da Interface / Painel (Front-end SPA de HTML Único)\nArquitetura: Arquivo HTML Único (index.html) com CSS (<style>) e JavaScript (<script>) totalmente embutidos (Single-File Application).\nFunção: Servir como o Painel do Triador interativo e visual diretamente no navegador web local (Chrome, Edge ou Firefox).\nConsumo de Dados: O JavaScript embutido consome o arquivo de dados local (dados.json) gerado pelo script Python, preenchendo a tabela com os 8 campos, os contadores do topo e os alertas visuais em verde, amarelo e vermelho.\nHospedagem / Publicação:\nAmbiente de Produção Local (POLITEC): Funciona abrindo o próprio arquivo local (file:///C:/POLITEC/MVP/index.html) sem necessidade de conexão com a internet.\nDemonstração / GitHub Pages: O arquivo index.html acompanhado de um dados.json sintético e simulado é publicado no GitHub Pages para demonstração online do protótipo e validação das telas e fluxos pela chefia, sem expor qualquer infraestrutura interna.",
+  "entidades": [
+   {
+    "entidade": "Requisição Pericial (Entrada)",
+    "representa": "Expediente bruto recebido da autoridade requisitante (corpo do e-mail e documento PDF anexo).",
+    "colunas": "id_requisicao: texto, arquivo_origem: texto, data_recebimento: datetime, remetente_email: texto, assunto_email: texto, conteudo_raw: texto",
+    "chave": "id_requisicao",
+    "volume": "30 a 100 arquivos/lote",
+    "origem": "Pasta local /entrada_emails",
+    "sintetico": "Sim",
+    "rm": ""
+   },
+   {
+    "entidade": "Triagem Estruturada (Painel)",
+    "representa": "Registro processado contendo a extração padronizada das 8 variáveis essenciais da POLITEC.",
+    "colunas": "id_registro: inteiro, id_requisicao: texto, data_cobranca: data (DD/MM/AAAA), qtd_cobrancas: inteiro, nivel_urgencia: texto, tipo_crime: texto, protocolo: texto (AAAA.NNN.NNNN-A), ar_confronto: texto, objetivo_claro: texto, nome_regional: texto, status_validacao: texto, caminho_anexo: texto",
+    "chave": "id_registro",
+    "volume": "1 linha por requisição",
+    "origem": "Script local de parsing / OCR",
+    "sintetico": "Sim",
+    "rm": ""
+   },
+   {
+    "entidade": "Dicionário de Referência (De/Para)",
+    "representa": "Tabela de consulta estática local com mapeamentos oficiais de regionais e tipos de crime para validação via Regex.",
+    "colunas": "id_ref: inteiro, categoria: texto, termo_chave: texto, valor_padronizado: texto",
+    "chave": "id_ref",
+    "volume": "~50 registros",
+    "origem": "Arquivo de configuração local (json/xlsx)",
+    "sintetico": "Sim",
+    "rm": ""
+   },
+   {
+    "entidade": "Log de Auditoria Técnica",
+    "representa": "Rastreabilidade imutável de todas as etapas do parsing, OCR, validações e ações de usuário.",
+    "colunas": "id_log: inteiro, timestamp: datetime, id_requisicao: texto, etapa: texto, nivel_log: texto, mensagem: texto, hash_arquivo: texto",
+    "chave": "id_log",
+    "volume": "5 a 15 entradas por arquivo",
+    "origem": "Módulo nativo de logging do Python",
+    "sintetico": "Sim",
+    "rm": ""
+   }
+  ]
+ },
+ "toBe": {
+  "restricao": "A soberania e a fé pública do servidor: Nenhuma decisão jurídica, autuação oficial ou homologação de aceite pode ser delegada ao algoritmo; o servidor mantém a responsabilidade legal integral e a exclusividade do ato administrativo.\nO isolamento local e o sigilo de dados (LGPD): Nenhum dado sensível de inquéritos, segredos de justiça ou informações pessoais pode trafegar para APIs externas ou serviços em nuvem pública durante a execução do processo.\nOs canais institucionais de entrada: Os órgãos requisitantes (MP, PC e Judiciário) não precisam alterar a forma como enviam suas solicitações, mantendo o uso dos e-mails institucionais e arquivos PDF padrão.\nA rigorosidade da Cadeia de Custódia: A confirmação de recebimento, conferência de lacres e validação presencial das Amostras de Referência (AR) físicas continuam sendo procedimentos manuais e obrigatórios no setor de custódia.\nA trilha de auditoria e a rastreabilidade: O registro das ações não pode deixar de existir; qualquer alteração, validação ou rejeição feita pelo servidor deve ser registrada com identificação de usuário e carimbo de data/hora.",
+  "piloto": "Para validar a nova automação da POLITEC de forma segura, sem impactar a rotina operacional nem colocar em risco dados sensíveis sob segredo de justiça, o teste deve ser realizado em ambiente controlado local (Sandbox) dividido em 4 fases sequenciais.\n\n1. Onde Testar (Ambientes de Teste)Ambiente de Desenvolvimento/Sandbox Local (Máquina Isolada): Computador da POLITEC sem acesso à internet, configurado com Python/ambiente local e uma caixa de e-mail de testes (ou repositório de e-mails em formato .eml / .msg).Base de Dados Espelho (Planilha de Homologação): Uma cópia da planilha oficial de produção, isolada na rede interna, para evitar sobregravação ou corrupção de dados reais.Repositório de Arquivos Fictícios/Anonimizados: Pasta local dedicada ao recebimento dos PDFs de teste.\n\n2. Como Testar (Plano de Testes em 4 Fases)\nFase 1: Teste com Massa de Dados Sintética e Anonimizada (Massa Controlada)O que fazer: Criar um lote de 20 a 30 e-mails/PDFs fictícios cobrindo todos os cenários possíveis:Requisições perfeitas (com os 8 campos claros).PDFs escaneados como imagem (para testar o OCR local).E-mails com dados incompletos ou formatos de arquivo não padrão (DOCX, ZIP).Informações divergentes entre o corpo do e-mail e o anexo.O que avaliar: Se o script extrai corretamente os 8 campos, se atribui os status/flags corretos na planilha e se renomeia os arquivos no padrão estabelecido.\nFase 2: Teste em Paralelo com Produção (Execução em Shadow/Sombra)O que fazer: Rodar o script localmente em paralelo com a rotina diária real, sem alterar o trabalho dos servidores:Uma cópia dos e-mails reais recebidos no dia é direcionada para a pasta do script.O servidor faz a triagem manual habitual (AS-IS).Ao final do dia, compara-se o tempo gasto e a exatidão dos dados inseridos manualmente versus os dados inseridos pelo script.O que avaliar: Taxa de precisão da extração de texto, acertos de regex e divergências entre o preenchimento humano e o da máquina.\nFase 3: Teste de Estresse e Exceções TécnicasO que fazer: Submeter o script a situações de limite e falha:Leitura de volumes grandes de e-mails simultâneos (lote de 100+ mensagens).Arquivos PDF corrompidos ou protegidos por senha.Nomes de anexos com caracteres especiais ou acentuação complexa.O que avaliar: Estabilidade do script (se interrompe a execução com erro fatal ou se isola a exceção no log e continua o lote).\nFase 4: Homologação com o Servidor Triador (Teste de Usabilidade Operacional)O que fazer: Colocar o servidor público que realiza a triagem frente ao dashboard/planilha populada pelo script para simular a validação diária.O que avaliar:Se os destaques visuais (flags de erro/inconsistência em vermelho/amarelo) são claros.Se o tempo de conferência humana cai para menos de 1 minuto por requisição.Se a experiência de uso respeita as regras de fé pública e decisão do servidor.\n\n3. Critérios para Aprovação no Teste (Gate de Aceitação)\n Critério de Qualidade: Taxa de Assertividade na Extração dos 8 Campos; Meta Esperada: >=95% em PDFs pesquisáveis\nCritério de Qualidade: Tratamento de Exceções sem Interrupção do Script; Meta Esperada: 100% das falhas registradas no Log\nCritério de Qualidade: Isolamento de Dados (Vazamento para APIs externas);  Meta Esperada: 0% de tráfego externo (Garantia offline)\nCritério de Qualidade: Redução do Tempo Operacional por Requisição; Meta Esperada: Queda de approx 12 min para 1 min",
+  "etapas": [
+   {
+    "n": "",
+    "etapa": "Monitoramento e varredura da caixa de e-mails",
+    "muda": "Substitui a checagem manual periódica por varredura automatizada continua/programada.",
+    "quem": "A máquina (automação)",
+    "beneficio": "Eliminação do tempo de espera na caixa de entrada e início imediato do processamento.",
+    "esforco": "Baixo",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "etapa": "Extração de texto e leitura dos anexos (PDF/Imagens)",
+    "muda": "A leitura visual de múltiplos anexos é substituída pela extração via código e OCR local.",
+    "quem": "A máquina (automação)",
+    "beneficio": "Redução drasticamente do tempo de leitura (de minutos para segundos por arquivo).",
+    "esforco": "Baixo",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "etapa": "Mapeamento dos 8 campos essenciais",
+    "muda": "A busca visual no texto é feita por regras de regex/parsing local, identificando as 8 variáveis.",
+    "quem": "A máquina (automação)",
+    "beneficio": "Padronização e eliminação de omissões ou erros de transcrição manual.",
+    "esforco": "Baixo",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "etapa": "Preenchimento da planilha e sinalização de alertas",
+    "muda": "Inserção automática da linha populada com dados e atribuição de flags em inconsistências.",
+    "quem": "A máquina (automação)",
+    "beneficio": "Fim da digitação manual (\"copiar e colar\") e identificação visual instantânea de erros.",
+    "esforco": "Baixo",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "etapa": "Salvamento, renomeação e organização dos arquivos",
+    "muda": "PDFs baixados são automaticamente renomeados (Padrão: Protocolo + Regional) e movidos.",
+    "quem": "A máquina (automação)",
+    "beneficio": "Organização padronizada imediata no repositório local sem intervenção manual.",
+    "esforco": "Baixo",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "etapa": "Validação de fé pública e decisão de aceite",
+    "muda": "Servidor apenas confere o pré-preenchimento na planilha e valida o aceite da requisição.",
+    "quem": "A pessoa, sem mudança",
+    "beneficio": "Manutenção da legalidade, fé pública e segurança jurídica com consumo mínimo de tempo.",
+    "esforco": "Baixo",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "etapa": "Autuação e encaminhamento para a Regional",
+    "muda": "A requisição validada é autuada e enviada ao setor/perito responsável pela emissão do laudo.",
+    "quem": "A pessoa, sem mudança",
+    "beneficio": "Tramitação rápida e segura, pronta para o início da atividade pericial de ponta.",
+    "esforco": "Baixo",
+    "rm": ""
+   }
+  ],
+  "visao": "O processo de triagem da POLITEC passa a ser executado por um script local que faz a varredura automática de e-mails e anexos, extrai e organiza os 8 campos essenciais na planilha sem expor dados a IAs externas, restando ao servidor apenas a validação rápida e o aceite final das requisições periciais.",
+  "mudanca": "A mudança principal consiste na substituição da triagem manual e fragmentada por um fluxo de extração automatizada local, alterando o papel do servidor público de \"digitador/leitor de PDFs\" para \"validador de fé pública\".\nEm termos operacionais, o processo migra de uma arquitetura baseada em esforço humano repetitivo para uma arquitetura de processamento em lote orientado a eventos:\nAntes (AS-IS): O servidor gastava de 12 a 15 minutos por requisição abrindo e-mails, baixando e varrendo visualmente arquivos PDF, copiando 8 campos manualmente para a planilha e renomeando arquivos um a um.\nDepois (TO-BE): O script local varre a caixa de correio, lê e estrutura o conteúdo dos arquivos PDF, popula a planilha com as 8 variáveis em segundos e organiza os anexos em pastas locais. O servidor intervém apenas no final do fluxo, levando menos de 1 minuto para checar o pré-preenchimento, resolver eventuais alertas de divergência e homologar a autuação.",
+  "inalterado": "A Origem das Requisições: As autoridades requisitantes (Ministério Público, Polícia Civil/Delegacias e Poder Judiciário) continuam enviando os pedidos pelos mesmos canais institucionais de e-mail e com o mesmo formato de documentos (anexos em PDF/imagem).\nOs Critérios Legais e a Fé Pública: A prerrogativa de aceitar, deferir, indeferir ou solicitar aditamento de uma requisição continua sendo 100% humana e exclusiva do servidor público habilitado.\nA Necessidade da Validação Presencial da AR: A confirmação física da recepção da Amostra de Referência para confronto (material genético, balístico ou documental), bem como a checagem da integridade do lacre da cadeia de custódia, continuam exigindo a conferência presencial no setor de custódia.\nA Estrutura de Informação Requerida: As 8 variáveis essenciais (DATA COBRANÇA, Nº COBRANÇAS, Nível, TIPO DE CRIME, PROTOCOLO, AR PARA CONFRONTO, OBJETIVO CLARO, NOME DA REGIONAL) permanecem como o padrão obrigatório para autuação do processo pericial.\nO Isolamento de Dados Sigilosos (Privacidade): Nenhuma informação sensível ou dado de inquérito sob segredo de justiça sai do ambiente interno da POLITEC; o processamento continua estritamente local e sem dependência de APIs externas na fase operacional."
+ },
+ "papeis": [
+  {
+   "papel": "Servidor Triador (Operador)",
+   "quem": "Servidor administrativo ou perito responsável pela recepção e triagem das requisições na POLITEC.",
+   "ve": "Dashboard local com a planilha de requisições pré-preenchidas pelo script, alertas de inconsistência/erro, anexos renomeados e status de cada e-mail.",
+   "faz": "Revisa os dados extraídos pela IA/script, corrige divergências, valida/autentica os 8 campos, confirma a recepção física de AR e aprova/recusa a requisição.",
+   "naofaz": "Alterar o código-fonte do script, modificar regras de extração local, acessar dados sigilosos fora do seu escopo de atribuição ou deletar logs de auditoria.",
+   "registro": "Confirmações de validação, edições manuais de dados, aprovações, recusas de expedientes e carimbo de data/hora (timestamp) de cada ação realizada.",
+   "rm": ""
+  },
+  {
+   "papel": "Administrador do Sistema (TI / Dev)",
+   "quem": "Desenvolvedor do script, analista de TI ou responsável técnico pela manutenção da ferramenta local.",
+   "ve": "Logs de execução do script, taxa de sucesso na leitura de anexos, métricas de desempenho/erros de OCR, telas de configuração e regras de regex/parsing.",
+   "faz": "Mantém o script atualizado, ajusta regras de extração e OCR local, monitora a integridade das pastas/planilhas e gerencia permissões de acesso local.",
+   "naofaz": "Validar legalmente requisições periciais, autuar processos jurídicos, alterar o conteúdo de laudos ou atuar como validador de fé pública.",
+   "registro": "Alterações de código, modificações de parâmetros de regras, execuções de manutenção, falhas do sistema e acessos a pastas de sistema",
+   "rm": ""
+  },
+  {
+   "papel": "Script de Automação (Agente de Sistema)",
+   "quem": "O próprio script executado localmente (sem acesso à internet) para varredura e extração de dados.",
+   "ve": "Caixas de e-mail institucionais (corpo e metadados), arquivos anexos (PDFs, imagens) e tabelas locais de referência (regionais, tipificações).",
+   "faz": "Varre a caixa de e-mails, extrai os 8 campos requeridos, renomeia e salva anexos em diretório seguro e popula a planilha local com flags de inconsistência.",
+   "naofaz": "Tomar decisões jurídicas/administrativas, assinar certidões, autuar laudos, enviar dados para APIs externas ou apagar e-mails originais da caixa de entrada.",
+   "registro": "Início/fim de execuções, e-mails lidos, anexos processados, taxa de confiança do OCR, erros de extração e linhas adicionadas à planilha.",
+   "rm": ""
+  },
+  {
+   "papel": "Gestor / Chefia Pericial (Consulta)",
+   "quem": "Diretor regional, chefe de equipe ou coordenador da unidade da POLITEC.",
+   "ve": "Relatórios consolidados de desempenho, volume de requisições recebidas por regional, estatísticas de tipos de crime e tempo médio de triagem.",
+   "faz": "Acompanha indicadores da unidade, monitora gargalos na recepção de requisições e toma decisões estratégicas de redistribuição de demandas periciais",
+   "naofaz": "Editar dados de requisições em triagem, alterar parâmetros do script local ou aprovar cadastros técnicos pendentes de validação pelo triador.",
+   "registro": "Consultas a relatórios consolidados, exportação de estatísticas e visualizações do painel gerencial.",
+   "rm": ""
+  }
+ ],
+ "tipo": "Automação de script ou rotina",
+ "mvp": {
+  "criterio": "O MVP será considerado aprovado e pronto para a fase de homologação se atender aos seguintes 5 critérios operacionais e mensuráveis:\nRedução Comprovada do Tempo de Triagem:\nO tempo total gasto pelo servidor para conferir a planilha e homologar a requisição é de menos de 1 minuto por processo (comparado aos 12–15 minutos do fluxo AS-IS manual).\nAcurácia na Extração dos 8 Campos (em PDFs Impressos/Pesquisáveis):\nO script extrai corretamente as 8 variáveis chaves com taxa de acerto \n≥95% nos testes em massa de dados controlada, populando as colunas da planilha de forma estruturada.\nTratamento de Exceções sem Travamento do Sistema:\nEm 100% dos casos de erro (PDFs corrompidos, manuscritos, anexos faltantes ou arquivos não suportados), o script não interrompe a execução do lote: isola o arquivo, aplica a flag de alerta amarela/vermelha na planilha e grava a falha no log local.\nOrganização e Padronização de Arquivos:\n100% dos anexos processados são salvos e renomeados no padrão exato ([PROTOCOLO]_[REGIONAL]_[NOME].pdf) no diretório local, com hiperlinks válidos e funcionais na planilha.\nGarantia Total de Sigilo e Isolamento (LGPD):\nO processamento é concluído de forma \n100% offline, comprovado por auditoria de tráfego de rede (zero requisições de saída para APIs ou servidores externos).",
+  "objetivo": "Demonstrar, em ambiente local controlado, que a varredura e a extração automática das 8 variáveis das requisições periciais reduzem o tempo de triagem de 15 minutos para menos de 1 minuto por processo, preservando 100% o sigilo dos dados e a soberania da fé pública do servidor.",
+  "plataforma": "Programa de desktop",
+  "fora": "Integração ou Envio de Dados para APIs de IA em Nuvem Pública (OpenAI, Anthropic, Gemini Cloud):\nPor quê: Violação direta da Lei Geral de Proteção de Dados (LGPD) e do sigilo de justiça inerente aos inquéritos policiais e laudos periciais da POLITEC. O processamento deve ser 100% offline e local.\n\nDecisão Autônoma ou Deferimento Automático de Requisições:\nPor quê: Impossibilidade legal e administrativa. A atribuição de fé pública, a conferência de impedimentos jurídicos e o aceite formal da requisição exigem a soberania exclusiva da decisão humana do servidor público.\n\nConferência Física da Cadeia de Custódia e Lacres de Amostras (AR):\nPor quê: Trata-se de um procedimento presencial obrigatório. A máquina consegue apenas identificar se a documentação cita a existência de material biológico/físico, mas a validação do lacre e o recebimento físico do invólucro ocorrem no setor de custódia.\n\nAlteração ou Integração Direta com os Sistemas Legados dos Órgãos Requisitantes (MP, PC, Judiciário):\nPor quê: Fora do escopo de governança do projeto local. Exigiria desenvolvimento de APIs governamentais complexas e autorização interinstitucional, o que inviabilizaria a implantação rápida e o MVP do script local.\n\n",
+  "dados": "Para validar o MVP em sandbox local, a massa de dados sintética deve conter cenários reais de atendimento da POLITEC (casos padrão, exceções e divergências).\nAbaixo estão os dados de exemplo estruturados em 3 perfis de requisição para alimentar o protótipo:\n1. Dados Sintéticos para os Arquivos de Entrada (/entrada_emails)\nArquivo de Entrada (Sintético)\tCanal / Origem\tConteúdo do Texto (Corpo / PDF)\tTipo de Cenário\nreq_001_1ª_DP_Cuiaba.pdf\t1ª DP de Cuiabá\t\"Ofício nº 452/2026. Solicita-se perícia de DNA em local de homicídio. Urgência Alta (Nível 1). Protocolo 2026.089.1234-A. Regional: Cuiabá. Acompanha Amostra de Referência (AR) em envelope lacrado nº 8849. Objetivo: Confronto genético da vítima.\"\tCenário Ideal (Padrão): Documento pesquisável e 100% completo.\n\n2. Resultado Esperado na Planilha Populada pelo MVP (Painel_Triador.xlsx)Estes são os dados exatos que a planilha deve exibir após a execução do script:Line IDDATA COBRANÇANº COBRANÇASNívelTIPO DE CRIMEPROTOCOLOAR PARA CONFRONTOOBJETIVO CLARONOME DA REGIONALStatus / Flag VisualCaminho do Anexo Renomeado0101/11/20261Nível 1Homicídio2026.089.1234-ASIM (Lacre 8849)Confronto genético da vítimaCuiabáVERDE (Pronto)..\\anexos\\CUIABA\\2026.089.1234-A_CUIABA_req001.pdf\n\n3. Exemplo de Registro no Arquivo de Log (execucao.log)\nPlaintext\n2026-11-01 10:30:01 [INFO]  Iniciada varredura na pasta /entrada_emails. 3 arquivos encontrados.\n",
+  "simulado": "1. Integração com a Caixa de E-mails Institucional (Outlook/Webmail)\n2. Leitura de PDFs com Manuscritos / Caligrafia Humana (OCR Avançado)\n3. Notificação / Disparo Automático de Resposta para a Delegacia/MP\n4. Validação da Amostra de Referência (AR) e Lacres da Custódia\n5. Autenticação de Usuários e Controle de Acessos (RBAC)\n6. Banco de Dados Relacional e Servidor Central",
+  "dentro": "Varredura e Consumo Local de E-mails: Leitura e processamento automatizado da caixa de e-mails de entrada institucional com requisições periciais em ambiente local.\nExtração e Leitura de Anexos: Identificação, abertura e processamento de arquivos em PDF (nativos ou escaneados) e imagens associadas aos e-mails.\nEngine de OCR e Parsing Offline: Processamento de extração de texto via expressões regulares (Regex) e OCR local (tesseract/similar), sem tráfego de dados para nuvens externas.\nMapeamento das 8 Variáveis Chave: Extração automática de DATA COBRANÇA, Nº COBRANÇAS, Nível, TIPO DE CRIME, PROTOCOLO, AR PARA CONFRONTO, OBJETIVO CLARO e NOME DA REGIONAL.\nPreenchimento Estruturado na Planilha: Gravação direta das 8 variáveis em planilha local (XLSX/CSV), com destaques visuais para incoerências ou ausência de dados.\nOrganização e Nomenclatura de Arquivos: Download automatizado, padronização do nome do arquivo ([PROTOCOLO]_[REGIONAL]_[NOME].pdf) e gravação na pasta local configurada.\nLog de Auditoria e Tratamento de Exceções: Geração de arquivo de log local com registro de acessos, erros de leitura, taxa de sucesso de extração e carimbos de data/hora (timestamps).\nInterface de Validação para o Triador: Disponibilização da planilha formatada com flags de alerta para a revisão humana rápida e homologação da fé pública.",
+  "reuso": "Para viabilizar a entrega rápida do protótipo sem reinventar a roda, a POLITEC já dispõe de ativos de infraestrutura, softwares livres consolidados e bibliotecas de código que podem ser integrados diretamente no MVP.\n\n1. Softwares, Bibliotecas e Ferramentas Open-Source (Gratuitas)\nPython 3.10+ (Ambiente Runtime): Linguagem base de execução local, com suporte nativo a processamento de texto, manipulação de arquivos e automações.\nBibliotecas de Parsing de PDF (pdfplumber / pypdf): Módulos maduros para abertura e extração de texto vetorial e tabelas contidas nos PDFs nativos gerados pelas delegacias e fóruns.\nTesseract OCR (Engine de Visão Computacional Offline): Motor de OCR mantido pelo Google, totalmente gratuito, executável via linha de comando local e configurado com o pacote de linguagem em português (por.traineddata).\nManipulação de Planilhas (pandas / openpyxl): Bibliotecas padrão para criação, preenchimento, gravação automatizada e formatação condicional de arquivos .xlsx.\nMotor de Regras (re - Expressões Regulares): Módulo nativo do Python para validação e captura de padrões de texto (formatos de datas, números de protocolo e identificadores de regional).\n\n2. Ativos e Infraestrutura Já Existentes na POLITEC\nEstações de Trabalho Atuais (Hardware): Computadores de mesa que os servidores triadores já utilizam no dia a dia, eliminando a necessidade de aquisição de novos equipamentos.\nPacote de Produtividade (Microsoft Excel / LibreOffice Calc): Softwares de planilha eletrônica instalados nas máquinas para servir como interface imediata de leitura e edição do triador.\nMapeamento das 8 Variáveis Essenciais: Definição já consolidada dos campos que a POLITEC exige para a autuação, eliminando a necessidade de levantamento de requisitos de negócio.\nTabela de Referência de Regionais e Tipos de Crime: Dicionários de dados existentes no órgão com os nomes das unidades descentralizadas (Cuiabá, Várzea Grande, Sinop, etc.) e as nomenclaturas padrão de infrações penais.\nE-mails Institucionais e Estrutura de Pastas de Rede: A própria caixa de entrada atual e os diretórios locais/compartilhados que já são utilizados para salvar e organizar os documentos da perícia.",
+  "artefatos": [
+   {
+    "n": "",
+    "nome": "Módulo de Ingestão e Monitoramento de Entrada",
+    "rota": "Monitorar o repositório/caixa local de e-mails para identificar novos expedientes recebidos.",
+    "objetivo": "Script de Automação (Máquina)",
+    "usuario": "Remetente, assunto, data/hora de recebimento, identificador do e-mail e lista de anexos.",
+    "dados": "Efetuar a varredura continua/programada e acionar a fila de extração de dados.",
+    "acao": "Somente e-mails com anexos de requisição pericial devem ser enfileirados; ignorar mensagens sem anexos.",
+    "regra": "Automação",
+    "tipo": "Automação",
+    "verificacao": "Leitura a partir de uma pasta local com arquivos .eml ou arquivos PDF baixados.",
+    "mvp": "",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "nome": "Engine de Parsing e OCR Local",
+    "rota": "Extrair o conteúdo textual de requisições em PDF (nativos ou escaneados).",
+    "objetivo": "Script de Automação (Máquina)",
+    "usuario": "Conteúdo textual bruto, metadados do documento e índice de confiança do OCR local.",
+    "dados": "Executar parser de PDF; aplicar OCR offline se o documento for imagem escaneada.",
+    "acao": "Processamento 100% offline (sem envio de dados para APIs externas). Se a confiança for baixa, acionar flag de erro.",
+    "regra": "Regra",
+    "tipo": "Automação",
+    "verificacao": "Leitura de PDFs pesquisáveis via Regex local e fallback para OCR Tesseract básico.",
+    "mvp": "",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "nome": "Motor de Extração das 8 Variáveis",
+    "rota": "Identificar e estruturar os 8 campos essenciais no texto do expediente.",
+    "objetivo": "Script de Automação (Máquina)",
+    "usuario": "DATA COBRANÇA, Nº COBRANÇAS, Nível, TIPO DE CRIME, PROTOCOLO, AR, OBJETIVO, REGIONAL.",
+    "dados": "Mapear o texto extraído aplicando regras de padrões de texto (Regex) e tabelas de referência.",
+    "acao": "Preenchimento obrigatório dos 8 campos. Na falta de dado, preencher como PENDENTE e aplicar cor amarela.",
+    "regra": "Regra",
+    "tipo": "Ação",
+    "verificacao": "Expressões regulares (Regex) para os 8 campos com validações de padrão.",
+    "mvp": "",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "nome": "Repositório e Organização de Arquivos",
+    "rota": "Padronizar a nomenclatura dos PDFs e salvá-los no diretório estruturado.",
+    "objetivo": "Script de Automação (Máquina)",
+    "usuario": "Nome original do arquivo, número do PROTOCOLO e NOME DA REGIONAL.",
+    "dados": "Renomear o arquivo no formato padrão e movê-lo para a pasta de destino da regional.",
+    "acao": "Formato obrigatório: [PROTOCOLO]_[REGIONAL]_[NOME_ORIGINAL].pdf. Tratar caracteres especiais.",
+    "regra": "Automação",
+    "tipo": "Ação",
+    "verificacao": "Download e renomeação direta em pasta local configurada no ambiente.",
+    "mvp": "",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "nome": "Planilha Consolidada de Triagem (Painel do Triador)",
+    "rota": "Apresentar os dados extraídos de forma limpa para revisão e homologação humana.",
+    "objetivo": "Servidor Triador (Operador)",
+    "usuario": "As 8 variáveis, caminho do anexo renomeado, status do expediente e destaques visuais de alerta.",
+    "dados": "Revisar dados, corrigir incorreções na linha, conferir anexo e alterar status para VALIDADO",
+    "acao": "Destaque vermelho para conflito de dados/urgência, amarelo para dados pendentes e verde para Ok.",
+    "regra": "Tela",
+    "tipo": "Ação",
+    "verificacao": "Planilha .xlsx com formatação condicional (cores por status) e links para os anexos.",
+    "mvp": "",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "nome": "Arquivo de Log de Auditoria e Exceções",
+    "rota": "Garantir a rastreabilidade técnica e operacional de todas as etapas do sistema.",
+    "objetivo": "Administrador de TI / Gestor",
+    "usuario": "Timestamp, e-mail processado, status de extração, erros ocorridos e usuário que alterou a planilha.",
+    "dados": "Gravar o histórico de ações da máquina e edições humanas para controle institucional.",
+    "acao": "Imutabilidade dos registros de log; gravação em modo append (somente inclusão).",
+    "regra": "Artefato",
+    "tipo": "Automação",
+    "verificacao": "Arquivo de texto local (execucao.log) registrando data, hora, arquivo e resultado do parsing.",
+    "mvp": "",
+    "rm": ""
+   }
+  ],
+  "entrega": "O entregável final do projeto é uma solução local de automação de triagem e estruturação de dados em formato de protótipo funcional/script local, composta por:\nScript de Automação Local (Python): O código principal (executável localmente e totalmente offline) responsável pela leitura da caixa de entrada institucional, download/renomeação padronizada dos anexos (PDFs/imagens) e parsing/OCR dos documentos.\n\nCamada de Regras Locais / Engine de Extração: Conjunto de expressões regulares (Regex), dicionários de referência (Regionais da POLITEC, tipos de crime) e módulos de OCR treinados/ajustados localmente para identificar e extrair os 8 campos obrigatórios sem envio de dados a APIs de nuvem pública.\n\nPlanilha de Controle Populada (XLSX/CSV): Estrutura de dados local onde as 8 variáveis extraídas são registradas automaticamente, contendo sinalizações visuais (flags) para inconsistências, pendências de dados e prioridades de atendimento.\n\nLog de Auditoria Local: Registro em arquivo de texto/banco de dados local que armazena a rastreabilidade completa das execuções do script, incluindo volumes processados, erros de leitura e timestamps.\n\nInterface de Validação Humana (Painel do Triador): Uma visualização clara (via planilha ajustada ou interface gráfica simples local) que permite ao servidor conferir o pré-preenchimento, ajustar divergências e oficializar o aceite de fé pública em menos de 1 minuto por requisição.",
+  "naoFaz": "1. Integração com bancos de dados relacionais institucionais (SQL Server/Oracle)\n2. Interface gráfica web interativa completa (Dashboard Web/App React)\n3. Processamento de anexos em formatos não estruturados/raros (ZIP, RAR, RTF, arquivos de áudio/vídeo)\n4. Leitura e interpretação de texto manuscrito (OCR para escrita à mão)\n5. Disparo automático de e-mails de resposta ou confirmação de recebimento\n6. Sistema complexo de gestão de permissões de usuários (RBAC/Login)\n7. Aprendizado de máquina contínuo (Auto-fine-tuning local)",
+  "primeiraTela": "A primeira tela que o servidor triador visualiza ao abrir a solução é a Planilha Consolidada de Triagem (Painel do Triador) no formato .xlsx (gerada e atualizada automaticamente pelo script local).  Como o script roda em segundo plano consumindo e processando os e-mails e anexos, o operador humano não interage com a linha de comando do código. Sua primeira interface de trabalho é a planilha já populada e pronta para conferência.  O que aparece no primeiro visualizador (Layout da Planilha) Painel Superior de Resumo: Contadores com o total de requisições do dia, quantas estão prontas para validação e quantas exigem atenção manual.  Linhas de Registro (Uma por Requisição): As 8 colunas padronizadas pré-preenchidas pelo script (DATA COBRANÇA, Nº COBRANÇAS, Nível, TIPO DE CRIME, PROTOCOLO, AR PARA CONFRONTO, OBJETIVO CLARO, NOME DA REGIONAL).  Sinalização Visual Automática (Formatação Condicional):  Verde (Pronto): Todos os 8 campos extraídos com 100% de certeza.  Amarelo (Atenção): Algum campo ausente ou identificado como PENDENTE.  Vermelho (Divergência/Erro): Conflito entre os dados do e-mail e do anexo PDF, ou anexo ilegível/manuscrito.  Coluna de Atalho (Link Direto): Hiperlink local para abrir diretamente a pasta onde o PDF renomeado ([PROTOCOLO]_[REGIONAL]_[NOME].pdf) foi gravado.  Coluna de Decisão (Fé Pública): Campo com lista suspensa (Pendente, Aprovado, Recusado, Aditamento Solicitado) para a escolha final do servidor."
+ },
+ "status": "enviado",
+ "problema": "As cobranças de laudos periciais chegam à POLITEC com dados essenciais dispersos em e-mails e anexos diversos, exigindo uma triagem manual morosa e arriscada quanto ao sigilo de informações sensíveis.",
+ "asIs": {
+  "volume": "100 casos/mês",
+  "entradas": "Dados e Metadados do E-mail\nCabeçalhos: Remetente (endereço institucional do MP, Delegacia ou Judiciário), assunto da mensagem, data e hora do recebimento.\nCorpo da Mensagem: Texto da mensagem em formato HTML ou plain text contendo orientações gerais, urgências e síntese do pedido.\nDocumentos e Anexos (Arquivos Digitais)\nOfício de Requisição: Arquivos em formato PDF, DOCX ou imagem digitalizada (escaneada) com a solicitação formal da autoridade.\nPeças Complementares: Cópias de inquéritos policiais, boletins de ocorrência, termos de apreensão, decisões judiciais e guias de encaminhamento.\nParâmetros e Regras Locais (Entradas do Sistema)\nDicionários e Tabelas de Referência: Lista oficial das Regionais da POLITEC, tabela de tipificação de crimes e palavras-chave de triagem (ex: \"arma de fogo\", \"DNA\", \"reconstituição\").\nEstrutura Padrão da Planilha: Template da planilha (XLSX/CSV) com as colunas pré-definidas para receber os 8 campos obrigatórios (DATA COBRANÇA, Nº COBRANÇAS, NÍVEL, TIPO DE CRIME, PROTOCOLO, AR PARA CONFRONTO, OBJETIVO CLARO, NOME DA REGIONAL).\nPadrões de Extração (Regras e Expressões Regulares): Algoritmos pré-treinados e regramentos determinísticos locais que orientam o script a localizar cada dado no texto sem consultar a nuvem.\nAções do Usuário (Entradas de Supervisão)\nComandos de Execução: Disparo manual ou confirmação de início do lote por parte do servidor.\nAjustes Manuais: Inputs de correção ou validação feitos pelo servidor público caso o documento original apresente rasuras, baixa qualidade de digitalização ou contradições.",
+  "duracao": "0,25 h/caso",
+  "inicio": "O evento de início (gatilho) do processo ocorre no momento do recebimento de um e-mail institucional oficial contendo uma requisição ou ofício de solicitação de laudo pericial.  Detalhamento do Gatilho  Origem da mensagem: E-mail enviado por autoridade externa competente (Polícia Civil/Delegacias, Ministério Público ou Poder Judiciário).  Destino: Caixa de entrada institucional da POLITEC (seja a caixa central ou a específica de uma regional).  Conteúdo recebido: Mensagem com texto explicativo no corpo e/ou arquivos anexados em formato digital (como ofícios, termos de apreensão e cópias de inquéritos em PDF).  Modos de Disparo do Script (Arquitetura)  Por Intervalo de Tempo (Polling/Batch): O script é acionado automaticamente em horários programados (ex.: a cada 10 ou 15 minutos) para varrer a caixa de entrada em busca de novas mensagens não lidas.  Por Chegada de Mensagem (Webhook/Event-Driven): O script é disparado no exato segundo em que um novo e-mail entra na caixa de correio da instituição.  Disparo Manual (Sob Demanda): O servidor aciona um botão ou executa o script localmente na máquina quando decide iniciar o lote de triagem do dia.",
+  "frequencia": "Uma vez",
+  "digital": "Na estrutura e no fluxo atual de atendimento às requisições periciais, os componentes já digitalizados e os que continuam manuais e analógicos são detalhados a seguir:\nO que já é digitalizado hoje\nMeio de Transmissão e Comunicação: O envio das requisições via e-mail institucional corporativo (entre MP, Delegacias, Judiciário e POLITEC) ou via sistemas integrados estaduais de protocolo.\nFormato dos Documentos Recebidos: Ofícios, inquéritos e termos de apreensão convertidos no formato digital (arquivos em PDF, DOCX ou imagens).\nRepositório Final de Dados (Planilha): O meio onde os dados consolidados são gravados (planilha em Excel, Google Sheets ou arquivo CSV).\nRede e Infraestrutura Local: Armazenamento dos arquivos baixados em servidores institucionais ou pastas de rede locais.\n\nO que continua \"Manual/Analógico\" (A lacuna do processo atual)\nApesar de a entrada e a saída serem digitais, o \"meio\" (a interpretação e a transferência dos dados) permanece analógico em termos de esforço humano:\nA Leitura de Contexto: Um servidor precisa ler o PDF e o e-mail individualmente para localizar onde estão os 8 campos.\nO \"Copiar e Colar\" / Digitação: A digitação linha por linha dos dados extraídos para a planilha.\nRenomeação dos Arquivos: A tarefa visual de \"Salvar Como\" para renomear os arquivos PDF de acordo com a padronização institucional.\nVerificação da Amostra Física (AR): A checagem presencial da entrada do invólucro do material biológico/físico na central de custódia.\nResumo do Papel do Script no Projeto\nO projeto não introduz a digitalização na POLITEC, mas sim automatiza a ponte inteligente que conecta duas pontas já digitais (E-mail em PDF \n→ Script de Extração com Filtro de Sigilo \n→ Planilha de Controle), eliminando o trabalho manual de triagem e digitação.",
+  "fim": "Encerramento Operacional (Conclusão do Fluxo de Trabalho) O processo da triagem é formalmente dado como concluído quando:  Validação Humana: O servidor público visualiza o registro pré-preenchido na planilha, confirma a exatidão das informações frente ao documento e valida o cadastro.  Encaminhamento: A requisição validada fica pronta e disponível para a distribuição interna para aliquotagem do material.",
+  "decisoes": "No fluxo do projeto (processamento de e-mails de requisição de laudo pericial na POLITEC), existem 3 gateways de decisão principais que direcionam o caminho do processo.\n\nAbaixo estão os pontos de bifurcação e a regra de negócio que determina o resultado em cada caso:\n1. Gateway do Script: Legibilidade e Integridade dos Anexos (Decisão Técnica)\nO que decide: O script/parser analisa o formato e a integridade dos arquivos recebidos.\nPergunta do Gateway: \"O PDF/Anexo é pesquisável e legível por código?\"\nBifurcação:\nCaminho A (Sucesso - PDF pesquisável/nativo): O script extrai os textos diretamente dos documentos.\nCaminho B (Exceção - PDF digitalizado/imagem/corrompido): O script aplica OCR local ou, em caso de falha, marca o registro na planilha com o status REQUER_LEITURA_MANUAL e gera um alerta no log.\n\n2. Gateway do Script: Completude dos 8 Campos Obrigatórios (Decisão de Negócio Algorítmica)\nO que decide: O script valida se conseguiu localizar as 8 variáveis necessárias (DATA COBRANÇA, Nº COBRANÇAS, NÍVEL, TIPO DE CRIME, PROTOCOLO, AR PARA CONFRONTO, OBJETIVO CLARO, NOME DA REGIONAL).\nPergunta do Gateway: \"Todos os 8 campos foram localizados com precisão mínima no e-mail/anexo?\"\nBifurcação:\nCaminho A (Completo): O script preenche a planilha normalmente e categoriza como PRONTO_PARA_VALIDAÇÃO.\nCaminho B (Incompleto/Divergente): O script popula a planilha com as informações encontradas, destaca em vermelho os campos ausentes ou conflitantes (ex: crime citado no e-mail difere do anexo) e define o status como PENDENTE_DE_REVISÃO.\n\n3. Gateway Humano: Validação Formal e Fé Pública (Decisão Legal/Administrativa)\nO que decide: O servidor público da POLITEC analisa a requisição pré-preenchida e o documento original.\nPergunta do Gateway: \"A requisição atende aos requisitos legais/técnicos e os dados conferem com o documento?\"\nBifurcação:\nCaminho A (Aprovado / Deferido): O servidor confirma a exatidão dos dados na planilha, assina/autentica o aceite e autua/encaminha a requisição para a regional/perito responsável.\nCaminho B (Inconsistência de Dados): O servidor ajusta manualmente as inconsistências apontadas pelo script e aprova.\nCaminho C (Recusado / Devolvido): O servidor recusa a requisição por falta de pressupostos formais, informando o órgão solicitante (MP, Delegacia ou Judiciário) para retificação.",
+  "etapas": [
+   {
+    "n": "",
+    "etapa": "Chegada do e-mail de requisição",
+    "papel": "Autoridade Requisitante (MP/PC/Poder Judiciário)",
+    "entra": "Minuta do e-mail + Ofício/Anexos em PDF",
+    "acao": "Envio de e-mail institucional com solicitação de laudo pericial para a POLITEC",
+    "sai": "E-mail recebido na caixa de entrada institucional",
+    "sistema": "Servidor de E-mail",
+    "regra": "N/A (Ato externo da autoridade)",
+    "espera": "Fila de e-mails não lidos na caixa de entrada",
+    "tempo": "0,00",
+    "auto": "Não",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "etapa": "Triagem inicial e abertura do e-mail",
+    "papel": "Servidor / Triador da POLITEC",
+    "entra": "E-mail na caixa de entrada",
+    "acao": "Servidor identifica o e-mail não lido, abre a mensagem e faz a leitura preliminar do assunto e corpo",
+    "sai": "E-mail aberto no monitor",
+    "sistema": "Webmail / Leitor de E-mail",
+    "regra": "Priorização visual por ordem de chegada ou urgência indicada",
+    "espera": "Caixa de entrada (aguardando tempo do servidor para abrir)",
+    "tempo": "0,50 a 4,00",
+    "auto": "Sim, com regra clara",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "etapa": "Download e leitura dos anexos",
+    "papel": "Servidor / Triador da POLITEC",
+    "entra": "Anexos em PDF / Imagens (Ofícios, Inquéritos, BOs)",
+    "acao": "Baixar todos os anexos, abrir arquivo por arquivo e realizar varredura visual em busca dos dados chaves",
+    "sai": "Anexos abertos e dados localizados na tela",
+    "sistema": "Leitor de PDF / Sistema de Arquivos local",
+    "regra": "Verificar se os anexos estão legíveis, completos e se pertencem ao processo",
+    "espera": "Pasta de downloads / Leitura manual de múltiplas páginas em PDF",
+    "tempo": "0,10 a 0,25",
+    "auto": "Sim, com regra clara",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "etapa": "Mapeamento dos 8 campos essenciais",
+    "papel": "Servidor / Triador da POLITEC",
+    "entra": "Texto do e-mail e conteúdo dos PDFs abertos",
+    "acao": "Localizar e conferir visualmente: Data, Nº Cobrança, Nível, Crime, Protocolo, AR, Objetivo e Regional",
+    "sai": "8 variáveis identificadas mentalmente pelo servidor",
+    "sistema": "Anotação manual / Memória",
+    "regra": "Regra de negócio: confirmar se a requisição tem todos os dados obrigatórios para autuação",
+    "espera": "Navegação visual entre corpo do e-mail e múltiplos PDFs",
+    "tempo": "0,10 a 0,15",
+    "auto": "Sim, com regra clara",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "etapa": "Digitação e consolidação na planilha",
+    "papel": "Servidor / Triador da POLITEC",
+    "entra": "8 campos mapeados + Planilha de controle aberta",
+    "acao": "Copiar/digitar os dados identificados no e-mail/PDFs para a linha correspondente na planilha",
+    "sai": "Linha da planilha preenchida manualmente",
+    "sistema": "Excel / Google Sheets / LibreOffice",
+    "regra": "Padronização dos nomes de regional, tipos de crime e formatos de data",
+    "espera": "Mão de obra / Digitação manual campo a campo (risco de erro humano)",
+    "tempo": "0,05 a 0,10",
+    "auto": "Sim, com regra clara",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "etapa": "Download, renomeação e organização dos PDFs",
+    "papel": "Servidor / Triador da POLITEC",
+    "entra": "PDFs baixados sem padrão de nome",
+    "acao": "Renomear o arquivo PDF no padrão da instituição (ex: Protocolo + Regional) e mover para a pasta correta",
+    "sai": "Arquivo PDF renomeado e salvo na pasta institucional",
+    "sistema": "Gerenciador de Arquivos do S.O.",
+    "regra": "Padronização da nomenclatura dos arquivos",
+    "espera": "Operação manual de \"Salvar Como\", renomear e mover arquivos",
+    "tempo": "0,05 a 0,10",
+    "auto": "Sim, com regra clara",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "etapa": "Validação, aceite e encaminhamento legal",
+    "papel": "Servidor / Triador da POLITEC",
+    "entra": "Linha da planilha preenchida + Anexos salvos",
+    "acao": "Conferir os dados inseridos, validar aceite da requisição e assinar/encaminhar para a regional responsável",
+    "sai": "Requisição oficializada e atribuída ao setor pericial",
+    "sistema": "Planilha + Sistema Interno de Tramitação",
+    "regra": "Fé pública: confirmar validade do ofício, cadeia de custódia e ausência de impedimento legal",
+    "espera": "Mesa do servidor (Aguardando análise e decisão humana)",
+    "tempo": "0,20 a 1,00",
+    "auto": "Não",
+    "rm": ""
+   }
+  ],
+  "excecoes": "1. Exceções Técnicas (Tratadas Automatizadamente pelo Script)\nEX-01: Anexo em PDF de imagem digitalizada ou de baixa qualidade (Sem OCR)\nCenário: O e-mail contém um PDF escaneado como imagem simples (sem camada de texto nativa).\nAção do Script: O script tenta processar a imagem via OCR local (offline). Se a taxa de confiança for baixa, popula a planilha com as informações extraídas do corpo do e-mail, preenche a coluna de status como REQUER_OCR_MANUAL e destaca a linha em amarelo.\nEX-02: Anexo protegido por senha ou corrompido\nCenário: O arquivo anexado não pode ser aberto por restrição de segurança ou falha no download/armazenamento.\nAção do Script: O script registra a entrada na planilha com as poucas variáveis disponíveis no corpo do e-mail, altera o status para ERRO_ARQUIVO_CORROMPIDO/BLOQUEADO e grava a ocorrência no log de erros.\nEX-03: Diversidade de formatos de arquivo (DOCX, PNG, ZIP)\nCenário: A autoridade solicitante envia requisições em formatos não padrão (ex.: imagens de WhatsApp, arquivos compactados ou documentos do Word).\nAção do Script: O script descompacta arquivos e converte documentos suportados para texto localmente; caso encontre formatos incompatíveis, isola os anexos na pasta de triagem manual e aciona a flag FORMATO_NÃO_SUPORTADO.\n\n2. Caminhos Alternativos de Negócio (Tratados pelo Servidor/Validador)\nCA-01: Inconsistência de Dados (Conflito Corpo do E-mail vs. Anexo PDF)\nCenário: O corpo do e-mail cita o TIPO DE CRIME como \"Homicídio\", mas o ofício em PDF anexo refere-se a \"Tráfico de Drogas\".\nAção: O script extrai ambas as entradas, marca a célula na planilha com a flag DIVERGÊNCIA_DETECTADA e notifica o servidor. O servidor consulta os documentos e define manualmente o dado correto na planilha.\nCA-02: Requisição com Dados Ausentes ou Incompletos\nCenário: O ofício não menciona o número do PROTOCOLO ou o OBJETIVO CLARO da perícia.\nAção: O script deixa a coluna correspondente na planilha vazia e altera o status para PENDENTE_INFORMAÇÃO. O servidor avalia se é possível prosseguir ou se devolverá o expediente ao órgão de origem (MP/Delegacia) solicitando aditamento.\nCA-03: Menção de \"Amostra para Confronto\" (AR) sem Entrega Física Confirmada\nCenário: O e-mail informa que há material biológico/físico para confronto (AR = SIM), mas o material ainda não deu entrada física no setor de custódia da POLITEC.\nAção: O script marca a coluna AR PARA CONFRONTO como SIM (PENDENTE_RECEBIMENTO_FÍSICO). O servidor retém a autuação até que a cadeia de custódia confirme o recebimento do invólucro lacrado.\nCA-04: Solicitação Urgente / Regime de Plantão\nCenário: O e-mail contém marcadores prioritários (\"URGENTE\", \"REGRAS DE PLANTÃO\", \"HOMICÍDIO RECENTE\").\nAção: O script identifica os termos de prioridade no assunto/corpo, classifica a linha na planilha como PRIORIDADE_ALTA (destaque visual em vermelho) e emite um sinal sonoro/alerta no dashboard do servidor para atendimento imediato.",
+  "saidas": "Saídas Estruturadas (Dados e Informações)\nPlanilha Populada (XLSX/CSV): Linha preenchida com os 8 campos padronizados (DATA COBRANÇA, Nº COBRANÇAS, NÍVEL, TIPO DE CRIME, PROTOCOLO, AR PARA CONFRONTO, OBJETIVO CLARO, NOME DA REGIONAL).\nAlerta de Inconsistência/Pendência: Sinalização na planilha para casos com informações conflitantes ou dados ausentes no e-mail/anexo (ex.: divergência entre o tipo de crime informado no corpo e no PDF).\nArquivos e Organização Digital\nAnexos Organizados e Renomeados: PDFs dos ofícios e peças processuais salvos em diretório local seguro, renomeados sob padrão institucional (ex.: [PROTOCOLO]_[REGIONAL]_[NOME_DOCUMENTO].pdf).\nStatus Atualizado na Caixa de Correio: E-mail original marcado como lido, etiquetado ou movido para a pasta de processados.\nGovernança e Auditoria\nRelatório/Log Local de Execução: Registro em texto ou banco local com a contagem de e-mails processados, erros de leitura, taxa de sucesso na extração e carimbo de data/hora (timestamp).\nRequisição Validada para Distribuição: Entrada de trabalho pronta para a tomada de decisão do servidor e posterior atribuição ao perito criminal responsável."
+ },
+ "fontes": {
+  "acesso": "Quem Libera o Acesso: Instalação e Execução de Software (Python / OCR)\nCargo / Função: Gerência de Tecnologia da Informação (TI) da POLITEC\nQuando a Liberação Ocorre: Antes do início dos testes (Fase de Setup)\nProcedimento / Condição de Concessão: Liberação perfilada no sistema operacional (Windows/Linux) da máquina local, autorizando a instalação do runtime do Python 3.10+ e do motor Tesseract OCR sem necessidade de conceder senha de administrador global ao usuário.\n\nQuem Libera o Acesso: Leitura e Escrita em Diretórios Locais (/entrada e /painel)\nCargo / Função: Suporte Técnico de TI / Administrador do Domínio Local\nQuando a Liberação Ocorre: Durante o provisionamento da estação de trabalho\nProcedimento / Condição de Concessão: Ajuste de permissões do sistema de arquivos (NTFS/POSIX) concedendo leitura/escrita restrita à pasta local do projeto exclusivamente para a conta do Servidor Triador logado.\n\nQuem Libera o Acesso: Acesso à Planilha Consolidada e Validação de Dados\nCargo / Função: Chefia Imediata do Setor de Triagem / Coordenação Pericial\nQuando a Liberação Ocorre: No Primeiro Dia de Operação do MVP\nProcedimento / Condição de Concessão: Atribuição de perfil operacional ao Servidor Triador para homologação das requisições e exercício exclusivo da fé pública na coluna de decisão.\n\nQuem Libera o Acesso: Revogação ou Expiração de Acesso\nCargo / Função: TI em conjunto com a Chefia da Triagem\nQuando a Liberação Ocorre: Desligamento, transferência do servidor ou encerramento do MVP\nProcedimento / Condição de Concessão: Bloqueio imediato da conta de usuário no domínio da máquina ou exclusão das permissões do diretório local por solicitação formal da chefia.",
+  "coletar": "Para tirar o MVP do papel sem quebras de execução, existem 4 artefatos essenciais que não existem de forma estruturada no fluxo AS-IS manual e precisam ser coletados e construídos antes do desenvolvimento do código:\n\n1. Dicionário de Sinônimos e De/Para (mapeamento.json)\nO que é: Tabela de equivalência para o motor de expressões regulares (Regex).\nO que coletar com a Chefia: Regionais: Mapeamento de abreviações ou variações de escrita para a nomenclatura oficial (ex.: Coordenadoria Regional de Barra do Garças; Coordenadoria Regional de Cáceres; Coordenadoria Regional de Rondonópolis; Coordenadoria Regional de Sinop; Coordenadoria Regional de Tangará da Serra; Coordenadoria Regional de Nova Mutum).\nTipos de Crime: Crime sexual; Local de Crime; Identificação humana; Aliquotagem de vestes/instrumentos e pesquisa biológica.\n\n2. Massa de Dados Sintética de Teste (/entrada_emails)\nO que é: Conjunto de 20 a 30 arquivos PDF simulados para validação das regras em sandbox.\nO que coletar/gerar:PDFs vetoriais com texto pesquisável (cenário padrão).PDFs escaneados como imagem/bitmap (para testar a fallback para o OCR Tesseract).Ofícios com campos ausentes ou formatações fora do padrão (para testar as flags amarela e vermelha).\n\n3. Modelo Base do Painel de Triagem (Painel_Triador.xlsx ou dados.json)\nO que é: O layout estruturado onde a saída automatizada será gravada.\nO que construir:Definição exata das 8 colunas e inclusão da coluna visual de fé pública (VALIDADO, PENDENTE, REJEITADO).Regras automáticas de formatação condicional no Excel para destacar linhas incompletas em amarelo e manuscritos em vermelho.\n\n4. Pacote do Engine de OCR Offline (por.traineddata)\nO que é: Arquivo de linguagem do Tesseract OCR para reconhecimento óptico em português.\nO que coletar com a TI:O binário de instalação local do Tesseract e o arquivo de treinamento em português (por.traineddata), garantindo a execução 100% offline sem conexões externas.",
+  "tabela": [
+   {
+    "fonte": "Arquivos de Requisição (PDFs e E-mails)",
+    "tipo": "Relatório",
+    "onde": "Pasta de rede local (/entrada_emails) ou diretório do Outlook",
+    "existe": "Sim",
+    "acesso": "Servidores da triagem",
+    "linha": "Um arquivo de requisição (ofício/e-mail) enviado por autoridade policial/judiciária",
+    "volume": "30 a 100 requisições/dia",
+    "historico": "Não retido (processado em tempo real pelo script)",
+    "campos": "Data de envio do e-mail, Data do ofício",
+    "atualiza": "Diária (por demanda de e-mails)",
+    "lgpd": "Sim",
+    "obs": "Fonte primária não estruturada que alimenta o parsing e o OCR do script Python.",
+    "rm": ""
+   },
+   {
+    "fonte": "Dicionário de De/Para e Palavras-Chave",
+    "tipo": "Planilha local",
+    "onde": "Diretório local do projeto (/config)",
+    "existe": "Não",
+    "acesso": "TI e Administrador do Script",
+    "linha": "Um mapeamento de termo-chave para o nome oficial da Regional ou Tipo de Crime",
+    "volume": "50 registros",
+    "historico": "Mantido e versionado no projeto",
+    "campos": "Data de atualização da tabela (data_modificacao)",
+    "atualiza": "Pontual (somente quando houver nova regional/crime)",
+    "lgpd": "Não",
+    "obs": "Tabela estática de de/para necessária para o Regex converter variações do texto em valores padronizados.",
+    "rm": ""
+   },
+   {
+    "fonte": "Planilha Consolidada do Triador",
+    "tipo": "Planilha local",
+    "onde": "Pasta local compartilhada (/painel)",
+    "existe": "Não",
+    "acesso": "Servidores Triadores e Chefia",
+    "linha": "Uma requisição pericial triada com as 8 variáveis extraídas e homologadas",
+    "volume": "1.000 a 3.000 linhas/ano",
+    "historico": "Transacional (acumulado diário/mensal)",
+    "campos": "DATA COBRANÇA, Data de Ingestão, Data de Validação Humana",
+    "atualiza": "Diária (a cada lote processado/homologado)",
+    "lgpd": "Sim",
+    "obs": "Substitui a anotação manual em papel/bloco de notas; serve como banco de dados simplificado do MVP.",
+    "rm": ""
+   },
+   {
+    "fonte": "Log de Auditoria e Erros (execucao.log)",
+    "tipo": "Planilha local",
+    "onde": "Pasta local de auditoria (/logs)",
+    "existe": "Não",
+    "acesso": "TI e Suporte Técnico",
+    "linha": "Um evento registrado pelo script (leitura, erro, extração ou validação)",
+    "volume": "500 a 1.500 linhas/dia",
+    "historico": "Rotação a cada 180 dias",
+    "campos": "timestamp (ISO-8601 com data, hora, minuto e segundo)",
+    "atualiza": "Em tempo real (a cada ação executada)",
+    "lgpd": "Não",
+    "obs": "Garante a rastreabilidade imutável e auditoria de funcionamento do script local.",
+    "rm": ""
+   }
+  ]
+ },
+ "hospedagem": {
+  "custo": "Orçamento, Licenças e Custos Previstos. O MVP da POLITEC foi desenhado sob o princípio de Custo Zero de Software e Licenciamento, aproveitando a infraestrutura física e de rede já existente na instituição.\n\n1. Detalhamento de Custos e Licenciamento\nItem / Recurso: ython 3.10+ & Bibliotecas\nTipo / Descrição: Runtime de execução do motor de parsing, extração e regex (PyPDF2, pdfplumber, openpyxl).\nModelo de Licenciamento: Open Source (PSFL / MIT)\nCusto Unitário: R$ 0,00\nCusto Total (MVP): R$ 0,00\n\nItem / Recurso: Tesseract OCR & por.traineddata\nTipo / Descrição: Motor de Reconhecimento Óptico de Caracteres e pacote de linguagem em português para PDFs escaneados.\nModelo de Licenciamento: Open Source (Apache 2.0)\nCusto Unitário: R$ 0,00\nCusto Total (MVP): R$ 0,00\n\nItem / Recurso: Interface Front-end (SPA)\nTipo / Descrição: Painel do Triador em arquivo HTML5 único com CSS3 e JavaScript nativo Vanilla (sem frameworks pagos).\nModelo de Licenciamento: Domínio Público / Próprio\nCusto Unitário: R$ 0,00\nCusto Total (MVP): R$ 0,00\n\nItem / Recurso: Estação de Trabalho (Hardware)\nTipo / Descrição: Computador de mesa já utilizado pelos servidores da triagem na POLITEC.\nModelo de Licenciamento: Ativo Institucional Existente\nCusto Unitário: R$ 0,00\nCusto Total (MVP): R$ 0,00\n\nItem / Recurso: Hospedagem & Nuvem\nTipo / Descrição: Execução 100% local (file://) / Demonstração via GitHub Pages estático.\nModelo de Licenciamento: Gratuito\nCusto Unitário: R$ 0,00\nCusto Total (MVP): R$ 0,00\n\nItem / Recurso: Suíte de Escritório (Planilhas)\nTipo / Descrição: Microsoft Excel ou LibreOffice Calc (para abertura eventual da planilha consolidada .xlsx).\nModelo de Licenciamento: Licença Governamental Existente\nCusto Unitário: R$ 0,00\nCusto Total (MVP): R$ 0,00\n\nItem / Recurso: -\nTipo / Descrição: -\nModelo de Licenciamento: -\nCusto Unitário: -\nCusto Total (MVP): -\n\nTOTAL GERAL DO PILOTO: R$ 0,00\n\n2. Memória de Cálculo e Esforço Interno (Horas de Desenvolvimento)Embora o custo financeiro direto de aquisição seja R$ 0,00, a construção do protótipo e acompanhamento do piloto envolve o aproveitamento de horas de trabalho da equipe interna:\nDesenvolvimento e Ajuste das Regras Regex: ~20 horas úteis (equipe de TI / desenvolvimento).\nTestes, Homologação e Validação do Piloto: ~10 horas úteis (equipe de triagem pericial e chefia).\nTreinamento e Passagem de Conhecimento: ~2 horas úteis (capacitação rápida do operador).\n\n3. Escalabilidade e Custos Futuros (Pós-MVP / Fase de Produção)Caso a POLITEC decida evoluir a solução de um MVP local standalone para uma plataforma corporativa integrada ao sistema de chamados da instituição em fases futuras:\nLicenciamento: Permanecerá R$ 0,00 caso mantidas as tecnologias open-source.\nInfraestrutura: Requererá o provisionamento de uma Máquina Virtual (VM) no Datacenter do Governo de MT (custo absorvido pela infraestrutura de TI existente, sem desembolso adicional).",
+  "escolhida": "Por Que Esta Escolha Viabiliza e Salva o MVP?\nAdequação Rígida à LGPD e Segredo de Justiça (Compliance):\nAo rodar o motor Python e a interface HTML exclusivamente na máquina física do triador, o processamento ocorre em um ambiente isolado (sandbox offline). Nenhum texto extraído, nome de envolvido ou dado pericial sensível trafega por redes externas ou APIs em nuvem pública, garantindo conformidade com a Lei nº 13.709/2018 (Art. 4º, III).\n\nIndependência de Fila da TI Central (Agilidade de Implantação):\nOpções que exigem o provisionamento de Máquinas Virtuais (VMs), servidores de aplicação web (como Docker/Kubernetes) ou liberação de portas de firewall na intranet dependeriam de chamados e aprovações do órgão central. A solução local funciona imediatamente com a simples presença do runtime Python/Tesseract na estação do usuário.\n\nArquitetura Desvinculada de Custos Recorrentes (Custo Zero):\nNão há cobrança por requisições de API, consumo de armazenamento em nuvem ou licenças de banco de dados proprietários. A solução aproveita o hardware já pago das estações de trabalho e softwares open-source consolidados.\n\nTransição Amigável de Interface para o Operador:\nO Painel SPA gera e atualiza arquivos nativos (.xlsx e dados.json). Isso preserva a rotina familiar do servidor triador em planilhas eletrônicas, ao mesmo tempo em que disponibiliza um painel moderno no navegador para consulta e validação via fé pública.",
+  "opcoes": [
+   {
+    "opcao": "Opção 1: Nuvem Pública Geral (Vercel / AWS / Heroku)",
+    "tipo": "Nuvem corporativa",
+    "onde": "Infraestrutura pública externa em nuvem",
+    "custo": "Variável (Pago em dólar/uso)",
+    "mantem": "Provedor de Nuvem",
+    "acesso": "Web Pública",
+    "banco": "PostgreSQL Cloud / Supabase",
+    "escala": "Alta (Escala automática global)",
+    "limite": "Fatal / Impeditivo: Violação direta da LGPD (Art. 4º) e segredo de justiça ao trafegar dados sensíveis de inquéritos policiais fora da rede institucional.",
+    "rm": ""
+   },
+   {
+    "opcao": "Opção 2: Servidor Dedicado / VM Interna (On-Premises)",
+    "tipo": "Plataforma como serviço",
+    "onde": "Datacenter local da POLITEC / Governo de MT",
+    "custo": "Baixo (Usa infraestrutura existente)",
+    "mantem": "Equipe de TI da POLITEC",
+    "acesso": "Restrito à Intranet / VPN",
+    "banco": "PostgreSQL Interno / SQLite",
+    "escala": "Média (Limitada à infraestrutura interna)",
+    "limite": "Dependência Externa: Exige provisionamento prévio de VM, abertura de chamados na TI central e permissões de rede, atrasando o piloto.",
+    "rm": ""
+   },
+   {
+    "opcao": "Opção 3: Execução Local Standalone + Dashboard SPA (Escolhida)",
+    "tipo": "Arquivo local",
+    "onde": "Estação de trabalho física do triador (Offline)",
+    "custo": "R$ 0,00 (Custo zero)",
+    "mantem": "TI Local / Próprio Triador",
+    "acesso": "Local (file://) / Rede interna",
+    "banco": "dados.json / Planilha .xlsx local",
+    "escala": "Por estação de trabalho (Modular)",
+    "limite": "Não se aplica ao MVP: Escala individual por máquina, sendo a única opção viável para o prazo imediato e 100% aderente ao sigilo.",
+    "rm": ""
+   }
+  ],
+  "contas": "Ativo / Permissão: Conta de Usuário no Sistema Operacional (Windows/Linux)\nQuem Cria a Conta / Domínio / Acesso: Gerência de TI / Suporte de Redes da POLITEC\t\nProcesso e Validação: Utiliza a conta corporativa já existente do servidor no Active Directory (AD) ou domínio local do Governo de MT. Nenhuma conta externa ou nova credencial precisa ser criada.\n\nAtivo / Permissão: Domínio da Aplicação / Hospedagem\nQuem Cria a Conta / Domínio / Acesso: Sem necessidade de criação (Local / File System)\nProcesso e Validação: Não há criação de domínio Web (.gov.br ou nuvem). A aplicação roda via protocolo de sistema de arquivos local (file:///C:/POLITEC/MVP/index.html). Para demonstrações públicas, o domínio é o próprio ambiente do GitHub Pages provisionado pelo desenvolvedor do projeto.\n\nAtivo / Permissão: Permissões de Diretórios Locais (/entrada, /anexos, /logs)\nQuem Cria a Conta / Domínio / Acesso: Suporte Técnico Local da POLITEC\t\nProcesso e Validação: O administrador de TI da unidade concede a permissão de leitura/escrita na pasta local do projeto vinculada ao perfil corporativo do servidor triador logado.\n\nAtivo / Permissão: Acesso e Perfis no Painel HTML/Planilha\t\nQuem Cria a Conta / Domínio / Acesso: Chefia Imediata da Triagem\nProcesso e Validação: Autoriza operacionalmente quais servidores triadores possuem competência para exercer a fé pública e alterar o status das requisições para VALIDADO."
+ },
+ "arquivos": [],
+ "evidencias": [
+  "Medida feita pela equipe"
+ ],
+ "metricas": {
+  "tabela": [
+   {
+    "n": "",
+    "nome": "Tempo Médio de Triagem por Processo",
+    "pergunta": "Quanto tempo o servidor leva para abrir, conferir e registrar uma requisição?",
+    "formula": "Tempo total de triagem do lote / Total de requisições triadas",
+    "fonte": "Planilha Consolidada do Triador / Cronometragem",
+    "gran": "Caso",
+    "base": "15 min",
+    "esperado": "< 1 min",
+    "medir": "Cronometrar manualmente a triagem de um lote de 20 requisições no fluxo AS-IS e comparar com o tempo de validação no Painel do MVP.",
+    "quem": "Servidor Triador / Líder do Piloto",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "nome": "Taxa de Acurácia na Extração Automática",
+    "pergunta": "Qual o percentual de requisições cujas 8 variáveis foram extraídas corretamente sem intervenção humana?",
+    "formula": "(Requisições com 8/8 campos corretos / Total de requisições processadas pelo script) * 100",
+    "fonte": "Log de Auditoria (execucao.log) e Planilha Consolidada",
+    "gran": "Etapa",
+    "base": "0% (Processamento 100% manual)",
+    "esperado": ">= 95%",
+    "medir": "Auditar a extração das 8 variáveis em uma amostra controlada de 30 PDFs de teste e registrar os erros de campo.",
+    "quem": "TI / Suporte Técnico",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "nome": "Taxa de Ingestão de Exceções sem Travamento",
+    "pergunta": "O sistema consegue isolar falhas (PDFs corrompidos/manuscritos) e aplicar as flags visuais sem parar o lote?",
+    "formula": "(Requisições com falha isoladas com flag / Total de requisições com falha/manuscrito) * 100",
+    "fonte": "Log de Auditoria (execucao.log)",
+    "gran": "Registro",
+    "base": "A MEDIR",
+    "esperado": "100%",
+    "medir": "Injetar propositalmente 5 arquivos corrompidos/manuscritos no lote de teste e verificar se o log registra a falha sem interromper a execução.",
+    "quem": "TI / Suporte Técnico",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "nome": "Taxa de Conformidade no Renomeio de Anexos",
+    "pergunta": "Quantos anexos foram salvos no diretório local com a nomenclatura padronizada e link funcional?",
+    "formula": "(Anexos renomeados corretamente com link válido / Total de anexos processados) * 100",
+    "fonte": "Repositório de Anexos (/anexos) e Planilha",
+    "gran": "Registro",
+    "base": "A MEDIR",
+    "esperado": "100%",
+    "medir": "Verificar na pasta local e no Painel se 100% dos arquivos do lote respeitam a sintaxe [PROTOCOLO]_[REGIONAL]_[NOME].pdf.",
+    "quem": "Servidor Triador",
+    "rm": ""
+   },
+   {
+    "n": "",
+    "nome": "Índice de Conexões Externas Não Autorizadas (Sigilo LGPD)",
+    "pergunta": "ouve qualquer tentativa de tráfego de dados para fora da rede local durante a execução do MVP?",
+    "formula": "Requisições de rede de saída (outbound) do script",
+    "fonte": "Auditoria de Segurança / Logs de Firewall Local",
+    "gran": "Registro",
+    "base": "0 conexões",
+    "esperado": "0 conexões",
+    "medir": "Rodar o script Python com monitoramento de tráfego de rede ativo (ex.: Wireshark/NetStat) e comprovar zero chamadas HTTP/API.",
+    "quem": "TI / Segurança da Informação",
+    "rm": ""
+   }
+  ],
+  "periodo": "Parâmetro: Período Mínimo de Coleta\nDefinição / Detalhamento: 2 semanas consecutivas (10 dias úteis de operação normal) no fluxo AS-IS.\t\nImpacto na Validação da Linha de Base: Permite capturar variações sazonais do volume de e-mails, picos de envio por delegacias em dias específicos e oscilações no tempo de resposta dos servidores.\n\nParâmetro: Volume Total Amostrado\nDefinição / Detalhamento: 200 a 300 requisições periciais processadas manualmente.\nImpacto na Validação da Linha de Base: Fornece uma amostragem estatisticamente relevante para consolidar o tempo médio por processo (M01: 15 min) e mapear a frequência de casos com exceções.\n\nParâmetro: Volume por Tipo de Entrada\nDefinição / Detalhamento: Nativos Vetoriais (PDFs pesquisáveis): ~70% do volume (~140 a 210 arquivos); Incompletos / Sem Dados Obrigatórios: ~20% do volume (~40 a 60 arquivos); Manuscritos / Escaneados (Bitmap): ~10% do volume (~20 a 30 arquivos).\nImpacto na Validação da Linha de Base: Garante que a linha de base reflita a distribuição real dos diferentes perfis de requisição enfrentados diariamente pela equipe da POLITEC.\n\t\nParâmetro: Procedimento de Cronometragem\nDefinição / Detalhamento: Registro contínuo do tempo gasto pelo servidor desde a abertura do e-mail/PDF até a digitação e conferência final dos dados na planilha manual de controle.\nImpacto na Validação da Linha de Base: Estabelece o parâmetro real do gargalo manual para comparação direta com o tempo de validação do MVP (M01).",
+  "camposData": "Campo de Data/TempoFormatoOnde fica gravado (Fonte)Origem do DadoPara que serve no cálculo de métricasDá para medir tempo de espera?data_recebimento_emailYYYY-MM-DD HH:MM:SSCabeçalho do e-mail / Metadados do arquivo em /entrada_emailsServidor de e-mail da autoridade requisitante (PJC/PJ/MP)Marca o início do ciclo de vida da requisição (momento em que o documento chega à POLITEC).Simdata_oficioDD/MM/YYYYTexto extraído do corpo do PDF (Ofício)Delegacia / Vara Criminal expedidoraMedir o tempo decorrido entre a emissão do ofício pelo delegado/juiz e o recebimento efetivo na POLITEC.Sim (Espera externa/Envio)data_cobrancaDD/MM/YYYYCampo estruturado extraído do PDF/E-mail (1 das 8 variáveis)Texto da requisiçãoRegistrar o prazo/limite legal pactuado para a entrega do laudo pericial.Não (É prazo limite, não carimbo de execução)timestamp_ingestao_scriptYYYY-MM-DD HH:MM:SS.mmmLog de Auditoria (execucao.log) e dados.jsonRelógio local da CPU (Script Python)Marca o exato segundo em que o motor automatizado processou o lote, fez o parsing/OCR e gerou a linha no painel.Sim (Processamento)timestamp_validacao_humanaYYYY-MM-DD HH:MM:SS.mmmLog de Auditoria (execucao.log) e Planilha ConsolidadaRegistro da ação do Servidor Triador no PainelMarca o momento em que o operador revisou a linha, exerceu a fé pública e alterou o status para VALIDADO.Sim (Homologação)\n\nO que esses carimbos de tempo permitem medir (Fórmulas de Espera):\nFila de Ingestão (Tempo na Caixa de Entrada):$$\\text{Tempo na Fila} = \\text{timestamp\\_ingestao\\_script} - \\text{data\\_recebimento\\_email}$$Mede quanto tempo a requisição ficou parada na caixa de e-mails antes de o script rodar.\nTempo de Processamento Técnico (Velocidade da Máquina):$$\\text{Tempo de Extração} = \\text{Fim do Parsing/OCR} - \\text{timestamp\\_ingestao\\_script}$$Mede o desempenho computacional puro do motor Python/Tesseract.\nFila de Homologação (Espera pela Fé Pública):$$\\text{Tempo de Espera para Validação} = \\text{timestamp\\_validacao\\_humana} - \\text{timestamp\\_ingestao\\_script}$$Mede o tempo que o registro já extraído ficou no painel aguardando o clique de confirmação do servidor triador.\nTempo Total de Triagem (Lead Time E2E da Triagem):$$\\text{Tempo Total de Triagem} = \\text{timestamp\\_validacao\\_humana} - \\text{data\\_recebimento\\_email}$$"
+ }
+}

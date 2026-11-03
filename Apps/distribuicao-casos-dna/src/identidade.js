@@ -15,12 +15,14 @@ function ddPlaca(casos, peritos){
     if (!c) return '<span class="dd-poco vazio" aria-hidden="true"></span>';
     const cor = c.perito_id ? ddCorPerito(c.perito_id, peritos) : "";
     const quem = peritos.find(p=>p.id_perito === c.perito_id)?.nome || "sem perito";
-    return `<span class="dd-poco ${c.perito_id ? "" : "sem"}" style="${c.perito_id ? `background:${cor}` : ""}"
-      title="${esc(c.protocolo)} · ${esc(quem)}${c.tipo === "cobranca" ? " · cobrança" : ""}"></span>`;
+    return `<button type="button" class="dd-poco ${c.perito_id ? "" : "sem"}" style="${c.perito_id ? `background:${cor}` : ""}"
+      data-dd-poco="${esc(c.protocolo)}" data-dd-perito="${esc(quem)}" data-dd-tipo="${esc(c.tipo || "ordinario")}"
+      title="${esc(c.protocolo)} · ${esc(quem)}${c.tipo === "cobranca" ? " · cobrança" : ""}"></button>`;
   }).join("");
   return `<div class="card dd-placa-card"><h2 style="margin-top:0">Placa de 96 poços</h2>
     <p class="sub">Cada poço é um caso da rodada, na cor do perito. Poço vazio fica cinza.</p>
     <div class="dd-placa">${wells}</div>
+    <div class="dd-poco-info" id="ddPocoInfo" aria-live="polite"></div>
     <div class="dd-placa-legenda">${porPerito.map(({p, n})=>`<span><i style="background:${ddCorPerito(p.id_perito, peritos)}"></i>${esc(p.nome)} <b>${n}</b></span>`).join("")}
       ${usados.some(c=>!c.perito_id) ? '<span><i class="sem"></i>sem perito <b>' + usados.filter(c=>!c.perito_id).length + "</b></span>" : ""}</div></div>`;
 }
@@ -82,4 +84,15 @@ TELAS["#/meus-casos"] = async ()=>{
 };
 TELAS_DEPOIS["#/meus-casos"] = ()=>{
   $("#ddMeuPerito")?.addEventListener("change", async e=>{ estado.ddPerito = e.target.value; await db.meta("perito_id", e.target.value); navegar(); });
+};
+
+const ddRodadaDepoisAntes = TELAS_DEPOIS["#/rodada/:id"];
+TELAS_DEPOIS["#/rodada/:id"] = async (p)=>{
+  await ddRodadaDepoisAntes?.(p);
+  const info = document.getElementById("ddPocoInfo");
+  document.querySelectorAll("[data-dd-poco]").forEach(b=>b.addEventListener("click", ()=>{
+    if (!info) return;
+    info.innerHTML = `<b>${esc(b.dataset.ddPoco)}</b> · ${esc(b.dataset.ddPerito)} · ${b.dataset.ddTipo === "cobranca" ? "cobrança" : "ordinário"}`;
+    info.classList.add("mostra");
+  }));
 };

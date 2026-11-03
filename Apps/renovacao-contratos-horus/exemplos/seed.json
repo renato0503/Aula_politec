@@ -506,5 +506,31 @@
    "data_hora": "2026-02-16T09:00:00",
    "responsavel": "admin"
   }
+ ],
+ "fiscais": [
+  {
+   "id": "F-3",
+   "contrato_id": "CT-003",
+   "nome": "Fiscal Fictício A",
+   "desde": "2026-02-16",
+   "ate": null,
+   "motivo": ""
+  },
+  {
+   "id": "F-4",
+   "contrato_id": "CT-004",
+   "nome": "Fiscal Fictício B",
+   "desde": "2026-02-01",
+   "ate": null,
+   "motivo": ""
+  },
+  {
+   "id": "F-5",
+   "contrato_id": "CT-005",
+   "nome": "Fiscal Fictício C",
+   "desde": "2026-01-17",
+   "ate": null,
+   "motivo": ""
+  }
  ]
 }

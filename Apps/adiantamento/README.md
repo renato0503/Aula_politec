@@ -100,3 +100,9 @@ o limite, o tipo de contagem e os dias restantes, com busca e filtro de vencidos
 e de quem vence em 7 dias. A ficha abre com o **prazo em destaque** no topo,
 acima do número do SICAD e da linha do tempo. Código em `src/identidade.js` e
 `src/app.css`.
+
+## Mapa do processo
+
+O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o
+**TO-BE** (como fica com o MVP), com as métricas, regras e papéis do projeto.
+Abra ao lado do `index.html`.

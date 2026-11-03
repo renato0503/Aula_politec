@@ -8,6 +8,7 @@ recebe o código do app.
 |---|---|---|---|---|---|
 | [trilha-custodia-necropsia/](trilha-custodia-necropsia/) | TCIN · Trilha de Custódia e Identificação de Necropsia | Silmara Bueno · silmarabueno@politec.mt.gov.br | IML · Coordenadoria de Perícias em Mortos | Aplicativo para servidor | `Aula 8/Entregas/Silmara/` (envios parciais + protótipo), 29/10/2026 |
 | [distribuicao-casos-dna/](distribuicao-casos-dna/) | Distribuição de casos de DNA por rodada da placa | Nelson e Luciana · nelsonyoshitake@politec.mt.gov.br | Gerência de Perícias em Biologia Molecular | Mapeamento de processo (fluxo, BPMN ou Mermaid) | `Aula 8/Entregas/`, 29/10/2026 |
+| [teia-triagem-emails/](teia-triagem-emails/) | TEIA · Triagem de E-mails com Isolação Automatizada | Nelson e Luciana · nelsonyoshitake@politec.mt.gov.br | Coordenação de Perícias em Biologia Molecular | Automação de script ou rotina | Firestore, 03/11/2026 |
 | [controle-aquisicoes/](controle-aquisicoes/) | Controle do processo de aquisição | Kasteline Gonçalves · kastelinesilva@politec.mt.gov.br | Aquisição | Painel de Business Intelligence (dashboard) | `Aula 8/Entregas/`, 29/10/2026 |
 | [gestao-documentos/](gestao-documentos/) | Gestão de Documentos (processos e prazos) | Vitória Araújo Dias · vitoriadias@politec.mt.gov.br | Gabinete de Direção | Aplicativo para servidor | `Aula 8/Entregas/`, 29/10/2026 |
 | [documentapolitec/](documentapolitec/) | DOCUMENTAPOLITEC (prontuários civis ao arquivo central) | Aline Xavier dos Passos · alinepassos@politec.mt.gov.br | Coordenadoria de Patrimônio e Serviços | Aplicativo para servidor | `Aula 8/Entregas/`, 29/10/2026 11:47 |
@@ -28,6 +29,11 @@ recebe o código do app.
 | [equipamentos-google-earth/](equipamentos-google-earth/) | Visão geral dos equipamentos no estado (Google Earth) | João Lucas Nogueira Ponce · joaoponce@politec.mt.gov.br | Coordenadoria de qualidade | Aplicativo web / portal | `Aula 8/Entregas/`, 28/10/2026 08:44 |
 
 ## Andamento (30/10/2026)
+
+> **Atualização de 02/11/2026:** o TEIA é o 21º app, do mesmo grupo do
+> `distribuicao-casos-dna` (Nelson e Luciana). Ele nasceu de uma nova entrada no
+> formulário e tem MVP, testes e `processo.html` próprios.
+
 
 Os 20 apps andam juntos, sprint a sprint. **17 dos 20 estão com o MVP completo**:
 os 12 primeiros chegaram aos Sprints 6 ou 7, e os 8 novos também (com exceções
@@ -172,33 +178,35 @@ Para acrescentar um login: `python Apps/_base/equipes.py <app> "<nome>" <login>`
 
 ## Repositórios dos apps (02/11/2026)
 
-Os 20 apps foram separados em repositórios **privados** em
+Os 20 apps foram separados em repositórios em
 `github.com/renato0503`, um por app, com o histórico da pasta preservado por
 `git subtree split`. A branch padrão é `main` e cada repositório contém o
-`index.html`, o `nucleo/`, o `construir.py`, os `testes/` e os dados fictícios.
+`index.html`, o `processo.html` (AS-IS → TO-BE + MVP), o `nucleo/`, o
+`construir.py`, os `testes/` e os dados fictícios.
 
 | Repositório | Visibilidade | Branch | Conteúdo |
 |---|---|---|---|
-| [adiantamento](https://github.com/renato0503/adiantamento) | privado | `main` | index.html, nucleo/, testes/ |
-| [agendamento-cin](https://github.com/renato0503/agendamento-cin) | privado | `main` | index.html, nucleo/, testes/ |
-| [agiliza-mais](https://github.com/renato0503/agiliza-mais) | privado | `main` | index.html, nucleo/, testes/ |
-| [cin-segunda-via](https://github.com/renato0503/cin-segunda-via) | privado | `main` | index.html, nucleo/, testes/ |
-| [comissao-etica-denuncias](https://github.com/renato0503/comissao-etica-denuncias) | privado | `main` | index.html, nucleo/, testes/ |
-| [controle-aquisicoes](https://github.com/renato0503/controle-aquisicoes) | privado | `main` | index.html, nucleo/, testes/ |
-| [custodia-definitiva](https://github.com/renato0503/custodia-definitiva) | privado | `main` | index.html, nucleo/, testes/ |
-| [distribuicao-casos-dna](https://github.com/renato0503/distribuicao-casos-dna) | privado | `main` | index.html, nucleo/, testes/ |
-| [documentapolitec](https://github.com/renato0503/documentapolitec) | privado | `main` | index.html, nucleo/, testes/ |
-| [equipamentos-google-earth](https://github.com/renato0503/equipamentos-google-earth) | privado | `main` | index.html, nucleo/, testes/ |
-| [gestao-documentos](https://github.com/renato0503/gestao-documentos) | privado | `main` | index.html, nucleo/, testes/ |
-| [horus-banco-demandas](https://github.com/renato0503/horus-banco-demandas) | privado | `main` | index.html, nucleo/, testes/ |
-| [inscricoes-cursos](https://github.com/renato0503/inscricoes-cursos) | privado | `main` | index.html, nucleo/, testes/ |
-| [mapa-distribuicao-credor](https://github.com/renato0503/mapa-distribuicao-credor) | privado | `main` | index.html, nucleo/, testes/ |
-| [metas-bi-ocr](https://github.com/renato0503/metas-bi-ocr) | privado | `main` | index.html, nucleo/, testes/ |
-| [passivo-ambiental](https://github.com/renato0503/passivo-ambiental) | privado | `main` | index.html, nucleo/, testes/ |
-| [renovacao-contratos-horus](https://github.com/renato0503/renovacao-contratos-horus) | privado | `main` | index.html, nucleo/, testes/ |
-| [rnc-nao-conformidade](https://github.com/renato0503/rnc-nao-conformidade) | privado | `main` | index.html, nucleo/, testes/ |
-| [tap-portfolio-projetos](https://github.com/renato0503/tap-portfolio-projetos) | privado | `main` | index.html, nucleo/, testes/ |
-| [trilha-custodia-necropsia](https://github.com/renato0503/trilha-custodia-necropsia) | privado | `main` | index.html, nucleo/, testes/ |
+| [adiantamento](https://github.com/renato0503/adiantamento) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [agendamento-cin](https://github.com/renato0503/agendamento-cin) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [agiliza-mais](https://github.com/renato0503/agiliza-mais) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [cin-segunda-via](https://github.com/renato0503/cin-segunda-via) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [comissao-etica-denuncias](https://github.com/renato0503/comissao-etica-denuncias) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [controle-aquisicoes](https://github.com/renato0503/controle-aquisicoes) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [custodia-definitiva](https://github.com/renato0503/custodia-definitiva) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [distribuicao-casos-dna](https://github.com/renato0503/distribuicao-casos-dna) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [teia-triagem-emails](https://github.com/renato0503/teia-triagem-emails) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [documentapolitec](https://github.com/renato0503/documentapolitec) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [equipamentos-google-earth](https://github.com/renato0503/equipamentos-google-earth) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [gestao-documentos](https://github.com/renato0503/gestao-documentos) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [horus-banco-demandas](https://github.com/renato0503/horus-banco-demandas) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [inscricoes-cursos](https://github.com/renato0503/inscricoes-cursos) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [mapa-distribuicao-credor](https://github.com/renato0503/mapa-distribuicao-credor) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [metas-bi-ocr](https://github.com/renato0503/metas-bi-ocr) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [passivo-ambiental](https://github.com/renato0503/passivo-ambiental) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [renovacao-contratos-horus](https://github.com/renato0503/renovacao-contratos-horus) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [rnc-nao-conformidade](https://github.com/renato0503/rnc-nao-conformidade) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [tap-portfolio-projetos](https://github.com/renato0503/tap-portfolio-projetos) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [trilha-custodia-necropsia](https://github.com/renato0503/trilha-custodia-necropsia) | público | `main` | index.html, processo.html, nucleo/, testes/ |
 
 ### Acessos
 

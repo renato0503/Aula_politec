@@ -7,7 +7,9 @@ const INC_PASSOS = [["Divulgar", "#/divulgar/"], ["Importar", "#/importar"], ["I
 function incEsteira(id){
   return `<div class="inc-esteira">${INC_PASSOS.map(([nome, rota], i)=>{
     const href = rota.endsWith("/") ? rota + encodeURIComponent(id) : rota;
-    return `<a href="${href}" title="Abrir ${nome}"><span class="n">${i + 1}</span>${nome}</a>`;
+    const pronta = typeof TELAS[rota] === "function";
+    return pronta ? `<a href="${href}" title="Abrir ${nome}"><span class="n">${i + 1}</span>${nome}</a>`
+      : `<span class="em-breve" title="Tela ainda em construção"><span class="n">${i + 1}</span>${nome} · em breve</span>`;
   }).join("")}</div>`;
 }
 const incCursosAntes = TELAS["#/cursos"];
@@ -17,6 +19,9 @@ TELAS["#/cursos"] = async ()=>{
   const doc = new DOMParser().parseFromString(`<div id="incRaiz">${html}</div>`, "text/html");
   const raiz = doc.getElementById("incRaiz");
   if (!raiz) return html;
+  const novo = doc.createElement("div"); novo.className = "linha-botoes"; novo.style.margin = "0 0 12px";
+  novo.innerHTML = '<button class="prim" type="button" id="btnNovoCurso">＋ Novo curso</button>';
+  const h1 = raiz.querySelector("h1"); if (h1) h1.after(novo);
   const tabela = [...raiz.querySelectorAll(".card")].find(c=>c.querySelector("table"));
   const cards = doc.createElement("div"); cards.className = "inc-cursos";
   cards.innerHTML = cursos.length ? cursos.sort((a, b)=>String(b.inicio).localeCompare(String(a.inicio))).map(c=>`
@@ -47,4 +52,39 @@ TELAS["#/curso/:curso"] = async ({curso})=>{
         <span><b>${dataCurtaBR(c.inscricao_fim)}</b> fim das inscrições</span><span><b>${dataCurtaBR(c.prazo_triagem)}</b> triagem</span></div></div>
     <div class="card"><h2 style="margin-top:0">Inscrições por diretoria</h2>
       <div class="inc-dirs">${porDir.map(({d, n})=>`<span><i>${esc(d.sigla)}</i><b>${n}</b><small>${esc(d.nome)}</small></span>`).join("")}</div></div>`;
+};
+
+/* ---------- Triagem (Diretoria): leitura das vagas e inscrições ---------- */
+TELAS["#/triagem"] = async ()=>{
+  const [cursos, dirs, insc, triagens] = await Promise.all([db.list("cursos"), db.list("diretorias"), db.list("inscricoes"), db.list("triagens")]);
+  const dir = estado.tgDir || (dirs[0] && dirs[0].sigla) || "";
+  const linhas = cursos.map(c=>{
+    const doCurso = insc.filter(i=>i.curso_id === c.id);
+    const daDir = doCurso.filter(i=>!dir || i.diretoria === dir);
+    const vagas = Number(c.vagas_por_diretoria?.[dir] || 0);
+    const tri = triagens.filter(t=>t.curso_id === c.id && (!dir || t.diretoria === dir));
+    return {c, vagas, insc: daDir.length, tri: tri.length};
+  }).sort((a, b)=>String(b.c.inicio).localeCompare(String(a.c.inicio)));
+  const totalVagas = linhas.reduce((a, l)=>a + l.vagas, 0);
+  const totalInsc = linhas.reduce((a, l)=>a + l.insc, 0);
+  return `<h1>Triagem</h1><p class="sub">Vagas e inscrições por diretoria. Esta tela é de leitura: a seleção de titulares e reserva é registrada pela equipe de formação.</p>
+    <div class="card"><div class="campos">${campo("tgDir", "Diretoria", {tipo: "select", opcoes: dirs.map(d=>[d.sigla, `${d.sigla} · ${d.nome}`]), valor: dir})}</div></div>
+    <div class="grade"><div class="card kpi"><div class="v">${linhas.length}</div><div class="r">cursos</div></div>
+      <div class="card kpi"><div class="v">${totalVagas}</div><div class="r">vagas da diretoria</div></div>
+      <div class="card kpi"><div class="v">${totalInsc}</div><div class="r">inscrições da diretoria</div></div></div>
+    <div class="card tabela-wrap"><table id="tabelaTriagem"><thead><tr><th>Curso</th><th>Período</th><th>Situação</th><th class="num">Vagas</th><th class="num">Inscrições</th><th class="num">Triagens</th></tr></thead>
+      <tbody>${linhas.map(({c, vagas, insc, tri})=>`<tr><td><b>${esc(c.nome)}</b><br><span class="sub">${esc(c.local || "")}</span></td>
+        <td>${periodo(c)}</td><td><span class="selo ${c.status === "inscrições abertas" ? "ok" : "info"}">${esc(c.status || "—")}</span></td>
+        <td class="num">${vagas}</td><td class="num">${insc}</td><td class="num">${tri}</td></tr>`).join("") || '<tr><td colspan="6" class="vazio">Nenhum curso cadastrado.</td></tr>'}</tbody></table></div>`;
+};
+TELAS_DEPOIS["#/triagem"] = ()=>{
+  $("#tgDir")?.addEventListener("change", e=>{ estado.tgDir = e.target.value; navegar(); });
+};
+
+const incCursosDepoisAntes = TELAS_DEPOIS["#/cursos"];
+TELAS_DEPOIS["#/cursos"] = async ()=>{
+  await incCursosDepoisAntes?.();
+  $("#btnNovoCurso")?.addEventListener("click", ()=>{
+    const f = $("#formCurso"); if (!f) return; f.hidden = false; f.scrollIntoView({block: "center"}); $("#cNome")?.focus();
+  });
 };

@@ -1,0 +1,144 @@
+{
+  "titulo": "TEIA · Triagem de E-mails",
+  "subtitulo": "POLITEC/MT · Coordenação de Perícias em Biologia Molecular",
+  "descricao": "Triagem local de e-mails de requisição pericial, com extração assistida dos 8 campos e validação humana.",
+  "visual": {
+    "acento": "#0f5c6b",
+    "icone": "inbox",
+    "layout": "ferramenta",
+    "casca": "ferramenta",
+    "cabecalho": "compacto",
+    "fonte": "mono",
+    "densidade": "compacta",
+    "cantos": "retos",
+    "superficie": "planas",
+    "kpi": "numero",
+    "padrao": "grade",
+    "estilo": "institucional",
+    "setor": "Coordenação de Perícias em Biologia Molecular · Triagem"
+  },
+  "rotaInicial": "#/painel",
+  "db": {
+    "nome": "teia_triagem_v1",
+    "versao": 1,
+    "stores": {
+      "emails": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "status",
+            "campo": "status",
+            "unico": false
+          },
+          {
+            "nome": "prioridade",
+            "campo": "prioridade",
+            "unico": false
+          },
+          {
+            "nome": "recebido_em",
+            "campo": "recebido_em",
+            "unico": false
+          }
+        ]
+      },
+      "anexos": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "email_id",
+            "campo": "email_id",
+            "unico": false
+          }
+        ]
+      },
+      "extracao": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "email_id",
+            "campo": "email_id",
+            "unico": false
+          }
+        ]
+      },
+      "lotes": {
+        "keyPath": "id",
+        "indices": []
+      },
+      "log": {
+        "keyPath": "id",
+        "indices": []
+      }
+    }
+  },
+  "perfis": [
+    {
+      "id": "triador",
+      "nome": "Servidor triador",
+      "descricao": "Lê a fila, confere os 8 campos e valida a requisição.",
+      "inicio": "#/painel"
+    },
+    {
+      "id": "chefia",
+      "nome": "Chefia da triagem",
+      "descricao": "Acompanha a qualidade, configura dicionários e audita.",
+      "inicio": "#/painel"
+    }
+  ],
+  "permissoes": {
+    "validar": [
+      "triador",
+      "chefia"
+    ],
+    "exportar": [
+      "triador",
+      "chefia"
+    ],
+    "configurar": [
+      "chefia"
+    ],
+    "apagar": [
+      "chefia"
+    ]
+  },
+  "rotas": [
+    {
+      "rota": "#/painel",
+      "titulo": "Bancada de triagem",
+      "sprint": 1,
+      "descricao": "Fila de e-mails e extração dos 8 campos."
+    },
+    {
+      "rota": "#/email/:id",
+      "titulo": "E-mail",
+      "sprint": 1,
+      "descricao": "Mensagem, anexos, extração e validação."
+    },
+    {
+      "rota": "#/lote",
+      "titulo": "Lotes",
+      "sprint": 2,
+      "descricao": "Rodadas de extração e resultados."
+    },
+    {
+      "rota": "#/planilha",
+      "titulo": "Planilha",
+      "sprint": 2,
+      "descricao": "Visão da planilha consolidada e exportação."
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": "Dicionários, dados, backup e testes."
+    }
+  ],
+  "libs": [],
+  "dados": [
+    [
+      "seed",
+      "exemplos/seed.json"
+    ]
+  ]
+}

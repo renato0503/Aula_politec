@@ -1,0 +1,61 @@
+# Fluxogramas do processo · tap-portfolio-projetos
+
+Gerados a partir de `projeto.json`. As setas seguem a ordem da tabela.
+
+## AS-IS
+
+```mermaid
+%% Fluxograma ASIS · 10 etapas
+flowchart TD
+  IN(["Início"])
+  N1["1. Recebimento da demanda"]:::wait
+  N2["2. Preenchimento do TAP"]:::wait
+  N3["3. Anexação de documentos"]:::wait
+  N4["4. Triagem documental"]:::wait
+  N5["5. Solicitação de ajustes"]:::wait
+  N6["6. Análise técnica e estratégica"]:::wait
+  N7["7. Aprovação e inclusão no portfólio"]:::wait
+  N8["8. Priorização dos projetos"]:::wait
+  N9["9. Mapeamento e submissão para captação"]:::wait
+  N10["10. Avaliação da captação e readequação"]:::wait
+  FIM(["Fim"])
+  IN --> N1
+  N1 --> N2
+  N2 --> N3
+  N3 --> N4
+  N4 --> N5
+  N5 --> N6
+  N6 --> N7
+  N7 --> N8
+  N8 --> N9
+  N9 --> N10
+  N10 --> FIM
+  classDef manual fill:#fff4e5,stroke:#a35f00,color:#3b2a00;
+  classDef wait fill:#fff4e5,stroke:#a35f00,stroke-dasharray:5 3,color:#3b2a00;
+  classDef auto fill:#eef8f2,stroke:#127a45,color:#0b3b23;
+  classDef humano fill:#eef3fa,stroke:#12487f,color:#0a2f5c;
+```
+
+## TO-BE
+
+```mermaid
+%% Fluxograma TOBE · 5 etapas
+flowchart TD
+  IN(["Início"])
+  N1["1. Preencher o TAP guiado<br/><small>A pessoa assistida pela máqui…</small>"]:::auto
+  N2["2. Conferir antes do envio<br/><small>A máquina (automação)</small>"]:::auto
+  N3["3. Triagem<br/><small>A pessoa assistida pela máqui…</small>"]:::auto
+  N4["4. Análise técnica e estratégica<br/><small>A pessoa, sem mudança</small>"]:::humano
+  N5["5. Portfólio<br/><small>A pessoa assistida pela máqui…</small>"]:::auto
+  FIM(["Fim"])
+  IN --> N1
+  N1 --> N2
+  N2 --> N3
+  N3 --> N4
+  N4 --> N5
+  N5 --> FIM
+  classDef manual fill:#fff4e5,stroke:#a35f00,color:#3b2a00;
+  classDef wait fill:#fff4e5,stroke:#a35f00,stroke-dasharray:5 3,color:#3b2a00;
+  classDef auto fill:#eef8f2,stroke:#127a45,color:#0b3b23;
+  classDef humano fill:#eef3fa,stroke:#12487f,color:#0a2f5c;
+```

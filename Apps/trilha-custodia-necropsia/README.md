@@ -130,3 +130,9 @@ plantão** em colunas por situação (com cartões de corpo, iniciais, dias no I
 último marco) e o gestor vê os tempos, a permanência e o alerta de 12 h. A ficha
 do corpo virou abas: Resumo, Marcos, Lacres, Situação, Liberação e Auditoria.
 Código em `src/identidade.js` e `src/app.css`.
+
+## Mapa do processo
+
+O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o
+**TO-BE** (como fica com o MVP), com as métricas, regras e papéis do projeto.
+Abra ao lado do `index.html`.

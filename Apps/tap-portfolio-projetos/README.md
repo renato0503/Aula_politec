@@ -94,3 +94,9 @@ portfólio**, com o valor estimado no eixo vertical e a prioridade no horizontal
 a proposta aprovada sem prioridade aparece com o ponto tracejado. A tela inicial
 passou a depender do perfil: Equipe abre na Triagem e Autoridade abre no
 Portfólio. Código em `src/identidade.js` e `src/app.css`.
+
+## Mapa do processo
+
+O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o
+**TO-BE** (como fica com o MVP), com as métricas, regras e papéis do projeto.
+Abra ao lado do `index.html`.

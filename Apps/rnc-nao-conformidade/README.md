@@ -100,3 +100,9 @@ Avaliação e Encerramento), com o prazo de cada cartão e a marca vermelha para
 etapa vencida. O perfil Setor ganhou o **setor como contexto** no menu do perfil,
 que já abre “Minhas RNCs” no setor escolhido. O item “Arquivo do setor” passou a
 “Enviar ao setor”. Código em `src/identidade.js` e `src/app.css`.
+
+## Mapa do processo
+
+O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o
+**TO-BE** (como fica com o MVP), com as métricas, regras e papéis do projeto.
+Abra ao lado do `index.html`.

@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AS-IS e TO-BE · FLUXO DE ADIANTAMENTO</title>
+<style>
+:root{--acento:#12487f;--tinta:#17212b;--tinta2:#5b6672;--papel:#fff;--fundo:#f2f4f7;--linha:#dce1e8;--suave:#eef3fa;--verde:#127a45;--ambar:#a35f00;--vermelho:#b42318}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fundo);color:var(--tinta);font-family:system-ui,'Segoe UI',sans-serif;line-height:1.55}
+a{color:var(--acento)}
+.capa{background:linear-gradient(135deg,var(--acento),color-mix(in srgb,var(--acento) 62%,#0a1b2b));color:#fff;padding:42px 24px 30px}
+.capa .in{max-width:1120px;margin:auto}
+.capa .selo{display:inline-block;border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:4px 12px;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.capa h1{font-size:clamp(26px,4vw,42px);margin:14px 0 8px;line-height:1.15}
+.capa p{margin:0;max-width:820px;color:rgba(255,255,255,.86)}
+.capa .meta{margin-top:14px;font-size:13px;color:rgba(255,255,255,.72)}
+.capa nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.capa nav a{border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:8px 14px;color:#fff;text-decoration:none;font-size:13px}
+.capa nav a.prim{background:#fff;color:var(--acento);border-color:#fff;font-weight:700}
+main{max-width:1120px;margin:0 auto;padding:28px 24px 60px}
+section{background:var(--papel);border:1px solid var(--linha);border-radius:14px;padding:24px;margin:20px 0;box-shadow:0 1px 0 var(--linha)}
+section h2{margin:0 0 6px;font-size:23px}
+section h3{margin:20px 0 8px;font-size:16px}
+.sub{color:var(--tinta2);font-size:13.5px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}
+.kpi{background:var(--suave);border:1px solid var(--linha);border-radius:10px;padding:12px}
+.kpi b{display:block;font-size:26px;line-height:1.1;color:var(--acento)}
+.kpi span{font-size:12.5px;color:var(--tinta2)}
+.figura{margin:14px 0 4px;text-align:center}
+.figura img{display:block;width:100%;max-width:360px;height:auto;margin:0 auto;border:1px solid var(--linha);border-radius:10px;background:#fff}
+.figura .sub{max-width:760px;margin:6px auto 0}
+.fluxo{display:flex;gap:8px;overflow-x:auto;padding:6px 2px 12px}
+.fluxo .passo{flex:0 0 190px;background:var(--papel);border:1px solid var(--linha);border-top:4px solid var(--acento);border-radius:10px;padding:12px}
+.fluxo .passo .n{font-size:11px;color:var(--tinta2);letter-spacing:.08em;text-transform:uppercase}
+.fluxo .passo b{display:block;margin:3px 0 5px;font-size:14px}
+.fluxo .passo small{color:var(--tinta2);font-size:12px}
+.fluxo .seta{align-self:center;color:var(--tinta2);font-size:18px}
+.tabela{width:100%;max-width:100%;min-width:0;overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{border-bottom:1px solid var(--linha);padding:8px 9px;text-align:left;vertical-align:top}
+th{background:var(--suave);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--tinta2);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.duas{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mvp-tabelas{display:grid;gap:16px}
+.mvp-tabelas > *{min-width:0}
+.duas > *{min-width:0}
+@media(max-width:800px){.duas{grid-template-columns:1fr}}
+.caixa{border-left:4px solid var(--acento);background:var(--suave);border-radius:0 10px 10px 0;padding:12px 14px;margin:12px 0}
+.caixa.alerta{border-left-color:var(--ambar);background:#fdf6e8}
+.caixa.verde{border-left-color:var(--verde);background:#eef8f2}
+.tag{display:inline-block;border:1px solid var(--linha);border-radius:999px;padding:2px 9px;font-size:11.5px;color:var(--tinta2);margin:2px 4px 2px 0}
+.tag.ok{border-color:var(--verde);color:var(--verde)}
+.tag.auto{border-color:var(--acento);color:var(--acento)}
+.lista{display:grid;gap:8px;margin:10px 0;padding:0;list-style:none}
+.lista li{padding:10px 12px;border:1px solid var(--linha);border-radius:9px;background:#fff}
+.lista b{color:var(--acento)}
+.metricas{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.metrica{border:1px solid var(--linha);border-radius:10px;padding:12px}
+.metrica b{display:block;font-size:14px;margin-bottom:2px}
+.metrica .base{color:var(--tinta2);font-size:12px}
+.metrica .esperado{color:var(--verde);font-size:12px;font-weight:700}
+.rodape{max-width:1120px;margin:0 auto;padding:0 24px 40px;color:var(--tinta2);font-size:12px}
+code{font-family:Consolas,monospace;background:var(--suave);padding:1px 5px;border-radius:4px}
+pre{background:#111a24;color:#e8eef6;border-radius:10px;padding:14px;overflow:auto;font-size:12.5px}
+@media print{body{background:#fff}.capa{background:#fff;color:#000;border-bottom:2px solid #000}.capa a{color:#000}.capa .selo{border-color:#000}section{box-shadow:none;break-inside:avoid}nav{display:none}}
+
+body{font-family:Consolas, 'Courier New', monospace}
+:root{--acento:#0b6e4f}
+</style></head><body>
+<header class="capa"><div class="in">
+  <span class="selo">MVP · adiantamento</span>
+  <h1>FLUXO DE ADIANTAMENTO</h1>
+  <p>Protótipo para a DAS/POLITEC acompanhar cada adiantamento, do pedido com 3 orçamentos à prestação de contas aprovada, com as etapas, os prazos do Decreto nº 1.487/2022 e as pendências. Não substitui o SICAD.</p>
+  <div class="meta">Jaqueline e Linicker · POLITEC-DAS E SESP-GABINETE · 2026-10-27 · DAS · Suprimento de fundos</div>
+  <nav><a href="#asis">Antes · AS-IS</a><a href="#tobe">Depois · TO-BE</a><a href="#mvp">O MVP</a><a class="prim" href="index.html">Abrir o MVP →</a></nav>
+</div></header>
+<main>
+<section id="problema"><h2>O problema</h2><p>Inicial na solicitação e no final prestação de contas</p>
+  <div class="duas"><div class="caixa alerta"><b>Como é hoje</b><br>SISTEMA SEM FLUXO, AS VEZES O SERVIDOR LANÇA SEM PASSAR PELO SETOR ADMINISTRATIVO DA POLITEC, E O PROCESSO VAI DIRETO PARA A SESP.</div>
+  <div class="caixa"><b>Impacto</b><br>ERROS NA SOLICITAÇÃO E PRESTAÇÃO DE CONTAS E DEMORA NA EXECUÇÃO DE SERVIÇO OU COMPRA EMERGENCIAL.</div></div></section>
+
+<section id="asis"><h2>AS-IS · o processo antes do MVP</h2>
+  <p class="sub">O caminho real, com quem faz, o que entra, onde espera e o que é automatizável. Fonte: tabela AS-IS do projeto.</p>
+  <div class="figura"><img src="docs/diagramas/as-is.svg" alt="Fluxograma AS-IS"><p class="sub">Fluxograma AS-IS · amarelo: etapa manual; tracejado: ponto de espera. Os números correspondem à tabela. <a href="docs/diagramas/processo.md">Fonte Mermaid</a>.</p></div>
+  <div class="kpis"><div class="kpi"><b>12</b><span>etapas</span></div>
+    <div class="kpi"><b>0</b><span>tempo declarado (h)</span></div>
+    <div class="kpi"><b>11</b><span>pontos de espera</span></div>
+    <div class="kpi"><b>3</b><span>etapas automatizáveis</span></div></div>
+  <div class="fluxo"><div class="passo"><span class="n">1</span><b>Levantar orçamentos</b><small>Coordenador ou gerente da unidade</small></div><span class="seta">→</span><div class="passo"><span class="n">2</span><b>Encaminhar à DAS</b><small>Coordenador ou gerente</small></div><span class="seta">→</span><div class="passo"><span class="n">3</span><b>Cadastrar no SICAD</b><small>Servidor solicitante</small></div><span class="seta">→</span><div class="passo"><span class="n">4</span><b>Aprovar (chefia imediata)</b><small>Chefia imediata</small></div><span class="seta">→</span><div class="passo"><span class="n">5</span><b>Conferir documentos (SESP)</b><small>Setor financeiro da SESP</small></div><span class="seta">→</span><div class="passo"><span class="n">6</span><b>Confirmar dotação (NGER)</b><small>NGER, a pedido do ordenador</small></div><span class="seta">→</span><div class="passo"><span class="n">7</span><b>Autorizar</b><small>Ordenador de despesas</small></div><span class="seta">→</span><div class="passo"><span class="n">8</span><b>Pagar</b><small>Setor orçamentário e financeiro</small></div><span class="seta">→</span><div class="passo"><span class="n">9</span><b>Aplicar o recurso</b><small>Servidor solicitante</small></div><span class="seta">→</span><div class="passo"><span class="n">10</span><b>Prestar contas</b><small>Servidor solicitante</small></div><span class="seta">→</span><div class="passo"><span class="n">11</span><b>Analisar a prestação</b><small>Contabilidade da SESP</small></div><span class="seta">→</span><div class="passo"><span class="n">12</span><b>Aprovar e encerrar</b><small>Ordenador de despesas e contabilidade</small></div></div>
+  <div class="tabela"><table><thead><tr><th>Etapa</th><th>Quem faz</th><th>Entra</th><th>Ação</th><th>Sai</th><th>Sistema</th><th>Regra</th><th>Onde espera</th><th>Tempo</th><th>Automatizável</th></tr></thead><tbody><tr><td>Levantar orçamentos</td><td>Coordenador ou gerente da unidade</td><td>Necessidade de compra ou serviço</td><td>Reúne 3 orçamentos</td><td>3 orçamentos</td><td>E-mail</td><td>3 orçamentos obrigatórios</td><td>Fornecedores</td><td>A medir</td><td>Não</td></tr><tr><td>Encaminhar à DAS</td><td>Coordenador ou gerente</td><td>Orçamentos</td><td>Envia por e-mail para análise</td><td>Pedido na DAS</td><td>E-mail</td><td>Passar pela DAS antes do SICAD</td><td>Caixa da DAS</td><td>A medir</td><td>Sim, com regra clara</td></tr><tr><td>Cadastrar no SICAD</td><td>Servidor solicitante</td><td>Manifestação favorável da DAS</td><td>Registra o pedido com orçamentos e justificativa</td><td>Pedido no SICAD</td><td>SICAD</td><td>Anexar 3 orçamentos e justificativa</td><td>Não identificado</td><td>A medir</td><td>Pouco</td></tr><tr><td>Aprovar (chefia imediata)</td><td>Chefia imediata</td><td>Pedido no SICAD</td><td>Aprova ou devolve</td><td>Pedido aprovado</td><td>SICAD</td><td>Aprovação da chefia</td><td>Caixa da chefia</td><td>A medir</td><td>Não</td></tr><tr><td>Conferir documentos (SESP)</td><td>Setor financeiro da SESP</td><td>Pedido aprovado</td><td>Confere pelo checklist</td><td>Pedido conferido</td><td>SICAD</td><td>Checklist da SESP</td><td>Fila do financeiro</td><td>A medir</td><td>Sim, com apoio humano</td></tr><tr><td>Confirmar dotação (NGER)</td><td>NGER, a pedido do ordenador</td><td>Pedido conferido</td><td>Verifica disponibilidade orçamentária</td><td>Dotação confirmada</td><td>SICAD</td><td>Disponibilidade orçamentária</td><td>Fila do NGER</td><td>A medir</td><td>Não</td></tr><tr><td>Autorizar</td><td>Ordenador de despesas</td><td>Dotação confirmada</td><td>Autoriza o adiantamento</td><td>Adiantamento autorizado</td><td>SICAD</td><td>Requisitos atendidos</td><td>Caixa do ordenador</td><td>A medir</td><td>Não</td></tr><tr><td>Pagar</td><td>Setor orçamentário e financeiro</td><td>Autorização</td><td>Empenha e paga</td><td>Recurso na conta</td><td>SICAD</td><td>Procedimentos orçamentários</td><td>Fila do financeiro</td><td>A medir</td><td>Não</td></tr><tr><td>Aplicar o recurso</td><td>Servidor solicitante</td><td>Recurso</td><td>Compra ou contrata</td><td>Notas fiscais e fotos</td><td>Externo</td><td>Até 90 dias (180 para intervenção predial)</td><td>Fornecedor</td><td>A medir</td><td>Não</td></tr><tr><td>Prestar contas</td><td>Servidor solicitante</td><td>Notas fiscais e fotos</td><td>Lança no SICAD e envia à contabilidade</td><td>Prestação de contas</td><td>SICAD</td><td>Até 30 dias após o fim da aplicação</td><td>Fila da contabilidade</td><td>A medir</td><td>Pouco</td></tr><tr><td>Analisar a prestação</td><td>Contabilidade da SESP</td><td>Prestação de contas</td><td>Confere e devolve se houver pendência</td><td>Prestação conferida ou devolvida</td><td>SICAD</td><td>Correção em até 10 dias úteis</td><td>Correção do servidor</td><td>A medir</td><td>Sim, com apoio humano</td></tr><tr><td>Aprovar e encerrar</td><td>Ordenador de despesas e contabilidade</td><td>Prestação conferida (ou com ressalvas)</td><td>Aprova e encerra</td><td>Processo arquivado</td><td>SICAD</td><td>Ressalvas: decisão do ordenador</td><td>Caixa do ordenador</td><td>A medir</td><td>Não</td></tr></tbody></table></div>
+</section>
+
+<section id="tobe"><h2>TO-BE · o processo com o MVP</h2>
+  <p class="sub">O que muda em cada etapa, quem passa a fazer e o ganho esperado. Fonte: tabela TO-BE do projeto.</p>
+  <div class="figura"><img src="docs/diagramas/to-be.svg" alt="Fluxograma TO-BE"><p class="sub">Fluxograma TO-BE · verde: máquina (automação local); azul: pessoa (fé pública). <a href="docs/diagramas/processo.md">Fonte Mermaid</a>.</p></div>
+  <div class="kpis"><div class="kpi"><b>5</b><span>etapas no novo fluxo</span></div>
+    <div class="kpi"><b>7</b><span>etapas a menos</span></div>
+    <div class="kpi"><b>3</b><span>etapas que saem do trabalho manual</span></div></div>
+  <div class="caixa verde"><b>Mudança central:</b> Todo pedido passa pela DAS e é acompanhado no app, com datas por etapa e alertas de prazo, enquanto a tramitação oficial segue no SICAD.</div>
+  <p>Quando o app existir, a DAS sabe em que etapa está cada adiantamento e quais prazos vão vencer, e nenhum pedido chega à SESP sem a análise da DAS.</p>
+  <ul class="lista"><li><b>Registrar o pedido na DAS</b><br>A DAS registra o pedido no app antes do SICAD, com checklist dos 3 orçamentos<br><span class="tag ok">A pessoa assistida pela máquina</span><span class="tag">Nenhum pedido chega à SESP sem passar pela DAS</span></li><li><b>Acompanhar as etapas</b><br>Cada mudança de etapa no SICAD é anotada no app com a data<br><span class="tag ok">A pessoa assistida pela máquina</span><span class="tag">Saber onde o processo está e há quanto tempo</span></li><li><b>Alertar prazos</b><br>O app calcula os prazos de aplicação, prestação e correção e avisa antes do vencimento<br><span class="tag ok">A máquina (automação)</span><span class="tag">Prestação de contas no prazo</span></li><li><b>Registrar pendências</b><br>Devoluções da contabilidade viram pendências com prazo de 10 dias úteis<br><span class="tag ok">A pessoa assistida pela máquina</span><span class="tag">Correção no prazo e motivo registrado</span></li><li><b>Painel</b><br>Processos por situação, tempo por etapa e devoluções<br><span class="tag ok">A máquina (automação)</span><span class="tag">Gargalo visível</span></li></ul>
+  <div class="tabela"><table><thead><tr><th>Etapa</th><th>O que muda</th><th>Quem faz</th><th>Benefício</th><th>Esforço</th></tr></thead><tbody><tr><td>Registrar o pedido na DAS</td><td>A DAS registra o pedido no app antes do SICAD, com checklist dos 3 orçamentos</td><td>A pessoa assistida pela máquina</td><td>Nenhum pedido chega à SESP sem passar pela DAS</td><td>Baixo</td></tr><tr><td>Acompanhar as etapas</td><td>Cada mudança de etapa no SICAD é anotada no app com a data</td><td>A pessoa assistida pela máquina</td><td>Saber onde o processo está e há quanto tempo</td><td>Baixo</td></tr><tr><td>Alertar prazos</td><td>O app calcula os prazos de aplicação, prestação e correção e avisa antes do vencimento</td><td>A máquina (automação)</td><td>Prestação de contas no prazo</td><td>Médio</td></tr><tr><td>Registrar pendências</td><td>Devoluções da contabilidade viram pendências com prazo de 10 dias úteis</td><td>A pessoa assistida pela máquina</td><td>Correção no prazo e motivo registrado</td><td>Baixo</td></tr><tr><td>Painel</td><td>Processos por situação, tempo por etapa e devoluções</td><td>A máquina (automação)</td><td>Gargalo visível</td><td>Médio</td></tr></tbody></table></div>
+  <div class="caixa alerta"><b>Leitura crítica:</b> Sem perfis e sem “minha fila”: todo mundo vê todos os processos.</div>
+</section>
+
+<section id="mvp"><h2>O que o MVP entrega</h2>
+  <p><b>Tela-assinatura:</b> Régua de prazos por processo.</p>
+  <p class="sub">Menu do MVP: <span class="tag">Painel</span><span class="tag">Processos</span><span class="tag">Novo pedido</span><span class="tag">Relatório</span><span class="tag">Configuração</span></p>
+  <div class="mvp-tabelas"><div><h3>Regras de negócio</h3><div class="tabela"><table><thead><tr><th>ID</th><th>Regra</th><th>Quando</th><th>Tipo</th><th>Exceção</th></tr></thead><tbody><tr><td><code>RN01</code></td><td>O pedido exige 3 orçamentos e a justificativa</td><td>Ao registrar o pedido</td><td>Validação</td><td>Nenhuma</td></tr><tr><td><code>RN02</code></td><td>Todo pedido passa pela DAS antes do cadastro no SICAD</td><td>Início do processo</td><td>Negócio</td><td>Nenhuma</td></tr><tr><td><code>RN03</code></td><td>Aplicação do recurso em até 90 dias (180 para intervenção predial simplificada)</td><td>Após o pagamento</td><td>Cálculo</td><td>Nenhuma</td></tr><tr><td><code>RN04</code></td><td>Prestação de contas em até 30 dias corridos após o fim da aplicação</td><td>Após a aplicação</td><td>Cálculo</td><td>Nenhuma</td></tr><tr><td><code>RN05</code></td><td>Correção de pendência em até 10 dias úteis após a notificação</td><td>Ao registrar a devolução</td><td>Cálculo</td><td>Nenhuma</td></tr><tr><td><code>RN06</code></td><td>A soma das notas fiscais não pode passar do valor concedido</td><td>Na prestação de contas</td><td>Validação</td><td>Diferença vira alerta para a DAS</td></tr><tr><td><code>RN07</code></td><td>O app não aprova nem autoriza: registra o que aconteceu no SICAD</td><td>Em todas as etapas</td><td>Negócio</td><td>Nenhuma</td></tr></tbody></table></div></div>
+    <div><h3>Papéis</h3><div class="tabela"><table><thead><tr><th>Papel</th><th>Quem é</th><th>O que vê</th><th>O que faz</th><th>O que não faz</th><th>Registro</th></tr></thead><tbody><tr><td><b>Servidor solicitante</b></td><td>Coordenador, gerente ou servidor da unidade</td><td>Os próprios pedidos e pendências</td><td>Registra o pedido e anexa a lista dos orçamentos</td><td>Enviar à SESP sem passar pela DAS</td><td>Pedido, datas e anexos informados</td></tr><tr><td><b>DAS/POLITEC</b></td><td>Diretoria de Administração Sistêmica</td><td>Todos os pedidos da POLITEC</td><td>Analisa a viabilidade, acompanha etapas e prazos</td><td>Aprovar no lugar do ordenador</td><td>Parecer, etapas e pendências</td></tr><tr><td><b>Contabilidade da SESP</b></td><td>Setor de contabilidade</td><td>Prestações de contas enviadas</td><td>Registra devoluções e motivos (quando usar o app)</td><td>Alterar o pedido</td><td>Devoluções e ressalvas</td></tr><tr><td><b>Ordenador de despesas</b></td><td>Autoridade da SESP</td><td>Painel (consulta)</td><td>Consulta o andamento</td><td>Nenhuma ação no app</td><td>Nenhum</td></tr></tbody></table></div></div></div>
+  <h3>Métricas do piloto</h3><div class="metricas"><div class="metrica"><b>Tempo do pedido até o pagamento</b><span class="base">Quanto tempo leva do pedido ao recurso na conta?</span><div class="base">Base: 5 dias por pedido (informado)</div><div class="esperado">Esperado: 3 dias</div><div class="base">Fonte: Etapas do app</div></div><div class="metrica"><b>Prestações devolvidas</b><span class="base">Quantas prestações voltam para correção?</span><div class="base">Base: A medir</div><div class="esperado">Esperado: Metade da linha de base</div><div class="base">Fonte: Pendências do app</div></div><div class="metrica"><b>Pedidos sem passar pela DAS</b><span class="base">Quantos pedidos chegam à SESP sem a DAS?</span><div class="base">Base: A medir</div><div class="esperado">Esperado: Zero</div><div class="base">Fonte: Informação da SESP</div></div></div>
+</section>
+
+<section id="teste"><h2>Como testar</h2>
+  <p class="sub">O MVP é um `index.html` offline, com dados fictícios. Abra <a href="index.html">index.html</a>.</p>
+  <pre>cd Apps/adiantamento
+python construir.py
+python testes/testar.py
+python testes/cenarios.py
+python testes/jornada.py
+
+# Lightpanda (via WSL, CDP em 9222 e HTTP em 8000)
+python testes/jornada.py --cdp http://127.0.0.1:9222 --base http://127.0.0.1:8000</pre>
+  <p class="sub">Documentos: <a href="PROJETO.md">PROJETO.md</a> · <a href="sprint.md">sprint.md</a> · <a href="README.md">README.md</a></p>
+</section>
+</main>
+<footer class="rodape">Gerado a partir de <code>projeto.json</code> e <code>app.json</code> · POLITEC/MT · FLUXO DE ADIANTAMENTO</footer>
+</body></html>

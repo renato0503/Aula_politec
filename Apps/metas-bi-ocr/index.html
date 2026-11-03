@@ -537,6 +537,9 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 <!-- DADOS:seed:exemplos/seed.json -->
 <script type="application/json" id="seed">{"unidades":[{"nome":"IML Cuiabá","apelidos":[]},{"nome":"IML Várzea Grande","apelidos":[]},{"nome":"Laboratório Forense","apelidos":[]},{"nome":"Criminalística Cuiabá","apelidos":[]},{"nome":"Regional Rondonópolis","apelidos":[]},{"nome":"Regional Sinop","apelidos":[]},{"nome":"Regional Cáceres","apelidos":[]},{"nome":"Regional Barra do Garças","apelidos":[]},{"nome":"Regional Tangará da Serra","apelidos":[]},{"nome":"Regional Alta Floresta","apelidos":[]}],"exemplos":[{"id":"2026-07","total_relatorio":5071,"linhas":[{"unidade":"IML Cuiabá","pendentes":570},{"unidade":"IML Várzea Grande","pendentes":511},{"unidade":"Laboratório Forense","pendentes":295},{"unidade":"Criminalística Cuiabá","pendentes":1472},{"unidade":"Regional Rondonópolis","pendentes":412},{"unidade":"Regional Sinop","pendentes":454},{"unidade":"Regional Cáceres","pendentes":361},{"unidade":"Regional Barra do Garças","pendentes":231},{"unidade":"Regional Tangará da Serra","pendentes":845},{"unidade":"Regional Alta Floresta","pendentes":656}]},{"id":"2026-08","total_relatorio":5051,"linhas":[{"unidade":"IML Cuiabá","pendentes":540},{"unidade":"IML Várzea Grande","pendentes":564},{"unidade":"Laboratório Forense","pendentes":323},{"unidade":"Criminalística Cuiabá","pendentes":815},{"unidade":"Regional Rondonópolis","pendentes":436},{"unidade":"Regional de Sinop (nova sigla)","pendentes":396},{"unidade":"Regional Cáceres","pendentes":369},{"unidade":"Regional Barra do Garças","pendentes":208},{"unidade":"Regional Tangará da Serra","pendentes":808},{"unidade":"Regional Alta Floresta","pendentes":592}]},{"id":"2026-09","total_relatorio":4910,"linhas":[{"unidade":"IML Cuiabá","pendentes":532},{"unidade":"IML Várzea Grande","pendentes":608},{"unidade":"Laboratório Forense","pendentes":290},{"unidade":"Criminalística Cuiabá","pendentes":715},{"unidade":"Regional Rondonópolis","pendentes":447},{"unidade":"Regional Sinop","pendentes":388},{"unidade":"Regional Cáceres","pendentes":355},{"unidade":"Regional Barra do Garças","pendentes":184},{"unidade":"Regional Tangará da Serra","pendentes":804},{"unidade":"Regional Alta Floresta","pendentes":570}]}]}</script>
 <!-- /DADOS:seed -->
+<!-- DADOS:exemplo:exemplos/exemplo-mes.json -->
+<script type="application/json" id="exemplo">{"nome":"powerbi1-2026-07.csv","texto":"Mês;Unidade;Laudos pendentes\n2026-07;IML Cuiabá;570\n2026-07;IML Várzea Grande;511\n2026-07;Laboratório Forense;295\n2026-07;Criminalística Cuiabá;1472\n2026-07;Regional Rondonópolis;412\n2026-07;Regional Sinop;454\n2026-07;Regional Cáceres;361\n2026-07;Regional Barra do Garças;231\n2026-07;Regional Tangará da Serra;845\n2026-07;Regional Alta Floresta;656\n2026-07;Total;5071\n"}</script>
+<!-- /DADOS:exemplo -->
 
 <script>
 /* ===================================================================
@@ -1380,7 +1383,9 @@ TELAS["#/importar"] = async ()=>{
   const n = (await db.list("unidades")).length;
   return `<h1>Importar o mês</h1><p class="sub">Escolha o arquivo do Power BI 1: a exportação do visual (CSV ou Excel) ou o PDF mensal. O PDF precisa ter camada de texto.</p>
     ${n ? "" : `<div class="card pendente">Nenhuma unidade cadastrada. Carregue os dados fictícios em <a href="#/config">Configuração</a> ou cadastre as unidades.</div>`}
-    <div class="card"><label class="botao prim">Escolher arquivo do mês<input type="file" id="arqMes" accept=".csv,.xlsx,.xls,.pdf" hidden></label>
+    <div class="card"><div class="linha-botoes" style="margin-top:0"><label class="botao prim">Escolher arquivo do mês<input type="file" id="arqMes" accept=".csv,.xlsx,.xls,.pdf" hidden></label>
+      <button type="button" id="btnExemploMes">Usar arquivo de exemplo</button></div>
+      <p class="sub">O exemplo é o CSV de julho/2026, com 10 unidades.</p>
       <div id="errosMes"></div><div id="resMes"></div></div>
     <div id="historicoCurto">${await tabelaMeses()}</div>`;
 };
@@ -1414,6 +1419,15 @@ async function desenharDesconhecidas(mes){
   }));
 }
 TELAS_DEPOIS["#/importar"] = ()=>{
+  $("#btnExemploMes")?.addEventListener("click", ()=>{
+    const ex = dadosEmbutidos("exemplo");
+    if (!ex) return toast("Arquivo de exemplo não encontrado.");
+    try {
+      const f = new File([ex.texto], ex.nome, {type: "text/csv"});
+      const dt = new DataTransfer(); dt.items.add(f);
+      const inp = $("#arqMes"); inp.files = dt.files; inp.dispatchEvent(new Event("change", {bubbles: true}));
+    } catch (err) { toast("Não consegui usar o exemplo: " + err.message, 5000); }
+  });
   $("#arqMes").addEventListener("change", async e=>{
     const f = e.target.files[0]; if (!f) return; e.target.value = "";
     $("#resMes").innerHTML = "";

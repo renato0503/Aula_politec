@@ -1,0 +1,57 @@
+# Fluxogramas do processo · equipamentos-google-earth
+
+Gerados a partir de `projeto.json`. As setas seguem a ordem da tabela.
+
+## AS-IS
+
+```mermaid
+%% Fluxograma ASIS · 6 etapas
+flowchart TD
+  IN(["Início"])
+  N1["1. Identificar o defeito"]:::wait
+  N2["2. Verificar o contrato"]:::wait
+  N3["3. Providenciar a manutenção"]:::wait
+  N4["4. Executar a manutenção"]:::wait
+  N5["5. Arquivar o comprovante"]:::manual
+  N6["6. Consolidar o impacto"]:::wait
+  FIM(["Fim"])
+  IN --> N1
+  N1 --> N2
+  N2 --> N3
+  N3 --> N4
+  N4 --> N5
+  N5 --> N6
+  N6 --> FIM
+  classDef manual fill:#fff4e5,stroke:#a35f00,color:#3b2a00;
+  classDef wait fill:#fff4e5,stroke:#a35f00,stroke-dasharray:5 3,color:#3b2a00;
+  classDef auto fill:#eef8f2,stroke:#127a45,color:#0b3b23;
+  classDef humano fill:#eef3fa,stroke:#12487f,color:#0a2f5c;
+```
+
+## TO-BE
+
+```mermaid
+%% Fluxograma TOBE · 7 etapas
+flowchart TD
+  IN(["Início"])
+  N1["1. Cadastrar equipamentos e contratos<br/><small>A pessoa assistida pela máqui…</small>"]:::auto
+  N2["2. Registrar a parada<br/><small>A pessoa assistida pela máqui…</small>"]:::auto
+  N3["3. Calcular risco e custo de parada<br/><small>A máquina (automação)</small>"]:::auto
+  N4["4. Alertar contratos a vencer<br/><small>A máquina (automação)</small>"]:::auto
+  N5["5. Consolidar as unidades<br/><small>A pessoa assistida pela máqui…</small>"]:::auto
+  N6["6. Ver no mapa e no Google Earth<br/><small>A máquina (automação)</small>"]:::auto
+  N7["7. Decidir a contratação<br/><small>A pessoa, sem mudança</small>"]:::humano
+  FIM(["Fim"])
+  IN --> N1
+  N1 --> N2
+  N2 --> N3
+  N3 --> N4
+  N4 --> N5
+  N5 --> N6
+  N6 --> N7
+  N7 --> FIM
+  classDef manual fill:#fff4e5,stroke:#a35f00,color:#3b2a00;
+  classDef wait fill:#fff4e5,stroke:#a35f00,stroke-dasharray:5 3,color:#3b2a00;
+  classDef auto fill:#eef8f2,stroke:#127a45,color:#0b3b23;
+  classDef humano fill:#eef3fa,stroke:#12487f,color:#0a2f5c;
+```

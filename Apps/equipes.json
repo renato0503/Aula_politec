@@ -236,6 +236,21 @@
           "github": null
         }
       ]
+    },
+    "teia-triagem-emails": {
+      "projeto": "Projeto TEIA (Triagem de E-mails com Isolação Automatizada)",
+      "alunos": [
+        {
+          "nome": "Nelson",
+          "email": "nelsonyoshitake@politec.mt.gov.br",
+          "github": "nelsonyoshitake"
+        },
+        {
+          "nome": "Luciana",
+          "email": null,
+          "github": null
+        }
+      ]
     }
   },
   "sem_projeto": [

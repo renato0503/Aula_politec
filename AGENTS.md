@@ -26,6 +26,7 @@ mesmo formato de 6 partes (ver secao 3.5).
 | 6 | Painel de Processo (manha) + Gestao de Projetos (tarde) | 80 | 417 KB | PDF opcional | 8 (4+4) | 5 datasets (3 modelados ponta a ponta) | 167 KB |
 | 7 | Gargalo medido, Automacao e Antigravity | 68 | 378 KB | 135 pag | 8 (4+4) | 5 cenarios + 5 workbooks | 58.408 execucoes |
 | 8 | Fase de ideacao e prototipacao (formulario, hub, MVP) | — | formulario-ideacao.html + hub + app.html | — | — | 14 blocos / 12 tabelas | — |
+| 8 | TEIA · Triagem de E-mails (novo app do Nelson e Luciana) | 5 | 116 KB | — | 3 | 10 e-mails fictícios | 1 gerador |
 
 Ferramentas de apoio na raiz: `caderno_lib.py` (motor), `exportar_pdf.py` (PDF em 2
 passadas), `validar.py` (checagem automatica) e `ptbr.py` (acentuacao pt-BR).

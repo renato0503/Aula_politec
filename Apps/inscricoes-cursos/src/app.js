@@ -55,7 +55,7 @@ TELAS["#/cursos"] = async ()=>{
       <td class="num">${totalVagas(c)}</td><td>${esc(c.status || "")}</td>
       <td><a href="#/divulgar/${encodeURIComponent(c.id)}">Divulgar</a> · <button data-editar="${esc(c.id)}">Editar</button></td></tr>`).join("")}</table>`
       : `<p class="sub">Nenhum curso. Cadastre abaixo.</p>`}</div>
-    <form class="card" id="formCurso"><h2 style="margin-top:0" id="tituloCurso">Novo curso</h2><input type="hidden" id="cursoId">
+    <form class="card" id="formCurso" hidden><h2 style="margin-top:0" id="tituloCurso">Novo curso</h2><input type="hidden" id="cursoId">
       <div class="campos">
         ${campo("cNome", "Nome do curso", {obrigatorio: true})}
         ${campo("cCarga", "Carga horária (h)", {tipo: "number", obrigatorio: true, attrs: 'min="1"'})}
@@ -84,7 +84,7 @@ TELAS_DEPOIS["#/cursos"] = ()=>{
     $("#cInicio").value = c.inicio; $("#cFim").value = c.fim; $("#cInscIni").value = c.inscricao_inicio || ""; $("#cInscFim").value = c.inscricao_fim || "";
     $("#cTriagem").value = c.prazo_triagem || ""; $("#cGrupo").value = c.link_grupo || ""; $("#cPre").value = (c.prerequisitos || []).join("\n");
     $$("[data-vaga]").forEach(i=>i.value = c.vagas_por_diretoria?.[i.dataset.vaga] || 0); soma();
-    $("#tituloCurso").textContent = "Editar " + c.nome; $("#formCurso").scrollIntoView();
+    $("#tituloCurso").textContent = "Editar " + c.nome; $("#formCurso").hidden = false; $("#formCurso").scrollIntoView();
   }));
   $("#formCurso").addEventListener("submit", async e=>{
     e.preventDefault();

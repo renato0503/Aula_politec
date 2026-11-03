@@ -49,7 +49,9 @@ TELAS["#/importar"] = async ()=>{
   const n = (await db.list("unidades")).length;
   return `<h1>Importar o mês</h1><p class="sub">Escolha o arquivo do Power BI 1: a exportação do visual (CSV ou Excel) ou o PDF mensal. O PDF precisa ter camada de texto.</p>
     ${n ? "" : `<div class="card pendente">Nenhuma unidade cadastrada. Carregue os dados fictícios em <a href="#/config">Configuração</a> ou cadastre as unidades.</div>`}
-    <div class="card"><label class="botao prim">Escolher arquivo do mês<input type="file" id="arqMes" accept=".csv,.xlsx,.xls,.pdf" hidden></label>
+    <div class="card"><div class="linha-botoes" style="margin-top:0"><label class="botao prim">Escolher arquivo do mês<input type="file" id="arqMes" accept=".csv,.xlsx,.xls,.pdf" hidden></label>
+      <button type="button" id="btnExemploMes">Usar arquivo de exemplo</button></div>
+      <p class="sub">O exemplo é o CSV de julho/2026, com 10 unidades.</p>
       <div id="errosMes"></div><div id="resMes"></div></div>
     <div id="historicoCurto">${await tabelaMeses()}</div>`;
 };
@@ -83,6 +85,15 @@ async function desenharDesconhecidas(mes){
   }));
 }
 TELAS_DEPOIS["#/importar"] = ()=>{
+  $("#btnExemploMes")?.addEventListener("click", ()=>{
+    const ex = dadosEmbutidos("exemplo");
+    if (!ex) return toast("Arquivo de exemplo não encontrado.");
+    try {
+      const f = new File([ex.texto], ex.nome, {type: "text/csv"});
+      const dt = new DataTransfer(); dt.items.add(f);
+      const inp = $("#arqMes"); inp.files = dt.files; inp.dispatchEvent(new Event("change", {bubbles: true}));
+    } catch (err) { toast("Não consegui usar o exemplo: " + err.message, 5000); }
+  });
   $("#arqMes").addEventListener("change", async e=>{
     const f = e.target.files[0]; if (!f) return; e.target.value = "";
     $("#resMes").innerHTML = "";

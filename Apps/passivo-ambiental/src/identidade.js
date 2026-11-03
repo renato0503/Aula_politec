@@ -16,13 +16,18 @@ async function paFilaPerito(){
   const [rs, ls] = await Promise.all([db.list("requisicoes"), db.list("laudos")]);
   const hoje = hojeISO();
   const laudoDe = rid => ls.find(l=>l.requisicao_id === rid);
+  const busca = normalizar(estado.paBusca || "");
   const fila = rs.filter(r=>r.status !== "concluida").map(r=>{
     const dias = Math.round((new Date(hoje + "T12:00:00") - new Date(r.data_requisicao + "T12:00:00")) / 86400000);
     return {...r, restam: Number(r.prazo_dias) - dias, l: laudoDe(r.id_requisicao)};
-  }).sort((a, b)=>a.restam - b.restam);
+  }).filter(r=>!estado.paSoAtrasados || r.restam < 0)
+    .filter(r=>!busca || normalizar(`${r.numero_processo} ${r.local} ${r.tipo_infracao} ${r.orgao}`).includes(busca))
+    .sort((a, b)=>a.restam - b.restam);
   return `<div class="card pa-fila"><div class="pa-fila-topo"><div><span class="sub">Minha fila</span>
       <h2>Laudos por prazo <span class="conta">${fila.length}</span></h2></div><a class="botao" href="#/requisicoes">Ver todas</a></div>
     <p class="sub">Ordenada pelo prazo. O mapa é a miniatura do laudo; clique para abrir.</p>
+    <div class="card pa-filtro"><div class="campos">${campo("paBuscaFila", "Buscar por número, local, tipo ou órgão", {valor: estado.paBusca || "", attrs: 'autocomplete="off"'})}
+      <label style="display:flex;gap:8px;align-items:center;margin-top:10px"><input type="checkbox" id="paSoAtrasados" style="width:auto" ${estado.paSoAtrasados ? "checked" : ""}> só atrasados</label></div></div>
     ${fila.length ? `<div class="pa-fila-lista">${fila.map(r=>{
       const cls = r.restam < 0 ? "erro" : r.restam <= 3 ? "alerta" : "ok";
       return `<a class="pa-fila-item" href="#/laudo/${encodeURIComponent(r.id_requisicao)}">
@@ -79,4 +84,15 @@ TELAS["#/laudo/:id"] = async (p)=>{
   const nomes = [["cabecalho", "Cabeçalho"], ["mapas", "Mapas"], ["conclusao", "Conclusão"], ["assinatura", "Assinatura"]];
   const lista = nomes.filter(([id])=>grupos[id].length).map(([id, titulo])=>({id, titulo, html: grupos[id].join("")}));
   return antes.map(n=>n.outerHTML).join("") + abas("ficha", lista);
+};
+
+const paPainelDepoisAntes = TELAS_DEPOIS["#/painel"];
+TELAS_DEPOIS["#/painel"] = async ()=>{
+  await paPainelDepoisAntes?.();
+  let t = null;
+  $("#paBuscaFila")?.addEventListener("input", e=>{
+    clearTimeout(t); const v = e.target.value;
+    t = setTimeout(()=>{ estado.paBusca = v; navegar(); }, 350);
+  });
+  $("#paSoAtrasados")?.addEventListener("change", e=>{ estado.paSoAtrasados = e.target.checked; navegar(); });
 };

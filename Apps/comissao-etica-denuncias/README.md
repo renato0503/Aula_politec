@@ -89,3 +89,9 @@ abre com o **dossiê “Reservado”** e a barra de etapas (Registro, Classifica
 Admissibilidade, Oitivas, Documentos, Encerramento), com a etapa atual marcada.
 O seed passou a distribuir os casos pelas etapas. Código em `src/identidade.js` e
 `src/app.css`.
+
+## Mapa do processo
+
+O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o
+**TO-BE** (como fica com o MVP), com as métricas, regras e papéis do projeto.
+Abra ao lado do `index.html`.

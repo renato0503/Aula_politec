@@ -32,6 +32,7 @@ async function rcMeusContratos(){
   if (estado.perfil !== "fiscal") return "";
   const nome = await db.meta("fiscal_nome");
   const cs = await db.list("contratos"), hoje = hojeISO();
+  const nomes = [...new Set((await db.list("fiscais")).filter(f=>!f.ate).map(f=>f.nome).filter(Boolean))].sort((a, b)=>a.localeCompare(b, "pt-BR"));
   const meus = [];
   if (nome) for (const c of cs){
     const fs = await db.porIndice("fiscais", "contrato_id", c.id_contrato);
@@ -39,7 +40,8 @@ async function rcMeusContratos(){
   }
   return `<div class="card rc-meus"><div class="rc-meus-topo"><div><span class="sub">Meus contratos</span>
       <h2>${nome ? esc(nome) : "Informe o seu nome de fiscal"} <span class="conta">${meus.length}</span></h2></div>
-      <div class="rc-meus-nome"><input id="rcMeuNome" placeholder="Nome do fiscal" value="${esc(nome || "")}" autocomplete="off">
+      <div class="rc-meus-nome"><input id="rcMeuNome" list="rcFiscaisNomes" placeholder="Nome do fiscal" value="${esc(nome || "")}" autocomplete="off">
+        <datalist id="rcFiscaisNomes">${nomes.map(n=>`<option value="${esc(n)}"></option>`).join("")}</datalist>
         <button type="button" id="btnRcMeuNome">Salvar</button></div></div>
     ${nome ? (meus.length ? `<div class="rc-meus-lista">${meus.map(c=>{ const f = rcFaixa(c, hoje); return `<a href="#/contrato/${encodeURIComponent(c.id_contrato)}">
       <b class="mono">${esc(c.numero)}</b><span>${esc(c.fornecedor)}</span><span class="selo ${f ? f.selo : "info"}">${f ? esc(f.rotulo.split(" (")[0]) : "—"}</span>

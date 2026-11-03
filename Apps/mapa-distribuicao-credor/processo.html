@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AS-IS e TO-BE · Automação do Mapa de Distribuição por Credor e da Distribuição Orçamentária</title>
+<style>
+:root{--acento:#12487f;--tinta:#17212b;--tinta2:#5b6672;--papel:#fff;--fundo:#f2f4f7;--linha:#dce1e8;--suave:#eef3fa;--verde:#127a45;--ambar:#a35f00;--vermelho:#b42318}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fundo);color:var(--tinta);font-family:system-ui,'Segoe UI',sans-serif;line-height:1.55}
+a{color:var(--acento)}
+.capa{background:linear-gradient(135deg,var(--acento),color-mix(in srgb,var(--acento) 62%,#0a1b2b));color:#fff;padding:42px 24px 30px}
+.capa .in{max-width:1120px;margin:auto}
+.capa .selo{display:inline-block;border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:4px 12px;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.capa h1{font-size:clamp(26px,4vw,42px);margin:14px 0 8px;line-height:1.15}
+.capa p{margin:0;max-width:820px;color:rgba(255,255,255,.86)}
+.capa .meta{margin-top:14px;font-size:13px;color:rgba(255,255,255,.72)}
+.capa nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.capa nav a{border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:8px 14px;color:#fff;text-decoration:none;font-size:13px}
+.capa nav a.prim{background:#fff;color:var(--acento);border-color:#fff;font-weight:700}
+main{max-width:1120px;margin:0 auto;padding:28px 24px 60px}
+section{background:var(--papel);border:1px solid var(--linha);border-radius:14px;padding:24px;margin:20px 0;box-shadow:0 1px 0 var(--linha)}
+section h2{margin:0 0 6px;font-size:23px}
+section h3{margin:20px 0 8px;font-size:16px}
+.sub{color:var(--tinta2);font-size:13.5px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}
+.kpi{background:var(--suave);border:1px solid var(--linha);border-radius:10px;padding:12px}
+.kpi b{display:block;font-size:26px;line-height:1.1;color:var(--acento)}
+.kpi span{font-size:12.5px;color:var(--tinta2)}
+.figura{margin:14px 0 4px;text-align:center}
+.figura img{display:block;width:100%;max-width:360px;height:auto;margin:0 auto;border:1px solid var(--linha);border-radius:10px;background:#fff}
+.figura .sub{max-width:760px;margin:6px auto 0}
+.fluxo{display:flex;gap:8px;overflow-x:auto;padding:6px 2px 12px}
+.fluxo .passo{flex:0 0 190px;background:var(--papel);border:1px solid var(--linha);border-top:4px solid var(--acento);border-radius:10px;padding:12px}
+.fluxo .passo .n{font-size:11px;color:var(--tinta2);letter-spacing:.08em;text-transform:uppercase}
+.fluxo .passo b{display:block;margin:3px 0 5px;font-size:14px}
+.fluxo .passo small{color:var(--tinta2);font-size:12px}
+.fluxo .seta{align-self:center;color:var(--tinta2);font-size:18px}
+.tabela{width:100%;max-width:100%;min-width:0;overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{border-bottom:1px solid var(--linha);padding:8px 9px;text-align:left;vertical-align:top}
+th{background:var(--suave);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--tinta2);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.duas{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mvp-tabelas{display:grid;gap:16px}
+.mvp-tabelas > *{min-width:0}
+.duas > *{min-width:0}
+@media(max-width:800px){.duas{grid-template-columns:1fr}}
+.caixa{border-left:4px solid var(--acento);background:var(--suave);border-radius:0 10px 10px 0;padding:12px 14px;margin:12px 0}
+.caixa.alerta{border-left-color:var(--ambar);background:#fdf6e8}
+.caixa.verde{border-left-color:var(--verde);background:#eef8f2}
+.tag{display:inline-block;border:1px solid var(--linha);border-radius:999px;padding:2px 9px;font-size:11.5px;color:var(--tinta2);margin:2px 4px 2px 0}
+.tag.ok{border-color:var(--verde);color:var(--verde)}
+.tag.auto{border-color:var(--acento);color:var(--acento)}
+.lista{display:grid;gap:8px;margin:10px 0;padding:0;list-style:none}
+.lista li{padding:10px 12px;border:1px solid var(--linha);border-radius:9px;background:#fff}
+.lista b{color:var(--acento)}
+.metricas{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.metrica{border:1px solid var(--linha);border-radius:10px;padding:12px}
+.metrica b{display:block;font-size:14px;margin-bottom:2px}
+.metrica .base{color:var(--tinta2);font-size:12px}
+.metrica .esperado{color:var(--verde);font-size:12px;font-weight:700}
+.rodape{max-width:1120px;margin:0 auto;padding:0 24px 40px;color:var(--tinta2);font-size:12px}
+code{font-family:Consolas,monospace;background:var(--suave);padding:1px 5px;border-radius:4px}
+pre{background:#111a24;color:#e8eef6;border-radius:10px;padding:14px;overflow:auto;font-size:12.5px}
+@media print{body{background:#fff}.capa{background:#fff;color:#000;border-bottom:2px solid #000}.capa a{color:#000}.capa .selo{border-color:#000}section{box-shadow:none;break-inside:avoid}nav{display:none}}
+
+body{font-family:Consolas, 'Courier New', monospace}
+:root{--acento:#047857}
+</style></head><body>
+<header class="capa"><div class="in">
+  <span class="selo">MVP · mapa-distribuicao-credor</span>
+  <h1>Automação do Mapa de Distribuição por Credor e da Distribuição Orçamentária</h1>
+  <p>Rotina automatizada que lê os relatórios do pregoeiro e o anexo de distribuição do TR e gera o Mapa de Distribuição por credor e a tabela de distribuição orçamentária por órgão, no lugar das planilhas Excel preenchidas e conferidas manualmente.</p>
+  <div class="meta">Igor Henrique de Menezes Costa · Setor de Licitações – POLITEC/MT · 2026-10-29 · Licitações · Distribuição orçamentária</div>
+  <nav><a href="#asis">Antes · AS-IS</a><a href="#tobe">Depois · TO-BE</a><a href="#mvp">O MVP</a><a class="prim" href="index.html">Abrir o MVP →</a></nav>
+</div></header>
+<main>
+<section id="problema"><h2>O problema</h2><p>A equipe de licitações monta à mão, em várias planilhas Excel, o mapa de distribuição por órgão e por credor, redigitando os mesmos dados a cada etapa, o que causa retrabalho, erros de cálculo e atraso na distribuição da dotação orçamentária.</p>
+  <div class="duas"><div class="caixa alerta"><b>Como é hoje</b><br>1) Cada unidade demandante preenche no Excel a distribuição de itens por órgão. 2) A equipe compõe por grupo, item, código, descrição, unidade, quantidade, valor unitário e total, e passa para uma planilha à parte de controle. 3) Aguarda os relatórios do pregoeiro e preenche empresa vencedora e valor homologado. 4) Separa os grupos homologados, fracassados e desertos. 5) Cria colunas de resultado geral e por órgão. 6) Monta tabela por empresa e por órgão participante. 7) Monta outra tabela com valor total, para conferência. 8) Monta a tabela de distribuição orçamentária por credor e órgão (processo, dotação, custeio 3 / investimento 4, CNPJ, valores, ano seguinte quando a dotação não comporta). Tudo é copiado e digitado entre planilhas.</div>
+  <div class="caixa"><b>Impacto</b><br>Retrabalho e digitação duplicada em cada etapa; risco de divergência entre planilhas e entre valores estimados e homologados; demora na distribuição orçamentária. </div></div></section>
+
+<section id="asis"><h2>AS-IS · o processo antes do MVP</h2>
+  <p class="sub">O caminho real, com quem faz, o que entra, onde espera e o que é automatizável. Fonte: tabela AS-IS do projeto.</p>
+  <div class="figura"><img src="docs/diagramas/as-is.svg" alt="Fluxograma AS-IS"><p class="sub">Fluxograma AS-IS · amarelo: etapa manual; tracejado: ponto de espera. Os números correspondem à tabela. <a href="docs/diagramas/processo.md">Fonte Mermaid</a>.</p></div>
+  <div class="kpis"><div class="kpi"><b>8</b><span>etapas</span></div>
+    <div class="kpi"><b>0</b><span>tempo declarado (h)</span></div>
+    <div class="kpi"><b>8</b><span>pontos de espera</span></div>
+    <div class="kpi"><b>8</b><span>etapas automatizáveis</span></div></div>
+  <div class="fluxo"><div class="passo"><span class="n">1</span><b>Receber distribuição de itens por órgão</b><small>Unidade demandante / Licitações</small></div><span class="seta">→</span><div class="passo"><span class="n">2</span><b>Compor mapa por grupo e item</b><small>Licitações</small></div><span class="seta">→</span><div class="passo"><span class="n">3</span><b>Preencher valores homologados</b><small>Licitações</small></div><span class="seta">→</span><div class="passo"><span class="n">4</span><b>Separar homologados, fracassados e desertos</b><small>Licitações</small></div><span class="seta">→</span><div class="passo"><span class="n">5</span><b>Gerar resultado geral e por órgão</b><small>Licitações</small></div><span class="seta">→</span><div class="passo"><span class="n">6</span><b>Montar tabela por empresa e órgão</b><small>Licitações</small></div><span class="seta">→</span><div class="passo"><span class="n">7</span><b>Montar tabela de conferência</b><small>Licitações</small></div><span class="seta">→</span><div class="passo"><span class="n">8</span><b>Montar distribuição orçamentária por credor e órgão</b><small>Licitações / Orçamento</small></div></div>
+  <div class="tabela"><table><thead><tr><th>Etapa</th><th>Quem faz</th><th>Entra</th><th>Ação</th><th>Sai</th><th>Sistema</th><th>Regra</th><th>Onde espera</th><th>Tempo</th><th>Automatizável</th></tr></thead><tbody><tr><td>Receber distribuição de itens por órgão</td><td>Unidade demandante / Licitações</td><td>Planilha Excel da unidade</td><td>Aguardar e conferir o preenchimento</td><td>Planilha recebida</td><td>Excel / e-mail</td><td>Cada item com sua unidade de medida</td><td>Espera as unidades preencherem</td><td>A medir</td><td>Sim, com apoio humano</td></tr><tr><td>Compor mapa por grupo e item</td><td>Licitações</td><td>Planilha das unidades</td><td>Compor grupo, item, código, descrição, unidade, quantidade, valor unitário e total, e valor estimado por órgão</td><td>Planilha de controle</td><td>Excel</td><td>Valores vêm da pesquisa de preço</td><td>Digitação duplicada</td><td>A medir</td><td>Sim, com regra clara</td></tr><tr><td>Preencher valores homologados</td><td>Licitações</td><td>Relatórios do pregoeiro</td><td>Digitar empresa vencedora e valor homologado</td><td>Planilha com valores homologados</td><td>Excel / sistema de licitação</td><td>Valor homologado substitui o estimado</td><td>Espera o relatório do pregoeiro</td><td>A medir</td><td>Sim, com regra clara</td></tr><tr><td>Separar homologados, fracassados e desertos</td><td>Licitações</td><td>Planilha preenchida</td><td>Separar os grupos e registrar a observação conforme o caso</td><td>Planilha separada por situação</td><td>Excel</td><td>Situação do grupo define a observação</td><td>Retrabalho de cópia</td><td>A medir</td><td>Sim, com regra clara</td></tr><tr><td>Gerar resultado geral e por órgão</td><td>Licitações</td><td>Planilha separada</td><td>Criar colunas de resultado geral e por órgão</td><td>Planilha com resultados</td><td>Excel</td><td>Soma por órgão e total geral</td><td>Cálculo manual</td><td>A medir</td><td>Sim, com regra clara</td></tr><tr><td>Montar tabela por empresa e órgão</td><td>Licitações</td><td>Planilha com resultados</td><td>Montar tabela das empresas vencedoras por órgão participante</td><td>Tabela por empresa e órgão</td><td>Excel</td><td>Grupos ganhos por empresa</td><td>Redigitação</td><td>A medir</td><td>Sim, com regra clara</td></tr><tr><td>Montar tabela de conferência</td><td>Licitações</td><td>Tabela por empresa e órgão</td><td>Criar tabela com valor total para conferir a planilha anterior</td><td>Tabela de totais conferida</td><td>Excel</td><td>Totais devem bater com a planilha base</td><td>Divergências só são vistas no fim</td><td>A medir</td><td>Sim, com apoio humano</td></tr><tr><td>Montar distribuição orçamentária por credor e órgão</td><td>Licitações / Orçamento</td><td>Tabelas e dotação validada</td><td>Montar tabela com processo, dotação por órgão e grupo (3 custeio / 4 investimento), CNPJ e valores por credor; coluna do ano seguinte se faltar dotação</td><td>Tabela de distribuição orçamentária</td><td>Excel</td><td>Dotação não suporta o valor: nova coluna para o ano seguinte</td><td>Espera a validação da dotação</td><td>A medir</td><td>Sim, com apoio humano</td></tr></tbody></table></div>
+</section>
+
+<section id="tobe"><h2>TO-BE · o processo com o MVP</h2>
+  <p class="sub">O que muda em cada etapa, quem passa a fazer e o ganho esperado. Fonte: tabela TO-BE do projeto.</p>
+  <div class="figura"><img src="docs/diagramas/to-be.svg" alt="Fluxograma TO-BE"><p class="sub">Fluxograma TO-BE · verde: máquina (automação local); azul: pessoa (fé pública). <a href="docs/diagramas/processo.md">Fonte Mermaid</a>.</p></div>
+  <div class="kpis"><div class="kpi"><b>6</b><span>etapas no novo fluxo</span></div>
+    <div class="kpi"><b>2</b><span>etapas a menos</span></div>
+    <div class="kpi"><b>8</b><span>etapas que saem do trabalho manual</span></div></div>
+  <div class="caixa verde"><b>Mudança central:</b> Os dados são lidos uma única vez dos relatórios do pregoeiro e do anexo de distribuição do TR, e todas as tabelas (por empresa, por órgão, conferência e distribuição orçamentária) são geradas automaticamente, com rastreabilidade até o arquivo de origem.</div>
+  <p>Quando este processo existir, a equipe de licitações deixa de redigitar e conferir planilhas à mão e passa a gerar o mapa de distribuição e a tabela orçamentária automaticamente a partir dos relatórios do pregoeiro e do anexo do TR.</p>
+  <ul class="lista"><li><b>Receber planilhas das unidades</b><br>Importar para a ferramenta<br><span class="tag ok">A pessoa assistida pela máquina</span><span class="tag">Menos digitação</span></li><li><b>Importar relatório do pregoeiro</b><br>Leitura automática de empresa e valor homologado<br><span class="tag ok">A máquina (automação)</span><span class="tag">Fim da redigitação</span></li><li><b>Gerar mapa por grupo, órgão e empresa</b><br>Cálculos padronizados automáticos<br><span class="tag ok">A máquina (automação)</span><span class="tag">Menos erros e tempo</span></li><li><b>Separar homologados, fracassados e desertos</b><br>Classificação automática com observação<br><span class="tag ok">A máquina (automação)</span><span class="tag">Padronização</span></li><li><b>Conferir divergências</b><br>Alerta antes da distribuição orçamentária<br><span class="tag ok">A máquina (automação)</span><span class="tag">Erros achados cedo</span></li><li><b>Validar dotação e distribuir</b><br>Tabela por credor e órgão gerada; ano seguinte quando faltar dotação<br><span class="tag ok">A pessoa assistida pela máquina</span><span class="tag">Menos retrabalho</span></li></ul>
+  <div class="tabela"><table><thead><tr><th>Etapa</th><th>O que muda</th><th>Quem faz</th><th>Benefício</th><th>Esforço</th></tr></thead><tbody><tr><td>Receber planilhas das unidades</td><td>Importar para a ferramenta</td><td>A pessoa assistida pela máquina</td><td>Menos digitação</td><td>Baixo</td></tr><tr><td>Importar relatório do pregoeiro</td><td>Leitura automática de empresa e valor homologado</td><td>A máquina (automação)</td><td>Fim da redigitação</td><td>Médio</td></tr><tr><td>Gerar mapa por grupo, órgão e empresa</td><td>Cálculos padronizados automáticos</td><td>A máquina (automação)</td><td>Menos erros e tempo</td><td>Médio</td></tr><tr><td>Separar homologados, fracassados e desertos</td><td>Classificação automática com observação</td><td>A máquina (automação)</td><td>Padronização</td><td>Baixo</td></tr><tr><td>Conferir divergências</td><td>Alerta antes da distribuição orçamentária</td><td>A máquina (automação)</td><td>Erros achados cedo</td><td>Médio</td></tr><tr><td>Validar dotação e distribuir</td><td>Tabela por credor e órgão gerada; ano seguinte quando faltar dotação</td><td>A pessoa assistida pela máquina</td><td>Menos retrabalho</td><td>Alto</td></tr></tbody></table></div>
+  <div class="caixa alerta"><b>Leitura crítica:</b> A importação agora tem a tabela de 3 linhas, mas a associação de colunas continua nos cartões.</div>
+</section>
+
+<section id="mvp"><h2>O que o MVP entrega</h2>
+  <p><b>Tela-assinatura:</b> Esteira de 8 etapas e grade em formato planilha.</p>
+  <p class="sub">Menu do MVP: <span class="tag">Processos</span><span class="tag">Configuração</span></p>
+  <div class="mvp-tabelas"><div><h3>Regras de negócio</h3><div class="tabela"><table><thead><tr><th>ID</th><th>Regra</th><th>Quando</th><th>Tipo</th><th>Exceção</th></tr></thead><tbody><tr><td><code>RN01</code></td><td>Total do item = quantidade x valor unitário</td><td>Ao importar a planilha</td><td>Cálculo</td><td>Nenhuma</td></tr><tr><td><code>RN02</code></td><td>Grupo sem empresa é fracassado ou deserto, conforme o relatório</td><td>Ao ler o relatório do pregoeiro</td><td>Negócio</td><td>Nenhuma</td></tr><tr><td><code>RN03</code></td><td>Valor homologado substitui o valor estimado</td><td>Após o relatório</td><td>Negócio</td><td>Grupo fracassado ou deserto</td></tr><tr><td><code>RN04</code></td><td>Soma por órgão deve igualar o total do grupo</td><td>Na conferência</td><td>Validação</td><td>Nenhuma; diferença vira alerta</td></tr><tr><td><code>RN05</code></td><td>Se a dotação não suporta o valor no ano corrente, o excedente vai para o ano seguinte</td><td>Na distribuição orçamentária</td><td>Cálculo</td><td>Valor validado pela chefia</td></tr><tr><td><code>RN06</code></td><td>Dotação do tipo 3 (custeio) ou 4 (investimento) por grupo</td><td>Na distribuição</td><td>Negócio</td><td>Nenhuma</td></tr><tr><td><code>RN07</code></td><td>CNPJ deve ter 14 dígitos</td><td>Ao importar o relatório</td><td>Validação</td><td>Nenhuma</td></tr><tr><td><code>RN08</code></td><td>O valor homologado é usado por item; se o relatório trouxer só o total do grupo, aplica-se a todos os itens o mesmo desconto (homologado ÷ estimado do grupo)</td><td>Após o relatório do pregoeiro</td><td>Cálculo</td><td>Equipe pode informar o valor de cada item</td></tr><tr><td><code>RN09</code></td><td>Valor unitário com 2 casas; total do item = quantidade × valor unitário, arredondado a 2 casas; somas feitas em centavos</td><td>Em todos os cálculos</td><td>Cálculo</td><td>Nenhuma</td></tr><tr><td><code>RN10</code></td><td>A dotação de cada órgão e tipo é consumida na ordem dos grupos do processo; o que não couber vai para o ano seguinte</td><td>Na distribuição orçamentária</td><td>Negócio</td><td>Ordem definida pelo orçamento</td></tr><tr><td><code>RN11</code></td><td>Grupo misto (itens adjudicados a empresas diferentes) é tratado item a item</td><td>Ao ler o relatório do pregoeiro</td><td>Negócio</td><td>Nenhuma</td></tr></tbody></table></div></div>
+    <div><h3>Papéis</h3><div class="tabela"><table><thead><tr><th>Papel</th><th>Quem é</th><th>O que vê</th><th>O que faz</th><th>O que não faz</th><th>Registro</th></tr></thead><tbody><tr><td><b>Analista de licitações</b></td><td>Servidor que monta o mapa</td><td>Planilhas, relatórios e tabelas geradas</td><td>Importa arquivos, confere e exporta o mapa</td><td>Alterar valor homologado sem registro</td><td>Importação, edições e conferência</td></tr><tr><td><b>Unidade demandante</b></td><td>Órgão que pede os itens</td><td>Sua própria distribuição de itens</td><td>Envia a planilha de distribuição</td><td>Ver dados de outros órgãos</td><td>Envio e data</td></tr><tr><td><b>Pregoeiro</b></td><td>Responsável pelo preenchimento</td><td>Resultado de grupos</td><td>Fornece relatório com vencedores e valores</td><td>Alterar o mapa</td><td>Relatório fornecido</td></tr><tr><td><b>Analista de licitações / Orçamento</b></td><td>Valida a distribuição</td><td>Tabela orçamentária e divergências</td><td>Valida dotação e aprova</td><td>Alterar dados de origem</td><td>Validação e aprovação</td></tr></tbody></table></div></div></div>
+  <h3>Métricas do piloto</h3><div class="metricas"><div class="metrica"><b>Tempo de montagem do mapa</b><span class="base">Quanto tempo leva do recebimento à tabela final?</span><div class="base">Base: A MEDIR</div><div class="esperado">Esperado: Fração do atual (hipótese)</div><div class="base">Fonte: Etapas 1 a 8 do AS-IS</div></div><div class="metrica"><b>Divergências por processo</b><span class="base">Quantos erros são achados na conferência?</span><div class="base">Base: A MEDIR</div><div class="esperado">Esperado: Zero ao final (hipótese)</div><div class="base">Fonte: Planilha de conferência</div></div><div class="metrica"><b>Retrabalho de digitação</b><span class="base">Quantas vezes o mesmo dado é redigitado?</span><div class="base">Base: Cerca de 6 (estimativa)</div><div class="esperado">Esperado: 1 (hipótese)</div><div class="base">Fonte: Fluxo AS-IS</div></div></div>
+</section>
+
+<section id="teste"><h2>Como testar</h2>
+  <p class="sub">O MVP é um `index.html` offline, com dados fictícios. Abra <a href="index.html">index.html</a>.</p>
+  <pre>cd Apps/mapa-distribuicao-credor
+python construir.py
+python testes/testar.py
+python testes/cenarios.py
+python testes/jornada.py
+
+# Lightpanda (via WSL, CDP em 9222 e HTTP em 8000)
+python testes/jornada.py --cdp http://127.0.0.1:9222 --base http://127.0.0.1:8000</pre>
+  <p class="sub">Documentos: <a href="PROJETO.md">PROJETO.md</a> · <a href="sprint.md">sprint.md</a> · <a href="README.md">README.md</a></p>
+</section>
+</main>
+<footer class="rodape">Gerado a partir de <code>projeto.json</code> e <code>app.json</code> · POLITEC/MT · Automação do Mapa de Distribuição por Credor e da Distribuição Orçamentária</footer>
+</body></html>

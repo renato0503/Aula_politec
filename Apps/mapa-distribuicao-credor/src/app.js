@@ -87,6 +87,19 @@ const linhaDoCabecalho = linhas => Math.max(0, linhas.findIndex(l=>l.filter(c=>S
 
 async function modeloSalvo(fonte){ return (await db.meta("modelo:" + fonte)) || null; }
 
+function tabelaFontesHTML(){
+  return Object.entries(FONTES).map(([fonte, f])=>{
+    const L = leitura[fonte];
+    const linhas = L ? Math.max(0, (L.linhas?.length || 0) - (L.linhaCab || 0) - 1) : 0;
+    return `<tr data-fonte-tabela="${fonte}"><td>${esc(f.titulo)}</td><td class="mono">${esc(L?.arquivo || "—")}</td>
+      <td>${L ? '<span class="selo ok">lido</span>' : '<span class="selo info">aguardando arquivo</span>'}</td><td class="num">${L ? linhas : "—"}</td></tr>`;
+  }).join("");
+}
+function atualizarTabelaFontes(){
+  const corpo = document.querySelector("#tabelaFontes tbody");
+  if (corpo) corpo.innerHTML = tabelaFontesHTML();
+}
+
 function blocoFonte(fonte){
   const f = FONTES[fonte], L = leitura[fonte];
   if (!L) return `<div class="card" id="fonte-${fonte}"><h2 style="margin-top:0">${esc(f.titulo)}</h2>
@@ -115,6 +128,8 @@ TELAS["#/importar/:proc"] = async ({proc})=>{
   estado.proc = p;
   return `<h1>Importar · ${esc(p.numero)}</h1><p class="sub">${esc(p.nome)}. Escolha os três arquivos, confira a associação das colunas e importe.
     A associação fica salva como modelo para o próximo processo.</p>
+    <div class="card tabela-wrap"><table id="tabelaFontes"><thead><tr><th>Fonte</th><th>Arquivo</th><th>Situação</th><th class="num">Linhas</th></tr></thead>
+      <tbody>${tabelaFontesHTML()}</tbody></table></div>
     <div id="fontes">${Object.keys(FONTES).map(blocoFonte).join("")}</div>
     <div class="linha-botoes"><button class="prim" id="btnImportar">Validar e importar</button></div>
     <div id="resumoImport">${await resumoProcesso(proc)}</div>`;
@@ -154,7 +169,7 @@ function ligarImportacao(){
   }
   $("#btnImportar").onclick = importarTudo;
 }
-function redesenharFonte(fonte){ $(`#fonte-${fonte}`).outerHTML = blocoFonte(fonte); ligarImportacao(); }
+function redesenharFonte(fonte){ const el = $(`#fonte-${fonte}`); if (el) el.outerHTML = blocoFonte(fonte); ligarImportacao(); atualizarTabelaFontes(); }
 
 // Usa o modelo salvo quando as colunas dele existem; senão, sugere pelos sinônimos.
 async function aplicarMapa(fonte){

@@ -82,3 +82,9 @@ das 8 etapas** (Importar, Mapa, Resultado, Empresas, Conferência, Orçamentári
 Exportar e Auditoria), fixa no topo de todas as telas do processo, com a etapa
 atual marcada. A tela do mapa usa a **grade em formato planilha**, com cabeçalho
 fixo, subtotais e total. Código em `src/identidade.js` e `src/app.css`.
+
+## Mapa do processo
+
+O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o
+**TO-BE** (como fica com o MVP), com as métricas, regras e papéis do projeto.
+Abra ao lado do `index.html`.

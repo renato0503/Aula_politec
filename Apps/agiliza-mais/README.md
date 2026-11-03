@@ -92,3 +92,9 @@ final) ficam à esquerda e o trabalho à direita, com o passo atual marcado. Os
 passos deixaram de aparecer no menu, que fica com Casos, Biblioteca, Histórico e
 Configuração (Biblioteca e Histórico aparecem quando forem construídos). A tela
 de casos ganhou cartões. Código em `src/identidade.js` e `src/app.css`.
+
+## Mapa do processo
+
+O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o
+**TO-BE** (como fica com o MVP), com as métricas, regras e papéis do projeto.
+Abra ao lado do `index.html`.

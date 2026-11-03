@@ -101,3 +101,9 @@ e KPI em anel. A tela-assinatura é o **ano em 12 meses**, cada mês com a situa
 (sem relatório, importado, conferido ou gerado) e o atalho para a tela certa. O
 fluxo ganhou os **passos 1 Importar · 2 Conferir · 3 Gerar planilha** no topo das
 três telas. Código em `src/identidade.js` e `src/app.css`.
+
+## Mapa do processo
+
+O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o
+**TO-BE** (como fica com o MVP), com as métricas, regras e papéis do projeto.
+Abra ao lado do `index.html`.

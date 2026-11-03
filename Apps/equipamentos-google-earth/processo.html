@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AS-IS e TO-BE · Visão geral dos equipamentos no estado com Google Earth</title>
+<style>
+:root{--acento:#12487f;--tinta:#17212b;--tinta2:#5b6672;--papel:#fff;--fundo:#f2f4f7;--linha:#dce1e8;--suave:#eef3fa;--verde:#127a45;--ambar:#a35f00;--vermelho:#b42318}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fundo);color:var(--tinta);font-family:system-ui,'Segoe UI',sans-serif;line-height:1.55}
+a{color:var(--acento)}
+.capa{background:linear-gradient(135deg,var(--acento),color-mix(in srgb,var(--acento) 62%,#0a1b2b));color:#fff;padding:42px 24px 30px}
+.capa .in{max-width:1120px;margin:auto}
+.capa .selo{display:inline-block;border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:4px 12px;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.capa h1{font-size:clamp(26px,4vw,42px);margin:14px 0 8px;line-height:1.15}
+.capa p{margin:0;max-width:820px;color:rgba(255,255,255,.86)}
+.capa .meta{margin-top:14px;font-size:13px;color:rgba(255,255,255,.72)}
+.capa nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.capa nav a{border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:8px 14px;color:#fff;text-decoration:none;font-size:13px}
+.capa nav a.prim{background:#fff;color:var(--acento);border-color:#fff;font-weight:700}
+main{max-width:1120px;margin:0 auto;padding:28px 24px 60px}
+section{background:var(--papel);border:1px solid var(--linha);border-radius:14px;padding:24px;margin:20px 0;box-shadow:0 1px 0 var(--linha)}
+section h2{margin:0 0 6px;font-size:23px}
+section h3{margin:20px 0 8px;font-size:16px}
+.sub{color:var(--tinta2);font-size:13.5px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}
+.kpi{background:var(--suave);border:1px solid var(--linha);border-radius:10px;padding:12px}
+.kpi b{display:block;font-size:26px;line-height:1.1;color:var(--acento)}
+.kpi span{font-size:12.5px;color:var(--tinta2)}
+.figura{margin:14px 0 4px;text-align:center}
+.figura img{display:block;width:100%;max-width:360px;height:auto;margin:0 auto;border:1px solid var(--linha);border-radius:10px;background:#fff}
+.figura .sub{max-width:760px;margin:6px auto 0}
+.fluxo{display:flex;gap:8px;overflow-x:auto;padding:6px 2px 12px}
+.fluxo .passo{flex:0 0 190px;background:var(--papel);border:1px solid var(--linha);border-top:4px solid var(--acento);border-radius:10px;padding:12px}
+.fluxo .passo .n{font-size:11px;color:var(--tinta2);letter-spacing:.08em;text-transform:uppercase}
+.fluxo .passo b{display:block;margin:3px 0 5px;font-size:14px}
+.fluxo .passo small{color:var(--tinta2);font-size:12px}
+.fluxo .seta{align-self:center;color:var(--tinta2);font-size:18px}
+.tabela{width:100%;max-width:100%;min-width:0;overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{border-bottom:1px solid var(--linha);padding:8px 9px;text-align:left;vertical-align:top}
+th{background:var(--suave);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--tinta2);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.duas{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mvp-tabelas{display:grid;gap:16px}
+.mvp-tabelas > *{min-width:0}
+.duas > *{min-width:0}
+@media(max-width:800px){.duas{grid-template-columns:1fr}}
+.caixa{border-left:4px solid var(--acento);background:var(--suave);border-radius:0 10px 10px 0;padding:12px 14px;margin:12px 0}
+.caixa.alerta{border-left-color:var(--ambar);background:#fdf6e8}
+.caixa.verde{border-left-color:var(--verde);background:#eef8f2}
+.tag{display:inline-block;border:1px solid var(--linha);border-radius:999px;padding:2px 9px;font-size:11.5px;color:var(--tinta2);margin:2px 4px 2px 0}
+.tag.ok{border-color:var(--verde);color:var(--verde)}
+.tag.auto{border-color:var(--acento);color:var(--acento)}
+.lista{display:grid;gap:8px;margin:10px 0;padding:0;list-style:none}
+.lista li{padding:10px 12px;border:1px solid var(--linha);border-radius:9px;background:#fff}
+.lista b{color:var(--acento)}
+.metricas{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.metrica{border:1px solid var(--linha);border-radius:10px;padding:12px}
+.metrica b{display:block;font-size:14px;margin-bottom:2px}
+.metrica .base{color:var(--tinta2);font-size:12px}
+.metrica .esperado{color:var(--verde);font-size:12px;font-weight:700}
+.rodape{max-width:1120px;margin:0 auto;padding:0 24px 40px;color:var(--tinta2);font-size:12px}
+code{font-family:Consolas,monospace;background:var(--suave);padding:1px 5px;border-radius:4px}
+pre{background:#111a24;color:#e8eef6;border-radius:10px;padding:14px;overflow:auto;font-size:12.5px}
+@media print{body{background:#fff}.capa{background:#fff;color:#000;border-bottom:2px solid #000}.capa a{color:#000}.capa .selo{border-color:#000}section{box-shadow:none;break-inside:avoid}nav{display:none}}
+
+body{font-family:system-ui, 'Segoe UI', sans-serif}
+:root{--acento:#2f7d32}
+</style></head><body>
+<header class="capa"><div class="in">
+  <span class="selo">MVP · equipamentos-google-earth</span>
+  <h1>Visão geral dos equipamentos no estado com Google Earth</h1>
+  <p>O projeto armazena fotos e dados de equipamentos — incluindo custos e históricos de manutenção —, além de calcular o impacto e o custo de parada por defeito na filial e na diretoria para apoiar a tomada de decisão. A visualização é feita via Google Earth, mapeando o estado e exibindo a localização exata de cada ativo.</p>
+  <div class="meta">João Lucas Nogueira Ponce · Coordenadoria de qualidade   · 2026-10-28 · Qualidade · Parque de equipamentos</div>
+  <nav><a href="#asis">Antes · AS-IS</a><a href="#tobe">Depois · TO-BE</a><a href="#mvp">O MVP</a><a class="prim" href="index.html">Abrir o MVP →</a></nav>
+</div></header>
+<main>
+<section id="problema"><h2>O problema</h2><p>Nem todos equipamentos possuem contrato de manutenção o intuito dessa solução e mensurar qual e o impacto se esse equipamento que parar precisar de uma manutenção.</p>
+  <div class="duas"><div class="caixa alerta"><b>Como é hoje</b><br>acredito que não e feito um acompanhamento via alguma ferramenta.</div>
+  <div class="caixa"><b>Impacto</b><br>Tem equipamentos se parar para o setor inteiro.</div></div></section>
+
+<section id="asis"><h2>AS-IS · o processo antes do MVP</h2>
+  <p class="sub">O caminho real, com quem faz, o que entra, onde espera e o que é automatizável. Fonte: tabela AS-IS do projeto.</p>
+  <div class="figura"><img src="docs/diagramas/as-is.svg" alt="Fluxograma AS-IS"><p class="sub">Fluxograma AS-IS · amarelo: etapa manual; tracejado: ponto de espera. Os números correspondem à tabela. <a href="docs/diagramas/processo.md">Fonte Mermaid</a>.</p></div>
+  <div class="kpis"><div class="kpi"><b>6</b><span>etapas</span></div>
+    <div class="kpi"><b>0</b><span>tempo declarado (h)</span></div>
+    <div class="kpi"><b>5</b><span>pontos de espera</span></div>
+    <div class="kpi"><b>3</b><span>etapas automatizáveis</span></div></div>
+  <div class="fluxo"><div class="passo"><span class="n">1</span><b>Identificar o defeito</b><small>Servidor da unidade</small></div><span class="seta">→</span><div class="passo"><span class="n">2</span><b>Verificar o contrato</b><small>Chefia da unidade</small></div><span class="seta">→</span><div class="passo"><span class="n">3</span><b>Providenciar a manutenção</b><small>Chefia da unidade</small></div><span class="seta">→</span><div class="passo"><span class="n">4</span><b>Executar a manutenção</b><small>Fornecedor</small></div><span class="seta">→</span><div class="passo"><span class="n">5</span><b>Arquivar o comprovante</b><small>Chefia da unidade</small></div><span class="seta">→</span><div class="passo"><span class="n">6</span><b>Consolidar o impacto</b><small>Coordenadoria de qualidade</small></div></div>
+  <div class="tabela"><table><thead><tr><th>Etapa</th><th>Quem faz</th><th>Entra</th><th>Ação</th><th>Sai</th><th>Sistema</th><th>Regra</th><th>Onde espera</th><th>Tempo</th><th>Automatizável</th></tr></thead><tbody><tr><td>Identificar o defeito</td><td>Servidor da unidade</td><td>Equipamento com defeito</td><td>Percebe a falha e avisa a chefia</td><td>Aviso por e-mail ou telefone</td><td>E-mail e telefone</td><td>Equipamento parado ou com falha</td><td>Até a chefia ver o aviso</td><td>A medir</td><td>Pouco</td></tr><tr><td>Verificar o contrato</td><td>Chefia da unidade</td><td>Aviso do defeito</td><td>Procura se o equipamento tem contrato de manutenção vigente</td><td>Com ou sem contrato</td><td>Pastas e PDFs de contratos</td><td>Contrato vigente aciona o fornecedor</td><td>Busca de documentos</td><td>A medir</td><td>Sim, com regra clara</td></tr><tr><td>Providenciar a manutenção</td><td>Chefia da unidade</td><td>Situação do contrato</td><td>Aciona o fornecedor ou pede orçamento e abre a contratação</td><td>Manutenção solicitada</td><td>E-mail e processo de contratação</td><td>Sem contrato: orçamento e contratação</td><td>Orçamento e contratação</td><td>A medir</td><td>Pouco</td></tr><tr><td>Executar a manutenção</td><td>Fornecedor</td><td>Solicitação</td><td>Conserta ou substitui o equipamento</td><td>Equipamento operando e comprovante</td><td>Externo</td><td>Prazo do contrato, quando houver</td><td>Agenda do fornecedor</td><td>A medir</td><td>Não</td></tr><tr><td>Arquivar o comprovante</td><td>Chefia da unidade</td><td>Comprovante de manutenção</td><td>Guarda o comprovante em papel ou PDF</td><td>Comprovante arquivado</td><td>Pasta física ou digital</td><td>Guardar o comprovante</td><td>Não identificado</td><td>A medir</td><td>Sim, com apoio humano</td></tr><tr><td>Consolidar o impacto</td><td>Coordenadoria de qualidade</td><td>Informações das unidades</td><td>Tenta reunir equipamentos, paradas e custos numa planilha</td><td>Planilha parcial</td><td>Planilha</td><td>Sem regra definida</td><td>Retorno das unidades</td><td>A medir</td><td>Sim, com regra clara</td></tr></tbody></table></div>
+</section>
+
+<section id="tobe"><h2>TO-BE · o processo com o MVP</h2>
+  <p class="sub">O que muda em cada etapa, quem passa a fazer e o ganho esperado. Fonte: tabela TO-BE do projeto.</p>
+  <div class="figura"><img src="docs/diagramas/to-be.svg" alt="Fluxograma TO-BE"><p class="sub">Fluxograma TO-BE · verde: máquina (automação local); azul: pessoa (fé pública). <a href="docs/diagramas/processo.md">Fonte Mermaid</a>.</p></div>
+  <div class="kpis"><div class="kpi"><b>7</b><span>etapas no novo fluxo</span></div>
+    <div class="kpi"><b>0</b><span>etapas a menos</span></div>
+    <div class="kpi"><b>3</b><span>etapas que saem do trabalho manual</span></div></div>
+  <div class="caixa verde"><b>Mudança central:</b> O cadastro dos equipamentos, contratos, manutenções e paradas passa a ficar numa base única, e o app calcula o risco e o custo de parada. Por isso, a decisão de contratar manutenção passa a ter número.</div>
+  <p>Quando o app existir, a coordenadoria vê no mapa de MT cada equipamento da POLITEC, sabe quais estão sem contrato e quanto custa, por dia, a parada de cada um, por unidade e por diretoria.</p>
+  <ul class="lista"><li><b>Cadastrar equipamentos e contratos</b><br>Base única com fotos, contrato e criticidade<br><span class="tag ok">A pessoa assistida pela máquina</span><span class="tag">Saber o que existe e onde</span></li><li><b>Registrar a parada</b><br>A unidade abre e fecha a parada no app<br><span class="tag ok">A pessoa assistida pela máquina</span><span class="tag">Histórico de paradas</span></li><li><b>Calcular risco e custo de parada</b><br>O app calcula por equipamento, unidade e diretoria<br><span class="tag ok">A máquina (automação)</span><span class="tag">Decisão com número</span></li><li><b>Alertar contratos a vencer</b><br>Aviso 60 dias antes do fim<br><span class="tag ok">A máquina (automação)</span><span class="tag">Nenhum contrato vence sem aviso</span></li><li><b>Consolidar as unidades</b><br>A coordenadoria importa os arquivos e o app mescla<br><span class="tag ok">A pessoa assistida pela máquina</span><span class="tag">Visão do estado</span></li><li><b>Ver no mapa e no Google Earth</b><br>Mapa offline e exportação .kmz<br><span class="tag ok">A máquina (automação)</span><span class="tag">Localização de cada equipamento</span></li><li><b>Decidir a contratação</b><br>A chefia decide com o relatório de exposição<br><span class="tag ok">A pessoa, sem mudança</span><span class="tag">Prioridade pelo custo</span></li></ul>
+  <div class="tabela"><table><thead><tr><th>Etapa</th><th>O que muda</th><th>Quem faz</th><th>Benefício</th><th>Esforço</th></tr></thead><tbody><tr><td>Cadastrar equipamentos e contratos</td><td>Base única com fotos, contrato e criticidade</td><td>A pessoa assistida pela máquina</td><td>Saber o que existe e onde</td><td>Médio</td></tr><tr><td>Registrar a parada</td><td>A unidade abre e fecha a parada no app</td><td>A pessoa assistida pela máquina</td><td>Histórico de paradas</td><td>Baixo</td></tr><tr><td>Calcular risco e custo de parada</td><td>O app calcula por equipamento, unidade e diretoria</td><td>A máquina (automação)</td><td>Decisão com número</td><td>Médio</td></tr><tr><td>Alertar contratos a vencer</td><td>Aviso 60 dias antes do fim</td><td>A máquina (automação)</td><td>Nenhum contrato vence sem aviso</td><td>Baixo</td></tr><tr><td>Consolidar as unidades</td><td>A coordenadoria importa os arquivos e o app mescla</td><td>A pessoa assistida pela máquina</td><td>Visão do estado</td><td>Médio</td></tr><tr><td>Ver no mapa e no Google Earth</td><td>Mapa offline e exportação .kmz</td><td>A máquina (automação)</td><td>Localização de cada equipamento</td><td>Médio</td></tr><tr><td>Decidir a contratação</td><td>A chefia decide com o relatório de exposição</td><td>A pessoa, sem mudança</td><td>Prioridade pelo custo</td><td>Baixo</td></tr></tbody></table></div>
+  <div class="caixa alerta"><b>Leitura crítica:</b> A lista agora pagina; o mapa é estático, sem zoom e sem arrastar.</div>
+</section>
+
+<section id="mvp"><h2>O que o MVP entrega</h2>
+  <p><b>Tela-assinatura:</b> Mapa de MT em SVG com os pinos das unidades.</p>
+  <p class="sub">Menu do MVP: <span class="tag">Mapa</span><span class="tag">Painel</span><span class="tag">Equipamentos</span><span class="tag">Unidades</span><span class="tag">Contratos</span><span class="tag">Paradas</span><span class="tag">Importar</span><span class="tag">Exportar</span><span class="tag">Configuração</span></p>
+  <div class="mvp-tabelas"><div><h3>Regras de negócio</h3><div class="tabela"><table><thead><tr><th>ID</th><th>Regra</th><th>Quando</th><th>Tipo</th><th>Exceção</th></tr></thead><tbody><tr><td><code>RN01</code></td><td>Ponto único de falha: criticidade maior ou igual a 4 e sem equipamento igual na unidade</td><td>No cálculo do risco</td><td>Cálculo</td><td>Nenhuma</td></tr><tr><td><code>RN02</code></td><td>Custo diário de parada = atendimentos perdidos por dia × valor de referência + custo alternativo por dia</td><td>Ao registrar a parada</td><td>Cálculo</td><td>Sem números da parada: usa os da unidade</td></tr><tr><td><code>RN03</code></td><td>Custo da parada = custo diário × dias úteis parados; parada aberta conta até hoje</td><td>No painel e na ficha</td><td>Cálculo</td><td>Nenhuma</td></tr><tr><td><code>RN04</code></td><td>Risco = criticidade × 2 (se sem contrato) × 2 (se ponto único de falha)</td><td>No mapa e no painel</td><td>Cálculo</td><td>Nenhuma</td></tr><tr><td><code>RN05</code></td><td>Contrato vigente quando início ≤ hoje ≤ fim; alerta 60 dias antes do fim</td><td>Diariamente ao abrir o app</td><td>Negócio</td><td>Nenhuma</td></tr><tr><td><code>RN06</code></td><td>MTTR = média de conclusão − abertura das manutenções corretivas</td><td>No painel</td><td>Cálculo</td><td>Nenhuma</td></tr><tr><td><code>RN07</code></td><td>Disponibilidade = 1 − horas paradas ÷ horas úteis do período</td><td>No painel</td><td>Cálculo</td><td>Nenhuma</td></tr><tr><td><code>RN08</code></td><td>Coordenada fora do contorno de MT é recusada</td><td>No cadastro da unidade</td><td>Validação</td><td>Nenhuma</td></tr><tr><td><code>RN09</code></td><td>Não registrar CPF nem nome de pessoa; o responsável é o cargo ou a matrícula</td><td>Em todos os cadastros</td><td>LGPD</td><td>Nenhuma</td></tr><tr><td><code>RN10</code></td><td>Na consolidação, vence o registro com a alteração mais recente; conflito no mesmo minuto vai para revisão</td><td>Na importação dos arquivos das unidades</td><td>Negócio</td><td>Revisão manual</td></tr></tbody></table></div></div>
+    <div><h3>Papéis</h3><div class="tabela"><table><thead><tr><th>Papel</th><th>Quem é</th><th>O que vê</th><th>O que faz</th><th>O que não faz</th><th>Registro</th></tr></thead><tbody><tr><td><b>Coordenadoria de qualidade</b></td><td>Equipe do aluno</td><td>Todas as unidades, o mapa e o painel</td><td>Consolida os arquivos, define os parâmetros de custo, exporta .kmz e relatório</td><td>Registrar CPF ou nome de pessoa</td><td>Importações, parâmetros e exportações</td></tr><tr><td><b>Unidade</b></td><td>Chefe ou responsável técnico da unidade</td><td>Os equipamentos da própria unidade</td><td>Cadastra equipamentos e fotos, registra paradas e manutenções, exporta o .json</td><td>Alterar dados de outra unidade</td><td>Cadastros e paradas com data e cargo</td></tr><tr><td><b>Diretoria</b></td><td>Diretor</td><td>O painel consolidado e o relatório impresso</td><td>Consulta a exposição e prioriza contratações</td><td>Editar cadastros</td><td>Nenhum (só leitura)</td></tr></tbody></table></div></div></div>
+  <h3>Métricas do piloto</h3><div class="metricas"><div class="metrica"><b>Equipamentos sem contrato</b><span class="base">Quantos equipamentos estão sem cobertura?</span><div class="base">Base: A medir no Sprint 0</div><div class="esperado">Esperado: Todos identificados no piloto</div><div class="base">Fonte: Equipamentos e contratos</div></div><div class="metrica"><b>Exposição diária</b><span class="base">Quanto a POLITEC perde por dia se os críticos sem contrato pararem?</span><div class="base">Base: Não existe hoje</div><div class="esperado">Esperado: Calculada para as 3 unidades</div><div class="base">Fonte: Equipamentos, contratos e parâmetros</div></div><div class="metrica"><b>Custo de parada no período</b><span class="base">Quanto custaram as paradas?</span><div class="base">Base: Não existe hoje</div><div class="esperado">Esperado: Registrado em 100% das paradas do piloto</div><div class="base">Fonte: Paradas</div></div><div class="metrica"><b>Tempo para responder o custo de uma parada</b><span class="base">Quanto tempo leva para saber quanto custa uma parada?</span><div class="base">Base: A medir no Sprint 0</div><div class="esperado">Esperado: Menos de 5 minutos</div><div class="base">Fonte: Cronômetro</div></div></div>
+</section>
+
+<section id="teste"><h2>Como testar</h2>
+  <p class="sub">O MVP é um `index.html` offline, com dados fictícios. Abra <a href="index.html">index.html</a>.</p>
+  <pre>cd Apps/equipamentos-google-earth
+python construir.py
+python testes/testar.py
+python testes/cenarios.py
+python testes/jornada.py
+
+# Lightpanda (via WSL, CDP em 9222 e HTTP em 8000)
+python testes/jornada.py --cdp http://127.0.0.1:9222 --base http://127.0.0.1:8000</pre>
+  <p class="sub">Documentos: <a href="PROJETO.md">PROJETO.md</a> · <a href="sprint.md">sprint.md</a> · <a href="README.md">README.md</a></p>
+</section>
+</main>
+<footer class="rodape">Gerado a partir de <code>projeto.json</code> e <code>app.json</code> · POLITEC/MT · Visão geral dos equipamentos no estado com Google Earth</footer>
+</body></html>

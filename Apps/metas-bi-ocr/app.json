@@ -94,6 +94,10 @@
     [
       "seed",
       "exemplos/seed.json"
+    ],
+    [
+      "exemplo",
+      "exemplos/exemplo-mes.json"
     ]
   ]
 }

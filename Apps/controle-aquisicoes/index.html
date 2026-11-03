@@ -1487,7 +1487,7 @@ TELAS["#/processo/:id"] = async ({id})=>{
     <div class="card tabela-wrap"><h2 style="margin-top:0">Documentos (${docs.length})</h2><table><tr><th>Tipo</th><th>Nome</th><th>Data</th></tr>
       ${docs.map(d=>`<tr><td>${esc(d.tipo_documento)}</td><td>${esc(d.nome || "—")}</td><td>${dataCurtaBR(d.data)}</td></tr>`).join("") || '<tr><td colspan="3" class="vazio">Nenhum documento.</td></tr>'}</table></div>
     ${pode ? `<form class="card" id="formCaPend"><h2 style="margin-top:0">Registrar pendência</h2>${campo("caMotivo", "Motivo", {tipo: "select", opcoes: [["", "Escolha"], ...CA_ATRAS.map(x=>[x, x])]})}
-      <div id="caErrosPend"></div><div class="linha-botoes"><button id="btnCaPend">Abrir pendência</button><button class="prim" type="button" id="btnCaAvancar">Concluir a etapa ${esc(p.etapa)}</button></div></form>` : ""}
+      <div id="caErrosPend"></div><div class="linha-botoes"><button type="button" id="btnCaPend">Abrir pendência</button><button class="prim" type="button" id="btnCaAvancar">Concluir a etapa ${esc(p.etapa)}</button></div></form>` : ""}
     <div class="card tabela-wrap"><h2 style="margin-top:0">Pendências</h2><table><tr><th>Motivo</th><th>Aberta em</th><th>Situação</th></tr>
       ${pends.map(x=>`<tr><td>${esc(x.motivo)}</td><td>${dataCurtaBR(x.aberta_em)}</td><td>${x.resolvida_em ? "resolvida em " + dataCurtaBR(x.resolvida_em) : '<span class="selo erro">aberta</span>'}</td></tr>`).join("") || '<tr><td colspan="3" class="vazio">Nenhuma pendência.</td></tr>'}</table></div>
     <div class="card tabela-wrap"><h2 style="margin-top:0">Histórico</h2><table id="caHistorico"><tr><th>Data e hora</th><th>Ação</th></tr>

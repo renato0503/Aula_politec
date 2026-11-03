@@ -89,3 +89,9 @@ filtros em uma linha com busca, grupo, unidade, situação e ordenação, e a
 alternância entre **cartões** e **tabela**. O perfil Gerente e o Usuário
 setorial têm o seletor de **unidade** no menu do perfil, e a vitrine já abre
 filtrada por ela. Código em `src/identidade.js` e `src/app.css`.
+
+## Mapa do processo
+
+O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o
+**TO-BE** (como fica com o MVP), com as métricas, regras e papéis do projeto.
+Abra ao lado do `index.html`.

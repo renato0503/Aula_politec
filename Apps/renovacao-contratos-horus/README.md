@@ -64,3 +64,9 @@ semáforo virou uma **barra empilhada** em que cada faixa filtra a lista. O perf
 Fiscal ganhou a caixa “Meus contratos”, que usa o nome informado no próprio
 painel. A ficha virou abas: Resumo, Aditivos, Instrução, Ajustes, Fiscais e
 Auditoria. Código em `src/identidade.js` e `src/app.css`.
+
+## Mapa do processo
+
+O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o
+**TO-BE** (como fica com o MVP), com as métricas, regras e papéis do projeto.
+Abra ao lado do `index.html`.

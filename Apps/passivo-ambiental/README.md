@@ -63,3 +63,9 @@ prazo em dias e a **miniatura do mapa** de cada requisição; o painel do gestor
 Conclusão e Assinatura. O seed passou a usar datas relativas a hoje, com duas
 requisições atrasadas e as demais dentro do prazo. Código em `src/identidade.js`
 e `src/app.css`.
+
+## Mapa do processo
+
+O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o
+**TO-BE** (como fica com o MVP), com as métricas, regras e papéis do projeto.
+Abra ao lado do `index.html`.

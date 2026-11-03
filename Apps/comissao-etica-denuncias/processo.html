@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AS-IS e TO-BE · Classificação da denúncia</title>
+<style>
+:root{--acento:#12487f;--tinta:#17212b;--tinta2:#5b6672;--papel:#fff;--fundo:#f2f4f7;--linha:#dce1e8;--suave:#eef3fa;--verde:#127a45;--ambar:#a35f00;--vermelho:#b42318}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fundo);color:var(--tinta);font-family:system-ui,'Segoe UI',sans-serif;line-height:1.55}
+a{color:var(--acento)}
+.capa{background:linear-gradient(135deg,var(--acento),color-mix(in srgb,var(--acento) 62%,#0a1b2b));color:#fff;padding:42px 24px 30px}
+.capa .in{max-width:1120px;margin:auto}
+.capa .selo{display:inline-block;border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:4px 12px;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.capa h1{font-size:clamp(26px,4vw,42px);margin:14px 0 8px;line-height:1.15}
+.capa p{margin:0;max-width:820px;color:rgba(255,255,255,.86)}
+.capa .meta{margin-top:14px;font-size:13px;color:rgba(255,255,255,.72)}
+.capa nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.capa nav a{border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:8px 14px;color:#fff;text-decoration:none;font-size:13px}
+.capa nav a.prim{background:#fff;color:var(--acento);border-color:#fff;font-weight:700}
+main{max-width:1120px;margin:0 auto;padding:28px 24px 60px}
+section{background:var(--papel);border:1px solid var(--linha);border-radius:14px;padding:24px;margin:20px 0;box-shadow:0 1px 0 var(--linha)}
+section h2{margin:0 0 6px;font-size:23px}
+section h3{margin:20px 0 8px;font-size:16px}
+.sub{color:var(--tinta2);font-size:13.5px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}
+.kpi{background:var(--suave);border:1px solid var(--linha);border-radius:10px;padding:12px}
+.kpi b{display:block;font-size:26px;line-height:1.1;color:var(--acento)}
+.kpi span{font-size:12.5px;color:var(--tinta2)}
+.figura{margin:14px 0 4px;text-align:center}
+.figura img{display:block;width:100%;max-width:360px;height:auto;margin:0 auto;border:1px solid var(--linha);border-radius:10px;background:#fff}
+.figura .sub{max-width:760px;margin:6px auto 0}
+.fluxo{display:flex;gap:8px;overflow-x:auto;padding:6px 2px 12px}
+.fluxo .passo{flex:0 0 190px;background:var(--papel);border:1px solid var(--linha);border-top:4px solid var(--acento);border-radius:10px;padding:12px}
+.fluxo .passo .n{font-size:11px;color:var(--tinta2);letter-spacing:.08em;text-transform:uppercase}
+.fluxo .passo b{display:block;margin:3px 0 5px;font-size:14px}
+.fluxo .passo small{color:var(--tinta2);font-size:12px}
+.fluxo .seta{align-self:center;color:var(--tinta2);font-size:18px}
+.tabela{width:100%;max-width:100%;min-width:0;overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{border-bottom:1px solid var(--linha);padding:8px 9px;text-align:left;vertical-align:top}
+th{background:var(--suave);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--tinta2);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.duas{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mvp-tabelas{display:grid;gap:16px}
+.mvp-tabelas > *{min-width:0}
+.duas > *{min-width:0}
+@media(max-width:800px){.duas{grid-template-columns:1fr}}
+.caixa{border-left:4px solid var(--acento);background:var(--suave);border-radius:0 10px 10px 0;padding:12px 14px;margin:12px 0}
+.caixa.alerta{border-left-color:var(--ambar);background:#fdf6e8}
+.caixa.verde{border-left-color:var(--verde);background:#eef8f2}
+.tag{display:inline-block;border:1px solid var(--linha);border-radius:999px;padding:2px 9px;font-size:11.5px;color:var(--tinta2);margin:2px 4px 2px 0}
+.tag.ok{border-color:var(--verde);color:var(--verde)}
+.tag.auto{border-color:var(--acento);color:var(--acento)}
+.lista{display:grid;gap:8px;margin:10px 0;padding:0;list-style:none}
+.lista li{padding:10px 12px;border:1px solid var(--linha);border-radius:9px;background:#fff}
+.lista b{color:var(--acento)}
+.metricas{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.metrica{border:1px solid var(--linha);border-radius:10px;padding:12px}
+.metrica b{display:block;font-size:14px;margin-bottom:2px}
+.metrica .base{color:var(--tinta2);font-size:12px}
+.metrica .esperado{color:var(--verde);font-size:12px;font-weight:700}
+.rodape{max-width:1120px;margin:0 auto;padding:0 24px 40px;color:var(--tinta2);font-size:12px}
+code{font-family:Consolas,monospace;background:var(--suave);padding:1px 5px;border-radius:4px}
+pre{background:#111a24;color:#e8eef6;border-radius:10px;padding:14px;overflow:auto;font-size:12.5px}
+@media print{body{background:#fff}.capa{background:#fff;color:#000;border-bottom:2px solid #000}.capa a{color:#000}.capa .selo{border-color:#000}section{box-shadow:none;break-inside:avoid}nav{display:none}}
+
+body{font-family:Georgia, Cambria, serif}
+:root{--acento:#8a1c3a}
+</style></head><body>
+<header class="capa"><div class="in">
+  <span class="selo">MVP · comissao-etica-denuncias</span>
+  <h1>Classificação da denúncia</h1>
+  <p>Uso de IA para agilizar a classificação da denúncia recebida, seguindo o Código de Ética Funcional do Servidor Público Civil do Estado de Mato Grosso</p>
+  <div class="meta">Letícia e Thiago · Comissão de Ética · 2026-10-27 · Comissão de Ética</div>
+  <nav><a href="#asis">Antes · AS-IS</a><a href="#tobe">Depois · TO-BE</a><a href="#mvp">O MVP</a><a class="prim" href="index.html">Abrir o MVP →</a></nav>
+</div></header>
+<main>
+<section id="problema"><h2>O problema</h2><p>Morosidade na análise da denúncia e recomendações, que é feita em reunião com a comissão</p>
+  <div class="duas"><div class="caixa alerta"><b>Como é hoje</b><br>Após o recebimento de denúncia, é realizado agendamento de reunião com a comissão, que depende da disponibilidade dos membros, quando realizada reunião é feita a análise do teor da denúncia para verificação se a mesma será acatada, caso infrinja o código de ética. O processo de classificação é feito nessa reunião, após a classificação são realizadas oitivas para averiguação dos fatos. Após ouvir as partes envolvidas, as recomendações são elaboradas e enviadas aos envolvidos, encerrando o processo.  </div>
+  <div class="caixa"><b>Impacto</b><br>A dificuldade de conciliar agenda dos membros, e tempo de duração da reunião em média 1 hora por denúncia com a comissão e 1 hora por oitiva. O tempo demandado é o principal gargalo, uma vez que existe acúmulo de funções, pois os membros todos desenvolvem outras atividades. </div></div></section>
+
+<section id="asis"><h2>AS-IS · o processo antes do MVP</h2>
+  <p class="sub">O caminho real, com quem faz, o que entra, onde espera e o que é automatizável. Fonte: tabela AS-IS do projeto.</p>
+  <div class="figura"><img src="docs/diagramas/as-is.svg" alt="Fluxograma AS-IS"><p class="sub">Fluxograma AS-IS · amarelo: etapa manual; tracejado: ponto de espera. Os números correspondem à tabela. <a href="docs/diagramas/processo.md">Fonte Mermaid</a>.</p></div>
+  <div class="kpis"><div class="kpi"><b>4</b><span>etapas</span></div>
+    <div class="kpi"><b>10</b><span>tempo declarado (h)</span></div>
+    <div class="kpi"><b>4</b><span>pontos de espera</span></div>
+    <div class="kpi"><b>3</b><span>etapas automatizáveis</span></div></div>
+  <div class="fluxo"><div class="passo"><span class="n">1</span><b>Recebimento denúncia</b><small>Presidente</small></div><span class="seta">→</span><div class="passo"><span class="n">2</span><b>Reunião</b><small>Todos membros</small></div><span class="seta">→</span><div class="passo"><span class="n">3</span><b>Oitivas</b><small>Tríade</small></div><span class="seta">→</span><div class="passo"><span class="n">4</span><b>Reunião Tríade</b><small>Tríade</small></div></div>
+  <div class="tabela"><table><thead><tr><th>Etapa</th><th>Quem faz</th><th>Entra</th><th>Ação</th><th>Sai</th><th>Sistema</th><th>Regra</th><th>Onde espera</th><th>Tempo</th><th>Automatizável</th></tr></thead><tbody><tr><td>Recebimento denúncia</td><td>Presidente</td><td>Denúncia</td><td>leitura e-mail</td><td>registro da ocorrência</td><td>E-mail</td><td> agendamento de reunião</td><td>e-mail</td><td>2</td><td>Sim, com apoio humano</td></tr><tr><td>Reunião</td><td>Todos membros</td><td>Denúncia (s)</td><td>Deliberação, formação de tríade</td><td>Ata de reunião</td><td>Reunião presencial e Sigadoc</td><td>Classificação</td><td>pasta compartilhada</td><td>2</td><td>Sim, com apoio humano</td></tr><tr><td>Oitivas</td><td>Tríade</td><td>Ata de reunião</td><td>Escuta</td><td>Ata da oitiva</td><td>Presencial e Sigadoc</td><td>Consolidação</td><td>pasta compartilhada</td><td>4</td><td>Sim, com apoio humano</td></tr><tr><td>Reunião Tríade</td><td>Tríade</td><td>Relatório de consolidação</td><td>Deliberação</td><td>Relatório de Recomendações</td><td>Reunião e Sigadoc</td><td>Recomendações</td><td>pasta compartilhada</td><td>2</td><td>Não</td></tr></tbody></table></div>
+</section>
+
+<section id="tobe"><h2>TO-BE · o processo com o MVP</h2>
+  <p class="sub">O que muda em cada etapa, quem passa a fazer e o ganho esperado. Fonte: tabela TO-BE do projeto.</p>
+  <div class="figura"><img src="docs/diagramas/to-be.svg" alt="Fluxograma TO-BE"><p class="sub">Fluxograma TO-BE · verde: máquina (automação local); azul: pessoa (fé pública). <a href="docs/diagramas/processo.md">Fonte Mermaid</a>.</p></div>
+  <div class="kpis"><div class="kpi"><b>12</b><span>etapas no novo fluxo</span></div>
+    <div class="kpi"><b>0</b><span>etapas a menos</span></div>
+    <div class="kpi"><b>3</b><span>etapas que saem do trabalho manual</span></div></div>
+  <div class="caixa verde"><b>Mudança central:</b> O controle manual das denúncias, dos documentos, dos prazos e dos encaminhamentos será substituído por um sistema que organize o fluxo processual, automatize tarefas administrativas repetitivas, emita notificações e gere registros e documentos padronizados. A inteligência artificial (IA) poderá auxiliar na classificação inicial das denúncias, na identificação de elementos relevantes e na elaboração de roteiros personalizados para as oitivas, com base nos fatos relatados e nos objetivos da apuração ética. A análise de admissibilidade, a avaliação dos fatos e as deliberações permanecerão sob responsabilidade da Comissão de Ética, cabendo aos seus membros revisar e validar os conteúdos gerados pela IA, de modo a assegurar a imparcialidade, o sigilo e a observância das normas aplicáveis.</div>
+  <p>Quando o processo da Comissão de Ética for automatizado, os integrantes deixarão de depender de controles manuais, documentos dispersos e acompanhamento individual de prazos e passarão a utilizar um sistema centralizado para gerenciar as denúncias, acompanhar as etapas e registrar as deliberações com segurança e rastreabilidade.</p>
+  <ul class="lista"><li><b>Recebimento e registro da denúncia</b><br>O sistema registra a manifestação, gera protocolo e organiza os documentos anexados.<br><span class="tag ok">A máquina (automação)</span><span class="tag">Padronização e redução de registros manuais.</span></li><li><b>Classificação inicial da denúncia</b><br>A IA analisa as informações apresentadas e sugere categorias, temas e elementos relevantes para subsidiar a triagem.<br><span class="tag ok">A pessoa assistida pela máquina</span><span class="tag">Agilidade na triagem e melhor organização das informações.</span></li><li><b>Análise de admissibilidade</b><br>A Comissão avalia a denúncia e delibera sobre seu acolhimento ou não, registrando a decisão no sistema.<br><span class="tag ok">A pessoa, sem mudança</span><span class="tag">Decisão fundamentada e preservação da competência institucional.</span></li><li><b>Comunicação da decisão de admissibilidade</b><br>O sistema gera a minuta da comunicação com base na decisão registrada, para revisão e envio conforme as permissões estabelecidas.<br><span class="tag ok">A pessoa assistida pela máquina</span><span class="tag">Padronização e agilidade nas comunicações.</span></li><li><b>Distribuição e acompanhamento do caso</b><br>O sistema registra os responsáveis, controla as etapas e os prazos e emite alertas de pendências.<br><span class="tag ok">A máquina (automação)</span><span class="tag">Melhor controle dos prazos e das responsabilidades.</span></li><li><b>Preparação das oitivas</b><br>A IA utiliza as informações do caso para sugerir roteiros de perguntas individualizados, sujeitos à revisão e ao ajuste pelos membros responsáveis.<br><span class="tag ok">A pessoa assistida pela máquina</span><span class="tag">Redução do tempo de preparação e maior direcionamento das oitivas.</span></li><li><b>Realização e registro das oitivas</b><br>Os membros conduzem as oitivas, registram as declarações e organizam os documentos correspondentes no sistema.<br><span class="tag ok">A pessoa, sem mudança</span><span class="tag">Organização dos registros e facilidade de consulta autorizada.</span></li><li><b>Análise dos fatos e deliberação</b><br>Os membros analisam as informações e os documentos, discutem o caso e registram as deliberações colegiadas.<br><span class="tag ok">A pessoa, sem mudança</span><span class="tag">Maior rastreabilidade e segurança dos registros decisórios.</span></li><li><b>Elaboração de parecer ou orientação</b><br>O sistema disponibiliza modelos padronizados e poderá utilizar IA para auxiliar na elaboração de minutas, sujeitas à revisão e validação dos membros.<br><span class="tag ok">A pessoa assistida pela máquina</span><span class="tag">Redução do tempo de elaboração e padronização documental.</span></li><li><b>Comunicação dos encaminhamentos</b><br>O sistema prepara as comunicações decorrentes das deliberações e registra seu envio aos destinatários autorizados.<br><span class="tag ok">A pessoa assistida pela máquina</span><span class="tag">Agilidade e comprovação dos encaminhamentos.</span></li><li><b>Encerramento e arquivamento</b><br>O sistema verifica os campos obrigatórios, registra o encerramento e organiza os documentos e o histórico do caso.<br><span class="tag ok">A máquina (automação)</span><span class="tag">Integridade documental e rastreabilidade.</span></li><li><b>Geração de relatórios gerenciais</b><br>O sistema consolida dados sobre denúncias recebidas, classificação, etapas, prazos e encerramentos, preservando as informações pessoais.<br><span class="tag ok">A máquina (automação)</span><span class="tag">Apoio à gestão e identificação de gargalos.</span></li></ul>
+  <div class="tabela"><table><thead><tr><th>Etapa</th><th>O que muda</th><th>Quem faz</th><th>Benefício</th><th>Esforço</th></tr></thead><tbody><tr><td>Recebimento e registro da denúncia</td><td>O sistema registra a manifestação, gera protocolo e organiza os documentos anexados.</td><td>A máquina (automação)</td><td>Padronização e redução de registros manuais.</td><td>Médio</td></tr><tr><td>Classificação inicial da denúncia</td><td>A IA analisa as informações apresentadas e sugere categorias, temas e elementos relevantes para subsidiar a triagem.</td><td>A pessoa assistida pela máquina</td><td>Agilidade na triagem e melhor organização das informações.</td><td>Alto</td></tr><tr><td>Análise de admissibilidade</td><td>A Comissão avalia a denúncia e delibera sobre seu acolhimento ou não, registrando a decisão no sistema.</td><td>A pessoa, sem mudança</td><td>Decisão fundamentada e preservação da competência institucional.</td><td>Médio</td></tr><tr><td>Comunicação da decisão de admissibilidade</td><td>O sistema gera a minuta da comunicação com base na decisão registrada, para revisão e envio conforme as permissões estabelecidas.</td><td>A pessoa assistida pela máquina</td><td>Padronização e agilidade nas comunicações.</td><td>Baixo</td></tr><tr><td>Distribuição e acompanhamento do caso</td><td>O sistema registra os responsáveis, controla as etapas e os prazos e emite alertas de pendências.</td><td>A máquina (automação)</td><td>Melhor controle dos prazos e das responsabilidades.</td><td>Médio</td></tr><tr><td>Preparação das oitivas</td><td>A IA utiliza as informações do caso para sugerir roteiros de perguntas individualizados, sujeitos à revisão e ao ajuste pelos membros responsáveis.</td><td>A pessoa assistida pela máquina</td><td>Redução do tempo de preparação e maior direcionamento das oitivas.</td><td>Alto</td></tr><tr><td>Realização e registro das oitivas</td><td>Os membros conduzem as oitivas, registram as declarações e organizam os documentos correspondentes no sistema.</td><td>A pessoa, sem mudança</td><td>Organização dos registros e facilidade de consulta autorizada.</td><td>Médio</td></tr><tr><td>Análise dos fatos e deliberação</td><td>Os membros analisam as informações e os documentos, discutem o caso e registram as deliberações colegiadas.</td><td>A pessoa, sem mudança</td><td>Maior rastreabilidade e segurança dos registros decisórios.</td><td>Alto</td></tr><tr><td>Elaboração de parecer ou orientação</td><td>O sistema disponibiliza modelos padronizados e poderá utilizar IA para auxiliar na elaboração de minutas, sujeitas à revisão e validação dos membros.</td><td>A pessoa assistida pela máquina</td><td>Redução do tempo de elaboração e padronização documental.</td><td>Alto</td></tr><tr><td>Comunicação dos encaminhamentos</td><td>O sistema prepara as comunicações decorrentes das deliberações e registra seu envio aos destinatários autorizados.</td><td>A pessoa assistida pela máquina</td><td>Agilidade e comprovação dos encaminhamentos.</td><td>Médio</td></tr><tr><td>Encerramento e arquivamento</td><td>O sistema verifica os campos obrigatórios, registra o encerramento e organiza os documentos e o histórico do caso.</td><td>A máquina (automação)</td><td>Integridade documental e rastreabilidade.</td><td>Médio</td></tr><tr><td>Geração de relatórios gerenciais</td><td>O sistema consolida dados sobre denúncias recebidas, classificação, etapas, prazos e encerramentos, preservando as informações pessoais.</td><td>A máquina (automação)</td><td>Apoio à gestão e identificação de gargalos.</td><td>Médio</td></tr></tbody></table></div>
+  <div class="caixa alerta"><b>Leitura crítica:</b> O funil tem 7 etapas e a barra do caso tem 6; os nomes não coincidem.</div>
+</section>
+
+<section id="mvp"><h2>O que o MVP entrega</h2>
+  <p><b>Tela-assinatura:</b> Funil do processo ético e dossiê Reservado.</p>
+  <p class="sub">Menu do MVP: <span class="tag">Painel</span><span class="tag">Nova denúncia</span><span class="tag">Relatório</span><span class="tag">Configuração</span></p>
+  <div class="mvp-tabelas"><div><h3>Regras de negócio</h3><div class="tabela"><table><thead><tr><th>ID</th><th>Regra</th><th>Quando</th><th>Tipo</th><th>Exceção</th></tr></thead><tbody><tr><td><code>RN01</code></td><td>O acesso ao processo e documentos é restrito conforme o perfil do usuário (Secretário, Presidente, Membros).</td><td>Ao tentar visualizar qualquer processo ou documento no sistema.</td><td>Acesso</td><td>Denunciante e denunciado acessam apenas minutas e comunicações formalmente liberadas pela Comissão.</td></tr><tr><td><code>RN02</code></td><td>As sugestões da IA (classificação e roteiros) têm caráter estritamente assistencial e exigem confirmação e revisão humana obrigatória.</td><td>Nas etapas de triagem inicial e preparação de oitivas.</td><td>Negócio</td><td>Nenhuma; o sistema não permite transição de etapa sem a validação formal do membro.</td></tr><tr><td><code>RN03</code></td><td>O processo só pode avançar para as fases de oitiva ou deliberação após o registro da Análise de Admissibilidade.</td><td>Na movimentação e transição das etapas processuais.</td><td>Validação</td><td>Caso a denúncia seja rejeitada liminarmente ou encaminhada para a Corregedoria.</td></tr><tr><td><code>RN04</code></td><td>Denúncia sem provas suficientes fica aguardando complemento do denunciante, com prazo</td><td>Na admissibilidade</td><td>Negócio</td><td>Prazo definido pela Comissão</td></tr><tr><td><code>RN05</code></td><td>Toda movimentação registra perfil, data, hora e justificativa</td><td>Em todas as etapas</td><td>Validação</td><td>Nenhuma</td></tr><tr><td><code>RN06</code></td><td>Relatório gerencial sem nomes nem relatos, só contagens e prazos</td><td>No relatório</td><td>LGPD</td><td>Nenhuma</td></tr></tbody></table></div></div>
+    <div><h3>Papéis</h3><div class="tabela"><table><thead><tr><th>Papel</th><th>Quem é</th><th>O que vê</th><th>O que faz</th><th>O que não faz</th><th>Registro</th></tr></thead><tbody><tr><td><b>Administrador do sistema</b></td><td>Servidor responsável pela configuração técnica da solução, se houver essa função específica.</td><td>Configurações, usuários, perfis e registros técnicos necessários à administração.</td><td>Gerencia acessos, configura perfis e mantém o funcionamento do sistema.</td><td>Alterar decisões da Comissão ou acessar o conteúdo sigiloso sem autorização funcional.</td><td>Alterações de configuração, concessões de acesso e registros técnicos.</td></tr><tr><td><b>Presidente da Comissão</b></td><td>Presidente formalmente designado.</td><td>Denúncias, documentos, tramitação, prazos e deliberações, conforme suas atribuições.</td><td>Coordena a análise de admissibilidade, convoca reuniões, distribui atividades e acompanha os processos.</td><td>Decidir isoladamente questões que dependam de deliberação colegiada ou alterar registros sem rastreabilidade.</td><td>Encaminhamentos, despachos, decisões e movimentações realizadas.</td></tr><tr><td><b>Membro da Comissão</b></td><td>Integrante formalmente designado.</td><td>Denúncias e documentos dos casos distribuídos ou submetidos à Comissão, conforme autorização.</td><td>Analisa os casos, participa das reuniões, realiza oitivas quando designado e contribui para pareceres e deliberações.</td><td>Acessar casos sem necessidade funcional, compartilhar informações sigilosas ou deliberar individualmente em matérias colegiadas.</td><td>Análises, manifestações, participação nas deliberações e atividades realizadas.</td></tr><tr><td><b>Secretário(a)-executivo(a)</b></td><td>Servidor responsável pelo apoio administrativo e documental.</td><td>Dados necessários à tramitação, documentos, prazos, agendas, atas e comunicações.</td><td>Registra denúncias, organiza documentos, agenda reuniões, elabora atas e acompanha prazos e encaminhamentos.</td><td>Alterar o conteúdo de decisões colegiadas, deliberar sobre admissibilidade ou divulgar informações sem autorização.</td><td>Protocolos, documentos inseridos, atas, notificações e movimentações processuais.</td></tr><tr><td><b>Denunciante</b></td><td>Servidor ou pessoa que apresenta uma denúncia à Comissão.</td><td>Dados da própria manifestação e informações sobre seu recebimento e andamento que possam ser disponibilizadas.</td><td>Registra a denúncia, apresenta informações e documentos e acompanha os retornos autorizados.</td><td>Acessar documentos sigilosos, dados pessoais de terceiros ou informações restritas sobre a tramitação.</td><td>Data do envio, conteúdo apresentado, documentos anexados e comunicações recebidas.</td></tr><tr><td><b>Denunciado(a)</b></td><td>Pessoa cuja conduta é objeto de análise ética.</td><td>Comunicações dirigidas a si e informações e documentos disponibilizados formalmente pela Comissão, conforme a fase e as regras aplicáveis.</td><td>Apresenta esclarecimentos, manifesta sua versão dos fatos e encaminha informações solicitadas.</td><td>Acessar irrestritamente os registros internos, dados de terceiros ou informações protegidas sem autorização.</td><td>Notificações, respostas, documentos apresentados e registros de ciência.</td></tr></tbody></table></div></div></div>
+  <h3>Métricas do piloto</h3><div class="metricas"><div class="metrica"><b>Tempo de triagem e classificação</b><span class="base">Quanto tempo a IA economiza na triagem inicial das denúncias?</span><div class="base">Base: 1 hora</div><div class="esperado">Esperado: 20 minutos</div><div class="base">Fonte: Planilha de denúncias recebidas</div></div><div class="metrica"><b>Tempo de preparação das oitivas</b><span class="base">Qual a redução no tempo de elaboração dos roteiros para oitivas com o apoio da IA?</span><div class="base">Base: 2 horas</div><div class="esperado">Esperado: 20 minutos</div><div class="base">Fonte: Atas das oitivas</div></div></div>
+</section>
+
+<section id="teste"><h2>Como testar</h2>
+  <p class="sub">O MVP é um `index.html` offline, com dados fictícios. Abra <a href="index.html">index.html</a>.</p>
+  <pre>cd Apps/comissao-etica-denuncias
+python construir.py
+python testes/testar.py
+python testes/cenarios.py
+python testes/jornada.py
+
+# Lightpanda (via WSL, CDP em 9222 e HTTP em 8000)
+python testes/jornada.py --cdp http://127.0.0.1:9222 --base http://127.0.0.1:8000</pre>
+  <p class="sub">Documentos: <a href="PROJETO.md">PROJETO.md</a> · <a href="sprint.md">sprint.md</a> · <a href="README.md">README.md</a></p>
+</section>
+</main>
+<footer class="rodape">Gerado a partir de <code>projeto.json</code> e <code>app.json</code> · POLITEC/MT · Classificação da denúncia</footer>
+</body></html>

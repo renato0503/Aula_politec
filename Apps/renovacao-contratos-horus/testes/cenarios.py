@@ -63,7 +63,8 @@ def semear(pg, url):
     pg.wait_for_timeout(300)
     pg.reload()
     pg.wait_for_function("() => typeof db !== 'undefined' && !!db.con", timeout=15000)
-    pg.wait_for_timeout(400)
+    esperar(pg, "async () => { try { await db.list('contratos'); return true; } catch (e) { return false; } }", 20)
+    pg.wait_for_timeout(300)
 
 # origem: sprint2.py
 @cenario
@@ -166,6 +167,7 @@ def s5_fiscais_e_trilha(pg, url, ok):
     pg.fill("#rcFisNome", "Fiscal Fictício Novo")
     pg.click("#btnRcFiscal")
     esperar(pg, "async id => (await db.porIndice('fiscais','contrato_id',id)).some(x=>!x.ate && x.nome === 'Fiscal Fictício Novo')", arg=cid)
+    pg.wait_for_function("() => document.querySelector('#rcFisNome')?.value === ''", timeout=10000)
     ok("o fiscal novo entra como atual", pg.evaluate("async id => { const f = await db.porIndice('fiscais','contrato_id',id); const atual = f.find(x=>!x.ate); return atual && atual.nome === 'Fiscal Fictício Novo'; }", cid))
     pg.fill("#rcFisNome", "Fiscal Fictício Substituto")
     pg.click("#btnRcFiscal")

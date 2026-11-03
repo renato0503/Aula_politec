@@ -98,3 +98,9 @@ barra de conferência. Na ficha, a **conferência por leitura** fica em campo
 focado: cada Enter marca o prontuário e avisa quando o número não está na
 relação; as abas são Prontuários, Conferência, Etiqueta e Histórico. Código em
 `src/identidade.js` e `src/app.css`.
+
+## Mapa do processo
+
+O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o
+**TO-BE** (como fica com o MVP), com as métricas, regras e papéis do projeto.
+Abra ao lado do `index.html`.

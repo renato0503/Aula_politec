@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AS-IS e TO-BE · Emissão 2via da CIN remoto</title>
+<style>
+:root{--acento:#12487f;--tinta:#17212b;--tinta2:#5b6672;--papel:#fff;--fundo:#f2f4f7;--linha:#dce1e8;--suave:#eef3fa;--verde:#127a45;--ambar:#a35f00;--vermelho:#b42318}
+*{box-sizing:border-box}
+body{margin:0;background:var(--fundo);color:var(--tinta);font-family:system-ui,'Segoe UI',sans-serif;line-height:1.55}
+a{color:var(--acento)}
+.capa{background:linear-gradient(135deg,var(--acento),color-mix(in srgb,var(--acento) 62%,#0a1b2b));color:#fff;padding:42px 24px 30px}
+.capa .in{max-width:1120px;margin:auto}
+.capa .selo{display:inline-block;border:1px solid rgba(255,255,255,.5);border-radius:999px;padding:4px 12px;font-size:12px;letter-spacing:.08em;text-transform:uppercase}
+.capa h1{font-size:clamp(26px,4vw,42px);margin:14px 0 8px;line-height:1.15}
+.capa p{margin:0;max-width:820px;color:rgba(255,255,255,.86)}
+.capa .meta{margin-top:14px;font-size:13px;color:rgba(255,255,255,.72)}
+.capa nav{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.capa nav a{border:1px solid rgba(255,255,255,.4);border-radius:999px;padding:8px 14px;color:#fff;text-decoration:none;font-size:13px}
+.capa nav a.prim{background:#fff;color:var(--acento);border-color:#fff;font-weight:700}
+main{max-width:1120px;margin:0 auto;padding:28px 24px 60px}
+section{background:var(--papel);border:1px solid var(--linha);border-radius:14px;padding:24px;margin:20px 0;box-shadow:0 1px 0 var(--linha)}
+section h2{margin:0 0 6px;font-size:23px}
+section h3{margin:20px 0 8px;font-size:16px}
+.sub{color:var(--tinta2);font-size:13.5px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:16px 0}
+.kpi{background:var(--suave);border:1px solid var(--linha);border-radius:10px;padding:12px}
+.kpi b{display:block;font-size:26px;line-height:1.1;color:var(--acento)}
+.kpi span{font-size:12.5px;color:var(--tinta2)}
+.figura{margin:14px 0 4px;text-align:center}
+.figura img{display:block;width:100%;max-width:360px;height:auto;margin:0 auto;border:1px solid var(--linha);border-radius:10px;background:#fff}
+.figura .sub{max-width:760px;margin:6px auto 0}
+.fluxo{display:flex;gap:8px;overflow-x:auto;padding:6px 2px 12px}
+.fluxo .passo{flex:0 0 190px;background:var(--papel);border:1px solid var(--linha);border-top:4px solid var(--acento);border-radius:10px;padding:12px}
+.fluxo .passo .n{font-size:11px;color:var(--tinta2);letter-spacing:.08em;text-transform:uppercase}
+.fluxo .passo b{display:block;margin:3px 0 5px;font-size:14px}
+.fluxo .passo small{color:var(--tinta2);font-size:12px}
+.fluxo .seta{align-self:center;color:var(--tinta2);font-size:18px}
+.tabela{width:100%;max-width:100%;min-width:0;overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{border-bottom:1px solid var(--linha);padding:8px 9px;text-align:left;vertical-align:top}
+th{background:var(--suave);font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--tinta2);white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.duas{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.mvp-tabelas{display:grid;gap:16px}
+.mvp-tabelas > *{min-width:0}
+.duas > *{min-width:0}
+@media(max-width:800px){.duas{grid-template-columns:1fr}}
+.caixa{border-left:4px solid var(--acento);background:var(--suave);border-radius:0 10px 10px 0;padding:12px 14px;margin:12px 0}
+.caixa.alerta{border-left-color:var(--ambar);background:#fdf6e8}
+.caixa.verde{border-left-color:var(--verde);background:#eef8f2}
+.tag{display:inline-block;border:1px solid var(--linha);border-radius:999px;padding:2px 9px;font-size:11.5px;color:var(--tinta2);margin:2px 4px 2px 0}
+.tag.ok{border-color:var(--verde);color:var(--verde)}
+.tag.auto{border-color:var(--acento);color:var(--acento)}
+.lista{display:grid;gap:8px;margin:10px 0;padding:0;list-style:none}
+.lista li{padding:10px 12px;border:1px solid var(--linha);border-radius:9px;background:#fff}
+.lista b{color:var(--acento)}
+.metricas{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+.metrica{border:1px solid var(--linha);border-radius:10px;padding:12px}
+.metrica b{display:block;font-size:14px;margin-bottom:2px}
+.metrica .base{color:var(--tinta2);font-size:12px}
+.metrica .esperado{color:var(--verde);font-size:12px;font-weight:700}
+.rodape{max-width:1120px;margin:0 auto;padding:0 24px 40px;color:var(--tinta2);font-size:12px}
+code{font-family:Consolas,monospace;background:var(--suave);padding:1px 5px;border-radius:4px}
+pre{background:#111a24;color:#e8eef6;border-radius:10px;padding:14px;overflow:auto;font-size:12.5px}
+@media print{body{background:#fff}.capa{background:#fff;color:#000;border-bottom:2px solid #000}.capa a{color:#000}.capa .selo{border-color:#000}section{box-shadow:none;break-inside:avoid}nav{display:none}}
+
+body{font-family:'Trebuchet MS', 'Segoe UI', sans-serif}
+:root{--acento:#1b7a5a}
+</style></head><body>
+<header class="capa"><div class="in">
+  <span class="selo">MVP · cin-segunda-via</span>
+  <h1>Emissão 2via da CIN remoto</h1>
+  <p>Aplicativo que possibilita a solicitação da segunda via da CIN de maneira remota</p>
+  <div class="meta">Equipe - CIN (André, Flávia e Glauce) · Politec · 2026-10-27 · Identificação Civil · Segunda via</div>
+  <nav><a href="#asis">Antes · AS-IS</a><a href="#tobe">Depois · TO-BE</a><a href="#mvp">O MVP</a><a class="prim" href="index.html">Abrir o MVP →</a></nav>
+</div></header>
+<main>
+<section id="problema"><h2>O problema</h2><p>A solicitação de 2 via da emissão da CIN traz burocracia para o requerente, ainda que a primeira via esteja em data de validade aceita</p>
+  <div class="duas"><div class="caixa alerta"><b>Como é hoje</b><br>O requerente (ainda que exista a CIN digital válida e a extraviada com data de validade dentro do prazo) precisa se dirigir a um posto de identificação e realizar nova coleta biométrica bem como apresentar documentação para a solicitação da segunda via</div>
+  <div class="caixa"><b>Impacto</b><br>O tempo  médio para a entrega do documento são 15 dias, acontece retrabalho para os servidores e o requerente pode ter custos com a solicitação</div></div></section>
+
+<section id="asis"><h2>AS-IS · o processo antes do MVP</h2>
+  <p class="sub">O caminho real, com quem faz, o que entra, onde espera e o que é automatizável. Fonte: tabela AS-IS do projeto.</p>
+  <div class="figura"><img src="docs/diagramas/as-is.svg" alt="Fluxograma AS-IS"><p class="sub">Fluxograma AS-IS · amarelo: etapa manual; tracejado: ponto de espera. Os números correspondem à tabela. <a href="docs/diagramas/processo.md">Fonte Mermaid</a>.</p></div>
+  <div class="kpis"><div class="kpi"><b>5</b><span>etapas</span></div>
+    <div class="kpi"><b>289</b><span>tempo declarado (h)</span></div>
+    <div class="kpi"><b>5</b><span>pontos de espera</span></div>
+    <div class="kpi"><b>3</b><span>etapas automatizáveis</span></div></div>
+  <div class="fluxo"><div class="passo"><span class="n">1</span><b>Solicitação</b><small>Requerente</small></div><span class="seta">→</span><div class="passo"><span class="n">2</span><b>Análise e Confronto</b><small>Papiloscopista</small></div><span class="seta">→</span><div class="passo"><span class="n">3</span><b>Impressão</b><small>Parque gráfico</small></div><span class="seta">→</span><div class="passo"><span class="n">4</span><b>Envio ao posto</b><small>Setor de expediente</small></div><span class="seta">→</span><div class="passo"><span class="n">5</span><b>Entrega ao Requerente</b><small>Posto de Identificação</small></div></div>
+  <div class="tabela"><table><thead><tr><th>Etapa</th><th>Quem faz</th><th>Entra</th><th>Ação</th><th>Sai</th><th>Sistema</th><th>Regra</th><th>Onde espera</th><th>Tempo</th><th>Automatizável</th></tr></thead><tbody><tr><td>Solicitação</td><td>Requerente</td><td>Dados biométricos e biográficos</td><td>Cadastro</td><td>Prontuário</td><td>Sistema</td><td>Dados conferem com o registro civil</td><td>Análise e Confronto</td><td>1</td><td>Sim, com apoio humano</td></tr><tr><td>Análise e Confronto</td><td>Papiloscopista</td><td>Prontuário</td><td>Análise e Confronto</td><td>Prontuário</td><td>Sistema</td><td>Confronto quando houver dúvida</td><td>Impressão</td><td>72</td><td>Sim, com apoio humano</td></tr><tr><td>Impressão</td><td>Parque gráfico</td><td>Prontuário</td><td>Impressão</td><td>Cédula/cartão</td><td>Papel/Sistema</td><td>Validação pela Receita Federal</td><td>Expediente</td><td>168</td><td>Sim, com regra clara</td></tr><tr><td>Envio ao posto</td><td>Setor de expediente</td><td>Cédulas/cartão</td><td>Envio dos documento</td><td>Cédulas</td><td>Sistema/Papel</td><td>Posto de destino correto</td><td>Posto de Identificação</td><td>48</td><td>Não</td></tr><tr><td>Entrega ao Requerente</td><td>Posto de Identificação</td><td>Cédulas/Cartões</td><td>Entrega ao requerente</td><td>Cédulas/cartões</td><td>Papel/Sistema</td><td>Documento entregue ao titular</td><td>Arquivo</td><td></td><td>Não</td></tr></tbody></table></div>
+</section>
+
+<section id="tobe"><h2>TO-BE · o processo com o MVP</h2>
+  <p class="sub">O que muda em cada etapa, quem passa a fazer e o ganho esperado. Fonte: tabela TO-BE do projeto.</p>
+  <div class="figura"><img src="docs/diagramas/to-be.svg" alt="Fluxograma TO-BE"><p class="sub">Fluxograma TO-BE · verde: máquina (automação local); azul: pessoa (fé pública). <a href="docs/diagramas/processo.md">Fonte Mermaid</a>.</p></div>
+  <div class="kpis"><div class="kpi"><b>5</b><span>etapas no novo fluxo</span></div>
+    <div class="kpi"><b>0</b><span>etapas a menos</span></div>
+    <div class="kpi"><b>3</b><span>etapas que saem do trabalho manual</span></div></div>
+  <div class="caixa verde"><b>Mudança central:</b> Automação na solicitação do processo da segunda via, através de algum aplicativo para celular.</div>
+  <p>Quando esse processo existir, o requerente deixa de esperar tanto tempo para a emissão da segunda via e passa a ter o documento com mais agilidade.</p>
+  <ul class="lista"><li><b>Solicitação</b><br>Processo por app<br><span class="tag ok">A máquina (automação)</span><span class="tag">Agilidade no processo</span></li><li><b>Confronto papiloscópico</b><br>Não muda, permanece no sistema<br><span class="tag ok">A pessoa, sem mudança</span><span class="tag">Permanece com prazo menor</span></li><li><b>Impressão</b><br>Não muda<br><span class="tag ok">A máquina (automação)</span><span class="tag">Agilidade no processo</span></li><li><b>Envio ao posto</b><br>Não muda<br><span class="tag ok">A pessoa assistida pela máquina</span><span class="tag">Maior agilidade</span></li><li><b>Entrega ao requerente</b><br>Tempo menor<br><span class="tag ok">A pessoa, sem mudança</span><span class="tag">Menor prazo de entrega</span></li></ul>
+  <div class="tabela"><table><thead><tr><th>Etapa</th><th>O que muda</th><th>Quem faz</th><th>Benefício</th><th>Esforço</th></tr></thead><tbody><tr><td>Solicitação</td><td>Processo por app</td><td>A máquina (automação)</td><td>Agilidade no processo</td><td>Alto</td></tr><tr><td>Confronto papiloscópico</td><td>Não muda, permanece no sistema</td><td>A pessoa, sem mudança</td><td>Permanece com prazo menor</td><td>Médio</td></tr><tr><td>Impressão</td><td>Não muda</td><td>A máquina (automação)</td><td>Agilidade no processo</td><td>Baixo</td></tr><tr><td>Envio ao posto</td><td>Não muda</td><td>A pessoa assistida pela máquina</td><td>Maior agilidade</td><td>Baixo</td></tr><tr><td>Entrega ao requerente</td><td>Tempo menor</td><td>A pessoa, sem mudança</td><td>Menor prazo de entrega</td><td>Baixo</td></tr></tbody></table></div>
+  <div class="caixa alerta"><b>Leitura crítica:</b> O fluxo público exige duas fotos e a redução depende de canvas; no Lightpanda essa etapa não roda.</div>
+</section>
+
+<section id="mvp"><h2>O que o MVP entrega</h2>
+  <p><b>Tela-assinatura:</b> Caixa de entrada: fila à esquerda e pedido à direita, com Aceitar e próximo.</p>
+  <p class="sub">Menu do MVP: <span class="tag">Fila</span><span class="tag">Indicadores</span><span class="tag">Configuração</span></p>
+  <div class="mvp-tabelas"><div><h3>Regras de negócio</h3><div class="tabela"><table><thead><tr><th>ID</th><th>Regra</th><th>Quando</th><th>Tipo</th><th>Exceção</th></tr></thead><tbody><tr><td><code>RN01</code></td><td>Precisa de CPF válido</td><td>Todos os casos</td><td>Validação</td><td>Não tem</td></tr><tr><td><code>RN02</code></td><td>Precisa da Biometria coletada</td><td>Todos os cados</td><td>Validação</td><td>Não tem </td></tr><tr><td><code>RN03</code></td><td>Só segue a distância se a primeira via estiver válida e não houver mudança de dados</td><td>No pedido</td><td>Negócio</td><td>Os demais casos são orientados a ir ao posto</td></tr><tr><td><code>RN04</code></td><td>Foto obrigatória de rosto e de documento, legível</td><td>No pedido</td><td>Validação</td><td>Nenhuma</td></tr><tr><td><code>RN05</code></td><td>Recusa sempre com motivo, que o cidadão vê no protocolo</td><td>Na conferência</td><td>Negócio</td><td>Nenhuma</td></tr><tr><td><code>RN06</code></td><td>Pedido e foto apagados após o lançamento ou a recusa</td><td>Após a decisão</td><td>LGPD</td><td>Nenhuma</td></tr></tbody></table></div></div>
+    <div><h3>Papéis</h3><div class="tabela"><table><thead><tr><th>Papel</th><th>Quem é</th><th>O que vê</th><th>O que faz</th><th>O que não faz</th><th>Registro</th></tr></thead><tbody><tr><td><b>Cadastro</b></td><td>Atendente do posto de identificação</td><td>Página de cadastro biográfico e biométrico</td><td>Cadastro e Coleta Biométrica</td><td>Preencher incorretamente, não coletar a biometia, não enviar, via sistema, o prontuário</td><td>Prontuário</td></tr><tr><td><b>Análise e Confronto</b></td><td>Papiloscopistas</td><td>Página do sistema com os dados e a biometria</td><td>Analisa os documentos e confronta as impressões digitais, se necessário</td><td>Demorar para o atendimento, não realizar o confronto, não enviar para o sistema</td><td>Prontuário/Impressão</td></tr><tr><td><b>Impressão</b></td><td>Parque gráfico - empresa licitada</td><td>Sistema de impressão</td><td>Impressão das cédulas/cartões</td><td>Não imprimir, imprimir duplicado</td><td>Cédulas/cartões da CIN</td></tr><tr><td><b>Envio ao postos</b></td><td>Setor de expediente</td><td>Documento físico e sistema para dar baixa</td><td>Recebe os documentos, dá baixa no sistema e encaminha para o posto de identificação</td><td>Extraviar documentos, Envio para posto incorreto, atrasar no envio</td><td>Baixa &quot;enviado ao posto&quot;</td></tr><tr><td><b>Entrega ao requerente</b></td><td>Atendente do Posto de Identificação </td><td>Sistema e documento físico</td><td>Entrega ao requerente o documento</td><td>Extraviar, entregar incorretamente</td><td>Baixa no sistema</td></tr></tbody></table></div></div></div>
+  <h3>Métricas do piloto</h3><div class="metricas"><div class="metrica"><b>Tempo de emissão</b><span class="base">Tempo do processo </span><div class="base">Base: a medir</div><div class="esperado">Esperado: a medir</div><div class="base">Fonte: </div></div><div class="metrica"><b>Pedidos elegíveis</b><span class="base">Quantos pedidos podem seguir sem ir ao posto?</span><div class="base">Base: A medir</div><div class="esperado">Esperado: A medir no piloto</div><div class="base">Fonte: Fila</div></div></div>
+</section>
+
+<section id="teste"><h2>Como testar</h2>
+  <p class="sub">O MVP é um `index.html` offline, com dados fictícios. Abra <a href="index.html">index.html</a>.</p>
+  <pre>cd Apps/cin-segunda-via
+python construir.py
+python testes/testar.py
+python testes/cenarios.py
+python testes/jornada.py
+
+# Lightpanda (via WSL, CDP em 9222 e HTTP em 8000)
+python testes/jornada.py --cdp http://127.0.0.1:9222 --base http://127.0.0.1:8000</pre>
+  <p class="sub">Documentos: <a href="PROJETO.md">PROJETO.md</a> · <a href="sprint.md">sprint.md</a> · <a href="README.md">README.md</a></p>
+</section>
+</main>
+<footer class="rodape">Gerado a partir de <code>projeto.json</code> e <code>app.json</code> · POLITEC/MT · Emissão 2via da CIN remoto</footer>
+</body></html>

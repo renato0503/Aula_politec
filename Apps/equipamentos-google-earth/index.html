@@ -1558,6 +1558,10 @@ TELAS["#/equipamentos"] = async ()=>{
     && (!f.tipo || e.tipo === f.tipo) && (!f.status || e.status === f.status) && (!f.crit || String(e.criticidade) === f.crit))
     .sort((x, y)=> f.ordem === "criticidade" ? y.criticidade - x.criticidade : String(x[f.ordem] ?? "").localeCompare(String(y[f.ordem] ?? "")));
   estado.eqVisiveis = vis.map(e=>({...e, unidade: nomeU[e.unidade_id] || ""}));
+  const porPagina = 25, totalPag = Math.max(1, Math.ceil(vis.length / porPagina));
+  const pagina = Math.min(Math.max(1, Number(estado.eqPagina) || 1), totalPag);
+  estado.eqPagina = pagina;
+  const fatia = vis.slice((pagina - 1) * porPagina, pagina * porPagina);
   return `<h1>Equipamentos</h1><p class="sub"><span id="qtdEq">${vis.length}</span> de ${eqs.length} equipamentos.
     <a href="#/equipamento/novo">Cadastrar equipamento</a></p>
     <div class="card"><div class="campos">
@@ -1569,15 +1573,19 @@ TELAS["#/equipamentos"] = async ()=>{
       ${campo("fOrdem", "Ordenar por", {tipo: "select", opcoes: [["patrimonio", "Patrimônio"], ["nome", "Nome"], ["criticidade", "Criticidade"], ["status", "Situação"]], valor: f.ordem})}
     </div><div class="linha-botoes"><button id="btnCsvEq">Exportar CSV</button></div></div>
     <div class="card tabela-wrap"><table><tr><th>Patrimônio</th><th>Equipamento</th><th>Unidade</th><th>Setor</th><th class="num">Crit.</th><th>Contrato</th><th>Situação</th></tr>
-      ${vis.slice(0, 300).map(e=>`<tr><td><a href="#/equipamento/${encodeURIComponent(e.id)}">${esc(e.patrimonio)}</a></td><td>${esc(e.nome)}<br><span class="sub">${esc(e.modelo || "")}</span></td>
+      ${fatia.map(e=>`<tr><td><a href="#/equipamento/${encodeURIComponent(e.id)}">${esc(e.patrimonio)}</a></td><td>${esc(e.nome)}<br><span class="sub">${esc(e.modelo || "")}</span></td>
         <td>${esc(nomeU[e.unidade_id] || "")}</td><td>${esc(e.setor || "")}</td><td class="num">${e.criticidade}</td><td>${e.contrato_id ? '<span class="selo ok">sim</span>' : '<span class="selo alerta">não</span>'}</td>
         <td><span class="selo ${e.status === "operando" ? "ok" : e.status === "baixado" ? "info" : "erro"}">${esc(e.status)}</span></td></tr>`).join("")}</table>
-      ${vis.length > 300 ? `<p class="sub">Mostrando 300; refine a busca.</p>` : ""}</div>`;
+      <div class="linha-botoes"><button id="btnEqAnterior" ${pagina <= 1 ? "disabled" : ""}>← Anterior</button>
+        <span class="sub" style="margin:0;align-self:center">Página ${pagina} de ${totalPag} · ${vis.length} itens</span>
+        <button id="btnEqProxima" ${pagina >= totalPag ? "disabled" : ""}>Próxima →</button></div></div>`;
 };
 TELAS_DEPOIS["#/equipamentos"] = ()=>{
   const f = filtrosEq();
   [["fBusca", "busca"], ["fUnidade", "unidade"], ["fTipo", "tipo"], ["fStatus", "status"], ["fCrit", "crit"], ["fOrdem", "ordem"]].forEach(([id, k])=>
-    $("#" + id).addEventListener(id === "fBusca" ? "change" : "input", e=>{ f[k] = e.target.value; navegar(); }));
+    $("#" + id).addEventListener(id === "fBusca" ? "change" : "input", e=>{ f[k] = e.target.value; estado.eqPagina = 1; navegar(); }));
+  $("#btnEqAnterior")?.addEventListener("click", ()=>{ estado.eqPagina = Math.max(1, (Number(estado.eqPagina) || 1) - 1); navegar(); });
+  $("#btnEqProxima")?.addEventListener("click", ()=>{ estado.eqPagina = (Number(estado.eqPagina) || 1) + 1; navegar(); });
   $("#btnCsvEq").addEventListener("click", ()=>{
     const cols = ["patrimonio", "nome", "tipo", "fabricante", "modelo", "numero_serie", "unidade", "setor", "criticidade", "tem_redundancia", "status", "data_aquisicao", "valor_aquisicao", "latitude", "longitude"];
     const cel = v => { const s = String(v ?? ""); return /[;"\n]/.test(s) ? `"${s.replace(/"/g, '""')}"` : s; };

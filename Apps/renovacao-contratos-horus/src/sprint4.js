@@ -48,7 +48,7 @@ TELAS["#/contrato/:id"] = async (p)=>{
         <span><b>${esc(f.nome)}</b> · desde ${dataCurtaBR(f.desde)}${f.ate ? ` · até ${dataCurtaBR(f.ate)}` : " · atual"}${f.motivo ? ` · ${esc(f.motivo)}` : ""}</span></li>`).join("")
         || '<li class="vazio">Nenhum fiscal registrado.</li>'}</ul>
       <form id="formRcFiscal" class="campos" style="align-items:end">
-        ${campo("rcFisNome", "Novo fiscal", {})}<div class="campo"><label>&nbsp;</label><button id="btnRcFiscal">Substituir o fiscal</button></div></form></div>`;
+        ${campo("rcFisNome", "Novo fiscal", {})}<div class="campo"><label>&nbsp;</label><button type="button" id="btnRcFiscal">Substituir o fiscal</button></div></form></div>`;
   return html + card;
 };
 TELAS_DEPOIS["#/contrato/:id"] = async (p)=>{

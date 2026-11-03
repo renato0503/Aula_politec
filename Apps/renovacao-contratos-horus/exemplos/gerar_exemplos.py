@@ -76,6 +76,13 @@ def main():
             instrucao.append({"id_item": f"I-{cid}-{item}", "contrato_id": cid, "item": item, "ordem": ITENS.index(item),
                               "feito": True, "data_hora": contratos[n]["criado_em"], "responsavel": "admin"})
     seed["instrucao"] = instrucao
+    # fiscais ativos em três contratos (o contrato CT-001 fica sem fiscal para os testes)
+    fiscais = []
+    for n in (2, 3, 4):
+        c = contratos[n]
+        fiscais.append({"id": f"F-{n + 1}", "contrato_id": c["id_contrato"], "nome": ["Fiscal Fictício A", "Fiscal Fictício B", "Fiscal Fictício C"][n - 2],
+                        "desde": c["data_inicio"], "ate": None, "motivo": ""})
+    seed["fiscais"] = fiscais
     (AQUI / "seed.json").write_text(json.dumps(seed, ensure_ascii=False, indent=1), encoding="utf-8")
     print({k: len(v) for k, v in seed.items()}, cnpj(1))
 

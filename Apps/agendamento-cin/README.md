@@ -100,3 +100,9 @@ horários em botões grandes, com os passos 1 Posto e data · 2 Seus dados ·
 ou pelos 4 últimos dígitos do CPF, e a tela de horários virou uma **grade
 semanal** com cor por situação (livre, parcial, lotado, bloqueado) e a contagem
 de vagas em cada célula. As telas estão em `src/identidade.js` e `src/app.css`.
+
+## Mapa do processo
+
+O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o
+**TO-BE** (como fica com o MVP), com as métricas, regras e papéis do projeto.
+Abra ao lado do `index.html`.

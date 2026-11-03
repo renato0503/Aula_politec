@@ -13,3 +13,8 @@
 @media (max-width:640px){ .dd-placa{gap:3px;padding:8px} }
 
 .dd-meus .campos{grid-template-columns:minmax(220px,320px) minmax(0,1fr)}
+
+.dd-poco{padding:0;cursor:pointer}
+.dd-poco:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.dd-poco-info{min-height:22px;margin-top:10px;font-size:13px;color:var(--ink2)}
+.dd-poco-info.mostra{padding:8px 10px;border-left:3px solid var(--accent);background:var(--accent-suave);border-radius:var(--raio)}

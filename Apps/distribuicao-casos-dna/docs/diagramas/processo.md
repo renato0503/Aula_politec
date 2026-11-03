@@ -1,0 +1,61 @@
+# Fluxogramas do processo · distribuicao-casos-dna
+
+Gerados a partir de `projeto.json`. As setas seguem a ordem da tabela.
+
+## AS-IS
+
+```mermaid
+%% Fluxograma ASIS · 11 etapas
+flowchart TD
+  IN(["Início"])
+  N1["1. Recebimento da solicitação de perícia"]:::wait
+  N2["2. Busca dos envelopes de lacre e dos documentos solicitantes"]:::wait
+  N3["3. cadastro em planilha"]:::wait
+  N4["4. Ranqueamento da prioridade dos protocolos"]:::wait
+  N5["5. solicitação de amostras da custódia"]:::wait
+  N6["6. entrega do envelope de lacre ao perito"]:::wait
+  N7["7. conferência e aliquotagem dos materiais"]:::wait
+  N8["8. encaminhamento para processamento até a obtenção do perfi…"]:::wait
+  N9["9. distribuição das pastas aos peritos"]:::wait
+  N10["10. análise do caso, dos resultados e elaboração do laudo per…"]:::wait
+  N11["11. Inclusão do laudo no sistema Atena"]:::wait
+  FIM(["Fim"])
+  IN --> N1
+  N1 --> N2
+  N2 --> N3
+  N3 --> N4
+  N4 --> N5
+  N5 --> N6
+  N6 --> N7
+  N7 --> N8
+  N8 --> N9
+  N9 --> N10
+  N10 --> N11
+  N11 --> FIM
+  classDef manual fill:#fff4e5,stroke:#a35f00,color:#3b2a00;
+  classDef wait fill:#fff4e5,stroke:#a35f00,stroke-dasharray:5 3,color:#3b2a00;
+  classDef auto fill:#eef8f2,stroke:#127a45,color:#0b3b23;
+  classDef humano fill:#eef3fa,stroke:#12487f,color:#0a2f5c;
+```
+
+## TO-BE
+
+```mermaid
+%% Fluxograma TOBE · 4 etapas
+flowchart TD
+  IN(["Início"])
+  N1["1. Aliquotagem e fila de cobranças<br/><small>A pessoa assistida pela máqui…</small>"]:::auto
+  N2["2. Rodada de casos ordinários<br/><small>A máquina (automação)</small>"]:::auto
+  N3["3. Registro da distribuição<br/><small>A máquina (automação)</small>"]:::auto
+  N4["4. Acompanhamento<br/><small>A máquina (automação)</small>"]:::auto
+  FIM(["Fim"])
+  IN --> N1
+  N1 --> N2
+  N2 --> N3
+  N3 --> N4
+  N4 --> FIM
+  classDef manual fill:#fff4e5,stroke:#a35f00,color:#3b2a00;
+  classDef wait fill:#fff4e5,stroke:#a35f00,stroke-dasharray:5 3,color:#3b2a00;
+  classDef auto fill:#eef8f2,stroke:#127a45,color:#0b3b23;
+  classDef humano fill:#eef3fa,stroke:#12487f,color:#0a2f5c;
+```

@@ -1845,6 +1845,11 @@ TELAS["#/processo/:id"] = async (p)=>{
     const box = doc.getElementById("gdConclusao");
     if (box) box.innerHTML = `<h2 style="margin-top:0">Conclusão e assinatura</h2>
       <p class="sub">A assinatura e o arquivamento são da autoridade decisora. O processo segue para ela depois da instrução e da revisão.</p>`;
+    const aviso = doc.createElement("div");
+    aviso.className = "card pendente";
+    aviso.innerHTML = "<b>A assinatura e o arquivamento são da autoridade decisora.</b> A instrução e a revisão continuam com você.";
+    const h1 = doc.querySelector("h1");
+    if (h1) h1.after(aviso);
   }
   const antes = [], cards = [];
   const colher = node=>{
