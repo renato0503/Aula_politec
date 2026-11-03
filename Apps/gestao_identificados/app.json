@@ -1,0 +1,64 @@
+{
+  "titulo": "NIHDE · Gestão de Identificados",
+  "subtitulo": "POLITEC/MT · corpos não identificados e não reclamados",
+  "descricao": "Registro único dos corpos não identificados e dos identificados não reclamados: entrada, exames de identificação, família, sepultamento e entrega. Dados fictícios.",
+  "visual": {
+    "acento": "#5b4b8a",
+    "icone": "identidade",
+    "layout": "lateral",
+    "padrao": "pontos",
+    "estilo": "institucional",
+    "setor": "NIHDE · Identificação Humana e Desaparecidos",
+    "casca": "lateral",
+    "cabecalho": "solido",
+    "fonte": "serifa",
+    "densidade": "normal",
+    "cantos": "suaves",
+    "superficie": "papel",
+    "kpi": "barra"
+  },
+  "db": {
+    "nome": "nihde_v1",
+    "versao": 1,
+    "stores": {
+      "corpos": {
+        "keyPath": "id",
+        "indices": [
+          { "nome": "situacao", "campo": "situacao", "unico": false },
+          { "nome": "unidade", "campo": "unidade", "unico": false },
+          { "nome": "protocolo", "campo": "protocolo", "unico": true }
+        ]
+      },
+      "log": {
+        "keyPath": "id",
+        "indices": [
+          { "nome": "corpo_id", "campo": "corpo_id", "unico": false }
+        ]
+      }
+    }
+  },
+  "perfis": [
+    { "id": "nihde", "nome": "Equipe do NIHDE", "descricao": "Mantém o registro dos corpos e das identificações." },
+    { "id": "iml", "nome": "Servidor do IML", "descricao": "Registra a entrada e os exames da unidade." },
+    { "id": "gestor", "nome": "Gestão POLITEC", "descricao": "Acompanha os números e o relatório do NIHDE." }
+  ],
+  "rotas": [
+    { "rota": "#/painel", "titulo": "Painel", "sprint": 1, "descricao": "Quantos corpos não identificados e não reclamados a POLITEC tem." },
+    { "rota": "#/corpos", "titulo": "Corpos", "sprint": 2, "descricao": "Lista com filtros de unidade, situação e busca." },
+    { "rota": "#/corpo/novo", "titulo": "Nova entrada", "sprint": 2, "descricao": "Cadastro com protocolo único e características físicas." },
+    { "rota": "#/corpo/:id", "titulo": "Corpo", "sprint": 3, "descricao": "Exames, identificação, família, sepultamento e auditoria." },
+    { "rota": "#/relatorio", "titulo": "Relatório", "sprint": 4, "descricao": "Resumo por unidade e situação, com CSV." },
+    { "rota": "#/desaparecidos", "titulo": "Desaparecidos", "sprint": 5, "descricao": "Dados públicos do CNPD e do NamUs, com mapa, filtros e catálogo de fontes." },
+    { "rota": "#/config", "titulo": "Configuração", "sprint": 1, "descricao": "" }
+  ],
+  "libs": ["leaflet.js"],
+  "dados": [
+    ["seed", "exemplos/seed.json"],
+    ["cnpd", "dados/cnpd-snapshot.json"],
+    ["namus", "dados/namus-snapshot.json"],
+    ["fontes", "dados/fontes.json"],
+    ["brasil_ufs", "dados/brasil-ufs.geojson"],
+    ["municipios_cnpd", "dados/municipios-cnpd.json"],
+    ["eua_ufs", "dados/eua-ufs.geojson"]
+  ]
+}

@@ -1,0 +1,982 @@
+<!doctype html>
+<html lang="pt-BR" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Desaparecidos · CNPD/MJ — Painel NIHDE/POLITEC</title>
+<meta name="description" content="Leitura dos registros públicos de pessoas desaparecidas do CNPD/MJ, com filtros, indicadores, distribuição por UF, sexo, idade e tempo de desaparecimento.">
+<style>
+:root{
+  --mt-azul-9:#061f3d; --mt-azul-8:#0a2f5c; --mt-azul-7:#12487f; --mt-azul-5:#1e63ae;
+  --mt-ouro:#c99a2e; --mt-ouro-claro:#e8b931; --mt-verde:#0b7a3e;
+  --bg:#f3f5f9; --painel:#ffffff; --painel-2:#f8fafc; --ink:#14213d; --ink2:#55627a; --linha:#dfe4ec;
+  --verde:#127a45; --ambar:#a35f00; --vermelho:#b42318; --roxo:#5b3f9e;
+  --accent:#12487f; --accent-forte:#0a2f5c; --accent-claro:#1e63ae;
+  --accent-suave:#eaf1f8; --accent-borda:#b9cbe0;
+  --topo-bg:linear-gradient(120deg,#061f3d 0%,#0a2f5c 45%,#12487f 100%);
+  --sombra:0 1px 2px rgba(10,47,92,.06),0 2px 8px rgba(10,47,92,.06);
+  --sombra-alta:0 4px 10px rgba(10,47,92,.08),0 12px 28px rgba(10,47,92,.10);
+  --raio:12px; --raio-p:8px;
+  --mono:ui-monospace,SFMono-Regular,Consolas,monospace;
+  --ui:"Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  --titulo:"Segoe UI Variable Display","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --bg:#0a1424; --painel:#101e34; --painel-2:#0d192c; --ink:#e7edf6; --ink2:#9fb0c8; --linha:#22324b;
+  --verde:#4cc283; --ambar:#f0b44c; --vermelho:#ff8a80; --roxo:#b9a5f2;
+  --accent:#6ea8ff; --accent-forte:#8dbcff; --accent-claro:#4a86d8;
+  --accent-suave:#16263f; --accent-borda:#2c4466;
+  --topo-bg:linear-gradient(120deg,#040f20 0%,#071a35 55%,#0b2a52 100%);
+  --sombra:none; --sombra-alta:0 10px 30px rgba(0,0,0,.35); color-scheme:dark;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.55 var(--ui);-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-underline-offset:2px}
+:focus-visible{outline:3px solid var(--mt-ouro-claro);outline-offset:2px;border-radius:4px}
+::selection{background:rgba(30,99,174,.22)}
+.ico{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;vertical-align:-3px}
+
+.faixa-gov{background:var(--mt-azul-9);color:rgba(255,255,255,.82);font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;border-bottom:2px solid var(--mt-ouro)}
+.faixa-gov .in{max-width:1280px;margin:0 auto;padding:5px 20px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.faixa-gov b{color:#fff;font-weight:600}
+.faixa-gov .dir{margin-left:auto;text-transform:none;letter-spacing:0;opacity:.8}
+
+.topo{position:sticky;top:0;z-index:10;background:var(--topo-bg);color:#fff;box-shadow:0 2px 12px rgba(6,31,61,.18)}
+.topo::after{content:"";position:absolute;left:0;right:0;bottom:0;height:3px;background:linear-gradient(90deg,var(--accent-claro) 0 62%,var(--mt-ouro) 62% 86%,var(--mt-verde) 86%)}
+.topo-in{position:relative;max-width:1280px;margin:0 auto;padding:13px 20px 15px;display:flex;gap:14px;align-items:center;flex-wrap:wrap}
+.emblema{width:46px;height:46px;border-radius:13px;display:grid;place-items:center;flex:none;color:#fff;background:linear-gradient(145deg,#1e63ae,#0a2f5c);box-shadow:inset 0 0 0 1.5px rgba(255,255,255,.28),0 0 0 2px var(--mt-ouro),0 4px 12px rgba(0,0,0,.25)}
+.emblema .ico{width:26px;height:26px;stroke-width:1.7}
+.marca{font:700 19px/1.2 var(--titulo);letter-spacing:-.01em;margin-right:auto;min-width:0}
+.marca small{display:block;font:500 12.5px/1.4 var(--ui);color:rgba(255,255,255,.72);letter-spacing:.02em;margin-top:2px}
+.acoes{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.selo{display:inline-flex;align-items:center;gap:6px;border:1px solid rgba(255,255,255,.35);background:rgba(255,255,255,.08);color:#fff;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:600}
+.topo button{font:inherit;font-size:13px;font-weight:600;border:1px solid rgba(255,255,255,.3);background:rgba(255,255,255,.1);color:#fff;padding:7px 12px;border-radius:var(--raio-p);cursor:pointer;display:inline-flex;align-items:center;gap:6px}
+.topo button:hover{background:rgba(255,255,255,.2)}
+.topo button[busy]{opacity:.7;cursor:progress}
+
+.topo nav{position:relative;max-width:1280px;margin:0 auto;padding:0 20px;display:flex;gap:2px;overflow-x:auto}
+.topo nav a{color:rgba(255,255,255,.8);text-decoration:none;font-size:13.5px;font-weight:500;padding:9px 12px 11px;border-bottom:2px solid transparent;white-space:nowrap}
+.topo nav a:hover{color:#fff;background:rgba(255,255,255,.06)}
+.topo nav a.ativo{color:#fff;border-bottom-color:var(--mt-ouro-claro)}
+
+main{max-width:1280px;margin:0 auto;padding:24px 20px 60px}
+section{scroll-margin-top:110px;margin-bottom:34px}
+h1{font:700 27px/1.2 var(--titulo);letter-spacing:-.015em;margin:0 0 6px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+h1::before{content:"";width:5px;align-self:stretch;min-height:26px;border-radius:3px;background:linear-gradient(var(--accent),var(--mt-ouro))}
+h2{font:650 18px/1.3 var(--titulo);margin:0 0 12px}
+.sub{color:var(--ink2);margin:0 0 16px;max-width:80ch}
+
+.aviso{display:flex;gap:10px;align-items:flex-start;background:var(--accent-suave);border:1px solid var(--accent-borda);border-left:4px solid var(--mt-ouro);border-radius:var(--raio-p);padding:11px 14px;font-size:13px;color:var(--ink2);margin-bottom:16px}
+.aviso b{color:var(--ink)}
+.aviso .ico{color:var(--ambar);margin-top:2px}
+
+.kpis{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px}
+.kpi{position:relative;background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio);padding:14px 16px 13px;box-shadow:var(--sombra);overflow:hidden}
+.kpi::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--accent)}
+.kpi:nth-child(2)::before{background:var(--mt-ouro)}
+.kpi:nth-child(3)::before{background:var(--mt-verde)}
+.kpi:nth-child(4)::before{background:var(--roxo)}
+.kpi:nth-child(5)::before{background:var(--mt-azul-5)}
+.kpi:nth-child(6)::before{background:var(--vermelho)}
+.kpi .rotulo{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--ink2)}
+.kpi .valor{font:700 27px/1.15 var(--titulo);letter-spacing:-.02em;margin-top:5px;font-variant-numeric:tabular-nums;word-break:break-word}
+.kpi .nota{font-size:12px;color:var(--ink2);margin-top:3px}
+
+.graficos{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.card{background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio);padding:16px 18px;box-shadow:var(--sombra)}
+.card h3{font:650 14.5px/1.3 var(--titulo);margin:0 0 3px}
+.card .cap{font-size:12px;color:var(--ink2);margin:0 0 13px}
+.barras{display:flex;flex-direction:column;gap:7px}
+.barra{display:grid;grid-template-columns:minmax(74px,128px) minmax(0,1fr) 48px;align-items:center;gap:9px;font-size:12.5px}
+.barra .nome{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:var(--ink2)}
+.barra .trilho{height:9px;border-radius:99px;background:var(--painel-2);border:1px solid var(--linha);overflow:hidden}
+.barra .fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--accent-claro),var(--accent));min-width:2px}
+.barra .num{text-align:right;font-weight:650;font-variant-numeric:tabular-nums}
+.barra.destaque .nome{color:var(--ink);font-weight:600}
+.vazio-chart{color:var(--ink2);font-size:13px;padding:18px 0;text-align:center}
+
+.donut-wrap{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+.donut{width:148px;height:148px;flex:none}
+.donut circle{fill:none;stroke-width:6.5}
+.legenda{display:flex;flex-direction:column;gap:7px;font-size:13px;min-width:0}
+.legenda .li{display:flex;align-items:center;gap:8px}
+.legenda .cor{width:10px;height:10px;border-radius:3px;flex:none}
+.legenda .qtd{margin-left:auto;font-weight:650;font-variant-numeric:tabular-nums;padding-left:12px}
+
+.colunas{display:flex;align-items:flex-end;gap:8px;height:150px;padding-top:6px}
+.col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:5px;min-width:0;height:100%}
+.col .col-val{font-size:11px;color:var(--ink2);font-variant-numeric:tabular-nums}
+.col .col-bar{width:100%;max-width:44px;border-radius:6px 6px 2px 2px;background:linear-gradient(180deg,var(--accent-claro),var(--accent));min-height:2px}
+.col .col-rot{font-size:10.5px;color:var(--ink2);text-align:center;line-height:1.2;white-space:nowrap}
+
+.filtros{background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio);box-shadow:var(--sombra);padding:14px 16px;display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;margin-bottom:14px}
+.campo{display:flex;flex-direction:column;gap:4px;min-width:130px}
+.campo.busca{flex:1;min-width:230px}
+.campo label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ink2)}
+.campo input,.campo select{font:inherit;font-size:14px;color:var(--ink);background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio-p);padding:9px 11px;min-height:40px}
+.campo input:focus,.campo select:focus{border-color:var(--accent-borda);outline:2px solid var(--accent-suave)}
+.filtros .acoes-filtro{display:flex;gap:8px;margin-left:auto}
+.filtros button{font:inherit;font-size:13.5px;font-weight:600;border:1px solid var(--linha);background:var(--painel);color:var(--ink);padding:9px 13px;border-radius:var(--raio-p);cursor:pointer;display:inline-flex;align-items:center;gap:6px;min-height:40px}
+.filtros button:hover{border-color:var(--accent-borda);background:var(--accent-suave)}
+.filtros button.primario{background:var(--accent);border-color:var(--accent);color:#fff}
+.filtros button.primario:hover{background:var(--accent-forte)}
+
+.meta-lista{font-size:13px;color:var(--ink2);margin:0 0 12px;display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.meta-listab{font-weight:650;color:var(--ink)}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(178px,1fr));gap:14px}
+.pessoa{position:relative;display:flex;flex-direction:column;text-align:left;font:inherit;color:inherit;background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio);padding:0;overflow:hidden;cursor:pointer;box-shadow:var(--sombra);transition:transform .15s,box-shadow .15s,border-color .15s}
+.pessoa:hover,.pessoa:focus-visible{transform:translateY(-2px);box-shadow:var(--sombra-alta);border-color:var(--accent-borda)}
+.foto{position:relative;width:100%;aspect-ratio:3/4;background:var(--painel-2);overflow:hidden}
+.foto img{width:100%;height:100%;object-fit:cover;display:block}
+.foto .sem{position:absolute;inset:0;display:grid;place-items:center;color:var(--linha)}
+.foto .sem .ico{width:44px;height:44px;stroke-width:1.1;color:var(--ink2);opacity:.4}
+.foto .dias{position:absolute;left:7px;bottom:7px;background:rgba(6,31,61,.76);color:#fff;font-size:10px;font-weight:600;padding:3px 7px;border-radius:6px;backdrop-filter:blur(2px)}
+.foto .novo{position:absolute;right:7px;top:7px;background:var(--vermelho);color:#fff;font-size:9.5px;font-weight:800;letter-spacing:.06em;padding:3px 6px;border-radius:5px}
+.pessoa .info{padding:10px 11px 12px;display:flex;flex-direction:column;gap:3px;min-height:70px}
+.pessoa .nome{font-size:12.5px;font-weight:650;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:32px}
+.pessoa .linha{display:flex;align-items:center;gap:4px;font-size:11px;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pessoa .linha .ico{width:12px;height:12px;stroke-width:2}
+
+.mais{display:flex;justify-content:center;margin-top:18px}
+.mais button{font:inherit;font-size:14px;font-weight:650;border:1px solid var(--accent);background:var(--accent);color:#fff;padding:11px 22px;border-radius:var(--raio-p);cursor:pointer}
+.mais button:hover{background:var(--accent-forte)}
+.mais button:disabled{opacity:.55;cursor:default}
+.vazio{text-align:center;color:var(--ink2);padding:38px 20px;border:1px dashed var(--linha);border-radius:var(--raio);background:var(--painel)}
+
+.modal{position:fixed;inset:0;z-index:50;display:grid;place-items:center;padding:18px;background:rgba(6,31,61,.62);backdrop-filter:blur(3px)}
+.modal .caixa{width:min(880px,100%);max-height:92vh;overflow:auto;background:var(--painel);border-radius:16px;box-shadow:0 24px 70px rgba(0,0,0,.4);position:relative}
+.modal .fechar{position:absolute;right:12px;top:12px;z-index:2;width:36px;height:36px;display:grid;place-items:center;border-radius:50%;border:1px solid rgba(255,255,255,.4);background:rgba(6,31,61,.55);color:#fff;cursor:pointer}
+.modal .fechar:hover{background:rgba(6,31,61,.8)}
+.modal .topo-modal{display:grid;grid-template-columns:220px minmax(0,1fr);gap:0;background:linear-gradient(120deg,#0a2f5c,#12487f);color:#fff}
+.modal .foto-modal{background:#071a35;display:grid;place-items:center;min-height:260px}
+.modal .foto-modal img{width:100%;height:100%;max-height:320px;object-fit:cover;display:block}
+.modal .foto-modal .sem{color:rgba(255,255,255,.35);padding:40px}
+.modal .foto-modal .sem .ico{width:64px;height:64px;stroke-width:1}
+.modal .cab{display:flex;flex-direction:column;justify-content:flex-end;gap:6px;padding:22px 26px}
+.modal .cab .tag{font-size:10.5px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.72)}
+.modal .cab h3{font:700 24px/1.2 var(--titulo);margin:0;color:#fff}
+.modal .cab .sub2{font-size:13px;color:rgba(255,255,255,.78)}
+.modal .corpo-modal{padding:20px 24px 24px;display:grid;gap:18px}
+.dados{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 16px}
+.dado{background:var(--painel-2);border:1px solid var(--linha);border-radius:var(--raio-p);padding:9px 12px}
+.dado .rot{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--ink2)}
+.dado .val{font-size:14px;font-weight:600;margin-top:2px;word-break:break-word}
+.dado.full{grid-column:1/-1}
+.modal .acoes-modal{display:flex;gap:8px;flex-wrap:wrap}
+.modal .acoes-modal a,.modal .acoes-modal button{font:inherit;font-size:13.5px;font-weight:600;border:1px solid var(--linha);background:var(--painel);color:var(--ink);padding:9px 13px;border-radius:var(--raio-p);cursor:pointer;display:inline-flex;align-items:center;gap:7px;text-decoration:none}
+.modal .acoes-modal a:hover,.modal .acoes-modal button:hover{border-color:var(--accent-borda);background:var(--accent-suave)}
+.modal .acoes-modal .primario{background:var(--accent);border-color:var(--accent);color:#fff}
+.modal .acoes-modal .primario:hover{background:var(--accent-forte)}
+.nota{font-size:12px;color:var(--ink2);border-top:1px solid var(--linha);padding-top:12px}
+
+.nota-sec .card{padding:20px 22px}
+.nota-sec p{font-size:13.5px;color:var(--ink2);margin:0 0 10px;max-width:100ch}
+.nota-sec strong{color:var(--ink)}
+.nota-sec ul{margin:8px 0 0;padding-left:20px;color:var(--ink2);font-size:13.5px;display:grid;gap:5px}
+.nota-sec code{font-family:var(--mono);font-size:12.5px;background:var(--painel-2);border:1px solid var(--linha);padding:1px 5px;border-radius:4px;color:var(--ink)}
+
+footer{border-top:1px solid var(--linha);background:var(--painel);color:var(--ink2);font-size:12.5px}
+footer .in{max-width:1280px;margin:0 auto;padding:16px 20px;display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+footer .dir{margin-left:auto}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translate(-50%,20px);z-index:60;background:var(--mt-azul-9);color:#fff;padding:10px 16px;border-radius:10px;font-size:13.5px;box-shadow:var(--sombra-alta);opacity:0;pointer-events:none;transition:opacity .2s,transform .2s}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+
+@media (max-width:1100px){.kpis{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:820px){
+  .graficos{grid-template-columns:minmax(0,1fr)}
+  .modal .topo-modal{grid-template-columns:minmax(0,1fr)}
+  .modal .foto-modal{min-height:200px;max-height:260px}
+  .modal .foto-modal img{max-height:260px}
+}
+@media (max-width:620px){
+  body{font-size:14px}
+  .kpis{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .grid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .filtros{padding:12px}
+  .campo.busca{min-width:100%}
+  .campo{flex:1;min-width:calc(50% - 6px)}
+  .filtros .acoes-filtro{margin-left:0;width:100%}
+  .filtros .acoes-filtro button{flex:1;justify-content:center}
+  .dados{grid-template-columns:minmax(0,1fr)}
+  .barra{grid-template-columns:minmax(56px,92px) minmax(0,1fr) 40px;font-size:11.5px}
+  .faixa-gov .meio,.faixa-gov .sep{display:none}
+  #seloColeta{display:none}
+  .colunas{gap:4px}
+  .col .col-rot{font-size:9.5px;white-space:normal;line-height:1.15}
+  .col .col-val{font-size:10px}
+}
+@media print{
+  .topo,.filtros,.mais,footer,.faixa-gov{display:none!important}
+  body{background:#fff}
+  .card,.kpi,.pessoa{box-shadow:none;break-inside:avoid}
+  main{padding:0}
+}
+</style>
+</head>
+<body>
+
+<div class="faixa-gov">
+  <div class="in">
+    <span><b>Governo de Mato Grosso</b> · POLITEC/MT</span>
+    <span class="sep">·</span>
+    <span class="meio">NIHDE · Núcleo de Identificação Humana e Desaparecidos</span>
+    <span class="dir">Dados públicos · CNPD/MJ</span>
+  </div>
+</div>
+
+<header class="topo">
+  <div class="topo-in">
+    <div class="emblema" aria-hidden="true">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M12 2.5 4 5.5v5.8c0 4.6 3.2 8.4 8 9.9 4.8-1.5 8-5.3 8-9.9V5.5l-8-3Z"/><path d="M9 12h6M12 9v6"/></svg>
+    </div>
+    <div class="marca">Desaparecidos · CNPD/MJ
+      <small>Painel de leitura para o NIHDE/POLITEC · fonte pública federal</small>
+    </div>
+    <div class="acoes">
+      <span class="selo" id="seloColeta">carregando…</span>
+      <button id="btnAtualizar" type="button" title="Recoletar os dados no painel público do CNPD">
+        <svg class="ico" viewBox="0 0 24 24"><path d="M20 11a8 8 0 1 0-2.3 5.7"/><path d="M20 4v7h-7"/></svg>
+        <span id="txtAtualizar">Atualizar</span>
+      </button>
+      <button id="btnTema" type="button" title="Alternar tema claro e escuro">
+        <svg class="ico sol" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+        <svg class="ico lua" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+        <span id="txtTema">Tema</span>
+      </button>
+    </div>
+  </div>
+  <nav aria-label="Seções">
+    <a href="#visao" class="ativo">Visão geral</a>
+    <a href="#graficos">Distribuição</a>
+    <a href="#lista">Registros</a>
+    <a href="#nota">Nota e fonte</a>
+  </nav>
+</header>
+
+<main>
+  <section id="visao">
+    <h1>Pessoas desaparecidas no Brasil</h1>
+    <p class="sub">Leitura dos registros do painel público do Cadastro Nacional de Pessoas Desaparecidas (CNPD/MJ). A base é a mesma que o cidadão consulta no site oficial; aqui os campos ganham filtros, indicadores e distribuição.</p>
+    <div class="aviso">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M12 9v4M12 17h.01"/><path d="M10.3 3.9 1.8 18a2 2 0 0 0 1.7 3h17a2 2 0 0 0 1.7-3L13.7 3.9a2 2 0 0 0-3.4 0Z"/></svg>
+      <div><b>Painel não oficial.</b> Os dados e as fotos pertencem ao CNPD/MJ. O painel lê o recorte público do momento da coleta; ele não substitui os sistemas oficiais nem serve para confirmação de identidade. <span id="textoColeta"></span></div>
+    </div>
+    <div class="kpis" id="kpis" aria-live="polite"></div>
+  </section>
+
+  <section id="graficos">
+    <h2>Distribuição dos registros</h2>
+    <div class="graficos" id="graficos"></div>
+  </section>
+
+  <section id="lista">
+    <h2>Registros</h2>
+    <div class="filtros" role="search">
+      <div class="campo busca">
+        <label for="q">Buscar por nome</label>
+        <input id="q" type="search" autocomplete="off" placeholder="Ex.: Maria, Silva, Santos…">
+      </div>
+      <div class="campo">
+        <label for="uf">UF do registro</label>
+        <select id="uf"><option value="">Todas</option></select>
+      </div>
+      <div class="campo">
+        <label for="sexo">Sexo</label>
+        <select id="sexo"><option value="">Todos</option></select>
+      </div>
+      <div class="campo">
+        <label for="faixa">Faixa etária</label>
+        <select id="faixa">
+          <option value="">Todas</option>
+          <option value="0-11">0 a 11 anos</option>
+          <option value="12-17">12 a 17 anos</option>
+          <option value="18-29">18 a 29 anos</option>
+          <option value="30-44">30 a 44 anos</option>
+          <option value="45-59">45 a 59 anos</option>
+          <option value="60+">60 anos ou mais</option>
+          <option value="sem">Sem informação</option>
+        </select>
+      </div>
+      <div class="campo">
+        <label for="ordem">Ordenar por</label>
+        <select id="ordem">
+          <option value="recente">Registro mais recente</option>
+          <option value="antigo">Registro mais antigo</option>
+          <option value="nome">Nome (A-Z)</option>
+          <option value="nome-desc">Nome (Z-A)</option>
+          <option value="tempo">Mais tempo desaparecido</option>
+        </select>
+      </div>
+      <div class="acoes-filtro">
+        <button id="btnLimpar" type="button">Limpar</button>
+        <button id="btnCsv" type="button" class="primario">
+          <svg class="ico" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 11 5 5 5-5"/><path d="M5 21h14"/></svg>
+          Exportar CSV
+        </button>
+      </div>
+    </div>
+    <p class="meta-lista" id="metaLista"></p>
+    <div class="grid" id="grid"></div>
+    <div class="mais"><button id="btnMais" type="button">Carregar mais</button></div>
+  </section>
+
+  <section id="nota" class="nota-sec">
+    <h2>Nota e fonte</h2>
+    <div class="card">
+      <p><strong>Fonte:</strong> Cadastro Nacional de Pessoas Desaparecidas (CNPD), do Ministério da Justiça e Segurança Pública, em <a href="https://cnpd.mj.gov.br/painel-publico" target="_blank" rel="noopener">cnpd.mj.gov.br/painel-publico</a>. A coleta usa o endpoint público <code>POST /api/api/painel-publico/desaparecidos/filtrar</code>, o mesmo que o site oficial chama.</p>
+      <p><strong>O que este recorte mostra:</strong> os campos do painel público são nome, idade atual, idade no desaparecimento, sexo, raça/cor, local e UF do registro, data do desaparecimento, data do registro e o indicador de localização confirmada. O detalhe e a foto vêm de <code>/api/api/painel-publico/desaparecidos/{id}</code> e <code>/api/desaparecimentos/{id}/arquivos-imagem/main</code>.</p>
+      <p><strong>Limites que o painel deixa visíveis:</strong></p>
+      <ul id="limites"></ul>
+      <p class="nota">Uso institucional e jornalístico. Os dados são públicos, mas continuam sendo dados pessoais: não faça cruzamento nominal, contato com famílias ou divulgação de foto fora da finalidade de localização. A análise completa da API, com todos os filtros aceitos, está em <code>ANALISE-API-CNPD.md</code>.</p>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="in">
+    <span><strong>NIHDE</strong> · Núcleo de Identificação Humana e Desaparecidos · POLITEC/MT</span>
+    <span class="dir">Fonte: CNPD/MJ · painel não oficial · <span id="rodapeColeta"></span></span>
+  </div>
+</footer>
+
+<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="modalNome">
+  <div class="caixa">
+    <button class="fechar" id="modalFechar" type="button" aria-label="Fechar">
+      <svg class="ico" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="topo-modal">
+      <div class="foto-modal" id="modalFoto"></div>
+      <div class="cab">
+        <span class="tag" id="modalTag">Desaparecido</span>
+        <h3 id="modalNome">—</h3>
+        <span class="sub2" id="modalSub">—</span>
+      </div>
+    </div>
+    <div class="corpo-modal">
+      <div class="dados" id="modalDados"></div>
+      <div class="acoes-modal" id="modalAcoes"></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+const SNAPSHOT = {"fonte":"CNPD/MJ - Painel Publico de Pessoas Desaparecidas","site":"https://cnpd.mj.gov.br/painel-publico","endpoint":"https://cnpd.mj.gov.br/api/api/painel-publico/desaparecidos/filtrar","ordenacao":"MAIS_RECENTE","coletado_em":"2026-11-03T19:56:43+00:00","total_registros_informado":381,"total_registros_coletado":381,"registros":[{"id":225416,"nome":"Valter da Silva Santos","idadeAtual":70,"idadeDesaparecimento":70,"sexo":"Masculino","racaCor":null,"localRegistro":"Vilhena/RO","ufRegistro":"RO","dataDesaparecimento":"01/10/2026","dataRegistroDesaparecimento":"05/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":225424,"nome":"joao Pedro Nascimento da SIlva","idadeAtual":33,"idadeDesaparecimento":33,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"03/10/2026","dataRegistroDesaparecimento":"22/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":225746,"nome":"Jeferson Santos da Silva","idadeAtual":31,"idadeDesaparecimento":31,"sexo":"Masculino","racaCor":null,"localRegistro":"Lauro de Freitas/BA","ufRegistro":"BA","dataDesaparecimento":"02/09/2026","dataRegistroDesaparecimento":"06/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":225913,"nome":"Gledson da Silva Santana","idadeAtual":46,"idadeDesaparecimento":31,"sexo":"Masculino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"01/10/2011","dataRegistroDesaparecimento":"07/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":226837,"nome":"Luiz Felipe Costa dos Santos","idadeAtual":23,"idadeDesaparecimento":23,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"10/10/2026","dataRegistroDesaparecimento":"11/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":226974,"nome":"Silvania Tenorio de Souza","idadeAtual":43,"idadeDesaparecimento":43,"sexo":"Feminino","racaCor":null,"localRegistro":"Arapiraca/AL","ufRegistro":"AL","dataDesaparecimento":"01/10/2026","dataRegistroDesaparecimento":"12/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":227132,"nome":"Bruno Rafael da Fonseca","idadeAtual":38,"idadeDesaparecimento":38,"sexo":"Masculino","racaCor":null,"localRegistro":"Inhapi/AL","ufRegistro":"AL","dataDesaparecimento":"07/10/2026","dataRegistroDesaparecimento":"13/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":227264,"nome":"Marcos Antonio Ramalho Gomes Pessoa","idadeAtual":26,"idadeDesaparecimento":26,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"13/10/2026","dataRegistroDesaparecimento":"14/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":227525,"nome":"Ivanildo dos Santos Nicolau","idadeAtual":72,"idadeDesaparecimento":37,"sexo":"Masculino","racaCor":null,"localRegistro":"Pilar/AL","ufRegistro":"AL","dataDesaparecimento":"26/02/1991","dataRegistroDesaparecimento":"15/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":227551,"nome":"Jose Francisco Balbino","idadeAtual":39,"idadeDesaparecimento":39,"sexo":"Masculino","racaCor":null,"localRegistro":"Igaci/AL","ufRegistro":"AL","dataDesaparecimento":"13/10/2026","dataRegistroDesaparecimento":"15/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":227619,"nome":"Sinval dos Reis Bastos","idadeAtual":65,"idadeDesaparecimento":64,"sexo":"Masculino","racaCor":null,"localRegistro":"Itaberaba/BA","ufRegistro":"BA","dataDesaparecimento":"08/10/2026","dataRegistroDesaparecimento":"15/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":227839,"nome":"Bruno Marcilon Rosa da Silva","idadeAtual":29,"idadeDesaparecimento":29,"sexo":"Masculino","racaCor":null,"localRegistro":"Palmas/TO","ufRegistro":"TO","dataDesaparecimento":"24/09/2026","dataRegistroDesaparecimento":"16/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":228011,"nome":"Antonio Claudio dos Santos Teixeira","idadeAtual":56,"idadeDesaparecimento":56,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"10/10/2026","dataRegistroDesaparecimento":"22/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":228497,"nome":"Gildasio Oliveira Mateus","idadeAtual":59,"idadeDesaparecimento":37,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"13/01/2004","dataRegistroDesaparecimento":"20/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":228979,"nome":"HELOISA PEREIRA DA SILVA","idadeAtual":4,"idadeDesaparecimento":4,"sexo":"Feminino","racaCor":null,"localRegistro":"Juara/MT","ufRegistro":"MT","dataDesaparecimento":"20/10/2026","dataRegistroDesaparecimento":"20/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":229101,"nome":"Sara Santos de Santana","idadeAtual":39,"idadeDesaparecimento":39,"sexo":"Feminino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"13/10/2026","dataRegistroDesaparecimento":"27/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":229120,"nome":"Jose Thiago Lima Morais","idadeAtual":20,"idadeDesaparecimento":20,"sexo":"Masculino","racaCor":null,"localRegistro":"Inhapi/AL","ufRegistro":"AL","dataDesaparecimento":"22/10/2026","dataRegistroDesaparecimento":"22/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":229162,"nome":"Luana Santos da Silva","idadeAtual":25,"idadeDesaparecimento":25,"sexo":"Feminino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"21/10/2026","dataRegistroDesaparecimento":"22/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":229178,"nome":"Carlos Sergio Borges da Silva Junior","idadeAtual":24,"idadeDesaparecimento":24,"sexo":"Masculino","racaCor":null,"localRegistro":"Pilar/AL","ufRegistro":"AL","dataDesaparecimento":"20/10/2026","dataRegistroDesaparecimento":"22/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":229341,"nome":"Jose Carlos Rodrigues Diniz","idadeAtual":39,"idadeDesaparecimento":39,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"04/10/2026","dataRegistroDesaparecimento":"26/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":229488,"nome":"Yuri Santos Estrela Silva","idadeAtual":19,"idadeDesaparecimento":19,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"23/10/2026","dataRegistroDesaparecimento":"24/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":229854,"nome":"Maria das Dores dos Santos","idadeAtual":60,"idadeDesaparecimento":60,"sexo":"Feminino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"25/10/2026","dataRegistroDesaparecimento":"26/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":229979,"nome":"JOSÉ OCEANO DOS SANTOS","idadeAtual":53,"idadeDesaparecimento":53,"sexo":"Feminino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"24/10/2026","dataRegistroDesaparecimento":"26/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":230084,"nome":"Levi Jose Pinheiro","idadeAtual":42,"idadeDesaparecimento":42,"sexo":"Masculino","racaCor":null,"localRegistro":"Mata Grande/AL","ufRegistro":"AL","dataDesaparecimento":"14/09/2026","dataRegistroDesaparecimento":"27/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":230098,"nome":"Wirian Vitor dos Santos","idadeAtual":24,"idadeDesaparecimento":24,"sexo":"Masculino","racaCor":null,"localRegistro":"Teotônio Vilela/AL","ufRegistro":"AL","dataDesaparecimento":"23/09/2026","dataRegistroDesaparecimento":"27/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":230292,"nome":"Leonardo Arcanjo da Silva","idadeAtual":29,"idadeDesaparecimento":29,"sexo":"Masculino","racaCor":null,"localRegistro":"Novo Lino/AL","ufRegistro":"AL","dataDesaparecimento":"27/10/2026","dataRegistroDesaparecimento":"28/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":230441,"nome":"Antonio Francisco dos Santos","idadeAtual":65,"idadeDesaparecimento":65,"sexo":"Masculino","racaCor":null,"localRegistro":"Campo Grande/AL","ufRegistro":"AL","dataDesaparecimento":"25/10/2026","dataRegistroDesaparecimento":"28/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":231245,"nome":"Petala Iasmin Vasconcelos Almeida","idadeAtual":15,"idadeDesaparecimento":15,"sexo":"Feminino","racaCor":null,"localRegistro":"Feira de Santana/BA","ufRegistro":"BA","dataDesaparecimento":"01/11/2026","dataRegistroDesaparecimento":"03/11/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":231355,"nome":"Edna Perpetua Alves da Silva","idadeAtual":71,"idadeDesaparecimento":71,"sexo":"Feminino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"02/11/2026","dataRegistroDesaparecimento":"03/11/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":226304,"nome":"EMANUEL LUCIEN PHILISTIN","idadeAtual":7,"idadeDesaparecimento":0,"sexo":"Masculino","racaCor":null,"localRegistro":"Joinville/SC","ufRegistro":"SC","dataDesaparecimento":null,"dataRegistroDesaparecimento":"27/02/2024","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":218437,"nome":"ANTONIO BATISTA LOPES","idadeAtual":28,"idadeDesaparecimento":28,"sexo":"Masculino","racaCor":null,"localRegistro":"Imbuia/SC","ufRegistro":"SC","dataDesaparecimento":"02/09/2026","dataRegistroDesaparecimento":"03/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":219618,"nome":"OTAVIO DOS SANTOS MARTINS","idadeAtual":26,"idadeDesaparecimento":25,"sexo":"Masculino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"02/09/2026","dataRegistroDesaparecimento":"09/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":220179,"nome":"Andreia Christina da Silva Ferreira","idadeAtual":19,"idadeDesaparecimento":19,"sexo":"Feminino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"31/08/2026","dataRegistroDesaparecimento":"09/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":220296,"nome":"OZANIDE BARBOSA DA SILVA","idadeAtual":63,"idadeDesaparecimento":63,"sexo":"Feminino","racaCor":null,"localRegistro":"Goiânia/GO","ufRegistro":"GO","dataDesaparecimento":"08/09/2026","dataRegistroDesaparecimento":"09/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":220396,"nome":"Jose Marcos Feitosa Costa","idadeAtual":null,"idadeDesaparecimento":0,"sexo":"Não identificado","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"10/09/2026","dataRegistroDesaparecimento":"10/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":221063,"nome":"Thiago Adriano de Lima","idadeAtual":36,"idadeDesaparecimento":28,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"01/09/2018","dataRegistroDesaparecimento":"14/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":221541,"nome":"WADSON BISPO VIDAL","idadeAtual":33,"idadeDesaparecimento":31,"sexo":"Masculino","racaCor":null,"localRegistro":"Goiânia/GO","ufRegistro":"GO","dataDesaparecimento":"19/11/2024","dataRegistroDesaparecimento":"19/11/2024","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":221700,"nome":"Lara Beatriz da Gama dos Santos","idadeAtual":16,"idadeDesaparecimento":16,"sexo":"Feminino","racaCor":null,"localRegistro":"Lauro de Freitas/BA","ufRegistro":"BA","dataDesaparecimento":"17/09/2026","dataRegistroDesaparecimento":"18/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":221812,"nome":"Kleuven Reinaldo da Silva","idadeAtual":35,"idadeDesaparecimento":35,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"15/09/2026","dataRegistroDesaparecimento":"21/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":221858,"nome":"Iranilson Lima Aguiar","idadeAtual":28,"idadeDesaparecimento":27,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"13/02/2026","dataRegistroDesaparecimento":"18/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":221900,"nome":"Rangel Alves dos Santos","idadeAtual":28,"idadeDesaparecimento":28,"sexo":"Masculino","racaCor":null,"localRegistro":"Girau do Ponciano/AL","ufRegistro":"AL","dataDesaparecimento":"16/09/2026","dataRegistroDesaparecimento":"18/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":222338,"nome":"Jose Aloisio dos Santos Junior","idadeAtual":30,"idadeDesaparecimento":29,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"15/09/2026","dataRegistroDesaparecimento":"21/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":222342,"nome":"Diana Carolina Barrios Rondon","idadeAtual":33,"idadeDesaparecimento":33,"sexo":"Sem informação","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"01/09/2026","dataRegistroDesaparecimento":"05/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":222427,"nome":"Ary Vieira Saboia Junior","idadeAtual":33,"idadeDesaparecimento":33,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"28/08/2026","dataRegistroDesaparecimento":"21/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":222817,"nome":"Blandina Laranjeira Amazonas","idadeAtual":46,"idadeDesaparecimento":46,"sexo":"Feminino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"18/08/2026","dataRegistroDesaparecimento":"24/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":222826,"nome":"Cristal Iza Furtado de Oliveira","idadeAtual":29,"idadeDesaparecimento":29,"sexo":"Feminino","racaCor":null,"localRegistro":"Pirenópolis/GO","ufRegistro":"GO","dataDesaparecimento":"23/09/2026","dataRegistroDesaparecimento":"23/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":222891,"nome":"Francisco Cleverson Rodrigues da Silva","idadeAtual":32,"idadeDesaparecimento":32,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"03/09/2026","dataRegistroDesaparecimento":"23/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":222948,"nome":"Rildo Bernardo do Nascimento","idadeAtual":44,"idadeDesaparecimento":44,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"12/08/2026","dataRegistroDesaparecimento":"23/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":223078,"nome":"PAULO ROBERTO DA SILVA ALVES","idadeAtual":61,"idadeDesaparecimento":54,"sexo":"Masculino","racaCor":null,"localRegistro":"Florianópolis/SC","ufRegistro":"SC","dataDesaparecimento":"23/09/2019","dataRegistroDesaparecimento":"26/09/2019","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":223326,"nome":"VALTER PAES DE LIMA","idadeAtual":51,"idadeDesaparecimento":48,"sexo":"Masculino","racaCor":null,"localRegistro":"Almirante Tamandaré/PR","ufRegistro":"PR","dataDesaparecimento":"21/08/2023","dataRegistroDesaparecimento":"23/08/2023","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":223339,"nome":"Rogerio de Jesus Peixoto","idadeAtual":34,"idadeDesaparecimento":34,"sexo":"Masculino","racaCor":null,"localRegistro":"Ipirá/BA","ufRegistro":"BA","dataDesaparecimento":"19/09/2026","dataRegistroDesaparecimento":"28/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":223791,"nome":"Paulo Sergio Pereira da Silva","idadeAtual":43,"idadeDesaparecimento":43,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"23/09/2026","dataRegistroDesaparecimento":"28/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":223842,"nome":"Norma Yurides Mata Rojas","idadeAtual":46,"idadeDesaparecimento":45,"sexo":"Feminino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"15/07/2026","dataRegistroDesaparecimento":"29/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":224045,"nome":"Edcarlos Lima de Almeida","idadeAtual":42,"idadeDesaparecimento":42,"sexo":"Masculino","racaCor":null,"localRegistro":"Barra de Santo Antônio/AL","ufRegistro":"AL","dataDesaparecimento":"26/09/2026","dataRegistroDesaparecimento":"23/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":224300,"nome":"Darlan da Silva Gomes","idadeAtual":35,"idadeDesaparecimento":35,"sexo":"Masculino","racaCor":null,"localRegistro":"Coruripe/AL","ufRegistro":"AL","dataDesaparecimento":"30/05/2026","dataRegistroDesaparecimento":"20/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":224328,"nome":"Marne Silva dos Santos","idadeAtual":53,"idadeDesaparecimento":53,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"15/09/2026","dataRegistroDesaparecimento":"30/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":224665,"nome":"Anna Beatriz Duarte Bastos","idadeAtual":16,"idadeDesaparecimento":16,"sexo":"Feminino","racaCor":null,"localRegistro":"Simões Filho/BA","ufRegistro":"BA","dataDesaparecimento":"30/09/2026","dataRegistroDesaparecimento":"02/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":225391,"nome":"Luis de Souza Lima","idadeAtual":75,"idadeDesaparecimento":75,"sexo":"Masculino","racaCor":null,"localRegistro":"Boa Vista/RR","ufRegistro":"RR","dataDesaparecimento":"02/10/2026","dataRegistroDesaparecimento":"22/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":218300,"nome":"Adriana Souza da Silva","idadeAtual":38,"idadeDesaparecimento":1,"sexo":"Feminino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":null,"dataRegistroDesaparecimento":"03/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":222567,"nome":"ELISANE BECKER","idadeAtual":46,"idadeDesaparecimento":0,"sexo":"Feminino","racaCor":null,"localRegistro":"São José/SC","ufRegistro":"SC","dataDesaparecimento":null,"dataRegistroDesaparecimento":"30/03/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":206661,"nome":"Patrick Silva Cavalcante","idadeAtual":37,"idadeDesaparecimento":37,"sexo":"Masculino","racaCor":null,"localRegistro":"Itabuna/BA","ufRegistro":"BA","dataDesaparecimento":"14/07/2026","dataRegistroDesaparecimento":"16/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":206994,"nome":"Ariana Leite Vieira do Nascimento","idadeAtual":20,"idadeDesaparecimento":19,"sexo":"Feminino","racaCor":null,"localRegistro":"Rio Largo/AL","ufRegistro":"AL","dataDesaparecimento":"09/07/2026","dataRegistroDesaparecimento":"23/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":207012,"nome":"Ikaro Kelvin da Silva","idadeAtual":18,"idadeDesaparecimento":17,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"19/07/2026","dataRegistroDesaparecimento":"20/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":207024,"nome":"Crisel Alejandra Cedeno Gomez","idadeAtual":23,"idadeDesaparecimento":23,"sexo":"Feminino","racaCor":null,"localRegistro":"Boa Vista/RR","ufRegistro":"RR","dataDesaparecimento":"13/06/2026","dataRegistroDesaparecimento":"12/08/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":207099,"nome":"JOSE ROBERTO DA SILVA","idadeAtual":36,"idadeDesaparecimento":35,"sexo":"Masculino","racaCor":null,"localRegistro":"Nova Veneza/SC","ufRegistro":"SC","dataDesaparecimento":"23/06/2026","dataRegistroDesaparecimento":"21/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":207170,"nome":"Maria Cicera Luiz da Silva","idadeAtual":54,"idadeDesaparecimento":54,"sexo":"Feminino","racaCor":null,"localRegistro":"São Sebastião/AL","ufRegistro":"AL","dataDesaparecimento":"20/07/2026","dataRegistroDesaparecimento":"22/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":207360,"nome":"DANIELLE MACHADO ISQUIERDO","idadeAtual":37,"idadeDesaparecimento":36,"sexo":"Feminino","racaCor":null,"localRegistro":"Porto Alegre/RS","ufRegistro":"RS","dataDesaparecimento":"16/09/2025","dataRegistroDesaparecimento":"17/09/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":207583,"nome":"Edjones Albuquerque Gama Santos","idadeAtual":28,"idadeDesaparecimento":28,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"25/07/2026","dataRegistroDesaparecimento":"27/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":207721,"nome":"GRASIELA DE CARVALHO RIBEIRO","idadeAtual":16,"idadeDesaparecimento":13,"sexo":"Feminino","racaCor":null,"localRegistro":"Criciúma/SC","ufRegistro":"SC","dataDesaparecimento":"05/06/2024","dataRegistroDesaparecimento":"05/06/2024","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":207766,"nome":"Ariane Silvestre da Silva","idadeAtual":21,"idadeDesaparecimento":21,"sexo":"Feminino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"28/07/2026","dataRegistroDesaparecimento":"30/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":207812,"nome":"GAIA SOPHIA OMALLEY","idadeAtual":6,"idadeDesaparecimento":4,"sexo":"Feminino","racaCor":null,"localRegistro":"Porto Alegre/RS","ufRegistro":"RS","dataDesaparecimento":"16/09/2025","dataRegistroDesaparecimento":"17/09/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":207825,"nome":"Acassia Oliveira de Cerqueira","idadeAtual":52,"idadeDesaparecimento":51,"sexo":"Feminino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"25/07/2026","dataRegistroDesaparecimento":"29/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":207926,"nome":"Edinilson dos Santos","idadeAtual":54,"idadeDesaparecimento":53,"sexo":"Masculino","racaCor":null,"localRegistro":"Lauro de Freitas/BA","ufRegistro":"BA","dataDesaparecimento":"30/07/2026","dataRegistroDesaparecimento":"06/08/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":207941,"nome":"Claudio Batista Santos","idadeAtual":47,"idadeDesaparecimento":47,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"27/07/2026","dataRegistroDesaparecimento":"30/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":208855,"nome":"Ricardo Antonio Lorenzon","idadeAtual":40,"idadeDesaparecimento":40,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"30/05/2026","dataRegistroDesaparecimento":"04/08/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":209559,"nome":"Nivaldo Lourenco da Silva","idadeAtual":64,"idadeDesaparecimento":64,"sexo":"Masculino","racaCor":null,"localRegistro":"Matriz de Camaragibe/AL","ufRegistro":"AL","dataDesaparecimento":"05/08/2026","dataRegistroDesaparecimento":"08/08/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":210678,"nome":"Ana Paula Santos do Nascimento","idadeAtual":45,"idadeDesaparecimento":45,"sexo":"Feminino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"03/08/2026","dataRegistroDesaparecimento":"13/08/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":210679,"nome":"WILSON DA HORA OLIVEIRA","idadeAtual":83,"idadeDesaparecimento":81,"sexo":"Masculino","racaCor":null,"localRegistro":"Goiânia/GO","ufRegistro":"GO","dataDesaparecimento":"09/03/2025","dataRegistroDesaparecimento":"09/03/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":210759,"nome":"VINICIUS VALENTE SILVA","idadeAtual":30,"idadeDesaparecimento":30,"sexo":"Masculino","racaCor":null,"localRegistro":"Florianópolis/SC","ufRegistro":"SC","dataDesaparecimento":"06/08/2026","dataRegistroDesaparecimento":"13/08/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":211441,"nome":"Akssa Thamera Almeida dos Santos","idadeAtual":26,"idadeDesaparecimento":26,"sexo":"Feminino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"23/07/2026","dataRegistroDesaparecimento":"02/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":211905,"nome":"Dorgival Alves de Souza","idadeAtual":47,"idadeDesaparecimento":46,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"25/07/2026","dataRegistroDesaparecimento":"19/08/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":212232,"nome":"Jesus Maria Misel Gonzalez","idadeAtual":30,"idadeDesaparecimento":29,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"01/12/2025","dataRegistroDesaparecimento":"20/08/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":212575,"nome":"Iago da Silva Santana","idadeAtual":13,"idadeDesaparecimento":13,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"20/08/2026","dataRegistroDesaparecimento":"24/08/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":213733,"nome":"Etenildo da Conceicao dos Santos","idadeAtual":36,"idadeDesaparecimento":36,"sexo":"Masculino","racaCor":null,"localRegistro":"São Francisco do Conde/BA","ufRegistro":"BA","dataDesaparecimento":"25/08/2026","dataRegistroDesaparecimento":"01/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":214625,"nome":"Lucas Souza da Silva","idadeAtual":26,"idadeDesaparecimento":19,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"08/08/2019","dataRegistroDesaparecimento":"28/08/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":215027,"nome":"ELCIO COSTA LISBOA","idadeAtual":46,"idadeDesaparecimento":43,"sexo":"Masculino","racaCor":null,"localRegistro":"Goiânia/GO","ufRegistro":"GO","dataDesaparecimento":"03/03/2024","dataRegistroDesaparecimento":"05/03/2024","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":215195,"nome":"DANIEL RODRIGUES DOS SANTOS","idadeAtual":23,"idadeDesaparecimento":22,"sexo":"Masculino","racaCor":null,"localRegistro":"Goiânia/GO","ufRegistro":"GO","dataDesaparecimento":"24/04/2025","dataRegistroDesaparecimento":"19/05/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":215399,"nome":"Elessandro Souza da Silva","idadeAtual":44,"idadeDesaparecimento":24,"sexo":"Masculino","racaCor":null,"localRegistro":"Macapá/AP","ufRegistro":"AP","dataDesaparecimento":"20/07/2007","dataRegistroDesaparecimento":"03/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":215477,"nome":"Jose Moura da Silva","idadeAtual":84,"idadeDesaparecimento":84,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"28/08/2026","dataRegistroDesaparecimento":"29/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":215759,"nome":"Edesio Souza Santos","idadeAtual":25,"idadeDesaparecimento":24,"sexo":"Masculino","racaCor":null,"localRegistro":"Jitaúna/BA","ufRegistro":"BA","dataDesaparecimento":"28/08/2026","dataRegistroDesaparecimento":"08/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":202031,"nome":"Eric Santos dos Santos","idadeAtual":27,"idadeDesaparecimento":27,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"19/05/2026","dataRegistroDesaparecimento":"25/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":202103,"nome":"Dayanna Santos de Souza","idadeAtual":38,"idadeDesaparecimento":38,"sexo":"Feminino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"21/04/2026","dataRegistroDesaparecimento":"26/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":202177,"nome":"Alexsandro Coelho de Queiroz","idadeAtual":34,"idadeDesaparecimento":33,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"23/05/2026","dataRegistroDesaparecimento":"23/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":202212,"nome":"Antonio Alves Batista","idadeAtual":65,"idadeDesaparecimento":65,"sexo":"Masculino","racaCor":null,"localRegistro":"Palmas/TO","ufRegistro":"TO","dataDesaparecimento":"24/05/2026","dataRegistroDesaparecimento":"26/08/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":202233,"nome":"Felipe Devidson Alves da Silva","idadeAtual":30,"idadeDesaparecimento":29,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"18/05/2026","dataRegistroDesaparecimento":"25/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":202325,"nome":"Guilherme Costa Lima","idadeAtual":18,"idadeDesaparecimento":18,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"26/05/2026","dataRegistroDesaparecimento":"28/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":202454,"nome":"Paulo Ykaro da Conceicao Silva","idadeAtual":14,"idadeDesaparecimento":14,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"29/05/2026","dataRegistroDesaparecimento":"02/06/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":202492,"nome":"Antonio Francisco de Abreu Santos","idadeAtual":30,"idadeDesaparecimento":29,"sexo":"Masculino","racaCor":null,"localRegistro":"Amarante do Maranhão/MA","ufRegistro":"MA","dataDesaparecimento":"30/05/2026","dataRegistroDesaparecimento":"01/10/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":202539,"nome":"Emerson Ferreira da Silva","idadeAtual":28,"idadeDesaparecimento":27,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"16/05/2026","dataRegistroDesaparecimento":"25/06/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":202617,"nome":"Raimundo Rodrigues dos Santos","idadeAtual":70,"idadeDesaparecimento":69,"sexo":"Masculino","racaCor":null,"localRegistro":"Esperantina/PI","ufRegistro":"PI","dataDesaparecimento":"03/06/2025","dataRegistroDesaparecimento":"11/06/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":202692,"nome":"Adenilson dos Santos Pinto","idadeAtual":37,"idadeDesaparecimento":37,"sexo":"Masculino","racaCor":null,"localRegistro":"Maraú/BA","ufRegistro":"BA","dataDesaparecimento":"04/06/2026","dataRegistroDesaparecimento":"08/06/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":202696,"nome":"Eduardo Gomes da Silva","idadeAtual":22,"idadeDesaparecimento":21,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"24/05/2026","dataRegistroDesaparecimento":"04/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":202747,"nome":"Ronaldo Gomes Freires","idadeAtual":34,"idadeDesaparecimento":34,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"02/05/2026","dataRegistroDesaparecimento":"10/06/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":203228,"nome":"Jorge Benedito da Silva","idadeAtual":null,"idadeDesaparecimento":1,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"14/06/2026","dataRegistroDesaparecimento":"14/06/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":203381,"nome":"Edinaldo Santos Batista","idadeAtual":47,"idadeDesaparecimento":47,"sexo":"Masculino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"13/06/2026","dataRegistroDesaparecimento":"26/08/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":203478,"nome":"Leda Eva Almeida","idadeAtual":70,"idadeDesaparecimento":63,"sexo":"Feminino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"21/04/2020","dataRegistroDesaparecimento":"17/06/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":203483,"nome":"Andreano Antonio da Silva Santos","idadeAtual":43,"idadeDesaparecimento":42,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"24/03/2026","dataRegistroDesaparecimento":"22/06/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":203500,"nome":"Joel Novais dos Santos Junior","idadeAtual":40,"idadeDesaparecimento":30,"sexo":"Masculino","racaCor":null,"localRegistro":"Palmas/TO","ufRegistro":"TO","dataDesaparecimento":"27/02/2017","dataRegistroDesaparecimento":"19/06/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":203505,"nome":"Laura Maritza Rendon Gil","idadeAtual":26,"idadeDesaparecimento":26,"sexo":"Feminino","racaCor":null,"localRegistro":"Jequié/BA","ufRegistro":"BA","dataDesaparecimento":"17/06/2026","dataRegistroDesaparecimento":"07/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":203511,"nome":"Jesiel Costa Sobral","idadeAtual":48,"idadeDesaparecimento":48,"sexo":"Masculino","racaCor":null,"localRegistro":"Itabaiana/SE","ufRegistro":"SE","dataDesaparecimento":"16/06/2026","dataRegistroDesaparecimento":"02/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":203516,"nome":"FLAVIO DE OLIVEIRA SOARES","idadeAtual":44,"idadeDesaparecimento":44,"sexo":"Masculino","racaCor":null,"localRegistro":"Penedo/AL","ufRegistro":"AL","dataDesaparecimento":"10/06/2026","dataRegistroDesaparecimento":"17/06/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":205077,"nome":"Luciano Alves de Souza","idadeAtual":null,"idadeDesaparecimento":1,"sexo":"Masculino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"02/02/2026","dataRegistroDesaparecimento":"02/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":205226,"nome":"Abimbola Nascimento Xavier","idadeAtual":39,"idadeDesaparecimento":29,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"01/04/2017","dataRegistroDesaparecimento":"29/06/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":205247,"nome":"Jose Nivaldo Silva de Menezes","idadeAtual":null,"idadeDesaparecimento":0,"sexo":"Não identificado","racaCor":null,"localRegistro":"Lagarto/SE","ufRegistro":"SE","dataDesaparecimento":"13/06/2026","dataRegistroDesaparecimento":"03/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":205367,"nome":"Murilo Gomes Goncalves","idadeAtual":21,"idadeDesaparecimento":20,"sexo":"Masculino","racaCor":null,"localRegistro":"Feira de Santana/BA","ufRegistro":"BA","dataDesaparecimento":"29/06/2026","dataRegistroDesaparecimento":"03/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":205513,"nome":"Fabio Pinho Santos","idadeAtual":56,"idadeDesaparecimento":56,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"22/05/2026","dataRegistroDesaparecimento":"05/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":205772,"nome":"Janderson Cardoso Santos Silva","idadeAtual":31,"idadeDesaparecimento":31,"sexo":"Masculino","racaCor":null,"localRegistro":"Estância/SE","ufRegistro":"SE","dataDesaparecimento":"30/06/2026","dataRegistroDesaparecimento":"20/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":205827,"nome":"Antonio Barbosa Figueiredo Filho","idadeAtual":70,"idadeDesaparecimento":58,"sexo":"Masculino","racaCor":null,"localRegistro":"Feira de Santana/BA","ufRegistro":"BA","dataDesaparecimento":"26/05/2014","dataRegistroDesaparecimento":"05/08/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":205971,"nome":"Caique Nascimento Santos","idadeAtual":32,"idadeDesaparecimento":32,"sexo":"Masculino","racaCor":null,"localRegistro":"Itaberaba/BA","ufRegistro":"BA","dataDesaparecimento":"25/06/2026","dataRegistroDesaparecimento":"23/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":206423,"nome":"Gabriel Alves da Silva","idadeAtual":17,"idadeDesaparecimento":17,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"15/07/2026","dataRegistroDesaparecimento":"17/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":200336,"nome":"Elvislane Silva do Vale","idadeAtual":35,"idadeDesaparecimento":34,"sexo":"Feminino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"03/04/2026","dataRegistroDesaparecimento":"06/04/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":200415,"nome":"Vitoria da Silva Santos","idadeAtual":15,"idadeDesaparecimento":14,"sexo":"Feminino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"07/04/2026","dataRegistroDesaparecimento":"27/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":200423,"nome":"Rian Alves da Silva","idadeAtual":20,"idadeDesaparecimento":19,"sexo":"Masculino","racaCor":null,"localRegistro":"São José da Laje/AL","ufRegistro":"AL","dataDesaparecimento":"06/04/2026","dataRegistroDesaparecimento":"08/04/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":200456,"nome":"Evelin Yasmin Fernandes Barros","idadeAtual":19,"idadeDesaparecimento":19,"sexo":"Feminino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"08/04/2026","dataRegistroDesaparecimento":"08/04/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":200526,"nome":"Roberto Cassiano dos Santos","idadeAtual":58,"idadeDesaparecimento":58,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"04/04/2026","dataRegistroDesaparecimento":"10/04/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":200567,"nome":"Eduardo Ferreira da Silva Guedes","idadeAtual":20,"idadeDesaparecimento":20,"sexo":"Masculino","racaCor":null,"localRegistro":"São Miguel dos Campos/AL","ufRegistro":"AL","dataDesaparecimento":"09/04/2026","dataRegistroDesaparecimento":"11/04/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":200579,"nome":"Kawan de Lima Cavalcante","idadeAtual":17,"idadeDesaparecimento":17,"sexo":"Masculino","racaCor":null,"localRegistro":"Estrela de Alagoas/AL","ufRegistro":"AL","dataDesaparecimento":"10/04/2026","dataRegistroDesaparecimento":"13/04/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":200719,"nome":"Joao Paulo dos Santos Oliveira","idadeAtual":38,"idadeDesaparecimento":37,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"04/04/2026","dataRegistroDesaparecimento":"14/06/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":200772,"nome":"Saphira Ferreira Lima","idadeAtual":15,"idadeDesaparecimento":10,"sexo":"Feminino","racaCor":null,"localRegistro":"Palmas/TO","ufRegistro":"TO","dataDesaparecimento":"30/05/2021","dataRegistroDesaparecimento":"16/04/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":200785,"nome":"Willian Thawan de Araujo Alves","idadeAtual":23,"idadeDesaparecimento":22,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"14/04/2026","dataRegistroDesaparecimento":"07/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":200824,"nome":"Mariana Barbosa de Oliveira","idadeAtual":15,"idadeDesaparecimento":15,"sexo":"Feminino","racaCor":null,"localRegistro":"Teotônio Vilela/AL","ufRegistro":"AL","dataDesaparecimento":"16/04/2026","dataRegistroDesaparecimento":"17/04/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":200839,"nome":"Jose Silvio Silva Sousa","idadeAtual":48,"idadeDesaparecimento":48,"sexo":"Masculino","racaCor":null,"localRegistro":"Palmas/TO","ufRegistro":"TO","dataDesaparecimento":"17/04/2026","dataRegistroDesaparecimento":"08/06/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":200953,"nome":"Benedito Gomes dos Santos","idadeAtual":76,"idadeDesaparecimento":76,"sexo":"Masculino","racaCor":null,"localRegistro":"Mata Grande/AL","ufRegistro":"AL","dataDesaparecimento":"20/04/2026","dataRegistroDesaparecimento":"20/04/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":201034,"nome":"Josimar Vicente de Souza","idadeAtual":44,"idadeDesaparecimento":44,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"19/04/2026","dataRegistroDesaparecimento":"02/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":201149,"nome":"Vera Lucia dos Anjos Bezerra","idadeAtual":57,"idadeDesaparecimento":57,"sexo":"Feminino","racaCor":null,"localRegistro":"Paripueira/AL","ufRegistro":"AL","dataDesaparecimento":"24/04/2026","dataRegistroDesaparecimento":"04/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":201239,"nome":"Fabiana Lima de Farias","idadeAtual":41,"idadeDesaparecimento":35,"sexo":"Feminino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"20/09/2020","dataRegistroDesaparecimento":"29/04/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":201381,"nome":"Sofia de Oliveira Goncalves Varela","idadeAtual":24,"idadeDesaparecimento":24,"sexo":"Feminino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"29/04/2026","dataRegistroDesaparecimento":"03/06/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":201418,"nome":"Antonio Vieira de Barros Junior","idadeAtual":36,"idadeDesaparecimento":36,"sexo":"Masculino","racaCor":null,"localRegistro":"Estrela de Alagoas/AL","ufRegistro":"AL","dataDesaparecimento":"27/04/2026","dataRegistroDesaparecimento":"04/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":201425,"nome":"Lidiane Correia das Neves","idadeAtual":44,"idadeDesaparecimento":43,"sexo":"Feminino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"20/11/2025","dataRegistroDesaparecimento":"15/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":201462,"nome":"Elisangela Maria dos Santos","idadeAtual":24,"idadeDesaparecimento":23,"sexo":"Feminino","racaCor":null,"localRegistro":"Marechal Deodoro/AL","ufRegistro":"AL","dataDesaparecimento":"02/05/2026","dataRegistroDesaparecimento":"05/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":201472,"nome":"Antonio Santos Fernandes","idadeAtual":36,"idadeDesaparecimento":36,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"30/04/2026","dataRegistroDesaparecimento":"07/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":201474,"nome":"Antony Levy Guimaraes Luz","idadeAtual":15,"idadeDesaparecimento":14,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"01/05/2026","dataRegistroDesaparecimento":"12/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":201587,"nome":"Gilson Cardoso santos","idadeAtual":51,"idadeDesaparecimento":50,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"07/05/2026","dataRegistroDesaparecimento":"08/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":201585,"nome":"Selene Aduan","idadeAtual":63,"idadeDesaparecimento":62,"sexo":"Feminino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"08/05/2026","dataRegistroDesaparecimento":"08/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":201602,"nome":"Luciano Alves de Souza","idadeAtual":null,"idadeDesaparecimento":null,"sexo":"Sem informação","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"25/02/2026","dataRegistroDesaparecimento":"09/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":201665,"nome":"Winston Dantas Marques","idadeAtual":47,"idadeDesaparecimento":47,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"04/05/2026","dataRegistroDesaparecimento":"21/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":201751,"nome":"Jose Otavio dos Santos","idadeAtual":49,"idadeDesaparecimento":48,"sexo":"Masculino","racaCor":null,"localRegistro":"Murici/AL","ufRegistro":"AL","dataDesaparecimento":"11/05/2026","dataRegistroDesaparecimento":"13/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":201770,"nome":"Paulo Ravel Lopes de Mendonça","idadeAtual":15,"idadeDesaparecimento":15,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"11/05/2026","dataRegistroDesaparecimento":"22/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":201820,"nome":"Maxsoell Ferreira dos Santos","idadeAtual":34,"idadeDesaparecimento":34,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"12/05/2026","dataRegistroDesaparecimento":"28/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":201977,"nome":"Daniel dos Santos","idadeAtual":45,"idadeDesaparecimento":44,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"13/05/2026","dataRegistroDesaparecimento":"18/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":198274,"nome":"Misael Pereira de Lima","idadeAtual":24,"idadeDesaparecimento":24,"sexo":"Masculino","racaCor":null,"localRegistro":"Teotônio Vilela/AL","ufRegistro":"AL","dataDesaparecimento":"21/01/2026","dataRegistroDesaparecimento":"11/02/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":198341,"nome":"Jose Adelmo Soares da Silva","idadeAtual":54,"idadeDesaparecimento":53,"sexo":"Masculino","racaCor":null,"localRegistro":"Santana do Ipanema/AL","ufRegistro":"AL","dataDesaparecimento":"03/02/2026","dataRegistroDesaparecimento":"12/02/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":198398,"nome":"Carlos Roberto Oliveira dos Santos","idadeAtual":56,"idadeDesaparecimento":55,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"08/02/2026","dataRegistroDesaparecimento":"14/02/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":198415,"nome":"Raimundo Rodrigues Costa","idadeAtual":59,"idadeDesaparecimento":59,"sexo":"Masculino","racaCor":null,"localRegistro":"Macapá/AP","ufRegistro":"AP","dataDesaparecimento":"10/02/2026","dataRegistroDesaparecimento":"12/03/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":198420,"nome":"Diego Ferreira Santos","idadeAtual":36,"idadeDesaparecimento":35,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"13/02/2026","dataRegistroDesaparecimento":"26/02/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":198512,"nome":"Deivisson Lourenco dos Santos","idadeAtual":24,"idadeDesaparecimento":23,"sexo":"Masculino","racaCor":null,"localRegistro":"São Miguel dos Campos/AL","ufRegistro":"AL","dataDesaparecimento":"16/02/2026","dataRegistroDesaparecimento":"19/02/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":198543,"nome":"Alisson Souza Vieira","idadeAtual":32,"idadeDesaparecimento":31,"sexo":"Masculino","racaCor":null,"localRegistro":"Itabuna/BA","ufRegistro":"BA","dataDesaparecimento":"05/02/2026","dataRegistroDesaparecimento":"13/08/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":198609,"nome":"Phillipe dos Santos Bahia","idadeAtual":35,"idadeDesaparecimento":34,"sexo":"Masculino","racaCor":null,"localRegistro":"São Cristóvão/SE","ufRegistro":"SE","dataDesaparecimento":"08/02/2026","dataRegistroDesaparecimento":"08/04/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":198604,"nome":"Edilson Matias dos Santos","idadeAtual":33,"idadeDesaparecimento":33,"sexo":"Masculino","racaCor":null,"localRegistro":"Marechal Deodoro/AL","ufRegistro":"AL","dataDesaparecimento":"06/02/2026","dataRegistroDesaparecimento":"23/03/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":198632,"nome":"Jose Cicero Ferreira Veiga","idadeAtual":43,"idadeDesaparecimento":43,"sexo":"Masculino","racaCor":null,"localRegistro":"Coité do Nóia/AL","ufRegistro":"AL","dataDesaparecimento":"19/02/2026","dataRegistroDesaparecimento":"22/02/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":198716,"nome":"Jose Nicollas Albuqerque Sena","idadeAtual":18,"idadeDesaparecimento":17,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"21/02/2026","dataRegistroDesaparecimento":"23/02/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":198753,"nome":"Wendel Roberto Cruz da Silva","idadeAtual":29,"idadeDesaparecimento":28,"sexo":"Masculino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"22/02/2026","dataRegistroDesaparecimento":"24/02/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":199024,"nome":"Odair Jose Cordeiro da Silva","idadeAtual":47,"idadeDesaparecimento":46,"sexo":"Masculino","racaCor":null,"localRegistro":"Delmiro Gouveia/AL","ufRegistro":"AL","dataDesaparecimento":"23/02/2026","dataRegistroDesaparecimento":"03/03/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":199082,"nome":"Evandro da Silva Rocha Sobrinho","idadeAtual":47,"idadeDesaparecimento":42,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"19/04/2021","dataRegistroDesaparecimento":"04/03/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":199085,"nome":"Andreas Denicio Borges Barros","idadeAtual":15,"idadeDesaparecimento":14,"sexo":"Masculino","racaCor":null,"localRegistro":"Porto de Pedras/AL","ufRegistro":"AL","dataDesaparecimento":"04/03/2026","dataRegistroDesaparecimento":"17/03/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":199116,"nome":"Jose Severino da Silva","idadeAtual":47,"idadeDesaparecimento":47,"sexo":"Masculino","racaCor":null,"localRegistro":"Teotônio Vilela/AL","ufRegistro":"AL","dataDesaparecimento":"25/02/2026","dataRegistroDesaparecimento":"12/03/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":199131,"nome":"Marques Rocha do Nascimento","idadeAtual":42,"idadeDesaparecimento":35,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"19/11/2019","dataRegistroDesaparecimento":"05/03/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":199200,"nome":"Cayan Araujo Silva","idadeAtual":20,"idadeDesaparecimento":19,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"06/03/2026","dataRegistroDesaparecimento":"13/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":199292,"nome":"Antonio Cadete de Andrade","idadeAtual":71,"idadeDesaparecimento":70,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"10/02/2026","dataRegistroDesaparecimento":"12/03/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":199319,"nome":"José Rosa dos Santos","idadeAtual":73,"idadeDesaparecimento":73,"sexo":"Masculino","racaCor":null,"localRegistro":"Malhada dos Bois/SE","ufRegistro":"SE","dataDesaparecimento":"07/03/2026","dataRegistroDesaparecimento":"17/03/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":199381,"nome":"Rafael Ribeiro da Silva","idadeAtual":30,"idadeDesaparecimento":24,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"10/01/2021","dataRegistroDesaparecimento":"11/03/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":199577,"nome":"Joanio Pinheiro de Jesus","idadeAtual":41,"idadeDesaparecimento":41,"sexo":"Masculino","racaCor":null,"localRegistro":"Iguaí/BA","ufRegistro":"BA","dataDesaparecimento":"01/02/2026","dataRegistroDesaparecimento":"16/04/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":199599,"nome":"Taylan Lopes Souza","idadeAtual":31,"idadeDesaparecimento":28,"sexo":"Masculino","racaCor":null,"localRegistro":"Mucuri/BA","ufRegistro":"BA","dataDesaparecimento":"10/04/2023","dataRegistroDesaparecimento":"05/04/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":199913,"nome":"Walisson Silva de Araujo","idadeAtual":32,"idadeDesaparecimento":32,"sexo":"Masculino","racaCor":null,"localRegistro":"Boa Vista/RR","ufRegistro":"RR","dataDesaparecimento":"23/03/2026","dataRegistroDesaparecimento":"24/08/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":199950,"nome":"Aelson de Jesus Carmo","idadeAtual":46,"idadeDesaparecimento":46,"sexo":"Masculino","racaCor":null,"localRegistro":"Camaçari/BA","ufRegistro":"BA","dataDesaparecimento":"24/03/2026","dataRegistroDesaparecimento":"25/03/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":199956,"nome":"Graziela Santana Silva","idadeAtual":32,"idadeDesaparecimento":32,"sexo":"Feminino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"21/03/2026","dataRegistroDesaparecimento":"10/06/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":199993,"nome":"Edmarcio Melo dos Santos","idadeAtual":39,"idadeDesaparecimento":38,"sexo":"Masculino","racaCor":null,"localRegistro":"Itabuna/BA","ufRegistro":"BA","dataDesaparecimento":"26/02/2026","dataRegistroDesaparecimento":"01/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":200006,"nome":"Joao Vitor Silva dos Santos","idadeAtual":17,"idadeDesaparecimento":17,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"24/03/2026","dataRegistroDesaparecimento":"10/06/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":200112,"nome":"Natanael Martins Ribeiro","idadeAtual":61,"idadeDesaparecimento":61,"sexo":"Masculino","racaCor":null,"localRegistro":"Seringueiras/RO","ufRegistro":"RO","dataDesaparecimento":"12/02/2026","dataRegistroDesaparecimento":"14/04/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":200191,"nome":"Kenia Cristina Saraiva da Costa","idadeAtual":54,"idadeDesaparecimento":53,"sexo":"Feminino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"31/03/2026","dataRegistroDesaparecimento":"21/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":195975,"nome":"Douglas Pereira de Oliveira","idadeAtual":28,"idadeDesaparecimento":27,"sexo":"Masculino","racaCor":null,"localRegistro":"Arapiraca/AL","ufRegistro":"AL","dataDesaparecimento":"29/11/2025","dataRegistroDesaparecimento":"10/12/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":196044,"nome":"Jose de Ribamar Leal","idadeAtual":60,"idadeDesaparecimento":59,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"10/12/2025","dataRegistroDesaparecimento":"11/12/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":196036,"nome":"Maria Vitoria Chaves da Silva","idadeAtual":23,"idadeDesaparecimento":22,"sexo":"Feminino","racaCor":null,"localRegistro":"Porto de Pedras/AL","ufRegistro":"AL","dataDesaparecimento":"08/12/2025","dataRegistroDesaparecimento":"12/12/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":196163,"nome":"Jose Lidio Soares de Oliveira","idadeAtual":22,"idadeDesaparecimento":21,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"06/12/2025","dataRegistroDesaparecimento":"15/12/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":196279,"nome":"Naileno Ribeiro dos Santos","idadeAtual":24,"idadeDesaparecimento":22,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"07/01/2025","dataRegistroDesaparecimento":"18/12/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":196437,"nome":"RICARDO SANTOS FONTES","idadeAtual":38,"idadeDesaparecimento":37,"sexo":"Masculino","racaCor":null,"localRegistro":"Itaporanga d'Ajuda/SE","ufRegistro":"SE","dataDesaparecimento":"18/11/2025","dataRegistroDesaparecimento":"22/12/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":196731,"nome":"Welton Santos da Silva","idadeAtual":20,"idadeDesaparecimento":19,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"28/12/2025","dataRegistroDesaparecimento":"31/12/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":196873,"nome":"Carlos Eduardo da Silva","idadeAtual":27,"idadeDesaparecimento":25,"sexo":"Masculino","racaCor":null,"localRegistro":"Arapiraca/AL","ufRegistro":"AL","dataDesaparecimento":"02/01/2025","dataRegistroDesaparecimento":"05/01/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":196926,"nome":"Djalma Caetano Pereira","idadeAtual":79,"idadeDesaparecimento":79,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"02/01/2026","dataRegistroDesaparecimento":"05/01/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":197019,"nome":"Jonh Kelvine de Lima","idadeAtual":31,"idadeDesaparecimento":30,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"05/01/2026","dataRegistroDesaparecimento":"07/01/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":197123,"nome":"Uilton de Souza Nascimento","idadeAtual":34,"idadeDesaparecimento":33,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"09/01/2026","dataRegistroDesaparecimento":"04/03/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":197129,"nome":"Maria do Socorro da Silva","idadeAtual":56,"idadeDesaparecimento":53,"sexo":"Feminino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"10/10/2023","dataRegistroDesaparecimento":"12/01/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":197163,"nome":"Elenilson Brito Silva","idadeAtual":23,"idadeDesaparecimento":22,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"23/12/2025","dataRegistroDesaparecimento":"23/01/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":197164,"nome":"Edmilson Santos Santana","idadeAtual":65,"idadeDesaparecimento":64,"sexo":"Masculino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"20/12/2025","dataRegistroDesaparecimento":"12/01/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":197270,"nome":"Carlos Henrique dos Santos","idadeAtual":38,"idadeDesaparecimento":37,"sexo":"Masculino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"11/01/2026","dataRegistroDesaparecimento":"15/01/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":197277,"nome":"Ezequiel Fabian Tuttolomondo","idadeAtual":31,"idadeDesaparecimento":29,"sexo":"Masculino","racaCor":"Não Informada","localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"01/12/2024","dataRegistroDesaparecimento":"15/01/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":197339,"nome":"Jose Breno Lima Silva","idadeAtual":29,"idadeDesaparecimento":29,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"16/01/2026","dataRegistroDesaparecimento":"19/01/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":197348,"nome":"Rohanne Tereza da Silva Gomes","idadeAtual":17,"idadeDesaparecimento":15,"sexo":"Feminino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"16/01/2025","dataRegistroDesaparecimento":"17/01/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":197404,"nome":"Leandro dos Santos Machado","idadeAtual":40,"idadeDesaparecimento":39,"sexo":"Masculino","racaCor":null,"localRegistro":"Lauro de Freitas/BA","ufRegistro":"BA","dataDesaparecimento":"11/01/2026","dataRegistroDesaparecimento":"19/01/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":197605,"nome":"Bruno Viana de Souza","idadeAtual":24,"idadeDesaparecimento":23,"sexo":"Masculino","racaCor":null,"localRegistro":"Palmeira dos Índios/AL","ufRegistro":"AL","dataDesaparecimento":"22/01/2026","dataRegistroDesaparecimento":"25/01/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":197625,"nome":"Seyoun hwang","idadeAtual":65,"idadeDesaparecimento":64,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"21/01/2026","dataRegistroDesaparecimento":"28/01/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":197738,"nome":"Claudenilson Santos Januario","idadeAtual":41,"idadeDesaparecimento":40,"sexo":"Masculino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"05/12/2025","dataRegistroDesaparecimento":"27/01/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":197767,"nome":"Josilene Mayara Lima da Silva","idadeAtual":30,"idadeDesaparecimento":29,"sexo":"Feminino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"27/01/2026","dataRegistroDesaparecimento":"28/01/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":197828,"nome":"Emerson Alessandro Batista da Silva","idadeAtual":15,"idadeDesaparecimento":14,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"09/01/2026","dataRegistroDesaparecimento":"30/01/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":197916,"nome":"Edson da Silva Leite","idadeAtual":70,"idadeDesaparecimento":70,"sexo":"Masculino","racaCor":null,"localRegistro":"Porto Real do Colégio/AL","ufRegistro":"AL","dataDesaparecimento":"02/02/2026","dataRegistroDesaparecimento":"04/02/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":197910,"nome":"Wanderson da Silva Mendes","idadeAtual":26,"idadeDesaparecimento":25,"sexo":"Masculino","racaCor":null,"localRegistro":"Rio Largo/AL","ufRegistro":"AL","dataDesaparecimento":"01/02/2026","dataRegistroDesaparecimento":"05/02/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":198096,"nome":"Jefferson Stive Castro Ocampo","idadeAtual":31,"idadeDesaparecimento":24,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"03/12/2018","dataRegistroDesaparecimento":"06/02/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":198168,"nome":"Samuel Pereira da Silva Junior","idadeAtual":50,"idadeDesaparecimento":49,"sexo":"Masculino","racaCor":null,"localRegistro":"Pilar/AL","ufRegistro":"AL","dataDesaparecimento":"07/02/2026","dataRegistroDesaparecimento":"09/02/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":197922,"nome":"Hugo Brito da Silva","idadeAtual":25,"idadeDesaparecimento":24,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"13/11/2025","dataRegistroDesaparecimento":"09/02/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":198227,"nome":"Jefferson da Silva Leodino","idadeAtual":23,"idadeDesaparecimento":22,"sexo":"Masculino","racaCor":null,"localRegistro":"Barra de Santo Antônio/AL","ufRegistro":"AL","dataDesaparecimento":"08/02/2026","dataRegistroDesaparecimento":"10/02/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":192520,"nome":"Andre Luiz da Silva","idadeAtual":44,"idadeDesaparecimento":42,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"18/09/2025","dataRegistroDesaparecimento":"23/09/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":193562,"nome":"Carlos Weslley dos Santos Reis","idadeAtual":22,"idadeDesaparecimento":19,"sexo":"Masculino","racaCor":null,"localRegistro":"Porto Calvo/AL","ufRegistro":"AL","dataDesaparecimento":"16/03/2024","dataRegistroDesaparecimento":"08/10/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":195849,"nome":"Glauco Gabriel Omena de Barros","idadeAtual":21,"idadeDesaparecimento":20,"sexo":"Masculino","racaCor":null,"localRegistro":"Maragogi/AL","ufRegistro":"AL","dataDesaparecimento":"04/12/2025","dataRegistroDesaparecimento":"10/12/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":192669,"nome":"Francisco Santana da Rocha","idadeAtual":52,"idadeDesaparecimento":51,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"09/09/2025","dataRegistroDesaparecimento":"17/04/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":193817,"nome":"Jardeson Oliveira Bezerra","idadeAtual":31,"idadeDesaparecimento":30,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"12/10/2025","dataRegistroDesaparecimento":"15/10/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":194040,"nome":"Diego Lourenco da Silva","idadeAtual":30,"idadeDesaparecimento":29,"sexo":"Masculino","racaCor":null,"localRegistro":"Matriz de Camaragibe/AL","ufRegistro":"AL","dataDesaparecimento":"18/10/2025","dataRegistroDesaparecimento":"19/10/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":192615,"nome":"Carlos Henrique Panta da Silva","idadeAtual":null,"idadeDesaparecimento":null,"sexo":"Masculino","racaCor":null,"localRegistro":"Junqueiro/AL","ufRegistro":"AL","dataDesaparecimento":"20/09/2025","dataRegistroDesaparecimento":"24/09/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":195612,"nome":"José Edson Feitosa da silva","idadeAtual":62,"idadeDesaparecimento":61,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"16/11/2025","dataRegistroDesaparecimento":"01/12/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":192695,"nome":"Vitor Emanuel Costa de Sena","idadeAtual":22,"idadeDesaparecimento":21,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"24/09/2025","dataRegistroDesaparecimento":"26/09/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":194922,"nome":"Rita Miguel de Melo e Souza","idadeAtual":70,"idadeDesaparecimento":69,"sexo":"Feminino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"06/11/2025","dataRegistroDesaparecimento":"12/11/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":194579,"nome":"Paulo Tenorio da Silva","idadeAtual":67,"idadeDesaparecimento":42,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"15/06/2002","dataRegistroDesaparecimento":"04/11/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":194977,"nome":"José de Deus","idadeAtual":29,"idadeDesaparecimento":28,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"04/11/2025","dataRegistroDesaparecimento":"31/12/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":195263,"nome":"Leandro Fernando dos Santos Silva","idadeAtual":39,"idadeDesaparecimento":38,"sexo":"Masculino","racaCor":null,"localRegistro":"Palmas/TO","ufRegistro":"TO","dataDesaparecimento":"19/11/2025","dataRegistroDesaparecimento":"25/11/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":194911,"nome":"Alcione Antonia dos Santos","idadeAtual":40,"idadeDesaparecimento":39,"sexo":"Feminino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"06/11/2025","dataRegistroDesaparecimento":"11/11/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":195475,"nome":"Aparecida Teixeira Cabral","idadeAtual":51,"idadeDesaparecimento":51,"sexo":"Feminino","racaCor":null,"localRegistro":"Coité do Nóia/AL","ufRegistro":"AL","dataDesaparecimento":"24/11/2025","dataRegistroDesaparecimento":"26/11/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":194107,"nome":"Micael Paulino Reis","idadeAtual":20,"idadeDesaparecimento":19,"sexo":"Masculino","racaCor":null,"localRegistro":"Teotônio Vilela/AL","ufRegistro":"AL","dataDesaparecimento":"16/10/2025","dataRegistroDesaparecimento":"23/10/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":193403,"nome":"Jose Thiago Lourenco dos Santos","idadeAtual":26,"idadeDesaparecimento":25,"sexo":"Masculino","racaCor":null,"localRegistro":"Arapiraca/AL","ufRegistro":"AL","dataDesaparecimento":"06/10/2025","dataRegistroDesaparecimento":"06/10/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":195630,"nome":"Ednaldo Manoel da Silva","idadeAtual":46,"idadeDesaparecimento":45,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"28/11/2025","dataRegistroDesaparecimento":"01/12/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":195507,"nome":"Claudio Ferreira Freire","idadeAtual":57,"idadeDesaparecimento":56,"sexo":"Masculino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"29/10/2025","dataRegistroDesaparecimento":"02/12/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":194998,"nome":"Emerson Pereira de Souza","idadeAtual":34,"idadeDesaparecimento":33,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"02/08/2025","dataRegistroDesaparecimento":"13/11/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":193899,"nome":"Alefi Jose Lima Santos","idadeAtual":23,"idadeDesaparecimento":22,"sexo":"Masculino","racaCor":null,"localRegistro":"São Miguel dos Milagres/AL","ufRegistro":"AL","dataDesaparecimento":"09/10/2025","dataRegistroDesaparecimento":"15/10/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":194180,"nome":"Linaldo Alves da Cruz","idadeAtual":47,"idadeDesaparecimento":46,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"11/10/2025","dataRegistroDesaparecimento":"22/10/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":192491,"nome":"Clóvis Nobre Rodrigues Alves","idadeAtual":62,"idadeDesaparecimento":21,"sexo":"Masculino","racaCor":null,"localRegistro":"Teresina/PI","ufRegistro":"PI","dataDesaparecimento":"01/12/1985","dataRegistroDesaparecimento":"23/09/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":192351,"nome":"JOÃO PEDRO ARAUJO RODRIGUES MOREIRA","idadeAtual":26,"idadeDesaparecimento":15,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"13/09/2015","dataRegistroDesaparecimento":"20/03/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":195113,"nome":"Marcia Rodrigues de Castilho","idadeAtual":57,"idadeDesaparecimento":53,"sexo":"Feminino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"28/04/2022","dataRegistroDesaparecimento":"17/11/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":194910,"nome":"SIDINEI OLIVEIRA DOS ANJOS","idadeAtual":27,"idadeDesaparecimento":25,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"01/09/2025","dataRegistroDesaparecimento":"28/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":194804,"nome":"Felipe Almeida da Silva","idadeAtual":22,"idadeDesaparecimento":21,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"08/11/2025","dataRegistroDesaparecimento":"09/11/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":194741,"nome":"Remerson Tenorio dos Santos","idadeAtual":45,"idadeDesaparecimento":44,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"05/11/2025","dataRegistroDesaparecimento":"07/11/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":193178,"nome":"Ana Maria Serra Moreira","idadeAtual":66,"idadeDesaparecimento":65,"sexo":"Feminino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"02/10/2025","dataRegistroDesaparecimento":"02/10/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":194052,"nome":"Camily Vitoria da Conceicao Silva","idadeAtual":null,"idadeDesaparecimento":null,"sexo":"Feminino","racaCor":null,"localRegistro":"Macapá/AP","ufRegistro":"AP","dataDesaparecimento":"20/10/2025","dataRegistroDesaparecimento":"18/12/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":189987,"nome":"Raimundo Matias da Silva","idadeAtual":61,"idadeDesaparecimento":0,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"01/01/1965","dataRegistroDesaparecimento":"13/08/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":190482,"nome":"Lucas Rafael Gomes de Oliveira","idadeAtual":21,"idadeDesaparecimento":19,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"18/08/2025","dataRegistroDesaparecimento":"19/11/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":190820,"nome":"Gilmar Fonseca Vieira","idadeAtual":45,"idadeDesaparecimento":44,"sexo":"Masculino","racaCor":null,"localRegistro":"Teotônio Vilela/AL","ufRegistro":"AL","dataDesaparecimento":"02/06/2025","dataRegistroDesaparecimento":"27/08/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":185470,"nome":"Severino Leite de Lima","idadeAtual":81,"idadeDesaparecimento":73,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"09/06/2019","dataRegistroDesaparecimento":"01/09/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":182542,"nome":"Jose Mateus Meneses Mendonca de Jesus","idadeAtual":25,"idadeDesaparecimento":24,"sexo":"Masculino","racaCor":null,"localRegistro":"São Cristóvão/SE","ufRegistro":"SE","dataDesaparecimento":"06/06/2025","dataRegistroDesaparecimento":"11/11/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":181437,"nome":"Maximo Ribeiro Martins da Silva","idadeAtual":53,"idadeDesaparecimento":52,"sexo":"Masculino","racaCor":null,"localRegistro":"Teresina/PI","ufRegistro":"PI","dataDesaparecimento":"04/07/2025","dataRegistroDesaparecimento":"24/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":181397,"nome":"Evandro Lopes da Silva","idadeAtual":48,"idadeDesaparecimento":47,"sexo":"Masculino","racaCor":null,"localRegistro":"Teresina/PI","ufRegistro":"PI","dataDesaparecimento":"22/07/2025","dataRegistroDesaparecimento":"23/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":191147,"nome":"Jose Narciso da Silva","idadeAtual":61,"idadeDesaparecimento":43,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"03/02/2009","dataRegistroDesaparecimento":"01/09/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":190277,"nome":"Mauricio Oliveira Pereira","idadeAtual":70,"idadeDesaparecimento":69,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"18/08/2025","dataRegistroDesaparecimento":"16/12/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":182477,"nome":"Naylton dos Santos de Farias","idadeAtual":33,"idadeDesaparecimento":31,"sexo":"Masculino","racaCor":null,"localRegistro":"Timbiras/MA","ufRegistro":"MA","dataDesaparecimento":"09/08/2025","dataRegistroDesaparecimento":"12/08/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":182537,"nome":"Mauro Sergio Ferreira de Souza","idadeAtual":26,"idadeDesaparecimento":25,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"11/08/2025","dataRegistroDesaparecimento":"12/08/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":190870,"nome":"Katia Manuela Silva do Nascimento","idadeAtual":37,"idadeDesaparecimento":36,"sexo":"Feminino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"25/08/2025","dataRegistroDesaparecimento":"27/08/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":190006,"nome":"Erivanilson Ferreira da Silva","idadeAtual":49,"idadeDesaparecimento":33,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"21/01/2011","dataRegistroDesaparecimento":"13/08/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":181510,"nome":"Priscila de Sousa Oliveira","idadeAtual":35,"idadeDesaparecimento":34,"sexo":"Feminino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"14/07/2025","dataRegistroDesaparecimento":"18/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":191417,"nome":"Carlos Vitor Gomes da Silva","idadeAtual":18,"idadeDesaparecimento":17,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"04/09/2025","dataRegistroDesaparecimento":"06/09/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":190129,"nome":"JOSE PETRÚCIO THOMAS DOS SANTOS","idadeAtual":80,"idadeDesaparecimento":78,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"12/08/2025","dataRegistroDesaparecimento":"11/03/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":182552,"nome":"Ana Paula Amorim Silva","idadeAtual":38,"idadeDesaparecimento":37,"sexo":"Feminino","racaCor":null,"localRegistro":"Boa Vista/RR","ufRegistro":"RR","dataDesaparecimento":"09/08/2025","dataRegistroDesaparecimento":"03/07/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":190441,"nome":"Maria Beatriz Lisboa da Silva","idadeAtual":22,"idadeDesaparecimento":20,"sexo":"Feminino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"13/01/2025","dataRegistroDesaparecimento":"20/08/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":190338,"nome":"Joao Pedro Moraes da Silva","idadeAtual":22,"idadeDesaparecimento":21,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"16/08/2025","dataRegistroDesaparecimento":"19/08/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":190865,"nome":"Marleon Araripe Rodrigues","idadeAtual":33,"idadeDesaparecimento":32,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"30/06/2025","dataRegistroDesaparecimento":"27/08/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":181562,"nome":"Matheus Ferreira Santos","idadeAtual":26,"idadeDesaparecimento":25,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"25/07/2025","dataRegistroDesaparecimento":"28/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":182412,"nome":"Silvano Sinesio Lopes dos Santos","idadeAtual":57,"idadeDesaparecimento":56,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"09/08/2025","dataRegistroDesaparecimento":"04/08/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":191197,"nome":"Ademar Alves Negrao","idadeAtual":75,"idadeDesaparecimento":74,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"31/08/2025","dataRegistroDesaparecimento":"02/09/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":181725,"nome":"Alexandro Cantuario da Conceicao","idadeAtual":42,"idadeDesaparecimento":41,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"19/06/2025","dataRegistroDesaparecimento":"12/06/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":181748,"nome":"Tacia Laise dos Santos","idadeAtual":34,"idadeDesaparecimento":32,"sexo":"Feminino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"28/07/2025","dataRegistroDesaparecimento":"30/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":182421,"nome":"Diellem da Silva Caetano","idadeAtual":13,"idadeDesaparecimento":12,"sexo":"Feminino","racaCor":null,"localRegistro":"Bonfim/RR","ufRegistro":"RR","dataDesaparecimento":"11/08/2025","dataRegistroDesaparecimento":"11/08/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":191956,"nome":"Jurandi Kayk Morais da Silva","idadeAtual":17,"idadeDesaparecimento":16,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"08/09/2025","dataRegistroDesaparecimento":"17/09/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":191163,"nome":"Natanael dos Santos","idadeAtual":24,"idadeDesaparecimento":22,"sexo":"Masculino","racaCor":null,"localRegistro":"Santana do Ipanema/AL","ufRegistro":"AL","dataDesaparecimento":"05/06/2025","dataRegistroDesaparecimento":"02/09/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":190493,"nome":"Rafael Souza Araujo","idadeAtual":34,"idadeDesaparecimento":33,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"14/08/2025","dataRegistroDesaparecimento":"21/08/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":190808,"nome":"Maria do Ceu Dantas","idadeAtual":61,"idadeDesaparecimento":47,"sexo":"Feminino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"19/12/2012","dataRegistroDesaparecimento":"27/11/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":180618,"nome":"Paulo Henrique da Silva Martiniano","idadeAtual":18,"idadeDesaparecimento":16,"sexo":"Masculino","racaCor":null,"localRegistro":"Cajueiro/AL","ufRegistro":"AL","dataDesaparecimento":"07/07/2025","dataRegistroDesaparecimento":"09/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":180212,"nome":"Cicero Carlos da Silva","idadeAtual":71,"idadeDesaparecimento":70,"sexo":"Masculino","racaCor":null,"localRegistro":"Barra de Santo Antônio/AL","ufRegistro":"AL","dataDesaparecimento":"02/06/2025","dataRegistroDesaparecimento":"05/08/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":179153,"nome":"Marciel Candido da Silva","idadeAtual":46,"idadeDesaparecimento":45,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"10/06/2025","dataRegistroDesaparecimento":"12/06/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":179791,"nome":"Edmilson Santos Silva","idadeAtual":60,"idadeDesaparecimento":59,"sexo":"Masculino","racaCor":null,"localRegistro":"Lagoa da Canoa/AL","ufRegistro":"AL","dataDesaparecimento":"24/06/2025","dataRegistroDesaparecimento":"26/06/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":181357,"nome":"Wecktton Henrick da Silva","idadeAtual":21,"idadeDesaparecimento":19,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"12/05/2025","dataRegistroDesaparecimento":"23/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":180733,"nome":"Ednilson Chaves Araujo","idadeAtual":30,"idadeDesaparecimento":29,"sexo":"Sem informação","racaCor":null,"localRegistro":"Boquim/SE","ufRegistro":"SE","dataDesaparecimento":"27/06/2025","dataRegistroDesaparecimento":"11/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":181291,"nome":"Joao Victor Souza de Almeida","idadeAtual":22,"idadeDesaparecimento":20,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"21/07/2025","dataRegistroDesaparecimento":"22/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":179482,"nome":"Joanderson Cardoso dos Santos","idadeAtual":29,"idadeDesaparecimento":27,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"18/06/2025","dataRegistroDesaparecimento":"18/06/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":180398,"nome":"Luis Eduardo Gonzalez Garcia","idadeAtual":31,"idadeDesaparecimento":25,"sexo":"Masculino","racaCor":null,"localRegistro":"Boa Vista/RR","ufRegistro":"RR","dataDesaparecimento":"26/01/2021","dataRegistroDesaparecimento":"05/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":179628,"nome":"Jose Antonio da Silva","idadeAtual":43,"idadeDesaparecimento":42,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"15/06/2025","dataRegistroDesaparecimento":"22/06/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":180647,"nome":"Thiago Martins da Silva","idadeAtual":25,"idadeDesaparecimento":23,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"08/07/2025","dataRegistroDesaparecimento":"11/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":180576,"nome":"Robison Viterbino de Souza","idadeAtual":45,"idadeDesaparecimento":44,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"27/06/2025","dataRegistroDesaparecimento":"01/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":179279,"nome":"Daniel Oliveira Brandao dos Santos","idadeAtual":19,"idadeDesaparecimento":18,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"15/06/2025","dataRegistroDesaparecimento":"16/06/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":180988,"nome":"Joao Anastacio dos Santos","idadeAtual":87,"idadeDesaparecimento":85,"sexo":"Masculino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"15/07/2025","dataRegistroDesaparecimento":"16/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":180688,"nome":"Jose Eduardo Ribeiro de Oliveira","idadeAtual":39,"idadeDesaparecimento":38,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"03/07/2025","dataRegistroDesaparecimento":"10/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":181080,"nome":"Iolando dos Santos","idadeAtual":51,"idadeDesaparecimento":49,"sexo":"Masculino","racaCor":null,"localRegistro":"Pacatuba/SE","ufRegistro":"SE","dataDesaparecimento":"30/04/2025","dataRegistroDesaparecimento":"16/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":178736,"nome":"Eduardo dos Santos","idadeAtual":22,"idadeDesaparecimento":20,"sexo":"Masculino","racaCor":null,"localRegistro":"São Miguel dos Milagres/AL","ufRegistro":"AL","dataDesaparecimento":"13/05/2025","dataRegistroDesaparecimento":"05/06/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":181063,"nome":"Erick Guimaraes dos Santos","idadeAtual":33,"idadeDesaparecimento":32,"sexo":"Masculino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"10/07/2025","dataRegistroDesaparecimento":"11/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":179529,"nome":"THIAGO DUTRA MARINHO","idadeAtual":42,"idadeDesaparecimento":41,"sexo":"Masculino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"17/06/2025","dataRegistroDesaparecimento":"16/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":179472,"nome":"Marlon Santana Nascimento","idadeAtual":26,"idadeDesaparecimento":25,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"15/06/2025","dataRegistroDesaparecimento":"18/06/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":179034,"nome":"José valdiram Ferreira da Silva","idadeAtual":48,"idadeDesaparecimento":47,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"04/05/2025","dataRegistroDesaparecimento":"10/06/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":181324,"nome":"Weverton dos Santos Rodrigues","idadeAtual":23,"idadeDesaparecimento":21,"sexo":"Masculino","racaCor":null,"localRegistro":"Coruripe/AL","ufRegistro":"AL","dataDesaparecimento":"04/01/2025","dataRegistroDesaparecimento":"22/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":180474,"nome":"Manoel Gomes da Silva","idadeAtual":46,"idadeDesaparecimento":44,"sexo":"Masculino","racaCor":null,"localRegistro":"Pilar/AL","ufRegistro":"AL","dataDesaparecimento":"04/07/2025","dataRegistroDesaparecimento":"10/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":181241,"nome":"Douglas Ferreira de Sousa","idadeAtual":19,"idadeDesaparecimento":18,"sexo":"Masculino","racaCor":"Parda","localRegistro":"Porto Nacional/TO","ufRegistro":"TO","dataDesaparecimento":"17/07/2025","dataRegistroDesaparecimento":"21/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":180949,"nome":"Gidelson Nascimento de Andrade","idadeAtual":42,"idadeDesaparecimento":41,"sexo":"Masculino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"27/05/2025","dataRegistroDesaparecimento":"15/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":180197,"nome":"Wilton Lourenco da Silva","idadeAtual":58,"idadeDesaparecimento":57,"sexo":"Masculino","racaCor":null,"localRegistro":"Viçosa/AL","ufRegistro":"AL","dataDesaparecimento":"29/06/2025","dataRegistroDesaparecimento":"01/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":179885,"nome":"Geovane Lucas Silva de Deus","idadeAtual":19,"idadeDesaparecimento":17,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"23/06/2025","dataRegistroDesaparecimento":"23/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":178760,"nome":"Juliana Adila Medeiros de Lima","idadeAtual":26,"idadeDesaparecimento":25,"sexo":"Feminino","racaCor":null,"localRegistro":"Branquinha/AL","ufRegistro":"AL","dataDesaparecimento":"28/05/2025","dataRegistroDesaparecimento":"05/06/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":180675,"nome":"JOELSON MARCELINO DOS SANTOS","idadeAtual":31,"idadeDesaparecimento":18,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"15/02/2014","dataRegistroDesaparecimento":"10/07/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":179928,"nome":"Lislaine da Gama Olimpio","idadeAtual":31,"idadeDesaparecimento":29,"sexo":"Feminino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"15/01/2025","dataRegistroDesaparecimento":"30/05/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":177415,"nome":"Joao Victor de Oliveira Alves Pereira","idadeAtual":19,"idadeDesaparecimento":18,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"09/05/2025","dataRegistroDesaparecimento":"12/05/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":174959,"nome":"Fabia Alexsandra Farias Oliveira Santos","idadeAtual":54,"idadeDesaparecimento":53,"sexo":"Feminino","racaCor":null,"localRegistro":"Jacobina/BA","ufRegistro":"BA","dataDesaparecimento":"18/03/2025","dataRegistroDesaparecimento":"13/08/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":175085,"nome":"Pedro Henrique da Silva Santos","idadeAtual":28,"idadeDesaparecimento":26,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"28/03/2025","dataRegistroDesaparecimento":"29/03/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":177458,"nome":"Pericles Mouche da Silva Lucas","idadeAtual":20,"idadeDesaparecimento":18,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"25/04/2025","dataRegistroDesaparecimento":"16/05/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":173190,"nome":"Tailson Candido da Cunha","idadeAtual":24,"idadeDesaparecimento":22,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"27/12/2024","dataRegistroDesaparecimento":"19/02/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":174212,"nome":"Anislanio Silva Mendonça","idadeAtual":45,"idadeDesaparecimento":42,"sexo":"Masculino","racaCor":null,"localRegistro":"Carneiros/AL","ufRegistro":"AL","dataDesaparecimento":"13/12/2023","dataRegistroDesaparecimento":"12/03/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":177232,"nome":"Iolando dos Santos","idadeAtual":51,"idadeDesaparecimento":49,"sexo":"Masculino","racaCor":null,"localRegistro":"Pacatuba/SE","ufRegistro":"SE","dataDesaparecimento":"30/04/2025","dataRegistroDesaparecimento":"08/05/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":178543,"nome":"Kaique Nicolas Cruz dos Santos","idadeAtual":24,"idadeDesaparecimento":22,"sexo":"Masculino","racaCor":null,"localRegistro":"Pirambu/SE","ufRegistro":"SE","dataDesaparecimento":"31/05/2025","dataRegistroDesaparecimento":"02/06/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":178231,"nome":"Cledson Eudes Moreira Alves","idadeAtual":42,"idadeDesaparecimento":17,"sexo":"Sem informação","racaCor":null,"localRegistro":"Marechal Deodoro/AL","ufRegistro":"AL","dataDesaparecimento":"23/05/2002","dataRegistroDesaparecimento":"06/02/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":176494,"nome":"Jose Vicente dos Santos","idadeAtual":67,"idadeDesaparecimento":66,"sexo":"Sem informação","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"14/04/2025","dataRegistroDesaparecimento":"24/04/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":174745,"nome":"Israel da Silva","idadeAtual":27,"idadeDesaparecimento":25,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"15/03/2025","dataRegistroDesaparecimento":"12/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":175120,"nome":"Sibelly Monica Oliveira Nisimura","idadeAtual":51,"idadeDesaparecimento":49,"sexo":"Feminino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"27/03/2025","dataRegistroDesaparecimento":"30/03/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":178693,"nome":"Miria Marques de Araujo","idadeAtual":52,"idadeDesaparecimento":51,"sexo":"Feminino","racaCor":null,"localRegistro":"Teresina/PI","ufRegistro":"PI","dataDesaparecimento":"15/04/2025","dataRegistroDesaparecimento":"04/06/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":176028,"nome":"Cleber Cardozo da Silva","idadeAtual":46,"idadeDesaparecimento":35,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"17/01/2016","dataRegistroDesaparecimento":"15/04/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":178421,"nome":"Edmilson Santos de Souza","idadeAtual":48,"idadeDesaparecimento":46,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"29/05/2025","dataRegistroDesaparecimento":"30/05/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":177900,"nome":"Antonio Carlos Dias Guarim","idadeAtual":62,"idadeDesaparecimento":59,"sexo":"Masculino","racaCor":null,"localRegistro":"Teresina/PI","ufRegistro":"PI","dataDesaparecimento":"30/11/2023","dataRegistroDesaparecimento":"21/05/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":174720,"nome":"David da Conceicao Soares","idadeAtual":28,"idadeDesaparecimento":26,"sexo":"Masculino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"19/02/2025","dataRegistroDesaparecimento":"24/04/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":176432,"nome":"RAINEL PINHEIRO DE PONTES","idadeAtual":68,"idadeDesaparecimento":66,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"18/04/2025","dataRegistroDesaparecimento":"13/08/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":175230,"nome":"Jose Bonifácio da Silva","idadeAtual":67,"idadeDesaparecimento":52,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"06/10/2011","dataRegistroDesaparecimento":"01/04/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":175018,"nome":"Emicelio Rodrigues de Menezes","idadeAtual":39,"idadeDesaparecimento":37,"sexo":"Masculino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"26/03/2025","dataRegistroDesaparecimento":"16/04/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":176707,"nome":"Rednar Araújo Silva","idadeAtual":38,"idadeDesaparecimento":37,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"25/03/2025","dataRegistroDesaparecimento":"28/04/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":177222,"nome":"João Victor Eloi dos Santos","idadeAtual":29,"idadeDesaparecimento":28,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"24/04/2025","dataRegistroDesaparecimento":"08/05/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":175848,"nome":"Josivaldo Fernandes dos Santos","idadeAtual":41,"idadeDesaparecimento":39,"sexo":"Masculino","racaCor":null,"localRegistro":"Nossa Senhora do Socorro/SE","ufRegistro":"SE","dataDesaparecimento":"02/04/2025","dataRegistroDesaparecimento":"11/04/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":175482,"nome":"Solange Cunha Viana","idadeAtual":41,"idadeDesaparecimento":39,"sexo":"Feminino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"04/04/2025","dataRegistroDesaparecimento":"06/04/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":176544,"nome":"Jean Melo da Silva","idadeAtual":28,"idadeDesaparecimento":26,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"16/04/2025","dataRegistroDesaparecimento":"08/10/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":177672,"nome":"Debora Albuquerque dos Santos","idadeAtual":40,"idadeDesaparecimento":39,"sexo":"Feminino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"01/05/2025","dataRegistroDesaparecimento":"16/05/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":178614,"nome":"Ronaldo Pedro da Silva","idadeAtual":31,"idadeDesaparecimento":30,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"16/05/2025","dataRegistroDesaparecimento":"03/06/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":176556,"nome":"Willian Marques do Nascmento","idadeAtual":26,"idadeDesaparecimento":25,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"09/04/2025","dataRegistroDesaparecimento":"25/04/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":177947,"nome":"Jaciel Jose da Silva","idadeAtual":47,"idadeDesaparecimento":45,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"15/02/2025","dataRegistroDesaparecimento":"22/05/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":177950,"nome":"Renata da Silva Santos","idadeAtual":31,"idadeDesaparecimento":30,"sexo":"Feminino","racaCor":null,"localRegistro":"Penedo/AL","ufRegistro":"AL","dataDesaparecimento":"15/05/2025","dataRegistroDesaparecimento":"06/08/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":158792,"nome":"Jose Rodrigues da Silva","idadeAtual":47,"idadeDesaparecimento":44,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"20/12/2023","dataRegistroDesaparecimento":"29/04/2024","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":165301,"nome":"Roberto da Costa e Silva","idadeAtual":65,"idadeDesaparecimento":63,"sexo":"Masculino","racaCor":null,"localRegistro":"Teresina/PI","ufRegistro":"PI","dataDesaparecimento":"29/08/2024","dataRegistroDesaparecimento":"10/09/2024","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":157544,"nome":"Josue da Luz Ferreira","idadeAtual":37,"idadeDesaparecimento":34,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"03/04/2024","dataRegistroDesaparecimento":"19/05/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":169297,"nome":"Laudevanio Silva dos Santos","idadeAtual":29,"idadeDesaparecimento":27,"sexo":"Masculino","racaCor":null,"localRegistro":"Matriz de Camaragibe/AL","ufRegistro":"AL","dataDesaparecimento":"26/11/2024","dataRegistroDesaparecimento":"01/12/2024","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":166286,"nome":"Ozias de Moura Carvalho","idadeAtual":49,"idadeDesaparecimento":44,"sexo":"Masculino","racaCor":null,"localRegistro":"Macapá/AP","ufRegistro":"AP","dataDesaparecimento":"09/07/2022","dataRegistroDesaparecimento":"07/10/2024","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":167414,"nome":"Erivam Pereira de Brito","idadeAtual":54,"idadeDesaparecimento":51,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"27/05/2024","dataRegistroDesaparecimento":"22/10/2024","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":166455,"nome":"Carlos Uberlan Barros Balieiro","idadeAtual":45,"idadeDesaparecimento":42,"sexo":"Masculino","racaCor":null,"localRegistro":"Macapá/AP","ufRegistro":"AP","dataDesaparecimento":"10/04/2023","dataRegistroDesaparecimento":"04/12/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":172455,"nome":"Francisco de Assis Freire Varela","idadeAtual":59,"idadeDesaparecimento":57,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"03/02/2025","dataRegistroDesaparecimento":"05/02/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":171436,"nome":"Daniel Ferreira Lima","idadeAtual":29,"idadeDesaparecimento":27,"sexo":"Masculino","racaCor":null,"localRegistro":"Teresina/PI","ufRegistro":"PI","dataDesaparecimento":"18/12/2024","dataRegistroDesaparecimento":"15/01/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":172392,"nome":"Guilherme Santos de Almeida Lima","idadeAtual":23,"idadeDesaparecimento":21,"sexo":"Masculino","racaCor":null,"localRegistro":"São Miguel dos Milagres/AL","ufRegistro":"AL","dataDesaparecimento":"02/02/2025","dataRegistroDesaparecimento":"22/04/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":172953,"nome":"Antônio Amaro da Silva","idadeAtual":49,"idadeDesaparecimento":47,"sexo":"Masculino","racaCor":null,"localRegistro":"Estância/SE","ufRegistro":"SE","dataDesaparecimento":"12/02/2025","dataRegistroDesaparecimento":"14/02/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":167632,"nome":"Emerson Kleber Santana","idadeAtual":36,"idadeDesaparecimento":31,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"08/07/2022","dataRegistroDesaparecimento":"31/10/2024","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":169092,"nome":"Adeildo Mendes de Jesus","idadeAtual":52,"idadeDesaparecimento":50,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"25/11/2024","dataRegistroDesaparecimento":"26/11/2024","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":169490,"nome":"Olavo Ferreira de Souza","idadeAtual":83,"idadeDesaparecimento":81,"sexo":"Masculino","racaCor":null,"localRegistro":"São Félix do Coribe/BA","ufRegistro":"BA","dataDesaparecimento":"01/11/2024","dataRegistroDesaparecimento":"28/04/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":161163,"nome":"Elisangela da Cunha Silva","idadeAtual":32,"idadeDesaparecimento":29,"sexo":"Feminino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"14/06/2024","dataRegistroDesaparecimento":"17/06/2024","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":171156,"nome":"Fabiana Vitoria Gomes Lima Ferreira da Silva","idadeAtual":24,"idadeDesaparecimento":22,"sexo":"Feminino","racaCor":null,"localRegistro":"Teresina/PI","ufRegistro":"PI","dataDesaparecimento":"26/09/2024","dataRegistroDesaparecimento":"08/01/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":164910,"nome":"Orlando Silva Cruz","idadeAtual":79,"idadeDesaparecimento":68,"sexo":"Masculino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"20/06/2016","dataRegistroDesaparecimento":"03/09/2024","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":167658,"nome":"Eugenio Dantas da Silva","idadeAtual":61,"idadeDesaparecimento":51,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"20/03/2017","dataRegistroDesaparecimento":"29/10/2024","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":173114,"nome":"Adriano Nobre da Silva Filho","idadeAtual":28,"idadeDesaparecimento":26,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"18/02/2025","dataRegistroDesaparecimento":"02/04/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":169081,"nome":"Rafael Antonio Gervis Malave","idadeAtual":26,"idadeDesaparecimento":23,"sexo":"Masculino","racaCor":null,"localRegistro":"Boa Vista/RR","ufRegistro":"RR","dataDesaparecimento":"16/08/2024","dataRegistroDesaparecimento":"22/08/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":173160,"nome":"Joao Peña Ostos","idadeAtual":37,"idadeDesaparecimento":29,"sexo":"Sem informação","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"07/08/2018","dataRegistroDesaparecimento":"19/02/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":170913,"nome":"Francisco Aquino de Castro","idadeAtual":38,"idadeDesaparecimento":36,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"16/12/2024","dataRegistroDesaparecimento":"04/01/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":158894,"nome":"Douglas Souza da Silva","idadeAtual":35,"idadeDesaparecimento":32,"sexo":"Masculino","racaCor":null,"localRegistro":"Macapá/AP","ufRegistro":"AP","dataDesaparecimento":"20/03/2024","dataRegistroDesaparecimento":"04/12/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":166677,"nome":"Lidiane Carla Palhano de Jesus","idadeAtual":37,"idadeDesaparecimento":35,"sexo":"Feminino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"28/07/2024","dataRegistroDesaparecimento":"08/10/2024","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":171718,"nome":"Raimundo Lima da Silva","idadeAtual":76,"idadeDesaparecimento":74,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"16/01/2025","dataRegistroDesaparecimento":"21/01/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":158107,"nome":"Antônio Milanês dos Anjos","idadeAtual":61,"idadeDesaparecimento":58,"sexo":"Masculino","racaCor":null,"localRegistro":"Palmas/TO","ufRegistro":"TO","dataDesaparecimento":"08/04/2024","dataRegistroDesaparecimento":"15/04/2024","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":162627,"nome":"Adriano Moraes Leite","idadeAtual":49,"idadeDesaparecimento":47,"sexo":"Masculino","racaCor":null,"localRegistro":"Macapá/AP","ufRegistro":"AP","dataDesaparecimento":"30/04/2024","dataRegistroDesaparecimento":"18/08/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":168432,"nome":"Lucas Gabriel Alves Damasceno","idadeAtual":24,"idadeDesaparecimento":22,"sexo":"Masculino","racaCor":null,"localRegistro":"Macapá/AP","ufRegistro":"AP","dataDesaparecimento":"08/09/2024","dataRegistroDesaparecimento":"04/12/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":173012,"nome":"Jhonathan Wendell Santos da Silva","idadeAtual":25,"idadeDesaparecimento":23,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"14/02/2025","dataRegistroDesaparecimento":"16/02/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":160841,"nome":"Jose Silverio dos Santos","idadeAtual":46,"idadeDesaparecimento":43,"sexo":"Masculino","racaCor":null,"localRegistro":"Jequiá da Praia/AL","ufRegistro":"AL","dataDesaparecimento":"17/05/2024","dataRegistroDesaparecimento":"17/09/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":100729,"nome":"EDVALDO SABINO FIDELIS DE MOURA","idadeAtual":null,"idadeDesaparecimento":null,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"03/08/2018","dataRegistroDesaparecimento":"05/08/2018","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":144743,"nome":"Thiago Ricelli Teles da Silva","idadeAtual":44,"idadeDesaparecimento":40,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"24/04/2023","dataRegistroDesaparecimento":"30/04/2023","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":143996,"nome":"Almarí Silva Feitosa","idadeAtual":37,"idadeDesaparecimento":33,"sexo":"Masculino","racaCor":null,"localRegistro":"Areia Branca/SE","ufRegistro":"SE","dataDesaparecimento":"07/04/2023","dataRegistroDesaparecimento":"10/04/2023","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":155895,"nome":"Eder Cordeiro da Costa Nunes","idadeAtual":44,"idadeDesaparecimento":41,"sexo":"Masculino","racaCor":null,"localRegistro":"Macapá/AP","ufRegistro":"AP","dataDesaparecimento":"27/11/2023","dataRegistroDesaparecimento":"04/12/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":141251,"nome":"Mateus Pinheiro da Silva","idadeAtual":22,"idadeDesaparecimento":17,"sexo":"Masculino","racaCor":null,"localRegistro":"Palmas/TO","ufRegistro":"TO","dataDesaparecimento":"08/10/2021","dataRegistroDesaparecimento":"18/10/2021","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":155990,"nome":"Elielton Lopes Pereira","idadeAtual":43,"idadeDesaparecimento":40,"sexo":"Masculino","racaCor":null,"localRegistro":"Palmas/TO","ufRegistro":"TO","dataDesaparecimento":"29/01/2024","dataRegistroDesaparecimento":"18/07/2024","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":148204,"nome":"Ronnie von Alves Arouca","idadeAtual":53,"idadeDesaparecimento":50,"sexo":"Masculino","racaCor":null,"localRegistro":"Manaus/AM","ufRegistro":"AM","dataDesaparecimento":"09/08/2023","dataRegistroDesaparecimento":"02/12/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":136534,"nome":"Jeferson Cleber Matias Araujo","idadeAtual":23,"idadeDesaparecimento":19,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"24/08/2022","dataRegistroDesaparecimento":"12/11/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":146836,"nome":"Josue Rodrigues da Silva Oliveira","idadeAtual":48,"idadeDesaparecimento":44,"sexo":"Masculino","racaCor":null,"localRegistro":"Teresina/PI","ufRegistro":"PI","dataDesaparecimento":"03/04/2023","dataRegistroDesaparecimento":"10/07/2023","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":138587,"nome":"Diego Alexandre Santos de Melo","idadeAtual":28,"idadeDesaparecimento":24,"sexo":"Masculino","racaCor":null,"localRegistro":"Porto de Pedras/AL","ufRegistro":"AL","dataDesaparecimento":"31/10/2022","dataRegistroDesaparecimento":"23/10/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":154694,"nome":"Francisco Santos da Silva","idadeAtual":null,"idadeDesaparecimento":null,"sexo":"Masculino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"30/01/2024","dataRegistroDesaparecimento":"01/02/2024","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":132490,"nome":"Jose Andrade Costa","idadeAtual":74,"idadeDesaparecimento":70,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"16/04/2022","dataRegistroDesaparecimento":"11/08/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":149579,"nome":"Cláudio Luiz Ramos da Silva","idadeAtual":56,"idadeDesaparecimento":39,"sexo":"Masculino","racaCor":null,"localRegistro":"Salvador/BA","ufRegistro":"BA","dataDesaparecimento":"13/02/2010","dataRegistroDesaparecimento":"14/11/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":155599,"nome":"Jose de Assis Bezerra","idadeAtual":73,"idadeDesaparecimento":70,"sexo":"Masculino","racaCor":null,"localRegistro":"Natal/RN","ufRegistro":"RN","dataDesaparecimento":"05/02/2024","dataRegistroDesaparecimento":"22/02/2024","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":142074,"nome":"Claudio Ferreira de Oliveira","idadeAtual":24,"idadeDesaparecimento":20,"sexo":"Masculino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"13/02/2023","dataRegistroDesaparecimento":"28/08/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":120474,"nome":"Plinio Lima de Aquino Filho","idadeAtual":70,"idadeDesaparecimento":31,"sexo":"Masculino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"15/12/1987","dataRegistroDesaparecimento":"26/11/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":154984,"nome":"Alexandre Pereira da Silva","idadeAtual":21,"idadeDesaparecimento":18,"sexo":"Masculino","racaCor":null,"localRegistro":"Macapá/AP","ufRegistro":"AP","dataDesaparecimento":"03/02/2024","dataRegistroDesaparecimento":"20/02/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":120772,"nome":"Maria Clara Gomes da Silva","idadeAtual":10,"idadeDesaparecimento":5,"sexo":"Feminino","racaCor":null,"localRegistro":"Maceió/AL","ufRegistro":"AL","dataDesaparecimento":"19/07/2021","dataRegistroDesaparecimento":"23/02/2026","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":150244,"nome":"miguel arcanjo dos santos","idadeAtual":64,"idadeDesaparecimento":61,"sexo":"Masculino","racaCor":null,"localRegistro":"Aracaju/SE","ufRegistro":"SE","dataDesaparecimento":"06/10/2023","dataRegistroDesaparecimento":"08/10/2023","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":148873,"nome":"Ezequiel Pereira da Silva","idadeAtual":46,"idadeDesaparecimento":42,"sexo":"Masculino","racaCor":null,"localRegistro":"Jequié/BA","ufRegistro":"BA","dataDesaparecimento":"03/09/2023","dataRegistroDesaparecimento":"04/09/2023","flLocalizacaoConfirmada":"NAO_CONFIRMADO"},{"id":121322,"nome":"John Cleisson de Freitas Ramos","idadeAtual":33,"idadeDesaparecimento":28,"sexo":"Masculino","racaCor":null,"localRegistro":"Porto Calvo/AL","ufRegistro":"AL","dataDesaparecimento":"11/08/2021","dataRegistroDesaparecimento":"08/10/2025","flLocalizacaoConfirmada":"NAO_CONFIRMADO"}]};
+
+const API = "https://cnpd.mj.gov.br/api/api/painel-publico/desaparecidos";
+const API_IMG = "https://cnpd.mj.gov.br/api/desaparecimentos";
+const SITE_CARD = "https://cnpd.mj.gov.br/painel-publico/card/";
+const POR_PAGINA = 48;
+
+const estado = {
+  q: "", uf: "", sexo: "", faixa: "", ordem: "recente",
+  visiveis: POR_PAGINA,
+  dados: SNAPSHOT,
+  carregando: false
+};
+
+const $ = (id) => document.getElementById(id);
+const fmt = new Intl.NumberFormat("pt-BR");
+const hoje = new Date(); hoje.setHours(0, 0, 0, 0);
+
+function esc(v) {
+  return String(v == null ? "" : v)
+    .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+}
+
+function dataBR(s) {
+  if (!s) return "—";
+  return String(s);
+}
+
+function parseData(s) {
+  if (!s) return null;
+  const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(String(s).trim());
+  if (m) return new Date(+m[3], +m[2] - 1, +m[1]);
+  const iso = /^(\d{4})-(\d{2})-(\d{2})/.exec(String(s));
+  if (iso) return new Date(+iso[1], +iso[2] - 1, +iso[3]);
+  return null;
+}
+
+function diasDesde(data) {
+  if (!data) return null;
+  const d = Math.floor((hoje - data) / 86400000);
+  return d < 0 ? 0 : d;
+}
+
+function tempoTexto(dias) {
+  if (dias == null) return "—";
+  if (dias === 0) return "hoje";
+  if (dias === 1) return "1 dia";
+  if (dias < 30) return dias + " dias";
+  if (dias < 365) return Math.round(dias / 30) + " meses";
+  const anos = Math.floor(dias / 365);
+  return anos === 1 ? "1 ano" : anos + " anos";
+}
+
+function faixaDe(idade) {
+  if (idade == null || idade === "" || Number.isNaN(+idade)) return "sem";
+  const n = +idade;
+  if (n <= 11) return "0-11";
+  if (n <= 17) return "12-17";
+  if (n <= 29) return "18-29";
+  if (n <= 44) return "30-44";
+  if (n <= 59) return "45-59";
+  return "60+";
+}
+
+const FAIXAS = ["0-11", "12-17", "18-29", "30-44", "45-59", "60+", "sem"];
+const FAIXA_ROTULO = {
+  "0-11": "0 a 11", "12-17": "12 a 17", "18-29": "18 a 29",
+  "30-44": "30 a 44", "45-59": "45 a 59", "60+": "60+", "sem": "Sem inf."
+};
+
+const TEMPOS = [
+  { id: "0-7", rot: "Até 7 dias", curto: "≤ 7 dias", min: 0, max: 7 },
+  { id: "8-30", rot: "8 a 30 dias", curto: "8-30 dias", min: 8, max: 30 },
+  { id: "31-90", rot: "31 a 90 dias", curto: "31-90 dias", min: 31, max: 90 },
+  { id: "91-365", rot: "3 meses a 1 ano", curto: "3m-1ano", min: 91, max: 365 },
+  { id: "1-5", rot: "1 a 5 anos", curto: "1-5 anos", min: 366, max: 365 * 5 },
+  { id: "5+", rot: "Mais de 5 anos", curto: "> 5 anos", min: 365 * 5 + 1, max: Infinity },
+  { id: "sem", rot: "Sem data", curto: "Sem data", min: null, max: null }
+];
+
+function normaliza(s) {
+  return String(s || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase();
+}
+
+function registros() {
+  return (estado.dados && estado.dados.registros) || [];
+}
+
+function filtrar() {
+  const q = normaliza(estado.q.trim());
+  const lista = registros().filter((p) => {
+    if (q && !normaliza(p.nome).includes(q)) return false;
+    if (estado.uf && p.ufRegistro !== estado.uf) return false;
+    if (estado.sexo && (p.sexo || "Sem informação") !== estado.sexo) return false;
+    if (estado.faixa && faixaDe(p.idadeAtual) !== estado.faixa) return false;
+    return true;
+  });
+  const ordem = estado.ordem;
+  lista.sort((a, b) => {
+    if (ordem === "nome") return String(a.nome).localeCompare(String(b.nome), "pt-BR");
+    if (ordem === "nome-desc") return String(b.nome).localeCompare(String(a.nome), "pt-BR");
+    if (ordem === "tempo") {
+      const da = parseData(a.dataDesaparecimento), db = parseData(b.dataDesaparecimento);
+      if (!da && !db) return 0;
+      if (!da) return 1;
+      if (!db) return -1;
+      return da - db;
+    }
+    const ra = parseData(a.dataRegistroDesaparecimento) || new Date(0);
+    const rb = parseData(b.dataRegistroDesaparecimento) || new Date(0);
+    return ordem === "antigo" ? ra - rb : rb - ra;
+  });
+  return lista;
+}
+
+/* ---------- indicadores ---------- */
+function renderKpis(lista) {
+  const criancas = lista.filter((p) => { const f = faixaDe(p.idadeAtual); return f === "0-11" || f === "12-17"; }).length;
+  const idosos = lista.filter((p) => faixaDe(p.idadeAtual) === "60+").length;
+  const mulheres = lista.filter((p) => (p.sexo || "").toLowerCase() === "feminino").length;
+  const ufs = new Set(lista.map((p) => p.ufRegistro).filter(Boolean)).size;
+  const limite = new Date(hoje); limite.setDate(limite.getDate() - 30);
+  const recentes = lista.filter((p) => { const d = parseData(p.dataRegistroDesaparecimento); return d && d >= limite; }).length;
+  const cards = [
+    { rot: "Registros", valor: lista.length, nota: "no recorte filtrado" },
+    { rot: "Crianças e adolescentes", valor: criancas, nota: "até 17 anos" },
+    { rot: "Idosos", valor: idosos, nota: "60 anos ou mais" },
+    { rot: "Mulheres", valor: mulheres, nota: "sexo feminino" },
+    { rot: "UFs", valor: ufs, nota: "com registro" },
+    { rot: "Últimos 30 dias", valor: recentes, nota: "por data de registro" }
+  ];
+  $("kpis").innerHTML = cards.map((c) =>
+    '<div class="kpi"><div class="rotulo">' + esc(c.rot) + '</div><div class="valor">' +
+    fmt.format(c.valor) + '</div><div class="nota">' + esc(c.nota) + '</div></div>'
+  ).join("");
+}
+
+/* ---------- graficos ---------- */
+function barras(itens, destaque) {
+  if (!itens.length) return '<div class="vazio-chart">Sem dados no recorte.</div>';
+  const max = Math.max.apply(null, itens.map((i) => i.valor)) || 1;
+  return '<div class="barras">' + itens.map((i) =>
+    '<div class="barra' + (destaque ? ' destaque' : '') + '"><span class="nome" title="' + esc(i.rotulo) + '">' +
+    esc(i.rotulo) + '</span><span class="trilho"><span class="fill" style="width:' +
+    Math.max(2, Math.round((i.valor / max) * 100)) + '%"></span></span><span class="num">' +
+    fmt.format(i.valor) + '</span></div>'
+  ).join("") + '</div>';
+}
+
+function agrupar(lista, chave) {
+  const mapa = new Map();
+  lista.forEach((p) => {
+    const k = chave(p);
+    if (k == null || k === "") return;
+    mapa.set(k, (mapa.get(k) || 0) + 1);
+  });
+  return Array.from(mapa, ([rotulo, valor]) => ({ rotulo, valor }))
+    .sort((a, b) => b.valor - a.valor);
+}
+
+function donut(itens, cores) {
+  const total = itens.reduce((s, i) => s + i.valor, 0);
+  if (!total) return '<div class="vazio-chart">Sem dados no recorte.</div>';
+  const raio = 15.9155;
+  const circ = 2 * Math.PI * raio;
+  let off = 0;
+  const aneis = itens.map((i, n) => {
+    const frac = i.valor / total;
+    const dash = frac * circ;
+    const seg = '<circle cx="21" cy="21" r="' + raio + '" stroke="' + cores[n % cores.length] +
+      '" stroke-dasharray="' + dash.toFixed(3) + ' ' + (circ - dash).toFixed(3) +
+      '" stroke-dashoffset="' + (-off).toFixed(3) + '" transform="rotate(-90 21 21)"></circle>';
+    off += dash;
+    return seg;
+  }).join("");
+  const legenda = itens.map((i, n) =>
+    '<div class="li"><span class="cor" style="background:' + cores[n % cores.length] + '"></span>' +
+    '<span>' + esc(i.rotulo) + '</span><span class="qtd">' + fmt.format(i.valor) +
+    ' <span style="font-weight:400;color:var(--ink2)">(' + Math.round((i.valor / total) * 100) + '%)</span></span></div>'
+  ).join("");
+  return '<div class="donut-wrap"><svg class="donut" viewBox="0 0 42 42" role="img" aria-label="Distribuição por sexo">' +
+    '<circle cx="21" cy="21" r="' + raio + '" stroke="var(--linha)"></circle>' + aneis + '</svg>' +
+    '<div class="legenda">' + legenda + '</div></div>';
+}
+
+function colunas(itens) {
+  if (!itens.length) return '<div class="vazio-chart">Sem dados no recorte.</div>';
+  const max = Math.max.apply(null, itens.map((i) => i.valor)) || 1;
+  return '<div class="colunas">' + itens.map((i) =>
+    '<div class="col"><span class="col-val">' + (i.valor || "") + '</span>' +
+    '<span class="col-bar" style="height:' + Math.max(2, Math.round((i.valor / max) * 82)) + '%" title="' +
+    esc(i.rotulo) + ': ' + fmt.format(i.valor) + '"></span><span class="col-rot">' + esc(i.rotulo) + '</span></div>'
+  ).join("") + '</div>';
+}
+
+function serieMensal(lista) {
+  const mapa = new Map();
+  lista.forEach((p) => {
+    const d = parseData(p.dataRegistroDesaparecimento);
+    if (!d) return;
+    const k = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+    mapa.set(k, (mapa.get(k) || 0) + 1);
+  });
+  const chaves = Array.from(mapa.keys()).sort();
+  if (!chaves.length) return [];
+  let [ano, mes] = chaves[chaves.length - 1].split("-").map(Number);
+  const fim = new Date(ano, mes - 1, 1);
+  const meses = [];
+  for (let i = 17; i >= 0; i--) {
+    const d = new Date(fim.getFullYear(), fim.getMonth() - i, 1);
+    const k = d.getFullYear() + "-" + String(d.getMonth() + 1).padStart(2, "0");
+    const rot = d.toLocaleDateString("pt-BR", { month: "short" }).replace(".", "");
+    const indice = 17 - i;
+    meses.push({
+      rotulo: (indice % 3 === 0 || i === 0) ? rot + "/" + String(d.getFullYear()).slice(2) : "",
+      valor: mapa.get(k) || 0
+    });
+  }
+  return meses;
+}
+
+function renderGraficos(lista) {
+  const ufs = agrupar(lista, (p) => p.ufRegistro).slice(0, 10);
+  const sexos = agrupar(lista, (p) => p.sexo || "Sem informação");
+  const idades = FAIXAS.map((f) => ({ rotulo: FAIXA_ROTULO[f], valor: lista.filter((p) => faixaDe(p.idadeAtual) === f).length }))
+    .filter((i) => i.valor > 0);
+  const tempos = TEMPOS.map((t) => ({
+    rotulo: window.innerWidth < 700 ? t.curto : t.rot,
+    valor: lista.filter((p) => {
+      if (t.id === "sem") return !parseData(p.dataDesaparecimento);
+      const d = diasDesde(parseData(p.dataDesaparecimento));
+      return d != null && d >= t.min && d <= t.max;
+    }).length
+  })).filter((i) => i.valor > 0);
+  const municipios = agrupar(lista, (p) => String(p.localRegistro || "").split("/")[0].trim()).slice(0, 10);
+  const meses = serieMensal(lista);
+
+  const cores = ["#12487f", "#c99a2e", "#0b7a3e", "#5b3f9e", "#b42318", "#1e63ae", "#7a879c"];
+  const cards = [
+    { t: "Registros por UF", c: "UF informada no registro", h: barras(ufs, true) },
+    { t: "Sexo", c: "como informado no CNPD", h: donut(sexos, cores) },
+    { t: "Faixa etária atual", c: "idade calculada hoje", h: colunas(idades) },
+    { t: "Tempo desde o desaparecimento", c: "pela data do desaparecimento", h: colunas(tempos) },
+    { t: "Registros por mês", c: "últimos 18 meses, por data de registro", h: colunas(meses) },
+    { t: "Municípios com mais registros", c: "cidade do registro", h: barras(municipios) }
+  ];
+  $("graficos").innerHTML = cards.map((c) =>
+    '<div class="card"><h3>' + esc(c.t) + '</h3><p class="cap">' + esc(c.c) + '</p>' + c.h + '</div>'
+  ).join("");
+}
+
+/* ---------- fotos ---------- */
+const fotoCache = new Map();
+const filaFoto = [];
+let ativosFoto = 0;
+
+function agendarFoto(id) {
+  if (fotoCache.has(id)) { aplicarFoto(id, fotoCache.get(id)); return; }
+  if (filaFoto.includes(id)) return;
+  filaFoto.push(id);
+  bombearFila();
+}
+
+function bombearFila() {
+  while (ativosFoto < 4 && filaFoto.length) {
+    const id = filaFoto.shift();
+    ativosFoto++;
+    carregarFoto(id).finally(() => { ativosFoto--; bombearFila(); });
+  }
+}
+
+async function carregarFoto(id) {
+  try {
+    const r = await fetch(API_IMG + "/" + encodeURIComponent(id) + "/arquivos-imagem/main", { cache: "force-cache" });
+    if (!r.ok) throw new Error("HTTP " + r.status);
+    const j = await r.json();
+    const dto = j && j.arquivoCnpd && j.arquivoCnpd.arquivoDTO;
+    const b64 = dto && dto.conteudo;
+    if (!b64) throw new Error("sem conteudo");
+    const ext = String((dto && dto.extensao) || "jpg").toLowerCase();
+    const mime = ext.indexOf("png") >= 0 ? "image/png" : "image/jpeg";
+    const url = "data:" + mime + ";base64," + b64;
+    fotoCache.set(id, url);
+    aplicarFoto(id, url);
+  } catch (e) {
+    fotoCache.set(id, null);
+    aplicarFoto(id, null);
+  }
+}
+
+function aplicarFoto(id, url) {
+  document.querySelectorAll('[data-foto="' + CSS.escape(String(id)) + '"]').forEach((img) => {
+    if (!url) { img.hidden = true; const s = img.parentElement.querySelector(".sem"); if (s) s.hidden = false; return; }
+    img.src = url;
+    img.hidden = false;
+    const s = img.parentElement.querySelector(".sem");
+    if (s) s.hidden = true;
+  });
+}
+
+/* ---------- lista ---------- */
+let observador = null;
+
+function renderLista() {
+  const lista = filtrar();
+  estado.lista = lista;
+  renderKpis(lista);
+  renderGraficos(lista);
+
+  const visiveis = lista.slice(0, estado.visiveis);
+  $("metaLista").innerHTML =
+    '<b>' + fmt.format(lista.length) + '</b> registro(s) no recorte' +
+    (lista.length !== registros().length ? ' de ' + fmt.format(registros().length) : '') +
+    ' · exibindo ' + fmt.format(visiveis.length);
+
+  if (!visiveis.length) {
+    $("grid").innerHTML = '<div class="vazio" style="grid-column:1/-1">Nenhum registro encontrado com esses filtros.</div>';
+    $("btnMais").hidden = true;
+    return;
+  }
+
+  $("grid").innerHTML = visiveis.map((p) => {
+    const dias = diasDesde(parseData(p.dataDesaparecimento));
+    const novo = dias != null && dias <= 7;
+    const idade = (p.idadeAtual == null || p.idadeAtual === "") ? "—" : p.idadeAtual + " anos";
+    return '<button class="pessoa" type="button" data-id="' + esc(p.id) + '" aria-label="Abrir ficha de ' + esc(p.nome) + '">' +
+      '<span class="foto">' +
+        '<span class="sem"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.4a7.5 7.5 0 0 1 15 0"/></svg></span>' +
+        '<img data-foto="' + esc(p.id) + '" alt="Foto de ' + esc(p.nome) + '" loading="lazy" hidden>' +
+        (dias != null ? '<span class="dias">' + esc(tempoTexto(dias)) + '</span>' : '') +
+        (novo ? '<span class="novo">RECENTE</span>' : '') +
+      '</span>' +
+      '<span class="info">' +
+        '<span class="nome">' + esc(p.nome) + '</span>' +
+        '<span class="linha">' + esc(idade) + '</span>' +
+        '<span class="linha" title="' + esc(p.localRegistro) + '">' +
+          '<svg class="ico" viewBox="0 0 24 24"><path d="M12 21s-7-6.1-7-11a7 7 0 1 1 14 0c0 4.9-7 11-7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg>' +
+          esc(p.localRegistro || "—") +
+        '</span>' +
+      '</span>' +
+    '</button>';
+  }).join("");
+
+  $("btnMais").hidden = visiveis.length >= lista.length;
+  $("btnMais").textContent = "Carregar mais (" + fmt.format(Math.min(POR_PAGINA, lista.length - visiveis.length)) + ")";
+
+  document.querySelectorAll(".pessoa").forEach((b) => {
+    b.addEventListener("click", () => abrirModal(b.dataset.id));
+  });
+
+  if (observador) observador.disconnect();
+  observador = new IntersectionObserver((entradas) => {
+    entradas.forEach((e) => {
+      if (e.isIntersecting) {
+        const img = e.target.querySelector("img[data-foto]");
+        if (img) { agendarFoto(img.dataset.foto); observador.unobserve(e.target); }
+      }
+    });
+  }, { rootMargin: "400px" });
+  document.querySelectorAll(".pessoa").forEach((el) => observador.observe(el));
+}
+
+/* ---------- modal ---------- */
+function abrirModal(id) {
+  const p = registros().find((x) => String(x.id) === String(id));
+  if (!p) return;
+  const dias = diasDesde(parseData(p.dataDesaparecimento));
+  const localizado = p.flLocalizacaoConfirmada && p.flLocalizacaoConfirmada !== "NAO_CONFIRMADO";
+  $("modalTag").textContent = localizado ? "Localizado" : "Desaparecido · Boletim " + p.id;
+  $("modalNome").textContent = p.nome || "Pessoa desaparecida";
+  $("modalSub").textContent = (p.localRegistro || "—") + (dias != null ? " · " + tempoTexto(dias) : "");
+
+  const sem = '<div class="sem"><svg class="ico" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.4a7.5 7.5 0 0 1 15 0"/></svg></div>';
+  $("modalFoto").innerHTML = sem + '<img data-foto="' + esc(p.id) + '" alt="Foto de ' + esc(p.nome) + '" hidden>';
+  if (fotoCache.has(p.id)) {
+    const url = fotoCache.get(p.id);
+    if (url) aplicarFoto(p.id, url);
+  } else {
+    agendarFoto(p.id);
+  }
+
+  const dados = [
+    ["Idade atual", p.idadeAtual != null ? p.idadeAtual + " anos" : "Sem informação"],
+    ["Idade no desaparecimento", p.idadeDesaparecimento != null ? p.idadeDesaparecimento + " anos" : "Sem informação"],
+    ["Sexo", p.sexo || "Sem informação"],
+    ["Raça/cor", p.racaCor || "Sem informação"],
+    ["Data do desaparecimento", dataBR(p.dataDesaparecimento)],
+    ["Tempo desaparecido", tempoTexto(dias)],
+    ["Local do registro", p.localRegistro || "—"],
+    ["UF", p.ufRegistro || "—"],
+    ["Data do registro", dataBR(p.dataRegistroDesaparecimento)],
+    ["Localização confirmada", localizado ? "Sim" : "Não"]
+  ];
+  $("modalDados").innerHTML = dados.map(([rot, val]) =>
+    '<div class="dado"><div class="rot">' + esc(rot) + '</div><div class="val">' + esc(val) + '</div></div>'
+  ).join("");
+
+  const link = SITE_CARD + p.id;
+  $("modalAcoes").innerHTML =
+    '<a class="primario" href="' + link + '" target="_blank" rel="noopener">' +
+      '<svg class="ico" viewBox="0 0 24 24"><path d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5"/><path d="M21 3h-5.25M21 3v5.25M21 3 10.5 13.5"/></svg>' +
+      'Ver no CNPD</a>' +
+    '<button type="button" id="btnCopiar">Copiar link oficial</button>' +
+    '<button type="button" id="btnFechar2">Fechar</button>';
+  $("btnFechar2").addEventListener("click", fecharModal);
+  $("btnCopiar").addEventListener("click", () => {
+    navigator.clipboard && navigator.clipboard.writeText(link).then(
+      () => toast("Link copiado."),
+      () => toast(link)
+    ) || toast(link);
+  });
+
+  $("modal").hidden = false;
+  document.body.style.overflow = "hidden";
+  $("modalFechar").focus();
+}
+
+function fecharModal() {
+  $("modal").hidden = true;
+  document.body.style.overflow = "";
+}
+
+/* ---------- csv ---------- */
+function exportarCsv() {
+  const lista = estado.lista || filtrar();
+  const cab = ["id", "nome", "idadeAtual", "idadeDesaparecimento", "sexo", "racaCor", "localRegistro", "ufRegistro", "dataDesaparecimento", "dataRegistroDesaparecimento", "flLocalizacaoConfirmada"];
+  const linhas = [cab.join(";")].concat(lista.map((p) => cab.map((k) => {
+    const v = p[k] == null ? "" : String(p[k]);
+    return /[;"\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v;
+  }).join(";")));
+  const blob = new Blob(["\ufeff" + linhas.join("\r\n")], { type: "text/csv;charset=utf-8" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "cnpd-desaparecidos-" + new Date().toISOString().slice(0, 10) + ".csv";
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+  toast("CSV gerado com " + lista.length + " registros.");
+}
+
+/* ---------- coleta ao vivo ---------- */
+async function atualizar() {
+  if (estado.carregando) return;
+  estado.carregando = true;
+  const b = $("btnAtualizar");
+  const txt = $("txtAtualizar");
+  b.setAttribute("busy", "");
+  if (txt) txt.textContent = "Atualizando…";
+  try {
+    const acumulado = [];
+    const vistos = new Set();
+    let pagina = 0, totalPaginas = 1;
+    do {
+      const r = await fetch(API + "/filtrar?ordenacao=MAIS_RECENTE&pagina=" + pagina, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ nome: "" })
+      });
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      const j = await r.json();
+      totalPaginas = +j.totalPaginas || 1;
+      (j.desaparecidos || []).forEach((p) => {
+        if (!vistos.has(p.id)) { vistos.add(p.id); acumulado.push(p); }
+      });
+      pagina++;
+    } while (pagina < totalPaginas);
+
+    estado.dados = {
+      fonte: "CNPD/MJ - Painel Publico de Pessoas Desaparecidas",
+      coletado_em: new Date().toISOString(),
+      total_registros_coletado: acumulado.length,
+      registros: acumulado
+    };
+    estado.visiveis = POR_PAGINA;
+    fotoCache.clear();
+    popularFiltros();
+    ["uf", "sexo"].forEach((id) => {
+      $(id).value = estado[id];
+      if ($(id).value !== estado[id]) estado[id] = "";
+    });
+    renderLista();
+    atualizarSelo();
+    limites();
+    toast("Dados atualizados: " + acumulado.length + " registros.");
+  } catch (e) {
+    toast("Não foi possível atualizar agora. O painel segue com a base local.");
+  } finally {
+    estado.carregando = false;
+    b.removeAttribute("busy");
+    if (txt) txt.textContent = "Atualizar";
+  }
+}
+
+/* ---------- inicializacao ---------- */
+function popularFiltros() {
+  const ufs = agrupar(registros(), (p) => p.ufRegistro);
+  $("uf").innerHTML = '<option value="">Todas</option>' + ufs.map((u) =>
+    '<option value="' + esc(u.rotulo) + '">' + esc(u.rotulo) + " (" + u.valor + ")</option>"
+  ).join("");
+  const sexos = agrupar(registros(), (p) => p.sexo || "Sem informação");
+  $("sexo").innerHTML = '<option value="">Todos</option>' + sexos.map((s) =>
+    '<option value="' + esc(s.rotulo) + '">' + esc(s.rotulo) + " (" + s.valor + ")</option>"
+  ).join("");
+}
+
+function atualizarSelo() {
+  const quando = estado.dados && estado.dados.coletado_em
+    ? new Date(estado.dados.coletado_em)
+    : null;
+  const txt = quando && !Number.isNaN(quando.getTime())
+    ? "Coleta " + quando.toLocaleDateString("pt-BR") + " " + quando.toLocaleTimeString("pt-BR", { hour: "2-digit", minute: "2-digit" })
+    : "Base local";
+  $("seloColeta").textContent = txt;
+  $("textoColeta").textContent = "Base carregada: " + txt.replace("Coleta ", "") + ".";
+  $("rodapeColeta").textContent = txt;
+}
+
+function toast(msg) {
+  const t = $("toast");
+  t.textContent = msg;
+  t.classList.add("on");
+  clearTimeout(t._timer);
+  t._timer = setTimeout(() => t.classList.remove("on"), 3200);
+}
+
+function ligarEventos() {
+  let timer = null;
+  $("q").addEventListener("input", (e) => {
+    clearTimeout(timer);
+    timer = setTimeout(() => { estado.q = e.target.value; estado.visiveis = POR_PAGINA; renderLista(); }, 220);
+  });
+  ["uf", "sexo", "faixa", "ordem"].forEach((id) => {
+    $(id).addEventListener("change", (e) => {
+      estado[id] = e.target.value;
+      estado.visiveis = POR_PAGINA;
+      renderLista();
+    });
+  });
+  $("btnLimpar").addEventListener("click", () => {
+    estado.q = ""; estado.uf = ""; estado.sexo = ""; estado.faixa = ""; estado.ordem = "recente"; estado.visiveis = POR_PAGINA;
+    $("q").value = ""; $("uf").value = ""; $("sexo").value = ""; $("faixa").value = ""; $("ordem").value = "recente";
+    renderLista();
+  });
+  $("btnCsv").addEventListener("click", exportarCsv);
+  $("btnMais").addEventListener("click", () => { estado.visiveis += POR_PAGINA; renderLista(); });
+  $("btnAtualizar").addEventListener("click", atualizar);
+  $("modalFechar").addEventListener("click", fecharModal);
+  $("modal").addEventListener("click", (e) => { if (e.target === $("modal")) fecharModal(); });
+  document.addEventListener("keydown", (e) => { if (e.key === "Escape" && !$("modal").hidden) fecharModal(); });
+
+  $("btnTema").addEventListener("click", () => {
+    const atual = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", atual);
+    try { localStorage.setItem("nihde-tema", atual); } catch (e) { /* navegador sem storage */ }
+    $("txtTema").textContent = atual === "dark" ? "Claro" : "Escuro";
+  });
+
+  let resizeTimer = null;
+  window.addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(renderLista, 280);
+  });
+
+  const links = document.querySelectorAll(".topo nav a");
+  const secoes = ["visao", "graficos", "lista", "nota"].map((id) => $(id));
+  if ("IntersectionObserver" in window) {
+    const io = new IntersectionObserver((es) => {
+      es.forEach((e) => {
+        if (e.isIntersecting) {
+          links.forEach((a) => a.classList.toggle("ativo", a.getAttribute("href") === "#" + e.target.id));
+        }
+      });
+    }, { rootMargin: "-40% 0px -50% 0px" });
+    secoes.forEach((s) => io.observe(s));
+  }
+}
+
+function limites() {
+  const base = registros();
+  const ufs = agrupar(base, (p) => p.ufRegistro);
+  const top = ufs.slice(0, 5).map((u) => u.rotulo + " (" + u.valor + ")").join(", ");
+  const semRaca = base.filter((p) => !p.racaCor || p.racaCor === "Não Informada").length;
+  const semLocal = base.filter((p) => p.flLocalizacaoConfirmada === "NAO_CONFIRMADO").length;
+  const itens = [
+    "O painel público devolveu " + fmt.format(base.length) + " registros na coleta, distribuídos em " + fmt.format(ufs.length) + " UFs. A concentração em " + esc(top) + " indica que o recorte não é a totalidade nacional.",
+    "Raça/cor está vazia ou como “Não Informada” em " + fmt.format(semRaca) + " de " + fmt.format(base.length) + " registros; qualquer leitura por raça/cor não é confiável.",
+    "Localização confirmada aparece como “não confirmada” em " + fmt.format(semLocal) + " registros; o painel não informa casos já localizados neste recorte.",
+    "Idade e data do desaparecimento têm campos em branco em parte da base; os gráficos tratam esses casos como “sem informação”.",
+    "A foto é carregada sob demanda do próprio CNPD. Sem internet, a ficha abre sem imagem."
+  ];
+  $("limites").innerHTML = itens.map((t) => "<li>" + t + "</li>").join("");
+}
+
+(function init() {
+  let tema = null;
+  try { tema = localStorage.getItem("nihde-tema"); } catch (e) { /* sem storage */ }
+  if (tema === "dark") {
+    document.documentElement.setAttribute("data-theme", "dark");
+    $("txtTema").textContent = "Claro";
+  }
+  if (!SNAPSHOT || !Array.isArray(SNAPSHOT.registros)) {
+    $("grid").innerHTML = '<div class="vazio" style="grid-column:1/-1">Base local não encontrada. Rode <code>python coletar_dados.py</code> e <code>python gerar_painel.py</code>.</div>';
+    return;
+  }
+  popularFiltros();
+  atualizarSelo();
+  ligarEventos();
+  limites();
+  renderLista();
+})();
+</script>
+</body>
+</html>

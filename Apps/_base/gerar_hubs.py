@@ -33,6 +33,7 @@ ASSINATURA = {
     "mapa-distribuicao-credor": "Esteira de 8 etapas e grade em formato planilha",
     "equipamentos-google-earth": "Mapa de MT em SVG com os pinos das unidades",
     "agiliza-mais": "Bancada do caso: passos à esquerda e trabalho à direita",
+    "gestao_identificados": "Painel da pergunta do MVP e ficha em etapas de identificação",
 }
 
 CRITICA = {
@@ -233,6 +234,13 @@ def gerar(app):
                      for i, l in enumerate(asis))
     menus = [r for r in cfg.get("rotas", []) if r.get("menu") is not False and ":" not in r.get("rota", "") and not r.get("publica")]
     menu_html = "".join(f'<span class="tag">{esc(r.get("titulo"))}</span>' for r in menus)
+    modulo_html = ""
+    if app == "gestao_identificados":
+        modulo_html = """<section id="modulo"><h2>Módulo de desaparecidos</h2>
+  <p class="sub">Painel público do CNPD/MJ com os registros de pessoas desaparecidas, em uma página separada para não misturar a base pública com o cadastro dos corpos. O módulo é construído pela outra IA; o contrato está em <a href="docs/CONTRATO-DESAPARECIDOS.md">docs/CONTRATO-DESAPARECIDOS.md</a>.</p>
+  <p><a class="prim" style="display:inline-block;background:#fff;color:var(--acento);padding:10px 16px;border-radius:999px;text-decoration:none;font-weight:700" href="desaparecidos.html">Abrir o painel de desaparecidos →</a></p></section>
+
+"""
     html_doc = f"""<!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
 <title>AS-IS e TO-BE · {esc(nome)}</title>
@@ -284,7 +292,7 @@ body{{font-family:{fonte}}}
   <h3>Métricas do piloto</h3>{tabela_metricas(tab.get("tMetricas", []))}
 </section>
 
-<section id="teste"><h2>Como testar</h2>
+{modulo_html}<section id="teste"><h2>Como testar</h2>
   <p class="sub">O MVP é um `index.html` offline, com dados fictícios. Abra <a href="index.html">index.html</a>.</p>
   <pre>cd Apps/{app}
 python construir.py
@@ -316,3 +324,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

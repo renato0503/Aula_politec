@@ -1,0 +1,1609 @@
+{
+ "corpos": [
+  {
+   "id": "C-0001",
+   "protocolo": "2026.0001",
+   "unidade": "IML Cuiabá",
+   "data_entrada": "2026-08-01",
+   "municipio": "Cuiabá",
+   "local": "Local fictício 1",
+   "data_localizacao": "2026-08-01",
+   "sexo": "Feminino",
+   "idade": 20,
+   "altura": "1,55",
+   "peso": "55",
+   "olhos": "castanhos",
+   "cabelo": "preto",
+   "pele": "parda",
+   "sinais": "cicatriz no braço esquerdo",
+   "nome": "",
+   "documento": "",
+   "identificado": false,
+   "situacao": "não identificado",
+   "via_identificacao": "",
+   "data_identificacao": "",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "negativo",
+     "protocolo": "EX-001",
+     "data": "2026-08-06"
+    },
+    "DNA": {
+     "status": "negativo",
+     "protocolo": "EX-001-D",
+     "data": "2026-08-07"
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {},
+   "sepultamento": null,
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-08-01T08:00:00"
+  },
+  {
+   "id": "C-0002",
+   "protocolo": "2026.0002",
+   "unidade": "IML Sinop",
+   "data_entrada": "2026-08-04",
+   "municipio": "Sinop",
+   "local": "Local fictício 2",
+   "data_localizacao": "2026-08-04",
+   "sexo": "Masculino",
+   "idade": 23,
+   "altura": "1,56",
+   "peso": "56",
+   "olhos": "pretos",
+   "cabelo": "castanho",
+   "pele": "branca",
+   "sinais": "",
+   "nome": "",
+   "documento": "",
+   "identificado": false,
+   "situacao": "não identificado",
+   "via_identificacao": "",
+   "data_identificacao": "",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "negativo",
+     "protocolo": "EX-002",
+     "data": "2026-08-09"
+    },
+    "DNA": {
+     "status": "em andamento",
+     "protocolo": "EX-002-D",
+     "data": "2026-08-10"
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {},
+   "sepultamento": null,
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-08-04T08:00:00"
+  },
+  {
+   "id": "C-0003",
+   "protocolo": "2026.0003",
+   "unidade": "IML Rondonópolis",
+   "data_entrada": "2026-08-07",
+   "municipio": "Rondonópolis",
+   "local": "Local fictício 3",
+   "data_localizacao": "2026-08-07",
+   "sexo": "Feminino",
+   "idade": 26,
+   "altura": "1,57",
+   "peso": "57",
+   "olhos": "azuis",
+   "cabelo": "grisalho",
+   "pele": "preta",
+   "sinais": "",
+   "nome": "",
+   "documento": "",
+   "identificado": false,
+   "situacao": "não identificado",
+   "via_identificacao": "",
+   "data_identificacao": "",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "negativo",
+     "protocolo": "EX-003",
+     "data": "2026-08-12"
+    },
+    "DNA": {
+     "status": "negativo",
+     "protocolo": "EX-003-D",
+     "data": "2026-08-13"
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {},
+   "sepultamento": null,
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-08-07T08:00:00"
+  },
+  {
+   "id": "C-0004",
+   "protocolo": "2026.0004",
+   "unidade": "IML Cáceres",
+   "data_entrada": "2026-08-10",
+   "municipio": "Cáceres",
+   "local": "Local fictício 4",
+   "data_localizacao": "2026-08-10",
+   "sexo": "Masculino",
+   "idade": 29,
+   "altura": "1,58",
+   "peso": "58",
+   "olhos": "castanhos",
+   "cabelo": "preto",
+   "pele": "parda",
+   "sinais": "",
+   "nome": "",
+   "documento": "",
+   "identificado": false,
+   "situacao": "não identificado",
+   "via_identificacao": "",
+   "data_identificacao": "",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "negativo",
+     "protocolo": "EX-004",
+     "data": "2026-08-15"
+    },
+    "DNA": {
+     "status": "em andamento",
+     "protocolo": "EX-004-D",
+     "data": "2026-08-16"
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {},
+   "sepultamento": null,
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-08-10T08:00:00"
+  },
+  {
+   "id": "C-0005",
+   "protocolo": "2026.0005",
+   "unidade": "IML Barra do Garças",
+   "data_entrada": "2026-08-13",
+   "municipio": "Barra do Garças",
+   "local": "Local fictício 5",
+   "data_localizacao": "2026-08-13",
+   "sexo": "Feminino",
+   "idade": 32,
+   "altura": "1,59",
+   "peso": "59",
+   "olhos": "pretos",
+   "cabelo": "castanho",
+   "pele": "branca",
+   "sinais": "cicatriz no braço esquerdo",
+   "nome": "",
+   "documento": "",
+   "identificado": false,
+   "situacao": "não identificado",
+   "via_identificacao": "",
+   "data_identificacao": "",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "negativo",
+     "protocolo": "EX-005",
+     "data": "2026-08-18"
+    },
+    "DNA": {
+     "status": "negativo",
+     "protocolo": "EX-005-D",
+     "data": "2026-08-19"
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {},
+   "sepultamento": null,
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-08-13T08:00:00"
+  },
+  {
+   "id": "C-0006",
+   "protocolo": "2026.0006",
+   "unidade": "IML Cuiabá",
+   "data_entrada": "2026-08-16",
+   "municipio": "Cuiabá",
+   "local": "Local fictício 6",
+   "data_localizacao": "2026-08-16",
+   "sexo": "Masculino",
+   "idade": 35,
+   "altura": "1,60",
+   "peso": "60",
+   "olhos": "azuis",
+   "cabelo": "grisalho",
+   "pele": "preta",
+   "sinais": "",
+   "nome": "",
+   "documento": "",
+   "identificado": false,
+   "situacao": "não identificado",
+   "via_identificacao": "",
+   "data_identificacao": "",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "negativo",
+     "protocolo": "EX-006",
+     "data": "2026-08-21"
+    },
+    "DNA": {
+     "status": "em andamento",
+     "protocolo": "EX-006-D",
+     "data": "2026-08-22"
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {},
+   "sepultamento": null,
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-08-16T08:00:00"
+  },
+  {
+   "id": "C-0007",
+   "protocolo": "2026.0007",
+   "unidade": "IML Sinop",
+   "data_entrada": "2026-08-19",
+   "municipio": "Sinop",
+   "local": "Local fictício 7",
+   "data_localizacao": "2026-08-19",
+   "sexo": "Feminino",
+   "idade": 38,
+   "altura": "1,61",
+   "peso": "61",
+   "olhos": "castanhos",
+   "cabelo": "preto",
+   "pele": "parda",
+   "sinais": "",
+   "nome": "",
+   "documento": "",
+   "identificado": false,
+   "situacao": "não identificado",
+   "via_identificacao": "",
+   "data_identificacao": "",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "negativo",
+     "protocolo": "EX-007",
+     "data": "2026-08-24"
+    },
+    "DNA": {
+     "status": "negativo",
+     "protocolo": "EX-007-D",
+     "data": "2026-08-25"
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {},
+   "sepultamento": null,
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-08-19T08:00:00"
+  },
+  {
+   "id": "C-0008",
+   "protocolo": "2026.0008",
+   "unidade": "IML Rondonópolis",
+   "data_entrada": "2026-08-22",
+   "municipio": "Rondonópolis",
+   "local": "Local fictício 8",
+   "data_localizacao": "2026-08-22",
+   "sexo": "Masculino",
+   "idade": 41,
+   "altura": "1,62",
+   "peso": "62",
+   "olhos": "pretos",
+   "cabelo": "castanho",
+   "pele": "branca",
+   "sinais": "",
+   "nome": "",
+   "documento": "",
+   "identificado": false,
+   "situacao": "não identificado",
+   "via_identificacao": "",
+   "data_identificacao": "",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "negativo",
+     "protocolo": "EX-008",
+     "data": "2026-08-27"
+    },
+    "DNA": {
+     "status": "em andamento",
+     "protocolo": "EX-008-D",
+     "data": "2026-08-28"
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {},
+   "sepultamento": null,
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-08-22T08:00:00"
+  },
+  {
+   "id": "C-0009",
+   "protocolo": "2026.0009",
+   "unidade": "IML Cáceres",
+   "data_entrada": "2026-08-25",
+   "municipio": "Cáceres",
+   "local": "Local fictício 9",
+   "data_localizacao": "2026-08-25",
+   "sexo": "Feminino",
+   "idade": 44,
+   "altura": "1,63",
+   "peso": "63",
+   "olhos": "azuis",
+   "cabelo": "grisalho",
+   "pele": "preta",
+   "sinais": "cicatriz no braço esquerdo",
+   "nome": "Helena Fictícia Alves",
+   "documento": "DOC-009",
+   "identificado": true,
+   "situacao": "identificado",
+   "via_identificacao": "necropapiloscopia",
+   "data_identificacao": "2026-09-02",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "positivo",
+     "protocolo": "EX-009",
+     "data": "2026-09-02"
+    },
+    "DNA": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {
+    "nome": "Familiar Fictício",
+    "parentesco": "mãe",
+    "busca_iniciada_em": "2026-08-28",
+    "localizada": true,
+    "localizada_em": "2026-08-30"
+   },
+   "sepultamento": null,
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-08-25T08:00:00"
+  },
+  {
+   "id": "C-0010",
+   "protocolo": "2026.0010",
+   "unidade": "IML Barra do Garças",
+   "data_entrada": "2026-08-28",
+   "municipio": "Barra do Garças",
+   "local": "Local fictício 10",
+   "data_localizacao": "2026-08-28",
+   "sexo": "Masculino",
+   "idade": 47,
+   "altura": "1,64",
+   "peso": "64",
+   "olhos": "castanhos",
+   "cabelo": "preto",
+   "pele": "parda",
+   "sinais": "",
+   "nome": "Lucas Fictício Costa",
+   "documento": "DOC-010",
+   "identificado": true,
+   "situacao": "identificado",
+   "via_identificacao": "DNA",
+   "data_identificacao": "2026-09-05",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "DNA": {
+     "status": "positivo",
+     "protocolo": "EX-010",
+     "data": "2026-09-05"
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {},
+   "sepultamento": null,
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-08-28T08:00:00"
+  },
+  {
+   "id": "C-0011",
+   "protocolo": "2026.0011",
+   "unidade": "IML Cuiabá",
+   "data_entrada": "2026-08-31",
+   "municipio": "Cuiabá",
+   "local": "Local fictício 11",
+   "data_localizacao": "2026-08-31",
+   "sexo": "Feminino",
+   "idade": 50,
+   "altura": "1,65",
+   "peso": "65",
+   "olhos": "pretos",
+   "cabelo": "castanho",
+   "pele": "branca",
+   "sinais": "",
+   "nome": "Fernanda Fictícia Melo",
+   "documento": "DOC-011",
+   "identificado": true,
+   "situacao": "identificado",
+   "via_identificacao": "odontologia",
+   "data_identificacao": "2026-09-08",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "DNA": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "odontologia": {
+     "status": "positivo",
+     "protocolo": "EX-011",
+     "data": "2026-09-08"
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {
+    "nome": "Familiar Fictício",
+    "parentesco": "mãe",
+    "busca_iniciada_em": "2026-09-03",
+    "localizada": true,
+    "localizada_em": "2026-09-05"
+   },
+   "sepultamento": null,
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-08-31T08:00:00"
+  },
+  {
+   "id": "C-0012",
+   "protocolo": "2026.0012",
+   "unidade": "IML Sinop",
+   "data_entrada": "2026-09-03",
+   "municipio": "Sinop",
+   "local": "Local fictício 12",
+   "data_localizacao": "2026-09-03",
+   "sexo": "Masculino",
+   "idade": 53,
+   "altura": "1,66",
+   "peso": "66",
+   "olhos": "azuis",
+   "cabelo": "grisalho",
+   "pele": "preta",
+   "sinais": "",
+   "nome": "Rafael Fictício Nunes",
+   "documento": "DOC-012",
+   "identificado": true,
+   "situacao": "identificado",
+   "via_identificacao": "antropologia",
+   "data_identificacao": "2026-09-11",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "DNA": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "positivo",
+     "protocolo": "EX-012",
+     "data": "2026-09-11"
+    }
+   },
+   "familia": {},
+   "sepultamento": null,
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-09-03T08:00:00"
+  },
+  {
+   "id": "C-0013",
+   "protocolo": "2026.0013",
+   "unidade": "IML Rondonópolis",
+   "data_entrada": "2026-09-06",
+   "municipio": "Rondonópolis",
+   "local": "Local fictício 13",
+   "data_localizacao": "2026-09-06",
+   "sexo": "Feminino",
+   "idade": 56,
+   "altura": "1,67",
+   "peso": "67",
+   "olhos": "castanhos",
+   "cabelo": "preto",
+   "pele": "parda",
+   "sinais": "cicatriz no braço esquerdo",
+   "nome": "Maria Fictícia Souza",
+   "documento": "DOC-013",
+   "identificado": true,
+   "situacao": "identificado",
+   "via_identificacao": "necropapiloscopia",
+   "data_identificacao": "2026-09-14",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "positivo",
+     "protocolo": "EX-013",
+     "data": "2026-09-14"
+    },
+    "DNA": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {
+    "nome": "Familiar Fictício",
+    "parentesco": "mãe",
+    "busca_iniciada_em": "2026-09-09",
+    "localizada": true,
+    "localizada_em": "2026-09-11"
+   },
+   "sepultamento": null,
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-09-06T08:00:00"
+  },
+  {
+   "id": "C-0014",
+   "protocolo": "2026.0014",
+   "unidade": "IML Cáceres",
+   "data_entrada": "2026-09-09",
+   "municipio": "Cáceres",
+   "local": "Local fictício 14",
+   "data_localizacao": "2026-09-09",
+   "sexo": "Masculino",
+   "idade": 59,
+   "altura": "1,68",
+   "peso": "68",
+   "olhos": "pretos",
+   "cabelo": "castanho",
+   "pele": "branca",
+   "sinais": "",
+   "nome": "João Fictício Lima",
+   "documento": "DOC-014",
+   "identificado": true,
+   "situacao": "identificado",
+   "via_identificacao": "DNA",
+   "data_identificacao": "2026-09-17",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "DNA": {
+     "status": "positivo",
+     "protocolo": "EX-014",
+     "data": "2026-09-17"
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {},
+   "sepultamento": null,
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-09-09T08:00:00"
+  },
+  {
+   "id": "C-0015",
+   "protocolo": "2026.0015",
+   "unidade": "IML Barra do Garças",
+   "data_entrada": "2026-09-12",
+   "municipio": "Barra do Garças",
+   "local": "Local fictício 15",
+   "data_localizacao": "2026-09-12",
+   "sexo": "Feminino",
+   "idade": 62,
+   "altura": "1,69",
+   "peso": "69",
+   "olhos": "azuis",
+   "cabelo": "grisalho",
+   "pele": "preta",
+   "sinais": "",
+   "nome": "Ana Fictícia Alves",
+   "documento": "DOC-015",
+   "identificado": true,
+   "situacao": "não reclamado",
+   "via_identificacao": "odontologia",
+   "data_identificacao": "2026-09-20",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "DNA": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "odontologia": {
+     "status": "positivo",
+     "protocolo": "EX-015",
+     "data": "2026-09-20"
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {
+    "busca_iniciada_em": "2026-09-15",
+    "busca_sem_sucesso": true,
+    "busca_encerrada_em": "2026-10-02"
+   },
+   "sepultamento": null,
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-09-12T08:00:00"
+  },
+  {
+   "id": "C-0016",
+   "protocolo": "2026.0016",
+   "unidade": "IML Cuiabá",
+   "data_entrada": "2026-09-15",
+   "municipio": "Cuiabá",
+   "local": "Local fictício 16",
+   "data_localizacao": "2026-09-15",
+   "sexo": "Masculino",
+   "idade": 65,
+   "altura": "1,70",
+   "peso": "70",
+   "olhos": "castanhos",
+   "cabelo": "preto",
+   "pele": "parda",
+   "sinais": "",
+   "nome": "Carlos Fictício Rocha",
+   "documento": "DOC-016",
+   "identificado": true,
+   "situacao": "não reclamado",
+   "via_identificacao": "antropologia",
+   "data_identificacao": "2026-09-23",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "DNA": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "positivo",
+     "protocolo": "EX-016",
+     "data": "2026-09-23"
+    }
+   },
+   "familia": {
+    "busca_iniciada_em": "2026-09-18",
+    "busca_sem_sucesso": true,
+    "busca_encerrada_em": "2026-10-05"
+   },
+   "sepultamento": null,
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-09-15T08:00:00"
+  },
+  {
+   "id": "C-0017",
+   "protocolo": "2026.0017",
+   "unidade": "IML Sinop",
+   "data_entrada": "2026-09-18",
+   "municipio": "Sinop",
+   "local": "Local fictício 17",
+   "data_localizacao": "2026-09-18",
+   "sexo": "Feminino",
+   "idade": 68,
+   "altura": "1,71",
+   "peso": "71",
+   "olhos": "pretos",
+   "cabelo": "castanho",
+   "pele": "branca",
+   "sinais": "cicatriz no braço esquerdo",
+   "nome": "Beatriz Fictícia Dias",
+   "documento": "DOC-017",
+   "identificado": true,
+   "situacao": "não reclamado",
+   "via_identificacao": "necropapiloscopia",
+   "data_identificacao": "2026-09-26",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "positivo",
+     "protocolo": "EX-017",
+     "data": "2026-09-26"
+    },
+    "DNA": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {
+    "busca_iniciada_em": "2026-09-21",
+    "busca_sem_sucesso": true,
+    "busca_encerrada_em": "2026-10-08"
+   },
+   "sepultamento": null,
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-09-18T08:00:00"
+  },
+  {
+   "id": "C-0018",
+   "protocolo": "2026.0018",
+   "unidade": "IML Rondonópolis",
+   "data_entrada": "2026-09-21",
+   "municipio": "Rondonópolis",
+   "local": "Local fictício 18",
+   "data_localizacao": "2026-09-21",
+   "sexo": "Masculino",
+   "idade": 71,
+   "altura": "1,72",
+   "peso": "72",
+   "olhos": "azuis",
+   "cabelo": "grisalho",
+   "pele": "preta",
+   "sinais": "",
+   "nome": "Paulo Fictício Matos",
+   "documento": "DOC-018",
+   "identificado": true,
+   "situacao": "não reclamado",
+   "via_identificacao": "DNA",
+   "data_identificacao": "2026-09-29",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "DNA": {
+     "status": "positivo",
+     "protocolo": "EX-018",
+     "data": "2026-09-29"
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {
+    "busca_iniciada_em": "2026-09-24",
+    "busca_sem_sucesso": true,
+    "busca_encerrada_em": "2026-10-11"
+   },
+   "sepultamento": null,
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-09-21T08:00:00"
+  },
+  {
+   "id": "C-0019",
+   "protocolo": "2026.0019",
+   "unidade": "IML Cáceres",
+   "data_entrada": "2026-07-05",
+   "municipio": "Cáceres",
+   "local": "Local fictício 19",
+   "data_localizacao": "2026-07-05",
+   "sexo": "Feminino",
+   "idade": 74,
+   "altura": "1,73",
+   "peso": "73",
+   "olhos": "castanhos",
+   "cabelo": "preto",
+   "pele": "parda",
+   "sinais": "",
+   "nome": "",
+   "documento": "",
+   "identificado": false,
+   "situacao": "sepultado",
+   "via_identificacao": "",
+   "data_identificacao": "",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "negativo",
+     "protocolo": "EX-019",
+     "data": "2026-07-10"
+    },
+    "DNA": {
+     "status": "negativo",
+     "protocolo": "EX-019-D",
+     "data": "2026-07-11"
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {},
+   "sepultamento": {
+    "data": "2026-08-05",
+    "municipio": "Cuiabá",
+    "local": "Cemitério municipal fictício",
+    "certidao": "CO-NI-019"
+   },
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-07-05T08:00:00"
+  },
+  {
+   "id": "C-0020",
+   "protocolo": "2026.0020",
+   "unidade": "IML Barra do Garças",
+   "data_entrada": "2026-07-06",
+   "municipio": "Barra do Garças",
+   "local": "Local fictício 20",
+   "data_localizacao": "2026-07-06",
+   "sexo": "Masculino",
+   "idade": 77,
+   "altura": "1,74",
+   "peso": "74",
+   "olhos": "pretos",
+   "cabelo": "castanho",
+   "pele": "branca",
+   "sinais": "",
+   "nome": "",
+   "documento": "",
+   "identificado": false,
+   "situacao": "sepultado",
+   "via_identificacao": "",
+   "data_identificacao": "",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "negativo",
+     "protocolo": "EX-020",
+     "data": "2026-07-11"
+    },
+    "DNA": {
+     "status": "em andamento",
+     "protocolo": "EX-020-D",
+     "data": "2026-07-12"
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {},
+   "sepultamento": {
+    "data": "2026-08-06",
+    "municipio": "Sinop",
+    "local": "Cemitério municipal fictício",
+    "certidao": "CO-NI-020"
+   },
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-07-06T08:00:00"
+  },
+  {
+   "id": "C-0021",
+   "protocolo": "2026.0021",
+   "unidade": "IML Cuiabá",
+   "data_entrada": "2026-07-07",
+   "municipio": "Cuiabá",
+   "local": "Local fictício 21",
+   "data_localizacao": "2026-07-07",
+   "sexo": "Feminino",
+   "idade": 80,
+   "altura": "1,75",
+   "peso": "75",
+   "olhos": "azuis",
+   "cabelo": "grisalho",
+   "pele": "preta",
+   "sinais": "cicatriz no braço esquerdo",
+   "nome": "",
+   "documento": "",
+   "identificado": false,
+   "situacao": "sepultado",
+   "via_identificacao": "",
+   "data_identificacao": "",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "negativo",
+     "protocolo": "EX-021",
+     "data": "2026-07-12"
+    },
+    "DNA": {
+     "status": "negativo",
+     "protocolo": "EX-021-D",
+     "data": "2026-07-13"
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {},
+   "sepultamento": {
+    "data": "2026-08-07",
+    "municipio": "Rondonópolis",
+    "local": "Cemitério municipal fictício",
+    "certidao": "CO-NI-021"
+   },
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-07-07T08:00:00"
+  },
+  {
+   "id": "C-0022",
+   "protocolo": "2026.0022",
+   "unidade": "IML Sinop",
+   "data_entrada": "2026-07-08",
+   "municipio": "Sinop",
+   "local": "Local fictício 22",
+   "data_localizacao": "2026-07-08",
+   "sexo": "Masculino",
+   "idade": 83,
+   "altura": "1,76",
+   "peso": "76",
+   "olhos": "castanhos",
+   "cabelo": "preto",
+   "pele": "parda",
+   "sinais": "",
+   "nome": "Lucas Fictício Costa",
+   "documento": "DOC-022",
+   "identificado": true,
+   "situacao": "identificado após sepultamento",
+   "via_identificacao": "DNA",
+   "data_identificacao": "2026-09-06",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "DNA": {
+     "status": "positivo",
+     "protocolo": "EX-022",
+     "data": "2026-07-16"
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {},
+   "sepultamento": {
+    "data": "2026-08-08",
+    "municipio": "Cuiabá",
+    "local": "Cemitério municipal fictício",
+    "certidao": "CO-NI-022"
+   },
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-07-08T08:00:00"
+  },
+  {
+   "id": "C-0023",
+   "protocolo": "2026.0023",
+   "unidade": "IML Rondonópolis",
+   "data_entrada": "2026-07-09",
+   "municipio": "Rondonópolis",
+   "local": "Local fictício 23",
+   "data_localizacao": "2026-07-09",
+   "sexo": "Feminino",
+   "idade": 86,
+   "altura": "1,77",
+   "peso": "77",
+   "olhos": "pretos",
+   "cabelo": "castanho",
+   "pele": "branca",
+   "sinais": "",
+   "nome": "Fernanda Fictícia Melo",
+   "documento": "DOC-023",
+   "identificado": true,
+   "situacao": "identificado após sepultamento",
+   "via_identificacao": "odontologia",
+   "data_identificacao": "2026-09-07",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "DNA": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "odontologia": {
+     "status": "positivo",
+     "protocolo": "EX-023",
+     "data": "2026-07-17"
+    },
+    "antropologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    }
+   },
+   "familia": {},
+   "sepultamento": {
+    "data": "2026-08-09",
+    "municipio": "Sinop",
+    "local": "Cemitério municipal fictício",
+    "certidao": "CO-NI-023"
+   },
+   "entrega_em": null,
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-07-09T08:00:00"
+  },
+  {
+   "id": "C-0024",
+   "protocolo": "2026.0024",
+   "unidade": "IML Cáceres",
+   "data_entrada": "2026-10-09",
+   "municipio": "Cáceres",
+   "local": "Local fictício 24",
+   "data_localizacao": "2026-10-09",
+   "sexo": "Masculino",
+   "idade": 89,
+   "altura": "1,78",
+   "peso": "78",
+   "olhos": "azuis",
+   "cabelo": "grisalho",
+   "pele": "preta",
+   "sinais": "",
+   "nome": "Rafael Fictício Nunes",
+   "documento": "DOC-024",
+   "identificado": true,
+   "situacao": "entregue",
+   "via_identificacao": "antropologia",
+   "data_identificacao": "2026-10-17",
+   "exames": {
+    "necropapiloscopia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "DNA": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "odontologia": {
+     "status": "não solicitado",
+     "protocolo": "",
+     "data": ""
+    },
+    "antropologia": {
+     "status": "positivo",
+     "protocolo": "EX-024",
+     "data": "2026-10-17"
+    }
+   },
+   "familia": {
+    "nome": "Familiar Fictício",
+    "parentesco": "irmão",
+    "contato": "contato@exemplo.gov.br",
+    "busca_iniciada_em": "2026-10-11",
+    "localizada": true,
+    "localizada_em": "2026-10-13",
+    "entrega_em": "2026-10-15"
+   },
+   "sepultamento": null,
+   "entrega_em": "2026-10-15",
+   "observacoes": "Registro fictício para o protótipo.",
+   "criado_em": "2026-10-09T08:00:00"
+  }
+ ],
+ "log": [
+  {
+   "id": "L-1-E",
+   "corpo_id": "C-0001",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0001",
+   "data_hora": "2026-08-01T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-2-E",
+   "corpo_id": "C-0002",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0002",
+   "data_hora": "2026-08-04T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-3-E",
+   "corpo_id": "C-0003",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0003",
+   "data_hora": "2026-08-07T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-4-E",
+   "corpo_id": "C-0004",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0004",
+   "data_hora": "2026-08-10T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-5-E",
+   "corpo_id": "C-0005",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0005",
+   "data_hora": "2026-08-13T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-6-E",
+   "corpo_id": "C-0006",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0006",
+   "data_hora": "2026-08-16T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-7-E",
+   "corpo_id": "C-0007",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0007",
+   "data_hora": "2026-08-19T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-8-E",
+   "corpo_id": "C-0008",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0008",
+   "data_hora": "2026-08-22T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-9-E",
+   "corpo_id": "C-0009",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0009",
+   "data_hora": "2026-08-25T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-9-I",
+   "corpo_id": "C-0009",
+   "acao": "identificação registrada",
+   "detalhe": "necropapiloscopia",
+   "data_hora": "2026-09-02T10:00:00",
+   "perfil": "nihde"
+  },
+  {
+   "id": "L-10-E",
+   "corpo_id": "C-0010",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0010",
+   "data_hora": "2026-08-28T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-10-I",
+   "corpo_id": "C-0010",
+   "acao": "identificação registrada",
+   "detalhe": "DNA",
+   "data_hora": "2026-09-05T10:00:00",
+   "perfil": "nihde"
+  },
+  {
+   "id": "L-11-E",
+   "corpo_id": "C-0011",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0011",
+   "data_hora": "2026-08-31T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-11-I",
+   "corpo_id": "C-0011",
+   "acao": "identificação registrada",
+   "detalhe": "odontologia",
+   "data_hora": "2026-09-08T10:00:00",
+   "perfil": "nihde"
+  },
+  {
+   "id": "L-12-E",
+   "corpo_id": "C-0012",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0012",
+   "data_hora": "2026-09-03T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-12-I",
+   "corpo_id": "C-0012",
+   "acao": "identificação registrada",
+   "detalhe": "antropologia",
+   "data_hora": "2026-09-11T10:00:00",
+   "perfil": "nihde"
+  },
+  {
+   "id": "L-13-E",
+   "corpo_id": "C-0013",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0013",
+   "data_hora": "2026-09-06T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-13-I",
+   "corpo_id": "C-0013",
+   "acao": "identificação registrada",
+   "detalhe": "necropapiloscopia",
+   "data_hora": "2026-09-14T10:00:00",
+   "perfil": "nihde"
+  },
+  {
+   "id": "L-14-E",
+   "corpo_id": "C-0014",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0014",
+   "data_hora": "2026-09-09T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-14-I",
+   "corpo_id": "C-0014",
+   "acao": "identificação registrada",
+   "detalhe": "DNA",
+   "data_hora": "2026-09-17T10:00:00",
+   "perfil": "nihde"
+  },
+  {
+   "id": "L-15-E",
+   "corpo_id": "C-0015",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0015",
+   "data_hora": "2026-09-12T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-15-I",
+   "corpo_id": "C-0015",
+   "acao": "identificação registrada",
+   "detalhe": "odontologia",
+   "data_hora": "2026-09-20T10:00:00",
+   "perfil": "nihde"
+  },
+  {
+   "id": "L-16-E",
+   "corpo_id": "C-0016",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0016",
+   "data_hora": "2026-09-15T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-16-I",
+   "corpo_id": "C-0016",
+   "acao": "identificação registrada",
+   "detalhe": "antropologia",
+   "data_hora": "2026-09-23T10:00:00",
+   "perfil": "nihde"
+  },
+  {
+   "id": "L-17-E",
+   "corpo_id": "C-0017",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0017",
+   "data_hora": "2026-09-18T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-17-I",
+   "corpo_id": "C-0017",
+   "acao": "identificação registrada",
+   "detalhe": "necropapiloscopia",
+   "data_hora": "2026-09-26T10:00:00",
+   "perfil": "nihde"
+  },
+  {
+   "id": "L-18-E",
+   "corpo_id": "C-0018",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0018",
+   "data_hora": "2026-09-21T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-18-I",
+   "corpo_id": "C-0018",
+   "acao": "identificação registrada",
+   "detalhe": "DNA",
+   "data_hora": "2026-09-29T10:00:00",
+   "perfil": "nihde"
+  },
+  {
+   "id": "L-19-E",
+   "corpo_id": "C-0019",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0019",
+   "data_hora": "2026-07-05T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-19-S",
+   "corpo_id": "C-0019",
+   "acao": "sepultamento registrado",
+   "detalhe": "Cemitério municipal fictício",
+   "data_hora": "2026-08-05T11:00:00",
+   "perfil": "nihde"
+  },
+  {
+   "id": "L-20-E",
+   "corpo_id": "C-0020",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0020",
+   "data_hora": "2026-07-06T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-20-S",
+   "corpo_id": "C-0020",
+   "acao": "sepultamento registrado",
+   "detalhe": "Cemitério municipal fictício",
+   "data_hora": "2026-08-06T11:00:00",
+   "perfil": "nihde"
+  },
+  {
+   "id": "L-21-E",
+   "corpo_id": "C-0021",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0021",
+   "data_hora": "2026-07-07T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-21-S",
+   "corpo_id": "C-0021",
+   "acao": "sepultamento registrado",
+   "detalhe": "Cemitério municipal fictício",
+   "data_hora": "2026-08-07T11:00:00",
+   "perfil": "nihde"
+  },
+  {
+   "id": "L-22-E",
+   "corpo_id": "C-0022",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0022",
+   "data_hora": "2026-07-08T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-22-I",
+   "corpo_id": "C-0022",
+   "acao": "identificação registrada",
+   "detalhe": "DNA",
+   "data_hora": "2026-09-06T10:00:00",
+   "perfil": "nihde"
+  },
+  {
+   "id": "L-22-S",
+   "corpo_id": "C-0022",
+   "acao": "sepultamento registrado",
+   "detalhe": "Cemitério municipal fictício",
+   "data_hora": "2026-08-08T11:00:00",
+   "perfil": "nihde"
+  },
+  {
+   "id": "L-23-E",
+   "corpo_id": "C-0023",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0023",
+   "data_hora": "2026-07-09T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-23-I",
+   "corpo_id": "C-0023",
+   "acao": "identificação registrada",
+   "detalhe": "odontologia",
+   "data_hora": "2026-09-07T10:00:00",
+   "perfil": "nihde"
+  },
+  {
+   "id": "L-23-S",
+   "corpo_id": "C-0023",
+   "acao": "sepultamento registrado",
+   "detalhe": "Cemitério municipal fictício",
+   "data_hora": "2026-08-09T11:00:00",
+   "perfil": "nihde"
+  },
+  {
+   "id": "L-24-E",
+   "corpo_id": "C-0024",
+   "acao": "entrada registrada",
+   "detalhe": "2026.0024",
+   "data_hora": "2026-10-09T08:00:00",
+   "perfil": "iml"
+  },
+  {
+   "id": "L-24-I",
+   "corpo_id": "C-0024",
+   "acao": "identificação registrada",
+   "detalhe": "antropologia",
+   "data_hora": "2026-10-17T10:00:00",
+   "perfil": "nihde"
+  }
+ ]
+}

@@ -1,0 +1,9 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 220" role="img" aria-label="Fluxo AS-IS do NIHDE">
+  <rect width="1000" height="220" fill="#f6f7f9"/>
+  <g font-family="Segoe UI, sans-serif" font-size="13" text-anchor="middle">
+    <g fill="#fff" stroke="#6b7c8f"><rect x="20" y="80" width="140" height="54" rx="8"/><rect x="190" y="80" width="140" height="54" rx="8"/><rect x="360" y="80" width="150" height="54" rx="8"/><rect x="540" y="30" width="140" height="44" rx="8"/><rect x="540" y="88" width="140" height="44" rx="8"/><rect x="540" y="146" width="140" height="44" rx="8"/><rect x="720" y="80" width="120" height="54" rx="8"/><rect x="870" y="30" width="110" height="44" rx="8"/><rect x="870" y="146" width="110" height="44" rx="8"/></g>
+    <g fill="#17212b"><text x="90" y="112">Entrada no IML</text><text x="260" y="112">Cadastro no Atena</text><text x="435" y="112">Necropsia e coleta</text><text x="610" y="58">Papiloscopia</text><text x="610" y="116">DNA</text><text x="610" y="174">Odontologia</text><text x="780" y="112">Identificou?</text><text x="925" y="58">Família</text><text x="925" y="174">Sepultamento</text></g>
+    <g stroke="#6b7c8f" stroke-width="2" fill="none" marker-end="url(#a)"><path d="M160 107h30"/><path d="M330 107h30"/><path d="M510 107l30-55"/><path d="M510 107h30"/><path d="M510 107l30 55"/><path d="M680 107h40"/><path d="M840 95l30-40"/><path d="M840 120l30 30"/></g>
+  </g>
+  <defs><marker id="a" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0l8 4-8 4z" fill="#6b7c8f"/></marker></defs>
+</svg>

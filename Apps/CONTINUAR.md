@@ -1,8 +1,17 @@
-# Continuar o desenvolvimento dos apps (passagem para outro agente)
+﻿# Continuar o desenvolvimento dos apps (passagem para outro agente)
 
-> **Atualização de 03/11/2026:** o curso tem **21 apps**. O TEIA é a nova etapa
-> do projeto do Nelson e Luciana, com MVP, testes, hub e repositório próprios.
-> O estado atual, os testes (21/21 e 92/92) e o prompt de continuação estão em
+> **Atualização de 03/11/2026 (segunda etapa):** o curso tem **21 apps ativos**
+> e o `distribuicao-casos-dna` foi **arquivado** em `Apps/_arquivados/`. O TEIA
+> é o projeto do **Nelson e da Helen Coelho Gonçalves**. Entregas desta etapa: Sprint 8 da
+> `trilha-custodia-necropsia` (sete etapas, assinatura, sepultamento e
+> recebimento), importador `.xlsx` e Google Planilhas da
+> `rnc-nao-conformidade`, carga da pasta e gestão dos laudos no `agiliza-mais`,
+> dashboard orçamentário no `tap-portfolio-projetos` e o layout novo do TEIA
+> no PC e no celular. Os testes por app estão no fim deste arquivo.
+>
+> **Atualização de 03/11/2026:** o TEIA é a nova etapa do projeto do Nelson e
+> Luciana, com MVP, testes, hub e repositório próprios. O estado anterior, os
+> testes (21/21 e 92/92) e o prompt de continuação estão em
 > `Apps/CONTINUAR-IDENTIDADE.md`. Este arquivo é o histórico por app.
 
 > **Atualização de 02/11/2026:** cada app passou a ser autônomo (`nucleo/`, `construir.py` e `testes/` próprios, sem base comum) e vai ganhar identidade própria. O que foi feito, o que falta e o prompt de continuação estão em `Apps/CONTINUAR-IDENTIDADE.md`. O diagnóstico e o plano de cada app estão em `Apps/PLANO-USABILIDADE.md`.
@@ -10,7 +19,7 @@
 
 Atualizado em **03/11/2026, fim do dia** (histórico; ver `CONTINUAR-IDENTIDADE.md` para o estado atual).
 
-**Estado geral: a maior parte dos 21 apps com o MVP completo** (Sprints 1 a 6 ou 7, com
+**Estado geral: a maior parte dos 21 apps ativos com o MVP completo** (Sprints 1 a 6 ou 7, com
 roteiro de aceite em `modelos/`). **Em 03/11/2026, fim do dia, os 21 apps estão minimamente funcionais de ponta a ponta**; o que sobra depende de pessoas (Sprint 0, aceite, piloto), de serviço externo (Apps Script do agendamento) ou é refinamento. Em 03/11/2026 os quatro apps maiores avançaram
 (commits `fb0005b`, `0b67e02`, `ca57d14` e `0556119`). Situação ao fim do dia:
 
@@ -41,6 +50,71 @@ Cada app tem um formulário de feedback (`Aula 8/feedback/<app>.html`), que grav
 As respostas podem ser lidas na página `Aula 8/feedback/index.html`. Os formulários são regerados por `python "Aula 8/gerar_feedback.py"` quando as telas de um app mudam.
 
 **Acessibilidade (03/11/2026):** Lighthouse de acessibilidade com 100 nos 21 apps e no formulário de feedback, depois de escurecer o âmbar do tema claro (`--ambar:#8a5000` no `nucleo/visual.css` de todos) e tirar a opacidade das etapas vazias da Comissão de Ética e dos meses vazios do Metas BI.
+
+### 0.0 Mudanças da segunda etapa de 03/11/2026
+
+- **trilha-custodia-necropsia**: Sprint 8 com sete etapas, resultado da identificação, busca de familiares, liberação com assinatura no canvas, sepultamento pelo Estado, entrega e recebimento do laudo, confirmação de lacre só pelo Gestor ADM, perfil Médico Legista e `#/resumo`. A versão 02/11/2026 da Silmara está em `entregas/2026-11-02/`.
+- **rnc-nao-conformidade**: leitor de `.xlsx` com PizZip (sem nova dependência), 23 colunas oficiais traduzidas (nome e e-mail descartados pela RN07), ficha com os metadados e sincronização com o Google Planilhas por CSV público. A CSP libera só `docs.google.com`; a planilha precisa ser pública.
+- **agiliza-mais**: **Carregar a pasta do caso** no `#/inicio` e ações de continuar, renomear, mover para pasta e excluir nos laudos em preenchimento. O `CASO TESTE 2/README.md` descreve os arquivos e o `.dotx` institucional (ainda sem marcadores).
+- **tap-portfolio-projetos**: loja `orcamentos` e `#/dashboard` por ano e eixo (empenhado, liquidado, saldo, percentual), com edição, exclusão, exportação CSV e importação `.xlsx`/`.csv`. O seed tem 15 lançamentos fictícios.
+- **metas-bi-ocr**: mês de referência escolhido no importador; editar, renomear e excluir cada linha da conferência; excluir um mês importado (mês aprovado não é excluído).
+- **teia-triagem-emails**: layout refeito para PC e celular (fila com encaixe, barra de ações, KPI clicável, menu compacto, rolagem no topo ao trocar de tela).
+- **controle-aquisicoes** e **equipamentos-google-earth**: gráficos limitados a 640 px e 720 px para não crescerem com a largura do cartão.
+- **distribuicao-casos-dna**: arquivado em `Apps/_arquivados/`; saiu do painel, do hub, dos formulários e dos testes.
+
+### 0.0.1 Feedback recebido em 03/11/2026 (18 respostas em 16 apps)
+
+**Sprints abertos** com os itens do feedback, na ordem das prioridades: adiantamento 8, agiliza-mais 14, cin-segunda-via 7, comissao-etica 8, controle-aquisicoes 8, custodia-definitiva 8, equipamentos-google-earth 12, gestao-documentos 8, inscricoes-cursos 10, metas-bi-ocr 8, rnc-nao-conformidade 7, teia-triagem-emails 4, mapa-distribuicao-credor 9, renovacao-contratos-horus 8, passivo-ambiental 8, tap-portfolio-projetos 8 e agendamento-cin 9 (aguardando resposta). O que depende de decisão do setor está em `Apps/PREMISSAS.md`, seção "Feedback de 03/11/2026".
+
+`python Apps/_base/baixar_feedback.py` escreveu os `FEEDBACK.md` de adiantamento
+(2), agiliza-mais, cin-segunda-via, comissao-etica-denuncias,
+controle-aquisicoes, custodia-definitiva, equipamentos-google-earth,
+gestao-documentos, inscricoes-cursos, metas-bi-ocr, rnc-nao-conformidade (2),
+teia-triagem-emails, mapa-distribuicao-credor, renovacao-contratos-horus,
+passivo-ambiental e tap-portfolio-projetos. O `agendamento-cin` ainda não tem
+resposta; os demais apps também não receberam resposta.
+
+Fechados nesta etapa: mês escolhido e edição no Metas; importador `.xlsx` e
+Google Planilhas no RNC; carga da pasta e gestão dos laudos no Agiliza;
+dashboard orçamentário no TAP; layout do TEIA; tamanho dos gráficos do Controle
+e do Mapa de Equipamentos. Na primeira execução dos sprints, também ficaram
+prontos no Agiliza a revisão simplificada, os textos editáveis por caso, a
+biblioteca com tipo de dispositivo, os quesitos opcionais e o carregamento de
+`.docx`/`.dotx`; e no RNC as categorias oficiais, o complemento em 5 dias úteis
+e o documento para impressão/PDF; no Mapa, a situação do processo, os dígitos da
+dotação, a tabela grupos/empresas e o alinhamento do mapa.
+
+Backlog do próximo ciclo (o que não foi feito):
+
+- **adiantamento**: bloquear o pedido quando o servidor estiver de férias ou licença-prêmio.
+- **agiliza-mais**: modelo Word timbrado da POLITEC já formatado; revisão só com "revisei" e "concluir"; tipo de dispositivo e IA de texto na biblioteca; cor do aparelho editável; textos editáveis; quesitos opcionais; revisar o histórico.
+- **cin-segunda-via**: envio de fotos das impressões digitais; troca de perfil mais rápida.
+- **comissao-etica-denuncias**: texto do artigo na sugestão e confirmação padrão; lista de membros na admissibilidade e fundamento padrão; apagar oitiva e encerrar oitivas; ajustes nas minutas; envio por e-mail.
+- **custodia-definitiva**: endereçamento hierárquico (contêiner, estante, prateleira, nível e posição) com confirmação física; painel por contêiner e saturação.
+- **gestao-documentos**: anexo opcional, data de entrada na lista e cobrança perto do vencimento.
+- **inscricoes-cursos**: perfis por diretoria/coordenação/gerência e termo de convocação de instrutores e monitores.
+- **metas-bi-ocr**: filtro por gerência; conferir o fluxo de aprovar e gerar a planilha com dados reais; extrair o cartão Pendentes.
+- **rnc-nao-conformidade**: gerar a RNC no modelo oficial, nomenclatura das categorias (ADM, AMB, PES, REA, EQP, MPA), documentos por setor e login.
+- **teia-triagem-emails**: retirar nível e número da cobrança; incluir vítima, investigado, réu preso; alerta de reiteração; lista de regionais.
+- **controle-aquisicoes**: reduzir a fonte do painel.
+- **equipamentos-google-earth**: testar no Google Earth (depende de pessoa).
+- **mapa-distribuicao-credor**: importar o PDF do pregoeiro, novo mapa orçamentário no modelo da SESP, dígitos da dotação, situação do processo, empresa ganhadora do grupo e alinhamento do mapa.
+- **renovacao-contratos-horus**: fiscais e gestores por contrato, aviso por e-mail no laranja/vermelho com confirmação de leitura, edição do contrato, objeto na instrução e importação da planilha do setor.
+- **passivo-ambiental**: corrigir o editor de mapas, três mapas obrigatórios, abas de metodologia/considerações/valoração/quesitos, exportação .docx e cabeçalho.
+- **tap-portfolio-projetos**: objetivos estratégicos reais, fluxo de pendência → análise → autoridade, avisos por e-mail e prazo de 5 dias.
+
+### 0.0.2 Novo app · Gestão de Identificados (`gestao_identificados`)
+
+Projeto da **Kesia Melo** (NIHDE), criado em 03/11/2026 a partir do envio e de
+cinco áudios. O app tem painel com a pergunta do MVP, lista, cadastro, ficha com
+os quatro exames, identificação, família, sepultamento pelo município,
+identificação após sepultamento, relatório e CSV. MVP nos Sprints 0 a 4;
+`python testes/testar.py` e os três cenários passam. O módulo de desaparecidos
+está em `desaparecidos.html` (painel do CNPD/MJ com 381 registros), ligado pelo
+painel do app e pelo hub; a base pública fica separada do cadastro dos corpos e o
+contrato está em `docs/CONTRATO-DESAPARECIDOS.md`. Pendente: confirmar o nome
+oficial do NIHDE e o escopo dos dados físicos, integrar com o Atena e o piloto de
+90 dias no IML de Cuiabá.
 
 ## 0.1 Links para os alunos
 
@@ -238,7 +312,9 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
   - [ ] Conferir categorias, condições de conservação e capacidades com a equipe da custódia.
   - [ ] Receber a medição real de volume, tempo de recebimento e tempo de localização.
 
-### Distribuição de Casos de DNA (`distribuicao-casos-dna`)
+### Distribuição de Casos de DNA (`distribuicao-casos-dna`) · ARQUIVADO
+
+> Em 03/11/2026 o app foi movido para `Apps/_arquivados/distribuicao-casos-dna/` e saiu do painel, do hub, dos formulários de feedback e dos testes. O registro abaixo é histórico.
 
 - **Visual**: acento `#86198f`, emblema `dna`, layout `topo`, padrão `hexagonos`, cabeçalho `institucional`.
 - **Sprints concluídos**: 1, 2, 3, 4, 5, 6, 7.

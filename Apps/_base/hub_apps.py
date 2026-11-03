@@ -26,13 +26,14 @@ for pasta in sorted(p for p in APPS.iterdir() if (p / "app.json").exists()):
     time_ = e["apps"].get(pasta.name, {}).get("alunos", [])
     quem = ", ".join(a["nome"] for a in time_) or "equipe a confirmar"
     rotas = len(cfg.get("rotas", []))
+    extra = ' · <a href="gestao_identificados/desaparecidos.html">Desaparecidos</a>' if pasta.name == "gestao_identificados" else ""
     linhas.append(f"""    <div class="card">
       <span class="dia">{html.escape(sprints(pasta))} · {rotas} rotas</span>
       <h3><a href="{pasta.name}/index.html">{html.escape(cfg["titulo"])}</a></h3>
       <p>{html.escape(cfg.get("descricao", ""))}</p>
       <small>{html.escape(quem)}</small>
       <span class="abrir"><a href="{pasta.name}/index.html">Abrir o app</a> · <a href="{pasta.name}/processo.html">Hub</a> ·
-        <a href="../Aula%208/feedback/{pasta.name}.html">Feedback</a></span>
+        <a href="../Aula%208/feedback/{pasta.name}.html">Feedback</a>{extra}</span>
     </div>""")
 
 pagina = f"""<!doctype html>

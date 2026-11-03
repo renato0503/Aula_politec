@@ -35,6 +35,8 @@ def main():
               f"- **Hub do app:** {SITE}Apps/{slug}/processo.html",
               f"- **Feedback:** {SITE}Aula%208/feedback/{slug}.html",
               f"- **Código (GitHub):** https://github.com/renato0503/{slug}"]
+        if slug == "gestao_identificados":
+            L.append(f"- **Painel de desaparecidos (CNPD/MJ):** {SITE}Apps/{slug}/desaparecidos.html")
         if slug in OBS:
             L.append(f"- **Observação:** {OBS[slug]}")
         L.append("")

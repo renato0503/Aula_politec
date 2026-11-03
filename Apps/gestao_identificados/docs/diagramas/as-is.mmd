@@ -1,0 +1,15 @@
+﻿flowchart LR
+  A[Acionamento e entrada no IML] --> B[Cadastro no Atena]
+  B --> C[Necropsia e coleta de amostras]
+  C --> D[Necropapiloscopia]
+  C --> E[DNA]
+  C --> F[Odontologia]
+  C --> G[Antropologia]
+  D --> H{Identificou?}
+  E --> H
+  F --> H
+  G --> H
+  H -- Sim --> I[Família e entrega]
+  H -- Não --> J[30 dias e sepultamento pelo município]
+  J --> K[Análises continuam]
+  K --> I

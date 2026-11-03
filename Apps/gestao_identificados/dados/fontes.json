@@ -1,0 +1,203 @@
+{
+  "atualizado_em": "2026-11-03",
+  "fontes": [
+    {
+      "id": "cnpd",
+      "nome": "CNPD/MJ",
+      "pais": "Brasil",
+      "dados": "Pessoas desaparecidas: nome, idade, sexo, raça/cor, local, datas e situação.",
+      "acesso": "API pública do painel, sem chave e com CORS aberto.",
+      "status": "integrada",
+      "url": "https://cnpd.mj.gov.br/painel-publico",
+      "obs": "381 registros no recorte de 03/11/2026, em 16 UFs. Não é o total nacional.",
+      "ref": "Lei 13.812/2019; painel público do MJSP."
+    },
+    {
+      "id": "namus",
+      "nome": "NamUs (NIJ)",
+      "pais": "Estados Unidos",
+      "dados": "Pessoas desaparecidas e corpos não identificados, com coordenadas públicas do último contato.",
+      "acesso": "API pública usada pelo site (não documentada).",
+      "status": "integrada",
+      "url": "https://www.namus.gov/MissingPersons/Search",
+      "obs": "26.607 casos publicados; amostra de 300 mais recentes, todos com coordenada.",
+      "ref": "namus.gov; coleta com Scrapling."
+    },
+    {
+      "id": "interpol",
+      "nome": "INTERPOL Yellow Notices",
+      "pais": "Internacional",
+      "dados": "Alertas globais de pessoas desaparecidas, inclusive menores e pessoas sem identificação.",
+      "acesso": "API pública não documentada em ws-public.interpol.int (até 160 por consulta).",
+      "status": "pesquisada",
+      "url": "https://www.interpol.int/How-we-work/Notices/Yellow-Notices/View-Yellow-Notices",
+      "obs": "Boa próxima integração: JSON estável, mas sem coordenadas. O site oficial mostra 0 no momento da consulta.",
+      "ref": "PDF Rede PCI Conecta, p. 41, 70 e 84; INTERPOL."
+    },
+    {
+      "id": "ncmec",
+      "nome": "NCMEC",
+      "pais": "Estados Unidos",
+      "dados": "Crianças desaparecidas, pôsteres, casos não identificados de crianças.",
+      "acesso": "API com cadastro em posterapi.ncmec.org; busca e mapa públicos.",
+      "status": "pesquisada",
+      "url": "https://www.missingkids.org/search",
+      "obs": "A API de pôsteres exige credenciamento e atualiza de hora em hora.",
+      "ref": "missingkids.org; NCMEC Poster API."
+    },
+    {
+      "id": "sinalid",
+      "nome": "SINALID/CNMP",
+      "pais": "Brasil",
+      "dados": "Pessoas desaparecidas e localizadas, com integração entre Ministérios Públicos estaduais.",
+      "acesso": "Credenciais concedidas pelos PLIDs; sistema em apps.mprj.mp.br/sinalid.",
+      "status": "restrita",
+      "url": "https://cnmp.mp.br/portal/institucional/comissoes/comissao-de-defesa-dos-direitos-fundamentais/sinalid/informacoes-sobre-o-sistema",
+      "obs": "33.236 casos atendidos até junho de 2026. Não há consulta pública dos registros.",
+      "ref": "PDF Rede PCI Conecta, p. 49; CNMP."
+    },
+    {
+      "id": "cade",
+      "nome": "CADÊ (INI/PF)",
+      "pais": "Brasil",
+      "dados": "Cadastro biométrico de pessoas desaparecidas para confronto de impressões digitais.",
+      "acesso": "Interno, Instituto Nacional de Identificação da Polícia Federal.",
+      "status": "restrita",
+      "url": "https://www.gov.br/pf/pt-br",
+      "obs": "Não é base de consulta pública; integra a papiloscopia e o AFIS/ABIS.",
+      "ref": "PDF Rede PCI Conecta, p. 35."
+    },
+    {
+      "id": "sinesp",
+      "nome": "SINESP",
+      "pais": "Brasil",
+      "dados": "Ocorrências, boletins e estatísticas de segurança pública.",
+      "acesso": "Institucional; painel estatístico público com recortes agregados.",
+      "status": "restrita",
+      "url": "https://www.gov.br/mj/pt-br/assuntos/sua-seguranca/seguranca-publica/sinesp",
+      "obs": "O painel tem números, mas não nomes; os microdados exigem acesso institucional.",
+      "ref": "PDF Rede PCI Conecta, p. 273."
+    },
+    {
+      "id": "sim",
+      "nome": "SIM/DATASUS",
+      "pais": "Brasil",
+      "dados": "Mortalidade, inclusive óbitos de pessoas não identificadas, por município e causa.",
+      "acesso": "Dados abertos no DATASUS (microdados e tabulador).",
+      "status": "pesquisada",
+      "url": "https://datasus.saude.gov.br/transferencia-de-arquivos/",
+      "obs": "Ajuda a dimensionar corpos não identificados sepultados; não traz nome.",
+      "ref": "DATASUS; PDF Rede PCI Conecta, p. 200."
+    },
+    {
+      "id": "ribpg",
+      "nome": "RIBPG/CODIS",
+      "pais": "Brasil",
+      "dados": "Perfis genéticos de pessoas desaparecidas e de familiares.",
+      "acesso": "Institucional; 23 bancos estaduais e o banco nacional.",
+      "status": "restrita",
+      "url": "https://www.gov.br/pf/pt-br",
+      "obs": "O CODIS é o software comum; não há consulta pública.",
+      "ref": "PDF Rede PCI Conecta, p. 29 e 64."
+    },
+    {
+      "id": "sinab",
+      "nome": "SINAB/BNPB",
+      "pais": "Brasil",
+      "dados": "Perfis balísticos.",
+      "acesso": "Institucional.",
+      "status": "restrita",
+      "url": "https://www.gov.br/pf/pt-br",
+      "obs": "Não é base de desaparecidos; entra no cruzamento pericial.",
+      "ref": "PDF Rede PCI Conecta, p. 64."
+    },
+    {
+      "id": "atena",
+      "nome": "Atena",
+      "pais": "Mato Grosso",
+      "dados": "Entrada do corpo, necropsia e laudos do IML.",
+      "acesso": "Interno da POLITEC/MT.",
+      "status": "restrita",
+      "url": "",
+      "obs": "É a fonte do MVP do NIHDE; a integração depende da direção da POLITEC.",
+      "ref": "Formulário do NIHDE; PDF Rede PCI Conecta, p. 195."
+    },
+    {
+      "id": "cad_pciconecta",
+      "nome": "Cad-PCIConecta",
+      "pais": "Brasil",
+      "dados": "Cadastro nacional proposto para integrar desaparecidos, corpos e exames periciais.",
+      "acesso": "Em implantação pela Rede PCI Conecta/CONDPCI.",
+      "status": "planejada",
+      "url": "https://www.gov.br/mj/pt-br/acesso-a-informacao/acoes-e-programas/desaparecidos/livro-rede-pciconecta-publicado-251206.pdf",
+      "obs": "A integração com CNPD, SINALID e cadastros estaduais é a fase 2 do projeto.",
+      "ref": "PDF Rede PCI Conecta, p. 90, 136 e 141."
+    },
+    {
+      "id": "plids",
+      "nome": "PLIDs estaduais",
+      "pais": "Brasil",
+      "dados": "Programas de localização e identificação nos Ministérios Públicos estaduais.",
+      "acesso": "Páginas públicas por estado; os registros vão para o SINALID.",
+      "status": "pesquisada",
+      "url": "https://www.mpam.mp.br/plids-das-outras-unidades-da-federacao",
+      "obs": "Cada PLID tem fluxo e formulário próprios; nem todos publicam lista.",
+      "ref": "CNMP; diretório de PLIDs."
+    },
+    {
+      "id": "estados",
+      "nome": "Portais estaduais de desaparecidos",
+      "pais": "Brasil",
+      "dados": "Listas de pessoas desaparecidas mantidas por Polícias Civil/Militar e prefeituras.",
+      "acesso": "HTML; coleta caso a caso.",
+      "status": "pesquisada",
+      "url": "https://www.pm.sc.gov.br/sos-desaparecidos",
+      "obs": "Exemplos: SC (SOS Desaparecidos, 336 registros), BA (PC), Osasco (58 registros municipais). Cobertura e campos variam.",
+      "ref": "Portais PCSC, PCBA e Prefeitura de Osasco."
+    },
+    {
+      "id": "ong",
+      "nome": "Desaparecidos do Brasil",
+      "pais": "Brasil",
+      "dados": "Cadastro mantido por associação civil desde 1997.",
+      "acesso": "HTML; consulta e cadastro públicos.",
+      "status": "pesquisada",
+      "url": "https://desaparecidosdobrasil.org/",
+      "obs": "Não é fonte oficial; útil para cruzamento e divulgação.",
+      "ref": "desaparecidosdobrasil.org."
+    },
+    {
+      "id": "doe",
+      "nome": "Doe Network",
+      "pais": "Internacional",
+      "dados": "Casos de pessoas desaparecidas e não identificadas, com fichas e reconstruções faciais.",
+      "acesso": "HTML público.",
+      "status": "pesquisada",
+      "url": "https://www.doenetwork.org/",
+      "obs": "Base voluntária; boa para casos antigos e não identificados.",
+      "ref": "doenetwork.org."
+    },
+    {
+      "id": "desaparecidosbr",
+      "nome": "Desaparecidos BR",
+      "pais": "Brasil",
+      "dados": "Interface não oficial que consulta o painel público do CNPD.",
+      "acesso": "Usa a mesma API do CNPD.",
+      "status": "referencia",
+      "url": "https://www.desaparecidosbr.org/",
+      "obs": "Não acrescenta registros: usa a mesma API do CNPD. Foi a pista inicial para a análise.",
+      "ref": "app.js do site."
+    },
+    {
+      "id": "rede_pci",
+      "nome": "Rede PCI Conecta (guia)",
+      "pais": "Brasil",
+      "dados": "Guia de serviços e manual de implementação da rede nacional de perícia para desaparecidos.",
+      "acesso": "PDF público do MJSP/CONDPCI.",
+      "status": "referencia",
+      "url": "https://www.gov.br/mj/pt-br/acesso-a-informacao/acoes-e-programas/desaparecidos/livro-rede-pciconecta-publicado-251206.pdf",
+      "obs": "454 páginas; base conceitual, fluxos, sistemas e governança. Texto extraído em RedePCIConecta.txt.",
+      "ref": "CONDPCI/MJSP, 2025."
+    }
+  ]
+}

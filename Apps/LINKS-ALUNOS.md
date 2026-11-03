@@ -32,7 +32,7 @@ Todos os apps em uma página: https://renato0503.github.io/Aula_politec/Apps/ind
 
 ## 3. Agiliza+ · Gerador de laudos de exame em celular
 
-- **Equipe:** Diego Costa, Francineide da Silva, Andreia Cristina
+- **Equipe:** Diego Costa, Francineide da Silva, Andreia Cristina, Eric Zambrim
 - **App:** https://renato0503.github.io/Aula_politec/Apps/agiliza-mais/index.html
 - **Hub do app:** https://renato0503.github.io/Aula_politec/Apps/agiliza-mais/processo.html
 - **Feedback:** https://renato0503.github.io/Aula_politec/Aula%208/feedback/agiliza-mais.html
@@ -62,15 +62,7 @@ Todos os apps em uma página: https://renato0503.github.io/Aula_politec/Apps/ind
 - **Feedback:** https://renato0503.github.io/Aula_politec/Aula%208/feedback/controle-aquisicoes.html
 - **Código (GitHub):** https://github.com/renato0503/controle-aquisicoes
 
-## 7. Distribuição de casos de DNA por rodada da placa de análise
-
-- **Equipe:** Nelson, Luciana
-- **App:** https://renato0503.github.io/Aula_politec/Apps/distribuicao-casos-dna/index.html
-- **Hub do app:** https://renato0503.github.io/Aula_politec/Apps/distribuicao-casos-dna/processo.html
-- **Feedback:** https://renato0503.github.io/Aula_politec/Aula%208/feedback/distribuicao-casos-dna.html
-- **Código (GitHub):** https://github.com/renato0503/distribuicao-casos-dna
-
-## 8. DOCUMENTAPOLITEC (controle de prontuários civis ao arquivo central)
+## 7. DOCUMENTAPOLITEC (controle de prontuários civis ao arquivo central)
 
 - **Equipe:** Aline Xavier dos Passos
 - **App:** https://renato0503.github.io/Aula_politec/Apps/documentapolitec/index.html
@@ -78,7 +70,7 @@ Todos os apps em uma página: https://renato0503.github.io/Aula_politec/Apps/ind
 - **Feedback:** https://renato0503.github.io/Aula_politec/Aula%208/feedback/documentapolitec.html
 - **Código (GitHub):** https://github.com/renato0503/documentapolitec
 
-## 9. Fluxo de Renovação de Contratos apoiado pelo Hórus
+## 8. Fluxo de Renovação de Contratos apoiado pelo Hórus
 
 - **Equipe:** Rodrigo Neves Ribeiro
 - **App:** https://renato0503.github.io/Aula_politec/Apps/renovacao-contratos-horus/index.html
@@ -86,7 +78,7 @@ Todos os apps em uma página: https://renato0503.github.io/Aula_politec/Apps/ind
 - **Feedback:** https://renato0503.github.io/Aula_politec/Aula%208/feedback/renovacao-contratos-horus.html
 - **Código (GitHub):** https://github.com/renato0503/renovacao-contratos-horus
 
-## 10. Gestão de Documentos (processos e prazos do Gabinete de Direção)
+## 9. Gestão de Documentos (processos e prazos do Gabinete de Direção)
 
 - **Equipe:** Vitória Araújo Dias
 - **App:** https://renato0503.github.io/Aula_politec/Apps/gestao-documentos/index.html
@@ -94,7 +86,7 @@ Todos os apps em uma página: https://renato0503.github.io/Aula_politec/Apps/ind
 - **Feedback:** https://renato0503.github.io/Aula_politec/Aula%208/feedback/gestao-documentos.html
 - **Código (GitHub):** https://github.com/renato0503/gestao-documentos
 
-## 11. Gestão Dinâmica de Inscrições em Cursos
+## 10. Gestão Dinâmica de Inscrições em Cursos
 
 - **Equipe:** Edilaura Rondon
 - **App:** https://renato0503.github.io/Aula_politec/Apps/inscricoes-cursos/index.html
@@ -102,7 +94,7 @@ Todos os apps em uma página: https://renato0503.github.io/Aula_politec/Apps/ind
 - **Feedback:** https://renato0503.github.io/Aula_politec/Aula%208/feedback/inscricoes-cursos.html
 - **Código (GitHub):** https://github.com/renato0503/inscricoes-cursos
 
-## 12. Hórus · Banco de Demandas
+## 11. Hórus · Banco de Demandas
 
 - **Equipe:** Iohan Camões de Albuquerque
 - **App:** https://renato0503.github.io/Aula_politec/Apps/horus-banco-demandas/index.html
@@ -110,7 +102,7 @@ Todos os apps em uma página: https://renato0503.github.io/Aula_politec/Apps/ind
 - **Feedback:** https://renato0503.github.io/Aula_politec/Aula%208/feedback/horus-banco-demandas.html
 - **Código (GitHub):** https://github.com/renato0503/horus-banco-demandas
 
-## 13. Mapa de Distribuição por Credor e Distribuição Orçamentária
+## 12. Mapa de Distribuição por Credor e Distribuição Orçamentária
 
 - **Equipe:** Igor Henrique de Menezes Costa
 - **App:** https://renato0503.github.io/Aula_politec/Apps/mapa-distribuicao-credor/index.html
@@ -118,7 +110,7 @@ Todos os apps em uma página: https://renato0503.github.io/Aula_politec/Apps/ind
 - **Feedback:** https://renato0503.github.io/Aula_politec/Aula%208/feedback/mapa-distribuicao-credor.html
 - **Código (GitHub):** https://github.com/renato0503/mapa-distribuicao-credor
 
-## 14. Mapa de Equipamentos (Google Earth)
+## 13. Mapa de Equipamentos (Google Earth)
 
 - **Equipe:** João Lucas Nogueira Ponce
 - **App:** https://renato0503.github.io/Aula_politec/Apps/equipamentos-google-earth/index.html
@@ -126,13 +118,22 @@ Todos os apps em uma página: https://renato0503.github.io/Aula_politec/Apps/ind
 - **Feedback:** https://renato0503.github.io/Aula_politec/Aula%208/feedback/equipamentos-google-earth.html
 - **Código (GitHub):** https://github.com/renato0503/equipamentos-google-earth
 
-## 15. Monitoramento de Metas pelo BI
+## 14. Monitoramento de Metas pelo BI
 
 - **Equipe:** Karine Assunção
 - **App:** https://renato0503.github.io/Aula_politec/Apps/metas-bi-ocr/index.html
 - **Hub do app:** https://renato0503.github.io/Aula_politec/Apps/metas-bi-ocr/processo.html
 - **Feedback:** https://renato0503.github.io/Aula_politec/Aula%208/feedback/metas-bi-ocr.html
 - **Código (GitHub):** https://github.com/renato0503/metas-bi-ocr
+
+## 15. NIHDE - Gestão de dados de corpos não identificados e corpos não reclamados
+
+- **Equipe:** Kesia Melo
+- **App:** https://renato0503.github.io/Aula_politec/Apps/gestao_identificados/index.html
+- **Hub do app:** https://renato0503.github.io/Aula_politec/Apps/gestao_identificados/processo.html
+- **Feedback:** https://renato0503.github.io/Aula_politec/Aula%208/feedback/gestao_identificados.html
+- **Código (GitHub):** https://github.com/renato0503/gestao_identificados
+- **Painel de desaparecidos (CNPD/MJ):** https://renato0503.github.io/Aula_politec/Apps/gestao_identificados/desaparecidos.html
 
 ## 16. Passivo Ambiental (laudos periciais ambientais atrasados)
 
@@ -160,7 +161,7 @@ Todos os apps em uma página: https://renato0503.github.io/Aula_politec/Apps/ind
 
 ## 19. TAP Digital e Portfólio de Projetos Estratégicos
 
-- **Equipe:** Danielle Marques de Almeida Trevizan
+- **Equipe:** Danielle Marques de Almeida Trevizan, Cristiane Souza Ferraz, Luciana
 - **App:** https://renato0503.github.io/Aula_politec/Apps/tap-portfolio-projetos/index.html
 - **Hub do app:** https://renato0503.github.io/Aula_politec/Apps/tap-portfolio-projetos/processo.html
 - **Feedback:** https://renato0503.github.io/Aula_politec/Aula%208/feedback/tap-portfolio-projetos.html
@@ -176,7 +177,7 @@ Todos os apps em uma página: https://renato0503.github.io/Aula_politec/Apps/ind
 
 ## 21. TEIA · Triagem de E-mails com Isolação Automatizada
 
-- **Equipe:** Nelson, Luciana
+- **Equipe:** Nelson, Helen Coelho Gonçalves
 - **App:** https://renato0503.github.io/Aula_politec/Apps/teia-triagem-emails/index.html
 - **Hub do app:** https://renato0503.github.io/Aula_politec/Apps/teia-triagem-emails/processo.html
 - **Feedback:** https://renato0503.github.io/Aula_politec/Aula%208/feedback/teia-triagem-emails.html

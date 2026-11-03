@@ -115,6 +115,7 @@ projeto, no momento do envio.
 | `feedback/<app>.html` | O **formulário de feedback** de cada app (21): quem responde, nota de 1 a 5, se usaria, **tela por tela** (situação e o que mudar), o que falta, erros, regras que não batem, três prioridades e piloto. Grava na coleção `feedback_apps` do Firestore; sem conexão, guarda o rascunho e baixa o `.json` |
 | `feedback/index.html` | As **respostas do feedback** por app, lidas do Firestore, com a nota média e o download de tudo em `.json` |
 | `feedback/feedback.js` e `feedback.css` | O código e o estilo comuns aos 21 formulários |
+| `feedback/testar_formularios.py` | Testa os 21 formulários no Chromium: título, equipe e telas contra o `app.json`, campos obrigatórios, rascunho, bloqueio de CPF, `.json` e, com `--enviar`, o envio ao Firestore com o nome `TESTE AUTOMATIZADO` (que o `baixar_feedback.py` ignora). Uso: `python "Aula 8/feedback/testar_formularios.py" [--enviar]` |
 | `gerar_feedback.py` | Gera os 21 formulários a partir do `app.json` de cada app (as telas) e do `Apps/equipes.json` (a equipe). Uso: `python "Aula 8/gerar_feedback.py"` |
 | `README.md` | Este roteiro da fase |
 

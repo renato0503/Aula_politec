@@ -1,0 +1,275 @@
+{
+  "versao": 2,
+  "gerado_em": "2026-11-03T15:06:55.132Z",
+  "campos": {
+    "data": "2026-11-03",
+    "aluno": "Kesia Melo",
+    "unidade": "Núcleo de Identificação Humana e Desaparecidos - NIHDE",
+    "contato": "nih@politec.mt.gov.br",
+    "nome_projeto": "NIHDE - Gestão de dados de Corpos Não Identificados e Corpos Não Reclamados",
+    "tipo_projeto": "Aplicativo web / portal",
+    "resumo": "Aplicativo que faça a integração e a gestão de dados dos corpos não identificados, para que o NIHDE possa gerenciar estas informações e integrar com órgãos externos",
+    "problema": "Os servidores das unidades dos IMLs registram no sistema ATENA a entrada de um corpo que irá passar pela necropsia e depois pelo processo de identificação ( necropapiloscopia; DNA; odontologia), no entanto, os demais servidores da POLITEC que são responsáveis pela identificação de diferentes setores não conseguem saber quando o corpo é identificado ou não. Outro problema grave é que os dirigentes da POLITEC não sabem informar quantos corpos não identificados deram entrada nos IMLS durante os anos. ",
+    "hoje": "O corpo dá entrada no IML e quando passa pela necropsia esta corpo é cadastrada no sistema ATENA e recebe um número de protocolo, durante a necropsia são coletadas amostras biológicas que podem ser usadas no processo de identificação (DNA) depois este corpo é encaminhado para o processo de identificação pela necropapiloscopia, surge um outro protocolo, que na maioria das vezes não e associado ao protocolo inicial do corpo. Concomitantemente a amostra coletada é encaminhada para o laboratório de DNA e surge um novo protocolo com este pedido de exame de identificação pelo DNA. A odonto tb faz os exames neste corpo e faz registros odontológicos que poderão ser usados na identificação futura também, surge um novo protocolo que tb não é associado ao corpo inicial. Então são 3 exames complementares de identificação para o mesmo corpo. Após o prazo de 30 dias, este corpo não identificado acaba sendo inumado sem identificação. Os registros de sepultamento do corpo, como a solicitação de certidão de óbito para a central de óbito é feita de forma manual e não fica salva no sistema. Neste fluxo não conseguimos filtrar pelo sistema quantos corpos não identificados estão foram inumados e quantos estão sob nossa custódia. ",
+    "impacto": "Esta falta de integração de dados gera retrabalho, pois se o corpo for identificado por exemplo, pela necropapiloscopia o laboratório de DNA não recebe esta informação, acarretando em um processamento de amostra que não haveria necessecidade, gerando custo de tempo do perito e de reagentes. ",
+    "evid_detalhe": "Cada unidades dos IMLs possui uma planilha de excel de controle de entrada destes corpos em suas respectivas unidades. ",
+    "limite": "A liberação de um corpo para uma família só pode ser feita por um servidor da POLITEC. ",
+    "asis_inicio": "Corpo é liberado para inumar sem identificação",
+    "asis_fim": "corpo identificado e localização da família para entrega do corpo",
+    "asis_entradas": "planilhas de excel; protocolos de entrada no corpo do sistema ATENA; protocolos dos exames complementares solicitados; documentos de liberação de corpo para funerária",
+    "asis_saidas": "Laudo de necropsia; laudo de necropapiloscopia; laudo de odonto; laudo de DNA; certidão de óbito ",
+    "asis_volume": "100",
+    "asis_frequencia": "Diário",
+    "asis_decisoes": "corpo quando passa pela necropsia, já e realizada a coleta de todas as amostras que serão utilizadas para as identificações. Deste modo, exame complementar de necropapiloscopia quando é positivo, isto é, foi feita a identificação, os demais setores que estão para iniciar os exames devem ser informados que a identificação foi positiva, assim como o NIHDE também deve ser informado para que se inicie o processo de alteração da certidão de óbito e busca ativa da família para a entrega do corpo. A mesma coisa quando o laboratório de DNA faz a identificação e a odontologia legal. ",
+    "tobe_visao": "Quando a integração e padronização de dados existir, o presidente do NIHDE poderá ver quantos corpos não identificados a POLITEC possui em suas diferentes unidades, sendo capaz de filtrar quais as condições de cada corpo, isto é, sexo biológico, local que foi encontrado, data, quais exames puderam ser coletados, e quais ações para tentativa de identificação já foi feita, isto é, foi coletado as impressões papilares e já foi feita a busca nos bancos de dados biométricos, mas não obteve resultado, então segue aguardando a identificação por outra via (DNA por exemplo), e no caso de ter sido identificado o sistema informe o NIHDE para que a informação seja compartilhada com todos os envolvidos.  ",
+    "tobe_mudanca": "o gerenciamento dos dados para de ser feita de forma manual e passa a ser feita de forma mais automatizada. Os dados relacionados ao corpo passam a ser integrados, todas as informações relativas a este corpo esta em um local só.  ",
+    "tobe_inalterado": "os cadastros dos casos continuam sendo no sistema ATENA. ",
+    "tobe_piloto": "Piloto de 90 dias de todos os corpos que dão entrada no IML de Cuiabá. ",
+    "dentro": "quantos corpos não identificados, quais exames foram solicitados para cada corpo; qual unidade IML; data que foi identificado e por qual metodologia. Se a família foi localizada e o corpo foi entregue ou não. ",
+    "entrega": "aplicativo que possa integrar todas as informações relativas a um corpo não identificado, dados padronizados e estruturados de informações físicas destes corpos não identificados (altura, peso, sexo, cor dos olhos, cor dos cabelos, etc)  exames complementares realizados, ofício padrão de solicitação de certidão de óbito, se esta sepultado ou não, local de sepultamento. Alteração fácil de verificar quando este corpo for identificado para que o NIHDE possa realizar a busca ativa de familiares, ou buscar informações junto aos dados de desaparecidos para averiguar se acha congruência de informações para que o corpo seja entregue para a família e também para que os dados dos desaparecidos seja atualizado. Enviar um email para o NIHDE quando o corpo passa a ser identificado. Relatório completo de casa caso.   ",
+    "fora": "a integração dos dados dos corpos não identificados com os dados de desaparecidos fica para uma fase 2. ",
+    "mvp_naofaz": "Não faz o relatório completo, não integra com os outros órgãos, não estrutura os dados físicos dos corpos não identificados. ",
+    "mvp_objetivo": "Gerenciar quantos corpos não identificados a POLITEC possui e quais são eles, e o que já foi feito com eles. ",
+    "mvp_plataforma": "Site web (abre no navegador)",
+    "mvp_tela_inicial": "tela de login com matrícula, tela com os dados referentes aos corpos não identificados e corpos identificados e não reclamados",
+    "mvp_dados": "dados dos corpos não identificados da unidade do IML de Cuiabá",
+    "lgpd_dados": "Protocolo de registro de corpo não identificado ",
+    "mvp_mock": "integração entre os setores responsáveis pela identificação da POLITEC (necropapiloscopia/ DNA forense/ Odontologia forense/ antropologia forense) ",
+    "mvp_criterio": "os gestores da POLITEC consegue responder a seguinte pergunta: quantos corpos não identificados (sepultados ou não) a POLITEC possui? ",
+    "mvp_reuso": "Existe formulários padronizados com os dados mínimos necessários para estruturar a informação dentro do sistema em relação a etapa de identificação (DNA; NECROPAPILOSCOPIA; ODONTO; ANTROPOLOGIA) e fluxos já desenhados para os casos de corpos não identificados no trabalho do Ministério da Justiça e Segurança Pública chamado GT-INFOPER. Neste trabalho detalha os problemas identificados pelos IMLs na falta de integração entre setores.  ",
+    "dependencias": "Depende da direção geral da POLITEC. "
+  },
+  "marcados": {
+    "afetado": [
+      "Cidadão externo",
+      "Servidor da unidade",
+      "Unidade parceira",
+      "Chefia"
+    ],
+    "evid": [
+      "Planilha ou controle local",
+      "Entrevista com a equipe"
+    ]
+  },
+  "tabelas": {
+    "tAsIs": [
+      {
+        "n": "",
+        "etapa": "corpo para ser identificado",
+        "papel": "papiloscopista",
+        "entra": "impressões papilares do corpo",
+        "acao": "busca e confronto nos bancos de dados biométricos para identificação do corpo ",
+        "sai": "laudo de confronto necropapiloscopico",
+        "sistema": "laudo necropapiloscopico que é iserido dentro do sistema  ATENA",
+        "regra": "",
+        "espera": "protocolo deste exame não é associado ao protocolo do corpo que aguarda para ser identificado e mesmo que esteja associado, o protocolo inicial que foi cadastrado o corpo não é modificado, isto é, não há nenhuma mudança de cor, ou inclusão de símbolo que me informe que aquele corpo foi identificado ou não",
+        "tempo": "48",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "amostra coletada de corpo para ser identificado",
+        "papel": "perito do laboratório de DNA ",
+        "entra": "amostra biológica (amostra questionada)",
+        "acao": "obtenção de perfil genético desta amostra para confrontar com amostra de referência (familiar, qdo tiver) ou inclusão de perfil genético no CODIS",
+        "sai": "laudo de confronto / laudo de obtenção de perfil genético e inclusão do CODIS",
+        "sistema": "laudos são inseridos no sistema ATENA",
+        "regra": "",
+        "espera": "as vezes tem amostra de familiar para confrontar mas não está assoaciado a smotra questionada dentro do sistema, deste modo, o setor não consegue fazer a conecção entre as amostras; também pode ocorrer deste corpo já ter sido identificado por outra via e o laboratório de DNA não ter conhecimento e continuar com esta amostra na fila ",
+        "tempo": "720",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "etapa": "informação que o corpo que deu entrada não foi identificado ",
+        "papel": "NIHDE",
+        "entra": "protocolo do corpo não identificado, em qual unidade que este corpo deu entrada, data que este corpo deu entrada",
+        "acao": "integração de todos os dados relacionados a este corpo (local que foi encontrado; data que foi localizado; quais exames complentares foram realziados; dasos sobre o sepultamento) ",
+        "sai": "relatório detalhada com todas as informações relacionadas a este corpo ",
+        "sistema": "papel ",
+        "regra": "",
+        "espera": "buscar todas as informações relacionadas a este corpo em diferentes sistemas, planilhas ",
+        "tempo": "720",
+        "auto": "Sim, com apoio humano",
+        "rm": ""
+      }
+    ],
+    "tToBe": [
+      {
+        "n": "",
+        "etapa": "informação de quantos corpos não identificados a instituição tem ",
+        "muda": "esta informação é centralizada ",
+        "quem": "",
+        "beneficio": "",
+        "esforco": "",
+        "rm": ""
+      }
+    ],
+    "tPapeis": [
+      {
+        "papel": "NIHDE",
+        "quem": "presidente do NIHDE",
+        "ve": "todos os dados relacionados aos corpos não identificados ",
+        "faz": "gerencia e atualiza os dados relacionados a cada corpo não identificado",
+        "naofaz": "",
+        "registro": "registra os diferentes protocolos de exames do mesmo corpo ",
+        "rm": ""
+      },
+      {
+        "papel": "",
+        "quem": "",
+        "ve": "",
+        "faz": "",
+        "naofaz": "",
+        "registro": "",
+        "rm": ""
+      }
+    ],
+    "tArtefatos": [
+      {
+        "n": "",
+        "nome": "número de corpos não identificados ",
+        "rota": "gerenciar estes dados ",
+        "objetivo": "NIHDE / Direção Geral da POLITEC",
+        "usuario": "Corpos não identifcados e Corpos Identificados Não Reclamados ",
+        "dados": "",
+        "acao": "",
+        "regra": "",
+        "tipo": "Tela",
+        "verificacao": "",
+        "mvp": "Sim",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "O registro de cada corpo não identificado ",
+        "rota": "integrar todos os dados relacionados a estes corpos não identificados ",
+        "objetivo": "NIHDE",
+        "usuario": "os protocolos dos exames complementares, data de entrada do corpo, dada de sepultamento (saída)",
+        "dados": "",
+        "acao": "",
+        "regra": "",
+        "tipo": "Relatório",
+        "verificacao": "",
+        "mvp": "",
+        "rm": ""
+      }
+    ],
+    "tEntidades": [
+      {
+        "entidade": "NIHDE",
+        "representa": "Representa a central de dados referentes aos corpos não identificados e corpos identificados e não reclamados ",
+        "colunas": "",
+        "chave": "",
+        "volume": "",
+        "origem": "",
+        "sintetico": "",
+        "rm": ""
+      }
+    ],
+    "tRegras": [
+      {
+        "id": "",
+        "regra": "",
+        "quando": "",
+        "excecao": "",
+        "valida": "",
+        "tipo": "",
+        "rm": ""
+      }
+    ],
+    "tFontes": [
+      {
+        "fonte": "",
+        "tipo": "",
+        "onde": "",
+        "existe": "",
+        "acesso": "",
+        "linha": "",
+        "volume": "",
+        "historico": "",
+        "campos": "",
+        "atualiza": "",
+        "lgpd": "",
+        "obs": "",
+        "rm": ""
+      }
+    ],
+    "tMetricas": [
+      {
+        "n": "",
+        "nome": "",
+        "pergunta": "",
+        "formula": "",
+        "fonte": "",
+        "gran": "",
+        "base": "",
+        "esperado": "",
+        "medir": "",
+        "quem": "",
+        "rm": ""
+      },
+      {
+        "n": "",
+        "nome": "",
+        "pergunta": "",
+        "formula": "",
+        "fonte": "",
+        "gran": "",
+        "base": "",
+        "esperado": "",
+        "medir": "",
+        "quem": "",
+        "rm": ""
+      }
+    ],
+    "tHospedagem": [
+      {
+        "opcao": "",
+        "tipo": "",
+        "onde": "",
+        "custo": "",
+        "mantem": "",
+        "acesso": "",
+        "banco": "",
+        "escala": "",
+        "limite": "",
+        "rm": ""
+      }
+    ],
+    "tMarcos": [
+      {
+        "marco": "",
+        "data": "",
+        "resp": "",
+        "dep": "",
+        "sit": "",
+        "rm": ""
+      }
+    ],
+    "tRiscos": [
+      {
+        "risco": "",
+        "prob": "",
+        "imp": "",
+        "mit": "",
+        "rm": ""
+      }
+    ],
+    "tRefs": [
+      {
+        "n": "",
+        "ref": "",
+        "tipo": "",
+        "fonte": "",
+        "ano": "",
+        "dado": "",
+        "uso": "",
+        "conferido": "",
+        "rm": ""
+      }
+    ]
+  }
+}

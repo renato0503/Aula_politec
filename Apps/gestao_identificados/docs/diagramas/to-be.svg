@@ -1,0 +1,9 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 220" role="img" aria-label="Fluxo TO-BE do NIHDE">
+  <rect width="1000" height="220" fill="#f6f7f9"/>
+  <g font-family="Segoe UI, sans-serif" font-size="13" text-anchor="middle">
+    <g fill="#eaf4ef" stroke="#127a45"><rect x="20" y="80" width="150" height="54" rx="8"/><rect x="200" y="80" width="170" height="54" rx="8"/><rect x="400" y="80" width="190" height="54" rx="8"/><rect x="620" y="80" width="120" height="54" rx="8"/><rect x="770" y="30" width="200" height="44" rx="8"/><rect x="770" y="146" width="200" height="44" rx="8"/></g>
+    <g fill="#17212b"><text x="95" y="112">Entrada no IML</text><text x="285" y="112">Registro único no NIHDE</text><text x="495" y="112">Quatro exames</text><text x="680" y="112">Identificou?</text><text x="870" y="58">Família e entrega</text><text x="870" y="174">Sepultamento e análise</text></g>
+    <g stroke="#127a45" stroke-width="2" fill="none" marker-end="url(#b)"><path d="M170 107h30"/><path d="M370 107h30"/><path d="M590 107h30"/><path d="M740 95l30-40"/><path d="M740 120l30 30"/></g>
+  </g>
+  <defs><marker id="b" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0 0l8 4-8 4z" fill="#127a45"/></marker></defs>
+</svg>

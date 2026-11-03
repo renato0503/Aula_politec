@@ -1,6 +1,6 @@
 {
   "descricao": "Integrantes de cada app e o login do GitHub, para criar um repositório por app e dar acesso à equipe. github = null: login ainda não informado.",
-  "atualizado_em": "2026-10-29",
+  "atualizado_em": "2026-11-03",
   "apps": {
     "adiantamento": {
       "projeto": "Controle de Adiantamentos",
@@ -44,6 +44,11 @@
           "nome": "Andreia Cristina",
           "email": null,
           "github": "andreiamunzlinger-web"
+        },
+        {
+          "nome": "Eric Zambrim",
+          "email": null,
+          "github": null
         }
       ]
     },
@@ -99,21 +104,6 @@
           "nome": "Edjane Ávila",
           "email": "edjanegasparini@politec.mt.gov.br",
           "github": "edjaneavila-cyber"
-        }
-      ]
-    },
-    "distribuicao-casos-dna": {
-      "projeto": "Distribuição de casos de DNA por rodada da placa de análise",
-      "alunos": [
-        {
-          "nome": "Nelson",
-          "email": "nelsonyoshitake@politec.mt.gov.br",
-          "github": "nelsonyoshitake"
-        },
-        {
-          "nome": "Luciana",
-          "email": null,
-          "github": null
         }
       ]
     },
@@ -224,6 +214,16 @@
           "nome": "Danielle Marques de Almeida Trevizan",
           "email": "daniellealmeida@politec.mt.gov.br",
           "github": "daniellealmeida-sudo"
+        },
+        {
+          "nome": "Cristiane Souza Ferraz",
+          "email": null,
+          "github": null
+        },
+        {
+          "nome": "Luciana",
+          "email": null,
+          "github": null
         }
       ]
     },
@@ -238,7 +238,7 @@
       ]
     },
     "teia-triagem-emails": {
-      "projeto": "Projeto TEIA (Triagem de E-mails com Isolação Automatizada)",
+      "projeto": "Projeto TEIA (Triagem de E-mails com Isolamento Automatizado)",
       "alunos": [
         {
           "nome": "Nelson",
@@ -246,9 +246,19 @@
           "github": "nelsonyoshitake"
         },
         {
-          "nome": "Luciana",
+          "nome": "Helen Coelho Gonçalves",
           "email": null,
           "github": null
+        }
+      ]
+    },
+    "gestao_identificados": {
+      "projeto": "NIHDE - Gestão de dados de corpos não identificados e corpos não reclamados",
+      "alunos": [
+        {
+          "nome": "Kesia Melo",
+          "email": "nih@politec.mt.gov.br",
+          "github": "krllmsoares-del"
         }
       ]
     }

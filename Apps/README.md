@@ -1,7 +1,7 @@
-# Apps — projetos dos grupos (fase de ideação)
+﻿# Apps — projetos dos grupos (fase de ideação)
 
 > **Registro da entrega de 03/11/2026:** [`ENTREGA-03-11-2026.md`](ENTREGA-03-11-2026.md)
-> traz o que foi feito, os 21 apps, o TEIA, os diagramas, os testes, os
+> traz o que foi feito, os 21 apps ativos, o TEIA, os diagramas, os testes, os
 > repositórios e o que falta.
 
 Uma pasta por grupo de alunos. Cada pasta reúne o que o grupo entregou no
@@ -11,22 +11,22 @@ recebe o código do app.
 | Pasta | Projeto | Grupo / contato | Unidade | Tipo | Fonte da entrega |
 |---|---|---|---|---|---|
 | [trilha-custodia-necropsia/](trilha-custodia-necropsia/) | TCIN · Trilha de Custódia e Identificação de Necropsia | Silmara Bueno · silmarabueno@politec.mt.gov.br | IML · Coordenadoria de Perícias em Mortos | Aplicativo para servidor | `Aula 8/Entregas/Silmara/` (envios parciais + protótipo), 29/10/2026 |
-| [distribuicao-casos-dna/](distribuicao-casos-dna/) | Distribuição de casos de DNA por rodada da placa | Nelson e Luciana · nelsonyoshitake@politec.mt.gov.br | Gerência de Perícias em Biologia Molecular | Mapeamento de processo (fluxo, BPMN ou Mermaid) | `Aula 8/Entregas/`, 29/10/2026 |
-| [teia-triagem-emails/](teia-triagem-emails/) | TEIA · Triagem de E-mails com Isolação Automatizada | Nelson e Luciana · nelsonyoshitake@politec.mt.gov.br | Coordenação de Perícias em Biologia Molecular | Automação de script ou rotina | Firestore, 03/11/2026 |
+| [teia-triagem-emails/](teia-triagem-emails/) | TEIA · Triagem de E-mails com Isolação Automatizada | Nelson e Helen Coelho Gonçalves · nelsonyoshitake@politec.mt.gov.br | Coordenação de Perícias em Biologia Molecular | Automação de script ou rotina | Firestore, 03/11/2026 |
 | [controle-aquisicoes/](controle-aquisicoes/) | Controle do processo de aquisição | Kasteline Gonçalves · kastelinesilva@politec.mt.gov.br | Aquisição | Painel de Business Intelligence (dashboard) | `Aula 8/Entregas/`, 29/10/2026 |
 | [gestao-documentos/](gestao-documentos/) | Gestão de Documentos (processos e prazos) | Vitória Araújo Dias · vitoriadias@politec.mt.gov.br | Gabinete de Direção | Aplicativo para servidor | `Aula 8/Entregas/`, 29/10/2026 |
+| [gestao_identificados/](gestao_identificados/) | NIHDE · Gestão de corpos não identificados e não reclamados | Kesia Melo · nih@politec.mt.gov.br | NIHDE | Aplicativo web / portal | `Apps/gestao_identificados/` (envio e áudios), 03/11/2026 |
 | [documentapolitec/](documentapolitec/) | DOCUMENTAPOLITEC (prontuários civis ao arquivo central) | Aline Xavier dos Passos · alinepassos@politec.mt.gov.br | Coordenadoria de Patrimônio e Serviços | Aplicativo para servidor | `Aula 8/Entregas/`, 29/10/2026 11:47 |
 | [renovacao-contratos-horus/](renovacao-contratos-horus/) | Renovação de Contratos apoiada pelo Hórus | Rodrigo Neves Ribeiro · rodrigoribeiro@politec.mt.gov.br | Coordenadoria de Aquisições e Contratos | Mapeamento de processo (fluxo, BPMN ou Mermaid) | `Aula 8/Entregas/`, 29/10/2026 11:42 |
 | [custodia-definitiva/](custodia-definitiva/) | Adequação da custódia definitiva de vestígios | Edjane Ávila · edjanegasparini@politec.mt.gov.br | Gerência de Custódia Definitiva | Mapeamento de processo (fluxo, BPMN ou Mermaid) | `Aula 8/Entregas/`, 29/10/2026 11:39 |
 | [passivo-ambiental/](passivo-ambiental/) | Passivo Ambiental (laudos ambientais atrasados) | Fábio · fabioconceicao@politec.mt.gov.br | Diretoria de Interiorização | Mapeamento de processo (fluxo, BPMN ou Mermaid) | `Aula 8/Entregas/`, 29/10/2026 11:22 |
 | [comissao-etica-denuncias/](comissao-etica-denuncias/) | Classificação da denúncia (Comissão de Ética) | Letícia e Thiago · leticiamesquita@politec.mt.gov.br | Comissão de Ética | Automação de script ou rotina | `Aula 8/Entregas/`, 29/10/2026 11:19 |
-| [tap-portfolio-projetos/](tap-portfolio-projetos/) | TAP Digital e Portfólio de Projetos Estratégicos | Danielle Marques de Almeida Trevizan · daniellealmeida@politec.mt.gov.br | Gestão de Projetos Estratégicos (a confirmar) | Formulário ou modelo de coleta | `Aula 8/Entregas/`, 29/10/2026 10:49 |
+| [tap-portfolio-projetos/](tap-portfolio-projetos/) | TAP Digital e Portfólio de Projetos Estratégicos | Danielle Marques de Almeida Trevizan, Cristiane Souza Ferraz e Luciana · daniellealmeida@politec.mt.gov.br | Gestão de Projetos Estratégicos (a confirmar) | Formulário ou modelo de coleta | `Aula 8/Entregas/`, 29/10/2026 10:49 |
 | [adiantamento/](adiantamento/) | Controle de Adiantamentos (suprimento de fundos) | Jaqueline e Linicker · jaquelineaguiar@politec.mt.gov.br | DAS/POLITEC e SESP | Mapeamento + protótipo | `Aula 8/Entregas/`, 29/10/2026 10:18 |
 | [cin-segunda-via/](cin-segunda-via/) | Segunda via da CIN a distância | André, Flávia e Glauce · glaucesilva@politec.mt.gov.br | Identificação Civil | Aplicativo para cidadão | `Aula 8/Entregas/`, 29/10/2026 10:00 |
 | [metas-bi-ocr/](metas-bi-ocr/) | Monitoramento de Metas pelo BI | Karine Assunção · karineassuncao@politec.mt.gov.br | CQUAL (NIINS) | Automação de script ou rotina | `Aula 8/Entregas/`, 29/10/2026 10:14 |
 | [rnc-nao-conformidade/](rnc-nao-conformidade/) | Registro de Não Conformidade (RNC) | Sabrina Ellen · sabrinasilva@politec.mt.gov.br | CQUAL | Formulário + painel | `Aula 8/Entregas/`, 29/10/2026 09:46 |
 | [agendamento-cin/](agendamento-cin/) | Agendamento CIN (postos de identificação) | Elthon Teixeira · elthonteixeira@politec.mt.gov.br | Identificação Civil | Aplicativo web / portal | `Aula 8/Entregas/`, 29/10/2026 09:08 |
-| [agiliza-mais/](agiliza-mais/) | Agiliza + · gerador de laudos Word | Diego Costa, Francineide da Silva e Andreia Cristina · diego.n.costa@aluno.senai.br | POLITEC no geral | Automação de script ou rotina | Firestore, 27/10/2026 |
+| [agiliza-mais/](agiliza-mais/) | Agiliza + · gerador de laudos Word | Diego Costa, Francineide da Silva, Andreia Cristina e Eric Zambrim · diego.n.costa@aluno.senai.br | POLITEC no geral | Automação de script ou rotina | Firestore, 27/10/2026 |
 | [horus-banco-demandas/](horus-banco-demandas/) | Hórus · Banco de Demandas (PCA) | Iohan Camões de Albuquerque · iohan.camoes@gmail.com | Planejamento de Contratações | Aplicativo web / portal | `Aula 8/Entregas/`, 29/10/2026 08:47 |
 | [inscricoes-cursos/](inscricoes-cursos/) | Gestão Dinâmica de Inscrições em Cursos | Edilaura Rondon · capacitacao@politec.mt.gov.br | Gerência de Formação Inicial e Continuada | Aplicativo para servidor | `Aula 8/Entregas/`, 29/10/2026 08:56 |
 | [mapa-distribuicao-credor/](mapa-distribuicao-credor/) | Mapa de Distribuição por Credor e Distribuição Orçamentária | Igor Henrique de Menezes Costa · izgdreyar@gmail.com | Setor de Licitações | Automação de script ou rotina | `Aula 8/Entregas/`, 29/10/2026 09:04 |
@@ -34,12 +34,14 @@ recebe o código do app.
 
 ## Andamento (03/11/2026)
 
-> **Atualização de 03/11/2026:** o TEIA é o 21º app, nova etapa do projeto do
-> Nelson e Luciana. Ele tem MVP, testes, hub e repositório próprios; o
-> `distribuicao-casos-dna` continua como a fase anterior.
+> **Atualização de 03/11/2026:** o TEIA é a etapa atual do projeto do Nelson e
+> da Helen Coelho Gonçalves. Ele tem MVP, testes, hub e repositório próprios. O
+> `distribuicao-casos-dna`, fase anterior do Nelson, foi **arquivado** em
+> `Apps/_arquivados/distribuicao-casos-dna/` e saiu do painel, do hub e dos
+> testes.
 
 
-Os 21 apps andam juntos, sprint a sprint. **Desde 03/11/2026 os 21 estão com o MVP
+Os 21 apps ativos andam juntos, sprint a sprint. **Desde 03/11/2026 os 20 estão com o MVP
 funcional de ponta a ponta** (o painel marca 157 de 157 telas prontas). O que falta
 depende de pessoas (Sprint 0, aceite e piloto) ou de serviço externo (Apps Script do
 agendamento). O próximo ciclo sai do **feedback dos alunos**: cada app tem um
@@ -132,7 +134,7 @@ Ao chegar um grupo novo, crie `Apps/<slug-do-projeto>/` com os mesmos arquivos.
 |---|---|
 | `PREMISSAS.md` | As premissas assumidas em cada item do Sprint 0 que dependia de pessoas: o valor adotado, onde ele aparece no app, o nível de confiança (A, B ou C) e o que confirmar |
 | `CONTINUAR.md` | O que já foi feito em cada app e o que é o próximo passo, para outra IA continuar |
-| `IDENTIDADE-VISUAL.md` | O kit visual: paleta, cores e emblemas dos 21 apps, componentes prontos e regras de uso |
+| `IDENTIDADE-VISUAL.md` | O kit visual: paleta, cores e emblemas dos 21 apps ativos, componentes prontos e regras de uso |
 | `ENTREGA-03-11-2026.md` | O registro da entrega de 03/11/2026: 21 apps, TEIA, hubs, diagramas, testes, repositórios e pendências |
 | `_base/base.html` | Base de todos os apps: tema claro e escuro, roteador por hash, IndexedDB, perfis da cópia, backup `.json`, carga dos dados fictícios e a tela `#/testes` |
 | `_base/construir.py` | Molde antigo da construção. Cada app agora tem `construir.py` próprio, que monta o `index.html` a partir de `nucleo/`, `<app>/app.json` e `<app>/src/*.js`. **Edite as fontes, não o `index.html`** |
@@ -163,15 +165,15 @@ Para acrescentar um login: `python Apps/_base/equipes.py <app> "<nome>" <login>`
 |---|---|---|
 | adiantamento | Jaqueline, Linicker | `jaquelineaguiar-prog` (Jaqueline), `Linickeraraujo-sd` (Linicker) |
 | agendamento-cin | Elthon | `Elthonteix-debug` (Elthon) |
-| agiliza-mais | Diego Costa, Francineide da Silva, Andreia Cristina | `diegocosta-dotcom` (Diego), `francineidesilva-sys` (Francineide), `andreiamunzlinger-web` (Andreia) |
+| agiliza-mais | Diego Costa, Francineide da Silva, Andreia Cristina, Eric Zambrim | `diegocosta-dotcom` (Diego), `francineidesilva-sys` (Francineide), `andreiamunzlinger-web` (Andreia) |
 | cin-segunda-via | André, Flávia, Glauce | `andresilva-papi` (André), `flaviasilva-oss` (Flávia) |
 | comissao-etica-denuncias | Letícia, Thiago | `thiagouchaki` (Thiago) |
 | controle-aquisicoes | Kasteline Gonçalves | `kastelinesilva-netizen` (Kasteline) |
 | custodia-definitiva | Edjane Ávila | `edjaneavila-cyber` (Edjane) |
-| distribuicao-casos-dna | Nelson, Luciana | `nelsonyoshitake` (Nelson) |
 | documentapolitec | Aline Xavier dos Passos | `alinepassos-source` (Aline) |
 | equipamentos-google-earth | João Lucas Nogueira Ponce | `Jopolite` (João) |
 | gestao-documentos | Vitória Araújo Dias | `Vitoriadias-droide` (Vitória) |
+| gestao_identificados | Kesia Melo | `krllmsoares-del` (Kesia) |
 | horus-banco-demandas | Iohan Camões de Albuquerque | a informar |
 | inscricoes-cursos | Edilaura Rondon | `edilaurarondon-hash` (Edilaura) |
 | mapa-distribuicao-credor | Igor Henrique de Menezes Costa | `izgdreyar-arch` (Igor) |
@@ -179,13 +181,14 @@ Para acrescentar um login: `python Apps/_base/equipes.py <app> "<nome>" <login>`
 | passivo-ambiental | Fábio | `fabioconceicao-fxc` (Fábio) |
 | renovacao-contratos-horus | Rodrigo Neves Ribeiro | `Rodrigoribeiro-cloud` (Rodrigo) |
 | rnc-nao-conformidade | Sabrina Ellen | `Sabrinaelllen1209` (Sabrina) |
-| tap-portfolio-projetos | Danielle Marques de Almeida Trevizan | `daniellealmeida-sudo` (Danielle) |
+| tap-portfolio-projetos | Danielle Marques de Almeida Trevizan, Cristiane Souza Ferraz, Luciana | `daniellealmeida-sudo` (Danielle) |
+| teia-triagem-emails | Nelson, Helen Coelho Gonçalves | `nelsonyoshitake` (Nelson) |
 | trilha-custodia-necropsia | Silmara Bueno | a informar |
 | (sem projeto) | Francis Souza | `francissouza-pixel` |
 
 ## Repositórios dos apps (03/11/2026)
 
-Os 21 apps foram separados em repositórios em
+Os 21 apps ativos foram separados em repositórios em
 `github.com/renato0503`, um por app, com o histórico da pasta preservado por
 `git subtree split`. A branch padrão é `main` e cada repositório contém o
 `index.html`, o `processo.html` (AS-IS → TO-BE + MVP), os `docs/diagramas/`
@@ -228,6 +231,6 @@ permissão de push**. Convite aceito ou pendente no GitHub de cada aluno.
   documentos). Pedir o login correto ao aluno e reenviar o convite.
 - **Sem login informado:** Glauce (cin-segunda-via), Letícia (comissão de ética),
   Luciana (DNA), Iohan (Hórus) e Silmara (TCIN).
-- O GitHub Pages ainda não foi ligado. Os 21 repositórios agora são públicos,
+- O GitHub Pages ainda não foi ligado. Os 20 repositórios ativos agora são públicos,
   então o Pages pode ser ativado na raiz de cada um.
 

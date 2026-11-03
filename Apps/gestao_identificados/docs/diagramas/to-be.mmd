@@ -1,0 +1,9 @@
+﻿flowchart LR
+  A[Entrada no IML] --> B[Registro único no NIHDE]
+  B --> C[Exames: papiloscopia, DNA, odontologia e antropologia]
+  C --> D{Identificado?}
+  D -- Sim --> E[Família localizada e entrega]
+  D -- Não --> F[Sepultamento pelo município]
+  F --> G[Identificação posterior]
+  E --> H[Auditoria e relatório]
+  G --> H
