@@ -80,6 +80,23 @@ Tudo o que foi completado precisa ser confirmado com o aluno no Sprint 0.
 - `stack`: era Planilha com automação; alinhado à arquitetura do curso.
 - `req`: acrescentado Funcionar offline.
 
+## Telas prontas (03/11/2026)
+
+| Rota | O que faz |
+|---|---|
+| `#/cursos` | Cadastro e edição de cursos, com vagas por diretoria |
+| `#/curso/:curso` | Tela central do curso, com a esteira dos seis passos |
+| `#/divulgar/:curso` | Link de inscrição, QR Code e texto para as diretorias |
+| `#/inscricao` | Formulário do servidor, com o aviso de privacidade |
+| `#/importar` | Importa os e-mails colados (ou um CSV), classificando novas, duplicadas (RN03) e recusadas |
+| `#/inscritos/:curso` | Conferência com o SEAP, filtros, alertas (RN04), correção com trilha e resposta das diretorias |
+| `#/triagem` | Diretoria: importa o arquivo da gerência, ordena, marca titular e reserva, e devolve a decisão (RN05) |
+| `#/convocacao/:curso` | Convocação por ordem de indicação, envio, confirmação, desistência e chamada da reserva (RN06, RN07 e RN08) |
+| `#/turma/:curso` | Lista final em CSV, indicadores, aviso de retenção e limpeza dos dados (RN08) |
+
+Com os 60 e-mails de exemplo, a importação gera 50 inscrições, 5 duplicadas e 5
+recusadas. Sete cenários de interface cobrem os Sprints 2 a 8.
+
 ## Como construir e testar
 
 Este app é autônomo. `nucleo/`, `construir.py` e `testes/` são só dele e não

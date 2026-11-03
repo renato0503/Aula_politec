@@ -12,6 +12,11 @@
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py inscricoes-cursos` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py inscricoes-cursos` passa (cenário do "Pronto quando"). |
 | 3 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py inscricoes-cursos` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). Falta o teste com 3 pessoas no Outlook desktop, no Outlook Web e no celular (depende da equipe). |
+| 4 | Feito em 03/11/2026: importação dos e-mails colados e por CSV, com classificação de novas, duplicadas (RN03) e recusadas. Cenário `s4_importar_inscricoes` passa. |
+| 5 | Feito em 03/11/2026: conferência com o SEAP, filtros, alertas (RN04) e correção da gerência com trilha. Cenário `s5_conferencia_com_seap` passa. |
+| 6 | Feito em 03/11/2026: exportação de `triagem-<SIGLA>.json`, triagem pela diretoria (ordenação, titular e reserva, limite de vagas RN05) e importação de `decisao-<SIGLA>.json`. Cenário `s6_triagem_pelas_diretorias` passa. |
+| 7 | Feito em 03/11/2026: convocação por ordem de indicação (RN06), envio, confirmação, desistência e chamada da reserva (RN07), com o link do grupo só para o titular e a reserva chamada (RN08). Cenário `s7_convocacao` passa. |
+| 8 | Feito em 03/11/2026: turma com lista final em CSV, indicadores, aviso de retenção e limpeza de dados (RN08) e texto de privacidade na inscrição. Cenário `s8_turma_e_privacidade` passa. |
 
 Formato do bloco `INSCRICAO-v1` definido e testado (ida e volta, acento, bloco alterado). 60 e-mails fictícios com 5 reenvios e 5 inválidos.
 
@@ -97,50 +102,50 @@ computador, e os 3 e-mails chegam à caixa de teste com o bloco inteiro.
 
 ## Sprint 4 · Importação das inscrições
 
-- [ ] `#/importar`: área para colar vários e-mails de uma vez (o app acha todos
+- [x] `#/importar`: área para colar vários e-mails de uma vez (o app acha todos
       os blocos `INSCRICAO-v1` no texto).
-- [ ] Verificar o código de cada bloco e acusar bloco alterado.
-- [ ] Classificar: **novas**, **duplicadas** (RN03, a mais recente vence),
+- [x] Verificar o código de cada bloco e acusar bloco alterado.
+- [x] Classificar: **novas**, **duplicadas** (RN03, a mais recente vence),
       **inválidas**, **de outro curso**.
-- [ ] Importar CSV como alternativa (planilha antiga ou Forms), com associação de colunas.
-- [ ] Registrar `recebido_em` e gravar no `log`.
+- [x] Importar CSV como alternativa (planilha antiga ou Forms), com associação de colunas.
+- [x] Registrar `recebido_em` e gravar no `log`.
 
 **Pronto quando**: colar os 60 e-mails fictícios gera 50 inscrições, e o
 relatório aponta as 5 duplicadas e as 5 inválidas.
 
 ## Sprint 5 · Conferência com o SEAP
 
-- [ ] Importar o relatório exportado do SEAP (CSV) para o store `seap`.
-- [ ] `#/inscritos/:curso`: lista com filtros por diretoria, status e alerta.
-- [ ] Alerta quando a matrícula não existe no SEAP, o vínculo não está ativo ou
+- [x] Importar o relatório exportado do SEAP (CSV) para o store `seap`.
+- [x] `#/inscritos/:curso`: lista com filtros por diretoria, status e alerta.
+- [x] Alerta quando a matrícula não existe no SEAP, o vínculo não está ativo ou
       a lotação diverge (RN05).
-- [ ] Correção feita pela gerência fica no `log`, com o valor anterior.
+- [x] Correção feita pela gerência fica no `log`, com o valor anterior.
 
 **Pronto quando**: as matrículas inventadas do arquivo fictício aparecem com
 alerta, e a correção de uma delas fica registrada.
 
 ## Sprint 6 · Triagem pelas diretorias
 
-- [ ] Botão "Exportar para as diretorias": um `triagem-<SIGLA>.json` por
+- [x] Botão "Exportar para as diretorias": um `triagem-<SIGLA>.json` por
       diretoria, só com os inscritos dela e o limite de vagas.
-- [ ] Mensagem pronta para enviar o arquivo a cada diretoria, com o prazo.
-- [ ] Perfil Diretoria, `#/triagem`: importar o arquivo, arrastar para ordenar,
+- [x] Mensagem pronta para enviar o arquivo a cada diretoria, com o prazo.
+- [x] Perfil Diretoria, `#/triagem`: importar o arquivo, arrastar para ordenar,
       marcar titular, reserva ou não selecionado.
-- [ ] Bloquear mais titulares que vagas (RN06).
-- [ ] Exportar `decisao-<SIGLA>.json` para devolver à gerência.
-- [ ] Gerência importa as decisões, e o app mostra quais diretorias ainda não responderam.
+- [x] Bloquear mais titulares que vagas (RN06).
+- [x] Exportar `decisao-<SIGLA>.json` para devolver à gerência.
+- [x] Gerência importa as decisões, e o app mostra quais diretorias ainda não responderam.
 
 **Pronto quando**: 3 diretorias fictícias devolvem as decisões, e uma diretoria
 não consegue marcar titulares acima do limite.
 
 ## Sprint 7 · Convocação e reserva
 
-- [ ] `#/convocacao/:curso`: lista de titulares e reservas com a mensagem
+- [x] `#/convocacao/:curso`: lista de titulares e reservas com a mensagem
       preenchida (nome, curso, datas, local, link do grupo).
-- [ ] Botão por pessoa: abrir `mailto:` ou copiar a mensagem. Marcar como enviada.
-- [ ] Só titular e reserva chamada recebem o link do grupo (RN08).
-- [ ] Registrar confirmação de presença e desistência.
-- [ ] Desistência: botão "chamar o próximo da reserva" da mesma diretoria, com
+- [x] Botão por pessoa: abrir `mailto:` ou copiar a mensagem. Marcar como enviada.
+- [x] Só titular e reserva chamada recebem o link do grupo (RN08).
+- [x] Registrar confirmação de presença e desistência.
+- [x] Desistência: botão "chamar o próximo da reserva" da mesma diretoria, com
       confirmação da gerência (RN09).
 
 **Pronto quando**: no curso fictício, todas as convocações são geradas, e uma
@@ -148,12 +153,12 @@ desistência chama a reserva certa.
 
 ## Sprint 8 · Turma, indicadores e LGPD
 
-- [ ] `#/turma/:curso`: lista final em CSV (UTF-8 com BOM, `;`) para o
+- [x] `#/turma/:curso`: lista final em CSV (UTF-8 com BOM, `;`) para o
       responsável pelo curso.
-- [ ] Indicadores do `contexto.md`, seção 8, por curso.
-- [ ] Aviso de retenção ao abrir: cursos encerrados há mais de 30 dias e botão
+- [x] Indicadores do `contexto.md`, seção 8, por curso.
+- [x] Aviso de retenção ao abrir: cursos encerrados há mais de 30 dias e botão
       de limpeza (RN10), que mantém só as contagens.
-- [ ] Texto de privacidade na tela de inscrição (finalidade, dados, prazo).
+- [x] Texto de privacidade na tela de inscrição (finalidade, dados, prazo).
 - [ ] Acessibilidade do formulário de inscrição: rótulos, teclado, contraste.
 
 **Pronto quando**: a lista final abre no Excel, e a limpeza apaga os dados dos

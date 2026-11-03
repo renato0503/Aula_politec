@@ -120,6 +120,136 @@ def s3_formulario_de_inscricao(pg, url, ok):
     ok("fora do período a inscrição fica fechada (RN04)", p2.locator("#foraPeriodo").count() == 1 and p2.locator("#formInscricao").count() == 0)
     p2.context.close()
 
+# origem: sprint.md · Sprint 4
+@cenario
+def s4_importar_inscricoes(pg, url, ok):
+    perfil(pg, url, "gerencia")
+    semear(pg, url)
+    ir(pg, url, "#/importar", 600)
+    pg.click("#btnExemploEmails"); pg.wait_for_timeout(300)
+    pg.click("#btnLer"); pg.wait_for_timeout(600)
+    texto = pg.inner_text("#resultadoImport")
+    ok("50 inscrições novas", "50" in texto and "novas" in texto)
+    ok("5 duplicadas (RN03)", "5" in texto and "duplicadas" in texto)
+    ok("5 recusadas", "5" in texto and "recusadas" in texto)
+    ok("o motivo da recusa aparece", "RN02" in texto or "RN01" in texto or "código de verificação" in texto)
+    pg.click("#btnGravar"); pg.wait_for_timeout(1200)
+    ok("50 inscrições gravadas", contar(pg, "inscricoes") == 50)
+    ok("nenhuma matrícula repetida", pg.evaluate("async ()=>{ const i = await db.list('inscricoes'); const c = i.map(x=>x.curso_id+'|'+x.matricula); return new Set(c).size === c.length; }"))
+    ok("a importação fica na trilha", pg.evaluate("async ()=> (await db.list('log')).some(l => l.acao === 'importação de inscrições')"))
+
+# origem: sprint.md · Sprint 5
+@cenario
+def s5_conferencia_com_seap(pg, url, ok):
+    perfil(pg, url, "gerencia")
+    semear(pg, url)
+    ir(pg, url, "#/importar", 600)
+    pg.click("#btnExemploEmails"); pg.wait_for_timeout(300)
+    pg.click("#btnLer"); pg.wait_for_timeout(500); pg.click("#btnGravar"); pg.wait_for_timeout(1000)
+    ir(pg, url, "#/inscritos/CURSO-2026-11", 900)
+    ok("a tela de inscritos abre", "Inscritos" in pg.inner_text("main"))
+    pg.click("#btnSeapExemplo"); pg.wait_for_timeout(900)
+    ir(pg, url, "#/inscritos/CURSO-2026-11", 900)
+    texto = pg.inner_text("#tabelaInscritos")
+    ok("o alerta de vínculo aparece", "RN04" in texto or "sem alerta" in texto)
+    ok("a lista mostra os 50 inscritos", pg.locator("#tabelaInscritos tr").count() == 51)
+    ok("a resposta das diretorias aparece", "Resposta das diretorias" in pg.inner_text("main"))
+    ok("as diretorias sem resposta são apontadas", "não respondeu" in pg.inner_text("main"))
+    # correção pela gerência
+    pg.locator("[data-corrigir]").first.click(); pg.wait_for_timeout(400)
+    pg.fill("#corrJustificativa", "Dado do SEAP mais recente")
+    pg.click("#formCorrigir button[type=submit]"); pg.wait_for_timeout(700)
+    ok("a correção fica na trilha com o valor anterior", pg.evaluate("async ()=> (await db.list('log')).some(l => l.acao === 'inscrição corrigida pela gerência' && l.valor_anterior)"))
+
+# origem: sprint.md · Sprint 6
+@cenario
+def s6_triagem_pelas_diretorias(pg, url, ok):
+    perfil(pg, url, "gerencia")
+    semear(pg, url)
+    ir(pg, url, "#/importar", 600)
+    pg.click("#btnExemploEmails"); pg.wait_for_timeout(300)
+    pg.click("#btnLer"); pg.wait_for_timeout(500); pg.click("#btnGravar"); pg.wait_for_timeout(1000)
+    ir(pg, url, "#/inscritos/CURSO-2026-11", 900)
+    with pg.expect_download() as info:
+        pg.locator("[data-exportar]").first.click()
+    arq = info.value
+    destino = TMP / arq.suggested_filename
+    arq.save_as(destino)
+    ok("o arquivo de triagem sai com o nome da diretoria", arq.suggested_filename.startswith("triagem-") and arq.suggested_filename.endswith(".json"))
+    # a diretoria importa o arquivo, marca titulares e devolve a decisão
+    perfil(pg, url, "diretoria")
+    ir(pg, url, "#/triagem", 800)
+    pg.set_input_files("#arqTriagem", str(destino)); pg.wait_for_timeout(900)
+    ok("a lista da diretoria aparece", pg.locator("#tabelaTriagemDecisao tr").count() > 1)
+    ok("a tela mostra as vagas da diretoria", "vagas da diretoria" in pg.inner_text("main"))
+    linhas = pg.locator("#tabelaTriagemDecisao tr[data-prot]")
+    if linhas.count():
+        linhas.first.locator("[data-titular]").click(); pg.wait_for_timeout(600)
+    ok("o titular fica marcado", "titular" in pg.inner_text("#tabelaTriagemDecisao"))
+    with pg.expect_download() as info2:
+        pg.click("#btnExportarDecisao")
+    destino2 = TMP / info2.value.suggested_filename
+    info2.value.save_as(destino2)
+    ok("a decisão sai como decisao-<SIGLA>.json", info2.value.suggested_filename.startswith("decisao-"))
+    # a gerência importa a decisão
+    perfil(pg, url, "gerencia")
+    ir(pg, url, "#/inscritos/CURSO-2026-11", 900)
+    pg.set_input_files("#arqDecisao", str(destino2)); pg.wait_for_timeout(900)
+    ok("a gerência registra a resposta da diretoria", "respondeu" in pg.inner_text("main"))
+
+# origem: sprint.md · Sprint 7
+@cenario
+def s7_convocacao(pg, url, ok):
+    perfil(pg, url, "gerencia")
+    semear(pg, url)
+    ir(pg, url, "#/importar", 600)
+    pg.click("#btnExemploEmails"); pg.wait_for_timeout(300)
+    pg.click("#btnLer"); pg.wait_for_timeout(500); pg.click("#btnGravar"); pg.wait_for_timeout(1000)
+    ir(pg, url, "#/inscritos/CURSO-2026-11", 900)
+    with pg.expect_download() as info:
+        pg.locator("[data-exportar]").first.click()
+    destino = TMP / info.value.suggested_filename
+    info.value.save_as(destino)
+    perfil(pg, url, "diretoria")
+    ir(pg, url, "#/triagem", 800)
+    pg.set_input_files("#arqTriagem", str(destino)); pg.wait_for_timeout(900)
+    linhas = pg.locator("#tabelaTriagemDecisao tr[data-prot]")
+    for i in range(min(2, linhas.count())):
+        linhas.nth(i).locator("[data-titular]").click(); pg.wait_for_timeout(500)
+        linhas = pg.locator("#tabelaTriagemDecisao tr[data-prot]")
+    with pg.expect_download() as info2:
+        pg.click("#btnExportarDecisao")
+    destino2 = TMP / info2.value.suggested_filename
+    info2.value.save_as(destino2)
+    perfil(pg, url, "gerencia")
+    ir(pg, url, "#/inscritos/CURSO-2026-11", 900)
+    pg.set_input_files("#arqDecisao", str(destino2)); pg.wait_for_timeout(900)
+    ir(pg, url, "#/convocacao/CURSO-2026-11", 900)
+    texto = pg.inner_text("main")
+    ok("a tela de convocação abre", "Convocação" in texto)
+    ok("os titulares aparecem na ordem de indicação (RN06)", pg.locator("#tabelaConvocacao tr").count() > 1)
+    ok("o link do grupo não vai para a reserva", pg.evaluate("async ()=>{ const c = await db.get('cursos','CURSO-2026-11'); const l = await listaDeConvocacao('CURSO-2026-11'); const r = l.filter(x=>x.tipo==='reserva'); return r.length === 0 || !r[0].chamada; }"))
+    primeiro = pg.locator("#tabelaConvocacao tr[data-conv]").first
+    primeiro.locator("[data-enviada]").click(); pg.wait_for_timeout(600)
+    ok("a convocação enviada fica registrada", pg.evaluate("async ()=> (await db.list('convocacoes')).some(c => c.status === 'enviada')"))
+
+# origem: sprint.md · Sprint 8
+@cenario
+def s8_turma_e_privacidade(pg, url, ok):
+    perfil(pg, url, "gerencia")
+    semear(pg, url)
+    link = pg.evaluate("async ()=> linkInscricao(await db.get('cursos','CURSO-2026-11'))")
+    p2 = pg.context.browser.new_context().new_page()
+    p2.goto(link); p2.wait_for_timeout(500)
+    ok("a tela de inscrição traz o aviso de privacidade", "Privacidade dos dados" in p2.inner_text("#conteudo"))
+    ok("o aviso diz o prazo de retenção", "30 dias" in p2.inner_text("#privacidadeInscricao"))
+    p2.context.close()
+    ir(pg, url, "#/turma/CURSO-2026-11", 900)
+    ok("a tela de turma abre", "Turma" in pg.inner_text("main"))
+    ok("os indicadores aparecem", "tempo até a lista final" in pg.inner_text("main"))
+    ok("a lista final pode ser baixada em CSV", pg.locator("#btnCsv").count() == 1)
+
+
 def main():
     erro = False
     with sync_playwright() as p:

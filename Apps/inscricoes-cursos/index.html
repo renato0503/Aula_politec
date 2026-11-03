@@ -519,7 +519,7 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 <script>var qrcode=function(){function i(t,r){function a(t,r){g=function(t){for(var r=new Array(t),e=0;e<t;e+=1){r[e]=new Array(t);for(var n=0;n<t;n+=1)r[e][n]=null}return r}(l=4*u+17),e(0,0),e(l-7,0),e(0,l-7),i(),o(),v(t,r),7<=u&&h(t),null==n&&(n=w(u,f,c)),d(n,r)}var u=t,f=y[r],g=null,l=0,n=null,c=[],s={},e=function(t,r){for(var e=-1;e<=7;e+=1)if(!(t+e<=-1||l<=t+e))for(var n=-1;n<=7;n+=1)r+n<=-1||l<=r+n||(g[t+e][r+n]=0<=e&&e<=6&&(0==n||6==n)||0<=n&&n<=6&&(0==e||6==e)||2<=e&&e<=4&&2<=n&&n<=4)},o=function(){for(var t=8;t<l-8;t+=1)null==g[t][6]&&(g[t][6]=t%2==0);for(var r=8;r<l-8;r+=1)null==g[6][r]&&(g[6][r]=r%2==0)},i=function(){for(var t=B.getPatternPosition(u),r=0;r<t.length;r+=1)for(var e=0;e<t.length;e+=1){var n=t[r],o=t[e];if(null==g[n][o])for(var i=-2;i<=2;i+=1)for(var a=-2;a<=2;a+=1)g[n+i][o+a]=-2==i||2==i||-2==a||2==a||0==i&&0==a}},h=function(t){for(var r=B.getBCHTypeNumber(u),e=0;e<18;e+=1){var n=!t&&1==(r>>e&1);g[Math.floor(e/3)][e%3+l-8-3]=n}for(e=0;e<18;e+=1){n=!t&&1==(r>>e&1);g[e%3+l-8-3][Math.floor(e/3)]=n}},v=function(t,r){for(var e=f<<3|r,n=B.getBCHTypeInfo(e),o=0;o<15;o+=1){var i=!t&&1==(n>>o&1);o<6?g[o][8]=i:o<8?g[o+1][8]=i:g[l-15+o][8]=i}for(o=0;o<15;o+=1){i=!t&&1==(n>>o&1);o<8?g[8][l-o-1]=i:o<9?g[8][15-o-1+1]=i:g[8][15-o-1]=i}g[l-8][8]=!t},d=function(t,r){for(var e=-1,n=l-1,o=7,i=0,a=B.getMaskFunction(r),u=l-1;0<u;u-=2)for(6==u&&(u-=1);;){for(var f=0;f<2;f+=1)if(null==g[n][u-f]){var c=!1;i<t.length&&(c=1==(t[i]>>>o&1)),a(n,u-f)&&(c=!c),g[n][u-f]=c,-1==(o-=1)&&(i+=1,o=7)}if((n+=e)<0||l<=n){n-=e,e=-e;break}}},w=function(t,r,e){for(var n=b.getRSBlocks(t,r),o=M(),i=0;i<e.length;i+=1){var a=e[i];o.put(a.getMode(),4),o.put(a.getLength(),B.getLengthInBits(a.getMode(),t)),a.write(o)}var u=0;for(i=0;i<n.length;i+=1)u+=n[i].dataCount;if(o.getLengthInBits()>8*u)throw"code length overflow. ("+o.getLengthInBits()+">"+8*u+")";for(o.getLengthInBits()+4<=8*u&&o.put(0,4);o.getLengthInBits()%8!=0;)o.putBit(!1);for(;!(o.getLengthInBits()>=8*u||(o.put(236,8),o.getLengthInBits()>=8*u));)o.put(17,8);return function(t,r){for(var e=0,n=0,o=0,i=new Array(r.length),a=new Array(r.length),u=0;u<r.length;u+=1){var f=r[u].dataCount,c=r[u].totalCount-f;n=Math.max(n,f),o=Math.max(o,c),i[u]=new Array(f);for(var g=0;g<i[u].length;g+=1)i[u][g]=255&t.getBuffer()[g+e];e+=f;var l=B.getErrorCorrectPolynomial(c),h=C(i[u],l.getLength()-1).mod(l);a[u]=new Array(l.getLength()-1);for(g=0;g<a[u].length;g+=1){var s=g+h.getLength()-a[u].length;a[u][g]=0<=s?h.getAt(s):0}}var v=0;for(g=0;g<r.length;g+=1)v+=r[g].totalCount;var d=new Array(v),w=0;for(g=0;g<n;g+=1)for(u=0;u<r.length;u+=1)g<i[u].length&&(d[w]=i[u][g],w+=1);for(g=0;g<o;g+=1)for(u=0;u<r.length;u+=1)g<a[u].length&&(d[w]=a[u][g],w+=1);return d}(o,n)};s.addData=function(t,r){var e=null;switch(r=r||"Byte"){case"Numeric":e=x(t);break;case"Alphanumeric":e=m(t);break;case"Byte":e=L(t);break;case"Kanji":e=D(t);break;default:throw"mode:"+r}c.push(e),n=null},s.isDark=function(t,r){if(t<0||l<=t||r<0||l<=r)throw t+","+r;return g[t][r]},s.getModuleCount=function(){return l},s.make=function(){if(u<1){for(var t=1;t<40;t++){for(var r=b.getRSBlocks(t,f),e=M(),n=0;n<c.length;n++){var o=c[n];e.put(o.getMode(),4),e.put(o.getLength(),B.getLengthInBits(o.getMode(),t)),o.write(e)}var i=0;for(n=0;n<r.length;n++)i+=r[n].dataCount;if(e.getLengthInBits()<=8*i)break}u=t}a(!1,function(){for(var t=0,r=0,e=0;e<8;e+=1){a(!0,e);var n=B.getLostPoint(s);(0==e||n<t)&&(t=n,r=e)}return r}())},s.createTableTag=function(t,r){t=t||2;var e="";e+='<table style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: "+(r=void 0===r?4*t:r)+"px;",e+='">',e+="<tbody>";for(var n=0;n<s.getModuleCount();n+=1){e+="<tr>";for(var o=0;o<s.getModuleCount();o+=1)e+='<td style="',e+=" border-width: 0px; border-style: none;",e+=" border-collapse: collapse;",e+=" padding: 0px; margin: 0px;",e+=" width: "+t+"px;",e+=" height: "+t+"px;",e+=" background-color: ",e+=s.isDark(n,o)?"#000000":"#ffffff",e+=";",e+='"/>';e+="</tr>"}return e+="</tbody>",e+="</table>"},s.createSvgTag=function(t,r,e,n){var o={};"object"==typeof t&&(t=(o=t).cellSize,r=o.margin,e=o.alt,n=o.title),t=t||2,r=void 0===r?4*t:r,(e="string"==typeof e?{text:e}:e||{}).text=e.text||null,e.id=e.text?e.id||"qrcode-description":null,(n="string"==typeof n?{text:n}:n||{}).text=n.text||null,n.id=n.text?n.id||"qrcode-title":null;var i,a,u,f,c=s.getModuleCount()*t+2*r,g="";for(f="l"+t+",0 0,"+t+" -"+t+",0 0,-"+t+"z ",g+='<svg version="1.1" xmlns="http://www.w3.org/2000/svg"',g+=o.scalable?"":' width="'+c+'px" height="'+c+'px"',g+=' viewBox="0 0 '+c+" "+c+'" ',g+=' preserveAspectRatio="xMinYMin meet"',g+=n.text||e.text?' role="img" aria-labelledby="'+p([n.id,e.id].join(" ").trim())+'"':"",g+=">",g+=n.text?'<title id="'+p(n.id)+'">'+p(n.text)+"</title>":"",g+=e.text?'<description id="'+p(e.id)+'">'+p(e.text)+"</description>":"",g+='<rect width="100%" height="100%" fill="white" cx="0" cy="0"/>',g+='<path d="',a=0;a<s.getModuleCount();a+=1)for(u=a*t+r,i=0;i<s.getModuleCount();i+=1)s.isDark(a,i)&&(g+="M"+(i*t+r)+","+u+f);return g+='" stroke="transparent" fill="black"/>',g+="</svg>"},s.createDataURL=function(o,t){o=o||2,t=void 0===t?4*o:t;var r=s.getModuleCount()*o+2*t,i=t,a=r-t;return I(r,r,function(t,r){if(i<=t&&t<a&&i<=r&&r<a){var e=Math.floor((t-i)/o),n=Math.floor((r-i)/o);return s.isDark(n,e)?0:1}return 1})},s.createImgTag=function(t,r,e){t=t||2,r=void 0===r?4*t:r;var n=s.getModuleCount()*t+2*r,o="";return o+="<img",o+=' src="',o+=s.createDataURL(t,r),o+='"',o+=' width="',o+=n,o+='"',o+=' height="',o+=n,o+='"',e&&(o+=' alt="',o+=p(e),o+='"'),o+="/>"};var p=function(t){for(var r="",e=0;e<t.length;e+=1){var n=t.charAt(e);switch(n){case"<":r+="&lt;";break;case">":r+="&gt;";break;case"&":r+="&amp;";break;case'"':r+="&quot;";break;default:r+=n}}return r};return s.createASCII=function(t,r){if((t=t||1)<2)return function(t){t=void 0===t?2:t;var r,e,n,o,i,a=1*s.getModuleCount()+2*t,u=t,f=a-t,c={"██":"█","█ ":"▀"," █":"▄","  ":" "},g={"██":"▀","█ ":"▀"," █":" ","  ":" "},l="";for(r=0;r<a;r+=2){for(n=Math.floor((r-u)/1),o=Math.floor((r+1-u)/1),e=0;e<a;e+=1)i="█",u<=e&&e<f&&u<=r&&r<f&&s.isDark(n,Math.floor((e-u)/1))&&(i=" "),u<=e&&e<f&&u<=r+1&&r+1<f&&s.isDark(o,Math.floor((e-u)/1))?i+=" ":i+="█",l+=t<1&&f<=r+1?g[i]:c[i];l+="\n"}return a%2&&0<t?l.substring(0,l.length-a-1)+Array(1+a).join("▀"):l.substring(0,l.length-1)}(r);t-=1,r=void 0===r?2*t:r;var e,n,o,i,a=s.getModuleCount()*t+2*r,u=r,f=a-r,c=Array(t+1).join("██"),g=Array(t+1).join("  "),l="",h="";for(e=0;e<a;e+=1){for(o=Math.floor((e-u)/t),h="",n=0;n<a;n+=1)i=1,u<=n&&n<f&&u<=e&&e<f&&s.isDark(o,Math.floor((n-u)/t))&&(i=0),h+=i?c:g;for(o=0;o<t;o+=1)l+=h+"\n"}return l.substring(0,l.length-1)},s.renderTo2dContext=function(t,r){r=r||2;for(var e=s.getModuleCount(),n=0;n<e;n++)for(var o=0;o<e;o++)t.fillStyle=s.isDark(n,o)?"black":"white",t.fillRect(n*r,o*r,r,r)},s}i.stringToBytes=(i.stringToBytesFuncs={default:function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);r.push(255&n)}return r}}).default,i.createStringToBytes=function(u,f){var i=function(){function t(){var t=r.read();if(-1==t)throw"eof";return t}for(var r=S(u),e=0,n={};;){var o=r.read();if(-1==o)break;var i=t(),a=t()<<8|t();n[String.fromCharCode(o<<8|i)]=a,e+=1}if(e!=f)throw e+" != "+f;return n}(),a="?".charCodeAt(0);return function(t){for(var r=[],e=0;e<t.length;e+=1){var n=t.charCodeAt(e);if(n<128)r.push(n);else{var o=i[t.charAt(e)];"number"==typeof o?(255&o)==o?r.push(o):(r.push(o>>>8),r.push(255&o)):r.push(a)}}return r}};var r,t,a=1,u=2,o=4,f=8,y={L:1,M:0,Q:3,H:2},e=0,n=1,c=2,g=3,l=4,h=5,s=6,v=7,B=(r=[[],[6,18],[6,22],[6,26],[6,30],[6,34],[6,22,38],[6,24,42],[6,26,46],[6,28,50],[6,30,54],[6,32,58],[6,34,62],[6,26,46,66],[6,26,48,70],[6,26,50,74],[6,30,54,78],[6,30,56,82],[6,30,58,86],[6,34,62,90],[6,28,50,72,94],[6,26,50,74,98],[6,30,54,78,102],[6,28,54,80,106],[6,32,58,84,110],[6,30,58,86,114],[6,34,62,90,118],[6,26,50,74,98,122],[6,30,54,78,102,126],[6,26,52,78,104,130],[6,30,56,82,108,134],[6,34,60,86,112,138],[6,30,58,86,114,142],[6,34,62,90,118,146],[6,30,54,78,102,126,150],[6,24,50,76,102,128,154],[6,28,54,80,106,132,158],[6,32,58,84,110,136,162],[6,26,54,82,110,138,166],[6,30,58,86,114,142,170]],(t={}).getBCHTypeInfo=function(t){for(var r=t<<10;0<=d(r)-d(1335);)r^=1335<<d(r)-d(1335);return 21522^(t<<10|r)},t.getBCHTypeNumber=function(t){for(var r=t<<12;0<=d(r)-d(7973);)r^=7973<<d(r)-d(7973);return t<<12|r},t.getPatternPosition=function(t){return r[t-1]},t.getMaskFunction=function(t){switch(t){case e:return function(t,r){return(t+r)%2==0};case n:return function(t,r){return t%2==0};case c:return function(t,r){return r%3==0};case g:return function(t,r){return(t+r)%3==0};case l:return function(t,r){return(Math.floor(t/2)+Math.floor(r/3))%2==0};case h:return function(t,r){return t*r%2+t*r%3==0};case s:return function(t,r){return(t*r%2+t*r%3)%2==0};case v:return function(t,r){return(t*r%3+(t+r)%2)%2==0};default:throw"bad maskPattern:"+t}},t.getErrorCorrectPolynomial=function(t){for(var r=C([1],0),e=0;e<t;e+=1)r=r.multiply(C([1,w.gexp(e)],0));return r},t.getLengthInBits=function(t,r){if(1<=r&&r<10)switch(t){case a:return 10;case u:return 9;case o:case f:return 8;default:throw"mode:"+t}else if(r<27)switch(t){case a:return 12;case u:return 11;case o:return 16;case f:return 10;default:throw"mode:"+t}else{if(!(r<41))throw"type:"+r;switch(t){case a:return 14;case u:return 13;case o:return 16;case f:return 12;default:throw"mode:"+t}}},t.getLostPoint=function(t){for(var r=t.getModuleCount(),e=0,n=0;n<r;n+=1)for(var o=0;o<r;o+=1){for(var i=0,a=t.isDark(n,o),u=-1;u<=1;u+=1)if(!(n+u<0||r<=n+u))for(var f=-1;f<=1;f+=1)o+f<0||r<=o+f||0==u&&0==f||a==t.isDark(n+u,o+f)&&(i+=1);5<i&&(e+=3+i-5)}for(n=0;n<r-1;n+=1)for(o=0;o<r-1;o+=1){var c=0;t.isDark(n,o)&&(c+=1),t.isDark(n+1,o)&&(c+=1),t.isDark(n,o+1)&&(c+=1),t.isDark(n+1,o+1)&&(c+=1),0!=c&&4!=c||(e+=3)}for(n=0;n<r;n+=1)for(o=0;o<r-6;o+=1)t.isDark(n,o)&&!t.isDark(n,o+1)&&t.isDark(n,o+2)&&t.isDark(n,o+3)&&t.isDark(n,o+4)&&!t.isDark(n,o+5)&&t.isDark(n,o+6)&&(e+=40);for(o=0;o<r;o+=1)for(n=0;n<r-6;n+=1)t.isDark(n,o)&&!t.isDark(n+1,o)&&t.isDark(n+2,o)&&t.isDark(n+3,o)&&t.isDark(n+4,o)&&!t.isDark(n+5,o)&&t.isDark(n+6,o)&&(e+=40);var g=0;for(o=0;o<r;o+=1)for(n=0;n<r;n+=1)t.isDark(n,o)&&(g+=1);return e+=Math.abs(100*g/r/r-50)/5*10},t);function d(t){for(var r=0;0!=t;)r+=1,t>>>=1;return r}var w=function(){for(var r=new Array(256),e=new Array(256),t=0;t<8;t+=1)r[t]=1<<t;for(t=8;t<256;t+=1)r[t]=r[t-4]^r[t-5]^r[t-6]^r[t-8];for(t=0;t<255;t+=1)e[r[t]]=t;var n={glog:function(t){if(t<1)throw"glog("+t+")";return e[t]},gexp:function(t){for(;t<0;)t+=255;for(;256<=t;)t-=255;return r[t]}};return n}();function C(n,o){if(void 0===n.length)throw n.length+"/"+o;var r=function(){for(var t=0;t<n.length&&0==n[t];)t+=1;for(var r=new Array(n.length-t+o),e=0;e<n.length-t;e+=1)r[e]=n[e+t];return r}(),i={getAt:function(t){return r[t]},getLength:function(){return r.length},multiply:function(t){for(var r=new Array(i.getLength()+t.getLength()-1),e=0;e<i.getLength();e+=1)for(var n=0;n<t.getLength();n+=1)r[e+n]^=w.gexp(w.glog(i.getAt(e))+w.glog(t.getAt(n)));return C(r,0)},mod:function(t){if(i.getLength()-t.getLength()<0)return i;for(var r=w.glog(i.getAt(0))-w.glog(t.getAt(0)),e=new Array(i.getLength()),n=0;n<i.getLength();n+=1)e[n]=i.getAt(n);for(n=0;n<t.getLength();n+=1)e[n]^=w.gexp(w.glog(t.getAt(n))+r);return C(e,0).mod(t)}};return i}function p(){var e=[],o={writeByte:function(t){e.push(255&t)},writeShort:function(t){o.writeByte(t),o.writeByte(t>>>8)},writeBytes:function(t,r,e){r=r||0,e=e||t.length;for(var n=0;n<e;n+=1)o.writeByte(t[n+r])},writeString:function(t){for(var r=0;r<t.length;r+=1)o.writeByte(t.charCodeAt(r))},toByteArray:function(){return e},toString:function(){var t="";t+="[";for(var r=0;r<e.length;r+=1)0<r&&(t+=","),t+=e[r];return t+="]"}};return o}var k,A,b=(k=[[1,26,19],[1,26,16],[1,26,13],[1,26,9],[1,44,34],[1,44,28],[1,44,22],[1,44,16],[1,70,55],[1,70,44],[2,35,17],[2,35,13],[1,100,80],[2,50,32],[2,50,24],[4,25,9],[1,134,108],[2,67,43],[2,33,15,2,34,16],[2,33,11,2,34,12],[2,86,68],[4,43,27],[4,43,19],[4,43,15],[2,98,78],[4,49,31],[2,32,14,4,33,15],[4,39,13,1,40,14],[2,121,97],[2,60,38,2,61,39],[4,40,18,2,41,19],[4,40,14,2,41,15],[2,146,116],[3,58,36,2,59,37],[4,36,16,4,37,17],[4,36,12,4,37,13],[2,86,68,2,87,69],[4,69,43,1,70,44],[6,43,19,2,44,20],[6,43,15,2,44,16],[4,101,81],[1,80,50,4,81,51],[4,50,22,4,51,23],[3,36,12,8,37,13],[2,116,92,2,117,93],[6,58,36,2,59,37],[4,46,20,6,47,21],[7,42,14,4,43,15],[4,133,107],[8,59,37,1,60,38],[8,44,20,4,45,21],[12,33,11,4,34,12],[3,145,115,1,146,116],[4,64,40,5,65,41],[11,36,16,5,37,17],[11,36,12,5,37,13],[5,109,87,1,110,88],[5,65,41,5,66,42],[5,54,24,7,55,25],[11,36,12,7,37,13],[5,122,98,1,123,99],[7,73,45,3,74,46],[15,43,19,2,44,20],[3,45,15,13,46,16],[1,135,107,5,136,108],[10,74,46,1,75,47],[1,50,22,15,51,23],[2,42,14,17,43,15],[5,150,120,1,151,121],[9,69,43,4,70,44],[17,50,22,1,51,23],[2,42,14,19,43,15],[3,141,113,4,142,114],[3,70,44,11,71,45],[17,47,21,4,48,22],[9,39,13,16,40,14],[3,135,107,5,136,108],[3,67,41,13,68,42],[15,54,24,5,55,25],[15,43,15,10,44,16],[4,144,116,4,145,117],[17,68,42],[17,50,22,6,51,23],[19,46,16,6,47,17],[2,139,111,7,140,112],[17,74,46],[7,54,24,16,55,25],[34,37,13],[4,151,121,5,152,122],[4,75,47,14,76,48],[11,54,24,14,55,25],[16,45,15,14,46,16],[6,147,117,4,148,118],[6,73,45,14,74,46],[11,54,24,16,55,25],[30,46,16,2,47,17],[8,132,106,4,133,107],[8,75,47,13,76,48],[7,54,24,22,55,25],[22,45,15,13,46,16],[10,142,114,2,143,115],[19,74,46,4,75,47],[28,50,22,6,51,23],[33,46,16,4,47,17],[8,152,122,4,153,123],[22,73,45,3,74,46],[8,53,23,26,54,24],[12,45,15,28,46,16],[3,147,117,10,148,118],[3,73,45,23,74,46],[4,54,24,31,55,25],[11,45,15,31,46,16],[7,146,116,7,147,117],[21,73,45,7,74,46],[1,53,23,37,54,24],[19,45,15,26,46,16],[5,145,115,10,146,116],[19,75,47,10,76,48],[15,54,24,25,55,25],[23,45,15,25,46,16],[13,145,115,3,146,116],[2,74,46,29,75,47],[42,54,24,1,55,25],[23,45,15,28,46,16],[17,145,115],[10,74,46,23,75,47],[10,54,24,35,55,25],[19,45,15,35,46,16],[17,145,115,1,146,116],[14,74,46,21,75,47],[29,54,24,19,55,25],[11,45,15,46,46,16],[13,145,115,6,146,116],[14,74,46,23,75,47],[44,54,24,7,55,25],[59,46,16,1,47,17],[12,151,121,7,152,122],[12,75,47,26,76,48],[39,54,24,14,55,25],[22,45,15,41,46,16],[6,151,121,14,152,122],[6,75,47,34,76,48],[46,54,24,10,55,25],[2,45,15,64,46,16],[17,152,122,4,153,123],[29,74,46,14,75,47],[49,54,24,10,55,25],[24,45,15,46,46,16],[4,152,122,18,153,123],[13,74,46,32,75,47],[48,54,24,14,55,25],[42,45,15,32,46,16],[20,147,117,4,148,118],[40,75,47,7,76,48],[43,54,24,22,55,25],[10,45,15,67,46,16],[19,148,118,6,149,119],[18,75,47,31,76,48],[34,54,24,34,55,25],[20,45,15,61,46,16]],(A={}).getRSBlocks=function(t,r){var e=function(t,r){switch(r){case y.L:return k[4*(t-1)+0];case y.M:return k[4*(t-1)+1];case y.Q:return k[4*(t-1)+2];case y.H:return k[4*(t-1)+3];default:return}}(t,r);if(void 0===e)throw"bad rs block @ typeNumber:"+t+"/errorCorrectionLevel:"+r;for(var n,o,i=e.length/3,a=[],u=0;u<i;u+=1)for(var f=e[3*u+0],c=e[3*u+1],g=e[3*u+2],l=0;l<f;l+=1)a.push((n=g,o=void 0,(o={}).totalCount=c,o.dataCount=n,o));return a},A),M=function(){var e=[],n=0,o={getBuffer:function(){return e},getAt:function(t){var r=Math.floor(t/8);return 1==(e[r]>>>7-t%8&1)},put:function(t,r){for(var e=0;e<r;e+=1)o.putBit(1==(t>>>r-e-1&1))},getLengthInBits:function(){return n},putBit:function(t){var r=Math.floor(n/8);e.length<=r&&e.push(0),t&&(e[r]|=128>>>n%8),n+=1}};return o},x=function(t){var r=a,n=t,e={getMode:function(){return r},getLength:function(t){return n.length},write:function(t){for(var r=n,e=0;e+2<r.length;)t.put(o(r.substring(e,e+3)),10),e+=3;e<r.length&&(r.length-e==1?t.put(o(r.substring(e,e+1)),4):r.length-e==2&&t.put(o(r.substring(e,e+2)),7))}},o=function(t){for(var r=0,e=0;e<t.length;e+=1)r=10*r+i(t.charAt(e));return r},i=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);throw"illegal char :"+t};return e},m=function(t){var r=u,n=t,e={getMode:function(){return r},getLength:function(t){return n.length},write:function(t){for(var r=n,e=0;e+1<r.length;)t.put(45*o(r.charAt(e))+o(r.charAt(e+1)),11),e+=2;e<r.length&&t.put(o(r.charAt(e)),6)}},o=function(t){if("0"<=t&&t<="9")return t.charCodeAt(0)-"0".charCodeAt(0);if("A"<=t&&t<="Z")return t.charCodeAt(0)-"A".charCodeAt(0)+10;switch(t){case" ":return 36;case"$":return 37;case"%":return 38;case"*":return 39;case"+":return 40;case"-":return 41;case".":return 42;case"/":return 43;case":":return 44;default:throw"illegal char :"+t}};return e},L=function(t){var r=o,e=i.stringToBytes(t),n={getMode:function(){return r},getLength:function(t){return e.length},write:function(t){for(var r=0;r<e.length;r+=1)t.put(e[r],8)}};return n},D=function(t){var r=f,e=i.stringToBytesFuncs.SJIS;if(!e)throw"sjis not supported.";!function(){var t=e("友");if(2!=t.length||38726!=(t[0]<<8|t[1]))throw"sjis not supported."}();var o=e(t),n={getMode:function(){return r},getLength:function(t){return~~(o.length/2)},write:function(t){for(var r=o,e=0;e+1<r.length;){var n=(255&r[e])<<8|255&r[e+1];if(33088<=n&&n<=40956)n-=33088;else{if(!(57408<=n&&n<=60351))throw"illegal char at "+(e+1)+"/"+n;n-=49472}n=192*(n>>>8&255)+(255&n),t.put(n,13),e+=2}if(e<r.length)throw"illegal char at "+(e+1)}};return n},S=function(t){var e=t,n=0,o=0,i=0,r={read:function(){for(;i<8;){if(n>=e.length){if(0==i)return-1;throw"unexpected end of file./"+i}var t=e.charAt(n);if(n+=1,"="==t)return i=0,-1;t.match(/^\s$/)||(o=o<<6|a(t.charCodeAt(0)),i+=6)}var r=o>>>i-8&255;return i-=8,r}},a=function(t){if(65<=t&&t<=90)return t-65;if(97<=t&&t<=122)return t-97+26;if(48<=t&&t<=57)return t-48+52;if(43==t)return 62;if(47==t)return 63;throw"c:"+t};return r},I=function(t,r,e){for(var n=function(t,r){var n=t,o=r,l=new Array(t*r),e={setPixel:function(t,r,e){l[r*n+t]=e},write:function(t){t.writeString("GIF87a"),t.writeShort(n),t.writeShort(o),t.writeByte(128),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(0),t.writeByte(255),t.writeByte(255),t.writeByte(255),t.writeString(","),t.writeShort(0),t.writeShort(0),t.writeShort(n),t.writeShort(o),t.writeByte(0);var r=i(2);t.writeByte(2);for(var e=0;255<r.length-e;)t.writeByte(255),t.writeBytes(r,e,255),e+=255;t.writeByte(r.length-e),t.writeBytes(r,e,r.length-e),t.writeByte(0),t.writeString(";")}},i=function(t){for(var r=1<<t,e=1+(1<<t),n=t+1,o=h(),i=0;i<r;i+=1)o.add(String.fromCharCode(i));o.add(String.fromCharCode(r)),o.add(String.fromCharCode(e));var a=p(),u=function(t){var e=t,n=0,o=0,r={write:function(t,r){if(t>>>r!=0)throw"length over";for(;8<=n+r;)e.writeByte(255&(t<<n|o)),r-=8-n,t>>>=8-n,n=o=0;o|=t<<n,n+=r},flush:function(){0<n&&e.writeByte(o)}};return r}(a);u.write(r,n);var f=0,c=String.fromCharCode(l[f]);for(f+=1;f<l.length;){var g=String.fromCharCode(l[f]);f+=1,o.contains(c+g)?c+=g:(u.write(o.indexOf(c),n),o.size()<4095&&(o.size()==1<<n&&(n+=1),o.add(c+g)),c=g)}return u.write(o.indexOf(c),n),u.write(e,n),u.flush(),a.toByteArray()},h=function(){var r={},e=0,n={add:function(t){if(n.contains(t))throw"dup key:"+t;r[t]=e,e+=1},size:function(){return e},indexOf:function(t){return r[t]},contains:function(t){return void 0!==r[t]}};return n};return e}(t,r),o=0;o<r;o+=1)for(var i=0;i<t;i+=1)n.setPixel(i,o,e(i,o));var a=p();n.write(a);for(var u=function(){function e(t){a+=String.fromCharCode(r(63&t))}var n=0,o=0,i=0,a="",t={},r=function(t){if(t<0);else{if(t<26)return 65+t;if(t<52)return t-26+97;if(t<62)return t-52+48;if(62==t)return 43;if(63==t)return 47}throw"n:"+t};return t.writeByte=function(t){for(n=n<<8|255&t,o+=8,i+=1;6<=o;)e(n>>>o-6),o-=6},t.flush=function(){if(0<o&&(e(n<<6-o),o=n=0),i%3!=0)for(var t=3-i%3,r=0;r<t;r+=1)a+="="},t.toString=function(){return a},t}(),f=a.toByteArray(),c=0;c<f.length;c+=1)u.writeByte(f[c]);return u.flush(),"data:image/gif;base64,"+u};return i}();qrcode.stringToBytesFuncs["UTF-8"]=function(t){return function(t){for(var r=[],e=0;e<t.length;e++){var n=t.charCodeAt(e);n<128?r.push(n):n<2048?r.push(192|n>>6,128|63&n):n<55296||57344<=n?r.push(224|n>>12,128|n>>6&63,128|63&n):(e++,n=65536+((1023&n)<<10|1023&t.charCodeAt(e)),r.push(240|n>>18,128|n>>12&63,128|n>>6&63,128|63&n))}return r}(t)},function(t){"function"==typeof define&&define.amd?define([],t):"object"==typeof exports&&(module.exports=t())}(function(){return qrcode});</script>
 <!-- /LIB:qrcode.min.js -->
 <!-- DADOS:seed:exemplos/seed.json -->
-<script type="application/json" id="seed">{"cursos":[{"id":"CURSO-2026-11","nome":"Fotografia Forense em Local de Crime","carga_horaria":24,"inicio":"2026-11-23","fim":"2026-11-25","local":"Auditório da sede (fictício)","prerequisitos":["Ser servidor efetivo","Atuar em local de crime ou em laboratório"],"vagas_por_diretoria":{"DMC":8,"DML":4,"DII":2,"DIN":6},"link_grupo":"https://chat.whatsapp.com/EXEMPLO-FICTICIO","inscricao_inicio":"2026-10-29","inscricao_fim":"2026-11-12","prazo_triagem":"2026-11-16","status":"inscrições abertas"}],"seap":[{"matricula":"200000","nome":"Heitor Lima Freitas","cargo":"Médico Legista","lotacao":"Regional de Sinop","diretoria":"DIN","vinculo_ativo":false},{"matricula":"200037","nome":"Xavier Lima Holanda","cargo":"Médico Legista","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"200074","nome":"Wanda Esteves Campos","cargo":"Médico Legista","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"200111","nome":"Isabela Freitas Jardim","cargo":"Perito Oficial Criminal","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"200148","nome":"Karen Lima Esteves","cargo":"Técnico em Necropsia","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"200185","nome":"Gabriela Duarte Igarashi","cargo":"Perito Oficial Criminal","lotacao":"Regional de Rondonópolis","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200222","nome":"João Barros Duarte","cargo":"Médico Legista","lotacao":"IML Várzea Grande","diretoria":"DML","vinculo_ativo":true},{"matricula":"200259","nome":"Elisa Campos Igarashi","cargo":"Médico Legista","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200296","nome":"Tiago Holanda Gomes","cargo":"Médico Legista","lotacao":"Regional de Rondonópolis","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200333","nome":"Tiago Nunes Almeida","cargo":"Papiloscopista","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200370","nome":"Olívia Freitas Campos","cargo":"Médico Legista","lotacao":"Regional de Sinop","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200407","nome":"Xavier Campos Nunes","cargo":"Papiloscopista","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"200444","nome":"Karen Esteves Holanda","cargo":"Médico Legista","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"200481","nome":"Isabela Lima Moraes","cargo":"Médico Legista","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200518","nome":"Fábio Almeida Lima","cargo":"Médico Legista","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"200555","nome":"Isabela Freitas Freitas","cargo":"Técnico em Necropsia","lotacao":"Regional de Sinop","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200592","nome":"Heitor Igarashi Nunes","cargo":"Médico Legista","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200629","nome":"Yasmin Duarte Holanda","cargo":"Papiloscopista","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"200666","nome":"Lucas Lima Moraes","cargo":"Perito Oficial Criminal","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200703","nome":"Diego Almeida Nunes","cargo":"Técnico em Necropsia","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"200740","nome":"Carla Freitas Igarashi","cargo":"Médico Legista","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"200777","nome":"Wanda Esteves Duarte","cargo":"Técnico em Necropsia","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"200814","nome":"Rafael Prado Esteves","cargo":"Perito Oficial Criminal","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"200851","nome":"Vítor Almeida Holanda","cargo":"Técnico em Necropsia","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":false},{"matricula":"200888","nome":"Carla Freitas Nunes","cargo":"Papiloscopista","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"200925","nome":"Wanda Jardim Esteves","cargo":"Médico Legista","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"200962","nome":"Ana Jardim Holanda","cargo":"Técnico em Necropsia","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"200999","nome":"Yasmin Igarashi Nunes","cargo":"Perito Oficial Criminal","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201036","nome":"Tiago Igarashi Igarashi","cargo":"Técnico em Necropsia","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"201073","nome":"Bruno Gomes Holanda","cargo":"Técnico em Necropsia","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201110","nome":"Bruno Campos Igarashi","cargo":"Técnico em Necropsia","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201147","nome":"Isabela Lima Lima","cargo":"Técnico em Necropsia","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"201184","nome":"Fábio Campos Barros","cargo":"Papiloscopista","lotacao":"IML Várzea Grande","diretoria":"DML","vinculo_ativo":true},{"matricula":"201221","nome":"Wanda Freitas Esteves","cargo":"Perito Oficial Criminal","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201258","nome":"Rafael Prado Almeida","cargo":"Perito Oficial Criminal","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"201295","nome":"Úrsula Esteves Moraes","cargo":"Técnico em Necropsia","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201332","nome":"Bruno Freitas Duarte","cargo":"Perito Oficial Criminal","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"201369","nome":"Ana Prado Gomes","cargo":"Perito Oficial Criminal","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"201406","nome":"Diego Esteves Moraes","cargo":"Perito Oficial Criminal","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201443","nome":"Elisa Lima Almeida","cargo":"Médico Legista","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201480","nome":"Sílvia Gomes Jardim","cargo":"Técnico em Necropsia","lotacao":"Regional de Rondonópolis","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201517","nome":"Yasmin Esteves Esteves","cargo":"Perito Oficial Criminal","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201554","nome":"Heitor Nunes Moraes","cargo":"Médico Legista","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201591","nome":"Vítor Gomes Nunes","cargo":"Médico Legista","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201628","nome":"Isabela Igarashi Campos","cargo":"Papiloscopista","lotacao":"Regional de Rondonópolis","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201665","nome":"Sílvia Moraes Barros","cargo":"Papiloscopista","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"201702","nome":"Olívia Prado Freitas","cargo":"Médico Legista","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":false},{"matricula":"201739","nome":"Queila Duarte Duarte","cargo":"Papiloscopista","lotacao":"Regional de Rondonópolis","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201776","nome":"Sílvia Prado Almeida","cargo":"Técnico em Necropsia","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201813","nome":"Nelson Nunes Nunes","cargo":"Técnico em Necropsia","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"201850","nome":"Yasmin Lima Lima","cargo":"Perito Oficial Criminal","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201887","nome":"Zeca Nunes Jardim","cargo":"Papiloscopista","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201924","nome":"Yasmin Igarashi Holanda","cargo":"Perito Oficial Criminal","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"201961","nome":"Zeca Holanda Jardim","cargo":"Papiloscopista","lotacao":"IML Várzea Grande","diretoria":"DML","vinculo_ativo":true},{"matricula":"201998","nome":"Rafael Igarashi Igarashi","cargo":"Papiloscopista","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"202035","nome":"Fábio Lima Lima","cargo":"Médico Legista","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"202072","nome":"Rafael Nunes Nunes","cargo":"Perito Oficial Criminal","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"202109","nome":"Heitor Moraes Gomes","cargo":"Técnico em Necropsia","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"202146","nome":"Wanda Duarte Igarashi","cargo":"Perito Oficial Criminal","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"202183","nome":"Sílvia Barros Duarte","cargo":"Médico Legista","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"202220","nome":"Fábio Duarte Esteves","cargo":"Médico Legista","lotacao":"Regional de Sinop","diretoria":"DIN","vinculo_ativo":true},{"matricula":"202257","nome":"Paulo Holanda Holanda","cargo":"Papiloscopista","lotacao":"Regional de Sinop","diretoria":"DIN","vinculo_ativo":true},{"matricula":"202294","nome":"Nelson Nunes Prado","cargo":"Papiloscopista","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"202331","nome":"Ana Esteves Lima","cargo":"Médico Legista","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"202368","nome":"Zeca Campos Prado","cargo":"Médico Legista","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"202405","nome":"Elisa Nunes Moraes","cargo":"Médico Legista","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"202442","nome":"Heitor Freitas Almeida","cargo":"Técnico em Necropsia","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"202479","nome":"Carla Gomes Esteves","cargo":"Perito Oficial Criminal","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"202516","nome":"Queila Holanda Igarashi","cargo":"Papiloscopista","lotacao":"IML Várzea Grande","diretoria":"DML","vinculo_ativo":true},{"matricula":"202553","nome":"Zeca Holanda Jardim","cargo":"Perito Oficial Criminal","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":false}],"diretorias":[{"sigla":"DMC","nome":"Diretoria Metropolitana de Criminalística"},{"sigla":"DML","nome":"Diretoria Metropolitana de Medicina Legal"},{"sigla":"DII","nome":"Diretoria de Identificação"},{"sigla":"DIN","nome":"Diretoria de Interiorização"}]}</script>
+<script type="application/json" id="seed">{"cursos":[{"id":"CURSO-2026-11","nome":"Fotografia Forense em Local de Crime","carga_horaria":24,"inicio":"2026-11-23","fim":"2026-11-25","local":"Auditório da sede (fictício)","prerequisitos":["Ser servidor efetivo","Atuar em local de crime ou em laboratório"],"vagas_por_diretoria":{"DMC":8,"DML":4,"DII":2,"DIN":6},"link_grupo":"https://chat.whatsapp.com/EXEMPLO-FICTICIO","inscricao_inicio":"2026-10-29","inscricao_fim":"2026-11-12","prazo_triagem":"2026-11-16","status":"inscrições abertas"}],"seap":[{"matricula":"200000","nome":"Heitor Lima Freitas","cargo":"Médico Legista","lotacao":"Regional de Sinop","diretoria":"DIN","vinculo_ativo":false},{"matricula":"200037","nome":"Xavier Lima Holanda","cargo":"Médico Legista","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"200074","nome":"Wanda Esteves Campos","cargo":"Médico Legista","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"200111","nome":"Isabela Freitas Jardim","cargo":"Perito Oficial Criminal","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"200148","nome":"Karen Lima Esteves","cargo":"Técnico em Necropsia","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"200185","nome":"Gabriela Duarte Igarashi","cargo":"Perito Oficial Criminal","lotacao":"Regional de Rondonópolis","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200222","nome":"João Barros Duarte","cargo":"Médico Legista","lotacao":"IML Várzea Grande","diretoria":"DML","vinculo_ativo":true},{"matricula":"200259","nome":"Elisa Campos Igarashi","cargo":"Médico Legista","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200296","nome":"Tiago Holanda Gomes","cargo":"Médico Legista","lotacao":"Regional de Rondonópolis","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200333","nome":"Tiago Nunes Almeida","cargo":"Papiloscopista","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200370","nome":"Olívia Freitas Campos","cargo":"Médico Legista","lotacao":"Regional de Sinop","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200407","nome":"Xavier Campos Nunes","cargo":"Papiloscopista","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"200444","nome":"Karen Esteves Holanda","cargo":"Médico Legista","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"200481","nome":"Isabela Lima Moraes","cargo":"Médico Legista","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200518","nome":"Fábio Almeida Lima","cargo":"Médico Legista","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"200555","nome":"Isabela Freitas Freitas","cargo":"Técnico em Necropsia","lotacao":"Regional de Sinop","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200592","nome":"Heitor Igarashi Nunes","cargo":"Médico Legista","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200629","nome":"Yasmin Duarte Holanda","cargo":"Papiloscopista","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"200666","nome":"Lucas Lima Moraes","cargo":"Perito Oficial Criminal","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"200703","nome":"Diego Almeida Nunes","cargo":"Técnico em Necropsia","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"200740","nome":"Carla Freitas Igarashi","cargo":"Médico Legista","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"200777","nome":"Wanda Esteves Duarte","cargo":"Técnico em Necropsia","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"200814","nome":"Rafael Prado Esteves","cargo":"Perito Oficial Criminal","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"200851","nome":"Vítor Almeida Holanda","cargo":"Técnico em Necropsia","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":false},{"matricula":"200888","nome":"Carla Freitas Nunes","cargo":"Papiloscopista","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"200925","nome":"Wanda Jardim Esteves","cargo":"Médico Legista","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"200962","nome":"Ana Jardim Holanda","cargo":"Técnico em Necropsia","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"200999","nome":"Yasmin Igarashi Nunes","cargo":"Perito Oficial Criminal","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201036","nome":"Tiago Igarashi Igarashi","cargo":"Técnico em Necropsia","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"201073","nome":"Bruno Gomes Holanda","cargo":"Técnico em Necropsia","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201110","nome":"Bruno Campos Igarashi","cargo":"Técnico em Necropsia","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201147","nome":"Isabela Lima Lima","cargo":"Técnico em Necropsia","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"201184","nome":"Fábio Campos Barros","cargo":"Papiloscopista","lotacao":"IML Várzea Grande","diretoria":"DML","vinculo_ativo":true},{"matricula":"201221","nome":"Wanda Freitas Esteves","cargo":"Perito Oficial Criminal","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201258","nome":"Rafael Prado Almeida","cargo":"Perito Oficial Criminal","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"201295","nome":"Úrsula Esteves Moraes","cargo":"Técnico em Necropsia","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201332","nome":"Bruno Freitas Duarte","cargo":"Perito Oficial Criminal","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"201369","nome":"Ana Prado Gomes","cargo":"Perito Oficial Criminal","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"201406","nome":"Diego Esteves Moraes","cargo":"Perito Oficial Criminal","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201443","nome":"Elisa Lima Almeida","cargo":"Médico Legista","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201480","nome":"Sílvia Gomes Jardim","cargo":"Técnico em Necropsia","lotacao":"Regional de Rondonópolis","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201517","nome":"Yasmin Esteves Esteves","cargo":"Perito Oficial Criminal","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201554","nome":"Heitor Nunes Moraes","cargo":"Médico Legista","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201591","nome":"Vítor Gomes Nunes","cargo":"Médico Legista","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201628","nome":"Isabela Igarashi Campos","cargo":"Papiloscopista","lotacao":"Regional de Rondonópolis","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201665","nome":"Sílvia Moraes Barros","cargo":"Papiloscopista","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"201702","nome":"Olívia Prado Freitas","cargo":"Médico Legista","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":false},{"matricula":"201739","nome":"Queila Duarte Duarte","cargo":"Papiloscopista","lotacao":"Regional de Rondonópolis","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201776","nome":"Sílvia Prado Almeida","cargo":"Técnico em Necropsia","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"201813","nome":"Nelson Nunes Nunes","cargo":"Técnico em Necropsia","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"201850","nome":"Yasmin Lima Lima","cargo":"Perito Oficial Criminal","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201887","nome":"Zeca Nunes Jardim","cargo":"Papiloscopista","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"201924","nome":"Yasmin Igarashi Holanda","cargo":"Perito Oficial Criminal","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"201961","nome":"Zeca Holanda Jardim","cargo":"Papiloscopista","lotacao":"IML Várzea Grande","diretoria":"DML","vinculo_ativo":true},{"matricula":"201998","nome":"Rafael Igarashi Igarashi","cargo":"Papiloscopista","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"202035","nome":"Fábio Lima Lima","cargo":"Médico Legista","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"202072","nome":"Rafael Nunes Nunes","cargo":"Perito Oficial Criminal","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"202109","nome":"Heitor Moraes Gomes","cargo":"Técnico em Necropsia","lotacao":"Regional de Cáceres","diretoria":"DIN","vinculo_ativo":true},{"matricula":"202146","nome":"Wanda Duarte Igarashi","cargo":"Perito Oficial Criminal","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"202183","nome":"Sílvia Barros Duarte","cargo":"Médico Legista","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"202220","nome":"Fábio Duarte Esteves","cargo":"Médico Legista","lotacao":"Regional de Sinop","diretoria":"DIN","vinculo_ativo":true},{"matricula":"202257","nome":"Paulo Holanda Holanda","cargo":"Papiloscopista","lotacao":"Regional de Sinop","diretoria":"DIN","vinculo_ativo":true},{"matricula":"202294","nome":"Nelson Nunes Prado","cargo":"Papiloscopista","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":true},{"matricula":"202331","nome":"Ana Esteves Lima","cargo":"Médico Legista","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"202368","nome":"Zeca Campos Prado","cargo":"Médico Legista","lotacao":"Núcleo de Local de Crime","diretoria":"DMC","vinculo_ativo":true},{"matricula":"202405","nome":"Elisa Nunes Moraes","cargo":"Médico Legista","lotacao":"Laboratório de Química","diretoria":"DMC","vinculo_ativo":true},{"matricula":"202442","nome":"Heitor Freitas Almeida","cargo":"Técnico em Necropsia","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"202479","nome":"Carla Gomes Esteves","cargo":"Perito Oficial Criminal","lotacao":"Posto de Identificação Centro","diretoria":"DII","vinculo_ativo":true},{"matricula":"202516","nome":"Queila Holanda Igarashi","cargo":"Papiloscopista","lotacao":"IML Várzea Grande","diretoria":"DML","vinculo_ativo":true},{"matricula":"202553","nome":"Zeca Holanda Jardim","cargo":"Perito Oficial Criminal","lotacao":"IML Cuiabá","diretoria":"DML","vinculo_ativo":false}],"diretorias":[{"sigla":"DMC","nome":"Diretoria Metropolitana de Criminalística"},{"sigla":"DML","nome":"Diretoria Metropolitana de Medicina Legal"},{"sigla":"DII","nome":"Diretoria de Identificação"},{"sigla":"DIN","nome":"Diretoria de Interiorização"}],"emails":"De: heitor.200000@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 1FEF59EC\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiMUZFRjU5RUMiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDAwMDAiLCJuIjoiSGVpdG9yIExpbWEgRnJlaXRhcyIsImwiOiJSZWdpb25hbCBkZSBTaW5vcCIsImQiOiJESU4iLCJlIjoiaGVpdG9yLjIwMDAwMEBwb2xpdGVjLm10Lmdvdi5iciIsInQiOiIiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIl0sInMiOiIyMDI2LTEwLTI5VDA4OjAwOjAwLTA0OjAwIn0.f883448a\n\n---\n\nDe: xavier.200037@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 2CD3E2EA\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiMkNEM0UyRUEiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDAwMzciLCJuIjoiWGF2aWVyIExpbWEgSG9sYW5kYSIsImwiOiJJTUwgQ3VpYWLDoSIsImQiOiJETUwiLCJlIjoieGF2aWVyLjIwMDAzN0Bwb2xpdGVjLm10Lmdvdi5iciIsInQiOiIoNjUpIDk4MDg2LTQ5NzIiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIiwiQXR1YXIgZW0gbG9jYWwgZGUgY3JpbWUgb3UgZW0gbGFib3JhdMOzcmlvIl0sInMiOiIyMDI2LTEwLTI5VDA5OjA3OjAwLTA0OjAwIn0.5c6e8473\n\n---\n\nDe: wanda.200074@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 30B4A285\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiMzBCNEEyODUiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDAwNzQiLCJuIjoiV2FuZGEgRXN0ZXZlcyBDYW1wb3MiLCJsIjoiUG9zdG8gZGUgSWRlbnRpZmljYcOnw6NvIENlbnRybyIsImQiOiJESUkiLCJlIjoid2FuZGEuMjAwMDc0QHBvbGl0ZWMubXQuZ292LmJyIiwidCI6Iig2NSkgOTk4MDItNjU5OSIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iLCJBdHVhciBlbSBsb2NhbCBkZSBjcmltZSBvdSBlbSBsYWJvcmF0w7NyaW8iXSwicyI6IjIwMjYtMTAtMjlUMTA6MTQ6MDAtMDQ6MDAifQ.d04d8bce\n\n---\n\nDe: isabela.200111@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 4247067C\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiNDI0NzA2N0MiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDAxMTEiLCJuIjoiSXNhYmVsYSBGcmVpdGFzIEphcmRpbSIsImwiOiJJTUwgQ3VpYWLDoSIsImQiOiJETUwiLCJlIjoiaXNhYmVsYS4yMDAxMTFAcG9saXRlYy5tdC5nb3YuYnIiLCJ0IjoiIiwiciI6WyJTZXIgc2Vydmlkb3IgZWZldGl2byIsIkF0dWFyIGVtIGxvY2FsIGRlIGNyaW1lIG91IGVtIGxhYm9yYXTDs3JpbyJdLCJzIjoiMjAyNi0xMC0yOVQxMToyMTowMC0wNDowMCJ9.b79e915f\n\n---\n\nDe: karen.200148@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 9755E35A\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiOTc1NUUzNUEiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDAxNDgiLCJuIjoiS2FyZW4gTGltYSBFc3RldmVzIiwibCI6IkxhYm9yYXTDs3JpbyBkZSBRdcOtbWljYSIsImQiOiJETUMiLCJlIjoia2FyZW4uMjAwMTQ4QHBvbGl0ZWMubXQuZ292LmJyIiwidCI6Iig2NSkgOTk0MjEtMzYyOSIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iLCJBdHVhciBlbSBsb2NhbCBkZSBjcmltZSBvdSBlbSBsYWJvcmF0w7NyaW8iXSwicyI6IjIwMjYtMTAtMjlUMTI6Mjg6MDAtMDQ6MDAifQ.2d3caedd\n\n---\n\nDe: gabriela.200185@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime BC442BC8\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiQkM0NDJCQzgiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDAxODUiLCJuIjoiR2FicmllbGEgRHVhcnRlIElnYXJhc2hpIiwibCI6IlJlZ2lvbmFsIGRlIFJvbmRvbsOzcG9saXMiLCJkIjoiRElOIiwiZSI6ImdhYnJpZWxhLjIwMDE4NUBwb2xpdGVjLm10Lmdvdi5iciIsInQiOiIoNjUpIDk4NjkwLTk5NTEiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIiwiQXR1YXIgZW0gbG9jYWwgZGUgY3JpbWUgb3UgZW0gbGFib3JhdMOzcmlvIl0sInMiOiIyMDI2LTEwLTI5VDEzOjM1OjAwLTA0OjAwIn0.fa374e2a\n\n---\n\nDe: joão.200222@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 9C0D6F91\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiOUMwRDZGOTEiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDAyMjIiLCJuIjoiSm_Do28gQmFycm9zIER1YXJ0ZSIsImwiOiJJTUwgVsOhcnplYSBHcmFuZGUiLCJkIjoiRE1MIiwiZSI6Impvw6NvLjIwMDIyMkBwb2xpdGVjLm10Lmdvdi5iciIsInQiOiIiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIiwiQXR1YXIgZW0gbG9jYWwgZGUgY3JpbWUgb3UgZW0gbGFib3JhdMOzcmlvIl0sInMiOiIyMDI2LTEwLTI5VDE0OjQyOjAwLTA0OjAwIn0.53a23962\n\n---\n\nDe: elisa.200259@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 65560773\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiNjU1NjA3NzMiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDAyNTkiLCJuIjoiRWxpc2EgQ2FtcG9zIElnYXJhc2hpIiwibCI6IlJlZ2lvbmFsIGRlIEPDoWNlcmVzIiwiZCI6IkRJTiIsImUiOiJlbGlzYS4yMDAyNTlAcG9saXRlYy5tdC5nb3YuYnIiLCJ0IjoiKDY1KSA5OTY3OC0xOTAyIiwiciI6WyJTZXIgc2Vydmlkb3IgZWZldGl2byIsIkF0dWFyIGVtIGxvY2FsIGRlIGNyaW1lIG91IGVtIGxhYm9yYXTDs3JpbyJdLCJzIjoiMjAyNi0xMC0yOVQxNTo0OTowMC0wNDowMCJ9.b805583f\n\n---\n\nDe: tiago.200296@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 17429443\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiMTc0Mjk0NDMiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDAyOTYiLCJuIjoiVGlhZ28gSG9sYW5kYSBHb21lcyIsImwiOiJSZWdpb25hbCBkZSBSb25kb27Ds3BvbGlzIiwiZCI6IkRJTiIsImUiOiJ0aWFnby4yMDAyOTZAcG9saXRlYy5tdC5nb3YuYnIiLCJ0IjoiKDY1KSA5OTc4NS0zNDQxIiwiciI6WyJTZXIgc2Vydmlkb3IgZWZldGl2byIsIkF0dWFyIGVtIGxvY2FsIGRlIGNyaW1lIG91IGVtIGxhYm9yYXTDs3JpbyJdLCJzIjoiMjAyNi0xMC0yOVQxNjo1NjowMC0wNDowMCJ9.f9749664\n\n---\n\nDe: tiago.200333@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime A885C330\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiQTg4NUMzMzAiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDAzMzMiLCJuIjoiVGlhZ28gTnVuZXMgQWxtZWlkYSIsImwiOiJSZWdpb25hbCBkZSBDw6FjZXJlcyIsImQiOiJESU4iLCJlIjoidGlhZ28uMjAwMzMzQHBvbGl0ZWMubXQuZ292LmJyIiwidCI6IiIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iXSwicyI6IjIwMjYtMTAtMjlUMTc6MDM6MDAtMDQ6MDAifQ.365c05a3\n\n---\n\nDe: olivia.200370@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime CC0B5655\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiQ0MwQjU2NTUiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDAzNzAiLCJuIjoiT2zDrXZpYSBGcmVpdGFzIENhbXBvcyIsImwiOiJSZWdpb25hbCBkZSBTaW5vcCIsImQiOiJESU4iLCJlIjoib2xpdmlhLjIwMDM3MEBwb2xpdGVjLm10Lmdvdi5iciIsInQiOiIoNjUpIDk4NjE2LTEwNjMiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIiwiQXR1YXIgZW0gbG9jYWwgZGUgY3JpbWUgb3UgZW0gbGFib3JhdMOzcmlvIl0sInMiOiIyMDI2LTEwLTI5VDA4OjEwOjAwLTA0OjAwIn0.d06a9b6a\n\n---\n\nDe: xavier.200407@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 057ED1A6\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiMDU3RUQxQTYiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDA0MDciLCJuIjoiWGF2aWVyIENhbXBvcyBOdW5lcyIsImwiOiJQb3N0byBkZSBJZGVudGlmaWNhw6fDo28gQ2VudHJvIiwiZCI6IkRJSSIsImUiOiJ4YXZpZXIuMjAwNDA3QHBvbGl0ZWMubXQuZ292LmJyIiwidCI6Iig2NSkgOTk5MDUtODk0NSIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iLCJBdHVhciBlbSBsb2NhbCBkZSBjcmltZSBvdSBlbSBsYWJvcmF0w7NyaW8iXSwicyI6IjIwMjYtMTAtMjlUMDk6MTc6MDAtMDQ6MDAifQ.fc0d7ab5\n\n---\n\nDe: karen.200444@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 3F609E83\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiM0Y2MDlFODMiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDA0NDQiLCJuIjoiS2FyZW4gRXN0ZXZlcyBIb2xhbmRhIiwibCI6IlBvc3RvIGRlIElkZW50aWZpY2HDp8OjbyBDZW50cm8iLCJkIjoiRElJIiwiZSI6ImthcmVuLjIwMDQ0NEBwb2xpdGVjLm10Lmdvdi5iciIsInQiOiIiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIiwiQXR1YXIgZW0gbG9jYWwgZGUgY3JpbWUgb3UgZW0gbGFib3JhdMOzcmlvIl0sInMiOiIyMDI2LTEwLTI5VDEwOjI0OjAwLTA0OjAwIn0.1960eeee\n\n---\n\nDe: isabela.200481@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 9F7DCDBD\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiOUY3RENEQkQiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDA0ODEiLCJuIjoiSXNhYmVsYSBMaW1hIE1vcmFlcyIsImwiOiJSZWdpb25hbCBkZSBDw6FjZXJlcyIsImQiOiJESU4iLCJlIjoiaXNhYmVsYS4yMDA0ODFAcG9saXRlYy5tdC5nb3YuYnIiLCJ0IjoiKDY1KSA5OTEyNy02NDMzIiwiciI6WyJTZXIgc2Vydmlkb3IgZWZldGl2byIsIkF0dWFyIGVtIGxvY2FsIGRlIGNyaW1lIG91IGVtIGxhYm9yYXTDs3JpbyJdLCJzIjoiMjAyNi0xMC0yOVQxMTozMTowMC0wNDowMCJ9.821933a2\n\n---\n\nDe: fabio.200518@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 561B0ECC\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiNTYxQjBFQ0MiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDA1MTgiLCJuIjoiRsOhYmlvIEFsbWVpZGEgTGltYSIsImwiOiJQb3N0byBkZSBJZGVudGlmaWNhw6fDo28gQ2VudHJvIiwiZCI6IkRJSSIsImUiOiJmYWJpby4yMDA1MThAcG9saXRlYy5tdC5nb3YuYnIiLCJ0IjoiKDY1KSA5ODIxMi00OTMxIiwiciI6WyJTZXIgc2Vydmlkb3IgZWZldGl2byIsIkF0dWFyIGVtIGxvY2FsIGRlIGNyaW1lIG91IGVtIGxhYm9yYXTDs3JpbyJdLCJzIjoiMjAyNi0xMC0yOVQxMjozODowMC0wNDowMCJ9.00da37a2\n\n---\n\nDe: isabela.200555@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime A0F0CC78\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiQTBGMENDNzgiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDA1NTUiLCJuIjoiSXNhYmVsYSBGcmVpdGFzIEZyZWl0YXMiLCJsIjoiUmVnaW9uYWwgZGUgU2lub3AiLCJkIjoiRElOIiwiZSI6ImlzYWJlbGEuMjAwNTU1QHBvbGl0ZWMubXQuZ292LmJyIiwidCI6IiIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iLCJBdHVhciBlbSBsb2NhbCBkZSBjcmltZSBvdSBlbSBsYWJvcmF0w7NyaW8iXSwicyI6IjIwMjYtMTAtMjlUMTM6NDU6MDAtMDQ6MDAifQ.11ed94d3\n\n---\n\nDe: heitor.200592@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime F1C60134\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiRjFDNjAxMzQiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDA1OTIiLCJuIjoiSGVpdG9yIElnYXJhc2hpIE51bmVzIiwibCI6IlJlZ2lvbmFsIGRlIEPDoWNlcmVzIiwiZCI6IkRJTiIsImUiOiJoZWl0b3IuMjAwNTkyQHBvbGl0ZWMubXQuZ292LmJyIiwidCI6Iig2NSkgOTg4NjUtMTAwMiIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iLCJBdHVhciBlbSBsb2NhbCBkZSBjcmltZSBvdSBlbSBsYWJvcmF0w7NyaW8iXSwicyI6IjIwMjYtMTAtMjlUMTQ6NTI6MDAtMDQ6MDAifQ.d58e28fd\n\n---\n\nDe: yasmin.200629@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 22AA1CD7\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiMjJBQTFDRDciLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDA2MjkiLCJuIjoiWWFzbWluIER1YXJ0ZSBIb2xhbmRhIiwibCI6IklNTCBDdWlhYsOhIiwiZCI6IkRNTCIsImUiOiJ5YXNtaW4uMjAwNjI5QHBvbGl0ZWMubXQuZ292LmJyIiwidCI6Iig2NSkgOTg2NzEtNDY2OSIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iLCJBdHVhciBlbSBsb2NhbCBkZSBjcmltZSBvdSBlbSBsYWJvcmF0w7NyaW8iXSwicyI6IjIwMjYtMTAtMjlUMTU6NTk6MDAtMDQ6MDAifQ.d8003ea7\n\n---\n\nDe: lucas.200666@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 5B73C323\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiNUI3M0MzMjMiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDA2NjYiLCJuIjoiTHVjYXMgTGltYSBNb3JhZXMiLCJsIjoiUmVnaW9uYWwgZGUgQ8OhY2VyZXMiLCJkIjoiRElOIiwiZSI6Imx1Y2FzLjIwMDY2NkBwb2xpdGVjLm10Lmdvdi5iciIsInQiOiIiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIl0sInMiOiIyMDI2LTEwLTI5VDE2OjA2OjAwLTA0OjAwIn0.b22873ef\n\n---\n\nDe: diego.200703@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime EC6DF7EC\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiRUM2REY3RUMiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDA3MDMiLCJuIjoiRGllZ28gQWxtZWlkYSBOdW5lcyIsImwiOiJJTUwgQ3VpYWLDoSIsImQiOiJETUwiLCJlIjoiZGllZ28uMjAwNzAzQHBvbGl0ZWMubXQuZ292LmJyIiwidCI6Iig2NSkgOTg5MzktMjY1MyIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iLCJBdHVhciBlbSBsb2NhbCBkZSBjcmltZSBvdSBlbSBsYWJvcmF0w7NyaW8iXSwicyI6IjIwMjYtMTAtMjlUMTc6MTM6MDAtMDQ6MDAifQ.e90e0db2\n\n---\n\nDe: carla.200740@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime DC8CE4B3\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiREM4Q0U0QjMiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDA3NDAiLCJuIjoiQ2FybGEgRnJlaXRhcyBJZ2FyYXNoaSIsImwiOiJMYWJvcmF0w7NyaW8gZGUgUXXDrW1pY2EiLCJkIjoiRE1DIiwiZSI6ImNhcmxhLjIwMDc0MEBwb2xpdGVjLm10Lmdvdi5iciIsInQiOiIoNjUpIDk4MzYyLTgxODAiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIiwiQXR1YXIgZW0gbG9jYWwgZGUgY3JpbWUgb3UgZW0gbGFib3JhdMOzcmlvIl0sInMiOiIyMDI2LTEwLTI5VDA4OjIwOjAwLTA0OjAwIn0.ab738678\n\n---\n\nDe: wanda.200777@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime C3594075\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiQzM1OTQwNzUiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDA3NzciLCJuIjoiV2FuZGEgRXN0ZXZlcyBEdWFydGUiLCJsIjoiTGFib3JhdMOzcmlvIGRlIFF1w61taWNhIiwiZCI6IkRNQyIsImUiOiJ3YW5kYS4yMDA3NzdAcG9saXRlYy5tdC5nb3YuYnIiLCJ0IjoiIiwiciI6WyJTZXIgc2Vydmlkb3IgZWZldGl2byIsIkF0dWFyIGVtIGxvY2FsIGRlIGNyaW1lIG91IGVtIGxhYm9yYXTDs3JpbyJdLCJzIjoiMjAyNi0xMC0yOVQwOToyNzowMC0wNDowMCJ9.07bdcc70\n\n---\n\nDe: rafael.200814@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime A485411D\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiQTQ4NTQxMUQiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDA4MTQiLCJuIjoiUmFmYWVsIFByYWRvIEVzdGV2ZXMiLCJsIjoiUG9zdG8gZGUgSWRlbnRpZmljYcOnw6NvIENlbnRybyIsImQiOiJESUkiLCJlIjoicmFmYWVsLjIwMDgxNEBwb2xpdGVjLm10Lmdvdi5iciIsInQiOiIoNjUpIDk4OTA3LTQ2MzYiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIiwiQXR1YXIgZW0gbG9jYWwgZGUgY3JpbWUgb3UgZW0gbGFib3JhdMOzcmlvIl0sInMiOiIyMDI2LTEwLTI5VDEwOjM0OjAwLTA0OjAwIn0.a63e68b3\n\n---\n\nDe: vitor.200851@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 4EDF04C9\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiNEVERjA0QzkiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDA4NTEiLCJuIjoiVsOtdG9yIEFsbWVpZGEgSG9sYW5kYSIsImwiOiJOw7pjbGVvIGRlIExvY2FsIGRlIENyaW1lIiwiZCI6IkRNQyIsImUiOiJ2aXRvci4yMDA4NTFAcG9saXRlYy5tdC5nb3YuYnIiLCJ0IjoiKDY1KSA5OTAyMi0xMTUzIiwiciI6WyJTZXIgc2Vydmlkb3IgZWZldGl2byIsIkF0dWFyIGVtIGxvY2FsIGRlIGNyaW1lIG91IGVtIGxhYm9yYXTDs3JpbyJdLCJzIjoiMjAyNi0xMC0yOVQxMTo0MTowMC0wNDowMCJ9.48d6cae9\n\n---\n\nDe: carla.200888@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 1375E157\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiMTM3NUUxNTciLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDA4ODgiLCJuIjoiQ2FybGEgRnJlaXRhcyBOdW5lcyIsImwiOiJOw7pjbGVvIGRlIExvY2FsIGRlIENyaW1lIiwiZCI6IkRNQyIsImUiOiJjYXJsYS4yMDA4ODhAcG9saXRlYy5tdC5nb3YuYnIiLCJ0IjoiIiwiciI6WyJTZXIgc2Vydmlkb3IgZWZldGl2byIsIkF0dWFyIGVtIGxvY2FsIGRlIGNyaW1lIG91IGVtIGxhYm9yYXTDs3JpbyJdLCJzIjoiMjAyNi0xMC0yOVQxMjo0ODowMC0wNDowMCJ9.0186cb42\n\n---\n\nDe: wanda.200925@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime A63884B0\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiQTYzODg0QjAiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDA5MjUiLCJuIjoiV2FuZGEgSmFyZGltIEVzdGV2ZXMiLCJsIjoiTsO6Y2xlbyBkZSBMb2NhbCBkZSBDcmltZSIsImQiOiJETUMiLCJlIjoid2FuZGEuMjAwOTI1QHBvbGl0ZWMubXQuZ292LmJyIiwidCI6Iig2NSkgOTg5MjMtNDI0OSIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iLCJBdHVhciBlbSBsb2NhbCBkZSBjcmltZSBvdSBlbSBsYWJvcmF0w7NyaW8iXSwicyI6IjIwMjYtMTAtMjlUMTM6NTU6MDAtMDQ6MDAifQ.5bd6006b\n\n---\n\nDe: ana.200962@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime EF4F8D00\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiRUY0RjhEMDAiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDA5NjIiLCJuIjoiQW5hIEphcmRpbSBIb2xhbmRhIiwibCI6IklNTCBDdWlhYsOhIiwiZCI6IkRNTCIsImUiOiJhbmEuMjAwOTYyQHBvbGl0ZWMubXQuZ292LmJyIiwidCI6Iig2NSkgOTg0NzItMTA4NiIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iLCJBdHVhciBlbSBsb2NhbCBkZSBjcmltZSBvdSBlbSBsYWJvcmF0w7NyaW8iXSwicyI6IjIwMjYtMTAtMjlUMTQ6MDI6MDAtMDQ6MDAifQ.496020ec\n\n---\n\nDe: yasmin.200999@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 4020E57E\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiNDAyMEU1N0UiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDA5OTkiLCJuIjoiWWFzbWluIElnYXJhc2hpIE51bmVzIiwibCI6IlJlZ2lvbmFsIGRlIEPDoWNlcmVzIiwiZCI6IkRJTiIsImUiOiJ5YXNtaW4uMjAwOTk5QHBvbGl0ZWMubXQuZ292LmJyIiwidCI6IiIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iXSwicyI6IjIwMjYtMTAtMjlUMTU6MDk6MDAtMDQ6MDAifQ.aa9623ec\n\n---\n\nDe: tiago.201036@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 7C5B2382\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiN0M1QjIzODIiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDEwMzYiLCJuIjoiVGlhZ28gSWdhcmFzaGkgSWdhcmFzaGkiLCJsIjoiUG9zdG8gZGUgSWRlbnRpZmljYcOnw6NvIENlbnRybyIsImQiOiJESUkiLCJlIjoidGlhZ28uMjAxMDM2QHBvbGl0ZWMubXQuZ292LmJyIiwidCI6Iig2NSkgOTkxNDgtNjY3MyIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iLCJBdHVhciBlbSBsb2NhbCBkZSBjcmltZSBvdSBlbSBsYWJvcmF0w7NyaW8iXSwicyI6IjIwMjYtMTAtMjlUMTY6MTY6MDAtMDQ6MDAifQ.6099ec31\n\n---\n\nDe: bruno.201073@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime D624B11A\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiRDYyNEIxMUEiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDEwNzMiLCJuIjoiQnJ1bm8gR29tZXMgSG9sYW5kYSIsImwiOiJMYWJvcmF0w7NyaW8gZGUgUXXDrW1pY2EiLCJkIjoiRE1DIiwiZSI6ImJydW5vLjIwMTA3M0Bwb2xpdGVjLm10Lmdvdi5iciIsInQiOiIoNjUpIDk4NDI1LTQyODAiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIiwiQXR1YXIgZW0gbG9jYWwgZGUgY3JpbWUgb3UgZW0gbGFib3JhdMOzcmlvIl0sInMiOiIyMDI2LTEwLTI5VDE3OjIzOjAwLTA0OjAwIn0.cf037d04\n\n---\n\nDe: bruno.201110@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime AF4BC904\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiQUY0QkM5MDQiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDExMTAiLCJuIjoiQnJ1bm8gQ2FtcG9zIElnYXJhc2hpIiwibCI6IlJlZ2lvbmFsIGRlIEPDoWNlcmVzIiwiZCI6IkRJTiIsImUiOiJicnVuby4yMDExMTBAcG9saXRlYy5tdC5nb3YuYnIiLCJ0IjoiIiwiciI6WyJTZXIgc2Vydmlkb3IgZWZldGl2byIsIkF0dWFyIGVtIGxvY2FsIGRlIGNyaW1lIG91IGVtIGxhYm9yYXTDs3JpbyJdLCJzIjoiMjAyNi0xMC0zMFQwODozMDowMC0wNDowMCJ9.934b9ae0\n\n---\n\nDe: isabela.201147@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime D1997C54\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiRDE5OTdDNTQiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDExNDciLCJuIjoiSXNhYmVsYSBMaW1hIExpbWEiLCJsIjoiUG9zdG8gZGUgSWRlbnRpZmljYcOnw6NvIENlbnRybyIsImQiOiJESUkiLCJlIjoiaXNhYmVsYS4yMDExNDdAcG9saXRlYy5tdC5nb3YuYnIiLCJ0IjoiKDY1KSA5OTU0OS05NzI5IiwiciI6WyJTZXIgc2Vydmlkb3IgZWZldGl2byIsIkF0dWFyIGVtIGxvY2FsIGRlIGNyaW1lIG91IGVtIGxhYm9yYXTDs3JpbyJdLCJzIjoiMjAyNi0xMC0zMFQwOTozNzowMC0wNDowMCJ9.3b4b10d8\n\n---\n\nDe: fabio.201184@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 24934F0D\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiMjQ5MzRGMEQiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDExODQiLCJuIjoiRsOhYmlvIENhbXBvcyBCYXJyb3MiLCJsIjoiSU1MIFbDoXJ6ZWEgR3JhbmRlIiwiZCI6IkRNTCIsImUiOiJmYWJpby4yMDExODRAcG9saXRlYy5tdC5nb3YuYnIiLCJ0IjoiKDY1KSA5OTI3NS02NDg4IiwiciI6WyJTZXIgc2Vydmlkb3IgZWZldGl2byIsIkF0dWFyIGVtIGxvY2FsIGRlIGNyaW1lIG91IGVtIGxhYm9yYXTDs3JpbyJdLCJzIjoiMjAyNi0xMC0zMFQxMDo0NDowMC0wNDowMCJ9.efd9be6a\n\n---\n\nDe: wanda.201221@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 80744CCC\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiODA3NDRDQ0MiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDEyMjEiLCJuIjoiV2FuZGEgRnJlaXRhcyBFc3RldmVzIiwibCI6Ik7DumNsZW8gZGUgTG9jYWwgZGUgQ3JpbWUiLCJkIjoiRE1DIiwiZSI6IndhbmRhLjIwMTIyMUBwb2xpdGVjLm10Lmdvdi5iciIsInQiOiIiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIiwiQXR1YXIgZW0gbG9jYWwgZGUgY3JpbWUgb3UgZW0gbGFib3JhdMOzcmlvIl0sInMiOiIyMDI2LTEwLTMwVDExOjUxOjAwLTA0OjAwIn0.e37266e2\n\n---\n\nDe: rafael.201258@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 20352D1C\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiMjAzNTJEMUMiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDEyNTgiLCJuIjoiUmFmYWVsIFByYWRvIEFsbWVpZGEiLCJsIjoiSU1MIEN1aWFiw6EiLCJkIjoiRE1MIiwiZSI6InJhZmFlbC4yMDEyNThAcG9saXRlYy5tdC5nb3YuYnIiLCJ0IjoiKDY1KSA5OTk3MS04MTk5IiwiciI6WyJTZXIgc2Vydmlkb3IgZWZldGl2byIsIkF0dWFyIGVtIGxvY2FsIGRlIGNyaW1lIG91IGVtIGxhYm9yYXTDs3JpbyJdLCJzIjoiMjAyNi0xMC0zMFQxMjo1ODowMC0wNDowMCJ9.de38505a\n\n---\n\nDe: ursula.201295@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime B06DC58A\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiQjA2REM1OEEiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDEyOTUiLCJuIjoiw5pyc3VsYSBFc3RldmVzIE1vcmFlcyIsImwiOiJMYWJvcmF0w7NyaW8gZGUgUXXDrW1pY2EiLCJkIjoiRE1DIiwiZSI6InVyc3VsYS4yMDEyOTVAcG9saXRlYy5tdC5nb3YuYnIiLCJ0IjoiKDY1KSA5OTY0NC05OTE0IiwiciI6WyJTZXIgc2Vydmlkb3IgZWZldGl2byIsIkF0dWFyIGVtIGxvY2FsIGRlIGNyaW1lIG91IGVtIGxhYm9yYXTDs3JpbyJdLCJzIjoiMjAyNi0xMC0zMFQxMzowNTowMC0wNDowMCJ9.374b1547\n\n---\n\nDe: bruno.201332@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 027BBA0F\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiMDI3QkJBMEYiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDEzMzIiLCJuIjoiQnJ1bm8gRnJlaXRhcyBEdWFydGUiLCJsIjoiUG9zdG8gZGUgSWRlbnRpZmljYcOnw6NvIENlbnRybyIsImQiOiJESUkiLCJlIjoiYnJ1bm8uMjAxMzMyQHBvbGl0ZWMubXQuZ292LmJyIiwidCI6IiIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iXSwicyI6IjIwMjYtMTAtMzBUMTQ6MTI6MDAtMDQ6MDAifQ.07573721\n\n---\n\nDe: ana.201369@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 850C12A3\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiODUwQzEyQTMiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDEzNjkiLCJuIjoiQW5hIFByYWRvIEdvbWVzIiwibCI6IklNTCBDdWlhYsOhIiwiZCI6IkRNTCIsImUiOiJhbmEuMjAxMzY5QHBvbGl0ZWMubXQuZ292LmJyIiwidCI6Iig2NSkgOTk2ODgtNzI0OSIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iLCJBdHVhciBlbSBsb2NhbCBkZSBjcmltZSBvdSBlbSBsYWJvcmF0w7NyaW8iXSwicyI6IjIwMjYtMTAtMzBUMTU6MTk6MDAtMDQ6MDAifQ.d6575372\n\n---\n\nDe: diego.201406@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 23172432\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiMjMxNzI0MzIiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDE0MDYiLCJuIjoiRGllZ28gRXN0ZXZlcyBNb3JhZXMiLCJsIjoiUmVnaW9uYWwgZGUgQ8OhY2VyZXMiLCJkIjoiRElOIiwiZSI6ImRpZWdvLjIwMTQwNkBwb2xpdGVjLm10Lmdvdi5iciIsInQiOiIoNjUpIDk5MTA4LTIxNTEiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIiwiQXR1YXIgZW0gbG9jYWwgZGUgY3JpbWUgb3UgZW0gbGFib3JhdMOzcmlvIl0sInMiOiIyMDI2LTEwLTMwVDE2OjI2OjAwLTA0OjAwIn0.eb1605e2\n\n---\n\nDe: elisa.201443@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 45659160\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiNDU2NTkxNjAiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDE0NDMiLCJuIjoiRWxpc2EgTGltYSBBbG1laWRhIiwibCI6IkxhYm9yYXTDs3JpbyBkZSBRdcOtbWljYSIsImQiOiJETUMiLCJlIjoiZWxpc2EuMjAxNDQzQHBvbGl0ZWMubXQuZ292LmJyIiwidCI6IiIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iLCJBdHVhciBlbSBsb2NhbCBkZSBjcmltZSBvdSBlbSBsYWJvcmF0w7NyaW8iXSwicyI6IjIwMjYtMTAtMzBUMTc6MzM6MDAtMDQ6MDAifQ.6f700a6d\n\n---\n\nDe: silvia.201480@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 52CEF29F\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiNTJDRUYyOUYiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDE0ODAiLCJuIjoiU8OtbHZpYSBHb21lcyBKYXJkaW0iLCJsIjoiUmVnaW9uYWwgZGUgUm9uZG9uw7Nwb2xpcyIsImQiOiJESU4iLCJlIjoic2lsdmlhLjIwMTQ4MEBwb2xpdGVjLm10Lmdvdi5iciIsInQiOiIoNjUpIDk4NzI1LTIzNDAiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIiwiQXR1YXIgZW0gbG9jYWwgZGUgY3JpbWUgb3UgZW0gbGFib3JhdMOzcmlvIl0sInMiOiIyMDI2LTEwLTMwVDA4OjQwOjAwLTA0OjAwIn0.17e1ec86\n\n---\n\nDe: yasmin.201517@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 78E4661C\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiNzhFNDY2MUMiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDE1MTciLCJuIjoiWWFzbWluIEVzdGV2ZXMgRXN0ZXZlcyIsImwiOiJOw7pjbGVvIGRlIExvY2FsIGRlIENyaW1lIiwiZCI6IkRNQyIsImUiOiJ5YXNtaW4uMjAxNTE3QHBvbGl0ZWMubXQuZ292LmJyIiwidCI6Iig2NSkgOTg2MDctNTk0MyIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iLCJBdHVhciBlbSBsb2NhbCBkZSBjcmltZSBvdSBlbSBsYWJvcmF0w7NyaW8iXSwicyI6IjIwMjYtMTAtMzBUMDk6NDc6MDAtMDQ6MDAifQ.fcb7cc21\n\n---\n\nDe: heitor.201554@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime E5E9F5AF\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiRTVFOUY1QUYiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDE1NTQiLCJuIjoiSGVpdG9yIE51bmVzIE1vcmFlcyIsImwiOiJSZWdpb25hbCBkZSBDw6FjZXJlcyIsImQiOiJESU4iLCJlIjoiaGVpdG9yLjIwMTU1NEBwb2xpdGVjLm10Lmdvdi5iciIsInQiOiIiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIiwiQXR1YXIgZW0gbG9jYWwgZGUgY3JpbWUgb3UgZW0gbGFib3JhdMOzcmlvIl0sInMiOiIyMDI2LTEwLTMwVDEwOjU0OjAwLTA0OjAwIn0.3ca8a02a\n\n---\n\nDe: vitor.201591@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime C87C8A99\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiQzg3QzhBOTkiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDE1OTEiLCJuIjoiVsOtdG9yIEdvbWVzIE51bmVzIiwibCI6Ik7DumNsZW8gZGUgTG9jYWwgZGUgQ3JpbWUiLCJkIjoiRE1DIiwiZSI6InZpdG9yLjIwMTU5MUBwb2xpdGVjLm10Lmdvdi5iciIsInQiOiIoNjUpIDk4NTY2LTg1MTAiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIiwiQXR1YXIgZW0gbG9jYWwgZGUgY3JpbWUgb3UgZW0gbGFib3JhdMOzcmlvIl0sInMiOiIyMDI2LTEwLTMwVDExOjAxOjAwLTA0OjAwIn0.6f53c0ef\n\n---\n\nDe: isabela.201628@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 823B836C\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiODIzQjgzNkMiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDE2MjgiLCJuIjoiSXNhYmVsYSBJZ2FyYXNoaSBDYW1wb3MiLCJsIjoiUmVnaW9uYWwgZGUgUm9uZG9uw7Nwb2xpcyIsImQiOiJESU4iLCJlIjoiaXNhYmVsYS4yMDE2MjhAcG9saXRlYy5tdC5nb3YuYnIiLCJ0IjoiKDY1KSA5ODg0Ni0xNzg4IiwiciI6WyJTZXIgc2Vydmlkb3IgZWZldGl2byIsIkF0dWFyIGVtIGxvY2FsIGRlIGNyaW1lIG91IGVtIGxhYm9yYXTDs3JpbyJdLCJzIjoiMjAyNi0xMC0zMFQxMjowODowMC0wNDowMCJ9.16b59e62\n\n---\n\nDe: silvia.201665@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 7C8EA89E\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiN0M4RUE4OUUiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDE2NjUiLCJuIjoiU8OtbHZpYSBNb3JhZXMgQmFycm9zIiwibCI6IlBvc3RvIGRlIElkZW50aWZpY2HDp8OjbyBDZW50cm8iLCJkIjoiRElJIiwiZSI6InNpbHZpYS4yMDE2NjVAcG9saXRlYy5tdC5nb3YuYnIiLCJ0IjoiIiwiciI6WyJTZXIgc2Vydmlkb3IgZWZldGl2byJdLCJzIjoiMjAyNi0xMC0zMFQxMzoxNTowMC0wNDowMCJ9.4177542f\n\n---\n\nDe: olivia.201702@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 7C9BC9E5\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiN0M5QkM5RTUiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDE3MDIiLCJuIjoiT2zDrXZpYSBQcmFkbyBGcmVpdGFzIiwibCI6IlJlZ2lvbmFsIGRlIEPDoWNlcmVzIiwiZCI6IkRJTiIsImUiOiJvbGl2aWEuMjAxNzAyQHBvbGl0ZWMubXQuZ292LmJyIiwidCI6Iig2NSkgOTgxNjEtNzk4MyIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iLCJBdHVhciBlbSBsb2NhbCBkZSBjcmltZSBvdSBlbSBsYWJvcmF0w7NyaW8iXSwicyI6IjIwMjYtMTAtMzBUMTQ6MjI6MDAtMDQ6MDAifQ.2c9df864\n\n---\n\nDe: queila.201739@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 6E4F5ECF\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiNkU0RjVFQ0YiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDE3MzkiLCJuIjoiUXVlaWxhIER1YXJ0ZSBEdWFydGUiLCJsIjoiUmVnaW9uYWwgZGUgUm9uZG9uw7Nwb2xpcyIsImQiOiJESU4iLCJlIjoicXVlaWxhLjIwMTczOUBwb2xpdGVjLm10Lmdvdi5iciIsInQiOiIoNjUpIDk5MTExLTk0MTkiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIiwiQXR1YXIgZW0gbG9jYWwgZGUgY3JpbWUgb3UgZW0gbGFib3JhdMOzcmlvIl0sInMiOiIyMDI2LTEwLTMwVDE1OjI5OjAwLTA0OjAwIn0.c5570017\n\n---\n\nDe: silvia.201776@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime F56EBCB7\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiRjU2RUJDQjciLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDE3NzYiLCJuIjoiU8OtbHZpYSBQcmFkbyBBbG1laWRhIiwibCI6IlJlZ2lvbmFsIGRlIEPDoWNlcmVzIiwiZCI6IkRJTiIsImUiOiJzaWx2aWEuMjAxNzc2QHBvbGl0ZWMubXQuZ292LmJyIiwidCI6IiIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iLCJBdHVhciBlbSBsb2NhbCBkZSBjcmltZSBvdSBlbSBsYWJvcmF0w7NyaW8iXSwicyI6IjIwMjYtMTAtMzBUMTY6MzY6MDAtMDQ6MDAifQ.aeb5cc46\n\n---\n\nDe: nelson.201813@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 4CE29CE4\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiNENFMjlDRTQiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDE4MTMiLCJuIjoiTmVsc29uIE51bmVzIE51bmVzIiwibCI6IlBvc3RvIGRlIElkZW50aWZpY2HDp8OjbyBDZW50cm8iLCJkIjoiRElJIiwiZSI6Im5lbHNvbi4yMDE4MTNAcG9saXRlYy5tdC5nb3YuYnIiLCJ0IjoiKDY1KSA5OTY5OS04OTY2IiwiciI6WyJTZXIgc2Vydmlkb3IgZWZldGl2byIsIkF0dWFyIGVtIGxvY2FsIGRlIGNyaW1lIG91IGVtIGxhYm9yYXTDs3JpbyJdLCJzIjoiMjAyNi0xMC0zMFQxNzo0MzowMC0wNDowMCJ9.d1f25e63\n\n---\n\nDe: heitor.200000@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime CA36D75A\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiQ0EzNkQ3NUEiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDAwMDAiLCJuIjoiSGVpdG9yIExpbWEgRnJlaXRhcyIsImwiOiJSZWdpb25hbCBkZSBTaW5vcCIsImQiOiJESU4iLCJlIjoiaGVpdG9yLjIwMDAwMEBwb2xpdGVjLm10Lmdvdi5iciIsInQiOiIoNjUpIDk5OTk5LTAwMDAiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIl0sInMiOiIyMDI2LTEwLTMxVDEwOjAwOjAwLTA0OjAwIn0.51738cad\n\n---\n\nDe: xavier.200037@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 4866B479\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiNDg2NkI0NzkiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDAwMzciLCJuIjoiWGF2aWVyIExpbWEgSG9sYW5kYSIsImwiOiJJTUwgQ3VpYWLDoSIsImQiOiJETUwiLCJlIjoieGF2aWVyLjIwMDAzN0Bwb2xpdGVjLm10Lmdvdi5iciIsInQiOiIoNjUpIDk5OTk5LTAwMDEiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIiwiQXR1YXIgZW0gbG9jYWwgZGUgY3JpbWUgb3UgZW0gbGFib3JhdMOzcmlvIl0sInMiOiIyMDI2LTEwLTMxVDEwOjAxOjAwLTA0OjAwIn0.23387d16\n\n---\n\nDe: wanda.200074@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 1ED2B327\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiMUVEMkIzMjciLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDAwNzQiLCJuIjoiV2FuZGEgRXN0ZXZlcyBDYW1wb3MiLCJsIjoiUG9zdG8gZGUgSWRlbnRpZmljYcOnw6NvIENlbnRybyIsImQiOiJESUkiLCJlIjoid2FuZGEuMjAwMDc0QHBvbGl0ZWMubXQuZ292LmJyIiwidCI6Iig2NSkgOTk5OTktMDAwMiIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iLCJBdHVhciBlbSBsb2NhbCBkZSBjcmltZSBvdSBlbSBsYWJvcmF0w7NyaW8iXSwicyI6IjIwMjYtMTAtMzFUMTA6MDI6MDAtMDQ6MDAifQ.dd516dc1\n\n---\n\nDe: isabela.200111@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime 00741A30\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiMDA3NDFBMzAiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDAxMTEiLCJuIjoiSXNhYmVsYSBGcmVpdGFzIEphcmRpbSIsImwiOiJJTUwgQ3VpYWLDoSIsImQiOiJETUwiLCJlIjoiaXNhYmVsYS4yMDAxMTFAcG9saXRlYy5tdC5nb3YuYnIiLCJ0IjoiKDY1KSA5OTk5OS0wMDAzIiwiciI6WyJTZXIgc2Vydmlkb3IgZWZldGl2byIsIkF0dWFyIGVtIGxvY2FsIGRlIGNyaW1lIG91IGVtIGxhYm9yYXTDs3JpbyJdLCJzIjoiMjAyNi0xMC0zMVQxMDowMzowMC0wNDowMCJ9.313878ad\n\n---\n\nDe: karen.200148@politec.mt.gov.br\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime D62B1B61\n\nSegue minha inscrição.\n\nINSCRICAO-v1:eyJwIjoiRDYyQjFCNjEiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDAxNDgiLCJuIjoiS2FyZW4gTGltYSBFc3RldmVzIiwibCI6IkxhYm9yYXTDs3JpbyBkZSBRdcOtbWljYSIsImQiOiJETUMiLCJlIjoia2FyZW4uMjAwMTQ4QHBvbGl0ZWMubXQuZ292LmJyIiwidCI6Iig2NSkgOTk5OTktMDAwNCIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iLCJBdHVhciBlbSBsb2NhbCBkZSBjcmltZSBvdSBlbSBsYWJvcmF0w7NyaW8iXSwicyI6IjIwMjYtMTAtMzFUMTA6MDQ6MDAtMDQ6MDAifQ.cd941417\n\n---\n\nDe: desconhecido\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime\n\nINSCRICAO-v1:eyJwIjoiQ0MwQjU2NTUiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDAzNzAiLCJuIjoiT2zDrXZpYSBGcmVpdGFzIENhbXBvcyIsImwiOiJSZWdpb25hbCBkZSBTaW5vcCIsImQiOiJESU4iLCJlIjoib2xpdmlhLjIwMDM3MEBwb2xpdGVjLm10Lmdvdi5iciIsInQiOiIoNjUpIDk4NjE2LTEwNjMiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIiwiQXR1YXIgZW0gbG9jYWwgZGUgY3JpbWUgb3UgZW0gbGFib3JhdMOzcmlvIl0sInMiOiIyMDI2LTEwLTI5VDA4OjEwOjAwLTA0OjAwIn0.d06a9b60\n\n---\n\nDe: desconhecido\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime\n\nINSCRICAO-v1:eyJwIjoiMDU3RUQxQTYiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIyMDA0MDciLCJuIjoiWGF2aWVyIENhbXBvcyBOdW5lcyIsImwiOiJQb3N0byBkZSBJZGVudGlmaWNhw6fDo28gQ2VudHJvIiwiZCI6IkRJSSIsImUiOiJwZXNzb2FsQGdtYWlsLmNvbSIsInQiOiIoNjUpIDk5OTA1LTg5NDUiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIiwiQXR1YXIgZW0gbG9jYWwgZGUgY3JpbWUgb3UgZW0gbGFib3JhdMOzcmlvIl0sInMiOiIyMDI2LTEwLTI5VDA5OjE3OjAwLTA0OjAwIn0.a1d95978\n\n---\n\nDe: desconhecido\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime\n\nINSCRICAO-v1:eyJwIjoiM0Y2MDlFODMiLCJjIjoiQ1VSU08tMjAyNi0xMSIsIm0iOiIiLCJuIjoiS2FyZW4gRXN0ZXZlcyBIb2xhbmRhIiwibCI6IlBvc3RvIGRlIElkZW50aWZpY2HDp8OjbyBDZW50cm8iLCJkIjoiRElJIiwiZSI6ImthcmVuLjIwMDQ0NEBwb2xpdGVjLm10Lmdvdi5iciIsInQiOiIiLCJyIjpbIlNlciBzZXJ2aWRvciBlZmV0aXZvIiwiQXR1YXIgZW0gbG9jYWwgZGUgY3JpbWUgb3UgZW0gbGFib3JhdMOzcmlvIl0sInMiOiIyMDI2LTEwLTI5VDEwOjI0OjAwLTA0OjAwIn0.ab8aea32\n\n---\n\nDe: desconhecido\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime\n\nINSCRICAO-v1:eyJwIjoiOUY3RENEQkQiLCJjIjoiQ1VSU08tT1VUUk8iLCJtIjoiMjAwNDgxIiwibiI6IklzYWJlbGEgTGltYSBNb3JhZXMiLCJsIjoiUmVnaW9uYWwgZGUgQ8OhY2VyZXMiLCJkIjoiRElOIiwiZSI6ImlzYWJlbGEuMjAwNDgxQHBvbGl0ZWMubXQuZ292LmJyIiwidCI6Iig2NSkgOTkxMjctNjQzMyIsInIiOlsiU2VyIHNlcnZpZG9yIGVmZXRpdm8iLCJBdHVhciBlbSBsb2NhbCBkZSBjcmltZSBvdSBlbSBsYWJvcmF0w7NyaW8iXSwicyI6IjIwMjYtMTAtMjlUMTE6MzE6MDAtMDQ6MDAifQ.e26ea4bb\n\n---\n\nDe: desconhecido\nAssunto: [INSCRICAO] Fotografia Forense em Local de Crime\n\nINSCRICAO-v1:eyJwIjoiNTYxQjBFQ0MiLCJjIjo\n\n---\n"}</script>
 <!-- /DADOS:seed -->
 
 <script>
@@ -1672,15 +1672,654 @@ TELAS_DEPOIS["#/inscricao"] = ()=>{
   });
 };
 
+/* ================= Sprints 4 a 6 · importação, conferência com o SEAP e triagem ================= */
+"use strict";
+
+const DOMINIO_POLITEC = "@politec.mt.gov.br";
+const emailInstitucional = e=> /^\S+@\S+$/.test(String(e || "")) && String(e).toLowerCase().endsWith(DOMINIO_POLITEC);
+
+/* ================= Sprint 4 · Importação das inscrições (RN01, RN02, RN03) ================= */
+// classifica um bloco lido: devolve {dados, curso, erros}
+function classificarBloco(dados, cursos){
+  const erros = [];
+  if (!dados.m) erros.push("sem matrícula (RN01)");
+  if (!dados.n) erros.push("sem nome (RN01)");
+  if (!dados.l) erros.push("sem lotação (RN01)");
+  if (!dados.d) erros.push("sem diretoria (RN01)");
+  if (!emailInstitucional(dados.e)) erros.push("e-mail fora do domínio institucional (RN02)");
+  const curso = cursos.find(c=> c.id === dados.c) || null;
+  if (!curso) erros.push("curso que não está no cadastro");
+  return {dados, curso, erros};
+}
+
+// lê os blocos de um texto colado e classifica: novas, duplicadas (RN03) e recusadas
+function analisarInscricoes(texto, cursos){
+  const blocos = blocoInscricao.ler(texto);
+  const linhas = [];
+  for (const b of blocos){
+    if (b.erro){ linhas.push({tipo:"recusada", motivo:b.erro, trecho:b.trecho || ""}); continue; }
+    const cls = classificarBloco(b.dados, cursos);
+    if (cls.erros.length){ linhas.push({tipo:"recusada", motivo:cls.erros.join("; "), dados:b.dados}); continue; }
+    linhas.push({tipo:"nova", dados:b.dados, curso:cls.curso});
+  }
+  // RN03: uma inscrição por matrícula e curso; na dúvida, vence o reenvio mais recente
+  const porChave = new Map();
+  for (const l of linhas.filter(x=>x.tipo === "nova")){
+    const chave = l.dados.c + "|" + l.dados.m;
+    if (!porChave.has(chave)) porChave.set(chave, []);
+    porChave.get(chave).push(l);
+  }
+  for (const grupo of porChave.values()){
+    if (grupo.length < 2) continue;
+    grupo.sort((a, b)=> String(b.dados.s || "").localeCompare(String(a.dados.s || "")));
+    grupo.forEach((l, i)=> l.tipo = i === 0 ? "nova" : "duplicada");
+  }
+  return linhas;
+}
+teste("análise: 60 e-mails do exemplo dão 50 novas, 5 duplicadas e 5 recusadas", ()=>{
+  const s = dadosEmbutidos("seed");
+  if (!s?.emails) return true;
+  const l = analisarInscricoes(s.emails, s.cursos);
+  const novas = l.filter(x=>x.tipo === "nova").length, dup = l.filter(x=>x.tipo === "duplicada").length, rec = l.filter(x=>x.tipo === "recusada").length;
+  return (novas === 50 && dup === 5 && rec === 5) || `novas ${novas} · duplicadas ${dup} · recusadas ${rec}`;
+});
+teste("análise: o reenvio mais recente do mesmo par vence (RN03)", ()=>{
+  const s = dadosEmbutidos("seed");
+  if (!s?.emails) return true;
+  const l = analisarInscricoes(s.emails, s.cursos);
+  const dup = l.filter(x=>x.tipo === "duplicada");
+  if (!dup.length) return true;
+  const venc = l.filter(x=>x.tipo === "nova" && x.dados.m === dup[0].dados.m)[0];
+  return venc && String(venc.dados.s) >= String(dup[0].dados.s);
+});
+
+function inscricaoDe(dados, recebido){
+  return {protocolo:dados.p, curso_id:dados.c, matricula:dados.m, nome:dados.n, lotacao:dados.l, diretoria:dados.d,
+    email:dados.e, telefone:dados.t || "", pre:dados.r || [], enviado_em:dados.s || "", recebido_em:recebido || agora(),
+    status:"importada"};
+}
+
+async function gravarInscricoes(linhas){
+  let novas = 0, substituidas = 0;
+  for (const l of linhas.filter(x=>x.tipo === "nova")){
+    const insc = inscricaoDe(l.dados);
+    const antigas = await db.porIndice("inscricoes", "matricula", insc.matricula);
+    for (const a of antigas) if (a.curso_id === insc.curso_id){ await db.del("inscricoes", a.protocolo); substituidas++; }
+    await db.put("inscricoes", insc); novas++;
+  }
+  return {novas, substituidas};
+}
+
+TELAS["#/importar"] = async ()=>{
+  const cursos = await db.list("cursos");
+  return `<h1>Importar inscrições</h1><p class="sub">Cole os e-mails recebidos (o app acha todos os blocos de inscrição), ou importe uma planilha CSV.
+    O bloco de cada inscrição tem um código de verificação: bloco cortado ou alterado é recusado e apontado.</p>
+    <div class="card"><h2 style="margin-top:0">1 · Colar os e-mails</h2>
+      <textarea id="txtEmails" rows="10" placeholder="Cole aqui os e-mails de inscrição, um abaixo do outro"></textarea>
+      <div class="linha-botoes nao-imprimir"><button class="prim" id="btnLer">Ler e classificar</button>
+        <button id="btnExemploEmails">Carregar os 60 e-mails de exemplo</button></div></div>
+    <div class="card"><h2 style="margin-top:0">2 · Importar planilha (alternativa)</h2>
+      <p class="sub">CSV com as colunas matrícula, nome, lotação, diretoria, e-mail e telefone. A primeira linha é o cabeçalho.</p>
+      <label class="botao">Escolher CSV<input type="file" accept=".csv,text/csv" id="arqCsv" hidden></label>
+      <div id="csvResumo"></div></div>
+    <div id="resultadoImport"></div>
+    <div id="resumoInscricoes"></div>`;
+};
+TELAS_DEPOIS["#/importar"] = ()=>{
+  const txt = $("#txtEmails");
+  if (!txt) return;
+  let analise = null;
+  $("#btnExemploEmails").addEventListener("click", ()=>{
+    const s = dadosEmbutidos("seed");
+    txt.value = s?.emails || "";
+    toast(s?.emails ? "Exemplo carregado: 60 e-mails." : "O exemplo não está neste build.");
+  });
+  $("#btnLer").addEventListener("click", async ()=>{
+    const cursos = await db.list("cursos");
+    analise = analisarInscricoes(txt.value, cursos);
+    const novas = analise.filter(l=>l.tipo === "nova"), dup = analise.filter(l=>l.tipo === "duplicada"), rec = analise.filter(l=>l.tipo === "recusada");
+    $("#resultadoImport").innerHTML = `<div class="card"><h2 style="margin-top:0">3 · Conferir e importar</h2>
+      <div class="grade"><div class="card kpi"><div class="v">${novas.length}</div><div class="r">novas</div></div>
+        <div class="card kpi"><div class="v">${dup.length}</div><div class="r">duplicadas (RN03)</div></div>
+        <div class="card kpi"><div class="v">${rec.length}</div><div class="r">recusadas</div></div></div>
+      ${rec.length ? `<div class="tabela-wrap"><table><tr><th>Motivo</th><th>Detalhe</th></tr>
+        ${rec.map(l=>`<tr><td><span class="selo erro">recusada</span></td><td>${esc(l.motivo)}</td></tr>`).join("")}</table></div>` : ""}
+      ${dup.length ? `<p class="sub">Nas ${dup.length} duplicadas, vale o reenvio mais recente (RN03).</p>` : ""}
+      <div class="linha-botoes nao-imprimir"><button class="prim" id="btnGravar" ${novas.length ? "" : "disabled"}>Importar ${novas.length} inscrições</button></div></div>`;
+    $("#btnGravar")?.addEventListener("click", async ()=>{
+      const r = await gravarInscricoes(analise);
+      await registrar("importação de inscrições", {novas:r.novas, substituidas:r.substituidas, recusadas:rec.length});
+      toast(`Importadas ${r.novas} inscrições${r.substituidas ? `, ${r.substituidas} substituídas` : ""}.`);
+      $("#resumoInscricoes").innerHTML = await resumoInscricoes();
+    });
+  });
+  $("#arqCsv").addEventListener("change", async e=>{
+    const arq = e.target.files[0]; if (!arq) return;
+    const linhas = lerCSV(await lerArquivoTexto(arq));
+    if (linhas.length < 2) return $("#csvResumo").innerHTML = `<div class="card pendente">O arquivo está vazio.</div>`;
+    const cab = linhas[0].map(c=> normalizar(c)), dados = linhas.slice(1);
+    const achar = (...nomes)=> cab.findIndex(c=> nomes.some(n=> c.includes(n)));
+    const col = {matricula:achar("matricul"), nome:achar("nome"), lotacao:achar("lotac"), diretoria:achar("diret"),
+      email:achar("email"), telefone:achar("telefone")};
+    const faltando = ["matricula", "nome", "diretoria"].filter(k=> col[k] < 0);
+    if (faltando.length) return $("#csvResumo").innerHTML = `<div class="card pendente">Falta a coluna: ${faltando.join(", ")}.</div>`;
+    const cursos = await db.list("cursos"), curso = cursos[0];
+    const linhasNovas = dados.map(l=>{
+      const dados1 = {p:"CSV-" + Date.now().toString(36).toUpperCase() + Math.random().toString(36).slice(2, 6).toUpperCase(),
+        c: curso ? curso.id : "", m:(l[col.matricula] || "").trim(), n:(l[col.nome] || "").trim(), l:(l[col.lotacao] || "").trim(),
+        d:(l[col.diretoria] || "").trim(), e:(l[col.email] || "").trim(), t:col.telefone >= 0 ? (l[col.telefone] || "").trim() : "", r:[], s:agora()};
+      const cls = classificarBloco(dados1, cursos);
+      return cls.erros.length ? {tipo:"recusada", motivo:cls.erros.join("; ")} : {tipo:"nova", dados:dados1};
+    });
+    analise = linhasNovas;
+    const rec = linhasNovas.filter(l=>l.tipo === "recusada"), novas = linhasNovas.filter(l=>l.tipo === "nova");
+    $("#csvResumo").innerHTML = `<div class="card"><p><b>${arq.name}</b>: ${dados.length} linhas lidas, ${novas.length} válidas, ${rec.length} recusadas.</p>
+      ${rec.length ? `<ul>${rec.map(l=>`<li>${esc(l.motivo)}</li>`).join("")}</ul>` : ""}
+      <div class="linha-botoes nao-imprimir"><button class="prim" id="btnGravarCsv" ${novas.length ? "" : "disabled"}>Importar ${novas.length} inscrições</button></div></div>`;
+    $("#btnGravarCsv")?.addEventListener("click", async ()=>{
+      const r = await gravarInscricoes(analise);
+      await registrar("importação por planilha", {arquivo:arq.name, novas:r.novas});
+      toast(`Importadas ${r.novas} inscrições.`);
+      $("#resumoInscricoes").innerHTML = await resumoInscricoes();
+    });
+  });
+};
+
+async function resumoInscricoes(){
+  const insc = await db.list("inscricoes");
+  if (!insc.length) return "";
+  const porCurso = {};
+  insc.forEach(i=> porCurso[i.curso_id] = (porCurso[i.curso_id] || 0) + 1);
+  return `<div class="card"><h2 style="margin-top:0">Inscrições no banco</h2>
+    <div class="grade">${Object.entries(porCurso).map(([id, n])=> `<div class="card kpi"><div class="v">${n}</div><div class="r">${esc(id)}</div></div>`).join("")}</div>
+    <p class="linha-botoes"><a class="botao prim" href="#/inscritos/${encodeURIComponent(Object.keys(porCurso)[0])}">Conferir com o SEAP</a></p></div>`;
+}
+
+/* ================= Sprint 5 · Conferência com o SEAP (RN04) ================= */
+function alertasDaInscricao(insc, seap){
+  const alertas = [];
+  const s = seap.find(x=> x.matricula === insc.matricula);
+  if (!s) alertas.push({cod:"RN04", texto:"matrícula não consta no SEAP"});
+  else {
+    if (!s.vinculo_ativo) alertas.push({cod:"RN04", texto:"vínculo não ativo no SEAP"});
+    if (s.diretoria && insc.diretoria && s.diretoria !== insc.diretoria)
+      alertas.push({cod:"RN04", texto:`diretoria diferente do SEAP (${s.diretoria})`});
+  }
+  if (!emailInstitucional(insc.email)) alertas.push({cod:"RN02", texto:"e-mail fora do domínio institucional"});
+  return alertas;
+}
+
+async function importarSeap(texto){
+  const linhas = lerCSV(texto);
+  if (linhas.length < 2) return {ok:0, erro:"O arquivo do SEAP está vazio."};
+  const cab = linhas[0].map(c=> normalizar(c));
+  const achar = (...n)=> cab.findIndex(c=> n.some(x=> c.includes(x)));
+  const col = {matricula:achar("matricul"), nome:achar("nome"), cargo:achar("cargo"), lotacao:achar("lotac"),
+    diretoria:achar("diret"), vinculo:achar("vinculo")};
+  if (col.matricula < 0 || col.nome < 0) return {ok:0, erro:"O arquivo do SEAP precisa ter, pelo menos, matrícula e nome."};
+  let ok = 0;
+  for (const l of linhas.slice(1)){
+    const m = String(l[col.matricula] || "").trim(); if (!m) continue;
+    const vinculo = col.vinculo >= 0 ? String(l[col.vinculo] || "").trim().toUpperCase() : "S";
+    await db.put("seap", {matricula:m, nome:String(l[col.nome] || "").trim(), cargo:col.cargo >= 0 ? String(l[col.cargo] || "").trim() : "",
+      lotacao:col.lotacao >= 0 ? String(l[col.lotacao] || "").trim() : "", diretoria:col.diretoria >= 0 ? String(l[col.diretoria] || "").trim() : "",
+      vinculo_ativo: vinculo === "S" || vinculo === "SIM" || vinculo === "TRUE" || vinculo === "1"});
+    ok++;
+  }
+  return {ok};
+}
+
+TELAS["#/inscritos/:curso"] = async ({curso})=>{
+  const c = await db.get("cursos", curso);
+  if (!c) return `<div class="card vazio">Curso não encontrado. <a href="#/cursos">Voltar</a></div>`;
+  const [insc, seap, triagens, dirs] = await Promise.all([
+    db.porIndice("inscricoes", "curso_id", curso), db.list("seap"), db.porIndice("triagens", "curso_id", curso), db.list("diretorias")]);
+  const comAlerta = insc.map(i=> ({i, alertas: alertasDaInscricao(i, seap)}));
+  const filtro = estado.inscFiltro || "todas";
+  const lista = comAlerta.filter(x=> filtro === "todas" ? true
+    : filtro === "alerta" ? x.alertas.length > 0 : x.i.diretoria === filtro);
+  const respostas = dirs.map(d=>({d, tri: triagens.find(t=> t.diretoria === d.sigla) || null}));
+  const linha = x=> `<tr><td><b>${esc(x.i.nome)}</b><br><span class="sub mono">${esc(x.i.matricula)}</span></td>
+    <td>${esc(x.i.diretoria || "—")}</td><td>${esc(x.i.lotacao || "—")}</td><td class="mono">${esc(x.i.email || "—")}</td>
+    <td>${x.alertas.length ? x.alertas.map(a=>`<span class="selo alerta">${esc(a.cod)}: ${esc(a.texto)}</span>`).join(" ") : '<span class="selo ok">sem alerta</span>'}</td>
+    <td><button data-corrigir="${esc(x.i.protocolo)}">Corrigir</button></td></tr>`;
+  return `<h1>Inscritos · ${esc(c.nome)}</h1><p class="sub">${periodo(c)} · ${insc.length} inscrições. A conferência com o SEAP avisa, mas não recusa (RN04).</p>
+    <p class="linha-botoes"><a class="botao" href="#/curso/${encodeURIComponent(c.id)}">Esteira do curso</a>
+      <a class="botao" href="#/triagem">Triagem pelas diretorias</a>
+      <a class="botao" href="#/convocacao/${encodeURIComponent(c.id)}">Convocação</a>
+      <a class="botao" href="#/turma/${encodeURIComponent(c.id)}">Turma</a></p>
+    <div class="card"><h2 style="margin-top:0">Relatório do SEAP</h2>
+      <p class="sub">${seap.length} servidores no banco. O app confere matrícula, vínculo e diretoria.</p>
+      <div class="linha-botoes nao-imprimir"><label class="botao">Importar relatório do SEAP (CSV)<input type="file" accept=".csv,text/csv" id="arqSeap" hidden></label>
+        <button id="btnSeapExemplo">Carregar o SEAP de exemplo</button></div>
+      <div id="seapResumo"></div></div>
+    <div class="card"><h2 style="margin-top:0">Resposta das diretorias</h2>
+      <div class="tabela-wrap"><table><tr><th>Diretoria</th><th class="num">Vagas</th><th class="num">Inscritos</th><th>Situação</th><th></th></tr>
+        ${respostas.map(({d, tri})=>{
+          const n = insc.filter(i=>i.diretoria === d.sigla).length, vagas = Number(c.vagas_por_diretoria?.[d.sigla] || 0);
+          return `<tr><td><b>${esc(d.sigla)}</b> · ${esc(d.nome)}</td><td class="num">${vagas}</td><td class="num">${n}</td>
+            <td>${tri ? `<span class="selo ok">respondeu ${dataCurtaBR(tri.decidido_em || "")}</span>` : (vagas ? '<span class="selo alerta">não respondeu</span>' : '<span class="sub">sem vagas</span>')}</td>
+            <td><button data-exportar="${esc(d.sigla)}">Exportar triagem</button></td></tr>`;}).join("")}</table></div>
+      <div class="linha-botoes nao-imprimir"><label class="botao">Importar decisão de diretoria (JSON)<input type="file" accept=".json,application/json" id="arqDecisao" hidden></label></div>
+      <div id="decisaoResumo"></div></div>
+    <div class="card"><h2 style="margin-top:0">Inscrições</h2>
+      <div class="campos"><div class="campo"><label for="filtroInsc">Filtro</label><select id="filtroInsc">
+        <option value="todas">Todas</option><option value="alerta">Com alerta</option>
+        ${dirs.map(d=>`<option value="${esc(d.sigla)}">${esc(d.sigla)}</option>`).join("")}</select></div></div>
+      <div class="tabela-wrap"><table id="tabelaInscritos"><tr><th>Servidor</th><th>Diretoria</th><th>Lotação</th><th>E-mail</th><th>Alertas</th><th></th></tr>
+        ${lista.map(linha).join("") || '<tr><td colspan="6" class="vazio">Nenhuma inscrição neste filtro.</td></tr>'}</table></div></div>
+    <div id="editorInscricao"></div>`;
+};
+TELAS_DEPOIS["#/inscritos/:curso"] = async ({curso})=>{
+  const filtro = $("#filtroInsc");
+  if (!filtro) return;
+  filtro.value = estado.inscFiltro || "todas";
+  filtro.addEventListener("change", e=>{ estado.inscFiltro = e.target.value; navegar(); });
+  $("#btnSeapExemplo")?.addEventListener("click", async ()=>{
+    const s = dadosEmbutidos("seed");
+    let ok = 0;
+    for (const servidor of (s?.seap || [])){ await db.put("seap", servidor); ok++; }
+    await registrar("SEAP de exemplo carregado", {servidores:ok});
+    toast(`${ok} servidores no SEAP.`); navegar();
+  });
+  $("#arqSeap")?.addEventListener("change", async e=>{
+    const arq = e.target.files[0]; if (!arq) return;
+    const r = await importarSeap(await lerArquivoTexto(arq));
+    if (r.erro){ $("#seapResumo").innerHTML = `<div class="card pendente">${esc(r.erro)}</div>`; return; }
+    await registrar("SEAP importado", {arquivo:arq.name, servidores:r.ok});
+    toast(`${r.ok} servidores importados do SEAP.`); navegar();
+  });
+  $("#arqDecisao")?.addEventListener("change", async e=>{
+    const arq = e.target.files[0]; if (!arq) return;
+    try {
+      const d = JSON.parse(await lerArquivoTexto(arq));
+      const erro = validarDecisao(d, curso);
+      if (erro) return $("#decisaoResumo").innerHTML = `<div class="card pendente">${esc(erro)}</div>`;
+      await db.put("triagens", {id: curso + "|" + d.diretoria, curso_id:curso, diretoria:d.diretoria, vagas:d.vagas || 0,
+        titulares:d.titulares || [], reservas:d.reservas || [], decidido_em:d.decidido_em || agora(), decidido_por:d.decidido_por || "", origem:arq.name});
+      await registrar("decisão de diretoria importada", {curso_id:curso, diretoria:d.diretoria, titulares:(d.titulares || []).length});
+      toast(`Decisão da ${d.diretoria} importada.`); navegar();
+    } catch(err){ $("#decisaoResumo").innerHTML = `<div class="card pendente">Arquivo ilegível: ${esc(err.message)}</div>`; }
+  });
+  $$("[data-exportar]").forEach(b=> b.addEventListener("click", ()=> exportarTriagem(b.dataset.exportar, curso)));
+  $$("[data-corrigir]").forEach(b=> b.addEventListener("click", async ()=>{
+    const i = await db.get("inscricoes", b.dataset.corrigir);
+    if (!i) return;
+    $("#editorInscricao").innerHTML = `<form class="card" id="formCorrigir"><h2 style="margin-top:0">Corrigir inscrição</h2>
+      <p class="sub">${esc(i.nome)} · matrícula ${esc(i.matricula)}. A correção fica na trilha com o valor anterior.</p>
+      <div class="campos">
+        ${campo("corrNome", "Nome", {valor:i.nome})}
+        ${campo("corrLotacao", "Lotação", {valor:i.lotacao})}
+        ${campo("corrDiretoria", "Diretoria", {valor:i.diretoria})}
+        ${campo("corrEmail", "E-mail", {valor:i.email})}
+        ${campo("corrJustificativa", "Justificativa", {tipo:"textarea", linhas:2, obrigatorio:true})}
+      </div><div id="errosCorrigir"></div>
+      <div class="linha-botoes"><button class="prim" type="submit">Salvar correção</button>
+        <button type="button" id="btnCancelarCorr">Cancelar</button></div></form>`;
+    $("#btnCancelarCorr").addEventListener("click", ()=>{ $("#editorInscricao").innerHTML = ""; });
+    $("#formCorrigir").addEventListener("submit", async ev=>{
+      ev.preventDefault();
+      const novo = {nome:valorDe("corrNome"), lotacao:valorDe("corrLotacao"), diretoria:valorDe("corrDiretoria"), email:valorDe("corrEmail")};
+      const justificativa = valorDe("corrJustificativa");
+      const erros = [];
+      if (!novo.nome) erros.push("Informe o nome.");
+      if (!novo.diretoria) erros.push("Informe a diretoria.");
+      if (!justificativa) erros.push("Escreva a justificativa da correção.");
+      if (!mostrarErros("#errosCorrigir", erros)) return;
+      await db.put("inscricoes", {...i, ...novo, email:novo.email.toLowerCase(), corrigido_em:agora()});
+      await registrar("inscrição corrigida pela gerência", {curso_id:i.curso_id, protocolo:i.protocolo,
+        valor_anterior:{nome:i.nome, lotacao:i.lotacao, diretoria:i.diretoria, email:i.email},
+        valor_novo:novo, justificativa});
+      toast("Correção salva na trilha."); navegar();
+    });
+  }));
+};
+
+function validarDecisao(d, curso){
+  if (!d || d.tipo !== "decisao") return "O arquivo não é uma decisão de diretoria.";
+  if (d.curso_id !== curso) return "A decisão é de outro curso.";
+  if (!d.diretoria) return "A decisão não diz a diretoria.";
+  if (!Array.isArray(d.titulares)) return "A decisão não traz a lista de titulares.";
+  const vagas = Number(d.vagas || 0);
+  if (vagas && d.titulares.length > vagas) return `A diretoria marcou ${d.titulares.length} titulares para ${vagas} vagas (RN05).`;
+  return "";
+}
+
+async function exportarTriagem(sigla, curso){
+  const c = await db.get("cursos", curso);
+  const insc = (await db.porIndice("inscricoes", "curso_id", curso)).filter(i=> i.diretoria === sigla);
+  const dirs = await db.list("diretorias"), d = dirs.find(x=> x.sigla === sigla);
+  const payload = {tipo:"triagem", versao:1, gerado_em:agora(), curso_id:curso, curso:{nome:c.nome, inicio:c.inicio, fim:c.fim,
+    local:c.local, prazo_triagem:c.prazo_triagem}, diretoria:sigla, nome_diretoria:d ? d.nome : sigla,
+    vagas:Number(c.vagas_por_diretoria?.[sigla] || 0), prazo:c.prazo_triagem || "",
+    inscritos:insc.map(i=> ({protocolo:i.protocolo, matricula:i.matricula, nome:i.nome, lotacao:i.lotacao,
+      email:i.email, telefone:i.telefone || "", enviado_em:i.enviado_em}))};
+  baixar(`triagem-${sigla}.json`, JSON.stringify(payload, null, 2), "application/json");
+  await registrar("arquivo de triagem exportado", {curso_id:curso, diretoria:sigla, inscritos:insc.length});
+  toast(`triagem-${sigla}.json gerado com ${insc.length} inscritos.`);
+}
+
+/* ================= Sprint 6 · Triagem pelas diretorias (RN05) ================= */
+TELAS["#/triagem"] = async ()=>{
+  const [cursos, dirs, triagens] = await Promise.all([db.list("cursos"), db.list("diretorias"), db.list("triagens")]);
+  const dir = estado.tgDir || (dirs[0] && dirs[0].sigla) || "";
+  const nomeDir = dirs.find(d=> d.sigla === dir)?.nome || dir;
+  const curso = estado.tgCurso || (cursos[0] && cursos[0].id) || "";
+  // guarda a escolha, para que os botões de ação saibam de qual diretoria e curso falam
+  estado.tgDir = dir; estado.tgCurso = curso;
+  const tri = triagens.find(t=> t.curso_id === curso && t.diretoria === dir) || null;
+  const c = cursos.find(x=> x.id === curso);
+  const vagas = Number(c?.vagas_por_diretoria?.[dir] || 0);
+  const insc = curso ? (await db.porIndice("inscricoes", "curso_id", curso)).filter(i=> i.diretoria === dir) : [];
+  const carga = tri ? (await db.porIndice("inscricoes", "curso_id", curso)) : [];
+  // a lista mostra todo mundo do arquivo de triagem; a situação vem de quem já foi marcado
+  const ordem = tri ? [...new Set([...(tri.ordem || []), ...(tri.titulares || []), ...(tri.reservas || [])])] : [];
+  const lista = tri ? ordem.map(p=> ({p, i:carga.find(x=> x.protocolo === p)})).filter(x=> x.i) : [];
+  const linha = (x, idx)=> `<tr data-prot="${esc(x.p)}">
+    <td class="num">${idx + 1}</td><td><b>${esc(x.i.nome)}</b><br><span class="sub mono">${esc(x.i.matricula)}</span></td>
+    <td>${esc(x.i.lotacao || "—")}</td>
+    <td>${tri.titulares.includes(x.p) ? '<span class="selo ok">titular</span>' : tri.reservas.includes(x.p) ? '<span class="selo info">reserva</span>' : '<span class="selo">a indicar</span>'}</td>
+    <td class="nao-imprimir"><button data-sobe="${esc(x.p)}">▲</button> <button data-desce="${esc(x.p)}">▼</button>
+      <button data-titular="${esc(x.p)}">Titular</button> <button data-reserva="${esc(x.p)}">Reserva</button></td></tr>`;
+  return `<h1>Triagem</h1><p class="sub">A diretoria indica titulares e reserva, na ordem de prioridade. A gerência exporta o arquivo e importa a decisão.</p>
+    <div class="card"><div class="campos">
+      <div class="campo"><label for="tgDir">Diretoria</label><select id="tgDir">${dirs.map(d=>`<option value="${esc(d.sigla)}" ${d.sigla === dir ? "selected" : ""}>${esc(d.sigla)} · ${esc(d.nome)}</option>`).join("")}</select></div>
+      <div class="campo"><label for="tgCurso">Curso</label><select id="tgCurso">${cursos.map(x=>`<option value="${esc(x.id)}" ${x.id === curso ? "selected" : ""}>${esc(x.nome)}</option>`).join("")}</select></div>
+    </div></div>
+    <div class="grade"><div class="card kpi"><div class="v">${vagas}</div><div class="r">vagas da diretoria</div></div>
+      <div class="card kpi"><div class="v">${insc.length}</div><div class="r">inscritos</div></div>
+      <div class="card kpi"><div class="v">${tri ? tri.titulares.length : 0}</div><div class="r">titulares</div></div>
+      <div class="card kpi"><div class="v">${tri ? tri.reservas.length : 0}</div><div class="r">reservas</div></div></div>
+    ${tri && tri.aviso ? `<div class="card pendente" id="avisoTriagem"><b>Aviso.</b> ${esc(tri.aviso)}</div>` : ""}
+    <div class="card"><h2 style="margin-top:0">Arquivo da gerência</h2>
+      <p class="sub">A Gerência de Formação exporta <span class="mono">triagem-${esc(dir)}.json</span> e envia para a diretoria. A diretoria devolve <span class="mono">decisao-${esc(dir)}.json</span>.</p>
+      <div class="linha-botoes nao-imprimir"><label class="botao">Importar o arquivo de triagem (JSON)<input type="file" accept=".json,application/json" id="arqTriagem" hidden></label>
+        ${tri ? `<button class="prim" id="btnExportarDecisao">Exportar a decisão (decisao-${esc(dir)}.json)</button>` : ""}</div>
+      <div id="triagemResumo"></div></div>
+    <div class="card tabela-wrap"><h2>${esc(nomeDir)} · ${esc(c ? c.nome : "")}</h2>
+      <table id="tabelaTriagemDecisao"><tr><th class="num">Ordem</th><th>Servidor</th><th>Lotação</th><th>Situação</th><th class="nao-imprimir">Ações</th></tr>
+        ${lista.map(linha).join("") || `<tr><td colspan="5" class="vazio">Nenhuma decisão registrada para esta diretoria.</td></tr>`}</table></div>`;
+};
+TELAS_DEPOIS["#/triagem"] = async ()=>{
+  $("#tgDir")?.addEventListener("change", e=>{ estado.tgDir = e.target.value; navegar(); });
+  $("#tgCurso")?.addEventListener("change", e=>{ estado.tgCurso = e.target.value; navegar(); });
+  $("#arqTriagem")?.addEventListener("change", async e=>{
+    const arq = e.target.files[0]; if (!arq) return;
+    try {
+      const d = JSON.parse(await lerArquivoTexto(arq));
+      if (d.tipo !== "triagem") return $("#triagemResumo").innerHTML = `<div class="card pendente">O arquivo não é um arquivo de triagem.</div>`;
+      const curso = d.curso_id, dir = d.diretoria;
+      const existentes = (await db.porIndice("inscricoes", "curso_id", curso)).filter(i=> i.protocolo !== "CSV");
+      const linhas = d.inscritos.map(i=> existentes.find(x=> x.protocolo === i.protocolo) || {protocolo:i.protocolo, matricula:i.matricula,
+        nome:i.nome, lotacao:i.lotacao, email:i.email, telefone:i.telefone || "", curso_id:curso, diretoria:dir, status:"triado"});
+      for (const l of linhas) await db.put("inscricoes", l);
+      await db.put("triagens", {id: curso + "|" + dir, curso_id:curso, diretoria:dir, vagas:d.vagas || 0,
+        titulares:[], reservas:[], ordem:linhas.map(l=> l.protocolo), decidido_em:"", decidido_por:"", origem:arq.name, em_aberto:true});
+      await registrar("arquivo de triagem importado", {curso_id:curso, diretoria:dir, inscritos:linhas.length});
+      toast(`Arquivo de triagem importado: ${linhas.length} inscritos.`); navegar();
+    } catch(err){ $("#triagemResumo").innerHTML = `<div class="card pendente">Arquivo ilegível: ${esc(err.message)}</div>`; }
+  });
+  $("#btnExportarDecisao")?.addEventListener("click", async ()=>{
+    const curso = estado.tgCurso, dir = estado.tgDir;
+    const tri = (await db.list("triagens")).find(t=> t.curso_id === curso && t.diretoria === dir);
+    if (!tri) return;
+    const payload = {tipo:"decisao", versao:1, gerado_em:agora(), curso_id:curso, diretoria:dir, vagas:tri.vagas || 0,
+      titulares:tri.titulares || [], reservas:tri.reservas || [], decidido_em:agora(), decidido_por:estado.perfil || "Diretoria"};
+    baixar(`decisao-${dir}.json`, JSON.stringify(payload, null, 2), "application/json");
+    await registrar("decisão exportada", {curso_id:curso, diretoria:dir, titulares:(tri.titulares || []).length});
+    toast(`decisao-${dir}.json gerado.`);
+  });
+  const salvar = async (mut)=>{
+    const curso = estado.tgCurso, dir = estado.tgDir;
+    const tri = (await db.list("triagens")).find(t=> t.curso_id === curso && t.diretoria === dir);
+    if (!tri) return toast("Importe o arquivo de triagem antes.");
+    const novo = mut(tri);
+    await db.put("triagens", {...tri, ...novo});
+    navegar();
+  };
+  $$("[data-titular]").forEach(b=> b.addEventListener("click", ()=> salvar(tri=>{
+    const p = b.dataset.titular;
+    const jaTitular = (tri.titulares || []).includes(p);
+    const nTitulares = (tri.titulares || []).length + (jaTitular ? 0 : 1);
+    // RN05: a diretoria não marca mais titulares que as vagas dela
+    if (!jaTitular && (tri.vagas || 0) && nTitulares > tri.vagas)
+      return {...tri, aviso:`A diretoria tem ${tri.vagas} vagas; marcar mais titular excede o limite (RN05).`};
+    const titulares = (tri.titulares || []).filter(x=> x !== p);
+    const reservas = (tri.reservas || []).filter(x=> x !== p);
+    return {...tri, titulares: titulares.concat([p]), reservas, aviso:""};
+  })));
+  $$("[data-reserva]").forEach(b=> b.addEventListener("click", ()=> salvar(tri=>{
+    const p = b.dataset.reserva;
+    return {...tri, titulares:(tri.titulares || []).filter(x=> x !== p), reservas:(tri.reservas || []).filter(x=> x !== p).concat([p]), aviso:""};
+  })));
+  $$("[data-sobe]").forEach(b=> b.addEventListener("click", ()=> salvar(tri=> mover(tri, b.dataset.sobe, -1))));
+  $$("[data-desce]").forEach(b=> b.addEventListener("click", ()=> salvar(tri=> mover(tri, b.dataset.desce, 1))));
+};
+
+function mover(tri, protocolo, passo){
+  const ordem = [...(tri.ordem || []), ...(tri.titulares || []), ...(tri.reservas || [])];
+  const i = ordem.indexOf(protocolo);
+  if (i < 0) return tri;
+  const j = i + passo;
+  if (j < 0 || j >= ordem.length) return tri;
+  [ordem[i], ordem[j]] = [ordem[j], ordem[i]];
+  return {...tri, ordem, titulares:ordem.filter(p=> (tri.titulares || []).includes(p)),
+    reservas:ordem.filter(p=> (tri.reservas || []).includes(p))};
+}
+
+/* ================= Sprints 7 e 8 · convocação, turma, indicadores e LGPD ================= */
+"use strict";
+
+/* ================= Sprint 7 · Convocação (RN06, RN07, RN08) ================= */
+async function listaDeConvocacao(curso){
+  const [triagens, insc, convocacoes] = await Promise.all([
+    db.porIndice("triagens", "curso_id", curso), db.porIndice("inscricoes", "curso_id", curso), db.list("convocacoes")]);
+  const c = await db.get("cursos", curso);
+  const dirs = Object.keys(c?.vagas_por_diretoria || {});
+  const saida = [];
+  for (const dir of dirs){
+    const tri = triagens.find(t=> t.diretoria === dir);
+    if (!tri) continue;
+    const ordem = [...(tri.ordem || []), ...(tri.titulares || []), ...(tri.reservas || [])];
+    const tit = (tri.titulares || []).filter(p=> ordem.includes(p));
+    const res = (tri.reservas || []).filter(p=> ordem.includes(p));
+    // RN06: a efetivação segue a ordem de indicação da diretoria
+    tit.forEach((p, i)=> saida.push({protocolo:p, inscricao:insc.find(x=> x.protocolo === p), diretoria:dir, tipo:"titular", ordem:i + 1, tri}));
+    res.forEach((p, i)=> saida.push({protocolo:p, inscricao:insc.find(x=> x.protocolo === p), diretoria:dir, tipo:"reserva", ordem:i + 1, tri}));
+  }
+  for (const l of saida){
+    l.conv = convocacoes.find(x=> x.protocolo === l.protocolo) || null;
+    l.status = l.conv ? l.conv.status : "pendente";
+    // RN08: o link do grupo só vai para o titular e para a reserva já chamada
+    l.chamada = l.tipo === "titular" || l.status === "chamada";
+  }
+  return saida;
+}
+
+function mensagemConvocacao(c, l){
+  const link = l.chamada && c.link_grupo ? `\n\nLink do grupo da turma: ${c.link_grupo}` : "";
+  const reserva = l.tipo === "reserva" ? "\nVocê está na lista de reserva. O link do grupo entra quando houver chamação." : "";
+  return `Assunto: Convocação — ${c.nome} (${periodo(c)})
+
+Prezado(a) ${l.inscricao?.nome || ""},
+
+Informamos a sua convocação para o curso ${c.nome}, com carga horária de ${c.carga_horaria} h, de ${periodo(c)}, em ${c.local}.
+
+Protocolo da inscrição: ${l.protocolo}
+${reserva}${link}
+
+Confirme a presença respondendo este e-mail.
+
+Gerência de Formação Inicial e Continuada`;
+}
+
+TELAS["#/convocacao/:curso"] = async ({curso})=>{
+  const c = await db.get("cursos", curso);
+  if (!c) return `<div class="card vazio">Curso não encontrado. <a href="#/cursos">Voltar</a></div>`;
+  const lista = await listaDeConvocacao(curso);
+  const enviados = lista.filter(l=> ["enviada", "confirmou"].includes(l.status)).length;
+  const confirmados = lista.filter(l=> l.status === "confirmou").length;
+  const desistiu = lista.filter(l=> l.status === "desistiu");
+  const linha = l=> `<tr data-conv="${esc(l.protocolo)}">
+    <td class="num">${l.ordem}</td><td><b>${esc(l.inscricao?.nome || "—")}</b><br><span class="sub mono">${esc(l.protocolo)}</span></td>
+    <td>${esc(l.diretoria)}</td><td>${l.tipo === "titular" ? '<span class="selo ok">titular</span>' : '<span class="selo info">reserva</span>'}</td>
+    <td>${l.status === "confirmou" ? '<span class="selo ok">confirmou</span>' : l.status === "desistiu" ? '<span class="selo erro">desistiu</span>'
+      : l.status === "enviada" ? '<span class="selo info">convocação enviada</span>' : l.status === "chamada" ? '<span class="selo alerta">reserva chamada</span>'
+      : '<span class="selo">pendente</span>'}</td>
+    <td class="nao-imprimir"><button data-mail="${esc(l.protocolo)}">E-mail</button> <button data-copiar="${esc(l.protocolo)}">Copiar</button>
+      <button data-enviada="${esc(l.protocolo)}">Marcar enviada</button> <button data-confirmou="${esc(l.protocolo)}">Confirmou</button>
+      ${l.tipo === "titular" ? `<button data-desistiu="${esc(l.protocolo)}">Desistiu</button>` : ""}
+      ${l.tipo === "reserva" ? `<button data-chamar="${esc(l.protocolo)}">Chamar da reserva</button>` : ""}</td></tr>`;
+  return `<h1>Convocação · ${esc(c.nome)}</h1><p class="sub">${periodo(c)} · a efetivação segue a ordem de indicação da diretoria (RN06). O link do grupo só vai para o titular e para a reserva chamada (RN08).</p>
+    <p class="linha-botoes"><a class="botao" href="#/inscritos/${encodeURIComponent(c.id)}">Inscritos</a>
+      <a class="botao" href="#/turma/${encodeURIComponent(c.id)}">Turma</a></p>
+    <div class="grade"><div class="card kpi"><div class="v">${lista.length}</div><div class="r">convocados</div></div>
+      <div class="card kpi"><div class="v">${enviados}</div><div class="r">convocações enviadas</div></div>
+      <div class="card kpi"><div class="v">${confirmados}</div><div class="r">confirmaram presença</div></div>
+      <div class="card kpi"><div class="v">${desistiu.length}</div><div class="r">desistências</div></div></div>
+    ${desistiu.length ? `<div class="card pendente"><b>${desistiu.length} desistência(s).</b> Chame o próximo da reserva da mesma diretoria (RN07). Se não houver reserva, a vaga volta para a gerência.</div>` : ""}
+    <div class="card tabela-wrap"><h2>Convocação por ordem</h2><table id="tabelaConvocacao"><tr><th class="num">Ordem</th><th>Servidor</th><th>Diretoria</th><th>Tipo</th><th>Situação</th><th class="nao-imprimir">Ações</th></tr>
+      ${lista.map(linha).join("") || '<tr><td colspan="6" class="vazio">Nenhuma decisão de diretoria recebida ainda.</td></tr>'}</table></div>`;
+};
+TELAS_DEPOIS["#/convocacao/:curso"] = async ({curso})=>{
+  if (!$("#tabelaConvocacao")) return;
+  const c = await db.get("cursos", curso);
+  const lista = await listaDeConvocacao(curso);
+  const porProtocolo = new Map(lista.map(l=> [l.protocolo, l]));
+  const marcar = async (protocolo, dados, acao)=>{
+    const l = porProtocolo.get(protocolo);
+    const anterior = l.conv ? l.conv.status : "pendente";
+    await db.put("convocacoes", {id:protocolo, protocolo, curso_id:curso, diretoria:l.diretoria, tipo:l.tipo,
+      ...(l.conv || {}), ...dados, status:dados.status || l.status, atualizado_em:agora()});
+    await registrar(acao, {curso_id:curso, protocolo, situacao_anterior:anterior, situacao_nova:dados.status || l.status});
+    navegar();
+  };
+  $$("[data-mail]").forEach(b=> b.addEventListener("click", ()=>{
+    const l = porProtocolo.get(b.dataset.mail), corpo = mensagemConvocacao(c, l);
+    const assunto = `[CONVOCACAO] ${c.nome} ${l.protocolo}`;
+    location.href = `mailto:${encodeURIComponent(l.inscricao?.email || "")}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpo)}`;
+  }));
+  $$("[data-copiar]").forEach(b=> b.addEventListener("click", async ()=>{
+    const l = porProtocolo.get(b.dataset.copiar);
+    try { await navigator.clipboard.writeText(mensagemConvocacao(c, l)); toast("Mensagem copiada."); }
+    catch(e){ toast("Selecione e copie com Ctrl+C."); }
+  }));
+  $$("[data-enviada]").forEach(b=> b.addEventListener("click", ()=> marcar(b.dataset.enviada, {status:"enviada", enviada_em:agora()}, "convocação enviada")));
+  $$("[data-confirmou]").forEach(b=> b.addEventListener("click", ()=> marcar(b.dataset.confirmou, {status:"confirmou", confirmada_em:agora()}, "presença confirmada")));
+  $$("[data-desistiu]").forEach(b=> b.addEventListener("click", ()=> marcar(b.dataset.desistiu, {status:"desistiu", desistiu_em:agora()}, "desistência registrada")));
+  $$("[data-chamar]").forEach(b=> b.addEventListener("click", async ()=>{
+    // RN07: a desistência de um titular chama o próximo da reserva da mesma diretoria
+    const desistidos = lista.filter(l=> l.tipo === "titular" && l.status === "desistiu");
+    const l = porProtocolo.get(b.dataset.chamar);
+    if (!desistidos.some(d=> d.diretoria === l.diretoria)){
+      await registrar("chamada de reserva sem desistência na mesma diretoria", {curso_id:curso, protocolo:l.protocolo});
+      return toast("Não há titular desistido nesta diretoria para trocar.");
+    }
+    await marcar(l.protocolo, {status:"chamada", chamada_em:agora()}, "reserva chamada");
+  }));
+};
+
+/* ================= Sprint 8 · Turma, indicadores e LGPD (RN08) ================= */
+function csvTexto(cabecalho, linhas){
+  const celula = v=> `"${String(v ?? "").replace(/"/g, '""')}"`;
+  return "﻿" + [cabecalho, ...linhas].map(l=> l.map(celula).join(";")).join("\r\n");
+}
+
+TELAS["#/turma/:curso"] = async ({curso})=>{
+  const c = await db.get("cursos", curso);
+  if (!c) return `<div class="card vazio">Curso não encontrado. <a href="#/cursos">Voltar</a></div>`;
+  const [insc, lista, log] = await Promise.all([
+    db.porIndice("inscricoes", "curso_id", curso), listaDeConvocacao(curso), db.list("log")]);
+  const confirmados = lista.filter(l=> l.status === "confirmou" || (l.tipo === "titular" && l.status !== "desistiu"));
+  const desistidos = lista.filter(l=> l.status === "desistiu");
+  const horas = (fim, inicio)=> fim && inicio ? Math.max(0, Math.round((new Date(fim) - new Date(inicio)) / 86400000)) : null;
+  const fimLista = confirmados.find(l=> l.conv?.atualizado_em)?.conv?.atualizado_em || "";
+  const tempoLista = horas(fimLista, c.criado_em);
+  const exportacoes = log.filter(x=> x.acao === "arquivo de triagem exportado" && x.curso_id === curso);
+  const correcoes = log.filter(x=> x.acao === "inscrição corrigida pela gerência" && x.curso_id === curso);
+  const triagens = await db.porIndice("triagens", "curso_id", curso);
+  const esperas = triagens.map(t=>{
+    const exp = exportacoes.filter(x=> x.diretoria === t.diretoria).map(x=> x.data_hora).sort().pop();
+    return exp && t.decidido_em ? horas(t.decidido_em, exp) : null;
+  }).filter(x=> x !== null);
+  const esperaMedia = esperas.length ? Math.round(esperas.reduce((a, b)=>a + b, 0) / esperas.length) : null;
+  const vagas = totalVagas(c), ociosas = Math.max(0, vagas - confirmados.length);
+  const encerradoHa = c.fim ? Math.round((Date.now() - new Date(c.fim + "T00:00:00").getTime()) / 86400000) : 0;
+  const retencao = encerradoHa > 30;
+  const cabecalho = ["Protocolo", "Matrícula", "Nome", "Diretoria", "Lotação", "E-mail", "Situação"];
+  const linhas = confirmados.map(l=> [l.protocolo, l.inscricao?.matricula || "", l.inscricao?.nome || "", l.diretoria,
+    l.inscricao?.lotacao || "", l.inscricao?.email || "", l.status]);
+  const kpi = (v, r)=> `<div class="card kpi"><div class="v">${v}</div><div class="r">${esc(r)}</div></div>`;
+  return `<h1>Turma · ${esc(c.nome)}</h1><p class="sub">${periodo(c)} · ${confirmados.length} confirmados de ${vagas} vagas.</p>
+    <p class="linha-botoes"><a class="botao" href="#/convocacao/${encodeURIComponent(c.id)}">Convocação</a>
+      <a class="botao" href="#/inscritos/${encodeURIComponent(c.id)}">Inscritos</a></p>
+    <div class="grade">
+      ${kpi(tempoLista === null ? "—" : tempoLista + " dias", "tempo até a lista final")}
+      ${kpi(esperaMedia === null ? "—" : esperaMedia + " h", "espera pela indicação")}
+      ${kpi(insc.length ? numBR(correcoes.length / insc.length * 100, 1) + "%" : "0%", "inscrições corrigidas")}
+      ${kpi(ociosas, "vagas ociosas")}
+    </div>
+    ${retencao ? `<div class="card pendente" id="avisoRetencao"><b>Curso encerrado há ${encerradoHa} dias.</b> Os dados dos inscritos devem ser apagados (RN08).
+      <div class="linha-botoes nao-imprimir"><button class="prim" id="btnLimpar">Apagar os dados deste curso</button></div></div>` : ""}
+    <div class="card"><h2 style="margin-top:0">Lista final</h2>
+      <p class="sub">${linhas.length} pessoas. O arquivo sai em CSV, com BOM e ponto e vírgula, como a planilha da equipe.</p>
+      <div class="linha-botoes nao-imprimir"><button class="prim" id="btnCsv" ${linhas.length ? "" : "disabled"}>Baixar lista final (CSV)</button></div></div>
+    <div class="card tabela-wrap"><h2>Confirmados</h2><table><tr><th>Protocolo</th><th>Matrícula</th><th>Nome</th><th>Diretoria</th><th>Situação</th></tr>
+      ${linhas.map(l=> `<tr><td class="mono">${esc(l[0])}</td><td>${esc(l[1])}</td><td>${esc(l[2])}</td><td>${esc(l[3])}</td><td>${esc(l[6])}</td></tr>`).join("")
+        || '<tr><td colspan="5" class="vazio">Nenhum confirmado ainda.</td></tr>'}</table></div>
+    ${desistidos.length ? `<div class="card"><h2 style="margin-top:0">Desistências</h2>
+      <ul>${desistidos.map(l=> `<li>${esc(l.inscricao?.nome || l.protocolo)} (${esc(l.diretoria)})</li>`).join("")}</ul></div>` : ""}`;
+};
+TELAS_DEPOIS["#/turma/:curso"] = async ({curso})=>{
+  const c = await db.get("cursos", curso);
+  if (!c) return;
+  $("#btnCsv")?.addEventListener("click", async ()=>{
+    const lista = await listaDeConvocacao(curso);
+    const confirmados = lista.filter(l=> l.status === "confirmou" || (l.tipo === "titular" && l.status !== "desistiu"));
+    const cabecalho = ["Protocolo", "Matrícula", "Nome", "Diretoria", "Lotação", "E-mail", "Situação"];
+    const linhas = confirmados.map(l=> [l.protocolo, l.inscricao?.matricula || "", l.inscricao?.nome || "", l.diretoria,
+      l.inscricao?.lotacao || "", l.inscricao?.email || "", l.status]);
+    baixar(`turma-${String(c.nome).replace(/[^\w-]+/g, "_")}.csv`, csvTexto(cabecalho, linhas), "text/csv;charset=utf-8");
+    await registrar("lista final gerada", {curso_id:curso, confirmados:confirmados.length});
+    toast("Lista final baixada.");
+  });
+  $("#btnLimpar")?.addEventListener("click", async ()=>{
+    const insc = await db.porIndice("inscricoes", "curso_id", curso);
+    for (const i of insc) await db.del("inscricoes", i.protocolo);
+    const tri = await db.porIndice("triagens", "curso_id", curso);
+    for (const t of tri) await db.del("triagens", t.id);
+    const conv = (await db.list("convocacoes")).filter(x=> x.curso_id === curso);
+    for (const x of conv) await db.del("convocacoes", x.id);
+    await registrar("dados do curso apagados", {curso_id:curso, inscricoes:insc.length});
+    toast("Dados apagados (RN08)."); navegar();
+  });
+};
+
+/* ================= Sprint 8 · Aviso de privacidade na tela de inscrição ================= */
+const inscricaoAntes = TELAS["#/inscricao"];
+if (typeof inscricaoAntes === "function"){
+  TELAS["#/inscricao"] = async ()=>{
+    const html = await inscricaoAntes();
+    const bloco = `<div class="card" id="privacidadeInscricao"><h2 style="margin-top:0">Privacidade dos dados</h2>
+      <ul><li><b>Finalidade:</b> selecionar os servidores para o curso e formar a turma.</li>
+        <li><b>Dados tratados:</b> matrícula, nome, lotação, diretoria, e-mail institucional e telefone.</li>
+        <li><b>Quem acessa:</b> a Gerência de Formação e a diretoria do servidor, só durante a seleção.</li>
+        <li><b>Prazo de retenção:</b> os dados são apagados 30 dias depois do fim do curso (RN08).</li>
+        <li><b>Contato:</b> ${esc(EMAIL_GERENCIA)}.</li></ul></div>`;
+    return html.includes("</div>") ? html.replace(/(<div id="comprovante">)/, bloco + "$1") : html + bloco;
+  };
+}
+
 /* Identidade das Inscrições em Cursos.
    Entra por último no build. A tela-assinatura são os cartões de curso com a
    esteira Divulgar → Turma; o curso ganha uma tela central com os passos. */
 
-const INC_PASSOS = [["Divulgar", "#/divulgar/"], ["Importar", "#/importar"], ["Inscritos", "#/inscritos/"],
-  ["Triagem", "#/triagem"], ["Convocação", "#/convocacao/"], ["Turma", "#/turma/"]];
+const INC_PASSOS = [["Divulgar", "#/divulgar/:curso", "#/divulgar/"], ["Importar", "#/importar", "#/importar"],
+  ["Inscritos", "#/inscritos/:curso", "#/inscritos/"], ["Triagem", "#/triagem", "#/triagem"],
+  ["Convocação", "#/convocacao/:curso", "#/convocacao/"], ["Turma", "#/turma/:curso", "#/turma/"]];
 function incEsteira(id){
-  return `<div class="inc-esteira">${INC_PASSOS.map(([nome, rota], i)=>{
-    const href = rota.endsWith("/") ? rota + encodeURIComponent(id) : rota;
+  return `<div class="inc-esteira">${INC_PASSOS.map(([nome, rota, link], i)=>{
+    const href = link.endsWith("/") ? link + encodeURIComponent(id) : link;
     const pronta = typeof TELAS[rota] === "function";
     return pronta ? `<a href="${href}" title="Abrir ${nome}"><span class="n">${i + 1}</span>${nome}</a>`
       : `<span class="em-breve" title="Tela ainda em construção"><span class="n">${i + 1}</span>${nome} · em breve</span>`;
@@ -1726,33 +2365,6 @@ TELAS["#/curso/:curso"] = async ({curso})=>{
         <span><b>${dataCurtaBR(c.inscricao_fim)}</b> fim das inscrições</span><span><b>${dataCurtaBR(c.prazo_triagem)}</b> triagem</span></div></div>
     <div class="card"><h2 style="margin-top:0">Inscrições por diretoria</h2>
       <div class="inc-dirs">${porDir.map(({d, n})=>`<span><i>${esc(d.sigla)}</i><b>${n}</b><small>${esc(d.nome)}</small></span>`).join("")}</div></div>`;
-};
-
-/* ---------- Triagem (Diretoria): leitura das vagas e inscrições ---------- */
-TELAS["#/triagem"] = async ()=>{
-  const [cursos, dirs, insc, triagens] = await Promise.all([db.list("cursos"), db.list("diretorias"), db.list("inscricoes"), db.list("triagens")]);
-  const dir = estado.tgDir || (dirs[0] && dirs[0].sigla) || "";
-  const linhas = cursos.map(c=>{
-    const doCurso = insc.filter(i=>i.curso_id === c.id);
-    const daDir = doCurso.filter(i=>!dir || i.diretoria === dir);
-    const vagas = Number(c.vagas_por_diretoria?.[dir] || 0);
-    const tri = triagens.filter(t=>t.curso_id === c.id && (!dir || t.diretoria === dir));
-    return {c, vagas, insc: daDir.length, tri: tri.length};
-  }).sort((a, b)=>String(b.c.inicio).localeCompare(String(a.c.inicio)));
-  const totalVagas = linhas.reduce((a, l)=>a + l.vagas, 0);
-  const totalInsc = linhas.reduce((a, l)=>a + l.insc, 0);
-  return `<h1>Triagem</h1><p class="sub">Vagas e inscrições por diretoria. Esta tela é de leitura: a seleção de titulares e reserva é registrada pela equipe de formação.</p>
-    <div class="card"><div class="campos">${campo("tgDir", "Diretoria", {tipo: "select", opcoes: dirs.map(d=>[d.sigla, `${d.sigla} · ${d.nome}`]), valor: dir})}</div></div>
-    <div class="grade"><div class="card kpi"><div class="v">${linhas.length}</div><div class="r">cursos</div></div>
-      <div class="card kpi"><div class="v">${totalVagas}</div><div class="r">vagas da diretoria</div></div>
-      <div class="card kpi"><div class="v">${totalInsc}</div><div class="r">inscrições da diretoria</div></div></div>
-    <div class="card tabela-wrap"><table id="tabelaTriagem"><thead><tr><th>Curso</th><th>Período</th><th>Situação</th><th class="num">Vagas</th><th class="num">Inscrições</th><th class="num">Triagens</th></tr></thead>
-      <tbody>${linhas.map(({c, vagas, insc, tri})=>`<tr><td><b>${esc(c.nome)}</b><br><span class="sub">${esc(c.local || "")}</span></td>
-        <td>${periodo(c)}</td><td><span class="selo ${c.status === "inscrições abertas" ? "ok" : "info"}">${esc(c.status || "—")}</span></td>
-        <td class="num">${vagas}</td><td class="num">${insc}</td><td class="num">${tri}</td></tr>`).join("") || '<tr><td colspan="6" class="vazio">Nenhum curso cadastrado.</td></tr>'}</tbody></table></div>`;
-};
-TELAS_DEPOIS["#/triagem"] = ()=>{
-  $("#tgDir")?.addEventListener("change", e=>{ estado.tgDir = e.target.value; navegar(); });
 };
 
 const incCursosDepoisAntes = TELAS_DEPOIS["#/cursos"];

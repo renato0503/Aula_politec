@@ -5,7 +5,7 @@ Saídas (nesta pasta):
   seap-ficticio.csv       relatório de servidores ativos (UTF-8 com BOM, ;)
   emails-ficticios.txt    60 e-mails de inscrição com o bloco INSCRICAO-v1
                           (50 válidos, 5 reenvios da mesma matrícula, 5 inválidos)
-  seed.json               curso + SEAP no formato do app
+  seed.json               curso + SEAP + os 60 e-mails, no formato do app
 
 Formato do bloco (o app lê exatamente isto):
   INSCRICAO-v1:<base64url do JSON>.<fnv1a-32 em hex do base64url>
@@ -91,7 +91,8 @@ def main():
         corpo.append(f"De: desconhecido\nAssunto: [INSCRICAO] {CURSO['nome']}\n\n{blc}\n\n---\n")
     (AQUI / "emails-ficticios.txt").write_text("\n".join(corpo), encoding="utf-8")
     (AQUI / "curso-ficticio.json").write_text(json.dumps(CURSO, ensure_ascii=False, indent=1), encoding="utf-8")
-    seed = {"cursos": [CURSO], "seap": servidores, "diretorias": [{"sigla": s, "nome": n} for s, n in DIRETORIAS]}
+    seed = {"cursos": [CURSO], "seap": servidores, "diretorias": [{"sigla": s, "nome": n} for s, n in DIRETORIAS],
+            "emails": "\n".join(corpo)}
     (AQUI / "seed.json").write_text(json.dumps(seed, ensure_ascii=False, indent=1), encoding="utf-8")
     print("servidores", len(servidores), "| e-mails", len(emails) + len(invalidos), "(50 válidos, 5 reenvios, 5 inválidos)")
 
