@@ -121,6 +121,88 @@ def s3_mapa_por_item(pg, url, ok):
     pg.locator("#tabelaMapa [data-origem]").first.click(); pg.wait_for_timeout(200)
     ok("clicar num valor mostra arquivo, aba e linha", "distribuicao-orgaos.xlsx" in pg.inner_text("#origemValor") and "linha" in pg.inner_text("#origemValor"))
 
+# origem: sprint.md · Sprint 4
+@cenario
+def s4_resultado(pg, url, ok):
+    ir(pg, url, "#/processos"); pg.click("#btnExemplo"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/resultado/PROC-2026-001", 700)
+    texto = pg.inner_text("main")
+    ok("a tela do resultado abre", "Resultado" in texto)
+    ok("30 itens na tabela", pg.locator("table tr").count() >= 31)
+    totais = pg.evaluate("""async ()=>{
+        const s = dadosEmbutidos('seed');
+        const e = engineDeSeed(s);
+        return {est:e.totais.estimado, hom:e.totais.homologado, gab:s.gabarito[0].total_homologado_c}; }""")
+    ok("total homologado igual ao gabarito", totais["hom"] == totais["gab"])
+    ok("a tela mostra o total estimado do gabarito", "R$ 2.958.629,46" in texto)
+    ok("a tela mostra o total homologado do gabarito", "R$ 917.504,89" in texto)
+    ok("grupo fracassado mantém o estimado", "mantém o estimado" in texto)
+    ok("situação dos grupos mostra fracassado e deserto", "Fracassado" in texto and "Deserto" in texto)
+    ok("a situação dos grupos está na tela", pg.locator("h2", has_text="Situação dos grupos").count() == 1)
+
+# origem: sprint.md · Sprint 5
+@cenario
+def s5_empresas_e_conferencia(pg, url, ok):
+    ir(pg, url, "#/processos"); pg.click("#btnExemplo"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/empresas/PROC-2026-001", 700)
+    texto = pg.inner_text("main")
+    ok("a tela de empresas abre", "Empresas" in texto)
+    ok("as empresas homologadas aparecem", "Alfa Suprimentos Laboratoriais Ltda" in texto)
+    ok("o CNPJ aparece na tabela", "11222333000181" in texto)
+    ir(pg, url, "#/conferencia/PROC-2026-001", 700)
+    limpo = pg.inner_text("main")
+    ok("o exemplo limpo não tem divergência bloqueante", "Nenhuma divergência que bloqueie" in limpo)
+    ok("o aviso do ano seguinte aparece (D08)", "ano seguinte" in limpo)
+    # agora com as planilhas com divergências plantadas
+    ex = PASTA / "exemplos"
+    ir(pg, url, "#/importar/PROC-2026-001", 700)
+    for fonte, arq in [("distribuicao", "distribuicao-orgaos-com-divergencias.xlsx"),
+                        ("pregoeiro", "relatorio-pregoeiro-com-divergencias.xlsx"),
+                        ("dotacao", "dotacao-com-divergencias.xlsx")]:
+        pg.set_input_files(f"input[data-fonte={fonte}]", str(ex / arq)); pg.wait_for_timeout(300)
+    pg.click("#btnImportar"); pg.wait_for_timeout(1200)
+    ir(pg, url, "#/conferencia/PROC-2026-001", 800)
+    div = pg.inner_text("main")
+    for cod in ["D01", "D02", "D03", "D04", "D05", "D06", "D07"]:
+        ok(f"a conferência aponta {cod}", cod in div)
+    ok("há divergência que bloqueia", "Bloqueia" in div)
+
+# origem: sprint.md · Sprint 6
+@cenario
+def s6_orcamento(pg, url, ok):
+    ir(pg, url, "#/processos"); pg.click("#btnExemplo"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/orcamento/PROC-2026-001", 800)
+    texto = pg.inner_text("main")
+    ok("a tela orçamentária abre", "Distribuição orçamentária" in texto)
+    ok("ano corrente igual ao gabarito", "R$ 830.286,54" in texto)
+    ok("ano seguinte igual ao gabarito", "R$ 87.218,35" in texto)
+    ok("o aviso de D08 aparece", "ano seguinte" in texto)
+    ok("a tabela por órgão e tipo existe", pg.locator("h2", has_text="Por órgão e tipo").count() == 1)
+    ok("a tabela por credor existe", pg.locator("h2", has_text="Por credor").count() == 1)
+    pg.fill("#dotNome", "Ana Prates"); pg.click("#formDotacao button[type=submit]"); pg.wait_for_timeout(700)
+    ok("a validação da dotação fica registrada", pg.evaluate("async ()=> !!(await db.meta('dotacao_validada:PROC-2026-001'))"))
+
+# origem: sprint.md · Sprint 7
+@cenario
+def s7_exportar_e_auditoria(pg, url, ok):
+    ir(pg, url, "#/processos"); pg.click("#btnExemplo"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/exportar/PROC-2026-001", 800)
+    ok("a tela de exportar abre", "Relatório de divergências" in pg.inner_text("main"))
+    with pg.expect_download() as info:
+        pg.click("#btnExcel")
+    arquivo = info.value
+    caminho = TMP / arquivo.suggested_filename
+    arquivo.save_as(caminho)
+    ok("o Excel sai com o nome do processo", "Mapa_Distribuicao_001_2026" in arquivo.suggested_filename)
+    ok("o arquivo gerado tem conteúdo", caminho.exists() and caminho.stat().st_size > 5000)
+    import zipfile
+    ok("o Excel tem 8 abas", zipfile.is_zipfile(caminho) and "xl/workbook.xml" in zipfile.ZipFile(caminho).namelist())
+    ir(pg, url, "#/auditoria/PROC-2026-001", 700)
+    texto = pg.inner_text("main")
+    ok("a tela de auditoria abre", "Auditoria" in texto)
+    ok("a trilha registra a exportação", "exportação" in texto)
+
+
 def main():
     erro = False
     with sync_playwright() as p:

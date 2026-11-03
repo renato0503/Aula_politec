@@ -49,6 +49,24 @@ Tudo o que foi completado precisa ser confirmado com o aluno no Sprint 0.
 - riscos (`tRiscos`): linhas acrescentadas. Acrescentados os riscos do cálculo.
 - referências (`tRefs`): refeita. A Lei nº 4.320/1964 estava com o uso "justificar dados sintéticos"; ajustado para a classificação 3 e 4, que é o que o projeto usa. Acrescentada a homologação (Lei nº 14.133/2021).
 
+## Telas prontas (03/11/2026)
+
+| Rota | O que faz |
+|---|---|
+| `#/processos` | Lista de processos, criação e carga do exemplo |
+| `#/importar/:proc` | Leitura das três planilhas, com associação de colunas salva por modelo |
+| `#/mapa/:proc` | Mapa estimado por grupo, item e órgão, com a origem de cada número |
+| `#/resultado/:proc` | Situação dos grupos, homologado por item e por órgão, economia e edição manual com justificativa |
+| `#/empresas/:proc` | Tabela por empresa vencedora, com CNPJ, grupos e valor por órgão |
+| `#/conferencia/:proc` | Divergências D01 a D09, com o que bloqueia e o que só avisa |
+| `#/orcamento/:proc` | Dotação por órgão e tipo, ano corrente e ano seguinte, com a validação da chefia |
+| `#/exportar/:proc` | Excel com 8 abas, relatório de divergências para impressão e JSON do processo |
+| `#/auditoria/:proc` | Trilha de importações, edições de valor e validações, com data e perfil |
+
+Os totais do exemplo batem com o gabarito calculado pelo script independente:
+estimado R$ 2.958.629,46, homologado R$ 917.504,89, ano corrente R$ 830.286,54
+e ano seguinte R$ 87.218,35. São seis testes do motor na tela `#/testes`.
+
 ## Como construir e testar
 
 Este app é autônomo. `nucleo/`, `construir.py` e `testes/` são só dele e não

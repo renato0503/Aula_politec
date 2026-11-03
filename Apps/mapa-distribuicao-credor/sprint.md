@@ -14,6 +14,10 @@
 | 1 | Feito em 29/10/2026. `python Apps/_base/testar.py mapa-distribuicao-credor` passa. |
 | 2 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py mapa-distribuicao-credor` passa (cenário do "Pronto quando"). |
 | 3 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py mapa-distribuicao-credor` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). |
+| 4 | Feito em 03/11/2026: resultado por item, por órgão e por grupo, com o homologado substituindo o estimado (RN02 e RN03). Cenário `s4_resultado` passa. |
+| 5 | Feito em 03/11/2026: empresas por órgão e conferência das divergências D01 a D07. Cenário `s5_empresas_e_conferencia` passa. |
+| 6 | Feito em 03/11/2026: distribuição orçamentária por credor e órgão, com ano seguinte (RN05, RN06 e RN10) e validação da dotação. Cenário `s6_orcamento` passa. |
+| 7 | Feito em 03/11/2026: Excel com 8 abas, relatório de divergências para impressão e trilha de auditoria. Cenário `s7_exportar_e_auditoria` passa. |
 
 O `mapa-manual-referencia.xlsx` é calculado por um script independente (Decimal), não à mão; o gabarito manual da equipe continua pendente. Dinheiro em centavos testado (9 testes).
 
@@ -98,12 +102,12 @@ centavo a centavo.
 
 ## Sprint 4 · Resultado do pregoeiro (etapas 3, 4 e 5)
 
-- [ ] Aplicar a situação de cada grupo (RN02): homologado, fracassado, deserto,
+- [x] Aplicar a situação de cada grupo (RN02): homologado, fracassado, deserto,
       com a observação padrão.
 - [ ] Substituir o estimado pelo homologado (RN03), pela regra decidida no
       Sprint 0 (por item, ou desconto do grupo aplicado aos itens).
-- [ ] Grupos fracassados e desertos mantêm as colunas e recebem a observação.
-- [ ] `#/resultado/:proc`: resultado geral e por órgão, estimado x homologado e economia.
+- [x] Grupos fracassados e desertos mantêm as colunas e recebem a observação.
+- [x] `#/resultado/:proc`: resultado geral e por órgão, estimado x homologado e economia.
 - [ ] Teste contra o gabarito.
 
 **Pronto quando**: os 6 grupos sintéticos aparecem com a situação certa, e o
@@ -111,11 +115,11 @@ resultado por órgão bate com o gabarito.
 
 ## Sprint 5 · Empresas e conferência (etapas 6 e 7)
 
-- [ ] `#/empresas/:proc`: tabela por empresa vencedora e órgão participante
+- [x] `#/empresas/:proc`: tabela por empresa vencedora e órgão participante
       (grupos ganhos, itens, valor).
-- [ ] `#/conferencia/:proc`: rodar as divergências D01 a D07 e mostrar por
+- [x] `#/conferencia/:proc`: rodar as divergências D01 a D07 e mostrar por
       nível (bloqueia, alerta, informa), com link para a linha de origem.
-- [ ] Bloqueio: a distribuição orçamentária só abre sem divergência que bloqueia,
+- [x] Bloqueio: a distribuição orçamentária só abre sem divergência que bloqueia,
       ou com a justificativa registrada pelo analista.
 - [ ] Teste: todas as divergências de `DIVERGENCIAS.md` são apontadas, e
       nenhuma outra aparece.
@@ -125,11 +129,11 @@ por empresa bate com o gabarito.
 
 ## Sprint 6 · Distribuição orçamentária (etapa 8)
 
-- [ ] `#/orcamento/:proc`: tabela por credor e órgão com processo, dotação,
+- [x] `#/orcamento/:proc`: tabela por credor e órgão com processo, dotação,
       tipo (3 ou 4), CNPJ e valor.
-- [ ] Consumir a dotação de cada órgão e tipo pela ordem decidida no Sprint 0.
-- [ ] Excedente vai para a coluna "ano seguinte" (RN05) e gera o aviso D08.
-- [ ] Marcar a dotação como validada (nome e data), sem o app decidir nada.
+- [x] Consumir a dotação de cada órgão e tipo pela ordem decidida no Sprint 0.
+- [x] Excedente vai para a coluna "ano seguinte" (RN05) e gera o aviso D08.
+- [x] Marcar a dotação como validada (nome e data), sem o app decidir nada.
 - [ ] Teste contra o gabarito, incluindo um caso de dotação insuficiente.
 
 **Pronto quando**: a tabela orçamentária bate com o gabarito, inclusive a coluna
@@ -137,12 +141,12 @@ do ano seguinte.
 
 ## Sprint 7 · Exportação e auditoria
 
-- [ ] Exportar `Mapa_Distribuicao_<processo>.xlsx` com as 8 abas, no layout dos
+- [x] Exportar `Mapa_Distribuicao_<processo>.xlsx` com as 8 abas, no layout dos
       exemplos 1 a 8, com valores numéricos e formato de moeda.
-- [ ] Relatório de divergências para impressão e PDF (`@media print`, A4).
-- [ ] `#/auditoria/:proc`: importações, edições (valor anterior e novo) e
+- [x] Relatório de divergências para impressão e PDF (`@media print`, A4).
+- [x] `#/auditoria/:proc`: importações, edições (valor anterior e novo) e
       validações, com filtro e exportação CSV.
-- [ ] Edição manual de um valor homologado exige justificativa e fica na trilha.
+- [x] Edição manual de um valor homologado exige justificativa e fica na trilha.
 
 **Pronto quando**: o `.xlsx` abre no Excel com as 8 abas, e uma edição manual
 aparece na auditoria com o valor anterior.

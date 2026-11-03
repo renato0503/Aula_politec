@@ -183,11 +183,22 @@ def planilha(caminho, abas):
 
 def salvar_entradas(sufixo, itens, distribuicao, resultado, dotacao):
     q = {(d["orgao"], d["grupo"], d["item"]): d["quantidade"] for d in distribuicao}
+    # linha da distribuição que não tem item no catálogo (divergência D02): precisa
+    # aparecer na planilha, senão o app nem consegue enxergar a divergência
+    chaves = {(i["grupo"], i["item"]) for i in itens}
+    extras = {}
+    for d in distribuicao:
+        if (d["grupo"], d["item"]) not in chaves:
+            extras.setdefault((d["grupo"], d["item"]), {})[d["orgao"]] = d["quantidade"]
+    linhas = [[i["grupo"], i["item"], i["codigo"], i["descricao"], i["unidade"], i["tipo_despesa"], i["valor_unitario_estimado"],
+               i["quantidade_total"]] + [q.get((o, i["grupo"], i["item"]), 0) for o in ORGAOS] for i in itens]
+    for (g, i), por_orgao_extra in extras.items():
+        linhas.append([g, i, "CATMAT-0000", "Item sem resultado no relatório do pregoeiro", "unidade", 4, "100.00",
+                       sum(por_orgao_extra.values())] + [por_orgao_extra.get(o, 0) for o in ORGAOS])
     planilha(AQUI / f"distribuicao-orgaos{sufixo}.xlsx", [(
         "Distribuicao",
         ["Grupo", "Item", "Código", "Descrição", "Unidade", "Tipo de despesa", "Valor unitário estimado", "Quantidade total"] + ORGAOS,
-        [[i["grupo"], i["item"], i["codigo"], i["descricao"], i["unidade"], i["tipo_despesa"], i["valor_unitario_estimado"],
-          i["quantidade_total"]] + [q.get((o, i["grupo"], i["item"]), 0) for o in ORGAOS] for i in itens])])
+        linhas)])
     planilha(AQUI / f"relatorio-pregoeiro{sufixo}.xlsx", [(
         "Resultado", ["Grupo", "Item", "Situação", "Empresa", "CNPJ", "Valor unitário homologado"],
         [[r["grupo"], r["item"], r["situacao"], r["empresa"], r["cnpj"], r["valor_unitario_homologado"]] for r in resultado])])
