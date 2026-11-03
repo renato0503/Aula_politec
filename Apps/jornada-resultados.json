@@ -1032,5 +1032,66 @@
    }
   ],
   "erros": []
+ },
+ {
+  "app": "teia-triagem-emails",
+  "perfil": "triador",
+  "resultados": [
+   {
+    "passo": "a bancada lista os 10 e-mails",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o detalhe mostra os 8 campos",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a requisição completa é validada",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o e-mail com campo faltando não valida",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "com o campo preenchido, a requisição é validada",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a planilha lista os e-mails e os campos",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "abre no celular sem tela de perfil",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "a página não rola na horizontal",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   },
+   {
+    "passo": "o menu compacto abre",
+    "ok": true,
+    "esperado": "",
+    "observado": ""
+   }
+  ],
+  "erros": []
  }
 ]

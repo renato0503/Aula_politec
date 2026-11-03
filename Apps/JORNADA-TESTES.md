@@ -105,8 +105,8 @@ Para cada app: desktop, celular, capturas nos pontos-chave, registro dos erros.
 
 ## 8. Resultado da execução (02/11/2026)
 
-- **20 de 20 apps executados**, desktop 1366×900 e celular 390×844.
-- **149 passos** de jornada conferidos.
+- **21 de 21 apps executados**, desktop 1366×900 e celular 390×844 (o TEIA entrou em 03/11/2026).
+- **158 passos** de jornada conferidos.
 - **0 erros** em aberto: o único P1 encontrado (`rnc-nao-conformidade`) foi corrigido nesta rodada.
 - Nenhuma requisição de rede e nenhum erro de console nos 20 apps, no Chromium.
 - Capturas em `Apps/_testes/jornada/<app>/` (fora do git).
@@ -115,7 +115,7 @@ Para cada app: desktop, celular, capturas nos pontos-chave, registro dos erros.
 
 - Executado via WSL, CDP em `127.0.0.1:9222`, com os apps servidos por HTTP em
   `127.0.0.1:8000` (o Lightpanda não abre `file://`).
-- **18 de 20 apps concluídos**; 146 passos.
+- **19 de 21 apps concluídos**; 155 passos (o TEIA também passou, 10/10).
 - Duas falhas são **limitações do navegador**, não do app:
   - `cin-segunda-via`: `createImageBitmap`/canvas não reduz a foto de teste;
   - `agiliza-mais`: upload de pasta (`webkitdirectory`) não é suportado.
@@ -144,6 +144,7 @@ Para cada app: desktop, celular, capturas nos pontos-chave, registro dos erros.
 | mapa-distribuicao-credor | — | 6 | 0 | ok |
 | equipamentos-google-earth | coordenadoria | 8 | 0 | ok |
 | agiliza-mais | — | 7 | 0 | ok |
+| teia-triagem-emails | triador | 9 | 0 | ok |
 
 ### 8.2 O erro encontrado e corrigido
 
@@ -161,7 +162,7 @@ Para cada app: desktop, celular, capturas nos pontos-chave, registro dos erros.
 
 ## 9. Fase 0 · repositórios (02/11/2026)
 
-- 20 repositórios privados criados em `github.com/renato0503`, um por app, com a
+- 21 repositórios públicos criados em `github.com/renato0503`, um por app, com a
   branch `main` e o `index.html` na raiz.
 - 18 convites de colaborador com push enviados; 2 logins não foram encontrados
   pela API (`Linickeraraujo-sd` e `Vitoriadias-droide`); 5 integrantes ainda não
@@ -170,7 +171,7 @@ Para cada app: desktop, celular, capturas nos pontos-chave, registro dos erros.
 - O GitHub Pages não foi ligado porque os repositórios são privados.
 - A correção do contexto de setor da RNC foi enviada ao repositório
   `rnc-nao-conformidade` (commit `4852ab5` no ramo `main`).
-- Cada app recebeu `testes/jornada.py` e `testes/jornada_lib.py`, autônomos:
+- Cada app recebeu `testes/jornada.py` e `testes/jornada_lib.py`, autônomos (o TEIA também):
   `python testes/jornada.py` (Chromium) ou
   `python testes/jornada.py --cdp http://127.0.0.1:9222 --base http://127.0.0.1:8000`
   (Lightpanda).

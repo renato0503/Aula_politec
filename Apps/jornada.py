@@ -39,6 +39,7 @@ PERFIL = {
     "mapa-distribuicao-credor": None,
     "equipamentos-google-earth": "coordenadoria",
     "agiliza-mais": None,
+    "teia-triagem-emails": "triador",
 }
 
 
@@ -374,6 +375,24 @@ def jornada_agiliza(j):
     j.capturar("bancada")
 
 
+def jornada_teia(j):
+    j.semear()
+    j.abrir("#/painel")
+    j.ok("a bancada lista os 10 e-mails", j.conta("[data-te-email]") == 10)
+    j.ok("o detalhe mostra os 8 campos", j.conta(".te-form .campo") == 8)
+    j.clicar("[data-te-email=EM-006]")
+    j.clicar("#btnTeValidar")
+    j.ok("a requisição completa é validada", j.avaliar("async () => (await db.get('emails','EM-006')).status") == "validado")
+    j.clicar("[data-te-email=EM-003]")
+    j.ok("o e-mail com campo faltando não valida", j.pg.locator("#btnTeValidar").is_disabled())
+    j.preencher("#te_protocolo", "2026.9999-DNA")
+    j.clicar("#btnTeSalvar")
+    j.clicar("#btnTeValidar")
+    j.ok("com o campo preenchido, a requisição é validada", j.avaliar("async () => (await db.get('emails','EM-003')).status") == "validado")
+    j.ir("#/planilha")
+    j.ok("a planilha lista os e-mails e os campos", j.conta("#tabelaTeia tr") == 11 and j.conta("#tabelaTeia th") == 11)
+
+
 JORNADAS = {
     "agendamento-cin": jornada_agendamento,
     "cin-segunda-via": jornada_cin_segunda_via,
@@ -395,6 +414,7 @@ JORNADAS = {
     "mapa-distribuicao-credor": jornada_mapa,
     "equipamentos-google-earth": jornada_equipamentos,
     "agiliza-mais": jornada_agiliza,
+    "teia-triagem-emails": jornada_teia,
 }
 
 

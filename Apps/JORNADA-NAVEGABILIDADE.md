@@ -1,13 +1,13 @@
 # Avaliação crítica de navegabilidade · 20 apps
 
-Registro de 02/11/2026, depois da jornada do cliente no Chromium e no
+Registro de 02/11/2026 (atualizado em 03/11/2026 com o TEIA), depois da jornada do cliente no Chromium e no
 Lightpanda 1.0.2 (via WSL, CDP em `127.0.0.1:9222`, com os apps servidos por
 HTTP em `127.0.0.1:8000`).
 
 ## Como foi avaliado
 
-- **Chromium (Playwright)**: 20/20 apps, 149 passos, 0 erros.
-- **Lightpanda 1.0.2**: 18/20 apps concluídos; 2 bloqueios de compatibilidade do
+- **Chromium (Playwright)**: 21/21 apps, 158 passos, 0 erros.
+- **Lightpanda 1.0.2**: 19/21 apps concluídos; 2 bloqueios de compatibilidade do
   navegador, não do app:
   - `cin-segunda-via`: o Lightpanda não reduz a imagem de teste
     (`createImageBitmap`/canvas), então o pedido não chega ao protocolo.
@@ -167,6 +167,14 @@ do contêiner; a movimentação ainda exige abrir o vestígio.
 
 **Recomendação:** abrir a ficha do contêiner com a lista de vestígios e a ação
 "mover" na linha.
+
+## TEIA · Triagem de E-mails (novo app)
+
+A bancada de triagem é a tela-assinatura: fila à esquerda, 8 campos à direita,
+confiança, alerta de divergência e PDF imagem, e validação humana com auditoria.
+O fluxo de lote e a planilha consolidada fecham o MVP. **Atrito:** a extração é
+simulada (não lê e-mail/PDF real) e o OCR/renomeação ficam no script local; o
+protótipo precisa deixar isso explícito no piloto.
 
 ## O que melhorou e deve ser mantido
 

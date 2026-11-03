@@ -214,6 +214,28 @@ desktop (1366 px) e no celular (390 px).
 | equipamentos-google-earth | `7962463` | Casca de ferramenta, compacto, sistema, compacta, cantos suaves, planas, KPI em número. Mapa de MT em SVG com 142 municípios e pinos das unidades; contexto de unidade. |
 | agiliza-mais | `59a1109` | Casca de ferramenta, compacto, condensada, compacta, cantos suaves, planas, KPI em faixa. Bancada do caso com 6 passos à esquerda e menu sem os passos. |
 
+
+### 2.8 TEIA · o 21º app (03/11/2026)
+
+O Nelson e a Luciana enviaram uma **nova entrada** no formulário da Aula 8
+(`Projeto TEIA · Triagem de E-mails com Isolação Automatizada`). Ela não é uma
+revisão do app de distribuição de DNA: é um projeto novo, da mesma dupla e da
+mesma unidade. Por isso o TEIA virou o **21º app**, em
+`Apps/teia-triagem-emails/`, e o `distribuicao-casos-dna` continua como a fase
+anterior.
+
+- Entrada original: `Aula 8/Entregas/TEIA - Nelson e Luciana - 2026-11-03.json`.
+- `projeto.json`, `PROJETO.md`, `contexto.md` e `sprint.md` próprios.
+- MVP com bancada de triagem (fila + 8 campos), validação humana, alertas de
+  divergência/OCR, lotes, planilha e CSV.
+- `testes/testar.py`, `testes/cenarios.py` (3 cenários) e `testes/jornada.py`
+  (Chromium e Lightpanda).
+- `processo.html` com AS-IS/TO-BE, figuras Mermaid (`docs/diagramas/as-is.svg`
+  e `to-be.svg`) e as tabelas do projeto.
+- Repositório público `renato0503/teia-triagem-emails`, com convite de push
+  para `nelsonyoshitake` (pendente de aceite).
+- `python Apps/_base/testar.py`: 21/21; `testar_sprints.py`: 92/92.
+
 ---
 
 ## 3. O que falta fazer, em detalhe
