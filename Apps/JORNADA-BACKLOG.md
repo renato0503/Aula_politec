@@ -3,8 +3,9 @@
 Erros encontrados na execução de `Apps/jornada.py`, para corrigir depois. Um
 item por erro, com o ID, a severidade, a evidência e a sugestão.
 
-O plano e a matriz estão em `Apps/JORNADA-TESTES.md`. A execução ainda não
-começou; este arquivo é preenchido ao final de cada rodada.
+O plano e a matriz estão em `Apps/JORNADA-TESTES.md`. A execução de 02/11/2026
+(com o TEIA em 03/11/2026) está registrada lá; este arquivo lista o que ficou
+em aberto e o que foi corrigido.
 
 ## Formato
 
@@ -52,6 +53,17 @@ começou; este arquivo é preenchido ao final de cada rodada.
 - `gestao-documentos-01` (P2): o aviso da autoridade aparece no topo da ficha e na aba.
 - `passivo-ambiental-01` (P2): a fila do perito ganhou busca e filtro “só atrasados”.
 - `controle-aquisicoes-02` (P2): o botão “Abrir pendência” deixou de disparar submit.
+
+
+## TEIA e operação (03/11/2026)
+
+| ID | App | Sev | Achado |
+|---|---|---|---|
+| teia-triagem-emails-01 | teia-triagem-emails | P2 | A extração é simulada; faltam parsing real de e-mail/PDF, OCR e renomeação de arquivos. |
+| teia-triagem-emails-02 | teia-triagem-emails | P3 | O botão de integração com a caixa institucional ainda é local; o passo a passo está em `AJUDA_TECNICA`. |
+| operacao-01 | todos | P1 | Dois logins não existem na API (`Linickeraraujo-sd`, `Vitoriadias-droide`) e cinco alunos não têm login. |
+| operacao-02 | todos | P2 | O GitHub Pages não foi ligado nos 21 repositórios públicos. |
+| operacao-03 | teia-triagem-emails, distribuicao-casos-dna | P2 | O convite de push do Nelson está pendente de aceite. |
 
 ## Limitações do navegador (não são bugs do app)
 

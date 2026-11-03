@@ -1,11 +1,16 @@
 # Continuar o desenvolvimento dos apps (passagem para outro agente)
 
+> **Atualização de 03/11/2026:** o curso tem **21 apps**. O TEIA é a nova etapa
+> do projeto do Nelson e Luciana, com MVP, testes, hub e repositório próprios.
+> O estado atual, os testes (21/21 e 92/92) e o prompt de continuação estão em
+> `Apps/CONTINUAR-IDENTIDADE.md`. Este arquivo é o histórico por app.
+
 > **Atualização de 02/11/2026:** cada app passou a ser autônomo (`nucleo/`, `construir.py` e `testes/` próprios, sem base comum) e vai ganhar identidade própria. O que foi feito, o que falta e o prompt de continuação estão em `Apps/CONTINUAR-IDENTIDADE.md`. O diagnóstico e o plano de cada app estão em `Apps/PLANO-USABILIDADE.md`.
 
 
-Atualizado em **30/10/2026**.
+Atualizado em **03/11/2026** (histórico; ver `CONTINUAR-IDENTIDADE.md` para o estado atual).
 
-**Estado geral: 17 dos 20 apps com o MVP completo** (Sprints 1 a 6 ou 7, com
+**Estado geral: a maior parte dos 21 apps com o MVP completo** (Sprints 1 a 6 ou 7, com
 roteiro de aceite em `modelos/`). Faltam as sprints dos 4 apps maiores:
 
 | App | Falta |
@@ -19,7 +24,7 @@ O que depende de serviço externo (Apps Script, `LockService`, `MailApp`, gatilh
 banco, biblioteca de QR) está marcado como **a implementar** no `sprint.md`, com o
 passo a passo dentro do app: **três cliques no nome do app, no rodapé**.
 
-Este arquivo registra o que já foi feito nos 20 apps
+Este arquivo registra o que já foi feito nos 20 apps anteriores (o TEIA está em `CONTINUAR-IDENTIDADE.md`)
 de `Apps/` e o que falta em cada um, para que outro agente de IA continue de onde
 paramos. Leia também `AGENTS.md` (seção 3.8), `Apps/README.md` e
 `Apps/IDENTIDADE-VISUAL.md`.
@@ -65,7 +70,7 @@ arquivo; use `MSYS_NO_PATHCONV=1` ou rode pelo PowerShell.
 
 ## 2. O que foi feito nesta etapa (30/10/2026)
 
-### 2.1 Identidade visual SESP/MT e POLITEC/MT (todos os 20 apps)
+### 2.1 Identidade visual SESP/MT e POLITEC/MT (os 20 apps anteriores)
 
 - Nova base visual em `Apps/_base/visual.css` (separada do `base.html`): faixa do
   Governo de Mato Grosso, SESP e POLITEC; cabeçalho com degradê azul
@@ -98,7 +103,7 @@ arquivo; use `MSYS_NO_PATHCONV=1` ou rode pelo PowerShell.
 
 ### 2.3 Verificação
 
-`python Apps/_base/testar.py` passa nos 20 apps e `python Apps/_base/testar_sprints.py`
+`python Apps/_base/testar.py` passa nos 20 apps anteriores e `python Apps/_base/testar_sprints.py`
 passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 
 ## 3. Pendências gerais

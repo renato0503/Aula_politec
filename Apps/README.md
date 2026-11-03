@@ -1,5 +1,9 @@
 # Apps — projetos dos grupos (fase de ideação)
 
+> **Registro da entrega de 03/11/2026:** [`ENTREGA-03-11-2026.md`](ENTREGA-03-11-2026.md)
+> traz o que foi feito, os 21 apps, o TEIA, os diagramas, os testes, os
+> repositórios e o que falta.
+
 Uma pasta por grupo de alunos. Cada pasta reúne o que o grupo entregou no
 formulário da Aula 8 (`Aula 8/formulario-ideacao.html`) e, nas próximas etapas,
 recebe o código do app.
@@ -28,23 +32,22 @@ recebe o código do app.
 | [mapa-distribuicao-credor/](mapa-distribuicao-credor/) | Mapa de Distribuição por Credor e Distribuição Orçamentária | Igor Henrique de Menezes Costa · izgdreyar@gmail.com | Setor de Licitações | Automação de script ou rotina | `Aula 8/Entregas/`, 29/10/2026 09:04 |
 | [equipamentos-google-earth/](equipamentos-google-earth/) | Visão geral dos equipamentos no estado (Google Earth) | João Lucas Nogueira Ponce · joaoponce@politec.mt.gov.br | Coordenadoria de qualidade | Aplicativo web / portal | `Aula 8/Entregas/`, 28/10/2026 08:44 |
 
-## Andamento (30/10/2026)
+## Andamento (03/11/2026)
 
-> **Atualização de 02/11/2026:** o TEIA é o 21º app, do mesmo grupo do
-> `distribuicao-casos-dna` (Nelson e Luciana). Ele nasceu de uma nova entrada no
-> formulário e tem MVP, testes e `processo.html` próprios.
+> **Atualização de 03/11/2026:** o TEIA é o 21º app, nova etapa do projeto do
+> Nelson e Luciana. Ele tem MVP, testes, hub e repositório próprios; o
+> `distribuicao-casos-dna` continua como a fase anterior.
 
 
-Os 20 apps andam juntos, sprint a sprint. **17 dos 20 estão com o MVP completo**:
-os 12 primeiros chegaram aos Sprints 6 ou 7, e os 8 novos também (com exceções
-documentadas: OCR de PDF em imagem no Metas BI, QR Code no DOCUMENTAPOLITEC e
-`LockService`/`MailApp` no Agendamento CIN, todos como "a implementar" com o passo
-a passo no botão escondido do app). Faltam **22 rotas em 4 apps**:
-`mapa-distribuicao-credor`, `inscricoes-cursos`, `equipamentos-google-earth` e
-`agiliza-mais`. O estado de cada app e o próximo passo estão em
-[CONTINUAR.md](CONTINUAR.md).
+Os 21 apps andam juntos, sprint a sprint. **A maior parte dos 21 está com o MVP completo**
+(17 dos 20 anteriores, mais o TEIA, que já nasceu com o MVP). Faltam **22 rotas em
+4 apps**: `mapa-distribuicao-credor`, `inscricoes-cursos`,
+`equipamentos-google-earth` e `agiliza-mais`. O estado de cada app e o próximo
+passo estão em [CONTINUAR-IDENTIDADE.md](CONTINUAR-IDENTIDADE.md); o histórico
+por app está em [CONTINUAR.md](CONTINUAR.md).
 
-Em 30/10/2026 os 20 apps ganharam a **identidade visual SESP/MT e POLITEC/MT**,
+Em 30/10/2026 os 20 apps ganharam a **identidade visual SESP/MT e POLITEC/MT**
+(o TEIA entrou em 03/11/2026 com a mesma base),
 com personalização por app, tema claro como padrão e ajuste do tamanho da fonte
 (ver [IDENTIDADE-VISUAL.md](IDENTIDADE-VISUAL.md)). No mesmo dia, o Sprint 3 dos
 6 apps novos foi feito.
@@ -126,9 +129,10 @@ Ao chegar um grupo novo, crie `Apps/<slug-do-projeto>/` com os mesmos arquivos.
 |---|---|
 | `PREMISSAS.md` | As premissas assumidas em cada item do Sprint 0 que dependia de pessoas: o valor adotado, onde ele aparece no app, o nível de confiança (A, B ou C) e o que confirmar |
 | `CONTINUAR.md` | O que já foi feito em cada app e o que é o próximo passo, para outra IA continuar |
-| `IDENTIDADE-VISUAL.md` | O kit visual: paleta, cores e emblemas dos 20 apps, componentes prontos e regras de uso |
+| `IDENTIDADE-VISUAL.md` | O kit visual: paleta, cores e emblemas dos 21 apps, componentes prontos e regras de uso |
+| `ENTREGA-03-11-2026.md` | O registro da entrega de 03/11/2026: 21 apps, TEIA, hubs, diagramas, testes, repositórios e pendências |
 | `_base/base.html` | Base de todos os apps: tema claro e escuro, roteador por hash, IndexedDB, perfis da cópia, backup `.json`, carga dos dados fictícios e a tela `#/testes` |
-| `_base/construir.py` | Gera o `index.html` de cada app a partir de `_base/base.html`, `_base/js_comum.js`, `<app>/app.json` (rotas, banco, perfis) e `<app>/src/*.js` (o `app.js` primeiro, depois os `sprintN.js`). **Edite as fontes, não o `index.html`** |
+| `_base/construir.py` | Molde antigo da construção. Cada app agora tem `construir.py` próprio, que monta o `index.html` a partir de `nucleo/`, `<app>/app.json` e `<app>/src/*.js`. **Edite as fontes, não o `index.html`** |
 | `_base/js_comum.js` | Tela de configuração e testes comuns a todos os apps |
 | `_base/embutir.py` | Copia `vendor/*.js` e os JSON de dados para dentro do `index.html`, entre os marcadores `<!-- LIB:... -->` e `<!-- DADOS:... -->`. Substitui o `embutir_libs.py` citado nos `contexto.md` |
 | `_base/testar.py` | Abre cada app no Chromium e confere: zero requisição de rede, `#/testes` 100%, todas as rotas, dados fictícios, persistência e tema |
@@ -176,13 +180,14 @@ Para acrescentar um login: `python Apps/_base/equipes.py <app> "<nome>" <login>`
 | trilha-custodia-necropsia | Silmara Bueno | a informar |
 | (sem projeto) | Francis Souza | `francissouza-pixel` |
 
-## Repositórios dos apps (02/11/2026)
+## Repositórios dos apps (03/11/2026)
 
-Os 20 apps foram separados em repositórios em
+Os 21 apps foram separados em repositórios em
 `github.com/renato0503`, um por app, com o histórico da pasta preservado por
 `git subtree split`. A branch padrão é `main` e cada repositório contém o
-`index.html`, o `processo.html` (AS-IS → TO-BE + MVP), o `nucleo/`, o
-`construir.py`, os `testes/` e os dados fictícios.
+`index.html`, o `processo.html` (AS-IS → TO-BE + MVP), os `docs/diagramas/`
+(as-is e to-be em Mermaid e SVG), o `nucleo/`, o `construir.py`, os `testes/` e
+os dados fictícios.
 
 | Repositório | Visibilidade | Branch | Conteúdo |
 |---|---|---|---|
@@ -213,12 +218,13 @@ Os 20 apps foram separados em repositórios em
 Os integrantes de `equipes.json` foram convidados como **colaboradores com
 permissão de push**. Convite aceito ou pendente no GitHub de cada aluno.
 
-- **Convites feitos:** todos os logins informados, exceto os dois abaixo.
+- **Convites feitos:** todos os logins informados, exceto os dois abaixo. O
+  convite do Nelson para o TEIA e para o DNA está pendente de aceite.
 - **Não existem na API do GitHub (404 confirmado em 02/11/2026):**
   `Linickeraraujo-sd` (adiantamento) e `Vitoriadias-droide` (gestão de
   documentos). Pedir o login correto ao aluno e reenviar o convite.
 - **Sem login informado:** Glauce (cin-segunda-via), Letícia (comissão de ética),
   Luciana (DNA), Iohan (Hórus) e Silmara (TCIN).
-- O GitHub Pages não foi ligado porque os repositórios são privados; no plano
-  gratuito o Pages exige repositório público.
+- O GitHub Pages ainda não foi ligado. Os 21 repositórios agora são públicos,
+  então o Pages pode ser ativado na raiz de cada um.
 

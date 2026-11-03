@@ -1,4 +1,4 @@
-# Jornada do cliente · plano de testes dos 20 apps
+# Jornada do cliente · plano de testes dos 21 apps
 
 Registro de 02/11/2026. Este arquivo é o plano e, ao final da execução, a matriz
 de resultados. O backlog de erros fica em `Apps/JORNADA-BACKLOG.md` e o resultado
@@ -103,12 +103,12 @@ Para cada app: desktop, celular, capturas nos pontos-chave, registro dos erros.
 4. Commit por app e push para o repositório do app.
 5. Rerodar a matriz e fechar o relatório.
 
-## 8. Resultado da execução (02/11/2026)
+## 8. Resultado da execução (02/11/2026, atualizado em 03/11/2026)
 
 - **21 de 21 apps executados**, desktop 1366×900 e celular 390×844 (o TEIA entrou em 03/11/2026).
 - **158 passos** de jornada conferidos.
 - **0 erros** em aberto: o único P1 encontrado (`rnc-nao-conformidade`) foi corrigido nesta rodada.
-- Nenhuma requisição de rede e nenhum erro de console nos 20 apps, no Chromium.
+- Nenhuma requisição de rede e nenhum erro de console nos 21 apps, no Chromium.
 - Capturas em `Apps/_testes/jornada/<app>/` (fora do git).
 
 ### 8.1 Lightpanda 1.0.2
@@ -160,7 +160,7 @@ Para cada app: desktop, celular, capturas nos pontos-chave, registro dos erros.
 - **Correção:** em `Apps/rnc-nao-conformidade/src/identidade.js`, o contexto passou a
   gravar `setor` (e `meu_setor` por compatibilidade). A jornada foi repetida: 0 erros.
 
-## 9. Fase 0 · repositórios (02/11/2026)
+## 9. Fase 0 · repositórios (02/11/2026, atualizado em 03/11/2026)
 
 - 21 repositórios públicos criados em `github.com/renato0503`, um por app, com a
   branch `main` e o `index.html` na raiz.
@@ -168,9 +168,11 @@ Para cada app: desktop, celular, capturas nos pontos-chave, registro dos erros.
   pela API (`Linickeraraujo-sd` e `Vitoriadias-droide`); 5 integrantes ainda não
   têm login.
 - A tabela completa está em `Apps/README.md`, seção "Repositórios dos apps".
-- O GitHub Pages não foi ligado porque os repositórios são privados.
+- O GitHub Pages ainda não foi ligado; os repositórios agora são públicos e o Pages pode ser ativado na raiz de cada um.
 - A correção do contexto de setor da RNC foi enviada ao repositório
   `rnc-nao-conformidade` (commit `4852ab5` no ramo `main`).
+- O TEIA entrou como 21º app, com repositório público próprio e convite de push
+  para o Nelson (pendente de aceite).
 - Cada app recebeu `testes/jornada.py` e `testes/jornada_lib.py`, autônomos (o TEIA também):
   `python testes/jornada.py` (Chromium) ou
   `python testes/jornada.py --cdp http://127.0.0.1:9222 --base http://127.0.0.1:8000`

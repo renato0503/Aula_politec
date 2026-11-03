@@ -216,7 +216,7 @@ Glifos de atividade: `glyph="human"` (pessoa) ou `glyph="bot"` (robo = automatiz
 
 > **Atualização de 02/11/2026 (vale sobre o texto abaixo):** cada app passou a ser autônomo (`nucleo/`, `construir.py` e `testes/` próprios, sem base comum) e vai ganhar identidade própria. O que foi feito, o que falta e o prompt de continuação estão em `Apps/CONTINUAR-IDENTIDADE.md`. O diagnóstico e o plano de cada app estão em `Apps/PLANO-USABILIDADE.md`.
 
-> **Identidade e usabilidade (02/11/2026):** os 20 apps receberam o bloco `visual` da Parte D do plano, um núcleo divergente quando a tela pediu e a tela-assinatura em `src/identidade.js`, com um commit por app. `python Apps/_base/testar.py` (20/20) e `python Apps/_base/testar_sprints.py` (89/89) passam. O que cada app ganhou está na seção 2.7 de `Apps/CONTINUAR-IDENTIDADE.md`.
+> **Identidade e usabilidade (02/11/2026; atualizado em 03/11/2026):** os 21 apps receberam o bloco `visual` da Parte D do plano, um núcleo divergente quando a tela pediu e a tela-assinatura em `src/identidade.js`, com um commit por app. `python Apps/_base/testar.py` (21/21) e `python Apps/_base/testar_sprints.py` (92/92) passam. O TEIA é o 21º app, nova etapa do projeto do Nelson e Luciana. O que cada app ganhou está nas seções 2.7 e 2.8 de `Apps/CONTINUAR-IDENTIDADE.md`.
 
 
 A partir da Aula 8, cada projeto entregue no formulario ganha uma pasta em
@@ -226,16 +226,18 @@ dos mini apps fica em `Apps/`.
 Regras:
 
 - uma pasta por grupo, com `README.md`, `PROJETO.md`, `contexto.md`, `sprint.md`,
-  `projeto.json`, `envio-original.json`, `app.json`, `src/` e `exemplos/`;
+  `projeto.json`, `envio-original.json`, `app.json`, `src/`, `exemplos/` e
+  `processo.html`; os diagramas ficam em `docs/diagramas/` (`as-is.mmd`,
+  `to-be.mmd`, `as-is.svg`, `to-be.svg` e `processo.md`);
 - `envio-original.json` nunca e editado; `projeto.json` e a versao completada
   pelo professor e `PROJETO.md` e gerado a partir dele;
 - app = **um unico `index.html`** (CSS, JS, libs e dados embutidos), offline
   first, IndexedDB e backup `.json`. A excecao e `agendamento-cin`, servido pelo
   Google Apps Script porque a agenda publica precisa de fonte unica de vagas;
-- **edite as fontes, nunca o `index.html`**: ele e gerado por
-  `Apps/_base/construir.py` a partir de `_base/base.html` + `_base/js_comum.js`
-  + `<app>/app.json` + `<app>/src/*.js` (o `app.js` primeiro, depois
-  `sprint1.js`, `sprint2.js`...);
+- **edite as fontes, nunca o `index.html`**: cada app tem `construir.py`
+  proprio, que monta o `index.html` a partir de `nucleo/`, `<app>/app.json` e
+  `<app>/src/*.js` (o `app.js` primeiro, depois `sprint1.js`, `sprint2.js`... e
+  `identidade.js` por ultimo);
 - os dados ficticios tem semente fixa e vivem em `<app>/exemplos/seed.json`,
   gerados por `<app>/exemplos/gerar_exemplos.py`;
 - **premissas**: quando um item do Sprint 0 depende de decisao institucional,
@@ -250,8 +252,9 @@ Regras:
   setor). O tema claro e o padrao; o escuro so entra pelo botao. A fonte vai de
   80% a 150% pelos botoes A-/A+. Nao ha faixa de aviso de prototipo. Detalhes em
   `Apps/IDENTIDADE-VISUAL.md`;
-- **passagem para outro agente**: `Apps/CONTINUAR.md` traz o que foi feito e o
-  proximo passo de cada app;
+- **passagem para outro agente**: `Apps/CONTINUAR-IDENTIDADE.md` traz o estado
+  atual, os testes e o prompt de continuacao; `Apps/ENTREGA-03-11-2026.md`
+  registra a entrega de 03/11/2026 e `Apps/CONTINUAR.md` guarda o historico por app;
 - **o que depende de fora fica como "a implementar"**: quando uma etapa precisa de
   servico externo (Apps Script, `LockService`, `MailApp`, gatilho, banco, e-mail),
   o app faz a parte local (fila, releitura, botao) e o passo a passo de como
@@ -265,32 +268,38 @@ Ferramentas (em `Apps/_base/`):
 | `base.html` | Base comum: faixa do governo, cabecalho com emblema, botoes de fonte e tema, roteador por hash, IndexedDB, perfis, backup, carga dos dados ficticios e a tela `#/testes`. |
 | `visual.css` | Identidade visual SESP/MT e POLITEC/MT comum a todos os apps (paleta, tema claro padrao e escuro, componentes). Ver `Apps/IDENTIDADE-VISUAL.md`. |
 | `icones.js` | 48 icones das telas e do emblema, com escolha automatica pelo titulo da rota. |
-| `construir.py` | Gera o `index.html` de cada app. Uso: `python Apps/_base/construir.py` (todos) ou `python Apps/_base/construir.py <app>`. |
+| `construir.py` | Molde antigo da construcao. Cada app agora tem `construir.py` proprio. Uso: `cd Apps/<app>` e `python construir.py`. |
 | `js_comum.js` | Tela de configuracao e testes comuns a todos os apps. |
 | `embutir.py` | Copia `vendor/*.js` e os JSON de dados para dentro do `index.html`, entre os marcadores `<!-- LIB:... -->` e `<!-- DADOS:... -->`. |
 | `testar.py` | Abre cada app no Chromium e confere zero requisicao de rede, `#/testes` 100%, todas as rotas, dados ficticios, persistencia e tema. |
 | `testar_sprints.py` | Um cenario de interface por sprint: usa a tela como uma pessoa usaria e confere o "Pronto quando" do `sprint.md`. Os cenarios do Sprint 3 em diante ficam em `Apps/_base/cenarios/sprintN.py`. |
 | `equipes.py` | Grava o login do GitHub de um aluno em `equipes.json` e refaz a tabela "Equipes e GitHub" do `Apps/README.md`. Uso: `python Apps/_base/equipes.py <app> "<nome>" <login>`. |
 | `painel.py` | Gera `Apps/painel.html`, o painel de desenvolvimento: telas prontas x pendentes por sprint, itens abertos, GitHub e trabalhos de BI. Uso: `python Apps/_base/painel.py` (e `python Apps/_base/hub_apps.py` para o hub). |
+| `gerar_diagramas.py` | Gera os diagramas AS-IS/TO-BE em Mermaid e renderiza os SVG de cada app em `docs/diagramas/`. Usa o Mermaid local em `%TEMP%\\mermaid-render`. |
+| `gerar_hubs.py` | Gera o `processo.html` de cada app, com as figuras AS-IS/TO-BE, KPIs, regras, papeis, metricas e como testar. |
 | `equipes.json` | Fonte dos logins (um repositorio por app). |
 | `Aula 8/Entregas/` | Respostas originais dos alunos (JSON/MD) e os `.pbix` da turma. |
 
 Sequencia ao mexer num app:
 
 ```powershell
-python Apps/_base/construir.py <app>                  # gera o index.html
-python Apps/_base/testar.py <app>                     # estrutura
-python Apps/_base/testar_sprints.py <app>             # cenario de cada sprint
+cd Apps/<app>
+python construir.py                                  # gera o index.html
+python testes/testar.py                              # estrutura
+python testes/cenarios.py                            # cenario de cada sprint
+cd ../..
+python Apps/_base/testar.py <app>                     # estrutura no conjunto
+python Apps/_base/testar_sprints.py <app>             # cenarios no conjunto
 node Apps/agendamento-cin/testes/testar_code_gs.js    # apenas o agendamento
 ```
 
-Estado (30/10/2026): **20 apps**, todos com a identidade visual SESP/MT e
-POLITEC/MT. Os 12 primeiros estao com os Sprints 1, 2 e 3 feitos (dois deles,
-`cin-segunda-via` e `metas-bi-ocr`, com o Sprint 4 parcial). Os 8 novos
-(`custodia-definitiva`, `trilha-custodia-necropsia`, `passivo-ambiental`,
-`renovacao-contratos-horus`, `documentapolitec`, `gestao-documentos`,
-`controle-aquisicoes` e `distribuicao-casos-dna`) estao com os Sprints 1, 2 e 3.
-Todos tem a parte tecnica do Sprint 0 (dados ficticios, bibliotecas, modelos).
+Estado (03/11/2026): **21 apps**, todos com a identidade visual SESP/MT e
+POLITEC/MT, `nucleo/` e `construir.py` proprios, testes e `processo.html`.
+O **TEIA** (`teia-triagem-emails`) e o 21o app, nova etapa do projeto do Nelson e
+Luciana; o `distribuicao-casos-dna` continua como a fase anterior. Os 20 apps
+anteriores mantem o estado descrito em `Apps/CONTINUAR.md`; os testes gerais sao
+**21/21** em `testar.py` e **92/92** em `testar_sprints.py`. Todos tem a parte
+tecnica do Sprint 0 (dados ficticios, bibliotecas, modelos).
 Os itens do Sprint 0 que dependiam de pessoas foram **elucubrados** em
 30/10/2026: cada um tem um valor plausivel assumido, documentado em
 `Apps/PREMISSAS.md` com o nivel de confianca e o que precisa ser confirmado.

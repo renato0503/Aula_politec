@@ -134,39 +134,36 @@ Feitas no molde antes da separação, por isso todos os 20 núcleos já têm:
 - `src/identidade.js` (se existir) entra **por último** no build, depois de
   todos os sprints. É o lugar da tela-assinatura de cada app.
 
-### 2.4 Estado dos testes (02/11/2026, depois da Etapa 1)
+### 2.4 Estado dos testes (03/11/2026)
 
-- `testes/testar.py`: **20 de 20 apps OK**.
-- `testes/cenarios.py`: **89 de 89 cenários OK** (o `_base/testar_sprints.py`
-  roda os 20 e termina com código 0).
-- Os dois cenários que falhavam tinham **três causas**, nenhuma delas o feriado
-  de 02/11:
-  1. **Datas fixas no seed** (`agendamento-cin`): a grade e os agendamentos
-     fictícios estavam presos a 03/11 a 13/11, então a agenda do posto não tinha
-     nada "hoje". O `planilha-modelo/gerar_planilha.py` passou a gerar **datas
-     relativas a hoje** (semana passada, corrente e seguinte) e a garantir
-     agendamentos confirmados hoje em cada posto. O `testar_code_gs.js` deixou de
-     depender de 16/11 e calcula a grade a partir do próprio seed.
-  2. **Esperas fixas nos testes**: `pg.wait_for_timeout(800)` era lido antes do
-     fim da importação do seed e antes do `navegar()` terminar. Todos os
-     `testes/cenarios.py` ganharam o helper `semear()` (espera a importação
-     terminar, recarrega a página) e `esperar()` (polling de condição
-     assíncrona). **Importante:** `pg.wait_for_function("async () => ...")` não
-     serve, porque a função devolve Promise (truthy) e a espera termina na hora.
-  3. **Botão dentro de formulário disparava submit** (`adiantamento`): o
-     `#btnPendencia` não tinha `type="button"` e recarregava a página no meio do
-     salvamento. Corrigido na fonte.
+- `Apps/_base/testar.py`: **21 de 21 apps OK**.
+- `Apps/_base/testar_sprints.py`: **92 de 92 cenários OK**.
+- Jornada do cliente: **21 apps, 158 passos no Chromium**, 0 erros.
+- Lightpanda 1.0.2: **19 de 21 apps**; as 2 falhas são limitações do navegador
+  (redução de imagem no `cin-segunda-via` e upload de pasta no `agiliza-mais`).
+- O TEIA passa no Chromium e no Lightpanda (10/10 passos).
+- As três causas históricas dos cenários que falhavam em 02/11 estão resolvidas:
+  datas do seed do agendamento, esperas fixas nos testes e o botão de pendência
+  do adiantamento que disparava submit.
 
 ### 2.5 O que **não** foi feito ainda
 
-- Os `.xlsx` e `.pbix` da `Aula 4/` que aparecem modificados não são deste
-  trabalho: **não entram no commit**.
-- Nenhum repositório novo foi criado no GitHub.
-- A identidade e os itens P1/P2 da Parte B foram feitos nos 20 apps (ver 2.7).
-  O que continua pendente em alguns: paginação nas listas muito longas, o
-  "Usar arquivo de exemplo" das metas e a biblioteca/histórico do Agiliza +.
-- `AGENTS.md`, `Apps/README.md`, `Apps/IDENTIDADE-VISUAL.md` e
-  `Apps/CONTINUAR.md` ainda descrevem a base comum (ver a etapa 5 abaixo).
+- **P2/P3 do `JORNADA-BACKLOG.md`**: matriz do TAP com escala, funil x barra da
+  Comissão, perfis e “Minha fila” do Adiantamento, conferência do
+  DOCUMENTAPOLITEC sem redesenhar a ficha, ficha do contêiner na Custódia,
+  kanban no celular em Aquisições, contexto do Hórus em chip, menu do Metas,
+  Biblioteca/Histórico do Agiliza e nome do fiscal na renovação.
+- **TEIA**: a extração é simulada; faltam parsing real de e-mail/PDF, OCR,
+  renomeação de arquivos e integração com a caixa institucional.
+- **GitHub Pages**: os 21 repositórios são públicos, mas o Pages ainda não foi
+  ligado na raiz de cada um.
+- **Acessos**: 2 logins não existem na API (`Linickeraraujo-sd` e
+  `Vitoriadias-droide`); 5 alunos sem login; o convite do Nelson para o TEIA e
+  para o DNA está pendente de aceite.
+- **Documentação**: `Apps/IDENTIDADE-VISUAL.md` e `Apps/CONTINUAR.md` ainda
+  precisam refletir os 21 apps, os hubs e os diagramas; `AGENTS.md` e
+  `Apps/README.md` já foram atualizados em parte.
+- Os `.xlsx` e `.pbix` da `Aula 4/` continuam fora dos commits deste trabalho.
 
 ### 2.6 Etapa 1 concluída (commit `d391b38`)
 
@@ -186,10 +183,10 @@ Feitas no molde antes da separação, por isso todos os 20 núcleos já têm:
 
 ### 2.7 Etapa 3 · app por app (andamento)
 
-Os 20 apps foram feitos na ordem da seção 3, com um commit próprio por app. O que
-foi feito em cada um está resumido aqui e no `README.md` e no `sprint.md` do app.
-Todos os `testar.py` e `cenarios.py` passam, e a captura de tela foi conferida no
-desktop (1366 px) e no celular (390 px).
+Os 20 apps foram feitos na ordem da seção 3, com um commit próprio por app, e o
+TEIA entrou depois como o 21º. O que foi feito em cada um está resumido aqui e no
+`README.md` e no `sprint.md` do app. Todos os `testar.py` e `cenarios.py` passam,
+e a captura de tela foi conferida no desktop (1366 px) e no celular (390 px).
 
 | App | Commit | O que mudou |
 |---|---|---|
@@ -213,14 +210,14 @@ desktop (1366 px) e no celular (390 px).
 | mapa-distribuicao-credor | `73bcfe2` | Casca de ferramenta, compacto, mono, compacta, cantos retos, planas, KPI em número. Esteira das 8 etapas e grade em planilha. |
 | equipamentos-google-earth | `7962463` | Casca de ferramenta, compacto, sistema, compacta, cantos suaves, planas, KPI em número. Mapa de MT em SVG com 142 municípios e pinos das unidades; contexto de unidade. |
 | agiliza-mais | `59a1109` | Casca de ferramenta, compacto, condensada, compacta, cantos suaves, planas, KPI em faixa. Bancada do caso com 6 passos à esquerda e menu sem os passos. |
+| ~~teia-triagem-emails~~ ✅ | `9c05d21` | Casca de ferramenta, compacto, mono, compacta, retos, planas, número. Bancada de triagem (fila + 8 campos), validação humana, alertas, lotes, planilha e CSV; hub com figuras Mermaid. |
 
 
 ### 2.8 TEIA · o 21º app (03/11/2026)
 
 O Nelson e a Luciana enviaram uma **nova entrada** no formulário da Aula 8
-(`Projeto TEIA · Triagem de E-mails com Isolação Automatizada`). Ela não é uma
-revisão do app de distribuição de DNA: é um projeto novo, da mesma dupla e da
-mesma unidade. Por isso o TEIA virou o **21º app**, em
+(`Projeto TEIA · Triagem de E-mails com Isolação Automatizada`). Ela é a nova etapa do projeto do Nelson e Luciana. Por isso o TEIA virou o
+**21º app**, em
 `Apps/teia-triagem-emails/`, e o `distribuicao-casos-dna` continua como a fase
 anterior.
 
@@ -230,11 +227,36 @@ anterior.
   divergência/OCR, lotes, planilha e CSV.
 - `testes/testar.py`, `testes/cenarios.py` (3 cenários) e `testes/jornada.py`
   (Chromium e Lightpanda).
+- `docs/diagramas/` com as fontes `.mmd`, os SVG e o `processo.md`.
 - `processo.html` com AS-IS/TO-BE, figuras Mermaid (`docs/diagramas/as-is.svg`
   e `to-be.svg`) e as tabelas do projeto.
 - Repositório público `renato0503/teia-triagem-emails`, com convite de push
   para `nelsonyoshitake` (pendente de aceite).
-- `python Apps/_base/testar.py`: 21/21; `testar_sprints.py`: 92/92.
+- `python Apps/_base/testar.py`: 21/21; `testar_sprints.py`: 92/92;
+  jornada do cliente 21/21 (158 passos); Lightpanda 19/21 (2 limitações).
+
+### 2.9 Fechamento do MVP e diagramas (03/11/2026)
+
+O registro completo da entrega está em [`ENTREGA-03-11-2026.md`](ENTREGA-03-11-2026.md).
+
+- **21 apps** com identidade, testes, jornada, repositório e hub.
+- **Hubs `processo.html`** em todos os apps, com AS-IS/TO-BE, KPIs, regras,
+  papéis, métricas, como testar e **duas figuras Mermaid** (AS-IS e TO-BE)
+  renderizadas em SVG em `docs/diagramas/`.
+- **Repositórios públicos** em `github.com/renato0503`, um por app, com
+  convite de colaborador (18 aceitos/convites enviados; 2 logins 404; 5 sem
+  login; 1 convite pendente no TEIA e no DNA).
+- **Correções de MVP** feitas: Triagem da Diretoria e “Novo curso” em Inscrições,
+  tabela de importação no Mapa, paginação em Equipamentos, arquivo de exemplo no
+  Metas, passos “em breve” e caso de exemplo no Agiliza, fiscais no seed e botão
+  do fiscal na Renovação, poços clicáveis no DNA, aviso da autoridade no topo da
+  Gestão, busca na fila do Passivo e `type="button"` nos botões de formulário.
+- **Testes**: 21/21 estrutura, 92/92 cenários, 158 passos de jornada no Chromium,
+  19/21 no Lightpanda (2 limitações de navegador).
+- **Git**: monorepo em `ae7f9fd` (e commits seguintes de docs); repositórios dos
+  apps atualizados.
+
+---
 
 ---
 
@@ -282,7 +304,7 @@ documentapolitec, gestao-documentos, renovacao-contratos-horus,
 distribuicao-casos-dna, comissao-etica-denuncias, passivo-ambiental,
 rnc-nao-conformidade, tap-portfolio-projetos, adiantamento, metas-bi-ocr,
 inscricoes-cursos, mapa-distribuicao-credor, equipamentos-google-earth,
-agiliza-mais.
+agiliza-mais, teia-triagem-emails.
 
 Para **cada** app, nesta ordem:
 
@@ -330,36 +352,29 @@ Checklist resumido por app (detalhes nas Partes B e D do plano):
 | ~~equipamentos-google-earth~~ ✅ | ferramenta · compacto · sistema · compacta · suaves · planas · numero | Mapa de MT em SVG (os 142 municípios de `dados-base/mt-municipios.json` têm `lat`, `lon` e o polígono `p`) | tela inicial = Equipamentos até o mapa existir; lista paginada; contexto de unidade |
 | ~~agiliza-mais~~ ✅ | ferramenta · compacto · condensada · compacta · suaves · planas · faixa | Bancada do caso (passos à esquerda, trabalho à direita) | menu com 4 itens; barra de passos dentro do caso; seed com 1 caso |
 
-### Etapa 4 · Um repositório por app no GitHub
+### Etapa 4 · Um repositório por app no GitHub (concluída em 03/11/2026)
 
-Só depois da etapa 3 de cada app, e **com a confirmação do professor** (publicar
-é ação externa):
+- Os **21 repositórios públicos** estão em `github.com/renato0503`, um por app.
+- A pasta `Apps/<app>/` é a raiz do repositório, com `index.html`,
+  `processo.html`, `docs/diagramas/`, `nucleo/`, `construir.py`, `testes/`,
+  `exemplos/`, `modelos/` e os documentos.
+- Os convites de colaborador com push foram enviados; 2 logins não existem na
+  API (`Linickeraraujo-sd`, `Vitoriadias-droide`) e 5 alunos ainda não têm login.
+- O **GitHub Pages ainda não foi ligado**; os repositórios são públicos, então
+  pode ser ativado na raiz de cada um.
+- A dupla Nelson e Luciana tem dois repositórios: `distribuicao-casos-dna`
+  (fase anterior) e `teia-triagem-emails` (novo projeto).
 
-1. Os logins dos alunos estão em `Apps/_base/equipes.json` e na tabela "Equipes
-   e GitHub" do `Apps/README.md`.
-2. Para cada app, a pasta `Apps/<app>/` inteira vira a raiz do repositório
-   (`index.html` gerado, `app.json`, `src/`, `nucleo/`, `testes/`, `exemplos/`,
-   `modelos/`, `vendor/`, documentos). Caminho sugerido, sem perder o histórico:
-   `git subtree split --prefix "Apps/<app>" -b app-<app>` e depois
-   `gh repo create <dono>/<app> --private --source . ` com push do ramo
-   `app-<app>` para `main`.
-3. Em cada repositório novo, ativar o GitHub Pages na raiz (o app é um
-   `index.html` offline).
-4. Decidir com o professor se `Apps/` continua no repositório do curso
-   (monorrepo de origem) ou se passa a ser só um índice com links.
+### Etapa 5 · Documentação (parcial)
 
-### Etapa 5 · Documentação
-
-- `AGENTS.md` seção 3.8: trocar "edite as fontes ... gerado por
-  `Apps/_base/construir.py` a partir de `_base/base.html`" por "cada app é
-  autônomo: `nucleo/`, `construir.py` e `testes/` próprios; `_base/` é só
-  molde". Atualizar a tabela de ferramentas e a sequência de comandos.
-- `Apps/README.md`: estrutura nova de pasta e comandos.
-- `Apps/IDENTIDADE-VISUAL.md`: tokens novos e a tabela da Parte D, com a regra
-  "comum só a faixa do governo, o rodapé, o foco, o tema claro padrão e o A−/A+".
-- `Apps/CONTINUAR.md`: apontar para este arquivo no topo.
-- `Apps/painel.py` e `Apps/_base/hub_apps.py`: conferir se ainda leem os
-  arquivos certos (eles leem `app.json` e `sprint.md`, que não mudaram).
+- `AGENTS.md` seção 3.8 e `Apps/README.md` já registram os apps autônomos, o
+  TEIA, os repositórios públicos e os testes.
+- Falta atualizar `Apps/IDENTIDADE-VISUAL.md` (tokens e Parte D) e
+  `Apps/CONTINUAR.md` (apontar para este arquivo, para o TEIA e para os hubs).
+- `Apps/painel.py` e `Apps/_base/hub_apps.py`: conferir se leem os 21 `app.json`
+  e `sprint.md`; o TEIA já está na pasta.
+- Os comandos de Lightpanda e de geração dos diagramas estão neste arquivo e em
+  `Apps/_base/gerar_diagramas.py`.
 
 ---
 
@@ -392,36 +407,70 @@ Só depois da etapa 3 de cada app, e **com a confirmação do professor** (publi
 Copie e cole:
 
 ```text
-Você vai continuar o trabalho nos 20 mini apps do curso POLITEC/MT, no
-repositório "D:\Dev\Aula Politec" (pasta Apps/).
+Você vai testar e continuar os 21 mini apps do curso POLITEC/MT, no repositório
+"D:\Dev\Aula Politec" (pasta Apps/). O trabalho anterior terminou com os apps
+autônomos, com identidade própria, testes, hubs, diagramas e repositórios
+públicos.
 
 Leia, nesta ordem, antes de qualquer alteração:
-1. Apps/CONTINUAR-IDENTIDADE.md  (o que o professor pediu, o que foi feito, o que falta)
-2. Apps/PLANO-USABILIDADE.md     (Parte B: plano de cada app; Parte D: identidade de cada app)
-3. AGENTS.md, seção 3.8 e seção 5.2 (regras do repositório e do texto)
+1. Apps/CONTINUAR-IDENTIDADE.md
+2. Apps/JORNADA-TESTES.md
+3. Apps/JORNADA-NAVEGABILIDADE.md
+4. Apps/JORNADA-BACKLOG.md
+5. AGENTS.md, seções 3.8 e 5.2
 
-Contexto: o professor pediu que (1) cada app tenha um plano próprio de
-navegabilidade, layout e usabilidade; (2) cada app seja único, sem parecer com os
-outros; (3) não exista base comum: cada app tem construção independente, porque
-cada um vai para o próprio repositório no GitHub. A separação já foi feita: cada
-Apps/<app>/ tem nucleo/ (casca.html, visual.css, icones.js, comum.js),
-construir.py, testes/testar.py e testes/cenarios.py. O seletor de perfil já é um
-menu suspenso no cabeçalho, sem tela de bloqueio.
+Estado atual (03/11/2026):
+- 21 apps: os 20 da turma e o TEIA (Triagem de E-mails), do Nelson e Luciana.
+  O TEIA é a nova etapa do projeto do Nelson e Luciana; o app de DNA continua como a fase anterior.
+- Cada app tem nucleo/ próprio, construir.py, testes/testar.py,
+  testes/cenarios.py, testes/jornada.py, processo.html e docs/diagramas/
+  (as-is.mmd, to-be.mmd, as-is.svg, to-be.svg e processo.md).
+- Testes: python Apps/_base/testar.py = 21/21;
+  python Apps/_base/testar_sprints.py = 92/92;
+  jornada = 21 apps e 158 passos no Chromium.
+- Lightpanda 1.0.2: 19/21; as 2 falhas são limitações do navegador
+  (redução de imagem no cin-segunda-via e upload de pasta no agiliza-mais).
+- Repositórios públicos em github.com/renato0503, um por app. O TEIA está em
+  teia-triagem-emails. O convite de push do Nelson está pendente; 2 logins
+  não existem na API e 5 alunos não têm login.
+- GitHub Pages ainda não foi ligado nos repositórios.
+- Os arquivos da Aula 4/ não entram nos commits.
 
-Comece pela Etapa 1 do CONTINUAR-IDENTIDADE.md (seção 3): resolver os 2 cenários
-que falham (adiantamento s5 e agendamento-cin s6; hipótese: 02/11 é feriado),
-configurar "rotaInicial" nos dois apps do cidadão, escrever "Como construir e
-testar" no README de cada app e fazer o commit da separação (sem os arquivos da
-Aula 4/).
+O que falta (detalhado em JORNADA-BACKLOG.md):
+1. Completar as 22 rotas em 4 apps: mapa-distribuicao-credor, inscricoes-cursos,
+   equipamentos-google-earth e agiliza-mais.
+2. Fechar os P2/P3: matriz do TAP com escala; unificar funil e barra da Comissão;
+   perfis e "Minha fila" do Adiantamento; conferência do DOCUMENTAPOLITEC sem
+   redesenhar a ficha; ficha do contêiner na Custódia; kanban no celular em
+   Aquisições; contexto do Hórus em chip; menu de conferência/geração do Metas;
+   Biblioteca/Histórico do Agiliza; nome do fiscal na renovação.
+3. TEIA: trocar a extração simulada por parsing real de e-mail/PDF, OCR,
+   renomeação e integração com a caixa institucional, mantendo o app offline e a
+   validação humana.
+4. Ativar GitHub Pages na raiz de cada repositório, se o professor confirmar.
+5. Corrigir os 2 logins 404 e cobrar os 5 logins que faltam.
+6. Conferir Apps/IDENTIDADE-VISUAL.md e Apps/CONTINUAR.md.
 
-Depois siga a Etapa 3, um app por vez, na ordem indicada: bloco "visual" da
-Parte D, núcleo divergente quando a forma da tela pedir, tela-assinatura em
-src/identidade.js, itens P1 e P2 da Parte B, testes do app passando, captura de
-tela olhada no desktop e no celular, e um commit por app. Ao terminar cada app,
-atualize a seção 2 do CONTINUAR-IDENTIDADE.md (o que foi feito) e risque o app
-no checklist da seção 3.
+Como testar:
+- Tudo: python Apps/_base/testar.py && python Apps/_base/testar_sprints.py
+- Um app: cd Apps/<app>; python construir.py; python testes/testar.py;
+  python testes/cenarios.py; python testes/jornada.py
+- Lightpanda: suba o binário no WSL, o servidor CDP em 9222 e o HTTP em 8000;
+  depois: python testes/jornada.py --cdp http://127.0.0.1:9222 --base http://127.0.0.1:8000
+- Diagramas: python Apps/_base/gerar_diagramas.py (Mermaid local em
+  C:\Users\Renato\AppData\Local\Temp\mermaid-render)
+- Hubs: python Apps/_base/gerar_hubs.py
 
-Não crie repositórios no GitHub nem faça push sem a confirmação do professor.
-Nunca edite index.html direto; nunca importe nada de fora da pasta do app; não
-rode _base/separar.py --forcar.
+Regras:
+- Nunca edite index.html direto; edite app.json, src/, nucleo/ e rode
+  construir.py dentro da pasta do app.
+- Nenhum app importa nada de fora da própria pasta.
+- Não rode Apps/_base/separar.py --forcar.
+- Commit só do que é da entrega; a Aula 4/ fica de fora.
+- Tema claro é o padrão; fonte 80% a 150%; offline, sem CDN no app.
+- O perfil é lente de demonstração, não segurança.
+
+Comece rodando os testes completos e a jornada do TEIA. Depois escolha o primeiro
+P2 do backlog, corrija na fonte, rode construir.py, testar.py, cenarios.py e
+jornada.py, olhe as capturas no desktop e no celular e faça um commit por app.
 ```

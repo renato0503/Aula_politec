@@ -1,4 +1,4 @@
-# Avaliação crítica de navegabilidade · 20 apps
+# Avaliação crítica de navegabilidade · 21 apps
 
 Registro de 02/11/2026 (atualizado em 03/11/2026 com o TEIA), depois da jornada do cliente no Chromium e no
 Lightpanda 1.0.2 (via WSL, CDP em `127.0.0.1:9222`, com os apps servidos por

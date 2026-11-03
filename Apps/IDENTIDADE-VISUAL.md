@@ -1,6 +1,6 @@
 # Identidade visual dos apps (mídia kit)
 
-Todos os 20 apps usam a mesma base visual, com as cores do **Governo de Mato
+Todos os 21 apps usam a mesma base visual, com as cores do **Governo de Mato
 Grosso, da SESP/MT e da POLITEC/MT**. Além disso, cada app tem a sua
 personalização: cor de acento, emblema, layout, padrão do cabeçalho e estilo.
 
@@ -73,7 +73,7 @@ o dourado (24%) e o verde de MT (14%).
 Cada tela do menu ganha ícone pelo título. Para forçar um ícone, acrescente
 `"icone": "<nome>"` na rota do `app.json`.
 
-### Tabela dos 20 apps
+### Tabela dos 21 apps
 
 | App | Acento | Emblema | Layout | Padrão | Estilo | Setor |
 |---|---|---|---|---|---|---|
@@ -85,6 +85,7 @@ Cada tela do menu ganha ícone pelo título. Para forçar um ícone, acrescente
 | controle-aquisicoes | `#b23c17` terracota | carrinho | lateral | grade | institucional | Coordenadoria de Aquisições |
 | custodia-definitiva | `#3f4a5a` grafite | caixa | lateral | hexagonos | institucional | Central de Custódia Definitiva |
 | distribuicao-casos-dna | `#86198f` fúcsia escuro | dna | topo | hexagonos | institucional | Biologia Molecular · DNA |
+| teia-triagem-emails | `#0f5c6b` azul petróleo | inbox | ferramenta | grade | institucional | Biologia Molecular · Triagem de e-mails |
 | documentapolitec | `#7c5a16` sépia | pasta | lateral | linhas | institucional | Patrimônio e Serviços · Arquivo central |
 | equipamentos-google-earth | `#2f7d32` verde mata | globo | topo | topografico | institucional | Qualidade · Parque de equipamentos |
 | gestao-documentos | `#2b5a8a` azul aço | carimbo | lateral | linhas | institucional | Gabinete de Direção · Protocolo |
