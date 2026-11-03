@@ -209,6 +209,7 @@ os dados fictícios.
 | [documentapolitec](https://github.com/renato0503/documentapolitec) | público | `main` | index.html, processo.html, nucleo/, testes/ |
 | [equipamentos-google-earth](https://github.com/renato0503/equipamentos-google-earth) | público | `main` | index.html, processo.html, nucleo/, testes/ |
 | [gestao-documentos](https://github.com/renato0503/gestao-documentos) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [gestao_identificados](https://github.com/renato0503/gestao_identificados) | público | `main` | index.html, desaparecidos.html, processo.html, nucleo/, testes/ |
 | [horus-banco-demandas](https://github.com/renato0503/horus-banco-demandas) | público | `main` | index.html, processo.html, nucleo/, testes/ |
 | [inscricoes-cursos](https://github.com/renato0503/inscricoes-cursos) | público | `main` | index.html, processo.html, nucleo/, testes/ |
 | [mapa-distribuicao-credor](https://github.com/renato0503/mapa-distribuicao-credor) | público | `main` | index.html, processo.html, nucleo/, testes/ |

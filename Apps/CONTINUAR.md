@@ -109,12 +109,15 @@ Projeto da **Kesia Melo** (NIHDE), criado em 03/11/2026 a partir do envio e de
 cinco áudios. O app tem painel com a pergunta do MVP, lista, cadastro, ficha com
 os quatro exames, identificação, família, sepultamento pelo município,
 identificação após sepultamento, relatório e CSV. MVP nos Sprints 0 a 4;
-`python testes/testar.py` e os três cenários passam. O módulo de desaparecidos
-está em `desaparecidos.html` (painel do CNPD/MJ com 381 registros), ligado pelo
-painel do app e pelo hub; a base pública fica separada do cadastro dos corpos e o
-contrato está em `docs/CONTRATO-DESAPARECIDOS.md`. Pendente: confirmar o nome
-oficial do NIHDE e o escopo dos dados físicos, integrar com o Atena e o piloto de
-90 dias no IML de Cuiabá.
+`python testes/testar.py` e os quatro cenários passam. O módulo de desaparecidos
+está em `desaparecidos.html` (painel do CNPD/MJ com 381 registros) e na rota
+`#/desaparecidos`, ligado pelo painel do app e pelo hub; a base pública fica
+separada do cadastro dos corpos e o contrato está em
+`docs/CONTRATO-DESAPARECIDOS.md`. O repositório
+[gestao_identificados](https://github.com/renato0503/gestao_identificados) foi
+criado e publicado; a Kesia (`krllmsoares-del`) recebeu convite de escrita e
+precisa aceitar. Pendente: confirmar o nome oficial do NIHDE e o escopo dos dados
+físicos, integrar com o Atena e o piloto de 90 dias no IML de Cuiabá.
 
 ## 0.1 Links para os alunos
 
