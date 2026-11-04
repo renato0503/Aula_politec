@@ -67,6 +67,15 @@ As respostas podem ser lidas na página `Aula 8/feedback/index.html`. Os formul�
 
 **Acessibilidade (03/11/2026):** Lighthouse de acessibilidade com 100 nos 21 apps e no formulário de feedback, depois de escurecer o âmbar do tema claro (`--ambar:#8a5000` no `nucleo/visual.css` de todos) e tirar a opacidade das etapas vazias da Comissão de Ética e dos meses vazios do Metas BI.
 
+### 0.0a RNC: ID da planilha e setores (04/11/2026)
+
+Pedido da Sabrina pelo WhatsApp: o app criava um código em vez de usar o da planilha. Commit `0588c5f`, detalhe no Sprint 8 de `rnc-nao-conformidade/sprint.md`.
+
+- O "ID ocorrência" passou a ser a fonte de verdade. Antes, os fictícios (`DLF/2026-001` a `020`) ocupavam os números reais e a linha da planilha era descartada como "já existente". Agora o fictício é substituído, e a RNC importada antes com código gerado é renumerada.
+- Os setores são padronizados pelo catálogo `SETORES_POLITEC` (11 unidades; siglas assumidas em `PREMISSAS.md`, seção 18). Texto sem unidade fica como `ADEF`, e o nome de pessoa sai da coluna de envolvidos (RN07).
+- Testes do RNC: `#/testes` 18/18, cenários 11/11 (`s11` e `s12` novos), e o app passa em `_base/testar.py` e `_base/testar_sprints.py`.
+- Pendente: confirmar as siglas com a Sabrina e enviar a versão para o repositório dela, se ela continuar por lá.
+
 ### 0.0 Mudanças da segunda etapa de 03/11/2026
 
 - **trilha-custodia-necropsia**: Sprint 8 com sete etapas, resultado da identificação, busca de familiares, liberação com assinatura no canvas, sepultamento pelo Estado, entrega e recebimento do laudo, confirmação de lacre só pelo Gestor ADM, perfil Médico Legista e `#/resumo`. A versão 02/11/2026 da Silmara está em `entregas/2026-11-02/`.
@@ -476,8 +485,9 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 ### Não Conformidades (`rnc-nao-conformidade`)
 
 - **Visual**: acento `#b42318`, emblema `alerta`, layout `lateral`, padrão `linhas`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2, 3, 4, 5, 6.
-- **Situação**: MVP completo até o Sprint 6. Roteiro de aceite em `modelos/roteiro-aceite.md`; o que falta depende de pessoas (ver `PREMISSAS.md`).
+- **Sprints concluídos**: 1 a 8 (Sprint 7: feedback de 03/11; Sprint 8: ID da planilha e setores, 04/11/2026).
+- **Situação**: MVP completo até o Sprint 8. Importa a planilha oficial com o ID dela, padroniza os setores e não guarda nome de pessoa. Roteiro de aceite em `modelos/roteiro-aceite.md`; o que falta depende de pessoas (ver `PREMISSAS.md`).
+- **Próximo passo**: confirmar com a Sabrina as siglas dos setores (`SETORES_POLITEC` em `src/app.js`) e conferir o documento com o modelo oficial da CQUAL.
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Listar com a CQUAL as categorias de não conformidade e as gravidades.

@@ -105,3 +105,33 @@ A planilha `respostas-forms-ficticio.csv` tem colunas **supostas**; trocar pelo 
 
 **Pronto quando**: uma RNC vira o documento oficial, o setor recebe o arquivo e o prazo de complemento conta em dias úteis.
 
+
+## Sprint 8 · ID da planilha e setores (04/11/2026)
+
+> Pedido da Sabrina pelo WhatsApp em 04/11/2026: "meu app tá criando um código ao invés de pegar o da própria planilha". Ela limpou a planilha no Google (12 linhas, `DLF/2026-008` a `DLF/2026-019`) e mandou o link, que já é o padrão do app (`URL_PLANILHA`). Commit `0588c5f`.
+
+### Causa
+- Os dados fictícios usam `DLF/2026-001` a `020`, os mesmos números da planilha real. Na importação, a linha real era contada como "já existente" e não era gravada, então a tela mostrava o registro fictício.
+- Um ID fora do padrão exato `DIRETORIA/ANO-SEQ` (espaço, minúscula) era trocado por um gerado.
+- A RNC importada antes com código gerado era reconhecida pelo conteúdo (`chave_importacao`) e ficava com o código antigo.
+
+### Feito
+- [x] O "ID ocorrência" é a fonte de verdade: só tira espaços e põe em maiúsculas (`numeroDaPlanilha`). Fora do padrão, mantém e avisa. Só gera quando a célula está vazia.
+- [x] Registro fictício (sem `chave_importacao`) com o mesmo número é substituído, e as etapas, planos e avaliações dele saem junto (`removerRnc`).
+- [x] RNC importada antes com código gerado é renumerada para o ID da planilha, com `numero_anterior` guardado (`renumerarRnc`).
+- [x] Setores por extenso e escritos de vários jeitos viram uma sigla só pelo catálogo `SETORES_POLITEC` (11 unidades). Unidade fora do catálogo entra no cadastro com sigla pelas iniciais; texto sem unidade fica como `ADEF` (a definir na validação). Os setores novos entram na store `setores`.
+- [x] RN07: da coluna "Pessoas ou setores envolvidos" só a unidade entra no app (`envolvidosSemNome`); o nome de pessoa fica de fora.
+- [x] Reimportar atualiza os setores e os envolvidos das RNCs já importadas, sem mexer nas etapas.
+- [x] Ficha (`#/rnc/:id`) mostra sigla e nome do setor; o documento para impressão mostra o nome.
+- [x] Testes: 3 testes embutidos (18/18 no `#/testes`) e os cenários `s11_numero_da_planilha` e `s12_setores_da_planilha` (11/11 cenários).
+- [x] Conferido com a planilha nova da Sabrina: 12 novas, 0 recusadas, 7 setores no painel (GMLROO 4, GNEC 3), nenhum nome de pessoa no backup.
+
+### Falta (decisão do setor)
+- [ ] Confirmar as siglas assumidas (só a CPBM é conhecida, pelo nome do documento do AutoCrat). Premissa em `Apps/PREMISSAS.md`, seção 18. A troca é na lista `SETORES_POLITEC` de `src/app.js`.
+- [ ] A Sabrina usar "Apagar todos os dados" antes de importar, para tirar os fictícios.
+- [ ] Testar a sincronização pelo link (a planilha precisa estar como "qualquer pessoa com o link pode ver").
+- [ ] Enviar a versão para o repositório da Sabrina (`Sabrinaelllen1209`), se ela continuar por lá. Até agora só foi para `renato0503/Aula_politec`.
+
+**Observação**: a planilha `Registro de Não Conformidade Oficial 1.xlsx` (na pasta do app e em `Apps/`) tem nomes e e-mails reais e **não** vai para o git. Os cenários `s7`, `s11` e `s12` dependem da cópia da pasta do app.
+
+**Pronto quando**: a planilha real entra com os códigos dela, cada unidade aparece uma vez no painel e nenhum nome de pessoa fica no app.

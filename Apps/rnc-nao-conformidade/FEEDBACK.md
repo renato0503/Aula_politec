@@ -67,3 +67,8 @@ Situação: não testou (1)
 
 - Sabrina Ellen Costa Silva · equipe do app · CQUAL · nota 3 · 2026-11-03
 - Sabrina Ellen Costa Silva · equipe do app · Cqual · nota 4 · 2026-11-03
+
+## Retorno pelo WhatsApp (04/11/2026)
+
+- [x] "Meu app tá criando um código ao invés de pegar o da própria planilha" _(Sabrina)_. Resolvido no Sprint 8 do `sprint.md` (commit `0588c5f`): o ID ocorrência da planilha passou a ser usado, os setores foram padronizados e o nome de pessoa saiu da coluna de envolvidos.
+- [ ] Confirmar com ela as siglas dos setores (GNEC, GMLROO, GPVV...). Premissa em `Apps/PREMISSAS.md`, seção 18.
