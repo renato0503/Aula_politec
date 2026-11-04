@@ -22,6 +22,7 @@ materiais de pratica.
 | [6](Aula%206/) | Painel de Processo (manha) + Gestao de Projetos (tarde) | 80 | — | [417 KB](Aula%206/caderno-dia6.html) | [121 pág · 6,5 MB](Aula%206/Caderno%20Dia%206%20-%20POLITEC.pdf) |
 | [7](Aula%207/) | Gargalo medido, Automacao e Antigravity | 68 | — | [378 KB](Aula%207/caderno-dia7.html) | [135 pág · 6,6 MB](Aula%207/Caderno%20Dia%207%20-%20POLITEC.pdf) |
 | [8](Aula%208/) | Fase de ideação (formulario, metricas e defesa) | — | — | [Formulário](Aula%208/formulario-ideacao.html) | — |
+| [9](Aula%209/) | Continuidade dos MVPs e entrega final (GitHub + Antigravity) | 58 | — | [155 KB](Aula%209/caderno-dia9.html) | [88 pág](Aula%209/Caderno%20Dia%209%20-%20POLITEC.pdf) |
 
 Cada pasta `Aula N/` contem: `README.md` (indice da aula), `caderno-diaN.html`
 (fonte viva), `Caderno Dia N - POLITEC.pdf`, `Dia-N-Politec.pdf` (slides) e
@@ -30,7 +31,10 @@ Cada pasta `Aula N/` contem: `README.md` (indice da aula), `caderno-diaN.html`
 (5 workbooks `.xlsx` com todas as tabelas em abas) e a pasta `datasets/` com
 os 5 cenarios. A Aula 7 repete o esquema com **5 cenarios novos**
 (`gerar_datasets_aula7.py` e `gerar_excel_aula7.py`, 58.408 execucoes de etapa),
-acrescenta o **aulão de Antigravity** e os **comandos do GitHub**.
+acrescenta o **aulão de Antigravity** e os **comandos do GitHub**. A Aula 9 fecha o
+curso com o **caderno de continuidade**, 21 pacotes individuais em
+`Aula 9/pacotes/` e o passo a passo para os alunos baixarem o ZIP, abrirem no
+Antigravity e devolverem pelo GitHub.
 
 ---
 
