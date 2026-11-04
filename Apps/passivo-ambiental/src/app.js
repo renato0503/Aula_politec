@@ -75,7 +75,12 @@ TELAS_DEPOIS["#/requisicao/nova"] = ()=>{
 // RN01: o cabeçalho vem da requisição e pode ser ajustado antes de salvar
 function paCabecalho(r, l){
   return [
-    ["Número do processo", r.numero_processo], ["Órgão requisitante", r.orgao], ["Data da requisição", dataCurtaBR(r.data_requisicao)],
+    ["Nº da requisição", r.numero_processo], ["Número do processo", r.numero_processo],
+    ["Autoridade requisitante", l.autoridade || r.orgao], ["Órgão requisitante", r.orgao],
+    ["Natureza do exame", l.natureza || "Perícia ambiental"],
+    ["Data da requisição", dataCurtaBR(r.data_requisicao)], ["Data de elaboração", dataCurtaBR(l.data_elaboracao || hojeISO())],
+    ["Horário de início", l.hora_inicio || "08:00"], ["Horário de fim", l.hora_fim || "17:00"],
+    ["Setor", l.setor || "Diretoria de Interiorização"],
     ["Tipo de infração ambiental", l.tipo_infracao || r.tipo_infracao], ["Local do dano", l.local || r.local], ["Coordenadas", l.coordenadas || r.coordenadas || "não informadas"]
   ];
 }
@@ -89,7 +94,13 @@ TELAS["#/laudo/:id"] = async ({id})=>{
     <form class="card" id="formPaLaudo"><h2 style="margin-top:0">Cabeçalho</h2>
       <div class="tabela-wrap"><table id="tabelaCabecalho">${cab.map(([k, v])=>`<tr><th>${esc(k)}</th><td>${esc(v)}</td></tr>`).join("")}</table></div>
       <div class="campos">${campo("paLocalL", "Local do dano (ajuste)", {valor: l.local || r.local})}
-        ${campo("paCoordL", "Coordenadas (ajuste)", {valor: l.coordenadas || r.coordenadas || ""})}</div>
+        ${campo("paCoordL", "Coordenadas (ajuste)", {valor: l.coordenadas || r.coordenadas || ""})}
+        ${campo("paAutoridade", "Autoridade requisitante", {valor: l.autoridade || r.orgao})}
+        ${campo("paNatureza", "Natureza do exame", {valor: l.natureza || "Perícia ambiental"})}
+        ${campo("paDataElab", "Data de elaboração", {tipo: "date", valor: l.data_elaboracao || hojeISO()})}
+        ${campo("paHoraIni", "Horário de início", {tipo: "time", valor: l.hora_inicio || "08:00"})}
+        ${campo("paHoraFim", "Horário de fim", {tipo: "time", valor: l.hora_fim || "17:00"})}
+        ${campo("paSetor", "Setor", {valor: l.setor || "Diretoria de Interiorização"})}</div>
       ${campo("paHoras", "Horas trabalhadas neste laudo", {tipo: "number", valor: l.horas_trabalhadas || 0, attrs: 'min="0" step="0.5"'})}
       <div id="paErrosLaudo"></div><div class="linha-botoes"><button class="prim" type="submit">Salvar rascunho</button>
         <button type="button" id="btnPaConcluir">Concluir o laudo</button></div></form>`;
@@ -98,6 +109,8 @@ TELAS_DEPOIS["#/laudo/:id"] = ({id})=>{
   const salvar = async ()=> {
     const r = await db.get("requisicoes", id), ls = await db.porIndice("laudos", "requisicao_id", id);
     const l = {...(ls[0] || {id_laudo: "L-" + id, requisicao_id: id}), local: valorDe("paLocalL"), coordenadas: valorDe("paCoordL"),
+      autoridade: valorDe("paAutoridade"), natureza: valorDe("paNatureza"), data_elaboracao: valorDe("paDataElab"),
+      hora_inicio: valorDe("paHoraIni"), hora_fim: valorDe("paHoraFim"), setor: valorDe("paSetor"),
       horas_trabalhadas: Number(valorDe("paHoras") || 0)};
     await db.put("laudos", l); return l;
   };
@@ -105,7 +118,7 @@ TELAS_DEPOIS["#/laudo/:id"] = ({id})=>{
   $("#btnPaConcluir")?.addEventListener("click", async ()=>{
     const r = await db.get("requisicoes", id), mapas = await db.porIndice("mapas", "laudo_id", "L-" + id), l = await salvar();
     const cab = paCabecalho(r, l), semCab = cab.filter(([, v])=>!String(v || "").trim() || /não informad/i.test(v)).map(([k])=>k);
-    const erros = [...semCab.map(k=>`Cabeçalho incompleto: ${k}.`), !mapas.length && "Anexe pelo menos 1 mapa temático (RN03)."].filter(Boolean);
+    const erros = [...semCab.map(k=>`Cabeçalho incompleto: ${k}.`), paMapasObrigatorios(mapas).length && `Anexe os mapas obrigatórios: ${paMapasObrigatorios(mapas).join(", ")} (RN03).`].filter(Boolean);
     if (!mostrarErros("#paErrosLaudo", erros)) return;
     await db.put("laudos", {...l, status: "concluido", concluido_em: agora()});
     await db.put("requisicoes", {...r, status: "concluida"});

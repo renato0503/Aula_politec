@@ -102,6 +102,19 @@ e KPI em anel. A tela-assinatura é o **ano em 12 meses**, cada mês com a situa
 fluxo ganhou os **passos 1 Importar · 2 Conferir · 3 Gerar planilha** no topo das
 três telas. Código em `src/identidade.js` e `src/app.css`.
 
+## Mês escolhido e edição individual (03/11/2026)
+
+No `#/importar`, o campo **Mês de referência** permite importar o arquivo em um
+mês escolhido. Se ficar vazio, o app usa o mês do arquivo; se o arquivo indicar
+outro mês, a tela avisa. Na conferência, cada linha tem **Editar** (unidade, nome
+lido, pendentes e motivo) e **Excluir**, e a lista de meses tem **Abrir** e
+**Excluir**. Toda alteração fica em `correcoes` e no log; mês aprovado não é
+excluído (RN05).
+
+## Sprint 8 · Feedback
+
+O importador aceita o filtro de gerência e o recorte de unidades monitoradas; o cartão **Pendentes** soma só as monitoradas; o total é ajustado ao recorte; e a aprovação abre a planilha do mês. O mês aprovado continua travado (RN05).
+
 ## Mapa do processo
 
 O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o

@@ -14,6 +14,7 @@
 | 5 | Feito em 30/10/2026. Painel do gestor com tempo por etapa, retrabalho, pendências por unidade e por responsável e alerta de processo parado. |
 | 6 | Feito em 30/10/2026. Processos por etapa, prazo médio, exportação CSV e impressão em A4. |
 | 7 | Feito em 30/10/2026. Roteiro de aceite em `modelos/roteiro-aceite.md`. |
+| 8 | Feito em 03/11/2026: painel compacto, tabelas e KPI menores, gráficos em 640 px e conferência no celular. |
 
 ## Visão geral
 
@@ -99,3 +100,16 @@
 - [x] Atualizar `PROJETO.md` e `README.md`.
 
 **Meta do piloto**: processos simulados (Do DFD à definição da modalidade.).
+
+## Sprint 8 · Correções do feedback (03/11/2026)
+
+> Feedback de Kasteline (nota 5).
+
+### Código
+- [x] Reduzir a fonte do painel (KPI, tabelas e gráficos) e conferir no celular.
+- [x] Manter os gráficos limitados a 640 px.
+
+### Decisão do setor
+- [x] Nenhuma; é ajuste visual.
+
+**Pronto quando**: o painel cabe na tela sem letra grande e sem rolagem horizontal no celular.

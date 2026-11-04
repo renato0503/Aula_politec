@@ -328,6 +328,7 @@ async function exportarTriagem(sigla, curso){
 /* ================= Sprint 6 · Triagem pelas diretorias (RN05) ================= */
 TELAS["#/triagem"] = async ()=>{
   const [cursos, dirs, triagens] = await Promise.all([db.list("cursos"), db.list("diretorias"), db.list("triagens")]);
+  if (!cursos.length || !dirs.length) return `<h1>Triagem</h1><div class="card vazio">A triagem precisa de um curso e de diretorias cadastradas. <a href="#/config">Carregue os dados fictícios</a> ou cadastre em <a href="#/cursos">Cursos</a>.</div>`;
   const dir = estado.tgDir || (dirs[0] && dirs[0].sigla) || "";
   const nomeDir = dirs.find(d=> d.sigla === dir)?.nome || dir;
   const curso = estado.tgCurso || (cursos[0] && cursos[0].id) || "";

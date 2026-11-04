@@ -96,7 +96,8 @@ def construir():
     libs += [f"<!-- DADOS:{i}:{c} --><!-- /DADOS:{i} -->" for i, c in cfg.get("dados", [])]
     data_visual = " ".join(f'data-{k}="{visual.get(k) or p}"' for k, p in IDENTIDADE.items())
     trocas = {
-        "%%CSP%%": CSP if cfg.get("csp", True) else "<!-- Sem CSP: a página é servida pelo Apps Script (HtmlService). -->",
+        "%%CSP%%": (CSP.replace("connect-src 'none';", f"connect-src {cfg['connect_src']};") if cfg.get("connect_src") else CSP)
+                   if cfg.get("csp", True) else "<!-- Sem CSP: a página é servida pelo Apps Script (HtmlService). -->",
         "%%TITULO%%": cfg["titulo"], "%%SUBTITULO%%": cfg["subtitulo"], "%%DESCRICAO%%": cfg["descricao"],
         "%%AVISO%%": f'<div class="aviso-topo">{cfg["aviso"]}</div>' if cfg.get("aviso") else "",
         "%%CSS_BASE%%": (NUCLEO / "visual.css").read_text(encoding="utf-8"),

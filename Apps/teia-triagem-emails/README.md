@@ -1,13 +1,13 @@
-# TEIA · Triagem de E-mails com Isolação Automatizada
+﻿# TEIA · Triagem de E-mails com Isolação Automatizada
 
 Painel local do triador para a Coordenação de Perícias em Biologia Molecular.
-Recebe a fila de e-mails de requisição, mostra os 8 campos essenciais extraídos
+Recebe a fila de e-mails de requisição, mostra os 9 campos essenciais extraídos
 com confiança e alertas, e registra a validação humana. O protótipo não envia
 nada para fora: a extração é simulada com os dados fictícios.
 
 | Campo | Valor |
 |---|---|
-| Alunos | Nelson e Luciana |
+| Alunos | Nelson e Helen Coelho Gonçalves |
 | Contato | nelsonyoshitake@politec.mt.gov.br |
 | Unidade | Coordenação de Perícias em Biologia Molecular |
 | Tipo | Automação de script ou rotina |
@@ -25,7 +25,7 @@ nada para fora: a extração é simulada com os dados fictícios.
 
 A identidade é de bancada de triagem: casca de ferramenta, cabeçalho compacto,
 fonte monoespaçada, densidade compacta, cantos retos e superfícies planas. A
-tela-assinatura é a **bancada**: a fila de e-mails à esquerda e os 8 campos à
+tela-assinatura é a **bancada**: a fila de e-mails à esquerda e os 9 campos à
 direita, com a confiança da extração, os alertas de divergência/OCR e a
 validação humana. O app tem dois perfis: servidor triador e chefia da triagem.
 

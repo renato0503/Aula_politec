@@ -14,6 +14,7 @@
 | 5 | Feito em 30/10/2026. Trilha append-only com autor em cada evento, histórico de substituição de fiscais (o anterior fecha com data) e perfis admin, gestor e fiscal. |
 | 6 | Feito em 30/10/2026. Valor em risco na janela de 90 dias, tempo médio até a renovação, CSV com a faixa e impressão em A4. |
 | 7 | Feito em 30/10/2026. Roteiro de aceite em `modelos/roteiro-aceite.md`. |
+| 8 | Aberto em 03/11/2026 (feedback dos alunos). Ver Sprint 8 abaixo. |
 
 ## Visão geral
 
@@ -99,3 +100,27 @@
 - [x] Atualizar `PROJETO.md` e `README.md`.
 
 **Meta do piloto**: 30 dias (Do monitoramento ao termo aditivo.).
+
+## Sprint 8 · Correções do feedback (03/11/2026)
+
+> Feedback de Rodrigo (nota 3).
+
+### Código
+- [x] Cadastro de **fiscais e gestores por contrato**, com nome, e-mail e telefone.
+- [x] Botão de aviso no painel/semáforo para enviar e-mail ao fiscal quando o contrato entrar em atenção (laranja) e em vermelho, com a instrução do que fazer.
+- [x] E-mail automático lembrando o vencimento, com confirmação de leitura (fila local e passo a passo para MailApp/Apps Script).
+- [x] Edição de contrato já cadastrado pelo ADM ou gestor.
+- [x] Campo **objeto do contrato** na Instrução, com busca e filtro.
+- [x] Importar a planilha de controle do setor (Excel) para evitar retrabalho.
+
+### Decisão do setor
+- [ ] Dados dos fiscais e gestores e a regra de qual fiscal responde por cada contrato.
+- [ ] Canal de e-mail institucional, confirmação de leitura e o texto padrão; WhatsApp fica fora do MVP.
+- [ ] Faixas do semáforo e antecedência dos avisos.
+- [ ] Modelo da planilha de controle.
+- [ ] Permissões de edição.
+
+**Pronto quando**: o contrato em atenção gera o aviso para o fiscal e o gestor, e o contrato pode ser editado depois do cadastro.
+
+
+**Implementado em 03/11/2026**: `src/sprint5.js` com a edição, os avisos e a importação; fiscais e gestores no cadastro (Sprint 1) e na ficha (Sprint 4); objeto e busca na Instrução. A fila de avisos existe no navegador; o envio real e a confirmação de leitura continuam como passo a passo de MailApp/Apps Script. Decisões do setor registradas em `Apps/PREMISSAS.md`.

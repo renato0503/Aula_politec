@@ -18,7 +18,8 @@ TELAS["#/processos"] = async ()=>{
   const linhas = [];
   for (const p of procs){
     const itens = (await db.porIndice("itens", "id_processo", p.id)).length;
-    linhas.push(`<tr><td><b>${esc(p.numero)}</b><br><span class="sub">${esc(p.nome)}</span></td><td class="num">${itens}</td><td>${esc(p.status || "")}</td>
+    linhas.push(`<tr><td><b>${esc(p.numero)}</b><br><span class="sub">${esc(p.nome)}</span></td><td class="num">${itens}</td>
+      <td><select data-status="${esc(p.id)}" aria-label="Situação do processo">${["em andamento", "concluído", "cancelado"].map(s=>`<option value="${s}" ${s === (p.status || "em andamento") ? "selected" : ""}>${s}</option>`).join("")}</select></td>
       <td><a href="#/importar/${encodeURIComponent(p.id)}">Importar</a> · <a href="#/mapa/${encodeURIComponent(p.id)}">Mapa</a></td></tr>`);
   }
   return `<h1>Processos</h1><p class="sub">Cada processo reúne a distribuição por órgão, o relatório do pregoeiro e a dotação.</p>
@@ -32,6 +33,12 @@ TELAS["#/processos"] = async ()=>{
     <div class="linha-botoes"><button id="btnExemplo">Carregar exemplo</button></div>`;
 };
 TELAS_DEPOIS["#/processos"] = ()=>{
+  $$("[data-status]").forEach(s=> s.addEventListener("change", async ()=>{
+    const p = await db.get("processos", s.dataset.status); if (!p) return;
+    await db.put("processos", {...p, status: s.value, status_em: agora()});
+    await registrar("situação do processo alterada", {id_processo: p.id, detalhe: s.value});
+    toast(`Processo ${p.numero}: ${s.value}.`);
+  }));
   $("#btnExemplo").addEventListener("click", async ()=>{
     await db.importar({app: APP.id, dados: dadosEmbutidos("seed")}); await registrar("exemplo carregado");
     toast("Exemplo carregado: 30 itens, 3 órgãos, 6 grupos."); navegar();
@@ -81,6 +88,32 @@ function lerPlanilha(arquivo, buffer){
     : XLSX.read(buffer, {type: "array"});
   return livro;
 }
+async function lerPdfComoPlanilha(arquivo){
+  if (typeof pdfjsLib === "undefined") throw new Error("pdf.js não embutido");
+  const pdf = await pdfjsLib.getDocument({data: new Uint8Array(await lerArrayBuffer(arquivo)), isEvalSupported: false}).promise;
+  const linhas = [];
+  for (let n = 1; n <= pdf.numPages; n++){
+    const pagina = await pdf.getPage(n), conteudo = await pagina.getTextContent();
+    const porY = new Map();
+    for (const item of conteudo.items){
+      if (!String(item.str || "").trim()) continue;
+      const y = Math.round(item.transform[5] / 2) * 2, x = item.transform[4];
+      if (!porY.has(y)) porY.set(y, []);
+      porY.get(y).push({str:String(item.str).trim(), x, largura:item.width || 0});
+    }
+    for (const y of [...porY.keys()].sort((a, b)=>b - a)){
+      const itens = porY.get(y).sort((a, b)=>a.x - b.x), celulas = [];
+      for (const it of itens){
+        const ultimo = celulas[celulas.length - 1];
+        if (ultimo && it.x - (ultimo.x + ultimo.largura) < 8) ultimo.str += " " + it.str;
+        else celulas.push({str:it.str, x:it.x, largura:it.largura});
+      }
+      linhas.push(celulas.map(c=>c.str));
+    }
+  }
+  if (!linhas.length) throw new Error("O PDF não tem camada de texto. Use o CSV/Excel ou peça o relatório em outro formato.");
+  return {SheetNames:["PDF"], Sheets:{PDF:XLSX.utils.aoa_to_sheet(linhas)}};
+}
 function linhasDaAba(livro, aba){ return XLSX.utils.sheet_to_json(livro.Sheets[aba], {header: 1, raw: true, defval: ""}); }
 // primeira linha com 3 ou mais células preenchidas
 const linhaDoCabecalho = linhas => Math.max(0, linhas.findIndex(l=>l.filter(c=>String(c).trim() !== "").length >= 3));
@@ -103,13 +136,13 @@ function atualizarTabelaFontes(){
 function blocoFonte(fonte){
   const f = FONTES[fonte], L = leitura[fonte];
   if (!L) return `<div class="card" id="fonte-${fonte}"><h2 style="margin-top:0">${esc(f.titulo)}</h2>
-    <label class="botao">Escolher arquivo (.xlsx ou .csv)<input type="file" accept=".xlsx,.xls,.csv" data-fonte="${fonte}" hidden></label></div>`;
+    <label class="botao">Escolher arquivo (.xlsx, .csv ou PDF)<input type="file" accept=".xlsx,.xls,.csv,.pdf" data-fonte="${fonte}" hidden></label></div>`;
   const cab = L.cabecalho, opts = [["-1", "(não tem)"], ...cab.map((c, i)=>[String(i), String(c || `coluna ${i + 1}`)])];
   const usadas = new Set(Object.values(L.mapa).filter(i=>i >= 0));
   const orgaos = f.orgaos ? cab.map((c, i)=>({c, i})).filter(x=>!usadas.has(x.i) && String(x.c).trim()) : [];
   return `<div class="card" id="fonte-${fonte}"><h2 style="margin-top:0">${esc(f.titulo)}</h2>
     <p class="sub"><b>${esc(L.arquivo)}</b> · ${L.linhas.length - L.linhaCab - 1} linhas de dados
-      <label class="botao" style="margin-left:8px">Trocar arquivo<input type="file" accept=".xlsx,.xls,.csv" data-fonte="${fonte}" hidden></label></p>
+      <label class="botao" style="margin-left:8px">Trocar arquivo<input type="file" accept=".xlsx,.xls,.csv,.pdf" data-fonte="${fonte}" hidden></label></p>
     <div class="campos">
       ${campo(`aba-${fonte}`, "Aba", {tipo: "select", opcoes: L.livro.SheetNames, valor: L.aba})}
       ${campo(`cab-${fonte}`, "Linha do cabeçalho", {tipo: "number", valor: L.linhaCab + 1, attrs: 'min="1"'})}
@@ -143,7 +176,7 @@ function ligarImportacao(){
   $$("input[type=file][data-fonte]").filter(umaVez).forEach(inp=>inp.addEventListener("change", async e=>{
     const arq = e.target.files[0], fonte = e.target.dataset.fonte; if (!arq) return;
     try {
-      const livro = lerPlanilha(arq, await lerArrayBuffer(arq));
+      const livro = /\.pdf$/i.test(arq.name) ? await lerPdfComoPlanilha(arq) : lerPlanilha(arq, await lerArrayBuffer(arq));
       const aba = livro.SheetNames[0], linhas = linhasDaAba(livro, aba), linhaCab = linhaDoCabecalho(linhas);
       leitura[fonte] = {arquivo: arq.name, livro, aba, linhas, linhaCab, cabecalho: linhas[linhaCab] || [], mapa: {}};
       await aplicarMapa(fonte);

@@ -62,7 +62,8 @@ TELAS["#/corpo/novo"] = async ()=>{
       ${campo("tcNat", "Natureza", {obrigatorio: true, ajuda: "Ex.: local de crime, morte natural, acidente."})}
       ${campo("tcMun", "Município", {obrigatorio: true})}
       ${campo("tcTec", "Técnico responsável", {obrigatorio: true})}
-      ${campo("tcData", "Data do acionamento", {tipo: "datetime-local", valor: tcAgora(), obrigatorio: true})}</div>
+      ${campo("tcData", "Data do acionamento", {tipo: "datetime-local", valor: tcAgora(), obrigatorio: true})}
+      ${campo("tcAgente", "Agente causal", {tipo: "select", opcoes: [["", "Não informado"], ...TC_AGENTES.map(a=>[a, a])]})}</div>
     ${campo("tcLocal", "Local da ocorrência", {obrigatorio: true})}
     <label style="display:flex;gap:8px;align-items:center;margin:8px 0"><input type="checkbox" id="tcDesc" style="width:auto" checked>
       <span>Corpo sem identificação (não informar nome)</span></label>
@@ -78,7 +79,8 @@ TELAS_DEPOIS["#/corpo/novo"] = ()=>{
     const desconhecido = $("#tcDesc").checked;
     const d = {protocolo: valorDe("tcProt"), origem: valorDe("tcOrigem"), natureza: valorDe("tcNat"), municipio: valorDe("tcMun"), tecnico: valorDe("tcTec"),
       criado_em: (valorDe("tcData") || tcAgora()) + ":00", local: valorDe("tcLocal"), nome: desconhecido ? "" : valorDe("tcNome"), documento: valorDe("tcDoc"),
-      desconhecido, sexo: valorDe("tcSexo"), idade: valorDe("tcIdade")};
+      desconhecido, sexo: valorDe("tcSexo"), idade: valorDe("tcIdade"), agente_causal: valorDe("tcAgente") || "Não informado",
+      etapa: 1, etapa_em: agora(), ocorrencia: ""};
     const cs = await db.list("corpos"), erros = [];
     if (!d.protocolo) erros.push("Informe o protocolo.");
     else if (cs.some(c=>normalizar(c.protocolo) === normalizar(d.protocolo))) erros.push("Este protocolo já está registrado (RN01).");

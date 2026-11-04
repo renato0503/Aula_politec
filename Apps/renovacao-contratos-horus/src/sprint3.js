@@ -69,17 +69,26 @@ TELAS["#/painel"] = async ()=>{
 
 /* ---------- tela de instrução ---------- */
 TELAS["#/instrucao"] = async ()=>{
-  const cs = (await db.list("contratos")).filter(c=>!RC_FORA.includes(c.status)).sort((a, b)=>a.data_fim.localeCompare(b.data_fim));
+  const busca = (estado.rcBuscaInstr || "").trim();
+  const cs = (await db.list("contratos")).filter(c=>!RC_FORA.includes(c.status))
+    .filter(c=>!busca || normalizar([c.numero, c.fornecedor, c.objeto].join(" ")).includes(normalizar(busca)))
+    .sort((a, b)=>a.data_fim.localeCompare(b.data_fim));
   const linhas = [];
   for (const c of cs){ const itens = await rcItens(c.id_contrato); linhas.push({c, pr: rcProgresso(itens), falta: rcFaltando(itens).length}); }
   return `<h1>Instrução dos contratos</h1>
     <p class="sub">Checklist padrão do processo de renovação. A instrução está completa quando todos os itens obrigatórios estão marcados.</p>
-    <div class="card tabela-wrap"><table id="tabelaInstrucao"><tr><th>Contrato</th><th>Fornecedor</th><th>Término</th><th>Itens</th><th>Situação</th><th></th></tr>
-      ${linhas.map(({c, pr, falta})=>`<tr><td><a href="#/contrato/${encodeURIComponent(c.id_contrato)}">${esc(c.numero)}</a></td><td>${esc(c.fornecedor)}</td>
+    <div class="card">${campo("rcBuscaInstr", "Buscar por contrato, fornecedor ou objeto", {valor: estado.rcBuscaInstr || ""})}</div>
+    <div class="card tabela-wrap"><table id="tabelaInstrucao"><tr><th>Contrato</th><th>Objeto</th><th>Fornecedor</th><th>Término</th><th>Itens</th><th>Situação</th><th></th></tr>
+      ${linhas.map(({c, pr, falta})=>`<tr><td><a href="#/contrato/${encodeURIComponent(c.id_contrato)}">${esc(c.numero)}</a></td><td>${esc(c.objeto || "")}</td><td>${esc(c.fornecedor)}</td>
         <td>${dataCurtaBR(c.data_fim)}</td><td class="num">${pr.feitos}/${pr.total}</td>
         <td>${pr.completa ? '<span class="selo ok">instrução completa</span>' : `<span class="selo alerta">faltam ${falta}</span>`}</td>
         <td><a href="#/contrato/${encodeURIComponent(c.id_contrato)}">abrir</a></td></tr>`).join("")}
       </table></div>`;
+};
+TELAS_DEPOIS["#/instrucao"] = ()=>{
+  let t = null;
+  $("#rcBuscaInstr")?.addEventListener("input", e=>{ clearTimeout(t); const v = e.target.value;
+    t = setTimeout(()=>{ estado.rcBuscaInstr = v; navegar(); }, 250); });
 };
 
 /* ---------- ficha do contrato: checklist e repositório de documentos ---------- */

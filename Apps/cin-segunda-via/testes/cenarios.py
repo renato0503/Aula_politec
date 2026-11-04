@@ -1,4 +1,4 @@
-"""Cenários de interface deste app: usam a tela como uma pessoa usaria e conferem
+﻿"""Cenários de interface deste app: usam a tela como uma pessoa usaria e conferem
 o "Pronto quando" de cada sprint do sprint.md.
 
 Uso: python testes/cenarios.py      (requer: pip install playwright && playwright install chromium)
@@ -71,7 +71,7 @@ def perfil(pg, url, nome):
 def s2_pedido_do_cidadao(pg, url, ok):
     pg.set_viewport_size({"width": 390, "height": 800})   # celular
     ir(pg, url, "#/pedido", 300)
-    pg.check("input[name=valida][value=nao]"); pg.check("input[name=mudou][value=nao]"); pg.click("#formElegivel button[type=submit]"); pg.wait_for_timeout(200)
+    pg.check("input[name=valida][value=nao]"); pg.check("input[name=mudou][value=nao]"); pg.check("input[name=extraviado][value=nao]"); pg.click("#formElegivel button[type=submit]"); pg.wait_for_timeout(200)
     ok("CIN vencida leva ao agendamento no posto (RN03)", pg.locator("#avisoPosto a[href*='agendamento-cin']").count() == 1)
     pg.check("input[name=valida][value=sim]"); pg.click("#formElegivel button[type=submit]"); pg.wait_for_timeout(200)
     ok("elegível abre o formulário", pg.locator("#formPedido").count() == 1)
@@ -151,8 +151,8 @@ def s6_aceite_do_piloto(pg, url, ok):
     perfil(pg, url, "servidor")
     semear(pg, url)
     ir(pg, url, "#/pedido", 500)
-    ok("o formulário do cidadão abre com as duas perguntas de elegibilidade", pg.locator("#formElegivel").count() == 1)
-    pg.check("input[name=valida][value=sim]"); pg.check("input[name=mudou][value=nao]")
+    ok("o formulário do cidadão abre com as três perguntas de elegibilidade", pg.locator("#formElegivel").count() == 1)
+    pg.check("input[name=valida][value=sim]"); pg.check("input[name=mudou][value=nao]"); pg.check("input[name=extraviado][value=nao]")
     pg.click("#formElegivel button[type=submit]"); pg.wait_for_timeout(500)
     ok("os campos do pedido têm label associado ao id",
        pg.evaluate("""()=>{ const ls = [...document.querySelectorAll('main label[for]')];
@@ -164,6 +164,34 @@ def s6_aceite_do_piloto(pg, url, ok):
        pg.locator("[data-sit]").count() == 4 and "recebido" in pg.inner_text("[data-sit='recebido']"))
     ok("o roteiro do aceite e a posição da TI estão no modelos/",
        (PASTA / "modelos" / "roteiro-aceite.md").exists())
+
+@cenario
+def s7_fotos_das_impressoes(pg, url, ok):
+    ir(pg, url, "#/pedido", 300)
+    pg.check("input[name=valida][value=sim]"); pg.check("input[name=mudou][value=nao]")
+    pg.check("input[name=extraviado][value=sim]"); pg.click("#formElegivel button[type=submit]"); pg.wait_for_timeout(300)
+    ok("documento extraviado pede as impressões e não o documento",
+       pg.locator("#formPedido").count() == 1 and "impressões digitais" in pg.inner_text("#formPedido")
+       and pg.locator("[data-foto=documento]").count() == 0 and pg.locator("[data-foto=impressao_1]").count() == 1)
+    valido = pg.evaluate("()=> dadosEmbutidos('seed').pedidos[0].cpf")
+    pg.fill("#cNome", "Alice Teste"); pg.fill("#cCpf", valido); pg.fill("#cNasc", "1990-05-10")
+    pg.fill("#cValidade", "2030-01-01"); pg.fill("#cContato", "alice@exemplo.com")
+    for t in ["rosto", "impressao_1", "impressao_2", "impressao_3", "impressao_4"]:
+        pg.click(f"[data-teste={t}]")
+    pg.wait_for_timeout(900)
+    pg.click("#formPedido button[type=submit]"); pg.wait_for_timeout(700)
+    ok("o pedido com impressões gera protocolo", pg.locator("#numProtocolo").count() == 1)
+    protocolo = pg.inner_text("#numProtocolo")
+    ok("o pedido guarda o extravio", pg.evaluate("async p => (await db.get('pedidos', p)).extraviado", protocolo) is True)
+    ok("cinco fotos são gravadas (rosto + 4 impressões)", pg.evaluate("""async p => {
+        const fs = await db.porIndice('fotos', 'protocolo', p);
+        return fs.length === 5 && ['impressao_1','impressao_2','impressao_3','impressao_4'].every(t=>fs.some(f=>f.tipo===t)) && !fs.some(f=>f.tipo==='documento');
+    }""", protocolo))
+    perfil(pg, url, "servidor")
+    ir(pg, url, "#/fila", 600)
+    pg.click(f"[data-sel='{protocolo}']"); pg.wait_for_timeout(500)
+    ok("a fila mostra as fotos das impressões", pg.locator("#fichaPedido img").count() == 5)
+
 
 def main():
     erro = False
@@ -200,3 +228,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+

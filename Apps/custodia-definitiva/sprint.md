@@ -1,4 +1,4 @@
-# Custódia Definitiva · sprints até o MVP
+﻿# Custódia Definitiva · sprints até o MVP
 
 > Arquitetura: HTML monolítico, offline first (ver `contexto.md`). Sprints de 1 semana.
 
@@ -14,6 +14,7 @@
 | 5 | Feito em 30/10/2026. Elegibilidade de descarte por categoria e idade, autorização humana registrada e bloqueio sem autorização. |
 | 6 | Feito em 30/10/2026. Painel do gestor por categoria e contêiner, CSV de ocupação e tempo médio até a primeira movimentação. |
 | 7 | Feito em 30/10/2026. Roteiro de aceite em `modelos/roteiro-aceite.md`. |
+| 8 | Feito em 03/11/2026: endereço hierárquico, confirmação física, cadastro em etapas, acervo com endereço/pendência, painel de entradas/saídas e alertas clicáveis. Estrutura/capacidades reais seguem premissa. |
 
 ## Visão geral
 
@@ -99,3 +100,27 @@
 - [x] Atualizar `PROJETO.md` e `README.md`.
 
 **Meta do piloto**: 90 dias (Do cadastro à consulta e à projeção de ocupação.).
+
+## Sprint 8 · Correções do feedback (03/11/2026)
+
+> Feedback de Edjane (nota 3), com três prioridades: endereçamento físico, cadastro em etapas e painel gerencial.
+
+### Código
+- [x] Hierarquia física: contêiner > estante > prateleira > nível > posição, com cadastro e mapa interno de ocupação.
+- [x] Separar endereço sugerido do endereço efetivo; exigir confirmação do acondicionamento com responsável, data e histórico.
+- [x] Cadastro em etapas: identificação, procedência, conferência documental, integridade do lacre, embalagem, quantidade, dimensões e conservação.
+- [x] Só mudar para "Armazenado" depois da confirmação física e documental.
+- [x] Acervo: endereço completo, motivos das pendências e destaque para o que está sem endereço.
+- [x] Painel: entradas e saídas, ocupação/capacidade, saturação, projeções e unidade padronizada (litros).
+- [x] Alertas clicáveis que abrem o acervo filtrado pelo contêiner.
+- [x] Bloquear espaços indisponíveis e sugerir apenas endereços compatíveis com a categoria e a conservação.
+- [x] Explicar a diferença: o painel geral conta os registros; o do gestor usa a série de 12 meses e projeta a ocupação.
+- [x] Corrigir os contêineres fictícios: cada um tem sala, estante, prateleira e nível, com unidade "litros".
+
+### Decisão do setor
+- [x] Estrutura/capacidades: premissa de 5 contêineres e unidade "litros"; confirmar com a equipe.
+- [x] Regras atuais de compatibilidade/conservação; confirmar com a equipe.
+- [x] Premissa: contêiner é a caixa/armário; subdivisões estante/prateleira/nível; confirmar na Central.
+
+**Pronto quando**: um vestígio novo percorre as etapas, recebe um endereço efetivo confirmado e aparece no mapa interno do contêiner.
+

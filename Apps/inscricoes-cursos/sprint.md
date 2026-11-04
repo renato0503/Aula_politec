@@ -17,6 +17,8 @@
 | 6 | Feito em 03/11/2026: exportação de `triagem-<SIGLA>.json`, triagem pela diretoria (ordenação, titular e reserva, limite de vagas RN05) e importação de `decisao-<SIGLA>.json`. Cenário `s6_triagem_pelas_diretorias` passa. |
 | 7 | Feito em 03/11/2026: convocação por ordem de indicação (RN06), envio, confirmação, desistência e chamada da reserva (RN07), com o link do grupo só para o titular e a reserva chamada (RN08). Cenário `s7_convocacao` passa. |
 | 8 | Feito em 03/11/2026: turma com lista final em CSV, indicadores, aviso de retenção e limpeza de dados (RN08) e texto de privacidade na inscrição. Cenário `s8_turma_e_privacidade` passa. |
+| 9 | Publicação, aceite e piloto: dependem do grupo (Sprint 9). |
+| 10 | Aberto em 03/11/2026 (feedback dos alunos). Ver Sprint 10 abaixo. |
 
 Formato do bloco `INSCRICAO-v1` definido e testado (ida e volta, acento, bloco alterado). 60 e-mails fictícios com 5 reenvios e 5 inválidos.
 
@@ -181,3 +183,24 @@ inscritos de um curso encerrado (conferir no DevTools).
 - [ ] Comparar com a linha de base do Sprint 0 e atualizar `PROJETO.md` e `README.md`.
 
 **Pronto quando**: o roteiro é cumprido sem redigitação, e o piloto está aberto.
+
+## Sprint 10 · Correções do feedback (03/11/2026)
+
+> Feedback de Edilaura (nota 5).
+
+### Código
+- [x] Perfis de acesso: diretoria, coordenação, gerência e chefe, cada um com o que vê e faz.
+- [x] Campo de instrutores e monitores no curso.
+- [x] Termo de convocação com nome do curso, data, carga horária, convocação e compensação (ambas com datas).
+- [x] Revisar a tela Divulgar (o feedback marcou ajuste sem detalhar o que mudar).
+- [x] Investigar e corrigir a Triagem (o feedback marcou erro sem detalhar; pedir o caso à Edilaura).
+
+### Decisão do setor
+- [ ] Permissões de cada perfil.
+- [ ] Modelo do termo e regras de compensação.
+- [ ] Teste no Outlook desktop, no Outlook Web e no celular (continua pendente).
+
+**Pronto quando**: cada perfil entra e vê o que lhe cabe, e o termo de convocação sai com as duas datas.
+
+
+**Implementado em 03/11/2026**: perfis `diretoria`, `coordenação`, `gerência` e `chefe` com rotas próprias; instrutores e monitores no curso; termo de convocação com convocação e compensação, impressão, cópia e `mailto:`; checklist antes de divulgar (inclui aviso para publicar o link); Triagem com estado vazio claro. O caso real da Triagem e a publicação no Outlook continuam dependendo da Edilaura/TI.

@@ -193,6 +193,40 @@ def s6_valor_em_risco_e_aceite(pg, url, ok):
     ok("o CSV sai com BOM e as colunas do contrato e da faixa", csv.startswith(b"\xef\xbb\xbf") and b"contrato;numero;fornecedor" in csv and b"faixa" in csv)
     ok("o roteiro de aceite está em modelos/", (PASTA / "modelos" / "roteiro-aceite.md").exists())
 
+@cenario
+def s8_fiscais_avisos_edicao_importacao(pg, url, ok):
+    import tempfile, pathlib
+    perfil(pg, url, "gestor")
+    semear(pg, url)
+    alvo = pg.evaluate("""async ()=>{ const cs = await db.list('contratos');
+        const f = c=> { const d = Math.round((new Date(c.data_fim+'T12:00:00')-new Date(hojeISO()+'T12:00:00'))/86400000);
+          if (['Encerrado','Rescindido','Expirado'].includes(c.status)) return null; return d; };
+        return cs.filter(c=>{const d=f(c); return d !== null && d <= 90;}).sort((a,b)=>f(a)-f(b))[0]?.id_contrato || null; }""")
+    ok("há um contrato em alerta para o cenário", bool(alvo))
+    ir(pg, url, "#/contrato/" + alvo, 500)
+    ok("a ficha mostra o card de avisos e o de edição", pg.query_selector("#rcAvisos") is not None and pg.query_selector("#rcEditar") is not None)
+    pg.fill("#rcFisNome", "Fiscal do Teste"); pg.select_option("#rcFisPapel", "fiscal"); pg.fill("#rcFisEmail", "fiscal@teste.mt.gov.br")
+    pg.click("#btnRcFiscal"); pg.wait_for_timeout(500)
+    ok("o fiscal fica cadastrado com e-mail", "fiscal@teste.mt.gov.br" in pg.inner_text("#rcFiscais"))
+    pg.fill("#rcEdFornecedor", "Fornecedor Editado"); pg.fill("#rcEdObjeto", "Objeto editado no teste"); pg.fill("#rcEdFim", "2026-12-01")
+    pg.click("#btnRcEditar"); pg.wait_for_timeout(600)
+    ok("a edição altera o contrato e a auditoria", "Fornecedor Editado" in pg.inner_text("#conteudo") and "contrato editado" in pg.inner_text("#tabelaAuditoria"))
+    pg.click("[data-rc-aviso]"); pg.wait_for_timeout(600)
+    avisos = pg.evaluate("async ()=> (await db.list('avisos')).length")
+    ok("o aviso entra na fila local", avisos >= 1 and "Avisar o fiscal" in pg.inner_text("#rcAvisos"))
+    ir(pg, url, "#/painel", 500)
+    ok("o painel lista os contratos em alerta com o botão de aviso", pg.query_selector("#rcPainelAvisos [data-rc-aviso]") is not None)
+    ir(pg, url, "#/instrucao", 500)
+    ok("a instrução mostra o objeto", "Objeto editado no teste" in pg.inner_text("#tabelaInstrucao"))
+    pg.fill("#rcBuscaInstr", "editado no teste"); pg.wait_for_timeout(600)
+    ok("a busca da instrução filtra por objeto", "Objeto editado no teste" in pg.inner_text("#tabelaInstrucao"))
+    planilha = pathlib.Path(tempfile.gettempdir()) / "renovacao_importar.csv"
+    planilha.write_text("numero,fornecedor,cnpj,valor,data_inicio,data_fim,objeto,status\n777/2026,Fornecedor Planilha,11.222.333/0001-81,1500.00,2026-01-10,2027-01-10,Objeto da planilha,Vigente\n", encoding="utf-8")
+    ir(pg, url, "#/contratos", 500)
+    pg.set_input_files("#rcArquivoPlanilha", str(planilha)); pg.wait_for_timeout(1200)
+    ok("a planilha é importada", "1 criado" in pg.inner_text("#rcImportRes") and pg.evaluate("async ()=> (await db.list('contratos')).some(c=>c.numero==='777/2026')"))
+
+
 def main():
     erro = False
     with sync_playwright() as p:

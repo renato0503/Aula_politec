@@ -2,6 +2,7 @@
 /* Prazos do art. 8º da LC nº 112/2002-MT: manifestação em 5 dias (§ 1º) e nova manifestação em 3 dias (§ 4º). */
 const CE_PRAZO_MANIFESTACAO = 5;
 const CE_PRAZO_NOVA = 3;
+const CE_MEMBROS = ["Maria Helena Souza (presidente)", "João Batista Lima (membro)", "Ana Paula Ferreira (membro)", "Carlos Eduardo Alves (suplente)"];
 const CE_VIAS = {
   acatada: "Acatada (prossegue)",
   sem_enquadramento: "Não acatada (sem enquadramento no Código)",
@@ -40,7 +41,9 @@ TELAS["#/caso/:id/admissibilidade"] = async ({id})=>{
         <div class="linha-botoes">${admissao.via === "acatada" ? `<a class="botao prim" href="#/caso/${encodeURIComponent(id)}/oitivas">Ir para as oitivas</a>` : ""}</div></div>`
       : `<form class="card" id="formAdmissao"><h2 style="margin-top:0">Decidir a admissibilidade</h2>
           <div class="campos">${campo("adVia", "Via", {tipo: "select", opcoes: Object.entries(CE_VIAS)})}
-            ${campo("adMembros", "Membros presentes", {ajuda: "A comissão tem 3 servidores efetivos e suplentes (art. 6º)."})}</div>
+            ${campo("adMembros", "Membros presentes", {tipo: "select", opcoes: CE_MEMBROS.map(m=>[m, m]), ajuda: "A comissão tem 3 servidores efetivos e suplentes (art. 6º)."})}
+            ${campo("adDataReuniao", "Data da reunião", {tipo: "date", valor: hojeISO()})}</div>
+          <div class="linha-botoes"><button type="button" id="btnAdTextoPadrao">Usar o texto padrão da admissibilidade</button></div>
           ${campo("adJust", "Fundamento da decisão (mínimo de 20 caracteres)", {tipo: "textarea", linhas: 4})}
           <label style="display:flex;gap:8px;align-items:center;margin:12px 0"><input type="checkbox" id="adProvaPendente" style="width:auto">
             <span>Prova pendente: aguardando o denunciante (RN04, prazo de ${CE_PRAZO_MANIFESTACAO} dias)</span></label>
@@ -52,6 +55,12 @@ TELAS["#/caso/:id/admissibilidade"] = async ({id})=>{
         <div class="linha-botoes"><button id="btnProvaRecebida">Registrar que a prova chegou</button></div></div>` : ""}`}`;
 };
 TELAS_DEPOIS["#/caso/:id/admissibilidade"] = ({id})=>{
+  $("#btnAdTextoPadrao")?.addEventListener("click", async ()=>{
+    const d = await db.get("denuncias", id), cls = await ceClassificacao(id);
+    const cat = (await categoriasAtivas()).find(c=>c.id === (cls?.categoria_final || d.categoria));
+    const membros = valorDe("adMembros"), data = valorDe("adDataReuniao") ? dataCurtaBR(valorDe("adDataReuniao")) : dataCurtaBR(hojeISO());
+    $("#adJust").value = `De acordo com o relato recebido em ${dataCurtaBR(d.data_recebimento)} e a deliberação da Comissão de Ética em reunião de ${data}, a tríade composta por ${membros} entende que a denúncia se enquadra no ${cat?.artigos || "artigo aplicável"}, categoria ${cat?.nome || d.categoria || "não informada"}.`;
+  });
   $("#formAdmissao")?.addEventListener("submit", async e=>{
     e.preventDefault();
     const via = valorDe("adVia"), just = valorDe("adJust"), membros = valorDe("adMembros");
@@ -101,7 +110,8 @@ TELAS["#/caso/:id/oitivas"] = async ({id})=>{
       <div id="ceErrosOitiva"></div><div class="linha-botoes"><button class="prim" type="submit">Registrar e gerar o termo</button></div></form>
     <div class="card" id="listaOitivas"><h2 style="margin-top:0">Oitivas registradas (${oitivas.length})</h2>
       ${oitivas.map(o=>`<div class="card"><b>${esc(o.quem)}</b> · ${dataBR(o.data)} · prazo da nova manifestação ${dataCurtaBR(o.prazo_nova)}
-        <p class="sub" style="white-space:pre-wrap">${esc(o.termo)}</p></div>`).join("") || '<p class="sub">Nenhuma oitiva registrada.</p>'}</div>`;
+        <p class="sub" style="white-space:pre-wrap">${esc(o.termo)}</p><button type="button" class="perigo" data-excluir-oitiva="${esc(o.id)}">Excluir esta oitiva</button></div>`).join("") || '<p class="sub">Nenhuma oitiva registrada.</p>'}
+      ${d.oitivas_encerradas_em ? `<p class="ok-txt">Oitivas encerradas em ${dataBR(d.oitivas_encerradas_em)}. O caso segue para a deliberação.</p>` : oitivas.length ? `<div class="linha-botoes"><button class="prim" id="btnEncerrarOitivas">Encerrar as oitivas e prosseguir</button></div>` : ""}</div>`;
 };
 TELAS_DEPOIS["#/caso/:id/oitivas"] = ({id})=>{
   $("#formOitiva")?.addEventListener("submit", async e=>{
@@ -113,5 +123,17 @@ TELAS_DEPOIS["#/caso/:id/oitivas"] = ({id})=>{
     await db.put("denuncias", {...d, etapa: "deliberação"});
     await trilha("oitiva registrada (" + quem + ")", id);
     toast("Oitiva registrada."); navegar();
+  });
+  $$("[data-excluir-oitiva]").forEach(b=>b.addEventListener("click", async ()=>{
+    if (!confirm("Excluir esta oitiva do processo?")) return;
+    await db.del("oitivas", b.dataset.excluirOitiva);
+    await trilha("oitiva excluída", id);
+    toast("Oitiva excluída."); navegar();
+  }));
+  $("#btnEncerrarOitivas")?.addEventListener("click", async ()=>{
+    const d = await db.get("denuncias", id);
+    await db.put("denuncias", {...d, etapa: "deliberação", oitivas_encerradas_em: agora()});
+    await trilha("oitivas encerradas", id);
+    toast("Oitivas encerradas. O caso segue para a deliberação."); navegar();
   });
 };

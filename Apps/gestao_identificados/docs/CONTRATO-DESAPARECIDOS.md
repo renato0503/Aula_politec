@@ -83,3 +83,37 @@ Regras:
   e não pode quebrar `testar.py` nem os três cenários atuais.
 - A base pública é fictícia nos testes; nenhum dado real de pessoa desaparecida
   entra no repositório.
+
+## Atualização de 03/11/2026 (executada)
+
+- A rota **`#/desaparecidos`** entrou no `app.json` a pedido do professor, com
+  acesso restrito aos perfis **`nihde`** e **`gestor`** (`perfis` na rota). O
+  perfil `iml` não vê a tela no menu e recebe o aviso de permissão.
+- A base pública real está em **`dados/cnpd-snapshot.json`** e
+  **`dados/namus-snapshot.json`**, com fonte, data e URL em cada arquivo. Não
+  existe `dados/desaparecidos-publicos.json`; os nomes acima são os usados pelo
+  módulo. Nenhum campo privado ou sensível foi acrescentado: só o que o painel
+  público do CNPD e a API pública do NamUs já publicam.
+- O painel standalone é **`desaparecidos.html`**, gerado por `gerar_painel.py`;
+  ele não sobrescreve o `index.html` do app.
+- O módulo tem cenário próprio em `testes/cenarios.py`
+  (`s4_desaparecidos_e_fontes`) e testes embutidos em `#/testes`. Os testes
+  usam os snapshots públicos apenas para conferir estrutura, cobertura e mapa;
+  não criam dados novos de pessoas.
+- A tela mostra a fonte e a data da coleta e avisa que a correspondência é
+  indício, não identificação. O cruzamento com os corpos do NIHDE continua
+  sendo fase 2 e exige revisão humana/auditoria.
+
+
+## Atualização de 03/11/2026 · cruzamento executado
+
+- O botão **Ver corpos** na tabela de desaparecidos abre até 10 corpos não
+  identificados, com o motivo do match (sexo, idade ±5, altura ±10 cm,
+  município, janela de datas e características).
+- A decisão humana é **confirmado**, **descartado** ou **exame complementar**,
+  sempre com justificativa de pelo menos 20 caracteres.
+- Cada decisão entra na loja **`correspondencias`** (índices por
+  `desaparecido_id` e `corpo_id`) e no array `correspondencias` do corpo, além
+  do `log` global com `corpo_id` e `desaparecido_id`.
+- O módulo continua lendo `db.list("corpos")`; nenhum dado público foi misturado
+  ao cadastro do corpo e nenhuma identificação é automática.

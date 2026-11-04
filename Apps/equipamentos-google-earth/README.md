@@ -124,6 +124,10 @@ unidades; o número no pino é a quantidade de equipamentos e o clique abre a li
 filtrada. O perfil Unidade ganhou o **contexto de unidade** no menu do perfil.
 Código em `src/identidade.js` e `src/app.css`.
 
+## Sprint 12 · Feedback
+
+O feedback não pediu ajuste de código. O que falta é o teste manual do `.kmz` no Google Earth Pro/Web e o registro no roteiro de aceite.
+
 ## Mapa do processo
 
 O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o

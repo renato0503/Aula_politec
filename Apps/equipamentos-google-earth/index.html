@@ -471,6 +471,10 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 .eq-kpi-link{cursor:pointer}
 .eq-kpi-link:hover{border-color:var(--accent)}
 
+/* os gráficos do painel param em 720px: antes cresciam com a largura do cartão */
+.eq-grafico{display:block;width:100%;max-width:720px;height:auto;margin:0 auto}
+@media (max-width:760px){ .eq-grafico{max-width:100%} }
+
 </style>
 </head>
 <body data-layout="ferramenta" data-estilo="institucional" data-cabecalho="compacto" data-fonte="sistema" data-densidade="compacta" data-cantos="suaves" data-superficie="planas" data-kpi="numero">

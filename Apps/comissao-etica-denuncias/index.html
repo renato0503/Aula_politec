@@ -1555,7 +1555,7 @@ TELAS["#/caso/:id/classificacao"] = async ({id})=>{
     <div class="card"><h2 style="margin-top:0">Relato</h2><p style="white-space:pre-wrap">${rel}</p></div>
     <div class="card"><h2 style="margin-top:0">Sugestões</h2>${sug.length ? `<ol id="sugestoes">${sug.map(s=>`<li data-cat="${esc(s.id)}"><b>${esc(s.nome)}</b> · ${s.pontos} ocorrência(s)
       <br><small class="sub">Palavras: ${s.palavras.map(esc).join(", ")} · ${esc(s.artigos)}</small>
-      ${s.texto_artigo ? `<details style="margin-top:6px"><summary>Texto do artigo</summary><p class="sub" style="white-space:pre-wrap;margin-top:6px">${esc(s.texto_artigo)}</p></details>` : ""}</li>`).join("")}</ol>` : '<p class="sub" id="sugestoes">Nenhuma palavra das categorias aparece no relato. Classifique manualmente.</p>'}
+      ${s.texto_artigo ? `<p class="sub" style="white-space:pre-wrap;margin-top:6px"><b>Texto do artigo:</b> ${esc(s.texto_artigo)}</p>` : ""}</li>`).join("")}</ol>` : '<p class="sub" id="sugestoes">Nenhuma palavra das categorias aparece no relato. Classifique manualmente.</p>'}
       <p class="sub" style="margin-top:12px">Fonte das categorias: ${esc(CE_FONTE)}</p></div>
     <details class="card"><summary><b>Usar uma ferramenta de IA autorizada (opcional)</b></summary>
       <p class="sub">O prompt sai sem os nomes das partes. Cole a resposta abaixo; ela fica registrada como apoio à decisão.</p>
@@ -1566,10 +1566,20 @@ TELAS["#/caso/:id/classificacao"] = async ({id})=>{
       por ${esc(feita.membro)} em ${dataBR(feita.data)}<br><small>${esc(feita.justificativa)}</small></div>` : ""}
     ${["presidente", "membro"].includes(estado.perfil) ? `<form class="card" id="formClassif"><h2 style="margin-top:0">${feita ? "Reclassificar" : "Confirmar"}</h2>
       ${campo("cCategoria", "Categoria", {tipo: "select", opcoes: [["", "Escolha"], ...cats.map(c=>[c.id, c.nome])], valor: sug[0]?.id || ""})}
+      <div class="linha-botoes"><button type="button" id="btnTextoPadrao">Usar o texto padrão do enquadramento</button></div>
       ${campo("cJustificativa", "Justificativa (mínimo de 20 caracteres)", {tipo: "textarea", linhas: 3})}
       <div id="errosClassif"></div><div class="linha-botoes"><button class="prim" type="submit">Confirmar classificação</button></div></form>` : ""}`;
 };
 TELAS_DEPOIS["#/caso/:id/classificacao"] = ({id})=>{
+  const preencherEnquadramento = async ()=>{
+    const cat = (await categoriasAtivas()).find(c=>c.id === valorDe("cCategoria"));
+    if (!cat) return;
+    const artigo = cat.artigos || "artigo aplicável";
+    const d = await db.get("denuncias", id);
+    $("#cJustificativa").value = `A conduta relatada no protocolo ${d.protocolo} configura descumprimento do ${artigo}, pois se enquadra na categoria ${cat.nome}, conforme o relato recebido e a análise da Comissão de Ética.`;
+  };
+  $("#btnTextoPadrao")?.addEventListener("click", preencherEnquadramento);
+  $("#cCategoria")?.addEventListener("change", preencherEnquadramento);
   $("#btnCopiarPrompt")?.addEventListener("click", async ()=>{ try { await navigator.clipboard.writeText($("#promptIA").value); toast("Prompt copiado."); } catch(e){ $("#promptIA").select(); toast("Use Ctrl+C."); } });
   $("#formClassif")?.addEventListener("submit", async e=>{
     e.preventDefault();
@@ -1611,6 +1621,7 @@ async function ligarConfigExtra(){
 /* Prazos do art. 8º da LC nº 112/2002-MT: manifestação em 5 dias (§ 1º) e nova manifestação em 3 dias (§ 4º). */
 const CE_PRAZO_MANIFESTACAO = 5;
 const CE_PRAZO_NOVA = 3;
+const CE_MEMBROS = ["Maria Helena Souza (presidente)", "João Batista Lima (membro)", "Ana Paula Ferreira (membro)", "Carlos Eduardo Alves (suplente)"];
 const CE_VIAS = {
   acatada: "Acatada (prossegue)",
   sem_enquadramento: "Não acatada (sem enquadramento no Código)",
@@ -1649,7 +1660,9 @@ TELAS["#/caso/:id/admissibilidade"] = async ({id})=>{
         <div class="linha-botoes">${admissao.via === "acatada" ? `<a class="botao prim" href="#/caso/${encodeURIComponent(id)}/oitivas">Ir para as oitivas</a>` : ""}</div></div>`
       : `<form class="card" id="formAdmissao"><h2 style="margin-top:0">Decidir a admissibilidade</h2>
           <div class="campos">${campo("adVia", "Via", {tipo: "select", opcoes: Object.entries(CE_VIAS)})}
-            ${campo("adMembros", "Membros presentes", {ajuda: "A comissão tem 3 servidores efetivos e suplentes (art. 6º)."})}</div>
+            ${campo("adMembros", "Membros presentes", {tipo: "select", opcoes: CE_MEMBROS.map(m=>[m, m]), ajuda: "A comissão tem 3 servidores efetivos e suplentes (art. 6º)."})}
+            ${campo("adDataReuniao", "Data da reunião", {tipo: "date", valor: hojeISO()})}</div>
+          <div class="linha-botoes"><button type="button" id="btnAdTextoPadrao">Usar o texto padrão da admissibilidade</button></div>
           ${campo("adJust", "Fundamento da decisão (mínimo de 20 caracteres)", {tipo: "textarea", linhas: 4})}
           <label style="display:flex;gap:8px;align-items:center;margin:12px 0"><input type="checkbox" id="adProvaPendente" style="width:auto">
             <span>Prova pendente: aguardando o denunciante (RN04, prazo de ${CE_PRAZO_MANIFESTACAO} dias)</span></label>
@@ -1661,6 +1674,12 @@ TELAS["#/caso/:id/admissibilidade"] = async ({id})=>{
         <div class="linha-botoes"><button id="btnProvaRecebida">Registrar que a prova chegou</button></div></div>` : ""}`}`;
 };
 TELAS_DEPOIS["#/caso/:id/admissibilidade"] = ({id})=>{
+  $("#btnAdTextoPadrao")?.addEventListener("click", async ()=>{
+    const d = await db.get("denuncias", id), cls = await ceClassificacao(id);
+    const cat = (await categoriasAtivas()).find(c=>c.id === (cls?.categoria_final || d.categoria));
+    const membros = valorDe("adMembros"), data = valorDe("adDataReuniao") ? dataCurtaBR(valorDe("adDataReuniao")) : dataCurtaBR(hojeISO());
+    $("#adJust").value = `De acordo com o relato recebido em ${dataCurtaBR(d.data_recebimento)} e a deliberação da Comissão de Ética em reunião de ${data}, a tríade composta por ${membros} entende que a denúncia se enquadra no ${cat?.artigos || "artigo aplicável"}, categoria ${cat?.nome || d.categoria || "não informada"}.`;
+  });
   $("#formAdmissao")?.addEventListener("submit", async e=>{
     e.preventDefault();
     const via = valorDe("adVia"), just = valorDe("adJust"), membros = valorDe("adMembros");
@@ -1710,7 +1729,8 @@ TELAS["#/caso/:id/oitivas"] = async ({id})=>{
       <div id="ceErrosOitiva"></div><div class="linha-botoes"><button class="prim" type="submit">Registrar e gerar o termo</button></div></form>
     <div class="card" id="listaOitivas"><h2 style="margin-top:0">Oitivas registradas (${oitivas.length})</h2>
       ${oitivas.map(o=>`<div class="card"><b>${esc(o.quem)}</b> · ${dataBR(o.data)} · prazo da nova manifestação ${dataCurtaBR(o.prazo_nova)}
-        <p class="sub" style="white-space:pre-wrap">${esc(o.termo)}</p></div>`).join("") || '<p class="sub">Nenhuma oitiva registrada.</p>'}</div>`;
+        <p class="sub" style="white-space:pre-wrap">${esc(o.termo)}</p><button type="button" class="perigo" data-excluir-oitiva="${esc(o.id)}">Excluir esta oitiva</button></div>`).join("") || '<p class="sub">Nenhuma oitiva registrada.</p>'}
+      ${d.oitivas_encerradas_em ? `<p class="ok-txt">Oitivas encerradas em ${dataBR(d.oitivas_encerradas_em)}. O caso segue para a deliberação.</p>` : oitivas.length ? `<div class="linha-botoes"><button class="prim" id="btnEncerrarOitivas">Encerrar as oitivas e prosseguir</button></div>` : ""}</div>`;
 };
 TELAS_DEPOIS["#/caso/:id/oitivas"] = ({id})=>{
   $("#formOitiva")?.addEventListener("submit", async e=>{
@@ -1722,6 +1742,18 @@ TELAS_DEPOIS["#/caso/:id/oitivas"] = ({id})=>{
     await db.put("denuncias", {...d, etapa: "deliberação"});
     await trilha("oitiva registrada (" + quem + ")", id);
     toast("Oitiva registrada."); navegar();
+  });
+  $$("[data-excluir-oitiva]").forEach(b=>b.addEventListener("click", async ()=>{
+    if (!confirm("Excluir esta oitiva do processo?")) return;
+    await db.del("oitivas", b.dataset.excluirOitiva);
+    await trilha("oitiva excluída", id);
+    toast("Oitiva excluída."); navegar();
+  }));
+  $("#btnEncerrarOitivas")?.addEventListener("click", async ()=>{
+    const d = await db.get("denuncias", id);
+    await db.put("denuncias", {...d, etapa: "deliberação", oitivas_encerradas_em: agora()});
+    await trilha("oitivas encerradas", id);
+    toast("Oitivas encerradas. O caso segue para a deliberação."); navegar();
   });
 };
 
@@ -1759,8 +1791,9 @@ Comissão de Ética · POLITEC/MT`},
 
 Processo ${d.protocolo}.
 Comissão presente: 3 membros titulares e suplentes (art. 6º).
-Deliberação: a Comissão concluiu pela ${d.situacao}.
+Deliberação: a Comissão concluiu pela ${d.situacao === "admitida" ? "admissão" : d.situacao}.
 
+Enquadramento: ${d.categoria_nome || d.categoria || "categoria não informada"} · ${d.artigo || "artigo aplicável"}.
 Fundamento: Código de Ética Funcional do Servidor Público Civil do Estado de Mato Grosso (LC nº 112/2002-MT).
 
 Cuiabá, ${dataCurtaBR(hojeISO())}.`},
@@ -1771,6 +1804,7 @@ Processo ${d.protocolo}, categoria ${d.categoria || "não informada"}.
 1. Reforçar a orientação sobre o item do Código de Ética aplicável.
 2. Comunicar o resultado à chefia imediata.
 3. Acompanhar a reincidência por 12 meses.
+4. Curso indicado: ${d.curso_recomendado || "indicar o curso de ética e conduta no serviço público"}.
 
 A decisão será transcrita na ficha funcional por ${CE_ANOS_FICHA} anos (art. 9º, parágrafo único).
 
@@ -1785,11 +1819,12 @@ TELAS["#/caso/:id/documentos"] = async ({id})=>{
     <h1>Documentos · ${esc(d.protocolo)}</h1>
     <p class="sub">Minutas geradas a partir do processo. O texto não leva o nome das partes (art. 11).</p>
     <div class="card"><h2 style="margin-top:0">Gerar minuta</h2><div class="campos">
-      ${campo("ceTipoMinuta", "Minuta", {tipo: "select", opcoes: Object.entries(CE_MINUTAS).map(([k, m])=>[k, m.rotulo])})}</div>
+      ${campo("ceTipoMinuta", "Minuta", {tipo: "select", opcoes: Object.entries(CE_MINUTAS).map(([k, m])=>[k, m.rotulo])})}
+      ${campo("ceCurso", "Curso indicado no relatório de recomendações", {valor: d.curso_recomendado || "", ajuda: "Ex.: Ética no serviço público, 8 horas."})}</div>
       <div class="linha-botoes"><button class="prim" id="btnGerarMinuta">Gerar a minuta</button></div></div>
     <div class="card" id="ceMinutaAberta"></div>
     <div class="card" id="ceListaDocs"><h2 style="margin-top:0">Documentos do caso (${docs.length})</h2>
-      ${docs.map(x=>`<details><summary><b>${esc(x.rotulo)}</b> · ${dataBR(x.data)}</summary>
+      ${docs.map(x=>`<details><summary><b>${esc(x.rotulo)}</b> · ${dataBR(x.data)} · <button type="button" data-email-doc="${esc(x.id)}">Enviar por e-mail</button></summary>
         <pre style="white-space:pre-wrap;font-family:var(--mono);font-size:12.5px;margin-top:8px">${esc(x.texto)}</pre></details>`).join("") || '<p class="sub">Nenhum documento gerado.</p>'}
       ${oitivas.length ? `<p class="sub">${oitivas.length} oitiva(s) no processo.</p>` : ""}</div>`;
 };
@@ -1797,16 +1832,30 @@ TELAS_DEPOIS["#/caso/:id/documentos"] = ({id})=>{
   $("#btnGerarMinuta")?.addEventListener("click", async ()=>{
     const tipo = valorDe("ceTipoMinuta"), d = await db.get("denuncias", id), m = CE_MINUTAS[tipo];
     if (!m || !d) return;
-    const texto = m.texto(d);
-    await db.put("documentos_ce", {id: uuid(), denuncia_id: id, tipo, rotulo: m.rotulo, texto, data: agora(), perfil: estado.perfil});
+    const cls = await ceClassificacao(id), cat = (await categoriasAtivas()).find(c=>c.id === (cls?.categoria_final || d.categoria));
+    const dados = {...d, categoria_nome: cat?.nome, artigo: cat?.artigos, curso_recomendado: valorDe("ceCurso") || d.curso_recomendado};
+    if (dados.curso_recomendado !== d.curso_recomendado) await db.put("denuncias", {...d, curso_recomendado: dados.curso_recomendado});
+    const texto = m.texto(dados);
+    const docId = uuid();
+    await db.put("documentos_ce", {id: docId, denuncia_id: id, tipo, rotulo: m.rotulo, texto, data: agora(), perfil: estado.perfil});
     await trilha("minuta gerada: " + m.rotulo, id);
     toast("Minuta gerada.");
     await navegar();
     const alvo = $("#ceMinutaAberta");
     if (alvo) alvo.innerHTML = `<div class="documento-a4"><div class="doc-cab">Comissão de Ética · POLITEC/MT<br>${esc(m.rotulo)}</div>
       <pre style="white-space:pre-wrap;font-family:Georgia,serif;font-size:15px;line-height:1.6">${esc(texto)}</pre></div>
-      <div class="linha-botoes nao-imprimir"><button onclick="window.print()">Imprimir</button></div>`;
+      <div class="linha-botoes nao-imprimir"><button onclick="window.print()">Imprimir</button>
+        <button type="button" id="btnEmailMinuta">Enviar por e-mail</button></div>`;
+    $("#btnEmailMinuta")?.addEventListener("click", ()=>{
+      const assunto = `Comissão de Ética · ${m.rotulo} · ${d.protocolo}`;
+      location.href = `mailto:?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(texto)}`;
+    });
   });
+  $$("[data-email-doc]").forEach(b=>b.addEventListener("click", async ()=>{
+    const x = await db.get("documentos_ce", b.dataset.emailDoc);
+    if (!x) return;
+    location.href = `mailto:?subject=${encodeURIComponent("Comissão de Ética · " + x.rotulo)}&body=${encodeURIComponent(x.texto)}`;
+  }));
 };
 
 TELAS["#/caso/:id/encerramento"] = async ({id})=>{
@@ -1827,6 +1876,7 @@ TELAS["#/caso/:id/encerramento"] = async ({id})=>{
     ${!cominacao ? `<form class="card" id="formCominacao"><h2 style="margin-top:0">Cominação (art. 9º)</h2><div class="campos">
         ${campo("coTipo", "Cominação", {tipo: "select", opcoes: [["", "Escolha"], ...Object.entries(CE_COMINACOES)]})}
         ${campo("coParecer", "Fundamento (mínimo de 20 caracteres)", {tipo: "textarea", linhas: 3})}</div>
+        <div class="linha-botoes"><button type="button" id="btnCoTextoPadrao">Usar o texto das recomendações</button></div>
         <label style="display:flex;gap:8px;align-items:center;margin:8px 0"><input type="checkbox" id="coPAD" style="width:auto">
           <span>Encaminhar ao processo administrativo disciplinar (art. 10)</span></label>
         <div id="ceErrosCominacao"></div><div class="linha-botoes"><button class="prim" type="submit">Registrar a cominação</button></div></form>`
@@ -1839,6 +1889,11 @@ TELAS["#/caso/:id/encerramento"] = async ({id})=>{
         : `<div class="card"><div class="linha-botoes"><button class="prim" id="btnEncerrarCe">Encerrar o caso</button></div></div>`}`}`;
 };
 TELAS_DEPOIS["#/caso/:id/encerramento"] = ({id})=>{
+  $("#btnCoTextoPadrao")?.addEventListener("click", async ()=>{
+    const d = await db.get("denuncias", id), cls = await ceClassificacao(id);
+    const cat = (await categoriasAtivas()).find(c=>c.id === (cls?.categoria_final || d.categoria));
+    $("#coParecer").value = `Considerando o relatório de recomendações e a conduta apurada no protocolo ${d.protocolo}, enquadrada no ${cat?.artigos || "artigo aplicável"} (${cat?.nome || d.categoria || "categoria não informada"}), a Comissão aplica a cominação prevista no art. 9º da LC nº 112/2002-MT e recomenda o curso ${d.curso_recomendado || "de ética e conduta no serviço público"}.`;
+  });
   $("#formCominacao")?.addEventListener("submit", async e=>{
     e.preventDefault();
     const tipo = valorDe("coTipo"), parecer = valorDe("coParecer"), pad = $("#coPAD").checked;

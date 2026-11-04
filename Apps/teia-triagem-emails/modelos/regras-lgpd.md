@@ -1,6 +1,6 @@
 # Regras e LGPD do TEIA
 
-## 8 campos essenciais
+## 9 campos essenciais
 
 DATA COBRANÇA · Nº COBRANÇAS · NÍVEL · TIPO DE CRIME · PROTOCOLO · AR PARA CONFRONTO · OBJETIVO CLARO · NOME DA REGIONAL.
 

@@ -14,10 +14,21 @@ async function cdConteineres(){ return Object.fromEntries((await db.list("contei
 
 // ocupação é sempre calculada a partir dos vestígios armazenados (nunca de um número digitado)
 function cdOcupados(vestigios, conteinerId){
+  const v = vestigios.filter(x=>x.status === "armazenado" && x.conteiner_id && (!conteinerId || x.conteiner_id === conteinerId));
+  return v.reduce((a, x)=>a + Number(x.volume_ocupado || 0), 0);
+}
+// a sugestão também considera as reservas pendentes, para não dar o mesmo espaço duas vezes
+function cdReservado(vestigios, conteinerId){
   const v = vestigios.filter(x=>x.status !== "descartado" && x.conteiner_id && (!conteinerId || x.conteiner_id === conteinerId));
   return v.reduce((a, x)=>a + Number(x.volume_ocupado || 0), 0);
 }
-function cdFolga(c, vestigios){ return Math.max(0, Number(c.capacidade) - cdOcupados(vestigios, c.id_conteiner)); }
+function cdFolga(c, vestigios){ return Math.max(0, Number(c.capacidade) - cdReservado(vestigios, c.id_conteiner)); }
+function cdEnderecoCompleto(v, cs){
+  const c = cs?.[v.conteiner_id];
+  if (!c) return v.conteiner_id || "sem endereço";
+  return [c.id_conteiner, c.estante ? `Estante ${c.estante}` : "", c.prateleira ? `Prateleira ${c.prateleira}` : "",
+    c.nivel ? `Nível ${c.nivel}` : "", v.posicao || ""].filter(Boolean).join(" > ");
+}
 
 // RN02: contêiner compatível com a categoria; RN03: precisa de folga para o volume
 function cdSugerir(vestigios, categoriaId, volume, conteineres){
@@ -38,19 +49,24 @@ teste("RN02/RN03: sugere o contêiner compatível com folga e recusa volume acim
 function cdSemaforo(pct){ return pct >= 100 ? "erro" : pct >= 85 ? "alerta" : "ok"; }
 
 TELAS["#/painel"] = async ()=>{
-  const [vs, cs, cats] = await Promise.all([db.list("vestigios"), db.list("conteineres"), cdCategorias()]);
+  const [vs, cs, cats, movs] = await Promise.all([db.list("vestigios"), db.list("conteineres"), cdCategorias(), db.list("movimentacoes")]);
   const ativos = vs.filter(v=>v.status !== "descartado"), ocup = cdOcupados(vs), cap = cs.reduce((a, c)=>a + Number(c.capacidade), 0);
   const pct = cap ? Math.round(ocup / cap * 100) : 0;
   const cheios = cs.filter(c=>cdFolga(c, vs) === 0).length, pend = vs.filter(v=>v.status === "pendencia").length;
-  return `<h1>Painel da Central de Custódia</h1><p class="sub">${ativos.length} vestígios armazenados. <a href="#/vestigio/novo">Cadastrar vestígio</a></p>
+  const entradas = movs.filter(m=>m.tipo === "entrada").length, saidas = movs.filter(m=>m.tipo === "saida").length;
+  const naoConfirmados = vs.filter(v=>v.status !== "descartado" && !v.endereco_efetivo).length;
+  return `<h1>Painel da Central de Custódia</h1><p class="sub">${ativos.length} vestígios no acervo · ${entradas} entradas e ${saidas} saídas registradas. <a href="#/vestigio/novo">Cadastrar vestígio</a></p>
     <div class="grade"><div class="card kpi"><div class="v">${ativos.length}</div><div class="r">vestígios no acervo</div></div>
       <div class="card kpi"><div class="v">${pct}%</div><div class="r">ocupação total (${ocup} de ${cap})</div></div>
       <div class="card kpi"><div class="v">${cheios}</div><div class="r">contêineres cheios</div></div>
-      <div class="card kpi"><div class="v">${pend}</div><div class="r">com pendência documental</div></div></div>
-    <div class="card tabela-wrap"><h2 style="margin-top:0">Ocupação por contêiner</h2><table id="tabelaOcupacao"><tr><th>Contêiner</th><th>Categoria permitida</th><th class="num">Ocupado</th><th class="num">Capacidade</th><th>Ocupação</th></tr>
+      <div class="card kpi"><div class="v">${pend}</div><div class="r">com pendência documental</div></div>
+      <div class="card kpi"><div class="v" data-cd-ind="entradas">${entradas}</div><div class="r">entradas registradas</div></div>
+      <div class="card kpi"><div class="v" data-cd-ind="saidas">${saidas}</div><div class="r">saídas registradas</div></div>
+      <div class="card kpi"><div class="v" data-cd-ind="nao-confirmados">${naoConfirmados}</div><div class="r">sem endereço efetivo</div></div></div>
+    <div class="card tabela-wrap"><h2 style="margin-top:0">Ocupação por contêiner</h2><table id="tabelaOcupacao"><tr><th>Contêiner</th><th>Categoria permitida</th><th>Unidade</th><th class="num">Ocupado</th><th class="num">Capacidade</th><th>Ocupação</th></tr>
       ${cs.map(c=>{ const o = cdOcupados(vs, c.id_conteiner), p = Number(c.capacidade) ? Math.round(o / Number(c.capacidade) * 100) : 0;
-        return `<tr><td><a href="#/conteineres">${esc(c.id_conteiner)}</a></td><td>${esc(cats[c.categoria_permitida]?.nome || (c.categoria_permitida === "todas" ? "todas" : c.categoria_permitida))}</td>
-          <td class="num">${o}</td><td class="num">${c.capacidade}</td><td><span class="selo ${cdSemaforo(p)}">${p}%</span></td></tr>`; }).join("")}</table></div>`;
+        return `<tr><td><a href="#/vestigios" data-cd-cont="${esc(c.id_conteiner)}">${esc(c.id_conteiner)}</a></td><td>${esc(cats[c.categoria_permitida]?.nome || (c.categoria_permitida === "todas" ? "todas" : c.categoria_permitida))}</td>
+          <td>${esc(c.unidade || "litros")}</td><td class="num">${o}</td><td class="num">${c.capacidade}</td><td><span class="selo ${cdSemaforo(p)}">${p}%</span></td></tr>`; }).join("")}</table></div>`;
 };
 
 TELAS["#/conteineres"] = async ()=>{
@@ -58,8 +74,8 @@ TELAS["#/conteineres"] = async ()=>{
   return `<h1>Contêineres</h1><p class="sub">Capacidade e condição de conservação de cada unidade de armazenamento.</p>
     <div class="grade">${cs.map(c=>{ const o = cdOcupados(vs, c.id_conteiner), f = cdFolga(c, vs), p = Number(c.capacidade) ? Math.round(o / Number(c.capacidade) * 100) : 0;
       return `<div class="card"><b>${esc(c.id_conteiner)}</b> <span class="selo ${cdSemaforo(p)}">${p}%</span>
-        <p class="sub">${esc(c.tipo_conservacao)} · ${esc(c.localizacao_fisica || "")}</p>
-        <p>Categoria: ${esc(cats[c.categoria_permitida]?.nome || "todas")}<br>Ocupado: ${o} de ${c.capacidade} (folga ${f})</p></div>`; }).join("")}</div>`;
+        <p class="sub">${esc(c.tipo_conservacao)} · ${esc(c.sala || "sala não informada")} · Estante ${esc(c.estante || "—")} · Prateleira ${esc(c.prateleira || "—")} · Nível ${esc(c.nivel || "—")}</p>
+        <p>Categoria: ${esc(cats[c.categoria_permitida]?.nome || "todas")}<br>Ocupado: ${o} de ${c.capacidade} ${esc(c.unidade || "litros")} (folga ${f})</p></div>`; }).join("")}</div>`;
 };
 
 function cdFiltros(){ return estado.cdFiltros || (estado.cdFiltros = {categoria: "", conteiner: "", status: "", busca: ""}); }
@@ -96,16 +112,25 @@ TELAS["#/vestigio/novo"] = async ()=>{
       ${campo("cdLacre", "Lacre", {obrigatorio: true, ajuda: "Identificação única do lacre (RN01)."})}
       ${campo("cdCategoria", "Categoria", {tipo: "select", opcoes: [["", "Escolha"], ...cats.map(c=>[c.id_categoria, c.nome])], obrigatorio: true})}
       ${campo("cdVolume", "Volume ocupado", {tipo: "number", attrs: 'min="1" step="1"', obrigatorio: true, ajuda: "Unidades de ocupação (caixa, alíquota, volume)."})}
-      ${campo("cdData", "Data de entrada", {tipo: "date", valor: hojeISO(), obrigatorio: true})}
-      ${campo("cdPendencia", "Situação", {tipo: "select", opcoes: [["armazenado", "Armazenado"], ["pendencia", "Pendência documental"]]})}</div>
+      ${campo("cdData", "Data de entrada", {tipo: "date", valor: hojeISO(), obrigatorio: true})}</div>
     ${campo("cdDesc", "Descrição do material", {tipo: "textarea", linhas: 2, ajuda: "Ex.: 12 alíquotas de contraprova de entorpecente."})}
+    <fieldset class="card"><legend><b>Cadastro em etapas</b></legend><div class="campos">
+      ${campo("cdProcedencia", "Procedência", {ajuda: "Delegacia, IML, local ou órgão de origem."})}
+      ${campo("cdConfDoc", "Conferência documental", {tipo: "select", opcoes: [["", "Escolha"], ["completa", "Completa"], ["parcial", "Parcial"], ["pendente", "Pendente"]]})}
+      ${campo("cdLacreIntegro", "Integridade do lacre", {tipo: "select", opcoes: [["", "Escolha"], ["integro", "Íntegro"], ["violado", "Violado"], ["nao_verificado", "Não verificado"]]})}
+      ${campo("cdEmbalagem", "Embalagem", {ajuda: "Ex.: caixa lacrada, saco plástico, invólucro rígido."})}
+      ${campo("cdQuantidade", "Quantidade", {tipo: "number", attrs: 'min="0" step="1"'})}
+      ${campo("cdDimensoes", "Dimensões", {ajuda: "Ex.: 30 x 20 x 15 cm."})}
+      ${campo("cdConservacao", "Conservação", {tipo: "select", opcoes: [["", "Escolha"], ["boa", "Boa"], ["regular", "Regular"], ["ruim", "Ruim"]]})}</div></fieldset>
     <div id="cdErros"></div><div class="linha-botoes"><button class="prim" type="submit">Cadastrar e endereçar</button></div></form>`;
 };
 TELAS_DEPOIS["#/vestigio/novo"] = ()=>{
   $("#formCdNovo").addEventListener("submit", async e=>{
     e.preventDefault();
     const d = {protocolo: valorDe("cdProtocolo"), lacre: valorDe("cdLacre"), categoria_id: valorDe("cdCategoria"), volume_ocupado: Number(valorDe("cdVolume")),
-      data_entrada: valorDe("cdData"), status: valorDe("cdPendencia"), descricao: valorDe("cdDesc")};
+      data_entrada: valorDe("cdData"), status: "pendencia", descricao: valorDe("cdDesc"),
+      procedencia: valorDe("cdProcedencia"), conferencia_documental: valorDe("cdConfDoc"), lacre_integro: valorDe("cdLacreIntegro"),
+      embalagem: valorDe("cdEmbalagem"), quantidade: Number(valorDe("cdQuantidade") || 0), dimensoes: valorDe("cdDimensoes"), conservacao: valorDe("cdConservacao")};
     const [vs, cs, cats] = await Promise.all([db.list("vestigios"), db.list("conteineres"), db.list("categorias")]);
     const erros = [];
     if (!d.protocolo) erros.push("Informe o protocolo.");
@@ -119,11 +144,13 @@ TELAS_DEPOIS["#/vestigio/novo"] = ()=>{
     if (!mostrarErros("#cdErros", erros)) return;
     const id = "V-" + String(vs.length + 1).padStart(4, "0");
     const pos = String(cdOcupados(vs, s.conteiner.id_conteiner) + 1).padStart(3, "0");
-    await db.put("vestigios", {id_vestigio: id, ...d, conteiner_id: s.conteiner.id_conteiner, posicao: `P${pos}`, criado_em: agora()});
+    const endereco = {conteiner_id: s.conteiner.id_conteiner, posicao: `P${pos}`, estante: s.conteiner.estante || "", prateleira: s.conteiner.prateleira || "", nivel: s.conteiner.nivel || ""};
+    await db.put("vestigios", {id_vestigio: id, ...d, conteiner_id: s.conteiner.id_conteiner, posicao: `P${pos}`,
+      endereco_sugerido: endereco, endereco_efetivo: null, confirmacao: null, criado_em: agora()});
     await db.put("movimentacoes", {id_movimentacao: uuid(), vestigio_id: id, tipo: "entrada", data_hora: agora(), responsavel: estado.perfil || "custodia",
       origem: "recebimento", destino: `${s.conteiner.id_conteiner} · P${pos}`});
-    await registrar("vestígio cadastrado", {detalhe: `${id} · lacre ${d.lacre}`});
-    toast(`Vestígio ${id} endereçado em ${s.conteiner.id_conteiner} (P${pos}).`); location.hash = "#/vestigio/" + encodeURIComponent(id);
+    await registrar("vestígio cadastrado", {detalhe: `${id} · lacre ${d.lacre} · endereço sugerido`});
+    toast(`Vestígio ${id} com endereço sugerido. Confirme o acondicionamento na ficha.`); location.hash = "#/vestigio/" + encodeURIComponent(id);
   });
 };
 

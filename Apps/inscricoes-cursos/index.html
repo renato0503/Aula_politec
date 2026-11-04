@@ -1275,14 +1275,20 @@ const APP = {
       "sprint": 2,
       "descricao": "Criar e editar cursos.",
       "perfis": [
-        "gerencia"
+        "gerencia",
+        "coordenacao"
       ]
     },
     {
       "rota": "#/curso/:curso",
       "titulo": "Curso",
       "sprint": 4,
-      "descricao": "Esteira do curso, da divulgação à turma."
+      "descricao": "Esteira do curso, da divulgação à turma.",
+      "perfis": [
+        "gerencia",
+        "coordenacao",
+        "chefe"
+      ]
     },
     {
       "rota": "#/divulgar/:curso",
@@ -1290,7 +1296,8 @@ const APP = {
       "sprint": 2,
       "descricao": "Link, QR Code e texto de divulgação.",
       "perfis": [
-        "gerencia"
+        "gerencia",
+        "coordenacao"
       ]
     },
     {
@@ -1308,7 +1315,9 @@ const APP = {
       "sprint": 5,
       "descricao": "Lista e conferência com o SEAP.",
       "perfis": [
-        "gerencia"
+        "gerencia",
+        "coordenacao",
+        "chefe"
       ]
     },
     {
@@ -1326,7 +1335,9 @@ const APP = {
       "sprint": 7,
       "descricao": "Mensagens de titular e reserva.",
       "perfis": [
-        "gerencia"
+        "gerencia",
+        "coordenacao",
+        "chefe"
       ]
     },
     {
@@ -1335,7 +1346,9 @@ const APP = {
       "sprint": 8,
       "descricao": "Lista final e desistências.",
       "perfis": [
-        "gerencia"
+        "gerencia",
+        "coordenacao",
+        "chefe"
       ]
     },
     {
@@ -1378,6 +1391,16 @@ const APP = {
       "nome": "Diretoria",
       "descricao": "Recebe o arquivo de triagem e define titulares e reserva.",
       "inicio": "#/triagem"
+    },
+    {
+      "id": "coordenacao",
+      "nome": "Coordenação",
+      "descricao": "Acompanha cursos, inscritos, convocações e a turma da sua coordenação."
+    },
+    {
+      "id": "chefe",
+      "nome": "Chefe",
+      "descricao": "Consulta os inscritos e a lista final da turma."
     }
   ],
   "rotaSemPerfil": [
@@ -1468,6 +1491,11 @@ TELAS["#/cursos"] = async ()=>{
         ${campo("cInscFim", "Inscrições até", {tipo: "date", obrigatorio: true})}
         ${campo("cTriagem", "Prazo da triagem pelas diretorias", {tipo: "date", obrigatorio: true})}
         ${campo("cGrupo", "Link do grupo oficial da turma", {tipo: "url", ajuda: "Enviado só aos selecionados (RN08)."})}
+        ${campo("cInstrutores", "Instrutores (um por linha)", {tipo: "textarea", linhas: 2})}
+        ${campo("cMonitores", "Monitores (um por linha)", {tipo: "textarea", linhas: 2})}
+        ${campo("cConvData", "Data da convocação", {tipo: "date"})}
+        ${campo("cCompIni", "Compensação a partir de", {tipo: "date"})}
+        ${campo("cCompFim", "Compensação até", {tipo: "date"})}
       </div>
       ${campo("cPre", "Pré-requisitos (um por linha)", {tipo: "textarea", linhas: 3})}
       <h3>Vagas por diretoria</h3>
@@ -1485,6 +1513,8 @@ TELAS_DEPOIS["#/cursos"] = ()=>{
     $("#cursoId").value = c.id; $("#cNome").value = c.nome; $("#cCarga").value = c.carga_horaria; $("#cLocal").value = c.local || "";
     $("#cInicio").value = c.inicio; $("#cFim").value = c.fim; $("#cInscIni").value = c.inscricao_inicio || ""; $("#cInscFim").value = c.inscricao_fim || "";
     $("#cTriagem").value = c.prazo_triagem || ""; $("#cGrupo").value = c.link_grupo || ""; $("#cPre").value = (c.prerequisitos || []).join("\n");
+    $("#cInstrutores").value = (c.instrutores || []).join("\n"); $("#cMonitores").value = (c.monitores || []).join("\n");
+    $("#cConvData").value = c.convocacao_data || ""; $("#cCompIni").value = c.compensacao_inicio || ""; $("#cCompFim").value = c.compensacao_fim || "";
     $$("[data-vaga]").forEach(i=>i.value = c.vagas_por_diretoria?.[i.dataset.vaga] || 0); soma();
     $("#tituloCurso").textContent = "Editar " + c.nome; $("#formCurso").hidden = false; $("#formCurso").scrollIntoView();
   }));
@@ -1493,6 +1523,8 @@ TELAS_DEPOIS["#/cursos"] = ()=>{
     const vagas = {}; $$("[data-vaga]").forEach(i=>{ const v = Number(i.value) || 0; if (v > 0) vagas[i.dataset.vaga] = v; });
     const c = {nome: valorDe("cNome"), carga_horaria: Number(valorDe("cCarga")), local: valorDe("cLocal"), inicio: valorDe("cInicio"), fim: valorDe("cFim"),
       inscricao_inicio: valorDe("cInscIni"), inscricao_fim: valorDe("cInscFim"), prazo_triagem: valorDe("cTriagem"), link_grupo: valorDe("cGrupo"),
+      instrutores: valorDe("cInstrutores").split("\n").map(s=>s.trim()).filter(Boolean), monitores: valorDe("cMonitores").split("\n").map(s=>s.trim()).filter(Boolean),
+      convocacao_data: valorDe("cConvData"), compensacao_inicio: valorDe("cCompIni"), compensacao_fim: valorDe("cCompFim"),
       prerequisitos: valorDe("cPre").split("\n").map(s=>s.trim()).filter(Boolean), vagas_por_diretoria: vagas};
     const erros = [];
     if (!c.nome) erros.push("Informe o nome do curso.");
@@ -1567,7 +1599,14 @@ TELAS["#/divulgar/:curso"] = async ({curso})=>{
       <div class="linha-botoes"><button id="btnBaixarQr">Baixar QR Code (.svg)</button></div></div>
     <div class="card"><h2 style="margin-top:0">Texto para as diretorias</h2>
       <textarea id="textoDivulgacao" rows="16">${esc(textoDivulgacao(c, link, dirs))}</textarea>
-      <div class="linha-botoes"><button id="btnCopiarTexto">Copiar texto</button></div></div>`;
+      <div class="linha-botoes"><button id="btnCopiarTexto">Copiar texto</button></div></div>
+    <div class="card" id="checkDivulgar"><h2 style="margin-top:0">Antes de divulgar</h2>
+      <ul class="check-lista">
+        <li class="${c.inicio && c.fim ? "feito" : "falta"}">${icone(c.inicio && c.fim ? "check" : "alerta")}<span>Datas de inscrição e de realização conferidas</span></li>
+        <li class="${totalVagas(c) > 0 ? "feito" : "falta"}">${icone(totalVagas(c) > 0 ? "check" : "alerta")}<span>Vagas distribuídas por diretoria</span></li>
+        <li class="${c.link_grupo ? "feito" : "falta"}">${icone(c.link_grupo ? "check" : "alerta")}<span>Link do grupo da turma informado</span></li>
+        <li class="${location.protocol === "file:" ? "falta" : "feito"}">${icone(location.protocol === "file:" ? "alerta" : "check")}<span>${location.protocol === "file:" ? "Publique o app (GitHub Pages) para o link funcionar fora deste computador" : "Link de inscrição publicado"}</span></li>
+      </ul></div>`;
 };
 TELAS_DEPOIS["#/divulgar/:curso"] = ({curso})=>{
   if (!$("#btnCopiarLink")) return;  // curso não encontrado
@@ -2002,6 +2041,7 @@ async function exportarTriagem(sigla, curso){
 /* ================= Sprint 6 · Triagem pelas diretorias (RN05) ================= */
 TELAS["#/triagem"] = async ()=>{
   const [cursos, dirs, triagens] = await Promise.all([db.list("cursos"), db.list("diretorias"), db.list("triagens")]);
+  if (!cursos.length || !dirs.length) return `<h1>Triagem</h1><div class="card vazio">A triagem precisa de um curso e de diretorias cadastradas. <a href="#/config">Carregue os dados fictícios</a> ou cadastre em <a href="#/cursos">Cursos</a>.</div>`;
   const dir = estado.tgDir || (dirs[0] && dirs[0].sigla) || "";
   const nomeDir = dirs.find(d=> d.sigla === dir)?.nome || dir;
   const curso = estado.tgCurso || (cursos[0] && cursos[0].id) || "";
@@ -2309,6 +2349,52 @@ if (typeof inscricaoAntes === "function"){
     return html.includes("</div>") ? html.replace(/(<div id="comprovante">)/, bloco + "$1") : html + bloco;
   };
 }
+
+/* ================= Sprint 10 · Perfis, instrutores e termo de convocação ================= */
+function termoConvocacao(c){
+  const lista = (x)=> (x && x.length ? x.join("; ") : "a informar");
+  return `TERMO DE CONVOCAÇÃO
+
+Curso: ${c.nome}
+Carga horária: ${c.carga_horaria} h
+Período do curso: ${periodo(c)}
+Local: ${c.local || "a informar"}
+
+Instrutores: ${lista(c.instrutores)}
+Monitores: ${lista(c.monitores)}
+
+Convocação: ${c.convocacao_data ? dataCurtaBR(c.convocacao_data) : "a informar"}
+Compensação: ${c.compensacao_inicio ? dataCurtaBR(c.compensacao_inicio) : "a informar"} a ${c.compensacao_fim ? dataCurtaBR(c.compensacao_fim) : "a informar"}
+
+A convocação e a compensação seguem as datas acima, conforme a carga horária e a disponibilidade da unidade.
+
+Gerência de Formação Inicial e Continuada · POLITEC/MT`;
+}
+
+const inscConvocacaoAntes = TELAS["#/convocacao/:curso"];
+TELAS["#/convocacao/:curso"] = async (p)=>{
+  const html = await inscConvocacaoAntes(p);
+  const c = await db.get("cursos", p.curso); if (!c) return html;
+  const texto = termoConvocacao(c);
+  return html + `<div class="card" id="cardTermoConvocacao"><h2 style="margin-top:0">Termo de convocação</h2>
+    <p class="sub">Documento do curso com instrutores, monitores, convocação e compensação. A impressão e o e-mail usam o texto abaixo.</p>
+    <pre id="textoTermo" style="white-space:pre-wrap;font-family:Georgia,serif;font-size:15px;line-height:1.6">${esc(texto)}</pre>
+    <div class="linha-botoes nao-imprimir"><button type="button" id="btnTermoImprimir">Imprimir</button>
+      <button type="button" id="btnTermoCopiar">Copiar o termo</button>
+      <button type="button" id="btnTermoEmail">Enviar por e-mail</button></div>
+    <p class="sub">Faltando algum dado? Preencha instrutores, monitores e as datas em <a href="#/cursos">Cursos → Editar</a>.</p></div>`;
+};
+const inscConvocacaoDepois = TELAS_DEPOIS["#/convocacao/:curso"];
+TELAS_DEPOIS["#/convocacao/:curso"] = async (p)=>{
+  await inscConvocacaoDepois?.(p);
+  const texto = $("#textoTermo")?.textContent || "";
+  $("#btnTermoImprimir")?.addEventListener("click", ()=>window.print());
+  $("#btnTermoCopiar")?.addEventListener("click", async ()=>{ try { await navigator.clipboard.writeText(texto); toast("Termo copiado."); } catch(e){ toast("Use Ctrl+C no texto do termo."); } });
+  $("#btnTermoEmail")?.addEventListener("click", ()=>{
+    const c = estado.cursoTermo;
+    location.href = `mailto:?subject=${encodeURIComponent("Termo de convocação")}&body=${encodeURIComponent(texto)}`;
+  });
+};
 
 /* Identidade das Inscrições em Cursos.
    Entra por último no build. A tela-assinatura são os cartões de curso com a

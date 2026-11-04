@@ -109,9 +109,10 @@ teste("Sprint 5: processo parado acima do prazo da etapa", ()=>{
 });
 
 function caBarras(titulo, pares, cor = "var(--accent)"){
+  if (!pares.length) return `<div class="card"><h2 style="margin-top:0">${esc(titulo)}</h2><svg class="ca-grafico" viewBox="0 0 420 60" role="img" aria-label="${esc(titulo)}"><text x="210" y="34" text-anchor="middle" font-size="12" fill="var(--ink2)">Sem dados no período.</text></svg></div>`;
   const max = Math.max(1, ...pares.map(([, n])=>n)), w = 420, h = 26;
   return `<div class="card"><h2 style="margin-top:0">${esc(titulo)}</h2>
-    <svg viewBox="0 0 ${w} ${Math.max(60, pares.length * h + 10)}" role="img" aria-label="${esc(titulo)}" style="width:100%;height:auto">
+    <svg class="ca-grafico" viewBox="0 0 ${w} ${Math.max(60, pares.length * h + 10)}" role="img" aria-label="${esc(titulo)}">
       ${pares.map(([rot, n], i)=>{ const d = Math.round(n / max * (w - 170)), y = i * h + 6;
         return `<text x="0" y="${y + 13}" font-size="12" fill="var(--ink2)">${esc(String(rot).slice(0, 22))}</text>
           <rect x="150" y="${y + 2}" width="${d}" height="14" rx="3" fill="${cor}"></rect>

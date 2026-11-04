@@ -85,6 +85,16 @@
       "nome": "Diretoria",
       "descricao": "Recebe o arquivo de triagem e define titulares e reserva.",
       "inicio": "#/triagem"
+    },
+    {
+      "id": "coordenacao",
+      "nome": "Coordenação",
+      "descricao": "Acompanha cursos, inscritos, convocações e a turma da sua coordenação."
+    },
+    {
+      "id": "chefe",
+      "nome": "Chefe",
+      "descricao": "Consulta os inscritos e a lista final da turma."
     }
   ],
   "rotaSemPerfil": [
@@ -97,14 +107,20 @@
       "sprint": 2,
       "descricao": "Criar e editar cursos.",
       "perfis": [
-        "gerencia"
+        "gerencia",
+        "coordenacao"
       ]
     },
     {
       "rota": "#/curso/:curso",
       "titulo": "Curso",
       "sprint": 4,
-      "descricao": "Esteira do curso, da divulgação à turma."
+      "descricao": "Esteira do curso, da divulgação à turma.",
+      "perfis": [
+        "gerencia",
+        "coordenacao",
+        "chefe"
+      ]
     },
     {
       "rota": "#/divulgar/:curso",
@@ -112,7 +128,8 @@
       "sprint": 2,
       "descricao": "Link, QR Code e texto de divulgação.",
       "perfis": [
-        "gerencia"
+        "gerencia",
+        "coordenacao"
       ]
     },
     {
@@ -130,7 +147,9 @@
       "sprint": 5,
       "descricao": "Lista e conferência com o SEAP.",
       "perfis": [
-        "gerencia"
+        "gerencia",
+        "coordenacao",
+        "chefe"
       ]
     },
     {
@@ -148,7 +167,9 @@
       "sprint": 7,
       "descricao": "Mensagens de titular e reserva.",
       "perfis": [
-        "gerencia"
+        "gerencia",
+        "coordenacao",
+        "chefe"
       ]
     },
     {
@@ -157,7 +178,9 @@
       "sprint": 8,
       "descricao": "Lista final e desistências.",
       "perfis": [
-        "gerencia"
+        "gerencia",
+        "coordenacao",
+        "chefe"
       ]
     },
     {

@@ -1,4 +1,4 @@
-# Segunda via da CIN a distância · sprints até o MVP
+﻿# Segunda via da CIN a distância · sprints até o MVP
 
 > Arquitetura: HTML monolítico, offline first (ver `contexto.md`). Sprints de 1 semana.
 > O MVP prova o fluxo com dados fictícios; biometria real fica fora (LGPD, art. 11).
@@ -14,6 +14,7 @@
 | 4 | Feito em 30/10/2026. `#/protocolo/:id` e a retenção (RN06); código em `src/sprint4.js` e `src/sprint5.js`. |
 | 5 | Feito em 30/10/2026. `#/indicadores` e o teste de acessibilidade; cenário em `Apps/_base/cenarios/sprint5.py`. |
 | 6 | Feito em 30/10/2026. Roteiro de aceite e posição da TI em `modelos/roteiro-aceite.md`. |
+| 7 | Feito em 03/11/2026: fotos das impressões quando o documento foi extraviado, encaminhamento no protocolo/fila, texto do confronto e troca de perfil pelo menu. A integração biométrica segue externa. |
 
 CPF de teste gerados a partir de 000.000.0xx, com dígito válido; sem fotos (o app gera as de teste no Sprint 2).
 
@@ -78,3 +79,21 @@ CPF de teste gerados a partir de 000.000.0xx, com dígito válido; sem fotos (o 
 - [x] Roteiro com os 30 pedidos fictícios, do pedido ao resumo.
 - [x] Registrar a posição da TI e do encarregado de dados sobre produção.
 - [x] Atualizar `PROJETO.md` e `README.md`.
+
+## Sprint 7 · Correções do feedback (03/11/2026)
+
+> Feedback de André (nota 3).
+
+### Código
+- [x] Pedido: quando o documento foi extraviado, pedir as fotos das impressões digitais (não a foto do documento). (4 dedos: polegares e indicadores)
+- [x] Anexar e encaminhar as imagens das impressões no protocolo e na fila.
+- [x] Melhorar a troca de perfil. O seletor do cabeçalho troca no mesmo lugar, sem recarregar a tela; testado no celular.
+- [x] Deixar claro na tela o que é conferido no confronto papiloscópico. (qualidade, base biométrica e coerência com a CIN)
+
+### Decisão do setor
+- [x] Conjunto mínimo e qualidade. Premissa: 4 fotos (polegar e indicador de cada mão), 800 px e JPEG 0.8; confirmar com a papiloscopia.
+- [ ] Integração com a base biométrica (TI e empresa da coleta) e LGPD. O MVP guarda as imagens no navegador e apaga depois da decisão; a API é externa.
+- [x] Quem valida o confronto. Premissa: o papiloscopista; a fila registra o perfil na decisão e o resultado do confronto não é automático.
+
+**Pronto quando**: o pedido sem documento aceita as fotos das impressões e o protocolo mostra o encaminhamento.
+

@@ -91,6 +91,9 @@ TELAS["#/contrato/novo"] = async ()=> `<h1>Cadastrar contrato</h1><p class="sub"
     ${campo("rcFim", "Data de término (calculada)", {tipo: "date", obrigatorio: true})}
     ${campo("rcProrroga", "Permite prorrogação? (R1)", {tipo: "select", opcoes: [["sim", "Sim"], ["nao", "Não"]]})}</div>
   ${campo("rcObjeto", "Objeto", {tipo: "textarea", linhas: 2, obrigatorio: true})}
+  <div class="card"><h2 style="margin-top:0">Fiscais e gestores</h2><p class="sub">Contato para o aviso de vencimento; o fiscal também vê o contrato em "Meus contratos".</p>
+    <div class="campos">${campo("rcFiscalNome", "Fiscal do contrato")}${campo("rcFiscalEmail", "E-mail do fiscal", {tipo: "email"})}${campo("rcFiscalTelefone", "Telefone do fiscal")}</div>
+    <div class="campos">${campo("rcGestorNome", "Gestor do contrato")}${campo("rcGestorEmail", "E-mail do gestor", {tipo: "email"})}${campo("rcGestorTelefone", "Telefone do gestor")}</div></div>
   <div id="rcErros"></div><div class="linha-botoes"><button class="prim" type="submit">Cadastrar</button></div></form>`;
 TELAS_DEPOIS["#/contrato/novo"] = ()=>{
   const calc = ()=>{ const i = valorDe("rcInicio"), m = valorDe("rcMeses"); if (i && m) $("#rcFim").value = rcFim(i, Number(m)); };
@@ -113,6 +116,14 @@ TELAS_DEPOIS["#/contrato/novo"] = ()=>{
     if (!mostrarErros("#rcErros", erros)) return;
     const id = "CT-" + String(cs.length + 1).padStart(3, "0");
     await db.put("contratos", {id_contrato: id, ...d, criado_em: agora()});
+    const contatos = [
+      ["fiscal", valorDe("rcFiscalNome"), valorDe("rcFiscalEmail"), valorDe("rcFiscalTelefone")],
+      ["gestor", valorDe("rcGestorNome"), valorDe("rcGestorEmail"), valorDe("rcGestorTelefone")]
+    ];
+    for (const [papel, nome, email, telefone] of contatos) if (nome.trim()) {
+      await db.put("fiscais", {id: uuid(), contrato_id: id, nome: nome.trim(), papel, email: email.trim(), telefone: telefone.trim(),
+        desde: hojeISO(), ate: null, motivo: "cadastro inicial"});
+    }
     await rcAuditar(id, "contrato cadastrado", `${d.numero} · término ${d.data_fim}`);
     await registrar("contrato cadastrado", {detalhe: d.numero});
     toast(`Contrato ${id} cadastrado.`); location.hash = "#/contrato/" + encodeURIComponent(id);

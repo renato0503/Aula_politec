@@ -203,6 +203,60 @@ def s7_exportar_e_auditoria(pg, url, ok):
     ok("a trilha registra a exportação", "exportação" in texto)
 
 
+@cenario
+def s9_status_dotacao_e_grupos(pg, url, ok):
+    ex = PASTA / "exemplos"
+    ir(pg, url, "#/processos")
+    pg.fill("#procNumero", "001/2026"); pg.fill("#procNome", "Teste do feedback"); pg.click("#formProcesso button[type=submit]")
+    pg.wait_for_timeout(500)
+    for fonte, arq in [("distribuicao", "distribuicao-orgaos.xlsx"), ("pregoeiro", "relatorio-pregoeiro.xlsx"), ("dotacao", "dotacao.xlsx")]:
+        pg.set_input_files(f"input[data-fonte={fonte}]", str(ex / arq)); pg.wait_for_timeout(300)
+    pg.click("#btnImportar"); pg.wait_for_timeout(1200)
+    ir(pg, url, "#/processos", 700)
+    ok("a situação do processo pode ser alterada", pg.locator('[data-status="PROC-001-2026"]').count() == 1)
+    pg.select_option('[data-status="PROC-001-2026"]', "concluído"); pg.wait_for_timeout(700)
+    ok("concluído fica gravado no processo", pg.evaluate("async () => (await db.get('processos','PROC-001-2026')).status") == "concluído")
+    ir(pg, url, "#/resultado/PROC-001-2026", 900)
+    pg.fill("#digitosDotacao", "3 · 10.301.0001.2000"); pg.click("#btnSalvarDigitos"); pg.wait_for_timeout(700)
+    ok("os dígitos da dotação ficam no processo", pg.evaluate("async () => (await db.get('processos','PROC-001-2026')).digitos_dotacao") == "3 · 10.301.0001.2000")
+    ir(pg, url, "#/empresas/PROC-001-2026", 800)
+    ok("a tabela de grupos mostra a empresa ganhadora", pg.locator("#tabelaGruposEmpresas").count() == 1 and "Empresa ganhadora" in pg.inner_text("#tabelaGruposEmpresas"))
+    ir(pg, url, "#/mapa/PROC-001-2026", 800)
+    ok("a descrição do mapa fica justificada", pg.evaluate("() => getComputedStyle(document.querySelector('#tabelaMapa td:nth-child(4)')).textAlign") == "justify")
+    ir(pg, url, "#/orcamento/PROC-001-2026", 800)
+    ok("a distribuição orçamentária mostra os dígitos", "10.301.0001.2000" in pg.inner_text("#conteudo"))
+
+@cenario
+def s10_pdf_e_mapa_sesp(pg, url, ok):
+    from reportlab.lib.pagesizes import A4
+    from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+    from reportlab.lib import colors
+    pdf = TMP / "relatorio-pregoeiro.pdf"
+    dados = [["Grupo", "Item", "Situacao", "Empresa", "CNPJ", "Valor unitario homologado"],
+             ["1", "1", "homologado", "Empresa Alfa", "11.222.333/0001-81", "1.250,00"],
+             ["1", "2", "homologado", "Empresa Beta", "22.333.444/0001-82", "980,00"]]
+    doc = SimpleDocTemplate(str(pdf), pagesize=A4)
+    tab = Table(dados, colWidths=[45, 40, 70, 110, 130, 110])
+    tab.setStyle(TableStyle([("GRID", (0,0), (-1,-1), 0.5, colors.grey), ("FONTSIZE", (0,0), (-1,-1), 8)]))
+    doc.build([tab])
+    perfil(pg, url, "analista")
+    semear(pg, url)
+    ir(pg, url, "#/importar/PROC-2026-001", 600)
+    pg.set_input_files("input[data-fonte=pregoeiro]", str(pdf)); pg.wait_for_timeout(1200)
+    fonte = pg.inner_text("#fonte-pregoeiro")
+    ok("o PDF do pregoeiro é lido", "linhas de dados" in fonte and "PDF" in fonte)
+    ir(pg, url, "#/exportar/PROC-2026-001", 700)
+    with pg.expect_download() as dl:
+        pg.click("#btnMapaSesp")
+    arq = TMP / "mapa-sesp.xlsx"; dl.value.save_as(arq)
+    from openpyxl import load_workbook
+    wb = load_workbook(arq)
+    ok("o mapa orçamentário SESP sai em Excel", "Mapa Orçamentário" in wb.sheetnames)
+    ws = wb["Mapa Orçamentário"]
+    cab = [c.value for c in ws[1]]
+    ok("o mapa traz processo, órgão, dotação e credor", all(x in cab for x in ["Processo", "Órgão", "Dotação (dígitos)", "Credor"]))
+
+
 def main():
     erro = False
     with sync_playwright() as p:

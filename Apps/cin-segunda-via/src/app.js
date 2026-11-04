@@ -6,24 +6,35 @@ teste("Todos os CPFs do exemplo são válidos", ()=> dadosEmbutidos("seed").pedi
 
 /* ================= Sprint 2 · Pedido do cidadão ================= */
 const LINK_AGENDAMENTO = "../agendamento-cin/index.html#/agendar";
-const fotosDoPedido = {rosto: null, documento: null};  // Blob reduzido (até 800 px)
+const fotosDoPedido = {rosto: null, documento: null, impressao_1: null, impressao_2: null, impressao_3: null, impressao_4: null};
+let pedidoExtraviado = false;
+const ROTULOS_FOTO = {
+  rosto: "Foto do rosto",
+  documento: "Foto do documento",
+  impressao_1: "Impressão 1 (polegar direito)",
+  impressao_2: "Impressão 2 (indicador direito)",
+  impressao_3: "Impressão 3 (polegar esquerdo)",
+  impressao_4: "Impressão 4 (indicador esquerdo)"
+};
+const tiposDeFoto = extraviado => extraviado ? ["rosto", "impressao_1", "impressao_2", "impressao_3", "impressao_4"] : ["rosto", "documento"];
+teste("CIN: documento extraviado pede 4 impressões e não o documento", ()=> tiposDeFoto(true).length === 5 && !tiposDeFoto(true).includes("documento") && tiposDeFoto(false).includes("documento"));
 
 // Foto de teste gerada no navegador: o MVP não usa foto de pessoa real (LGPD, art. 11).
 function fotoDeTeste(tipo){
   return new Promise(ok=>{
-    const cv = document.createElement("canvas"); cv.width = 600; cv.height = tipo === "rosto" ? 800 : 400;
+    const cv = document.createElement("canvas"); cv.width = 600; cv.height = tipo === "rosto" ? 800 : tipo === "documento" ? 400 : 600;
     const g = cv.getContext("2d");
     g.fillStyle = tipo === "rosto" ? "#c9d6e8" : "#e8e2c9"; g.fillRect(0, 0, cv.width, cv.height);
     g.fillStyle = "#1c2430"; g.font = "bold 36px sans-serif"; g.textAlign = "center";
-    g.fillText("FOTO DE TESTE", cv.width / 2, cv.height / 2 - 20);
-    g.font = "24px sans-serif"; g.fillText(tipo === "rosto" ? "rosto (fictício)" : "documento (fictício)", cv.width / 2, cv.height / 2 + 24);
+    g.fillText(tipo.startsWith("impressao") ? "IMPRESSÃO DE TESTE" : "FOTO DE TESTE", cv.width / 2, cv.height / 2 - 20);
+    g.font = "24px sans-serif"; g.fillText(tipo === "rosto" ? "rosto (fictício)" : tipo === "documento" ? "documento (fictício)" : "impressão digital (fictícia)", cv.width / 2, cv.height / 2 + 24);
     cv.toBlob(ok, "image/jpeg", 0.8);
   });
 }
 // RN03: só segue a distância com a CIN válida e sem mudança de dados
 const elegivel = (valida, mudou)=> valida === "sim" && mudou === "nao";
 teste("RN03: CIN vencida não é elegível", ()=> !elegivel("nao", "nao") && !elegivel("sim", "sim") && elegivel("sim", "nao"));
-function validarPedido(p, fotos){
+function validarPedido(p, fotos, extraviado = false){
   const e = [];
   if (p.nome.split(/\s+/).length < 2) e.push("Informe o nome completo.");
   if (!cpfValido(p.cpf)) e.push("CPF inválido (RN01).");
@@ -32,7 +43,13 @@ function validarPedido(p, fotos){
   else if (p.validade_cin < hojeISO()) e.push("A CIN está vencida: o pedido é feito no posto (RN03).");
   if (!/^\S+@\S+\.\S+$/.test(p.contato) && p.contato.replace(/\D/g, "").length < 10) e.push("Informe um e-mail ou um telefone com DDD para contato.");
   if (!fotos.rosto) e.push("Falta a foto do rosto (RN02).");
-  if (!fotos.documento) e.push("Falta a foto do documento (RN02).");
+  if (extraviado) {
+    for (const tipo of ["impressao_1", "impressao_2", "impressao_3", "impressao_4"]) {
+      if (!fotos[tipo]) e.push(`Falta a foto: ${ROTULOS_FOTO[tipo]} (RN02).`);
+    }
+  } else if (!fotos.documento) {
+    e.push("Falta a foto do documento (RN02).");
+  }
   return e;
 }
 const novoProtocolo = ()=> "2V-" + hojeISO().replace(/-/g, "") + "-" + Math.random().toString(16).slice(2, 6).toUpperCase();
@@ -46,6 +63,9 @@ TELAS["#/pedido"] = async ()=> `<h1>Pedir a segunda via da Carteira de Identidad
     <fieldset style="border:0;padding:0;margin-top:10px"><legend>Algum dado mudou desde a emissão (nome, estado civil, filiação)?</legend>
       <label style="display:inline-flex;gap:6px;margin-right:16px"><input type="radio" name="mudou" value="sim" style="width:auto"> Sim</label>
       <label style="display:inline-flex;gap:6px"><input type="radio" name="mudou" value="nao" style="width:auto"> Não</label></fieldset>
+    <fieldset style="border:0;padding:0;margin-top:10px"><legend>O documento foi extraviado ou roubado?</legend>
+      <label style="display:inline-flex;gap:6px;margin-right:16px"><input type="radio" name="extraviado" value="sim" style="width:auto"> Sim</label>
+      <label style="display:inline-flex;gap:6px"><input type="radio" name="extraviado" value="nao" style="width:auto"> Não</label></fieldset>
     <div class="linha-botoes"><button class="prim" type="submit">Continuar</button></div></form>
   <div id="naoElegivel"></div><div id="etapaDados"></div>`;
 
@@ -56,11 +76,12 @@ function formDados(){
       ${campo("cNasc", "Data de nascimento", {tipo: "date", obrigatorio: true})}
       ${campo("cValidade", "Validade da CIN", {tipo: "date", obrigatorio: true})}
       ${campo("cContato", "E-mail ou telefone para contato", {obrigatorio: true})}</div>
-    <h2>3. Fotos</h2><p class="sub">Protótipo: use as fotos de teste. Não envie fotos reais.</p>
-    <div class="grade">${["rosto", "documento"].map(t=>`<div class="card"><b>${t === "rosto" ? "Foto do rosto" : "Foto do documento"}</b>
+    <h2>3. Fotos</h2><p class="sub">${pedidoExtraviado ? "Documento extraviado: envie as fotos das impressões digitais (não a foto do documento)." : "Envie a foto do documento. Protótipo: use as fotos de teste; não envie fotos reais."}</p>
+    <div class="grade">${tiposDeFoto(pedidoExtraviado).map(t=>`<div class="card"><b>${ROTULOS_FOTO[t]}</b>
       <div id="prev-${t}" style="margin:8px 0;min-height:60px" class="sub">Sem foto.</div>
       <label class="botao">Tirar ou escolher foto<input type="file" accept="image/*" capture="${t === "rosto" ? "user" : "environment"}" data-foto="${t}" hidden></label>
       <button type="button" data-teste="${t}">Usar foto de teste</button></div>`).join("")}</div>
+    <p class="sub">Confronto papiloscópico: qualidade da imagem, correspondência com a base biométrica e coerência com os dados da CIN. Quem valida é o papiloscopista; o resultado fica registrado.</p>
     <div id="errosPedido"></div>
     <div class="linha-botoes"><button class="prim" type="submit">Enviar pedido</button></div></form>`;
 }
@@ -70,11 +91,14 @@ async function definirFoto(tipo, blob){
     <br><small>${(fotosDoPedido[tipo].size / 1024).toFixed(0)} KB</small>`;
 }
 TELAS_DEPOIS["#/pedido"] = ()=>{
-  fotosDoPedido.rosto = fotosDoPedido.documento = null;
+  Object.keys(fotosDoPedido).forEach(k=>fotosDoPedido[k] = null);
+  pedidoExtraviado = false;
   $("#formElegivel").addEventListener("submit", e=>{
     e.preventDefault();
     const valida = $("input[name=valida]:checked")?.value, mudou = $("input[name=mudou]:checked")?.value;
-    if (!valida || !mudou) return toast("Responda às duas perguntas.");
+    const extraviado = $("input[name=extraviado]:checked")?.value;
+    if (!valida || !mudou || !extraviado) return toast("Responda às três perguntas.");
+    pedidoExtraviado = extraviado === "sim";
     if (!elegivel(valida, mudou)){
       $("#etapaDados").innerHTML = "";
       $("#naoElegivel").innerHTML = `<div class="card pendente" id="avisoPosto"><h2 style="margin-top:0">Este pedido é feito no posto</h2>
@@ -94,10 +118,10 @@ function ligarPedido(){
   $("#formPedido").addEventListener("submit", async e=>{
     e.preventDefault();
     const p = {nome: valorDe("cNome"), cpf: valorDe("cCpf").replace(/\D/g, ""), nascimento: valorDe("cNasc"), validade_cin: valorDe("cValidade"), contato: valorDe("cContato")};
-    if (!mostrarErros("#errosPedido", validarPedido(p, fotosDoPedido))) return;
+    if (!mostrarErros("#errosPedido", validarPedido(p, fotosDoPedido, pedidoExtraviado))) return;
     const protocolo = novoProtocolo();
-    await db.put("pedidos", {protocolo, ...p, numero_cin: p.cpf, mudou_dados: false, criado_em: agora(), situacao: "recebido", motivo: ""});
-    for (const t of ["rosto", "documento"]) await db.put("fotos", {id: `${protocolo}-${t}`, protocolo, tipo: t, conteudo: fotosDoPedido[t]});
+    await db.put("pedidos", {protocolo, ...p, numero_cin: p.cpf, mudou_dados: false, extraviado: pedidoExtraviado, criado_em: agora(), situacao: "recebido", motivo: ""});
+    for (const t of tiposDeFoto(pedidoExtraviado)) await db.put("fotos", {id: `${protocolo}-${t}`, protocolo, tipo: t, conteudo: fotosDoPedido[t]});
     await registrar("pedido enviado", {protocolo});
     $("#etapaDados").innerHTML = `<div class="card" id="protocoloGerado"><h2 style="margin-top:0">Pedido recebido</h2>
       <p>Protocolo: <b class="mono" id="numProtocolo">${protocolo}</b></p><p>Guarde o número. O servidor confere o pedido e a situação aparece no protocolo.</p>

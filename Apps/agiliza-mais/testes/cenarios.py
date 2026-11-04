@@ -3,6 +3,8 @@ o "Pronto quando" de cada sprint do sprint.md.
 
 Uso: python testes/cenarios.py      (requer: pip install playwright && playwright install chromium)
 """
+import base64
+import json
 import pathlib
 import sys
 import tempfile
@@ -136,6 +138,9 @@ def s4_a_s11_laudo_completo(pg, url, ok):
     ok("a conferência fica registrada com a correção", bool(caso.get("conferido_em")) and caso.get("correcoes", 0) >= 1 and "corrigido" in pg.inner_text("#formConferencia"))
     ir(pg, url, "#/textos", 800)
     ok("a prévia do texto traz os dados do caso", pg.locator(".ag-previa").count() >= 4)
+    pg.locator("details.ag-editar-texto:has(#edit_historico) summary").click(); pg.wait_for_timeout(200)
+    pg.fill("#edit_historico", "HISTÓRICO PERSONALIZADO DO TESTE."); pg.wait_for_timeout(300)
+    ok("o texto da seção pode ser editado e a prévia acompanha", "HISTÓRICO PERSONALIZADO DO TESTE." in pg.inner_text("#previa_historico"))
     pg.click("#formTextos button[type=submit]"); pg.wait_for_timeout(800)
     ir(pg, url, "#/quesitos", 600)
     pg.click("#btnQuesitosPdf"); pg.wait_for_timeout(1000)
@@ -155,11 +160,15 @@ def s4_a_s11_laudo_completo(pg, url, ok):
     arq = TMP / d.value.suggested_filename; d.value.save_as(arq)
     xml = zipfile.ZipFile(arq).read("word/document.xml").decode("utf-8")
     ok("o .docx traz IMEI, ICCID, protocolo e a resposta sugerida, sem marcador sobrando (RN12)",
-       "358735742761447" in xml and "8955117633881124130" in xml and g["protocolo"] in xml and "Xiaomi" in xml and "{" not in xml.replace("{/", ""))
+       "358735742761447" in xml and "8955117633881124130" in xml and g["protocolo"] in xml and "Xiaomi" in xml
+       and "HISTÓRICO PERSONALIZADO DO TESTE." in xml and "{" not in xml.replace("{/", ""))
     ir(pg, url, "#/revisao", 800)
-    pg.fill("#revNotas", "Ajuste de redação no histórico."); pg.fill("#revQtd", "1"); pg.check("#revOk")
+    ok("a revisão não pede mais os campos de correção do Word", pg.locator("#revNotas").count() == 0 and pg.locator("#revQtd").count() == 0)
+    pg.check("#revOk")
     pg.click("#btnConcluir"); pg.wait_for_timeout(800)
     ok("o caso é concluído só com a marcação de revisão (RN14)", pg.evaluate("async ()=> (await db.get('casos', await db.meta('caso_atual'))).status") == "concluído")
+    ir(pg, url, "#/biblioteca", 600)
+    ok("a biblioteca tem a coluna e o filtro de tipo de dispositivo", pg.locator("#tabelaTextos th", has_text="Tipo").count() >= 1 and pg.locator("#filtroTipo").count() == 1)
     ir(pg, url, "#/historico", 800)
     ok("o histórico mostra a taxa de correção", "taxa de correção" in pg.inner_text("main"))
     pg.click("[data-limpar-caso]"); pg.wait_for_timeout(800)
@@ -178,6 +187,66 @@ def s5_caso_de_exemplo_e_modelo(pg, url, ok):
     ir(pg, url, "#/biblioteca", 600)
     pg.click("[data-ativar-texto='T05']"); pg.wait_for_timeout(600)
     ok("desativar um texto o tira da lista ativa", pg.evaluate("async ()=> (await db.get('textos','T05')).ativo") is False)
+
+@cenario
+def s12_inicio_pasta_e_gestao(pg, url, ok):
+    """Sprint 12: carregar a pasta no início e gerenciar os laudos em preenchimento."""
+    ir(pg, url, "#/inicio", 700)
+    ok("o início tem o botão de carregar a pasta", pg.locator("#btnPastaInicio").count() == 1)
+    pacote = json.loads((PASTA / "exemplos" / "caso-exemplo.json").read_text(encoding="utf-8"))
+    pasta = TMP / "pasta-do-caso"
+    for a in pacote["arquivos"]:
+        arq = pasta / a["caminho"]; arq.parent.mkdir(parents=True, exist_ok=True)
+        arq.write_bytes(base64.b64decode(a["b64"]))
+    pg.set_input_files("#inpPastaInicio", str(pasta)); pg.wait_for_timeout(1600)
+    ok("carregar a pasta cria o caso e abre a conferência", pg.evaluate("location.hash") == "#/dados" and contar(pg, "casos") == 1)
+    ok("a pasta ficou registrada no caso", pg.evaluate("async ()=> !!(await db.get('casos', await db.meta('caso_atual'))).inventario"))
+    ir(pg, url, "#/inicio", 900)
+    ok("o laudo em preenchimento aparece na lista", pg.locator("[data-ag-card]").count() == 1)
+    ok("a lista tem as ações de continuar, renomear, pasta e excluir",
+       pg.locator("[data-ag-abrir]").count() == 1 and pg.locator("[data-ag-renomear]").count() == 1
+       and pg.locator("[data-ag-mover]").count() == 1 and pg.locator("[data-ag-excluir]").count() == 1)
+    pg.click("[data-ag-renomear]"); pg.wait_for_timeout(300)
+    pg.fill("#agNomeCaso", "Laudo do Samsung"); pg.click("dialog.ag-dialog button[type=submit]"); pg.wait_for_timeout(800)
+    ok("renomear grava o nome do caso", pg.evaluate("async ()=> (await db.get('casos', await db.meta('caso_atual'))).nome") == "Laudo do Samsung")
+    pg.click("[data-ag-mover]"); pg.wait_for_timeout(300)
+    pg.fill("#agMoverNova", "Piloto outubro"); pg.click("dialog.ag-dialog button[type=submit]"); pg.wait_for_timeout(800)
+    ok("mover cria e grava a pasta", pg.evaluate("async ()=> (await db.get('casos', await db.meta('caso_atual'))).pasta") == "Piloto outubro"
+       and pg.locator('[data-ag-pasta="Piloto outubro"]').count() == 1)
+    pg.click("[data-ag-abrir]"); pg.wait_for_timeout(900)
+    ok("continuar abre a conferência do caso", pg.evaluate("location.hash") == "#/dados")
+    ir(pg, url, "#/inicio", 900)
+    pg.click("[data-ag-excluir]"); pg.wait_for_timeout(300)
+    pg.click("dialog.ag-dialog button[type=submit]"); pg.wait_for_timeout(900)
+    ok("excluir apaga o caso da lista", contar(pg, "casos") == 0 and pg.locator("[data-ag-card]").count() == 0)
+
+@cenario
+def s14_feedback_extra_foto_historico(pg, url, ok):
+    """Sprint 14: outras informações, foto com cor sugerida, ajuda dos arquivos e abrir pelo histórico."""
+    semear(pg, url)
+    pacote = json.loads((PASTA / "exemplos" / "caso-exemplo.json").read_text(encoding="utf-8"))
+    pasta = TMP / "pasta-feedback"
+    for a in pacote["arquivos"]:
+        arq = pasta / a["caminho"]; arq.parent.mkdir(parents=True, exist_ok=True)
+        arq.write_bytes(base64.b64decode(a["b64"]))
+    ir(pg, url, "#/inicio", 500); pg.set_input_files("#inpPastaInicio", str(pasta)); pg.wait_for_timeout(1600)
+    ok("a pasta de exemplo abre a conferência", pg.evaluate("location.hash") == "#/dados")
+    ok("a conferência tem outras informações e foto", pg.locator("#outrasInfo").count() == 1 and pg.locator("#fotoAparelho").count() == 1)
+    png = base64.b64decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNk+M8AAAMBAQDJ/pLvAAAAAElFTkSuQmCC")
+    pg.set_input_files("#fotoAparelho", {"name": "aparelho.png", "mimeType": "image/png", "buffer": png})
+    pg.wait_for_timeout(1200)
+    ok("a foto sugere uma cor", "Sugestão:" in pg.inner_text("#sugestaoCor") and pg.evaluate("async ()=> !!(await db.get('casos', await db.meta('caso_atual'))).cor_sugerida"))
+    pg.fill("#outrasInfo", "Aparelho com trinca no canto superior direito; embalagem lacrada.")
+    pg.click("#btnConfirmarTodos"); pg.wait_for_timeout(900)
+    caso = pg.evaluate("async ()=> await db.get('casos', await db.meta('caso_atual'))")
+    ok("a conferência guarda as outras informações e a foto", caso.get("outras_informacoes", "").startswith("Aparelho com trinca") and caso.get("foto_aparelho") is not None)
+    ir(pg, url, "#/historico", 700)
+    ok("o histórico tem o botão Abrir", pg.locator("[data-abrir-caso]").count() > 0)
+    pg.locator("[data-abrir-caso]").first.click(); pg.wait_for_timeout(500)
+    ok("o histórico abre o caso", pg.evaluate("location.hash") == "#/dados")
+    ir(pg, url, "#/arquivos", 500)
+    ok("a pasta explica o que cada arquivo alimenta", "O que cada arquivo alimenta" in pg.inner_text("main"))
+
 
 def main():
     erro = False

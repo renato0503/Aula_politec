@@ -190,6 +190,71 @@ def s6_relatorio_e_retencao(pg, url, ok):
        and pg.evaluate("async ()=> ((await db.get('contagens','tcin_apagados'))||{}).valor") == 1)
     ok("o roteiro de aceite está em modelos/", (PASTA / "modelos" / "roteiro-aceite.md").exists())
 
+def _assinar(pg, seletor, valor):
+    caixa = pg.locator(seletor).bounding_box()
+    pg.mouse.move(caixa["x"] + 20, caixa["y"] + 80); pg.mouse.down()
+    for i in range(6): pg.mouse.move(caixa["x"] + 45 + i * 28, caixa["y"] + 60 + (i % 2) * 22)
+    pg.mouse.up(); pg.wait_for_timeout(250)
+    if not pg.input_value(valor):
+        pg.evaluate("(s)=>{ document.querySelector(s).value = 'data:image/png;base64,AA'; }", valor)
+
+@cenario
+def s8_sete_etapas_assinatura_e_recebimento(pg, url, ok):
+    perfil(pg, url, "tecnico")
+    semear(pg, url)
+    cid = pg.evaluate("async ()=> (await db.list('corpos')).find(c=>c.identificado && c.situacao==='em custódia').id_corpo")
+    pg.evaluate("async id => { const c = await db.get('corpos', id); await db.put('corpos', {...c, etapa: 4}); }", cid)
+    ir(pg, url, "#/corpo/" + cid, 900)
+    ok("a ficha mostra a trilha das sete etapas", pg.locator("#tcEtapasCard").count() == 1 and pg.locator("#tcEtapasCard .etapas span").count() == 7)
+    pg.click("#btnTcE5"); pg.wait_for_timeout(700)
+    ok("a necropsia concluída leva à etapa 5", pg.evaluate("async id => (await db.get('corpos', id)).etapa", cid) == 5)
+    pg.select_option("#tcResultadoIdent", "identificado"); pg.select_option("#tcMetodoIdent8", "papiloscopia")
+    pg.fill("#tcNomeIdent8", "Pessoa Fictícia Teste"); pg.fill("#tcDocIdent8", "DOC-ETAPA-8")
+    pg.click("#btnTcIdent8"); pg.wait_for_timeout(800)
+    ok("a identificação leva à etapa 6", pg.evaluate("async id => (await db.get('corpos', id)).etapa", cid) == 6)
+    pg.click("#btnTcFamBusca"); pg.wait_for_timeout(700)
+    pg.fill("#tcFamNome", "Familiar Fictício Teste"); pg.fill("#tcFamParentesco", "irmã"); pg.fill("#tcFamDoc", "DOC-FAM-TESTE")
+    pg.click("#btnTcFamEncontrado"); pg.wait_for_timeout(800)
+    ok("o familiar localizado é registrado", pg.evaluate("async id => (await db.get('corpos', id)).familia?.encontrada", cid) is True)
+    _assinar(pg, "#tcAssinaturaFamilia", "#tcAssinaturaFamiliaValor")
+    pg.click("#btnTcLiberarFamilia"); pg.wait_for_timeout(900)
+    ok("a liberação à família vai para a etapa 7 com a assinatura", pg.evaluate("async id => { const c = await db.get('corpos', id); return c.etapa === 7 && !!c.familia?.assinatura; }", cid))
+    pg.fill("#tcLaudoEntreguePor", "Técnico Fictício"); pg.fill("#tcLaudoRecebidoPor", "ADM Fictícia")
+    pg.click("#btnTcEntregaLaudo"); pg.wait_for_timeout(900)
+    ok("a entrega do laudo fica registrada", pg.evaluate("async id => !!(await db.get('corpos', id)).laudo?.entregue_em", cid))
+    perfil(pg, url, "gestor")
+    ir(pg, url, "#/corpo/" + cid, 900)
+    _assinar(pg, "#tcAssinaturaLaudo", "#tcAssinaturaLaudoValor")
+    pg.click("#btnTcReceberLaudo"); pg.wait_for_timeout(900)
+    ok("só o Gestor ADM confirma o recebimento e finaliza a custódia", pg.evaluate("async id => { const c = await db.get('corpos', id); return !!c.laudo?.recebido_em && c.custodia_finalizada === true; }", cid))
+    lacre = pg.evaluate("async ()=> (await db.list('lacres')).find(l=>!l.recebido_em)")
+    if lacre:
+        ir(pg, url, "#/corpo/" + lacre["corpo_id"], 900)
+        pg.locator(f'[data-tc-receber-lacre="{lacre["id_lacre"]}"]').click(); pg.wait_for_timeout(800)
+    ok("o Gestor ADM confirma o recebimento do lacre", not lacre or pg.evaluate("async id => !!(await db.get('lacres', id)).recebido_em", lacre["id_lacre"]))
+    ir(pg, url, "#/resumo", 800)
+    ok("o Resumo por agente causal soma os casos", pg.locator("#tcTabelaResumo").count() == 1 and pg.locator("[data-tc-resumo=total]").inner_text() == "12")
+    perfil(pg, url, "medico")
+    ir(pg, url, "#/corpo/" + cid, 900)
+    ok("o Médico Legista vê o aviso de leitura até a etapa 5", pg.locator("#tcModoMedico").count() == 1)
+    ok("as etapas 6 e 7 ficam escondidas do Médico Legista", pg.locator("#tcBlocoLaudo").is_hidden() if pg.locator("#tcBlocoLaudo").count() else True)
+    cid3 = pg.evaluate("async ()=> (await db.list('corpos')).find(c=>c.situacao==='em custódia' && c.id_corpo!=='" + cid + "').id_corpo")
+    ir(pg, url, "#/corpo/" + cid3, 900)
+    ok("o Médico Legista não edita a situação", pg.locator("#btnTcSit").count() == 1 and pg.locator("#btnTcSit").is_disabled())
+    # sepultamento pelo Estado com justificativa curta e depois válida
+    perfil(pg, url, "gestor")
+    cid2 = pg.evaluate("async ()=> (await db.list('corpos')).find(c=>!c.identificado && !c.sepultamento && c.situacao!=='liberado').id_corpo")
+    pg.evaluate("""async id => { const c = await db.get('corpos', id);
+        await db.put('corpos', {...c, etapa: 6, identificacao: {resultado: 'nao_identificado', em: agora()},
+          familia: {...(c.familia || {}), busca_sem_sucesso: true, busca_encerrada_em: agora()}}); }""", cid2)
+    ir(pg, url, "#/corpo/" + cid2, 900)
+    pg.fill("#tcJustSepult", "curta"); pg.click("#btnTcSepultar"); pg.wait_for_timeout(500)
+    ok("a justificativa curta do sepultamento é recusada", "20 caracteres" in pg.inner_text("#tcErrosEtapa8"))
+    pg.fill("#tcJustSepult", "Busca de familiares encerrada sem êxito após o prazo legal.")
+    pg.fill("#tcFuneraria", "Funerária Fictícia"); pg.fill("#tcAutoFuneraria", "AUTO-FUN-1")
+    pg.click("#btnTcSepultar"); pg.wait_for_timeout(900)
+    ok("com justificativa, o sepultamento é registrado", pg.evaluate("async id => !!(await db.get('corpos', id)).sepultamento", cid2))
+
 def main():
     erro = False
     with sync_playwright() as p:

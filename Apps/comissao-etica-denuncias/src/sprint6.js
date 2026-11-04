@@ -32,8 +32,9 @@ Comissão de Ética · POLITEC/MT`},
 
 Processo ${d.protocolo}.
 Comissão presente: 3 membros titulares e suplentes (art. 6º).
-Deliberação: a Comissão concluiu pela ${d.situacao}.
+Deliberação: a Comissão concluiu pela ${d.situacao === "admitida" ? "admissão" : d.situacao}.
 
+Enquadramento: ${d.categoria_nome || d.categoria || "categoria não informada"} · ${d.artigo || "artigo aplicável"}.
 Fundamento: Código de Ética Funcional do Servidor Público Civil do Estado de Mato Grosso (LC nº 112/2002-MT).
 
 Cuiabá, ${dataCurtaBR(hojeISO())}.`},
@@ -44,6 +45,7 @@ Processo ${d.protocolo}, categoria ${d.categoria || "não informada"}.
 1. Reforçar a orientação sobre o item do Código de Ética aplicável.
 2. Comunicar o resultado à chefia imediata.
 3. Acompanhar a reincidência por 12 meses.
+4. Curso indicado: ${d.curso_recomendado || "indicar o curso de ética e conduta no serviço público"}.
 
 A decisão será transcrita na ficha funcional por ${CE_ANOS_FICHA} anos (art. 9º, parágrafo único).
 
@@ -58,11 +60,12 @@ TELAS["#/caso/:id/documentos"] = async ({id})=>{
     <h1>Documentos · ${esc(d.protocolo)}</h1>
     <p class="sub">Minutas geradas a partir do processo. O texto não leva o nome das partes (art. 11).</p>
     <div class="card"><h2 style="margin-top:0">Gerar minuta</h2><div class="campos">
-      ${campo("ceTipoMinuta", "Minuta", {tipo: "select", opcoes: Object.entries(CE_MINUTAS).map(([k, m])=>[k, m.rotulo])})}</div>
+      ${campo("ceTipoMinuta", "Minuta", {tipo: "select", opcoes: Object.entries(CE_MINUTAS).map(([k, m])=>[k, m.rotulo])})}
+      ${campo("ceCurso", "Curso indicado no relatório de recomendações", {valor: d.curso_recomendado || "", ajuda: "Ex.: Ética no serviço público, 8 horas."})}</div>
       <div class="linha-botoes"><button class="prim" id="btnGerarMinuta">Gerar a minuta</button></div></div>
     <div class="card" id="ceMinutaAberta"></div>
     <div class="card" id="ceListaDocs"><h2 style="margin-top:0">Documentos do caso (${docs.length})</h2>
-      ${docs.map(x=>`<details><summary><b>${esc(x.rotulo)}</b> · ${dataBR(x.data)}</summary>
+      ${docs.map(x=>`<details><summary><b>${esc(x.rotulo)}</b> · ${dataBR(x.data)} · <button type="button" data-email-doc="${esc(x.id)}">Enviar por e-mail</button></summary>
         <pre style="white-space:pre-wrap;font-family:var(--mono);font-size:12.5px;margin-top:8px">${esc(x.texto)}</pre></details>`).join("") || '<p class="sub">Nenhum documento gerado.</p>'}
       ${oitivas.length ? `<p class="sub">${oitivas.length} oitiva(s) no processo.</p>` : ""}</div>`;
 };
@@ -70,16 +73,30 @@ TELAS_DEPOIS["#/caso/:id/documentos"] = ({id})=>{
   $("#btnGerarMinuta")?.addEventListener("click", async ()=>{
     const tipo = valorDe("ceTipoMinuta"), d = await db.get("denuncias", id), m = CE_MINUTAS[tipo];
     if (!m || !d) return;
-    const texto = m.texto(d);
-    await db.put("documentos_ce", {id: uuid(), denuncia_id: id, tipo, rotulo: m.rotulo, texto, data: agora(), perfil: estado.perfil});
+    const cls = await ceClassificacao(id), cat = (await categoriasAtivas()).find(c=>c.id === (cls?.categoria_final || d.categoria));
+    const dados = {...d, categoria_nome: cat?.nome, artigo: cat?.artigos, curso_recomendado: valorDe("ceCurso") || d.curso_recomendado};
+    if (dados.curso_recomendado !== d.curso_recomendado) await db.put("denuncias", {...d, curso_recomendado: dados.curso_recomendado});
+    const texto = m.texto(dados);
+    const docId = uuid();
+    await db.put("documentos_ce", {id: docId, denuncia_id: id, tipo, rotulo: m.rotulo, texto, data: agora(), perfil: estado.perfil});
     await trilha("minuta gerada: " + m.rotulo, id);
     toast("Minuta gerada.");
     await navegar();
     const alvo = $("#ceMinutaAberta");
     if (alvo) alvo.innerHTML = `<div class="documento-a4"><div class="doc-cab">Comissão de Ética · POLITEC/MT<br>${esc(m.rotulo)}</div>
       <pre style="white-space:pre-wrap;font-family:Georgia,serif;font-size:15px;line-height:1.6">${esc(texto)}</pre></div>
-      <div class="linha-botoes nao-imprimir"><button onclick="window.print()">Imprimir</button></div>`;
+      <div class="linha-botoes nao-imprimir"><button onclick="window.print()">Imprimir</button>
+        <button type="button" id="btnEmailMinuta">Enviar por e-mail</button></div>`;
+    $("#btnEmailMinuta")?.addEventListener("click", ()=>{
+      const assunto = `Comissão de Ética · ${m.rotulo} · ${d.protocolo}`;
+      location.href = `mailto:?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(texto)}`;
+    });
   });
+  $$("[data-email-doc]").forEach(b=>b.addEventListener("click", async ()=>{
+    const x = await db.get("documentos_ce", b.dataset.emailDoc);
+    if (!x) return;
+    location.href = `mailto:?subject=${encodeURIComponent("Comissão de Ética · " + x.rotulo)}&body=${encodeURIComponent(x.texto)}`;
+  }));
 };
 
 TELAS["#/caso/:id/encerramento"] = async ({id})=>{
@@ -100,6 +117,7 @@ TELAS["#/caso/:id/encerramento"] = async ({id})=>{
     ${!cominacao ? `<form class="card" id="formCominacao"><h2 style="margin-top:0">Cominação (art. 9º)</h2><div class="campos">
         ${campo("coTipo", "Cominação", {tipo: "select", opcoes: [["", "Escolha"], ...Object.entries(CE_COMINACOES)]})}
         ${campo("coParecer", "Fundamento (mínimo de 20 caracteres)", {tipo: "textarea", linhas: 3})}</div>
+        <div class="linha-botoes"><button type="button" id="btnCoTextoPadrao">Usar o texto das recomendações</button></div>
         <label style="display:flex;gap:8px;align-items:center;margin:8px 0"><input type="checkbox" id="coPAD" style="width:auto">
           <span>Encaminhar ao processo administrativo disciplinar (art. 10)</span></label>
         <div id="ceErrosCominacao"></div><div class="linha-botoes"><button class="prim" type="submit">Registrar a cominação</button></div></form>`
@@ -112,6 +130,11 @@ TELAS["#/caso/:id/encerramento"] = async ({id})=>{
         : `<div class="card"><div class="linha-botoes"><button class="prim" id="btnEncerrarCe">Encerrar o caso</button></div></div>`}`}`;
 };
 TELAS_DEPOIS["#/caso/:id/encerramento"] = ({id})=>{
+  $("#btnCoTextoPadrao")?.addEventListener("click", async ()=>{
+    const d = await db.get("denuncias", id), cls = await ceClassificacao(id);
+    const cat = (await categoriasAtivas()).find(c=>c.id === (cls?.categoria_final || d.categoria));
+    $("#coParecer").value = `Considerando o relatório de recomendações e a conduta apurada no protocolo ${d.protocolo}, enquadrada no ${cat?.artigos || "artigo aplicável"} (${cat?.nome || d.categoria || "categoria não informada"}), a Comissão aplica a cominação prevista no art. 9º da LC nº 112/2002-MT e recomenda o curso ${d.curso_recomendado || "de ética e conduta no serviço público"}.`;
+  });
   $("#formCominacao")?.addEventListener("submit", async e=>{
     e.preventDefault();
     const tipo = valorDe("coTipo"), parecer = valorDe("coParecer"), pad = $("#coPAD").checked;

@@ -84,6 +84,7 @@ TELAS_DEPOIS["#/proposta/:id"] = ({id})=>{
     await db.put("decisoes", {id: uuid(), proposta_id: id, tipo, texto, autor: valorDe("tdAutor") || "Autoridade competente", data: agora(), perfil: estado.perfil});
     await db.put("propostas", {...p, status});
     await registrar("decisão registrada", {proposta_id: id, detalhe: TAP_TIPOS_DECISAO[tipo]});
+    await tapAviso(id, "equipe de projetos", `Decisão da autoridade no ${id}: ${TAP_TIPOS_DECISAO[tipo]}.`);
     toast(`Decisão registrada: ${TAP_TIPOS_DECISAO[tipo]}.`); navegar();
   });
 };

@@ -1,4 +1,4 @@
-# Controle de Adiantamentos · sprints até o MVP
+﻿# Controle de Adiantamentos · sprints até o MVP
 
 > Arquitetura: HTML monolítico, offline first (ver `contexto.md`). Sprints de 1 semana.
 
@@ -14,6 +14,7 @@
 | 5 | Feito em 30/10/2026. Pendência com prazo de 10 dias úteis (RN05), prestação de contas com notas e conferência do concedido (RN06) e encerramento com ressalvas. |
 | 6 | Feito em 30/10/2026. Painel com gráficos SVG, vencidos e a vencer; relatório com CSV e impressão em A4. |
 | 7 | Feito em 30/10/2026. Roteiro de aceite e piloto em `modelos/roteiro-aceite.md`. |
+| 8 | Feito em 03/11/2026: afastamento bloqueia o pedido, urgência com justificativa, recurso de 24 h na ficha/painel e marcação manual de afastamentos na Configuração. |
 
 Feriados: só os nacionais de 2026 e 2027; os de MT e do município entram pela tela de configuração (Sprint 4).
 
@@ -94,3 +95,22 @@ Feriados: só os nacionais de 2026 e 2027; os de MT e do município entram pela 
 - [x] Roteiro de aceite com a DAS: registrar um pedido, avançar etapas, registrar uma devolução, ver o painel.
 - [x] Piloto de 4 semanas com os pedidos reais (sem CPF, só o necessário).
 - [x] Comparar com a linha de base e atualizar `PROJETO.md` e `README.md`.
+
+## Sprint 8 · Correções do feedback (03/11/2026)
+
+> Feedback de Jaqueline (nota 5) e Linicker (nota 5). O que já funciona fica; o que depende do setor está separado e registrado em `Apps/PREMISSAS.md`.
+
+### Código
+- [x] Bloquear novo pedido quando o servidor estiver de férias ou em licença-prêmio, com motivo e data. (marcação manual na Configuração)
+- [x] Marcar pedido urgente com justificativa e trilha, fora da fila normal da licitação.
+- [x] Prazo de 24 horas para o recurso depois da aprovação, com contagem e alerta. (conta da aprovação da chefia)
+- [x] Mostrar o bloqueio e o prazo na ficha e no painel.
+
+### Decisão do setor
+- [x] De onde vem o afastamento. Premissa: marcação manual na Configuração; integrar com RH/SIGRH na versão institucional.
+- [x] Quem autoriza a urgência. Premissa: a chefia da unidade, com justificativa de 30+ caracteres na trilha; o app não substitui a autorização.
+- [x] O prazo de 24 h conta da aprovação da chefia; confirmar no aceite.
+- [ ] Esclarecer o que o Linicker chamou de "construção" (etapa ou acompanhamento da implantação). Não bloqueia o MVP; anotado em `PREMISSAS.md`.
+
+**Pronto quando**: um pedido de servidor afastado é recusado com mensagem clara, e o pedido urgente mostra o prazo de 24 h na ficha.
+

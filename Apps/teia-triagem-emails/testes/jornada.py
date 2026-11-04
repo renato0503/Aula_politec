@@ -17,7 +17,7 @@ def jornada_teia(j):
     j.semear()
     j.abrir("#/painel")
     j.ok("a bancada abre com a fila", j.conta("[data-te-email]") == 10)
-    j.ok("o detalhe mostra os 8 campos", j.conta(".te-form .campo") == 8)
+    j.ok("o detalhe mostra os 9 campos", j.conta(".te-form .campo") == 8)
     j.clicar("[data-te-email=EM-006]")
     j.ok("o e-mail urgente abre com os campos", j.conta("#btnTeValidar") == 1)
     j.clicar("#btnTeValidar")

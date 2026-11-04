@@ -451,6 +451,38 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 .tap-legenda i.sem{background:transparent;border:2px dashed var(--accent)}
 @media (max-width:640px){ .tap-matriz{grid-template-columns:1fr;grid-template-rows:auto 22px} .tap-eixo-y{display:none} .tap-area{grid-column:1} .tap-eixo-x{grid-column:1} }
 
+/* dashboard orçamentário (Sprint 7) */
+.orc-filtros .campos{grid-template-columns:repeat(3,minmax(0,1fr));align-items:end}
+.orc-duas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.orc-legenda{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink2);margin:0 0 10px}
+.orc-legenda span{display:inline-flex;align-items:center;gap:6px}
+.orc-legenda i{width:12px;height:8px;border-radius:2px;display:inline-block}
+.orc-legenda .emp{background:var(--accent)}
+.orc-legenda .liq{background:var(--verde)}
+.orc-grupo{display:grid;grid-template-columns:minmax(82px,150px) minmax(0,1fr) auto;gap:10px;align-items:center;margin:8px 0}
+.orc-rot{font-size:12.5px;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.orc-barras{display:flex;flex-direction:column;gap:3px;min-width:0}
+.orc-b{display:block;height:10px;border-radius:3px;min-width:2px;transition:width .3s}
+.orc-b.emp{background:var(--accent)}
+.orc-b.liq{background:var(--verde)}
+.orc-val{font-size:12px;color:var(--ink);white-space:nowrap;text-align:right}
+.orc-val small{color:var(--ink2);font-weight:400}
+.orc-acoes{white-space:nowrap}
+.orc-acoes button{min-height:30px;padding:3px 9px;font-size:12px;margin-left:4px}
+@media (max-width:1000px){ .orc-duas{grid-template-columns:1fr} }
+@media (max-width:700px){
+  .orc-filtros .campos{grid-template-columns:1fr}
+  .orc-grupo{grid-template-columns:minmax(70px,110px) minmax(0,1fr)}
+  .orc-val{grid-column:1 / -1;text-align:left}
+  .orc-acoes button{flex:1 1 auto}
+}
+
+.orc-kpis .kpi .v{font-size:clamp(15px, 1.25vw, 24px);white-space:nowrap;letter-spacing:-.02em}
+.orc-kpis .kpi .r{font-size:12px}
+#tabelaOrc td.num,#tabelaOrcResumo td.num{white-space:nowrap}
+@media (max-width:900px){ .orc-kpis{grid-template-columns:repeat(2,minmax(0,1fr))} .orc-kpis .kpi .v{font-size:22px} }
+@media (max-width:640px){ .orc-kpis .kpi .v{font-size:19px} .orc-kpis .kpi{padding:12px 12px 10px} }
+
 </style>
 </head>
 <body data-layout="topo" data-estilo="institucional" data-cabecalho="degrade" data-fonte="serifa" data-densidade="ampla" data-cantos="redondos" data-superficie="cartoes" data-kpi="anel">
@@ -534,7 +566,7 @@ var o=[];var l=Array.isArray(e);for(f=n.s.c;f<=n.e.c;++f)s[f]=ya(f);for(var c=n.
 </script>
 <!-- /LIB:xlsx.full.min.js -->
 <!-- DADOS:seed:exemplos/seed.json -->
-<script type="application/json" id="seed">{"propostas":[{"id":"TAP-2026-001","titulo":"Ampliação do laboratório de DNA","unidade":"Laboratório de Genética Forense","responsavel":"Responsável Fictício 1","contato":"responsavel1@exemplo.gov.br","objetivo":"Ampliação do laboratório de DNA para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Reduzir o tempo de emissão de laudos","valor_estimado":2400000,"prazo_meses":24,"status":"aprovada","enviado_em":"2026-08-03","documentos":{"pesquisa_precos":true,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-002","titulo":"Digitalização do arquivo de identificação","unidade":"Identificação Civil","responsavel":"Responsável Fictício 2","contato":"responsavel2@exemplo.gov.br","objetivo":"Digitalização do arquivo de identificação para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Modernizar a infraestrutura das unidades","valor_estimado":380000,"prazo_meses":18,"status":"aprovada","enviado_em":"2026-08-12","documentos":{"pesquisa_precos":true,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-003","titulo":"Reforma do IML de Sinop","unidade":"Regional Sinop","responsavel":"Responsável Fictício 3","contato":"responsavel3@exemplo.gov.br","objetivo":"Reforma do IML de Sinop para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Ampliar a capacidade dos laboratórios","valor_estimado":1150000,"prazo_meses":18,"status":"devolvida","enviado_em":"2026-08-21","documentos":{"pesquisa_precos":false,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-004","titulo":"Capacitação em perícia digital","unidade":"Informática Forense","responsavel":"Responsável Fictício 4","contato":"responsavel4@exemplo.gov.br","objetivo":"Capacitação em perícia digital para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Fortalecer a identificação civil","valor_estimado":95000,"prazo_meses":12,"status":"em triagem","enviado_em":"2026-08-30","documentos":{"pesquisa_precos":true,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-005","titulo":"Frota de viaturas para local de crime","unidade":"Criminalística","responsavel":"Responsável Fictício 5","contato":"responsavel5@exemplo.gov.br","objetivo":"Frota de viaturas para local de crime para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Qualificar os servidores","valor_estimado":1600000,"prazo_meses":24,"status":"em análise","enviado_em":"2026-09-08","documentos":{"pesquisa_precos":true,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-006","titulo":"Sistema de gestão de vestígios","unidade":"Central de Custódia","responsavel":"Responsável Fictício 6","contato":"responsavel6@exemplo.gov.br","objetivo":"Sistema de gestão de vestígios para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"Justificativa curta.","objetivo_estrategico":"Reduzir o tempo de emissão de laudos","valor_estimado":520000,"prazo_meses":24,"status":"rascunho","enviado_em":null,"documentos":{"pesquisa_precos":true,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-007","titulo":"Energia solar nas regionais","unidade":"DAS","responsavel":"Responsável Fictício 7","contato":"responsavel7@exemplo.gov.br","objetivo":"Energia solar nas regionais para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Modernizar a infraestrutura das unidades","valor_estimado":870000,"prazo_meses":6,"status":"devolvida","enviado_em":"2026-09-26","documentos":{"pesquisa_precos":false,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-008","titulo":"Câmara fria para o IML de Cuiabá","unidade":"IML Cuiabá","responsavel":"Responsável Fictício 8","contato":"responsavel8@exemplo.gov.br","objetivo":"Câmara fria para o IML de Cuiabá para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Ampliar a capacidade dos laboratórios","valor_estimado":310000,"prazo_meses":18,"status":"aprovada","enviado_em":"2026-10-05","documentos":{"pesquisa_precos":true,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}}],"pendencias":[{"id":"TAP-2026-003-P1","proposta_id":"TAP-2026-003","motivo":"Pesquisa de preços ausente","aberta_em":"2026-08-23","resolvida_em":null},{"id":"TAP-2026-007-P1","proposta_id":"TAP-2026-007","motivo":"Pesquisa de preços ausente","aberta_em":"2026-09-28","resolvida_em":null}],"decisoes":[{"id":"TAP-2026-001-D1","proposta_id":"TAP-2026-001","tipo":"aprovação","texto":"Aprovado pela instância competente (fictício).","autor":"Autoridade fictícia","data":"2026-08-23"},{"id":"TAP-2026-002-D1","proposta_id":"TAP-2026-002","tipo":"aprovação","texto":"Aprovado pela instância competente (fictício).","autor":"Autoridade fictícia","data":"2026-09-01"},{"id":"TAP-2026-008-D1","proposta_id":"TAP-2026-008","tipo":"aprovação","texto":"Aprovado pela instância competente (fictício).","autor":"Autoridade fictícia","data":"2026-10-25"}],"portfolio":[{"proposta_id":"TAP-2026-001","prioridade":1,"justificativa_prioridade":"Critério fictício de impacto e urgência.","fonte_recurso":"Tesouro estadual","situacao_captacao":"em prospecção"},{"proposta_id":"TAP-2026-002","prioridade":2,"justificativa_prioridade":"Critério fictício de impacto e urgência.","fonte_recurso":"Emenda parlamentar","situacao_captacao":"em prospecção"},{"proposta_id":"TAP-2026-008","prioridade":3,"justificativa_prioridade":"Critério fictício de impacto e urgência.","fonte_recurso":"Convênio federal","situacao_captacao":"em prospecção"}],"documentos":[{"tipo":"pesquisa_precos","nome":"Pesquisa de preços (mínimo 3 orçamentos)","obrigatorio":true},{"tipo":"estudo_tecnico","nome":"Estudo técnico preliminar","obrigatorio":true},{"tipo":"anuencia_chefia","nome":"Anuência da chefia da unidade","obrigatorio":true},{"tipo":"cronograma","nome":"Cronograma físico-financeiro","obrigatorio":false},{"tipo":"fotos","nome":"Fotos ou evidências da necessidade","obrigatorio":false}]}</script>
+<script type="application/json" id="seed">{"propostas":[{"id":"TAP-2026-001","titulo":"Ampliação do laboratório de DNA","unidade":"Laboratório de Genética Forense","responsavel":"Responsável Fictício 1","contato":"responsavel1@exemplo.gov.br","objetivo":"Ampliação do laboratório de DNA para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Reduzir o tempo de emissão de laudos","valor_estimado":2400000,"prazo_meses":24,"status":"aprovada","enviado_em":"2026-08-03","documentos":{"pesquisa_precos":true,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-002","titulo":"Digitalização do arquivo de identificação","unidade":"Identificação Civil","responsavel":"Responsável Fictício 2","contato":"responsavel2@exemplo.gov.br","objetivo":"Digitalização do arquivo de identificação para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Modernizar a infraestrutura das unidades","valor_estimado":380000,"prazo_meses":18,"status":"aprovada","enviado_em":"2026-08-12","documentos":{"pesquisa_precos":true,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-003","titulo":"Reforma do IML de Sinop","unidade":"Regional Sinop","responsavel":"Responsável Fictício 3","contato":"responsavel3@exemplo.gov.br","objetivo":"Reforma do IML de Sinop para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Ampliar a capacidade dos laboratórios","valor_estimado":1150000,"prazo_meses":18,"status":"devolvida","enviado_em":"2026-08-21","documentos":{"pesquisa_precos":false,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-004","titulo":"Capacitação em perícia digital","unidade":"Informática Forense","responsavel":"Responsável Fictício 4","contato":"responsavel4@exemplo.gov.br","objetivo":"Capacitação em perícia digital para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Fortalecer a identificação civil","valor_estimado":95000,"prazo_meses":12,"status":"em triagem","enviado_em":"2026-08-30","documentos":{"pesquisa_precos":true,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-005","titulo":"Frota de viaturas para local de crime","unidade":"Criminalística","responsavel":"Responsável Fictício 5","contato":"responsavel5@exemplo.gov.br","objetivo":"Frota de viaturas para local de crime para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Qualificar os servidores","valor_estimado":1600000,"prazo_meses":24,"status":"em análise","enviado_em":"2026-09-08","documentos":{"pesquisa_precos":true,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-006","titulo":"Sistema de gestão de vestígios","unidade":"Central de Custódia","responsavel":"Responsável Fictício 6","contato":"responsavel6@exemplo.gov.br","objetivo":"Sistema de gestão de vestígios para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"Justificativa curta.","objetivo_estrategico":"Reduzir o tempo de emissão de laudos","valor_estimado":520000,"prazo_meses":24,"status":"rascunho","enviado_em":null,"documentos":{"pesquisa_precos":true,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-007","titulo":"Energia solar nas regionais","unidade":"DAS","responsavel":"Responsável Fictício 7","contato":"responsavel7@exemplo.gov.br","objetivo":"Energia solar nas regionais para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Modernizar a infraestrutura das unidades","valor_estimado":870000,"prazo_meses":6,"status":"devolvida","enviado_em":"2026-09-26","documentos":{"pesquisa_precos":false,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}},{"id":"TAP-2026-008","titulo":"Câmara fria para o IML de Cuiabá","unidade":"IML Cuiabá","responsavel":"Responsável Fictício 8","contato":"responsavel8@exemplo.gov.br","objetivo":"Câmara fria para o IML de Cuiabá para atender à demanda crescente da unidade e reduzir o tempo de resposta à sociedade.","justificativa":"A unidade atende volume crescente de demandas com estrutura insuficiente. O projeto reduz filas, melhora a qualidade do serviço e está alinhado ao planejamento estratégico da SESP e da POLITEC para o período.","objetivo_estrategico":"Ampliar a capacidade dos laboratórios","valor_estimado":310000,"prazo_meses":18,"status":"aprovada","enviado_em":"2026-10-05","documentos":{"pesquisa_precos":true,"estudo_tecnico":true,"anuencia_chefia":true,"cronograma":true,"fotos":true}}],"pendencias":[{"id":"TAP-2026-003-P1","proposta_id":"TAP-2026-003","motivo":"Pesquisa de preços ausente","aberta_em":"2026-08-23","resolvida_em":null},{"id":"TAP-2026-007-P1","proposta_id":"TAP-2026-007","motivo":"Pesquisa de preços ausente","aberta_em":"2026-09-28","resolvida_em":null}],"decisoes":[{"id":"TAP-2026-001-D1","proposta_id":"TAP-2026-001","tipo":"aprovação","texto":"Aprovado pela instância competente (fictício).","autor":"Autoridade fictícia","data":"2026-08-23"},{"id":"TAP-2026-002-D1","proposta_id":"TAP-2026-002","tipo":"aprovação","texto":"Aprovado pela instância competente (fictício).","autor":"Autoridade fictícia","data":"2026-09-01"},{"id":"TAP-2026-008-D1","proposta_id":"TAP-2026-008","tipo":"aprovação","texto":"Aprovado pela instância competente (fictício).","autor":"Autoridade fictícia","data":"2026-10-25"}],"portfolio":[{"proposta_id":"TAP-2026-001","prioridade":1,"justificativa_prioridade":"Critério fictício de impacto e urgência.","fonte_recurso":"Tesouro estadual","situacao_captacao":"em prospecção"},{"proposta_id":"TAP-2026-002","prioridade":2,"justificativa_prioridade":"Critério fictício de impacto e urgência.","fonte_recurso":"Emenda parlamentar","situacao_captacao":"em prospecção"},{"proposta_id":"TAP-2026-008","prioridade":3,"justificativa_prioridade":"Critério fictício de impacto e urgência.","fonte_recurso":"Convênio federal","situacao_captacao":"em prospecção"}],"orcamentos":[{"id":"ORC-2024-01","ano":2024,"eixo":"Reduzir o tempo de emissão de laudos","projeto":"Ampliação do laboratório de DNA","empenhado":250000,"liquidado":105000.0,"atualizado_em":"2024-12-20T10:00:00"},{"id":"ORC-2024-02","ano":2024,"eixo":"Modernizar a infraestrutura das unidades","projeto":"Digitalização do arquivo de identificação","empenhado":435000,"liquidado":221800.0,"atualizado_em":"2024-12-20T10:00:00"},{"id":"ORC-2024-03","ano":2024,"eixo":"Ampliar a capacidade dos laboratórios","projeto":"Reforma do IML de Sinop","empenhado":620000,"liquidado":372000.0,"atualizado_em":"2024-12-20T10:00:00"},{"id":"ORC-2024-04","ano":2024,"eixo":"Fortalecer a identificação civil","projeto":"Capacitação em perícia digital","empenhado":805000,"liquidado":555400.0,"atualizado_em":"2024-12-20T10:00:00"},{"id":"ORC-2024-05","ano":2024,"eixo":"Qualificar os servidores","projeto":"Frota de viaturas para local de crime","empenhado":990000,"liquidado":772200.0,"atualizado_em":"2024-12-20T10:00:00"},{"id":"ORC-2025-01","ano":2025,"eixo":"Reduzir o tempo de emissão de laudos","projeto":"Ampliação do laboratório de DNA","empenhado":390000,"liquidado":191100.0,"atualizado_em":"2025-12-20T10:00:00"},{"id":"ORC-2025-02","ano":2025,"eixo":"Modernizar a infraestrutura das unidades","projeto":"Digitalização do arquivo de identificação","empenhado":575000,"liquidado":333500.0,"atualizado_em":"2025-12-20T10:00:00"},{"id":"ORC-2025-03","ano":2025,"eixo":"Ampliar a capacidade dos laboratórios","projeto":"Reforma do IML de Sinop","empenhado":760000,"liquidado":509200.0,"atualizado_em":"2025-12-20T10:00:00"},{"id":"ORC-2025-04","ano":2025,"eixo":"Fortalecer a identificação civil","projeto":"Capacitação em perícia digital","empenhado":945000,"liquidado":718200.0,"atualizado_em":"2025-12-20T10:00:00"},{"id":"ORC-2025-05","ano":2025,"eixo":"Qualificar os servidores","projeto":"Frota de viaturas para local de crime","empenhado":1130000,"liquidado":960500.0,"atualizado_em":"2025-12-20T10:00:00"},{"id":"ORC-2026-01","ano":2026,"eixo":"Reduzir o tempo de emissão de laudos","projeto":"Ampliação do laboratório de DNA","empenhado":530000,"liquidado":296800.0,"atualizado_em":"2026-12-20T10:00:00"},{"id":"ORC-2026-02","ano":2026,"eixo":"Modernizar a infraestrutura das unidades","projeto":"Digitalização do arquivo de identificação","empenhado":715000,"liquidado":464800.0,"atualizado_em":"2026-12-20T10:00:00"},{"id":"ORC-2026-03","ano":2026,"eixo":"Ampliar a capacidade dos laboratórios","projeto":"Reforma do IML de Sinop","empenhado":900000,"liquidado":666000.0,"atualizado_em":"2026-12-20T10:00:00"},{"id":"ORC-2026-04","ano":2026,"eixo":"Fortalecer a identificação civil","projeto":"Capacitação em perícia digital","empenhado":1085000,"liquidado":900600.0,"atualizado_em":"2026-12-20T10:00:00"},{"id":"ORC-2026-05","ano":2026,"eixo":"Qualificar os servidores","projeto":"Frota de viaturas para local de crime","empenhado":1270000,"liquidado":1168400.0,"atualizado_em":"2026-12-20T10:00:00"}],"documentos":[{"tipo":"pesquisa_precos","nome":"Pesquisa de preços (mínimo 3 orçamentos)","obrigatorio":true},{"tipo":"estudo_tecnico","nome":"Estudo técnico preliminar","obrigatorio":true},{"tipo":"anuencia_chefia","nome":"Anuência da chefia da unidade","obrigatorio":true},{"tipo":"cronograma","nome":"Cronograma físico-financeiro","obrigatorio":false},{"tipo":"fotos","nome":"Fotos ou evidências da necessidade","obrigatorio":false}]}</script>
 <!-- /DADOS:seed -->
 
 <script>
@@ -1228,7 +1260,7 @@ const APP = {
   "titulo": "TAP Digital",
   "db": {
     "nome": "tap_portfolio_v1",
-    "versao": 2,
+    "versao": 4,
     "stores": {
       "propostas": {
         "keyPath": "id",
@@ -1282,7 +1314,32 @@ const APP = {
         "keyPath": "id",
         "indices": []
       },
+      "orcamentos": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "ano",
+            "campo": "ano",
+            "unico": false
+          },
+          {
+            "nome": "eixo",
+            "campo": "eixo",
+            "unico": false
+          }
+        ]
+      },
       "pareceres": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "proposta_id",
+            "campo": "proposta_id",
+            "unico": false
+          }
+        ]
+      },
+      "avisos": {
         "keyPath": "id",
         "indices": [
           {
@@ -1347,6 +1404,12 @@ const APP = {
       "perfis": [
         "equipe"
       ]
+    },
+    {
+      "rota": "#/dashboard",
+      "titulo": "Dashboard orçamentário",
+      "sprint": 7,
+      "descricao": "Execução do portfólio por ano e eixo: empenhado, liquidado, saldo e percentual, com edição e importação dos lançamentos."
     },
     {
       "rota": "#/config",
@@ -1416,8 +1479,10 @@ teste("Exemplo sem CPF", ()=> !JSON.stringify(dadosEmbutidos("seed")).toLowerCas
 
 /* ================= Sprint 2 · TAP guiado (RN01 a RN04) ================= */
 const MIN_OBJETIVO = 100, MIN_JUSTIFICATIVA = 200, LIMITE_ANEXO = 10 * 1024 * 1024;
+let TAP_OBJETIVOS = [];
 const OBJETIVOS_ESTRATEGICOS = ["Reduzir o tempo de emissão de laudos", "Modernizar a infraestrutura das unidades", "Ampliar a capacidade dos laboratórios",
   "Fortalecer a identificação civil", "Qualificar os servidores"];
+TAP_OBJETIVOS = [...OBJETIVOS_ESTRATEGICOS];
 // Checklist padrão enquanto a equipe não cadastra o oficial (store documentos)
 const DOCUMENTOS_PADRAO = (dadosEmbutidos("seed")?.documentos || []);
 const ETAPAS_TAP = [
@@ -1469,7 +1534,7 @@ TELAS["#/tap/novo"] = async ()=>{
   const etapa = estado.etapaTap || "ident";
   const ctrl = k => {
     if (k === "objetivo" || k === "justificativa") return campo("tap-" + k, ROT_TAP[k], {tipo: "textarea", linhas: 5, valor: p[k] || "", obrigatorio: true, ajuda: AJUDA_TAP[k]}) + `<p class="sub" id="cont-${k}"></p>`;
-    if (k === "objetivo_estrategico") return campo("tap-" + k, ROT_TAP[k], {tipo: "select", opcoes: [["", "Escolha"], ...OBJETIVOS_ESTRATEGICOS], valor: p[k] || "", obrigatorio: true, ajuda: AJUDA_TAP[k]});
+    if (k === "objetivo_estrategico") return campo("tap-" + k, ROT_TAP[k], {tipo: "select", opcoes: [["", "Escolha"], ...TAP_OBJETIVOS], valor: p[k] || "", obrigatorio: true, ajuda: AJUDA_TAP[k]});
     if (k === "valor_estimado") return campo("tap-" + k, ROT_TAP[k] + " (R$)", {valor: p[k] ? dinheiro.fmt(Math.round(p[k] * 100)).replace("R$ ", "") : "", obrigatorio: true, attrs: 'inputmode="decimal"', ajuda: AJUDA_TAP[k]});
     if (k === "prazo_meses") return campo("tap-" + k, ROT_TAP[k], {tipo: "number", valor: p[k] || "", obrigatorio: true, attrs: 'min="1" max="120"'});
     return campo("tap-" + k, ROT_TAP[k], {valor: p[k] || "", obrigatorio: true, ajuda: AJUDA_TAP[k]});
@@ -1616,8 +1681,9 @@ TELAS_DEPOIS["#/triagem"] = ()=>{
   });
   $("#btnPendencia")?.addEventListener("click", async ()=>{
     const motivo = valorDe("tMotivo"); if (!motivo) return mostrarErros("#errosTriagem", ["Escreva o motivo da pendência (RN05)."]);
-    const p = await db.get("propostas", estado.tapSel), pend = {id: uuid(), proposta_id: p.id, motivo, aberta_em: hojeISO(), resolvida_em: null};
+    const p = await db.get("propostas", estado.tapSel), pend = {id: uuid(), proposta_id: p.id, motivo, aberta_em: hojeISO(), prazo_limite: tapPrazo(hojeISO(), 5), resolvida_em: null};
     await db.put("pendencias", pend); await db.put("propostas", {...p, status: "devolvida"}); await registrar("pendência registrada", {proposta_id: p.id, detalhe: motivo});
+    await tapAviso(p.id, "unidade demandante", `Pendência no ${p.id}: ${motivo}. Prazo de 5 dias úteis (até ${dataCurtaBR(pend.prazo_limite)}).`);
     const abertas = (await db.porIndice("pendencias", "proposta_id", p.id)).filter(x=>!x.resolvida_em);
     baixar(`devolucao-${p.id}.json`, embalar("TAP-DEV-v1", {proposta_id: p.id, pendencias: abertas}), "application/json");
     toast("Pendência registrada. Envie o arquivo de devolução ao demandante."); navegar();
@@ -1626,7 +1692,9 @@ TELAS_DEPOIS["#/triagem"] = ()=>{
     const p = await db.get("propostas", estado.tapSel), falta = pendenciasTap(p, await db.porIndice("anexos", "proposta_id", p.id), await documentosChecklist());
     if (falta.length) return mostrarErros("#errosTriagem", ["Checklist incompleto (RN06): " + falta.join(" · ")]);
     for (const x of (await db.porIndice("pendencias", "proposta_id", p.id)).filter(x=>!x.resolvida_em)) await db.put("pendencias", {...x, resolvida_em: hojeISO()});
-    await db.put("propostas", {...p, status: "em análise", completa_em: agora()}); await registrar("aceita para análise", {proposta_id: p.id}); toast("Proposta aceita para análise."); navegar();
+    await db.put("propostas", {...p, status: "em análise", completa_em: agora()}); await registrar("aceita para análise", {proposta_id: p.id});
+    await tapAviso(p.id, "autoridade", `O ${p.id} · ${p.titulo} está em análise e aguarda decisão da autoridade.`);
+    toast("Proposta aceita para análise. Autoridade avisada na fila local."); navegar();
   });
 };
 
@@ -1716,6 +1784,7 @@ TELAS_DEPOIS["#/proposta/:id"] = ({id})=>{
     await db.put("decisoes", {id: uuid(), proposta_id: id, tipo, texto, autor: valorDe("tdAutor") || "Autoridade competente", data: agora(), perfil: estado.perfil});
     await db.put("propostas", {...p, status});
     await registrar("decisão registrada", {proposta_id: id, detalhe: TAP_TIPOS_DECISAO[tipo]});
+    await tapAviso(id, "equipe de projetos", `Decisão da autoridade no ${id}: ${TAP_TIPOS_DECISAO[tipo]}.`);
     toast(`Decisão registrada: ${TAP_TIPOS_DECISAO[tipo]}.`); navegar();
   });
 };
@@ -1783,6 +1852,298 @@ TELAS["#/indicadores"] = async ()=>{
       <div class="card kpi"><div class="v" data-tap-ind="captados">${captados}</div><div class="r">recursos captados</div></div></div>
     <div class="card tabela-wrap"><h2 style="margin-top:0">Propostas por situação</h2><table id="tabelaStatus"><tr><th>Situação</th><th class="num">Propostas</th></tr>
       ${Object.entries(porStatus).sort((a, b)=>b[1] - a[1]).map(([s, n])=>`<tr><td>${esc(s)}</td><td class="num">${n}</td></tr>`).join("")}</table></div>`;
+};
+
+/* ================= Sprint 7 · Dashboard orçamentário =================
+   Execução do portfólio por ano e eixo (empenhado, liquidado, saldo e %),
+   com edição dos lançamentos, exclusão, filtro e importação de .xlsx/.csv. */
+
+const TAP_EIXOS = [...OBJETIVOS_ESTRATEGICOS, "Infraestrutura", "Outros"];
+
+function tapNumero(v){
+  if (typeof v === "number") return v;
+  let s = String(v ?? "").trim().replace(/^R\$\s*/, "").replace(/\s/g, "");
+  if (!s) return NaN;
+  const temVirgula = s.includes(","), temPonto = s.includes(".");
+  if (temVirgula && temPonto){
+    if (s.lastIndexOf(",") > s.lastIndexOf(".")) s = s.replace(/\./g, "").replace(",", ".");
+    else s = s.replace(/,/g, "");
+  } else if (temVirgula){
+    if (/^\d{1,3}(,\d{3})+$/.test(s)) s = s.replace(/,/g, "");
+    else s = s.replace(",", ".");
+  } else if (temPonto && /^\d{1,3}(\.\d{3})+$/.test(s)){
+    s = s.replace(/\./g, "");
+  }
+  const n = Number(s);
+  return Number.isFinite(n) ? n : NaN;
+}
+teste("Sprint 7: lê empenhado em formato brasileiro e norte-americano", ()=>
+  tapNumero("1.234.567,89") === 1234567.89 && tapNumero("1,234.56") === 1234.56 && tapNumero("250000") === 250000);
+
+function tapResumoOrc(rows, filtro = {}){
+  const linhas = rows.filter(r=>(!filtro.ano || String(r.ano) === String(filtro.ano)) && (!filtro.eixo || r.eixo === filtro.eixo));
+  const soma = k => linhas.reduce((a, r)=>a + Number(r[k] || 0), 0);
+  const empenhado = soma("empenhado"), liquidado = soma("liquidado");
+  return {linhas, empenhado, liquidado, saldo: empenhado - liquidado,
+    percentual: empenhado ? liquidado / empenhado * 100 : 0, lancamentos: linhas.length};
+}
+function tapPorGrupo(rows, campo, filtro = {}){
+  const mapa = new Map();
+  for (const r of rows.filter(r=>(!filtro.ano || String(r.ano) === String(filtro.ano)) && (!filtro.eixo || r.eixo === filtro.eixo))){
+    const chave = String(r[campo] || "—");
+    const g = mapa.get(chave) || {nome: chave, empenhado: 0, liquidado: 0, lancamentos: 0};
+    g.empenhado += Number(r.empenhado || 0); g.liquidado += Number(r.liquidado || 0); g.lancamentos++;
+    mapa.set(chave, g);
+  }
+  return [...mapa.values()].sort((a, b)=>campo === "ano" ? a.nome.localeCompare(b.nome) : b.empenhado - a.empenhado);
+}
+teste("Sprint 7: o resumo soma empenhado, liquidado e saldo", ()=>{
+  const r = tapResumoOrc([{ano: 2026, eixo: "A", empenhado: 1000, liquidado: 600}, {ano: 2026, eixo: "A", empenhado: 500, liquidado: 500},
+    {ano: 2025, eixo: "B", empenhado: 900, liquidado: 100}], {ano: "2026"});
+  return r.empenhado === 1500 && r.liquidado === 1100 && r.saldo === 400 && r.lancamentos === 2 && Math.round(r.percentual) === 73;
+});
+
+function tapBarras(grupos){
+  const max = Math.max(1, ...grupos.flatMap(g=>[g.empenhado, g.liquidado]));
+  return grupos.map(g=>`<div class="orc-grupo"><span class="orc-rot" title="${esc(g.nome)}">${esc(g.nome)}</span>
+    <div class="orc-barras"><i class="orc-b emp" style="width:${g.empenhado / max * 100}%" title="Empenhado ${dinheiro.fmt(Math.round(g.empenhado * 100))}"></i>
+      <i class="orc-b liq" style="width:${g.liquidado / max * 100}%" title="Liquidado ${dinheiro.fmt(Math.round(g.liquidado * 100))}"></i></div>
+    <span class="orc-val">${dinheiro.fmt(Math.round(g.liquidado * 100))}<small> de ${dinheiro.fmt(Math.round(g.empenhado * 100))}</small></span></div>`).join("")
+    || '<p class="sub">Nenhum lançamento no recorte.</p>';
+}
+const tapReal = v => dinheiro.fmt(Math.round(Number(v || 0) * 100));
+
+TELAS["#/dashboard"] = async ()=>{
+  const rows = (await db.list("orcamentos")).sort((a, b)=>String(a.ano).localeCompare(String(b.ano)) || String(a.eixo).localeCompare(String(b.eixo)));
+  const anos = [...new Set(rows.map(r=>String(r.ano)))].sort();
+  const eixos = [...new Set(rows.map(r=>r.eixo))].sort();
+  const filtro = {ano: estado.dashAno || "", eixo: estado.dashEixo || ""};
+  const res = tapResumoOrc(rows, filtro);
+  const porAno = tapPorGrupo(rows, "ano", filtro), porEixo = tapPorGrupo(rows, "eixo", filtro);
+  const edit = estado.orcEdit ? rows.find(r=>r.id === estado.orcEdit) : null;
+  const v = (k, d = "")=>edit ? edit[k] ?? d : d;
+  return `<h1>Dashboard orçamentário</h1><p class="sub">Execução do portfólio por ano e eixo. Edite um lançamento na tabela ou use o formulário; a planilha pode ser importada em .xlsx ou .csv.</p>
+    <div class="card orc-filtros"><div class="campos">
+      ${campo("dashAno", "Ano", {tipo: "select", opcoes: [["", "Todos"], ...anos.map(a=>[a, a])], valor: filtro.ano})}
+      ${campo("dashEixo", "Eixo", {tipo: "select", opcoes: [["", "Todos"], ...eixos.map(e=>[e, e])], valor: filtro.eixo})}
+      <div class="campo"><label>&nbsp;</label><div class="linha-botoes" style="margin:0"><button type="button" class="sec" id="btnDashLimpar">Limpar filtros</button>
+        <button type="button" id="btnDashCsv">${icone("download")} Exportar CSV</button></div></div></div></div>
+    <div class="grade orc-kpis">
+      <div class="card kpi"><div class="v" data-dash="empenhado">${tapReal(res.empenhado)}</div><div class="r">empenhado</div></div>
+      <div class="card kpi"><div class="v" data-dash="liquidado">${tapReal(res.liquidado)}</div><div class="r">liquidado</div></div>
+      <div class="card kpi"><div class="v" data-dash="saldo">${tapReal(res.saldo)}</div><div class="r">saldo a liquidar</div></div>
+      <div class="card kpi"><div class="v" data-dash="percentual">${res.percentual.toFixed(1).replace(".", ",")}%</div><div class="r">% liquidado</div></div>
+      <div class="card kpi"><div class="v" data-dash="lancamentos">${res.lancamentos}</div><div class="r">lançamentos</div></div></div>
+    <div class="orc-duas">
+      <div class="card"><h2 style="margin-top:0">Empenhado e liquidado por ano</h2><div class="orc-legenda"><span><i class="emp"></i>empenhado</span><span><i class="liq"></i>liquidado</span></div>${tapBarras(porAno)}</div>
+      <div class="card"><h2 style="margin-top:0">Empenhado e liquidado por eixo</h2><div class="orc-legenda"><span><i class="emp"></i>empenhado</span><span><i class="liq"></i>liquidado</span></div>${tapBarras(porEixo)}</div></div>
+    <div class="card tabela-wrap"><h2 style="margin-top:0">Resumo por ano e eixo</h2>
+      <table id="tabelaOrcResumo"><tr><th>Ano</th><th>Eixo</th><th class="num">Empenhado</th><th class="num">Liquidado</th><th class="num">Saldo</th><th class="num">% liquidado</th><th class="num">Lançamentos</th></tr>
+      ${(()=>{ const m = new Map(); for (const r of res.linhas){ const k = `${r.ano}|${r.eixo}`; const g = m.get(k) || {ano: r.ano, eixo: r.eixo, empenhado: 0, liquidado: 0, n: 0}; g.empenhado += Number(r.empenhado || 0); g.liquidado += Number(r.liquidado || 0); g.n++; m.set(k, g); }
+        return [...m.values()].sort((a, b)=>String(a.ano).localeCompare(String(b.ano)) || a.eixo.localeCompare(b.eixo)).map(g=>`<tr><td>${esc(g.ano)}</td><td>${esc(g.eixo)}</td>
+          <td class="num">${tapReal(g.empenhado)}</td><td class="num">${tapReal(g.liquidado)}</td><td class="num">${tapReal(g.empenhado - g.liquidado)}</td>
+          <td class="num">${g.empenhado ? (g.liquidado / g.empenhado * 100).toFixed(1).replace(".", ",") : "0,0"}%</td><td class="num">${g.n}</td></tr>`).join("")
+          || '<tr><td colspan="7" class="vazio">Nenhum lançamento.</td></tr>'; })()}</table></div>
+    <form class="card" id="formOrc"><h2 style="margin-top:0">${edit ? "Editar lançamento" : "Adicionar lançamento"}</h2>
+      <input type="hidden" id="orcId" value="${esc(edit?.id || "")}">
+      <div class="campos">${campo("orcAno", "Ano", {tipo: "number", valor: v("ano", new Date().getFullYear()), obrigatorio: true, attrs: 'min="2000" max="2100"'})}
+        ${campo("orcEixo", "Eixo", {tipo: "select", opcoes: [["", "Escolha"], ...TAP_EIXOS.map(e=>[e, e])], valor: v("eixo"), obrigatorio: true})}
+        ${campo("orcProjeto", "Projeto ou ação", {valor: v("projeto")})}
+        ${campo("orcEmpenhado", "Empenhado (R$)", {valor: edit ? tapReal(edit.empenhado).replace("R$ ", "") : "", obrigatorio: true, attrs: 'inputmode="decimal"'})}
+        ${campo("orcLiquidado", "Liquidado (R$)", {valor: edit ? tapReal(edit.liquidado).replace("R$ ", "") : "", obrigatorio: true, attrs: 'inputmode="decimal"'})}</div>
+      <div id="errosOrc"></div><div class="linha-botoes"><button class="prim" type="submit">${edit ? "Salvar alteração" : "Adicionar"}</button>
+        ${edit ? '<button type="button" class="sec" id="btnOrcCancelar">Cancelar edição</button>' : ""}</div></form>
+    <div class="card tabela-wrap"><h2 style="margin-top:0">Lançamentos</h2>
+      <table id="tabelaOrc"><tr><th>Ano</th><th>Eixo</th><th>Projeto</th><th class="num">Empenhado</th><th class="num">Liquidado</th><th class="num">Saldo</th><th></th></tr>
+      ${res.linhas.map(r=>`<tr><td>${esc(r.ano)}</td><td>${esc(r.eixo)}</td><td>${esc(r.projeto || "—")}</td>
+        <td class="num">${tapReal(r.empenhado)}</td><td class="num">${tapReal(r.liquidado)}</td><td class="num">${tapReal(r.empenhado - r.liquidado)}</td>
+        <td class="orc-acoes"><button type="button" data-orc-editar="${esc(r.id)}">Editar</button><button type="button" class="perigo" data-orc-excluir="${esc(r.id)}">Excluir</button></td></tr>`).join("")
+        || '<tr><td colspan="7" class="vazio">Nenhum lançamento no recorte.</td></tr>'}</table></div>
+    <div class="card"><h2 style="margin-top:0">Importar planilha</h2>
+      <p class="sub">Colunas: <b>ano</b>, <b>eixo</b>, <b>empenhado</b>, <b>liquidado</b> (e, se houver, <b>projeto</b>). O que já existe, pelo ano + eixo + projeto, é atualizado; o resto entra como novo.</p>
+      <label class="botao">Escolher .xlsx ou .csv<input type="file" id="arqOrc" accept=".xlsx,.csv,text/csv" hidden></label>
+      <div id="errosOrcImport"></div><div id="resOrcImport"></div></div>`;
+};
+TELAS_DEPOIS["#/dashboard"] = ()=>{
+  $("#dashAno").addEventListener("change", e=>{ estado.dashAno = e.target.value; estado.orcEdit = null; navegar(); });
+  $("#dashEixo").addEventListener("change", e=>{ estado.dashEixo = e.target.value; estado.orcEdit = null; navegar(); });
+  $("#btnDashLimpar").addEventListener("click", ()=>{ estado.dashAno = ""; estado.dashEixo = ""; estado.orcEdit = null; navegar(); });
+  $("#btnDashCsv")?.addEventListener("click", async ()=>{
+    const rows = (await db.list("orcamentos")).filter(r=>(!estado.dashAno || String(r.ano) === estado.dashAno) && (!estado.dashEixo || r.eixo === estado.dashEixo));
+    const csv = "\ufeff" + [["ano", "eixo", "projeto", "empenhado", "liquidado", "saldo"].join(";"),
+      ...rows.map(r=>[r.ano, r.eixo, r.projeto || "", String(r.empenhado).replace(".", ","), String(r.liquidado).replace(".", ","), String(r.empenhado - r.liquidado).replace(".", ",")]
+        .map(x=>/[;"\n]/.test(String(x)) ? `"${String(x).replace(/"/g, '""')}"` : x).join(";"))].join("\r\n");
+    baixar(`orcamento-portfolio-${hojeISO()}.csv`, csv, "text/csv;charset=utf-8");
+    await registrar("dashboard exportado", {detalhe: `${rows.length} lançamentos`});
+  });
+  $("#formOrc").addEventListener("submit", async e=>{
+    e.preventDefault();
+    const id = valorDe("orcId"), ano = Number(valorDe("orcAno")), eixo = valorDe("orcEixo"), projeto = valorDe("orcProjeto");
+    const empenhado = (dinheiro.de(valorDe("orcEmpenhado")) || 0) / 100, liquidado = (dinheiro.de(valorDe("orcLiquidado")) || 0) / 100;
+    const erros = [];
+    if (!(ano >= 2000 && ano <= 2100)) erros.push("Informe um ano entre 2000 e 2100.");
+    if (!eixo) erros.push("Escolha o eixo.");
+    if (!(empenhado > 0)) erros.push("Informe o empenhado.");
+    if (liquidado < 0) erros.push("O liquidado não pode ser negativo.");
+    if (liquidado > empenhado) erros.push("O liquidado não pode ser maior que o empenhado.");
+    if (!mostrarErros("#errosOrc", erros)) return;
+    const antes = id ? await db.get("orcamentos", id) : null;
+    await db.put("orcamentos", {id: id || "ORC-" + uuid().slice(0, 8), ano, eixo, projeto, empenhado, liquidado, atualizado_em: agora()});
+    await registrar(antes ? "lançamento orçamentário atualizado" : "lançamento orçamentário criado", {detalhe: `${ano} · ${eixo} · ${projeto || "sem projeto"}`});
+    estado.orcEdit = null; toast(antes ? "Lançamento atualizado." : "Lançamento adicionado."); navegar();
+  });
+  $("#btnOrcCancelar")?.addEventListener("click", ()=>{ estado.orcEdit = null; navegar(); });
+  $$("[data-orc-editar]").forEach(b=>b.addEventListener("click", async ()=>{
+    estado.orcEdit = b.dataset.orcEditar; await navegar();
+    $("#formOrc")?.scrollIntoView({behavior: "smooth", block: "start"});
+  }));
+  $$("[data-orc-excluir]").forEach(b=>b.addEventListener("click", async ()=>{
+    const r = await db.get("orcamentos", b.dataset.orcExcluir); if (!r) return;
+    if (!confirm(`Excluir o lançamento ${r.ano} · ${r.eixo} · ${r.projeto || "sem projeto"}?`)) return;
+    await db.del("orcamentos", r.id); await registrar("lançamento orçamentário excluído", {detalhe: `${r.ano} · ${r.eixo}`});
+    toast("Lançamento excluído."); navegar();
+  }));
+  $("#arqOrc").addEventListener("change", async e=>{
+    const f = e.target.files[0]; if (!f) return;
+    try {
+      let linhas;
+      if (/\.xlsx$/i.test(f.name)){
+        const livro = XLSX.read(await lerArrayBuffer(f), {type: "array"}), aba = livro.Sheets[livro.SheetNames[0]];
+        linhas = XLSX.utils.sheet_to_json(aba, {header: 1, raw: false, defval: ""});
+      } else {
+        linhas = lerCSV(await lerArquivoTexto(f));
+      }
+      if (!linhas.length) throw new Error("a planilha está vazia.");
+      const cab = linhas[0].map(x=>normalizar(x)), idx = nome => cab.findIndex(c=>c === normalizar(nome));
+      const iAno = idx("ano"), iEixo = idx("eixo"), iEmp = idx("empenhado"), iLiq = idx("liquidado");
+      const iProj = idx("projeto") >= 0 ? idx("projeto") : idx("projeto ou ação");
+      if ([iAno, iEixo, iEmp, iLiq].some(i=>i < 0)) throw new Error("faltam as colunas ano, eixo, empenhado e liquidado.");
+      const existentes = await db.list("orcamentos");
+      const chave = r => `${r.ano}|${normalizar(r.eixo)}|${normalizar(r.projeto || "")}`;
+      const mapa = new Map(existentes.map(r=>[chave(r), r]));
+      let novos = 0, atualizados = 0, invalidos = 0;
+      for (const l of linhas.slice(1)){
+        if (!l.some(x=>String(x ?? "").trim())) continue;
+        const ano = Number(String(l[iAno] ?? "").trim()), eixo = String(l[iEixo] ?? "").trim(), projeto = iProj >= 0 ? String(l[iProj] ?? "").trim() : "";
+        const empenhado = tapNumero(l[iEmp]), liquidado = tapNumero(l[iLiq]);
+        if (!(ano >= 2000 && ano <= 2100) || !eixo || Number.isNaN(empenhado) || Number.isNaN(liquidado) || liquidado < 0 || liquidado > empenhado){ invalidos++; continue; }
+        const k = `${ano}|${normalizar(eixo)}|${normalizar(projeto)}`, antes = mapa.get(k);
+        const r = {id: antes?.id || "ORC-" + uuid().slice(0, 8), ano, eixo, projeto, empenhado, liquidado, atualizado_em: agora()};
+        await db.put("orcamentos", r); mapa.set(k, r);
+        antes ? atualizados++ : novos++;
+      }
+      await registrar("planilha orçamentária importada", {detalhe: `${f.name}: ${novos} novos, ${atualizados} atualizados, ${invalidos} inválidos`});
+      $("#resOrcImport").innerHTML = `<p><span class="selo ok">${novos} novos</span> <span class="selo info">${atualizados} atualizados</span>
+        <span class="selo ${invalidos ? "erro" : "alerta"}">${invalidos} inválidos</span></p>`;
+      toast("Planilha importada."); setTimeout(navegar, 400);
+    } catch(err){ mostrarErros("#errosOrcImport", ["Não consegui importar: " + err.message]); }
+  });
+};
+
+/* ================= Sprint 8 · Fluxo, prazos e avisos ================= */
+async function iniciarApp(){
+  try { const v = await db.meta("tap_objetivos"); if (Array.isArray(v) && v.length) TAP_OBJETIVOS = v; } catch(e){}
+}
+
+function tapPrazo(iso, dias){
+  const d = new Date(iso + "T12:00:00"); let n = 0;
+  while (n < dias){ d.setDate(d.getDate() + 1); const w = d.getDay(); if (w !== 0 && w !== 6) n++; }
+  return d.toISOString().slice(0, 10);
+}
+function tapDiasAte(iso){
+  if (!iso) return null;
+  return Math.round((new Date(iso + "T12:00:00") - new Date(hojeISO() + "T12:00:00")) / 86400000);
+}
+async function tapAviso(proposta_id, para, texto){
+  await db.put("avisos", {id: uuid(), proposta_id, para, texto, criado_em: agora(), lido_em: null, canal: "fila local"});
+}
+async function tapAvisosDe(id){
+  return (await db.porIndice("avisos", "proposta_id", id)).sort((a, b)=>String(b.criado_em).localeCompare(String(a.criado_em)));
+}
+
+/* ---------- ficha: sanar pendências e reenviar ---------- */
+const tapFichaS4 = TELAS["#/proposta/:id"];
+TELAS["#/proposta/:id"] = async (p)=>{
+  const html = await tapFichaS4(p);
+  const prop = await db.get("propostas", p.id); if (!prop) return html;
+  const abertas = (await db.porIndice("pendencias", "proposta_id", p.id)).filter(x=>!x.resolvida_em);
+  const avisos = await tapAvisosDe(p.id);
+  const podeSanar = prop.status === "devolvida" && abertas.length;
+  return html + `<div class="card" id="tapPosPendencia">
+    <h2 style="margin-top:0">Pendências, prazos e avisos</h2>
+    ${abertas.length ? `<ul>${abertas.map(x=>{ const d = tapDiasAte(x.prazo_limite); return `<li>${esc(x.motivo)} · prazo ${x.prazo_limite ? dataCurtaBR(x.prazo_limite) : "não definido"}${d !== null ? ` (${d < 0 ? Math.abs(d) + " dia(s) em atraso" : d + " dia(s)"})` : ""}</li>`; }).join("")}</ul>` : '<p class="ok-txt">Sem pendências abertas.</p>'}
+    ${podeSanar ? `<p class="sub">Ao reenviar, o app marca as pendências como resolvidas, volta o TAP para a análise e avisa a equipe e a autoridade na fila local.</p><button class="prim" type="button" id="btnTapSanar">Sanar pendências e reenviar para análise</button>` : ""}
+    <h3>Avisos</h3><ul class="check-lista">${avisos.map(a=>`<li class="${a.lido_em ? "feito" : "falta"}">${icone(a.lido_em ? "check" : "alerta")}<span><b>${esc(a.para)}</b> · ${dataBR(a.criado_em)}<br><small class="sub">${esc(a.texto)}</small>
+      ${a.lido_em ? ' · <span class="selo ok">lido</span>' : ` · <button type="button" data-tap-lido="${esc(a.id)}">Marcar como lido</button>`}</span></li>`).join("") || '<li class="vazio">Nenhum aviso.</li>'}</ul>
+    <p class="sub">A fila é local. O envio real por e-mail usa MailApp/Apps Script; o passo a passo fica na Ajuda Técnica (três cliques no nome do app no rodapé).</p></div>`;
+};
+const tapFichaDepoisS4 = TELAS_DEPOIS["#/proposta/:id"];
+TELAS_DEPOIS["#/proposta/:id"] = async (p)=>{
+  await tapFichaDepoisS4?.(p);
+  $("#btnTapSanar")?.addEventListener("click", async ()=>{
+    const prop = await db.get("propostas", p.id);
+    const abertas = (await db.porIndice("pendencias", "proposta_id", p.id)).filter(x=>!x.resolvida_em);
+    for (const x of abertas) await db.put("pendencias", {...x, resolvida_em: hojeISO()});
+    await db.put("propostas", {...prop, status: "em análise", pendencias_sanadas_em: agora()});
+    await tapAviso(p.id, "equipe de projetos", `A unidade demandante sanou as pendências do ${p.id} e reenviou o TAP para análise.`);
+    await tapAviso(p.id, "autoridade", `O ${p.id} · ${prop.titulo} voltou para análise e aguarda decisão.`);
+    await registrar("pendências sanadas e TAP reenviado", {proposta_id: p.id});
+    toast("Pendências sanadas. TAP em análise; equipe e autoridade avisadas na fila local."); navegar();
+  });
+  $$("[data-tap-lido]").forEach(b=>b.addEventListener("click", async ()=>{
+    const a = await db.get("avisos", b.dataset.tapLido);
+    await db.put("avisos", {...a, lido_em: agora()});
+    await registrar("aviso lido", {proposta_id: a.proposta_id, detalhe: a.para});
+    toast("Aviso marcado como lido."); navegar();
+  }));
+};
+
+/* ---------- triagem: prazos vencidos e projetos para aprovar ---------- */
+const tapPainelAntes = TELAS["#/triagem"];
+TELAS["#/triagem"] = async ()=>{
+  const html = await tapPainelAntes();
+  const [ps, pends, avisos] = await Promise.all([db.list("propostas"), db.list("pendencias"), db.list("avisos")]);
+  const atrasadas = pends.filter(x=>!x.resolvida_em && x.prazo_limite && tapDiasAte(x.prazo_limite) < 0);
+  const emAnalise = ps.filter(p=>p.status === "em análise");
+  return html + `<div class="card tabela-wrap" id="tapPainelAvisos"><h2 style="margin-top:0">Prazos e avisos</h2>
+    <p class="sub">${atrasadas.length} pendência(s) fora do prazo de 5 dias · ${emAnalise.length} projeto(s) em análise · ${avisos.filter(a=>!a.lido_em).length} aviso(s) não lido(s).</p>
+    <table><thead><tr><th>TAP</th><th>Pendência</th><th>Prazo</th><th>Situação</th><th></th></tr></thead><tbody>
+    ${atrasadas.map(x=>{ const p = ps.find(y=>y.id === x.proposta_id); return `<tr><td>${esc(x.proposta_id)}</td><td>${esc(x.motivo)}</td><td>${dataCurtaBR(x.prazo_limite)}</td>
+      <td><span class="selo erro">${Math.abs(tapDiasAte(x.prazo_limite))} dia(s) em atraso</span></td><td><button type="button" data-tap-cobrar="${esc(x.id)}">Avisar a equipe</button></td></tr>`; }).join("") || '<tr><td colspan="5" class="vazio">Nenhuma pendência em atraso.</td></tr>'}
+    </tbody></table>
+    <h3>Em análise</h3><ul class="check-lista">${emAnalise.map(p=>`<li class="feito">${icone("check")}<span><a href="#/proposta/${encodeURIComponent(p.id)}">${esc(p.id)} · ${esc(p.titulo)}</a>
+      <br><small class="sub">${esc(p.unidade)} · ${esc(p.objetivo_estrategico || "")}</small></span></li>`).join("") || '<li class="vazio">Nenhum projeto em análise.</li>'}</ul></div>`;
+};
+const tapPainelDepois = TELAS_DEPOIS["#/triagem"];
+TELAS_DEPOIS["#/triagem"] = async ()=>{
+  await tapPainelDepois?.();
+  $$("[data-tap-cobrar]").forEach(b=>b.addEventListener("click", async ()=>{
+    const x = await db.get("pendencias", b.dataset.tapCobrar);
+    await tapAviso(x.proposta_id, "equipe de projetos", `O prazo da pendência "${x.motivo}" do ${x.proposta_id} venceu em ${dataCurtaBR(x.prazo_limite)}.`);
+    await registrar("cobrança de prazo registrada", {proposta_id: x.proposta_id});
+    toast("Aviso de prazo registrado na fila local."); navegar();
+  }));
+};
+
+/* ---------- configuração dos objetivos estratégicos ---------- */
+const tapConfigAntes = TELAS["#/config"];
+TELAS["#/config"] = async ()=>{
+  const html = await tapConfigAntes();
+  return html + `<div class="card" id="tapObjetivosCard"><h2 style="margin-top:0">Objetivos estratégicos</h2>
+    <p class="sub">Um objetivo por linha. A lista vale para os próximos TAPs; o TAP já gravado mantém o texto escolhido.</p>
+    ${campo("tapObjetivos", "Objetivos do plano estratégico", {tipo: "textarea", linhas: 6, valor: TAP_OBJETIVOS.join("\n")})}
+    <div id="tapObjErros"></div><div class="linha-botoes"><button type="button" class="prim" id="btnTapObjetivos">Salvar objetivos</button></div></div>`;
+};
+const tapConfigDepois = TELAS_DEPOIS["#/config"];
+TELAS_DEPOIS["#/config"] = async ()=>{
+  await tapConfigDepois?.();
+  $("#btnTapObjetivos")?.addEventListener("click", async ()=>{
+    const lista = [...new Set(valorDe("tapObjetivos").split("\n").map(x=>x.trim()).filter(Boolean))];
+    if (!lista.length) return mostrarErros("#tapObjErros", ["Informe pelo menos um objetivo."]);
+    TAP_OBJETIVOS = lista; await db.meta("tap_objetivos", lista);
+    await registrar("objetivos estratégicos atualizados", {detalhe: `${lista.length} objetivos`});
+    toast("Objetivos atualizados."); navegar();
+  });
 };
 
 /* Identidade do TAP Digital.

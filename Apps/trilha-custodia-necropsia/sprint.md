@@ -14,6 +14,7 @@
 | 5 | Feito em 30/10/2026. Tempo médio de remoção, identificação e liberação, permanência por corpo e alerta de passagem de plantão (12 h sem movimentação). |
 | 6 | Feito em 30/10/2026. CSV e impressão em A4, botão de apagar caso liberado com contagem e texto de privacidade em `modelos/privacidade.md`. |
 | 7 | Feito em 30/10/2026. Roteiro de aceite em `modelos/roteiro-aceite.md`. |
+| 8 | Feito em 03/11/2026, a partir da versão de 02/11/2026 em `entregas/2026-11-02/`. Sete etapas no caso, resultado da identificação, busca de familiares, liberação com assinatura no canvas, sepultamento pelo Estado com justificativa, entrega e recebimento do laudo, confirmação de lacre só pelo Gestor ADM, leitura auditada, perfil Médico Legista (leitura até a etapa 5) e `#/resumo` por agente causal. |
 
 ## Visão geral
 
@@ -29,7 +30,7 @@
 | 7 | Aceite e piloto | Piloto de 30 dias com casos fictícios e roteiro de aceite |
 | Identidade e usabilidade | Feito em 02/11/2026. Casca de trilho, cabeçalho sólido, fonte condensada, densidade ampla, cantos suaves, superfícies planas e KPI em número; painel por perfil (4 perfis), quadro de plantão em colunas por situação com cartões de corpo e dias no IML, e ficha em abas. `python testes/testar.py` e `python testes/cenarios.py` passam. |
 
-**MVP 100% pronto = Sprints 0 a 7.**
+**MVP 100% pronto = Sprints 0 a 8.**
 
 ---
 
@@ -90,3 +91,18 @@
 - [x] Roteiro de aceite com o IML.
 - [x] Piloto de 30 dias com casos fictícios.
 - [x] Atualizar `PROJETO.md` e `README.md`.
+
+## Sprint 8 · Controle de necropsia (versão de 02/11/2026)
+
+- [x] Sete etapas no caso (acionamento, ocorrência, fila da necropsia, necropsia, identificação, família e liberação, entrega do laudo à ADM).
+- [x] Resultado da identificação: identificado, não identificado e óbito administrativo.
+- [x] Busca de familiares com registro de início, familiar localizado ou busca sem êxito.
+- [x] Liberação à família com assinatura capturada no canvas e Auto de Entrega.
+- [x] Sepultamento pelo Estado com justificativa de no mínimo 20 caracteres e funerária.
+- [x] Entrega do laudo à ADM e confirmação de recebimento exclusiva do Gestor ADM, com assinatura.
+- [x] Confirmação de recebimento de lacre exclusiva do Gestor ADM.
+- [x] Perfil Médico Legista: leitura até a etapa 5, sem edição e sem as etapas 6 e 7.
+- [x] Auditoria de leitura (consulta ao caso) e `#/resumo` por agente causal.
+- [x] Dados fictícios atualizados (etapa, agente causal, família, laudo, sepultamento e lacres recebidos).
+- [x] Cenário `s8_sete_etapas_assinatura_e_recebimento` (14/14).
+- [ ] Confirmar com o IML as regras de recebimento e de sepultamento (ver `Apps/PREMISSAS.md`).

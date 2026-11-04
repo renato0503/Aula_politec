@@ -21,3 +21,14 @@
 .metas-mes.vazio{border-style:dashed;background:var(--painel)}
 @media (max-width:900px){ .metas-meses{grid-template-columns:repeat(6,minmax(0,1fr))} }
 @media (max-width:520px){ .metas-meses{grid-template-columns:repeat(3,minmax(0,1fr))} }
+
+/* edição e exclusão de linhas e meses */
+.metas-acoes{white-space:nowrap}
+.metas-acoes button,.meses-acoes button{min-height:30px;padding:3px 9px;font-size:12px;margin-left:4px}
+.metas-acoes button.perigo,.meses-acoes button{color:var(--vermelho)}
+.meses-acoes a{font-size:12px}
+.metas-dialogo{border:0;border-radius:var(--raio);padding:0;max-width:min(480px,92vw);width:100%;background:var(--painel);color:var(--ink);box-shadow:var(--sombra-alta)}
+.metas-dialogo::backdrop{background:rgba(8,20,32,.45)}
+.metas-form{display:flex;flex-direction:column;gap:10px;padding:20px}
+.metas-form h2{margin:0;font-size:18px}
+@media (max-width:640px){ .metas-acoes button,.meses-acoes button{min-height:38px} }

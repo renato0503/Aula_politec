@@ -662,23 +662,29 @@ svg.leaflet-image-layer.leaflet-interactive path {
 
 /* Módulo Desaparecidos · CNPD/MJ e NamUs */
 .des-abas{display:flex;gap:8px;flex-wrap:wrap;margin:0 0 16px}
-.des-abas .botao{font-size:13.5px}
+.des-abas .botao{font-size:13.5px;white-space:nowrap}
 .des-abas .botao.prim{box-shadow:0 2px 8px rgba(0,0,0,.12)}
 .des-abas .mono{font-size:11.5px;opacity:.8;margin-left:4px}
 
-.des-mapa-card{padding:0;overflow:hidden}
+.des-mapa-card{padding:0;overflow:visible}
 .des-mapa-topo{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;padding:14px 16px 10px}
 .des-mapa-topo b{font-size:15px}
-.des-mapa{height:440px;width:100%;background:var(--painel-2);border-top:1px solid var(--linha);border-bottom:1px solid var(--linha)}
+.des-mapa{position:relative;z-index:2;height:440px;width:100%;background:var(--painel-2);border-top:1px solid var(--linha);border-bottom:1px solid var(--linha)}
+.des-mapa .leaflet-popup-pane{z-index:1100}
+.des-mapa .leaflet-tooltip-pane{z-index:1050}
+.des-mapa .leaflet-popup{filter:drop-shadow(0 8px 20px rgba(10,47,92,.18))}
 .des-mapa .leaflet-container{font:inherit;background:var(--painel-2)}
 .des-mapa-pe{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:9px 16px 12px;font-size:12px;color:var(--ink2)}
 .des-legenda{display:flex;gap:12px;flex-wrap:wrap;font-size:12px;color:var(--ink2);align-items:center}
 .des-legenda .des-bolha{display:inline-block;width:11px;height:11px;border-radius:50%;border:1px solid #fff;vertical-align:-1px}
 
-.des-pop{font-size:12.5px;line-height:1.4;max-width:280px}
-.des-pop ul{margin:7px 0 0;padding-left:16px;display:grid;gap:3px;max-height:150px;overflow:auto}
-.des-pop a{color:var(--accent)}
-.des-mapa .leaflet-popup-content{margin:10px 12px}
+.des-detalhe{border-top:1px solid var(--linha);padding:12px 16px 14px;background:var(--painel)}
+.des-detalhe-cab{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.des-detalhe-cab b{font-size:14.5px}
+.des-detalhe-cab button{border:0;background:transparent;font-size:22px;line-height:1;cursor:pointer;color:var(--ink2);padding:0 4px}
+.des-detalhe-cab button:hover{color:var(--ink)}
+.des-detalhe ul{margin:8px 0 0;padding-left:18px;display:grid;gap:4px;max-height:170px;overflow:auto;font-size:13px}
+.des-detalhe a{color:var(--accent)}
 .des-mapa .leaflet-tooltip{font-size:11.5px}
 
 .des-catalogo td{vertical-align:top}
@@ -688,7 +694,8 @@ svg.leaflet-image-layer.leaflet-interactive path {
   .des-mapa{height:320px}
   .des-mapa-topo{padding:12px 12px 8px}
   .des-mapa-pe{padding:8px 12px 10px}
-  .des-abas .botao{flex:1;justify-content:center}
+  .des-abas{flex-wrap:nowrap;overflow-x:auto;padding-bottom:2px}
+  .des-abas .botao{flex:0 0 auto;justify-content:center}
 }
 @media print{
   .des-mapa{height:300px}

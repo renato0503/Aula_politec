@@ -29,12 +29,21 @@ CONTEINERES = [
     ("C-04", "eletronicos", 40, "ambiente seco", "Sala de custódia, armário D"),
     ("C-05", "biologicos", 50, "refrigerado de 2 a 8 graus", "Contêiner refrigerado, doca 5"),
 ]
+ENDERECOS = {
+    "C-01": ("Sala de custódia", "E-01", "P-01", "N-1"),
+    "C-02": ("Sala de custódia", "E-02", "P-02", "N-1"),
+    "C-03": ("Sala de custódia", "E-03", "P-03", "N-1"),
+    "C-04": ("Sala de custódia", "E-04", "P-04", "N-2"),
+    "C-05": ("Sala refrigerada", "E-05", "P-05", "N-1"),
+}
 
 
 def main():
     base = dt.date(2025, 11, 3)
     categorias = [{"id_categoria": i, "nome": n, "tipo_conservacao": t, "restricao": r} for i, n, t, r in CATEGORIAS]
-    conteineres = [{"id_conteiner": i, "categoria_permitida": c, "capacidade": cap, "tipo_conservacao": t, "localizacao_fisica": loc, "status": "ativo"}
+    conteineres = [{"id_conteiner": i, "categoria_permitida": c, "capacidade": cap, "tipo_conservacao": t,
+                    "localizacao_fisica": loc, "status": "ativo", "unidade": "litros",
+                    "sala": ENDERECOS[i][0], "estante": ENDERECOS[i][1], "prateleira": ENDERECOS[i][2], "nivel": ENDERECOS[i][3]}
                    for i, c, cap, t, loc in CONTEINERES]
     ocupado = {c[0]: 0 for c in CONTEINERES}
     vestigios = []
@@ -47,13 +56,20 @@ def main():
         if status == "pendencia":
             vestigios.append({"id_vestigio": f"V-{n + 1:04d}", "protocolo": f"PROC-2026-{n + 1:03d}", "lacre": f"LC-{2026}{n + 1:04d}",
                               "categoria_id": cat, "volume_ocupado": volume, "data_entrada": data.isoformat(), "status": status,
-                              "descricao": "Material separado para conferência documental; sem endereço até a regularização.", "conteiner_id": None, "posicao": None})
+                              "descricao": "Material separado para conferência documental; sem endereço até a regularização.", "conteiner_id": None, "posicao": None,
+                              "procedencia": "", "conferencia_documental": "pendente", "lacre_integro": "nao_verificado", "embalagem": "",
+                              "quantidade": 0, "dimensoes": "", "conservacao": "", "endereco_sugerido": None, "endereco_efetivo": None, "confirmacao": None})
             continue
         ocupado[cont[0]] += volume
+        endereco = {"conteiner_id": cont[0], "posicao": f"P{ocupado[cont[0]]:03d}", "estante": ENDERECOS[cont[0]][1],
+                    "prateleira": ENDERECOS[cont[0]][2], "nivel": ENDERECOS[cont[0]][3]}
         vestigios.append({"id_vestigio": f"V-{n + 1:04d}", "protocolo": f"PROC-2026-{n + 1:03d}", "lacre": f"LC-{2026}{n + 1:04d}",
                           "categoria_id": cat, "volume_ocupado": volume, "data_entrada": data.isoformat(), "status": status,
                           "descricao": f"{volume} alíquotas/unidades de {dict((c[0], c[1]) for c in CATEGORIAS)[cat].lower()}.",
-                          "conteiner_id": cont[0], "posicao": f"P{ocupado[cont[0]]:03d}"})
+                          "procedencia": "carga fictícia", "conferencia_documental": "completa", "lacre_integro": "integro",
+                          "embalagem": "caixa lacrada", "quantidade": volume, "dimensoes": "30 x 20 x 15 cm", "conservacao": "boa",
+                          "conteiner_id": cont[0], "posicao": endereco["posicao"], "endereco_sugerido": endereco,
+                          "endereco_efetivo": endereco, "confirmacao": {"por": "carga fictícia", "em": data.isoformat() + "T09:00:00"}})
     # exceção 1: contêiner de eletrônicos cheio
     alvo = next(v for v in vestigios if v["categoria_id"] == "eletronicos" and v["status"] == "armazenado")
     while ocupado["C-04"] < 40:

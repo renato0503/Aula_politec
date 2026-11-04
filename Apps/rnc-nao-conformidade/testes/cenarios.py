@@ -181,6 +181,87 @@ def s6_aceite_e_piloto(pg, url, ok):
     ok("a tela de arquivo do setor abre", pg.locator("#btnExportarSetor").count() == 1)
     ok("o roteiro de aceite está em modelos/", (PASTA / "modelos" / "roteiro-aceite.md").exists())
 
+@cenario
+def s7_planilha_oficial_xlsx(pg, url, ok):
+    perfil(pg, url, "cqual")
+    arq = PASTA / "Registro de Não Conformidade Oficial 1.xlsx"
+    ok("a planilha oficial está na pasta do app", arq.exists())
+    ir(pg, url, "#/importar", 700)
+    pg.set_input_files("#arqRnc", str(arq)); pg.wait_for_timeout(2200)
+    ok("o .xlsx é lido e as colunas oficiais aparecem", "Carimbo de data/hora" in pg.inner_text("#mapaRnc")
+       and pg.locator("#btnImportarRnc").count() == 1)
+    ok("a descrição é traduzida para a coluna certa e e-mail/nome ficam de fora",
+       pg.evaluate("() => document.querySelector('#rmap-descricao').value") == "13"
+       and "Nome Completo" in pg.inner_text("#mapaRnc") and "descartadas (RN07)" in pg.inner_text("#mapaRnc"))
+    pg.click("#btnImportarRnc"); pg.wait_for_timeout(2500)
+    ok("as 19 linhas com conteúdo viram RNCs", pg.inner_text("#qtdNovas") == "19 novas")
+    ok("os metadados da planilha são guardados", pg.evaluate("""async ()=>{
+        const r = (await db.list('rncs')).find(x=>x.numero==='DLF/2026-008');
+        return r && r.data_ocorrido === '2026-05-31' && r.processo.includes('ATENA') && r.status_trello === 'CONCLUÍDO'; }"""))
+    ok("a categoria vira a sigla oficial (ADM)", pg.evaluate("async () => (await db.get('rncs','DLF/2026-008')).categoria_sigla") == "ADM")
+    ir(pg, url, "#/rnc/DLF%2F2026-008", 900)
+    ok("a ficha da RNC mostra os dados da planilha oficial", pg.locator("#rncPlanilha").count() == 1
+       and "Dados da planilha oficial" in pg.inner_text("#conteudo"))
+
+@cenario
+def s8_google_planilhas(pg, url, ok):
+    perfil(pg, url, "cqual")
+    csv = (PASTA / "exemplos" / "respostas-forms-ficticio.csv").read_text(encoding="utf-8")
+    pedidos = []
+    def rota(route):
+        pedidos.append(route.request.url)
+        route.fulfill(status=200, headers={"access-control-allow-origin": "*", "content-type": "text/csv; charset=utf-8"}, body=csv)
+    pg.route("https://docs.google.com/**", rota)
+    ir(pg, url, "#/importar", 700)
+    pg.fill("#rncPlanilha", "https://docs.google.com/spreadsheets/d/10-Oqfv6x9GY4VDz3ZfVKxmipz0ev0fyyNzThi_A4DSI/edit")
+    pg.click("#btnRncGoogle"); pg.wait_for_timeout(1500)
+    ok("a sincronização busca o CSV público da planilha", pedidos and "/gviz/tq?tqx=out:csv" in pedidos[0])
+    ok("as linhas lidas do Google entram no mapa", "20 linha(s) lidas" in pg.inner_text("#rncGoogleStatus") and pg.locator("#btnImportarRnc").count() == 1)
+    pg.click("#btnImportarRnc"); pg.wait_for_timeout(2000)
+    ok("a importação do Google cria as RNCs", pg.inner_text("#qtdNovas") == "20 novas" and contar(pg, "rncs") == 20)
+    ok("o link da planilha fica guardado", "docs.google.com/spreadsheets" in (pg.evaluate("async () => await db.meta('rnc_planilha_url')") or ""))
+
+@cenario
+def s9_documento_oficial(pg, url, ok):
+    perfil(pg, url, "cqual")
+    pg.evaluate("""async ()=>{ await db.put('rncs', {numero: 'DLF/2026-901', aberta_em: '2026-10-01', setor_relator: 'CQUAL',
+        setor_notificado: 'Laboratório Forense', categoria: 'Administração', gravidade: 'Média', descricao: 'Descrição fictícia da ocorrência.',
+        etapa: 'validação', situacao: 'aberta'});
+        await db.put('etapas', {id: 'DLF/2026-901#0', rnc: 'DLF/2026-901', etapa: 'validação', inicio: '2026-10-01', fim: null, prazo: '2026-10-06'}); }""")
+    ir(pg, url, "#/rnc/DLF%2F2026-901/documento", 900)
+    ok("o documento oficial da RNC abre", pg.locator("#docRnc").count() == 1 and "REGISTRO DE NÃO CONFORMIDADE" in pg.inner_text("#docRnc"))
+    ok("a categoria aparece pela sigla e pelo nome", "ADM" in pg.inner_text("#docRnc") and "Administração" in pg.inner_text("#docRnc"))
+    ok("o documento tem o botão de imprimir e a assinatura", pg.locator("#btnImprimirDoc").count() == 1 and "Relator / CQUAL" in pg.inner_text("#docRnc"))
+    ok("RN03: o complemento conta em dias úteis", pg.evaluate("() => somarDiasUteisRnc('2026-10-02', 5)") == "2026-10-09")
+
+@cenario
+def s10_relacao_e_responsavel(pg, url, ok):
+    perfil(pg, url, "cqual")
+    semear(pg, url)
+    ir(pg, url, "#/exportar", 600)
+    setor = pg.evaluate("async ()=> (await db.list('rncs'))[0].setor_notificado")
+    n = pg.evaluate("async s => (await db.list('rncs')).filter(r=>r.setor_notificado===s).length", setor)
+    pg.select_option("#expSetor", setor)
+    pg.click("#btnRelacaoSetor"); pg.wait_for_timeout(600)
+    ok("a relação do setor é gerada para impressão", pg.locator("#relacaoSetor:not([hidden])").count() == 1
+       and "Relação de RNCs" in pg.inner_text("#relacaoSetor") and setor in pg.inner_text("#relacaoSetor"))
+    ok("a relação lista as RNCs do setor e mantém o botão de imprimir", pg.locator("#relacaoSetor tbody tr").count() == n
+       and pg.locator("#btnImprimirRelacao:not([hidden])").count() == 1)
+
+    perfil(pg, url, "setor")
+    ir(pg, url, "#/minhas", 600)
+    pg.select_option("#rncMeuSetor", setor); pg.click("#btnSalvarSetor"); pg.wait_for_timeout(600)
+    pg.locator("[data-plano]").first.click(); pg.wait_for_timeout(400)
+    pg.fill("#plResp", "Fulano de Tal (setor)"); pg.fill("#plAcoes", "Treinamento da equipe e revisão do procedimento interno.")
+    pg.click("#formPlano button[type=submit]"); pg.wait_for_timeout(600)
+    ok("o plano registra quem respondeu", pg.evaluate("async ()=> (await db.list('planos'))[0].responsavel") == "Fulano de Tal (setor)")
+    ok("a tabela do setor mostra o responsável", "Fulano de Tal (setor)" in pg.inner_text("#tabelaMinhasRnc"))
+    pg.locator("[data-aval]").first.click(); pg.wait_for_timeout(400)
+    pg.fill("#avResp", "Beltrano (setor)"); pg.select_option("#avEficaz", "sim"); pg.fill("#avObs", "A ação resolveu a causa.")
+    pg.click("#formAval button[type=submit]"); pg.wait_for_timeout(600)
+    ok("a avaliação registra quem respondeu", pg.evaluate("async ()=> (await db.list('avaliacoes'))[0].responsavel") == "Beltrano (setor)")
+
+
 def main():
     erro = False
     with sync_playwright() as p:

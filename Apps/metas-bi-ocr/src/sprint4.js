@@ -1,7 +1,10 @@
 /* ================= Sprint 4 · Exportar o mês (RN06) ================= */
 // Só o mês aprovado pode ser exportado; o arquivo sai no layout da planilha do Google.
 async function linhasDoMes(mes){
-  const ps = (await db.porIndice("pendencias", "mes_ref", mes)).sort((a, b)=>a.unidade.localeCompare(b.unidade));
+  const rel = await db.get("relatorios", mes), ger = rel?.gerencia;
+  const ps = (await db.porIndice("pendencias", "mes_ref", mes))
+    .filter(p=>!p.desconhecida && (!ger || ger === "Todas" || (p.gerencia || gerenciaDe(p.unidade)) === ger))
+    .sort((a, b)=>a.unidade.localeCompare(b.unidade));
   return ps.map(p=>({Unidade: p.unidade, "Laudos pendentes": p.pendentes}));
 }
 TELAS["#/exportar/:mes"] = async ({mes})=>{

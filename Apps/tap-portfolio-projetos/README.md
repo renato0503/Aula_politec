@@ -95,6 +95,30 @@ a proposta aprovada sem prioridade aparece com o ponto tracejado. A tela inicial
 passou a depender do perfil: Equipe abre na Triagem e Autoridade abre no
 Portfólio. Código em `src/identidade.js` e `src/app.css`.
 
+## Dashboard orçamentário (03/11/2026)
+
+A rota `#/dashboard` resume a execução do portfólio por **ano** e **eixo**:
+empenhado, liquidado, saldo, percentual liquidado e número de lançamentos, com
+barras por ano e por eixo e uma tabela de resumo. Os lançamentos ficam na loja
+`orcamentos` (IndexedDB) e podem ser:
+
+- **adicionados ou editados** no formulário (ano, eixo, projeto, empenhado e
+  liquidado, com a regra liquidado ≤ empenhado);
+- **excluídos** pela tabela;
+- **importados** de `.xlsx` ou `.csv` com as colunas `ano`, `eixo`,
+  `empenhado`, `liquidado` e, se houver, `projeto`; o registro com o mesmo ano,
+  eixo e projeto é atualizado;
+- **exportados** em CSV no recorte dos filtros.
+
+A pasta do app não trazia uma planilha orçamentária. O seed foi criado em
+`exemplos/gerar_exemplos.py` com 15 lançamentos fictícios (2024 a 2026), para o
+dashboard abrir preenchido. Se a equipe tiver a planilha real, use **Importar
+planilha**; os dados ficam só no navegador e não são enviados para fora.
+
+## Sprint 8 · Feedback
+
+Os objetivos estratégicos são editáveis em `#/config`; o TAP devolvido tem o botão de sanar pendências e voltar à análise; a pendência tem prazo de 5 dias úteis; e a fila local avisa demandante, equipe e autoridade. O envio real de e-mail fica como passo a passo de MailApp/Apps Script.
+
 ## Mapa do processo
 
 O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o

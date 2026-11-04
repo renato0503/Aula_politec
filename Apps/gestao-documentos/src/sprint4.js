@@ -5,18 +5,22 @@ teste("RN08: a cobrança respeita a lotação desligada", ()=>{
   return gdPodeCobrar({lotacao: "Gabinete de Direção"}, []) && !gdPodeCobrar({lotacao: "Gabinete de Direção"}, ["Gabinete de Direção"]);
 });
 
-// registra a cobrança no vencimento, uma vez por processo
+// registra a cobrança quando o prazo está próximo (amarelo) ou vencido (vermelho),
+// uma vez por processo e por fase; vale para qualquer lotação, inclusive outra.
 async function gdCobrarVencidos(hoje = hojeISO()){
   const ps = (await db.list("processos")).filter(p=>p.status === "em andamento");
   const desligadas = await gdCobrancasDesligadas(), cobs = await db.list("cobrancas");
   let n = 0;
   for (const p of ps){
     if (!gdPodeCobrar(p, desligadas)) continue;
-    if (gdPrazo(p, hoje).sinal !== "vermelho") continue;
-    if (cobs.some(c=>c.processo_id === p.id_processo && c.tipo === "automatica")) continue;
-    await db.put("cobrancas", {id: uuid(), processo_id: p.id_processo, tipo: "automatica", data: hoje,
-      texto: `Processo ${p.numero_processo} venceu o prazo de ${p.dias_prazo} dias (RN08).`, perfil: "sistema"});
-    await db.put("log", {id: uuid(), processo_id: p.id_processo, tipo_evento: "cobrança automática", descricao: "prazo vencido (RN08)", perfil: "sistema", data_hora: agora()});
+    const sinal = gdPrazo(p, hoje).sinal;
+    if (sinal !== "amarelo" && sinal !== "vermelho") continue;
+    if (cobs.some(c=>c.processo_id === p.id_processo && c.tipo === "automatica" && c.sinal === sinal)) continue;
+    const texto = sinal === "amarelo"
+      ? `Processo ${p.numero_processo} está perto do fim do prazo de ${p.dias_prazo} dias (RN08).`
+      : `Processo ${p.numero_processo} venceu o prazo de ${p.dias_prazo} dias (RN08).`;
+    await db.put("cobrancas", {id: uuid(), processo_id: p.id_processo, tipo: "automatica", sinal, data: hoje, texto, perfil: "sistema"});
+    await db.put("log", {id: uuid(), processo_id: p.id_processo, tipo_evento: "cobrança automática", descricao: sinal === "amarelo" ? "prazo próximo (RN08)" : "prazo vencido (RN08)", perfil: "sistema", data_hora: agora()});
     n++;
   }
   if (n) await registrar("cobranças automáticas registradas", {detalhe: `${n} processo(s)`});

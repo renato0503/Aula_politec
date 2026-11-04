@@ -19,6 +19,7 @@ function tcinCabecalho(perfil){
     tecnico: ["Sala de necropsia", "Corpos na sala, dias no IML e último marco de cada um."],
     plantonista: ["Passagem de plantão", "Quadro por situação, com os dias no IML e o último marco."],
     gestor: ["Painel do gestor", "Tempos do percurso, permanência e corpos sem movimentação."],
+    medico: ["Painel do médico legista", "Corpos na sala de necropsia, com leitura até a etapa 5."],
   };
   const [t, s] = titulos[perfil] || titulos.tecnico;
   return `<h1>${t}</h1><p class="sub">${s} <a href="#/corpo/novo">Novo acionamento</a></p>`;

@@ -1,6 +1,6 @@
-# Projeto TEIA (Triagem de E-mails com Isolação Automatizada)
+﻿# Projeto TEIA (Triagem de E-mails com Isolação Automatizada)
 
-Projeto de **Nelson e Luciana** · Coordenadoria de Perícias em Biologia Molecular · 2026-11-03
+Projeto de **Nelson e Helen Coelho Gonçalves** · Coordenadoria de Perícias em Biologia Molecular · 2026-11-03
 
 ## 1. Identificação
 
@@ -8,7 +8,7 @@ Projeto de **Nelson e Luciana** · Coordenadoria de Perícias em Biologia Molecu
 |---|---|
 | Projeto | Projeto TEIA (Triagem de E-mails com Isolação Automatizada) |
 | Tipo | Automação de script ou rotina |
-| Alunos | Nelson e Luciana |
+| Alunos | Nelson e Helen Coelho Gonçalves |
 | Unidade | Coordenadoria de Perícias em Biologia Molecular |
 | Contato | nelsonyoshitake@politec.mt.gov.br |
 | Fonte | `envio-original.json` (Firestore, 03/11/2026) |
@@ -23,7 +23,7 @@ Leitura e Varredura Visual: A pessoa lê o corpo do e-mail e navega pelas págin
 Digitação e Consolidação na Planilha: Os dados localizados são digitados um a um nos campos correspondentes de uma planilha de controle;
 Tratamento de Pendências e Encaminhamento: Se alguma informação crítica estiver ausente ou confusa no e-mail, o servidor precisa redigir uma resposta solicitando complementação; caso esteja tudo correto, realiza o direcionamento do pedido para o setor de custódia para posterior processamento.
 
-**Impacto.** Dimensão: Tempo; Impacto Atual (Estimativa Operacional): 12 a 15 minutos dedicados por e-mail/requisição recebida; Evidência / Métrica do Número: Medição de tempo médio de ciclo: abertura do e-mail, download e varredura de 3 a 5 anexos em PDF, localização visual dos 8 campos e cópia/digitação na planilha. Em um volume de 40 e-mails/dia, representa 8 a 10 horas/dia de trabalho manual contínuo.
+**Impacto.** Dimensão: Tempo; Impacto Atual (Estimativa Operacional): 12 a 15 minutos dedicados por e-mail/requisição recebida; Evidência / Métrica do Número: Medição de tempo médio de ciclo: abertura do e-mail, download e varredura de 3 a 5 anexos em PDF, localização visual dos 9 campos e cópia/digitação na planilha. Em um volume de 40 e-mails/dia, representa 8 a 10 horas/dia de trabalho manual contínuo.
 		
 Dimensão: Custo; Impacto Atual (Estimativa Operacional): R$ 6.000 a R$ 10.000/mês por regional em horas-homem pagas para digitação; Evidência / Métrica do Número: Custo/hora médio do servidor público alocado × ~160 a 200 horas mensais consumidas exclusivamente com triagem administrativa em vez de atividades periciais de ponta.
 		
@@ -58,8 +58,8 @@ Ao delimitar esses pontos na proposta, o projeto se posiciona claramente como um
 | Chegada do e-mail de requisição | Autoridade Requisitante (MP/PC/Poder Judiciário) | Minuta do e-mail + Ofício/Anexos em PDF | Envio de e-mail institucional com solicitação de laudo pericial para a POLITEC | E-mail recebido na caixa de entrada institucional | Servidor de E-mail | N/A (Ato externo da autoridade) | Fila de e-mails não lidos na caixa de entrada | 0,00 | Não |
 | Triagem inicial e abertura do e-mail | Servidor / Triador da POLITEC | E-mail na caixa de entrada | Servidor identifica o e-mail não lido, abre a mensagem e faz a leitura preliminar do assunto e corpo | E-mail aberto no monitor | Webmail / Leitor de E-mail | Priorização visual por ordem de chegada ou urgência indicada | Caixa de entrada (aguardando tempo do servidor para abrir) | 0,50 a 4,00 | Sim, com regra clara |
 | Download e leitura dos anexos | Servidor / Triador da POLITEC | Anexos em PDF / Imagens (Ofícios, Inquéritos, BOs) | Baixar todos os anexos, abrir arquivo por arquivo e realizar varredura visual em busca dos dados chaves | Anexos abertos e dados localizados na tela | Leitor de PDF / Sistema de Arquivos local | Verificar se os anexos estão legíveis, completos e se pertencem ao processo | Pasta de downloads / Leitura manual de múltiplas páginas em PDF | 0,10 a 0,25 | Sim, com regra clara |
-| Mapeamento dos 8 campos essenciais | Servidor / Triador da POLITEC | Texto do e-mail e conteúdo dos PDFs abertos | Localizar e conferir visualmente: Data, Nº Cobrança, Nível, Crime, Protocolo, AR, Objetivo e Regional | 8 variáveis identificadas mentalmente pelo servidor | Anotação manual / Memória | Regra de negócio: confirmar se a requisição tem todos os dados obrigatórios para autuação | Navegação visual entre corpo do e-mail e múltiplos PDFs | 0,10 a 0,15 | Sim, com regra clara |
-| Digitação e consolidação na planilha | Servidor / Triador da POLITEC | 8 campos mapeados + Planilha de controle aberta | Copiar/digitar os dados identificados no e-mail/PDFs para a linha correspondente na planilha | Linha da planilha preenchida manualmente | Excel / Google Sheets / LibreOffice | Padronização dos nomes de regional, tipos de crime e formatos de data | Mão de obra / Digitação manual campo a campo (risco de erro humano) | 0,05 a 0,10 | Sim, com regra clara |
+| Mapeamento dos 9 campos essenciais | Servidor / Triador da POLITEC | Texto do e-mail e conteúdo dos PDFs abertos | Localizar e conferir visualmente: Data, Nº Cobrança, Nível, Crime, Protocolo, AR, Objetivo e Regional | 8 variáveis identificadas mentalmente pelo servidor | Anotação manual / Memória | Regra de negócio: confirmar se a requisição tem todos os dados obrigatórios para autuação | Navegação visual entre corpo do e-mail e múltiplos PDFs | 0,10 a 0,15 | Sim, com regra clara |
+| Digitação e consolidação na planilha | Servidor / Triador da POLITEC | 9 campos mapeados + Planilha de controle aberta | Copiar/digitar os dados identificados no e-mail/PDFs para a linha correspondente na planilha | Linha da planilha preenchida manualmente | Excel / Google Sheets / LibreOffice | Padronização dos nomes de regional, tipos de crime e formatos de data | Mão de obra / Digitação manual campo a campo (risco de erro humano) | 0,05 a 0,10 | Sim, com regra clara |
 | Download, renomeação e organização dos PDFs | Servidor / Triador da POLITEC | PDFs baixados sem padrão de nome | Renomear o arquivo PDF no padrão da instituição (ex: Protocolo + Regional) e mover para a pasta correta | Arquivo PDF renomeado e salvo na pasta institucional | Gerenciador de Arquivos do S.O. | Padronização da nomenclatura dos arquivos | Operação manual de "Salvar Como", renomear e mover arquivos | 0,05 a 0,10 | Sim, com regra clara |
 | Validação, aceite e encaminhamento legal | Servidor / Triador da POLITEC | Linha da planilha preenchida + Anexos salvos | Conferir os dados inseridos, validar aceite da requisição e assinar/encaminhar para a regional responsável | Requisição oficializada e atribuída ao setor pericial | Planilha + Sistema Interno de Tramitação | Fé pública: confirmar validade do ofício, cadeia de custódia e ausência de impedimento legal | Mesa do servidor (Aguardando análise e decisão humana) | 0,20 a 1,00 | Não |
 
@@ -67,16 +67,16 @@ Ao delimitar esses pontos na proposta, o projeto se posiciona claramente como um
 
 **Mudança central.** A mudança principal consiste na substituição da triagem manual e fragmentada por um fluxo de extração automatizada local, alterando o papel do servidor público de "digitador/leitor de PDFs" para "validador de fé pública".
 Em termos operacionais, o processo migra de uma arquitetura baseada em esforço humano repetitivo para uma arquitetura de processamento em lote orientado a eventos:
-Antes (AS-IS): O servidor gastava de 12 a 15 minutos por requisição abrindo e-mails, baixando e varrendo visualmente arquivos PDF, copiando 8 campos manualmente para a planilha e renomeando arquivos um a um.
+Antes (AS-IS): O servidor gastava de 12 a 15 minutos por requisição abrindo e-mails, baixando e varrendo visualmente arquivos PDF, copiando 9 campos manualmente para a planilha e renomeando arquivos um a um.
 Depois (TO-BE): O script local varre a caixa de correio, lê e estrutura o conteúdo dos arquivos PDF, popula a planilha com as 8 variáveis em segundos e organiza os anexos em pastas locais. O servidor intervém apenas no final do fluxo, levando menos de 1 minuto para checar o pré-preenchimento, resolver eventuais alertas de divergência e homologar a autuação.
 
-**Visão.** O processo de triagem da POLITEC passa a ser executado por um script local que faz a varredura automática de e-mails e anexos, extrai e organiza os 8 campos essenciais na planilha sem expor dados a IAs externas, restando ao servidor apenas a validação rápida e o aceite final das requisições periciais.
+**Visão.** O processo de triagem da POLITEC passa a ser executado por um script local que faz a varredura automática de e-mails e anexos, extrai e organiza os 9 campos essenciais na planilha sem expor dados a IAs externas, restando ao servidor apenas a validação rápida e o aceite final das requisições periciais.
 
 | etapa | muda | quem | beneficio | esforco |
 |---|---|---|---|---|
 | Monitoramento e varredura da caixa de e-mails | Substitui a checagem manual periódica por varredura automatizada continua/programada. | A máquina (automação) | Eliminação do tempo de espera na caixa de entrada e início imediato do processamento. | Baixo |
 | Extração de texto e leitura dos anexos (PDF/Imagens) | A leitura visual de múltiplos anexos é substituída pela extração via código e OCR local. | A máquina (automação) | Redução drasticamente do tempo de leitura (de minutos para segundos por arquivo). | Baixo |
-| Mapeamento dos 8 campos essenciais | A busca visual no texto é feita por regras de regex/parsing local, identificando as 8 variáveis. | A máquina (automação) | Padronização e eliminação de omissões ou erros de transcrição manual. | Baixo |
+| Mapeamento dos 9 campos essenciais | A busca visual no texto é feita por regras de regex/parsing local, identificando as 8 variáveis. | A máquina (automação) | Padronização e eliminação de omissões ou erros de transcrição manual. | Baixo |
 | Preenchimento da planilha e sinalização de alertas | Inserção automática da linha populada com dados e atribuição de flags em inconsistências. | A máquina (automação) | Fim da digitação manual ("copiar e colar") e identificação visual instantânea de erros. | Baixo |
 | Salvamento, renomeação e organização dos arquivos | PDFs baixados são automaticamente renomeados (Padrão: Protocolo + Regional) e movidos. | A máquina (automação) | Organização padronizada imediata no repositório local sem intervenção manual. | Baixo |
 | Validação de fé pública e decisão de aceite | Servidor apenas confere o pré-preenchimento na planilha e valida o aceite da requisição. | A pessoa, sem mudança | Manutenção da legalidade, fé pública e segurança jurídica com consumo mínimo de tempo. | Baixo |
@@ -104,7 +104,7 @@ O processamento é concluído de forma
 
 **Telas do protótipo:**
 
-- `#/painel` · bancada de triagem (fila à esquerda, 8 campos à direita);
+- `#/painel` · bancada de triagem (fila à esquerda, 9 campos à direita);
 - `#/email/:id` · mensagem, anexos, campos, validação e auditoria;
 - `#/lote` · extração de um lote;
 - `#/planilha` · planilha consolidada e CSV;
@@ -145,9 +145,9 @@ A extração neste protótipo é **simulada** com os dados fictícios de `exempl
 
 | papel | quem | ve | faz | naofaz | registro |
 |---|---|---|---|---|---|
-| Servidor Triador (Operador) | Servidor administrativo ou perito responsável pela recepção e triagem das requisições na POLITEC. | Dashboard local com a planilha de requisições pré-preenchidas pelo script, alertas de inconsistência/erro, anexos renomeados e status de cada e-mail. | Revisa os dados extraídos pela IA/script, corrige divergências, valida/autentica os 8 campos, confirma a recepção física de AR e aprova/recusa a requisição. | Alterar o código-fonte do script, modificar regras de extração local, acessar dados sigilosos fora do seu escopo de atribuição ou deletar logs de auditoria. | Confirmações de validação, edições manuais de dados, aprovações, recusas de expedientes e carimbo de data/hora (timestamp) de cada ação realizada. |
+| Servidor Triador (Operador) | Servidor administrativo ou perito responsável pela recepção e triagem das requisições na POLITEC. | Dashboard local com a planilha de requisições pré-preenchidas pelo script, alertas de inconsistência/erro, anexos renomeados e status de cada e-mail. | Revisa os dados extraídos pela IA/script, corrige divergências, valida/autentica os 9 campos, confirma a recepção física de AR e aprova/recusa a requisição. | Alterar o código-fonte do script, modificar regras de extração local, acessar dados sigilosos fora do seu escopo de atribuição ou deletar logs de auditoria. | Confirmações de validação, edições manuais de dados, aprovações, recusas de expedientes e carimbo de data/hora (timestamp) de cada ação realizada. |
 | Administrador do Sistema (TI / Dev) | Desenvolvedor do script, analista de TI ou responsável técnico pela manutenção da ferramenta local. | Logs de execução do script, taxa de sucesso na leitura de anexos, métricas de desempenho/erros de OCR, telas de configuração e regras de regex/parsing. | Mantém o script atualizado, ajusta regras de extração e OCR local, monitora a integridade das pastas/planilhas e gerencia permissões de acesso local. | Validar legalmente requisições periciais, autuar processos jurídicos, alterar o conteúdo de laudos ou atuar como validador de fé pública. | Alterações de código, modificações de parâmetros de regras, execuções de manutenção, falhas do sistema e acessos a pastas de sistema |
-| Script de Automação (Agente de Sistema) | O próprio script executado localmente (sem acesso à internet) para varredura e extração de dados. | Caixas de e-mail institucionais (corpo e metadados), arquivos anexos (PDFs, imagens) e tabelas locais de referência (regionais, tipificações). | Varre a caixa de e-mails, extrai os 8 campos requeridos, renomeia e salva anexos em diretório seguro e popula a planilha local com flags de inconsistência. | Tomar decisões jurídicas/administrativas, assinar certidões, autuar laudos, enviar dados para APIs externas ou apagar e-mails originais da caixa de entrada. | Início/fim de execuções, e-mails lidos, anexos processados, taxa de confiança do OCR, erros de extração e linhas adicionadas à planilha. |
+| Script de Automação (Agente de Sistema) | O próprio script executado localmente (sem acesso à internet) para varredura e extração de dados. | Caixas de e-mail institucionais (corpo e metadados), arquivos anexos (PDFs, imagens) e tabelas locais de referência (regionais, tipificações). | Varre a caixa de e-mails, extrai os 9 campos requeridos, renomeia e salva anexos em diretório seguro e popula a planilha local com flags de inconsistência. | Tomar decisões jurídicas/administrativas, assinar certidões, autuar laudos, enviar dados para APIs externas ou apagar e-mails originais da caixa de entrada. | Início/fim de execuções, e-mails lidos, anexos processados, taxa de confiança do OCR, erros de extração e linhas adicionadas à planilha. |
 | Gestor / Chefia Pericial (Consulta) | Diretor regional, chefe de equipe ou coordenador da unidade da POLITEC. | Relatórios consolidados de desempenho, volume de requisições recebidas por regional, estatísticas de tipos de crime e tempo médio de triagem. | Acompanha indicadores da unidade, monitora gargalos na recepção de requisições e toma decisões estratégicas de redistribuição de demandas periciais | Editar dados de requisições em triagem, alterar parâmetros do script local ou aprovar cadastros técnicos pendentes de validação pelo triador. | Consultas a relatórios consolidados, exportação de estatísticas e visualizações do painel gerencial. |
 
 ## 10. Piloto, marcos e riscos
@@ -167,7 +167,7 @@ A extração neste protótipo é **simulada** com os dados fictícios de `exempl
 |---|---|---|---|---|
 | Email | Mensagem de requisição recebida | id, assunto, remetente, corpo, recebido_em, prioridade, status | id | 100/mês |
 | Anexo | Ofício, inquérito ou termo em PDF/imagem | id, email_id, nome, tipo, paginas, legivel, status | id | 3 a 5 por e-mail |
-| Extracao | Os 8 campos extraídos de um e-mail | id, email_id, campos, confianca, alerta, status, validado_por, validado_em | id | 1 por e-mail |
+| Extracao | Os 9 campos extraídos de um e-mail | id, email_id, campos, confianca, alerta, status, validado_por, validado_em | id | 1 por e-mail |
 | Lote | Conjunto de e-mails processados juntos | id, nome, email_ids, criado_em, status | id | 1 por rodada |
 
 ## 12. O que ainda não está no protótipo

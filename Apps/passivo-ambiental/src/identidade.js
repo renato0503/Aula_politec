@@ -70,18 +70,26 @@ TELAS["#/laudo/:id"] = async (p)=>{
   };
   [...raiz.children].forEach(colher);
   if (!cards.length) return html;
-  const grupos = {cabecalho: [], mapas: [], conclusao: [], assinatura: []};
+  const grupos = {cabecalho: [], mapas: [], metodologia: [], consideracoes: [], valoracao: [], quesitos: [], conclusao: [], assinatura: []};
   const destino = h=>{
     if (/mapa/.test(h)) return "mapas";
+    if (/metodologia/.test(h)) return "metodologia";
+    if (/considera/.test(h)) return "consideracoes";
+    if (/valora/.test(h)) return "valoracao";
+    if (/quesito/.test(h)) return "quesitos";
     if (/conclus/.test(h)) return "conclusao";
     if (/assinatura/.test(h)) return "assinatura";
     return "cabecalho";
   };
   cards.forEach(node=>{
-    const fixo = {paCardMapa: "mapas", paCardConclusao: "conclusao", paAssinatura: "assinatura"}[node.id];
+    const fixo = {paCardMapa: "mapas", paCardMetodologia: "metodologia", paCardConsideracoes: "consideracoes",
+      paCardValoracao: "valoracao", paCardQuesitos: "quesitos", paCardDocx: "conclusao",
+      paCardConclusao: "conclusao", paAssinatura: "assinatura"}[node.id];
     grupos[fixo || destino((node.querySelector("h2")?.textContent || "").toLowerCase())].push(node.outerHTML);
   });
-  const nomes = [["cabecalho", "Cabeçalho"], ["mapas", "Mapas"], ["conclusao", "Conclusão"], ["assinatura", "Assinatura"]];
+  const nomes = [["cabecalho", "Cabeçalho"], ["mapas", "Mapas"], ["metodologia", "Metodologia"],
+    ["consideracoes", "Considerações"], ["valoracao", "Valoração"], ["quesitos", "Quesitos"],
+    ["conclusao", "Conclusão"], ["assinatura", "Assinatura"]];
   const lista = nomes.filter(([id])=>grupos[id].length).map(([id, titulo])=>({id, titulo, html: grupos[id].join("")}));
   return antes.map(n=>n.outerHTML).join("") + abas("ficha", lista);
 };

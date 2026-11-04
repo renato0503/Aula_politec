@@ -14,6 +14,7 @@
 | 5 | Feito em 30/10/2026. Fila priorizada por atraso e complexidade e alerta de prazo no painel. |
 | 6 | Feito em 30/10/2026. Tempo por laudo, horas por tipo de infração em gráfico, comparação com a meta de 12 h, CSV e A4. |
 | 7 | Feito em 30/10/2026. Roteiro de aceite em `modelos/roteiro-aceite.md`. |
+| 8 | Feito em 03/11/2026: cabeçalho completo, editor de mapas, 3 mapas obrigatórios, abas de metodologia/considerações/valoração/quesitos e exportação .docx. Texto oficial e regras de valoração seguem premissa. |
 
 ## Visão geral
 
@@ -99,3 +100,24 @@
 - [x] Atualizar `PROJETO.md` e `README.md`.
 
 **Meta do piloto**: 5 laudos (Da requisição ao laudo em PDF, com mapas.).
+
+## Sprint 8 · Correções do feedback (03/11/2026)
+
+> Feedback de Fábio (nota 3), com três prioridades: abas adicionais, correção dos mapas e cabeçalho.
+
+### Código
+- [x] Laudo: incluir nº da requisição, autoridade requisitante, natureza do exame, data de elaboração e horário de início e fim.
+- [x] Corrigir o editor de mapas: botão "Abrir o editor de mapas" na ficha e rota testada; os 3 tipos são anexados pela tela.
+- [x] Três mapas obrigatórios: localização, antes e depois; o laudo só conclui/exporta com os 3 completos. O mapa é cadastrado no editor; o PDF do laudo fica na versão impressa.
+- [x] Abas novas: Metodologia, Considerações, Valoração e Quesitos, com texto editável e memória de cálculo.
+- [x] Exportar o laudo em .docx (texto, cabeçalho, seções e mapas em legenda); as imagens dos mapas seguem no PDF.
+- [x] Melhorar o cabeçalho do laudo (autoridade, natureza, datas, horários e setor).
+- [x] Setor editável no cabeçalho do laudo.
+
+### Decisão do setor
+- [x] Texto padrão da metodologia e memória de cálculo implementados; confirmar o texto oficial e os critérios.
+- [ ] Modelo do laudo oficial e regras de cálculo. O .docx é uma versão de trabalho; a formatação oficial depende da unidade.
+- [x] Premissa: 3 mapas (localização, antes, depois), com os elementos do RN02; confirmar formato e fontes.
+- [x] Premissa: "Diretoria de Interiorização", editável pelo perito no cabeçalho; confirmar o nome e a permissão.
+
+**Pronto quando**: o editor de mapas abre, os três mapas entram no laudo e as abas novas geram o .docx completo.

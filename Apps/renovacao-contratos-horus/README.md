@@ -65,6 +65,10 @@ Fiscal ganhou a caixa “Meus contratos”, que usa o nome informado no próprio
 painel. A ficha virou abas: Resumo, Aditivos, Instrução, Ajustes, Fiscais e
 Auditoria. Código em `src/identidade.js` e `src/app.css`.
 
+## Sprint 8 · Feedback
+
+O contrato guarda fiscal e gestor com e-mail e telefone; o ADM/gestor edita o contrato; o painel e a ficha geram um aviso de vencimento para a fila local; a Instrução mostra o objeto com busca; e a planilha do setor entra por `.xlsx`/`.csv`. O envio real de e-mail fica como passo a passo de MailApp/Apps Script.
+
 ## Mapa do processo
 
 O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o

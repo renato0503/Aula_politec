@@ -22,8 +22,8 @@ async function acaoRnc(numero, acao, {data, texto, eficaz}){
   switch (acao){
     case "aprovar": await fechar(); await abrir("plano", PRAZO_ETAPA.plano); r = {...r, etapa: "plano", situacao: "aberta"}; break;
     case "complemento":
-      r = {...r, situacao: "aguardando complemento", complemento_pedido_em: data, complemento_prazo: somarDiasRnc(data, 5)};
-      if (e) await db.put("etapas", {...e, prazo: somarDiasRnc(data, 5)}); break;
+      r = {...r, situacao: "aguardando complemento", complemento_pedido_em: data, complemento_prazo: somarDiasUteisRnc(data, 5)};
+      if (e) await db.put("etapas", {...e, prazo: somarDiasUteisRnc(data, 5)}); break;
     case "complemento_recebido": r = {...r, situacao: "aberta", complemento_recebido_em: data}; break;
     case "prorrogar":
       if (!texto) throw new Error("A prorrogação precisa da justificativa (RN03).");
@@ -52,17 +52,40 @@ const BOTOES_ETAPA = {
   "avaliação": [["avaliacao", "Avaliação registrada (FOR 3)", "prim"]],
   "encerramento": [["encerrar", "Encerrar a RNC", "prim"]]
 };
+function rncMetaHtml(r){
+  const linhas = [
+    ["Data do ocorrido", dataCurtaBR(r.data_ocorrido)], ["Local", r.local], ["Processo de trabalho", r.processo], ["Onde", r.onde],
+    ["Requisito não atendido", r.requisito], ["Requisito ou documento", r.requisito_detalhe],
+    ["Pessoas ou setores envolvidos", r.envolvidos], ["Frequência", r.frequencia],
+    ["Consequências", r.consequencias], ["Medidas preventivas", r.medidas],
+    ["Status no Trello", r.status_trello], ["Cargo do relator", r.cargo]
+  ].filter(([, v])=>String(v || "").trim());
+  const link = /^https?:\/\//.test(r.anexos || "") ? r.anexos : "";
+  const doc = /^https?:\/\//.test(r.doc_url || "") ? r.doc_url : "";
+  if (!linhas.length && !link && !doc) return "";
+  return `<div class="card" id="rncPlanilha"><h2 style="margin-top:0">Dados da planilha oficial</h2>
+    ${linhas.length ? `<table class="rnc-meta">${linhas.map(([t, v])=>`<tr><th>${esc(t)}</th><td>${esc(v)}</td></tr>`).join("")}</table>` : ""}
+    ${link ? `<p><a href="${esc(link)}" target="_blank" rel="noopener">Anexos da ocorrência</a></p>` : ""}
+    ${doc ? `<p><a href="${esc(doc)}" target="_blank" rel="noopener">Documento gerado (RNC)</a></p>` : ""}
+    ${r.planilha?.nome ? `<p class="sub">Importado de ${esc(r.planilha.nome)}${r.origem?.linha ? " · linha " + esc(r.origem.linha) : ""}.</p>` : ""}</div>`;
+}
+
 TELAS["#/rnc/:id"] = async ({id})=>{
   let r = await db.get("rncs", id);
   if (!r) return `<div class="card vazio">RNC não encontrada. <a href="#/painel">Voltar</a></div>`;
   r = await aplicarPrazosRnc(r);
   const es = await etapasRnc(id), hoje = hojeISO(), ativa = !["anulada", "encerrada", "encaminhada à corregedoria"].includes(r.situacao);
   const plano = await db.get("planos", id + "-plano"), aval = await db.get("avaliacoes", id + "-aval");
+  const cat = categoriaOficial(r.categoria);
   return `<h1>RNC ${esc(r.numero)}</h1>
-    <p class="sub">Aberta em ${dataCurtaBR(r.aberta_em)} · relator <b>${esc(r.setor_relator)}</b> · notificado <b>${esc(r.setor_notificado)}</b> · ${esc(r.categoria)} ·
-      gravidade ${esc(r.gravidade)} · <span class="selo ${ativa ? "info" : r.situacao === "encerrada" ? "ok" : "erro"}" id="situacaoRnc">${esc(r.situacao)}</span></p>
-    <div class="card"><h2 style="margin-top:0">Ocorrência</h2><p>${esc(r.descricao)}</p>${r.motivo_anulacao ? `<p class="erro-txt">${esc(r.motivo_anulacao)}</p>` : ""}
+    <p class="sub">Aberta em ${dataCurtaBR(r.aberta_em)} · relator <b>${esc(r.setor_relator)}</b> · notificado <b>${esc(r.setor_notificado)}</b> · ${cat ? `<b>${esc(cat.sigla)}</b> ${esc(cat.nome)}` : esc(r.categoria)} ·
+      gravidade ${esc(r.gravidade)} · registrada por <b>${esc(r.registrado_por || "—")}</b> · <span class="selo ${ativa ? "info" : r.situacao === "encerrada" ? "ok" : "erro"}" id="situacaoRnc">${esc(r.situacao)}</span>
+      <a class="botao" href="#/rnc/${encodeURIComponent(r.numero)}/documento" target="_blank" rel="noopener">Documento para impressão</a></p>
+    <div class="card"><h2 style="margin-top:0">Ocorrência</h2><p>${esc(r.descricao)}</p>
+      ${cat ? `<p class="sub"><b>Categoria oficial:</b> ${esc(cat.sigla)} · ${esc(cat.nome)}. ${esc(cat.descricao)}</p>` : ""}
+      ${r.motivo_anulacao ? `<p class="erro-txt">${esc(r.motivo_anulacao)}</p>` : ""}
       ${r.motivo_corregedoria ? `<p class="erro-txt">Corregedoria: ${esc(r.motivo_corregedoria)}</p>` : ""}</div>
+    ${rncMetaHtml(r)}
     <div class="card tabela-wrap"><h2 style="margin-top:0">Etapas</h2><table id="tabelaEtapas"><tr><th>Etapa</th><th>Início</th><th>Fim</th><th>Prazo</th><th>Situação</th></tr>
       ${es.map(e=>{ const venc = !e.fim && e.prazo < hoje; return `<tr><td>${esc(e.etapa)}</td><td>${dataCurtaBR(e.inicio)}</td><td>${dataCurtaBR(e.fim) || "—"}</td>
         <td>${dataCurtaBR(e.prazo)}${e.prorrogado ? ' <span class="selo alerta">prorrogado</span>' : ""}</td>

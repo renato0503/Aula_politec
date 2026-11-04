@@ -90,6 +90,10 @@ Admissibilidade, Oitivas, Documentos, Encerramento), com a etapa atual marcada.
 O seed passou a distribuir os casos pelas etapas. Código em `src/identidade.js` e
 `src/app.css`.
 
+## Sprint 8 · Feedback
+
+A classificação mostra o texto do artigo e preenche o enquadramento padrão; a admissibilidade usa a lista de membros e o fundamento padrão; as oitivas podem ser excluídas e encerradas; a ata usa **admissão** e o enquadramento; o relatório indica o curso; o encerramento usa o texto das recomendações; e os documentos podem ser enviados por `mailto:`.
+
 ## Mapa do processo
 
 O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o

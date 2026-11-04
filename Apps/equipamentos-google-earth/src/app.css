@@ -40,3 +40,7 @@
 .eq-g-val{font:600 11px var(--mono);fill:var(--ink)}
 .eq-kpi-link{cursor:pointer}
 .eq-kpi-link:hover{border-color:var(--accent)}
+
+/* os gráficos do painel param em 720px: antes cresciam com a largura do cartão */
+.eq-grafico{display:block;width:100%;max-width:720px;height:auto;margin:0 auto}
+@media (max-width:760px){ .eq-grafico{max-width:100%} }

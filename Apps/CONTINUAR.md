@@ -1,5 +1,21 @@
 ﻿# Continuar o desenvolvimento dos apps (passagem para outro agente)
 
+> **Plano de execução agêntica:** [`PLANO-IMPLEMENTACAO-AGENTICA.md`](PLANO-IMPLEMENTACAO-AGENTICA.md) — ondas, cartões por app, testes, prompts e o que depende de humano.
+>
+> **Atualização de 03/11/2026 (rodada de implementação):** foram fechados os
+> itens de código do feedback de **TEIA** (vítima/investigado/réu preso,
+> protocolo, 36 regionais e reiteração), **Controle de Aquisições** (painel
+> compacto), **Adiantamento** (afastamento, urgência e recurso de 24 h),
+> **Gestão de Documentos** (anexo opcional, data de entrada e cobrança),
+> **Segunda via da CIN** (fotos das impressões digitais e confronto), **RNC**
+> (relação para impressão, responsáveis e Minhas RNCs), **Agiliza** (outras informações,
+> foto/cor, ajuda dos arquivos e histórico com Abrir), **Custódia** (endereço
+> hierárquico, confirmação física e painel de ocupação) e **Passivo** (cabeçalho,
+> 3 mapas, abas e .docx). A regressão global
+> passou: `testar.py` 21/21 e todos os cenários (126 no total). O
+> diagnóstico e a lista do que falta estão em
+> [`ANALISE-GLOBAL-PENDENCIAS.md`](ANALISE-GLOBAL-PENDENCIAS.md).
+>
 > **Atualização de 03/11/2026 (segunda etapa):** o curso tem **21 apps ativos**
 > e o `distribuicao-casos-dna` foi **arquivado** em `Apps/_arquivados/`. O TEIA
 > é o projeto do **Nelson e da Helen Coelho Gonçalves**. Entregas desta etapa: Sprint 8 da
@@ -490,6 +506,27 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
   - [ ] Validar os quatro marcos e os livros que o app substitui.
   - [ ] Medir a linha de base de remoção, identificação e liberação.
 
+
+## Onda 2 concluída (03/11/2026)
+
+- **Renovação de contratos**: fiscais e gestores com nome, e-mail e telefone; edição do contrato por ADM/gestor; aviso no semáforo e na ficha com fila local; objeto e busca na Instrução; importação da planilha do setor (`.xlsx`/`.csv`). Cenário `s8` 9/9.
+- **Metas BI**: filtro de gerência no importador e na conferência; recorte de unidades monitoradas; cartão "Pendentes" só com monitoradas; total ajustado ao recorte; aprovação abre a planilha. Cenário `s8` 6/6.
+- **TAP**: objetivos estratégicos editáveis em `#/config`; sanar pendências devolve o TAP para a análise; prazo de 5 dias úteis; fila local de avisos (demandante, equipe, autoridade); cartão de prazos na Triagem. Cenário `s8` 6/6.
+- **Comissão de Ética**: texto do artigo visível e enquadramento padrão; membros em lista suspensa; fundamento padrão com datas e artigo; exclusão e encerramento de oitivas; ata com admissão/enquadramento; curso no relatório de recomendações; encerramento com o texto das recomendações; envio por `mailto:`. Cenário `s8` 9/9.
+- **Testes**: `testar.py` 21/21 e `testar_sprints.py` 130/130. Sem commit.
+- **Próxima onda**: Inscrições, Mapa de Distribuição, Gestão de Identificados (cruzamento) e Equipamentos (teste manual).
+
+
+## Onda 3 concluída (03/11/2026)
+
+- **Inscrições em cursos**: perfis diretoria, coordenação, gerência e chefe; instrutores e monitores no curso; termo de convocação com convocação e compensação, impressão, cópia e `mailto:`; checklist antes de divulgar e estado vazio na Triagem. Cenário `s10` 5/5.
+- **Mapa de Distribuição**: leitura do relatório do pregoeiro em PDF (com aviso quando é imagem) e botão **Mapa orçamentário (SESP)** no Exportar. Cenário `s10` 3/3.
+- **Gestão de Identificados**: botão **Ver corpos**, até 10 candidatos com motivo, confirmação/descarte/exame com justificativa em `correspondencias` e no `log` do corpo. Cenário `s5` 4/4.
+- **Equipamentos**: nenhum ajuste de código; resta o teste manual do `.kmz` no Google Earth.
+- **Testes**: `testar.py` 21/21 e `testar_sprints.py` 133/133. Sem commit.
+- **Próximo passo**: teste manual do Google Earth, integração global (painel, hubs, links, diagramas) e entrega.
+
 ## 5. Resultado da verificação (30/10/2026)
 
 %RESULTADO%
+

@@ -19,7 +19,7 @@
   },
   "db": {
     "nome": "renovacao_contratos_v1",
-    "versao": 3,
+    "versao": 4,
     "stores": {
       "contratos": {
         "keyPath": "id_contrato",
@@ -90,6 +90,16 @@
             "unico": false
           }
         ]
+      },
+      "avisos": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "contrato_id",
+            "campo": "contrato_id",
+            "unico": false
+          }
+        ]
       }
     }
   },
@@ -152,7 +162,9 @@
       "descricao": ""
     }
   ],
-  "libs": [],
+  "libs": [
+    "xlsx.full.min.js"
+  ],
   "dados": [
     [
       "seed",

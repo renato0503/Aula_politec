@@ -134,6 +134,8 @@ Ao chegar um grupo novo, crie `Apps/<slug-do-projeto>/` com os mesmos arquivos.
 |---|---|
 | `PREMISSAS.md` | As premissas assumidas em cada item do Sprint 0 que dependia de pessoas: o valor adotado, onde ele aparece no app, o nível de confiança (A, B ou C) e o que confirmar |
 | `CONTINUAR.md` | O que já foi feito em cada app e o que é o próximo passo, para outra IA continuar |
+| `ANALISE-GLOBAL-PENDENCIAS.md` | Análise global de 03/11/2026: 21 apps, 160/160 telas, o que pode ser feito agora, o que depende de pessoas e o que depende de serviço externo; exclui Iohan e Elthon (pausados) |
+| `PLANO-IMPLEMENTACAO-AGENTICA.md` | Runbook para a IA agêntica: ondas, cartões por app, regras, testes, prompts e o que não é automatizável |
 | `IDENTIDADE-VISUAL.md` | O kit visual: paleta, cores e emblemas dos 21 apps ativos, componentes prontos e regras de uso |
 | `ENTREGA-03-11-2026.md` | O registro da entrega de 03/11/2026: 21 apps, TEIA, hubs, diagramas, testes, repositórios e pendências |
 | `_base/base.html` | Base de todos os apps: tema claro e escuro, roteador por hash, IndexedDB, perfis da cópia, backup `.json`, carga dos dados fictícios e a tela `#/testes` |

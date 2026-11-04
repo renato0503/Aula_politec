@@ -119,7 +119,7 @@ TELAS["#/painel"] = async ()=>{
   }).filter(x=>x !== null);
   const tempoMedio = tempos.length ? Math.round(tempos.reduce((a, b)=>a + b, 0) / tempos.length * 10) / 10 : null;
   return html + `<div class="card" id="cdGestor"><h2 style="margin-top:0">Painel do gestor</h2>
-      <p class="sub">Ocupação projetada a partir da série de 12 meses. Saldo médio de ${proj.saldo} item(ns) por mês (${proj.entradas} entradas e ${proj.saidas} saídas).</p>
+      <p class="sub">O painel geral conta os vestígios cadastrados (30 na carga fictícia); este painel usa a série mensal de 12 meses (entradas e saídas) para projetar a ocupação e a saturação. Saldo médio de ${proj.saldo} item(ns) por mês (${proj.entradas} entradas e ${proj.saidas} saídas).</p>
       <div class="grade">
         <div class="card kpi"><div class="v" data-cd-ind="ocupacao">${proj.ocupacao}</div><div class="r">itens no acervo</div></div>
         <div class="card kpi"><div class="v" data-cd-ind="projecao">${proj.mensal.length ? proj.mensal[proj.mensal.length - 1].ocupacao : "—"}</div><div class="r">projeção em 6 meses</div></div>
@@ -129,12 +129,17 @@ TELAS["#/painel"] = async ()=>{
       ${cdBarras("Itens por contêiner", porConteiner, "var(--verde)")}
       ${cdBarras("Entradas por mês (últimos 6)", entradasPorMes, "var(--ambar)")}
       <div class="card tabela-wrap"><h2 style="margin-top:0">Saturação por contêiner</h2><table id="tabelaSat"><tr><th>Contêiner</th><th class="num">Ocupado</th><th class="num">Capacidade</th><th class="num">%</th><th></th></tr>
-        ${sat.map(({c, ocupado, cap, pct, alerta})=>`<tr><td>${esc(c.id_conteiner)}</td><td class="num">${ocupado}</td><td class="num">${cap}</td>
+        ${sat.map(({c, ocupado, cap, pct, alerta})=>`<tr><td><a href="#/vestigios" data-cd-cont="${esc(c.id_conteiner)}">${esc(c.id_conteiner)}</a></td><td class="num">${ocupado}</td><td class="num">${cap}</td>
           <td class="num">${pct}%</td><td>${alerta ? '<span class="selo erro">saturação</span>' : '<span class="selo ok">ok</span>'}</td></tr>`).join("")}</table></div>
       <div class="linha-botoes nao-imprimir"><button class="prim" id="btnCdCsvGestor">${icone("download")} Exportar CSV</button>
         <button onclick="window.print()">${icone("imprimir")} Imprimir em A4</button></div></div>`;
 };
 TELAS_DEPOIS["#/painel"] = ()=>{
+  $$("[data-cd-cont]").forEach(a=>a.addEventListener("click", e=>{
+    e.preventDefault();
+    estado.cdFiltros = {...(estado.cdFiltros || {}), conteiner: a.dataset.cdCont};
+    location.hash = "#/vestigios";
+  }));
   $("#btnCdCsvGestor")?.addEventListener("click", async ()=>{
     const [vs, cs, cats] = await Promise.all([db.list("vestigios"), db.list("conteineres"), cdCategorias()]);
     const linhas = [["id", "protocolo", "lacre", "categoria", "conteiner", "posicao", "volume", "entrada", "situacao", "dias_na_guarda"]].concat(

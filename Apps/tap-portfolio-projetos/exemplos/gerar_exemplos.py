@@ -47,7 +47,16 @@ def main():
                              "data": (env + dt.timedelta(days=20)).isoformat()})
             portfolio.append({"proposta_id": pid, "prioridade": len(portfolio) + 1, "justificativa_prioridade": "Critério fictício de impacto e urgência.",
                               "fonte_recurso": random.choice(["Tesouro estadual", "Emenda parlamentar", "Convênio federal"]), "situacao_captacao": "em prospecção"})
+    orcamentos = []
+    for ano in (2024, 2025, 2026):
+        for i, eixo in enumerate(OBJETIVOS):
+            empenhado = 250000 + i * 185000 + (ano - 2024) * 140000
+            liquidado = min(empenhado, round(empenhado * (0.42 + i * 0.09 + (ano - 2024) * 0.07), -2))
+            orcamentos.append({"id": f"ORC-{ano}-{i + 1:02d}", "ano": ano, "eixo": eixo,
+                               "projeto": PROPOSTAS[i][0], "empenhado": empenhado, "liquidado": liquidado,
+                               "atualizado_em": f"{ano}-12-20T10:00:00"})
     seed = {"propostas": propostas, "pendencias": pendencias, "decisoes": decisoes, "portfolio": portfolio,
+            "orcamentos": orcamentos,
             "documentos": [{"tipo": t, "nome": n, "obrigatorio": o} for t, n, o in DOCUMENTOS]}
     (AQUI / "seed.json").write_text(json.dumps(seed, ensure_ascii=False, indent=1), encoding="utf-8")
     print({k: len(v) for k, v in seed.items()})

@@ -1,8 +1,9 @@
-"""Cenários de interface deste app: usam a tela como uma pessoa usaria e conferem
+﻿"""Cenários de interface deste app: usam a tela como uma pessoa usaria e conferem
 o "Pronto quando" de cada sprint do sprint.md.
 
 Uso: python testes/cenarios.py      (requer: pip install playwright && playwright install chromium)
 """
+import datetime as dt
 import pathlib
 import sys
 import tempfile
@@ -187,6 +188,57 @@ def s6_painel_e_relatorio(pg, url, ok):
     ok("o CSV do relatório sai com BOM e ponto e vírgula", csv.startswith(b"\xef\xbb\xbf") and b"id;unidade;tipo" in csv)
     ok("o roteiro de aceite está em modelos/", (PASTA / "modelos" / "roteiro-aceite.md").exists())
 
+@cenario
+def s8_afastamento_urgente_e_recurso(pg, url, ok):
+    semear(pg, url)
+    hoje = dt.date.today().isoformat()
+    amanha = (dt.date.today() + dt.timedelta(days=1)).isoformat()
+    antes = contar(pg, "processos")
+    ir(pg, url, "#/config", 400)
+    pg.fill("#adAfMat", "123456"); pg.select_option("#adAfTipo", "férias")
+    pg.fill("#adAfInicio", hoje); pg.fill("#adAfFim", amanha); pg.fill("#adAfMotivo", "Férias regulamentares")
+    pg.click("#btnAdAf"); pg.wait_for_timeout(900)
+    ok("o afastamento é registrado", contar(pg, "afastamentos") == 1)
+
+    ir(pg, url, "#/pedido/novo", 400)
+    pg.fill("#pUnidade", "IML Cuiabá"); pg.fill("#pSolicitante", "Servidor Teste"); pg.fill("#pMatricula", "123456")
+    pg.fill("#pValor", "2.500,00"); pg.fill("#pFinalidade", "Conserto emergencial do gerador")
+    pg.fill("#pJust", "O gerador parou e o IML ficou sem energia para as câmaras frias; o conserto é urgente.")
+    pg.fill("#oForn1", "Fornecedor A"); pg.fill("#oCnpj1", "11.222.333/0001-81"); pg.fill("#oValor1", "2.400,00")
+    pg.fill("#oForn2", "Fornecedor B"); pg.fill("#oCnpj2", "44.555.666/0001-81"); pg.fill("#oValor2", "2.600,00")
+    pg.fill("#oForn3", "Fornecedor C"); pg.fill("#oCnpj3", "77.888.999/0001-81"); pg.fill("#oValor3", "2.550,00")
+    pg.click("#formPedido button[type=submit]"); pg.wait_for_timeout(500)
+    erros = pg.inner_text("#errosPedido")
+    ok("servidor afastado é bloqueado com motivo e data", "férias" in erros and hoje[8:10] in erros)
+    ok("o pedido bloqueado não é gravado", contar(pg, "processos") == antes)
+
+    pg.fill("#pMatricula", "654321"); pg.check("#pUrgente"); pg.fill("#pUrgenteJust", "curto")
+    pg.click("#formPedido button[type=submit]"); pg.wait_for_timeout(400)
+    ok("urgência sem justificativa é recusada", "urgência" in pg.inner_text("#errosPedido") and contar(pg, "processos") == antes)
+    pg.fill("#pUrgenteJust", "O gerador parou e as câmaras frias ficaram sem energia; há risco de perda de vestígios.")
+    pg.click("#formPedido button[type=submit]"); pg.wait_for_timeout(800)
+    ok("o pedido urgente é registrado", contar(pg, "processos") == antes + 1)
+    novo = pg.evaluate("async () => (await db.list('processos')).find(p=>p.matricula==='654321')")
+    ok("o pedido urgente guarda a justificativa", bool(novo) and novo.get("urgente") and len(novo.get("urgencia_justificativa", "")) >= 30)
+    ok("a trilha registra o pedido urgente", pg.evaluate("async ()=> (await db.list('log')).some(l=>l.acao==='pedido urgente')"))
+
+    pid = novo["id"]
+    ir(pg, url, "#/processo/" + pid, 500)
+    pg.click("#btnAvancar"); pg.wait_for_timeout(400)
+    pg.fill("#pSicad", "SICAD-2026-777"); pg.click("#btnSicad"); pg.wait_for_timeout(400)
+    pg.click("#btnAvancar"); pg.wait_for_timeout(400)
+    pg.click("#btnAvancar"); pg.wait_for_timeout(700)
+    ok("a aprovação abre o recurso de 24 h", bool(pg.evaluate("async id => (await db.get('processos',id)).recurso_ate", pid)))
+    ok("a ficha mostra o recurso", pg.locator("#adRecurso").count() == 1 and "24 h" in pg.inner_text("#adRecurso"))
+
+    ir(pg, url, "#/painel", 500)
+    ok("o painel lista urgentes e recursos", "Pedidos urgentes" in pg.inner_text("#conteudo") and "Recursos de 24 h" in pg.inner_text("#conteudo"))
+    ir(pg, url, "#/processo/" + pid, 500)
+    pg.fill("#adRecursoTexto", "Requeiro revisão da pesquisa de preços do item 2.")
+    pg.click("#adBtnRecurso"); pg.wait_for_timeout(700)
+    ok("o recurso é registrado", bool(pg.evaluate("async id => (await db.get('processos',id)).recurso_em", pid)))
+
+
 def main():
     erro = False
     with sync_playwright() as p:
@@ -222,3 +274,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

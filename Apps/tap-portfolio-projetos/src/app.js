@@ -8,8 +8,10 @@ teste("Exemplo sem CPF", ()=> !JSON.stringify(dadosEmbutidos("seed")).toLowerCas
 
 /* ================= Sprint 2 · TAP guiado (RN01 a RN04) ================= */
 const MIN_OBJETIVO = 100, MIN_JUSTIFICATIVA = 200, LIMITE_ANEXO = 10 * 1024 * 1024;
+let TAP_OBJETIVOS = [];
 const OBJETIVOS_ESTRATEGICOS = ["Reduzir o tempo de emissão de laudos", "Modernizar a infraestrutura das unidades", "Ampliar a capacidade dos laboratórios",
   "Fortalecer a identificação civil", "Qualificar os servidores"];
+TAP_OBJETIVOS = [...OBJETIVOS_ESTRATEGICOS];
 // Checklist padrão enquanto a equipe não cadastra o oficial (store documentos)
 const DOCUMENTOS_PADRAO = (dadosEmbutidos("seed")?.documentos || []);
 const ETAPAS_TAP = [
@@ -61,7 +63,7 @@ TELAS["#/tap/novo"] = async ()=>{
   const etapa = estado.etapaTap || "ident";
   const ctrl = k => {
     if (k === "objetivo" || k === "justificativa") return campo("tap-" + k, ROT_TAP[k], {tipo: "textarea", linhas: 5, valor: p[k] || "", obrigatorio: true, ajuda: AJUDA_TAP[k]}) + `<p class="sub" id="cont-${k}"></p>`;
-    if (k === "objetivo_estrategico") return campo("tap-" + k, ROT_TAP[k], {tipo: "select", opcoes: [["", "Escolha"], ...OBJETIVOS_ESTRATEGICOS], valor: p[k] || "", obrigatorio: true, ajuda: AJUDA_TAP[k]});
+    if (k === "objetivo_estrategico") return campo("tap-" + k, ROT_TAP[k], {tipo: "select", opcoes: [["", "Escolha"], ...TAP_OBJETIVOS], valor: p[k] || "", obrigatorio: true, ajuda: AJUDA_TAP[k]});
     if (k === "valor_estimado") return campo("tap-" + k, ROT_TAP[k] + " (R$)", {valor: p[k] ? dinheiro.fmt(Math.round(p[k] * 100)).replace("R$ ", "") : "", obrigatorio: true, attrs: 'inputmode="decimal"', ajuda: AJUDA_TAP[k]});
     if (k === "prazo_meses") return campo("tap-" + k, ROT_TAP[k], {tipo: "number", valor: p[k] || "", obrigatorio: true, attrs: 'min="1" max="120"'});
     return campo("tap-" + k, ROT_TAP[k], {valor: p[k] || "", obrigatorio: true, ajuda: AJUDA_TAP[k]});

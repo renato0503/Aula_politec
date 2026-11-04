@@ -82,8 +82,9 @@ TELAS_DEPOIS["#/triagem"] = ()=>{
   });
   $("#btnPendencia")?.addEventListener("click", async ()=>{
     const motivo = valorDe("tMotivo"); if (!motivo) return mostrarErros("#errosTriagem", ["Escreva o motivo da pendência (RN05)."]);
-    const p = await db.get("propostas", estado.tapSel), pend = {id: uuid(), proposta_id: p.id, motivo, aberta_em: hojeISO(), resolvida_em: null};
+    const p = await db.get("propostas", estado.tapSel), pend = {id: uuid(), proposta_id: p.id, motivo, aberta_em: hojeISO(), prazo_limite: tapPrazo(hojeISO(), 5), resolvida_em: null};
     await db.put("pendencias", pend); await db.put("propostas", {...p, status: "devolvida"}); await registrar("pendência registrada", {proposta_id: p.id, detalhe: motivo});
+    await tapAviso(p.id, "unidade demandante", `Pendência no ${p.id}: ${motivo}. Prazo de 5 dias úteis (até ${dataCurtaBR(pend.prazo_limite)}).`);
     const abertas = (await db.porIndice("pendencias", "proposta_id", p.id)).filter(x=>!x.resolvida_em);
     baixar(`devolucao-${p.id}.json`, embalar("TAP-DEV-v1", {proposta_id: p.id, pendencias: abertas}), "application/json");
     toast("Pendência registrada. Envie o arquivo de devolução ao demandante."); navegar();
@@ -92,6 +93,8 @@ TELAS_DEPOIS["#/triagem"] = ()=>{
     const p = await db.get("propostas", estado.tapSel), falta = pendenciasTap(p, await db.porIndice("anexos", "proposta_id", p.id), await documentosChecklist());
     if (falta.length) return mostrarErros("#errosTriagem", ["Checklist incompleto (RN06): " + falta.join(" · ")]);
     for (const x of (await db.porIndice("pendencias", "proposta_id", p.id)).filter(x=>!x.resolvida_em)) await db.put("pendencias", {...x, resolvida_em: hojeISO()});
-    await db.put("propostas", {...p, status: "em análise", completa_em: agora()}); await registrar("aceita para análise", {proposta_id: p.id}); toast("Proposta aceita para análise."); navegar();
+    await db.put("propostas", {...p, status: "em análise", completa_em: agora()}); await registrar("aceita para análise", {proposta_id: p.id});
+    await tapAviso(p.id, "autoridade", `O ${p.id} · ${p.titulo} está em análise e aguarda decisão da autoridade.`);
+    toast("Proposta aceita para análise. Autoridade avisada na fila local."); navegar();
   });
 };

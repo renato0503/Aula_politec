@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: blob:; connect-src 'none'; img-src 'self' data: blob:; media-src 'self' blob: mediastream:; worker-src blob:">
 <title>TEIA · Triagem de E-mails</title>
-<meta name="description" content="Triagem local de e-mails de requisição pericial, com extração assistida dos 8 campos e validação humana.">
+<meta name="description" content="Triagem local de e-mails de requisição pericial, com extração assistida dos 9 campos e validação humana.">
 <style>
 /* ===== BASE COMUM (Apps/_base/visual.css) ===== */
 /* ===================================================================
@@ -428,39 +428,108 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 /* ===== VISUAL DESTE APP (bloco "visual" do app.json) ===== */
 :root{--app-acento:#0f5c6b;--app-acento-claro:#44808c;--app-acento-forte:#0b424d;--app-acento-escuro:#8cb1b8;--padrao:url('data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="28" height="28"%3E%3Cpath d="M28 0H0v28" fill="none" stroke="%23fff" stroke-opacity=".07"/%3E%3C/svg%3E')}
 /* ===== CSS DO APP ===== */
-/* TEIA · bancada de triagem: fila à esquerda, 8 campos à direita. */
-.te-bancada{display:grid;grid-template-columns:340px minmax(0,1fr);gap:16px;align-items:start}
-.te-fila{display:flex;flex-direction:column;gap:8px;position:sticky;top:64px;max-height:calc(100vh - 90px);overflow:auto;padding-right:4px}
-.te-item{display:flex;flex-direction:column;gap:4px;text-align:left;padding:10px 11px;border:1px solid var(--linha);border-left:4px solid var(--linha);border-radius:var(--raio);background:var(--painel);color:var(--ink);min-height:0}
-.te-item:hover{border-color:var(--accent);background:var(--accent-suave)}
+/* TEIA · bancada de triagem: fila à esquerda, 8 campos à direita.
+   O layout foi refeito para o painel não quebrar depois da carga de dados:
+   a fila tem largura mínima zero, os cartões não estouram a coluna, os botões
+   ficam em uma barra fixa no rodapé do cartão e, no celular, a fila vira um
+   carrossel com encaixe e os botões ocupam a largura toda. */
+
+.te-bancada{scroll-margin-top:90px;display:grid;grid-template-columns:minmax(272px,340px) minmax(0,1fr);gap:18px;align-items:start;min-width:0;max-width:100%}
+.te-fila-wrap{min-width:0;max-width:100%}
+.te-fila-topo{display:flex;align-items:baseline;gap:6px;flex-wrap:wrap;margin:0 0 8px;color:var(--ink2);font-size:13px}
+.te-fila-topo b{font:700 18px/1 var(--titulo);color:var(--accent-forte)}
+.te-fila-topo .sub{margin-left:auto;font-size:12px}
+.te-fila{display:flex;flex-direction:column;gap:8px;position:sticky;top:74px;max-height:calc(100vh - 96px);overflow:auto;padding:1px 4px 8px 1px;scrollbar-gutter:stable;min-width:0}
+.te-item{display:flex;flex-direction:column;align-items:stretch;gap:5px;width:100%;min-width:0;text-align:left;padding:11px 12px;border:1px solid var(--linha);border-left:4px solid var(--linha);border-radius:var(--raio);background:var(--painel);color:var(--ink);font:inherit;cursor:pointer;transition:border-color .15s,background .15s,box-shadow .15s,transform .15s}
+.te-item:hover{border-color:var(--accent);background:var(--accent-suave);transform:translateY(-1px)}
 .te-item.escolhido{border-left-color:var(--accent);background:var(--accent-suave);box-shadow:0 0 0 2px var(--accent)}
-.te-item-topo{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
-.te-item-topo b{font-size:13px;line-height:1.25}
+.te-item-topo{display:flex;justify-content:space-between;gap:8px;align-items:flex-start;min-width:0}
+.te-item-topo b{display:block;min-width:0;font-size:13px;line-height:1.3;overflow-wrap:anywhere}
+.te-item-topo .selo{flex:none;white-space:nowrap}
 .te-item-meta{display:flex;flex-wrap:wrap;align-items:center;gap:5px}
 .te-item-meta .sub{font-size:11px}
-.te-detalhe{padding-top:14px;min-width:0}
-.te-detalhe-topo{display:flex;justify-content:space-between;gap:14px;align-items:flex-start}
-.te-detalhe-topo h2{margin:2px 0 4px;font-size:22px}
-.te-selos{display:flex;flex-wrap:wrap;gap:6px}
+.te-vazio-fila{padding:14px;border:1px dashed var(--linha);border-radius:var(--raio);text-align:center}
+
+.te-detalhe{scroll-margin-top:90px;padding-top:14px;min-width:0;max-width:100%}
+.te-detalhe-topo{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap}
+.te-detalhe-ident{min-width:0;flex:1 1 320px}
+.te-detalhe-ident h2{overflow-wrap:anywhere}
+.te-detalhe-lado{display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.te-selos{display:flex;flex-wrap:wrap;gap:6px;justify-content:flex-end}
+.te-nav{display:flex;align-items:center;gap:6px}
+.te-nav .sub{min-width:56px;text-align:center;font-size:12px}
+.te-nav button{min-width:38px;min-height:38px;padding:0 10px;font-size:20px;line-height:1;border-radius:var(--raio-p)}
+.te-nav button:disabled{opacity:.35;cursor:not-allowed}
+
 .te-grade{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.1fr);gap:18px;min-width:0}
+.te-grade > *{min-width:0}
 .te-mensagem,.te-form{min-width:0}
 .te-mensagem h3,.te-form h3{margin:14px 0 6px;font-size:14px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink2)}
-.te-corpo{white-space:pre-wrap;line-height:1.55;background:var(--painel-2);border:1px solid var(--linha);border-radius:var(--raio);padding:12px}
-.te-form .campos{grid-template-columns:1fr 1fr}
+.te-corpo{white-space:pre-wrap;line-height:1.55;background:var(--painel-2);border:1px solid var(--linha);border-radius:var(--raio);padding:12px;overflow-wrap:anywhere}
+.te-form .campos{grid-template-columns:repeat(2,minmax(0,1fr))}
 .te-form .campos .campo:last-child{grid-column:1 / -1}
 .te-auditoria{margin-top:10px}
 .te-auditoria summary{cursor:pointer;color:var(--accent);font-size:13px}
 .caixa-alerta{border-left:4px solid var(--ambar);background:color-mix(in srgb,var(--ambar) 10%,var(--painel));border-radius:0 var(--raio) var(--raio) 0;padding:10px 12px;margin:10px 0}
+
 .te-filtros .campos{grid-template-columns:minmax(240px,1fr) minmax(0,1.4fr)}
 .te-filtros .chips{display:flex;flex-wrap:wrap;gap:5px}
-.chips button{min-height:30px;padding:4px 9px;font-size:12px}
+.te-filtros .chips button{min-height:32px;padding:4px 10px;font-size:12px}
+.te-filtros .chips button.sec{margin-left:auto}
+.te-vazio{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+
+.te-kpis{margin-bottom:4px}
+.te-kpi{display:block;width:100%;text-align:left;font:inherit;color:inherit;cursor:pointer;appearance:none;transition:border-color .15s,box-shadow .15s,transform .15s}
+.te-kpi:hover{border-color:var(--accent-borda);transform:translateY(-1px)}
+.te-kpi[aria-pressed="true"]{border-color:var(--accent);box-shadow:inset 0 0 0 2px var(--accent)}
+.te-kpi .v,.te-kpi .r{display:block}
+
+.te-acoes{position:sticky;bottom:-1px;z-index:2;margin:14px -4px 0;padding:10px 4px 6px;background:linear-gradient(to bottom,transparent,var(--painel) 18%);border-top:1px solid var(--linha)}
+.te-acoes .linha-botoes{margin-top:4px}
+.te-acoes button{min-height:40px}
+.te-acoes .prim{order:-1}
+
+#toast{left:auto;right:22px;transform:none;max-width:430px}
+@media (min-width:901px){
+  .te-fila-topo .sub{display:none}
+}
+@media (max-width:1100px){
+  .te-grade{grid-template-columns:minmax(0,1fr)}
+}
 @media (max-width:900px){
-  .te-bancada{grid-template-columns:1fr}
-  .te-fila{position:static;max-height:none;flex-direction:row;overflow-x:auto;padding-bottom:6px}
-  .te-item{flex:0 0 250px}
-  .te-grade{grid-template-columns:1fr}
-  .te-form .campos{grid-template-columns:1fr}
-  .te-filtros .campos{grid-template-columns:1fr}
+  .te-bancada{grid-template-columns:minmax(0,1fr)}
+  .te-fila-wrap{min-width:0}
+  .te-fila{position:static;max-height:none;flex-direction:row;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;gap:10px;padding:2px 2px 10px}
+  .te-item{flex:0 0 min(82vw,320px);scroll-snap-align:start}
+  .te-item:hover{transform:none}
+  .te-form .campos{grid-template-columns:minmax(0,1fr)}
+  .te-filtros .campos{grid-template-columns:minmax(0,1fr)}
+  .te-detalhe-lado{width:100%;align-items:flex-start;flex-direction:row;justify-content:space-between}
+  .te-selos{justify-content:flex-start}
+  body[data-layout="ferramenta"] nav.menu{display:none;margin:0;padding:0;border:0;background:transparent}
+  body.menu-aberto[data-layout="ferramenta"] nav.menu{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px;margin:8px 0 0;padding:8px;border:1px solid var(--linha);border-radius:var(--raio);background:var(--painel);box-shadow:var(--sombra)}
+  body[data-layout="ferramenta"] nav.menu a{border:1px solid var(--linha);border-radius:var(--raio-p);padding:11px 12px;justify-content:flex-start}
+  body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{border-color:var(--accent);background:var(--accent-suave);color:var(--accent-forte);box-shadow:none}
+  .btn-menu-compacto{min-height:40px;margin-top:10px}
+}
+@media (max-width:640px){
+  body[data-cabecalho="compacto"] .marca small{display:none}
+  body[data-cabecalho="compacto"] .topo-in{padding:8px 12px 10px;gap:8px}
+  .marca{font-size:15px}
+  .emblema{width:36px;height:36px}
+  main{padding-top:12px}
+  .te-item{flex-basis:min(86vw,330px)}
+  .te-detalhe-topo{flex-direction:column;gap:8px}
+  .te-detalhe-ident{flex:0 1 auto}
+  .te-detalhe-lado{flex-direction:row;align-items:center;justify-content:space-between}
+  .te-acoes{margin:12px -2px 0;padding:10px 2px 6px}
+  .te-acoes button{flex:1 1 100%;min-height:44px}
+  .te-filtros .chips button{min-height:38px}
+  #toast{left:12px;right:12px;bottom:12px;transform:none;max-width:none;text-align:center}
+}
+@media (prefers-reduced-motion:reduce){
+  .te-item,.te-kpi,.te-acoes{transition:none}
+  .te-item:hover,.te-kpi:hover{transform:none}
 }
 
 </style>
@@ -521,7 +590,7 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 
 <!-- Bibliotecas e dados embutidos (preenchidos por Apps/_base/embutir.py) -->
 <!-- DADOS:seed:exemplos/seed.json -->
-<script type="application/json" id="seed">{"emails":[{"id":"EM-001","assunto":"Requerimento de laudo pericial","remetente":"ministério.público.estadual@exemplo.gov.br","orgao":"Ministério Público Estadual","recebido_em":"2026-10-23T09:11:00-04:00","corpo":"Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1001-DNA, da regional Cuiabá. O caso envolve homicídio e exige confronto com amostra de referência. Data da cobrança: 2026-10-21. Número da cobrança: COB-2026-001. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.","prioridade":"normal","status":"novo","anexos":[{"id":"AN-001-1","nome":"Oficio_2026.1001-DNA_Cuiabá.pdf","tipo":"pdf","paginas":3,"legivel":true},{"id":"AN-001-2","nome":"Termo_2026.1001-DNA.pdf","tipo":"pdf","paginas":2,"legivel":true}],"campos":{"data_cobranca":"2026-10-21","numero_cobranca":"COB-2026-001","nivel":"Alta complexidade","tipo_crime":"Homicídio","protocolo":"2026.1001-DNA","ar_para_confronto":"Sim","objetivo_claro":"Realizar exame de DNA para homicídio e confrontar com amostra de referência.","regional":"Cuiabá"},"confianca":0.99,"alerta":"","lote_id":"LT-001","validado_por":"","validado_em":""},{"id":"EM-002","assunto":"Ofício de solicitação de perícia","remetente":"delegacia.de.polícia.civil@exemplo.gov.br","orgao":"Delegacia de Polícia Civil","recebido_em":"2026-10-25T10:12:00-04:00","corpo":"Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1002-DNA, da regional Sinop. O caso envolve tráfico de drogas e exige confronto com amostra de referência. Data da cobrança: 2026-10-23. Número da cobrança: COB-2026-002. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.","prioridade":"alta","status":"novo","anexos":[{"id":"AN-002-1","nome":"Oficio_2026.1002-DNA_Sinop.pdf","tipo":"pdf","paginas":3,"legivel":true},{"id":"AN-002-2","nome":"Termo_2026.1002-DNA.pdf","tipo":"pdf","paginas":2,"legivel":true}],"campos":{"data_cobranca":"2026-10-23","numero_cobranca":"COB-2026-002","nivel":"Alta complexidade","tipo_crime":"Tráfico de drogas","protocolo":"2026.1002-DNA","ar_para_confronto":"Sim","objetivo_claro":"Realizar exame de DNA para tráfico de drogas e confrontar com amostra de referência.","regional":"Sinop"},"confianca":0.99,"alerta":"","lote_id":"LT-001","validado_por":"","validado_em":""},{"id":"EM-003","assunto":"Cobrança de laudo pendente","remetente":"ministério.público.estadual@exemplo.gov.br","orgao":"Ministério Público Estadual","recebido_em":"2026-10-27T11:13:00-04:00","corpo":"Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1003-DNA, da regional Rondonópolis. O caso envolve roubo e exige confronto com amostra de referência. Data da cobrança: 2026-10-25. Número da cobrança: COB-2026-003. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.","prioridade":"normal","status":"novo","anexos":[{"id":"AN-003-1","nome":"Oficio_2026.1003-DNA_Rondonópolis.pdf","tipo":"pdf","paginas":6,"legivel":true},{"id":"AN-003-2","nome":"Termo_2026.1003-DNA.pdf","tipo":"pdf","paginas":3,"legivel":true}],"campos":{"data_cobranca":"2026-10-25","numero_cobranca":"COB-2026-003","nivel":"Alta complexidade","tipo_crime":"Roubo","protocolo":"","ar_para_confronto":"Não","objetivo_claro":"Realizar exame de DNA para roubo e confrontar com amostra de referência.","regional":"Rondonópolis"},"confianca":0.82,"alerta":"pendencia","lote_id":"LT-001","validado_por":"","validado_em":""},{"id":"EM-004","assunto":"Encaminhamento para análise de DNA","remetente":"delegacia.de.polícia.civil@exemplo.gov.br","orgao":"Delegacia de Polícia Civil","recebido_em":"2026-10-29T12:14:00-04:00","corpo":"Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1004-DNA, da regional Cáceres. O caso envolve tráfico de drogas e exige confronto com amostra de referência. Data da cobrança: 2026-10-27. Número da cobrança: COB-2026-004. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente. Observação: o corpo do e-mail foi classificado como homicídio; o ofício anexo menciona tráfico de drogas.","prioridade":"normal","status":"novo","anexos":[{"id":"AN-004-1","nome":"Oficio_2026.1004-DNA_Cáceres.pdf","tipo":"pdf","paginas":6,"legivel":true},{"id":"AN-004-2","nome":"Termo_2026.1004-DNA.pdf","tipo":"pdf","paginas":1,"legivel":true}],"campos":{"data_cobranca":"2026-10-27","numero_cobranca":"COB-2026-004","nivel":"Baixa complexidade","tipo_crime":"Homicídio","protocolo":"2026.1004-DNA","ar_para_confronto":"Sim","objetivo_claro":"Realizar exame de DNA para tráfico de drogas e confrontar com amostra de referência.","regional":"Cáceres"},"confianca":0.99,"alerta":"divergencia","lote_id":"LT-001","validado_por":"","validado_em":""},{"id":"EM-005","assunto":"Requerimento de laudo pericial","remetente":"poder.judiciário@exemplo.gov.br","orgao":"Poder Judiciário","recebido_em":"2026-10-31T13:15:00-04:00","corpo":"Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1005-DNA, da regional Barra do Garças. O caso envolve abuso sexual e exige confronto com amostra de referência. Data da cobrança: 2026-10-29. Número da cobrança: COB-2026-005. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.","prioridade":"normal","status":"novo","anexos":[{"id":"AN-005-1","nome":"Oficio_2026.1005-DNA_Barra-do-Garças.pdf","tipo":"pdf","paginas":5,"legivel":false},{"id":"AN-005-2","nome":"Termo_2026.1005-DNA.pdf","tipo":"pdf","paginas":2,"legivel":false}],"campos":{"data_cobranca":"2026-10-29","numero_cobranca":"COB-2026-005","nivel":"Alta complexidade","tipo_crime":"Abuso sexual","protocolo":"2026.1005-DNA","ar_para_confronto":"Sim","objetivo_claro":"","regional":"Barra do Garças"},"confianca":0.55,"alerta":"ocr","lote_id":"LT-001","validado_por":"","validado_em":""},{"id":"EM-006","assunto":"Ofício de solicitação de perícia","remetente":"delegacia.de.polícia.civil@exemplo.gov.br","orgao":"Delegacia de Polícia Civil","recebido_em":"2026-11-02T14:16:00-04:00","corpo":"URGENTE / PLANTÃO. Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1006-DNA, da regional Cuiabá. O caso envolve latrocínio e exige confronto com amostra de referência. Data da cobrança: 2026-10-31. Número da cobrança: COB-2026-006. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.","prioridade":"urgente","status":"novo","anexos":[{"id":"AN-006-1","nome":"Oficio_2026.1006-DNA_Cuiabá.pdf","tipo":"pdf","paginas":6,"legivel":true},{"id":"AN-006-2","nome":"Termo_2026.1006-DNA.pdf","tipo":"pdf","paginas":2,"legivel":true}],"campos":{"data_cobranca":"2026-10-31","numero_cobranca":"COB-2026-006","nivel":"Média complexidade","tipo_crime":"Latrocínio","protocolo":"2026.1006-DNA","ar_para_confronto":"Não","objetivo_claro":"Realizar exame de DNA para latrocínio e confrontar com amostra de referência.","regional":"Cuiabá"},"confianca":0.99,"alerta":"","lote_id":"LT-002","validado_por":"","validado_em":""},{"id":"EM-007","assunto":"Cobrança de laudo pendente","remetente":"ministério.público.estadual@exemplo.gov.br","orgao":"Ministério Público Estadual","recebido_em":"2026-11-04T15:17:00-04:00","corpo":"Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1007-DNA, da regional Tangará da Serra. O caso envolve violência doméstica e exige confronto com amostra de referência. Data da cobrança: 2026-11-02. Número da cobrança: COB-2026-007. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.","prioridade":"normal","status":"novo","anexos":[{"id":"AN-007-1","nome":"Oficio_2026.1007-DNA_Tangará-da-Serra.pdf","tipo":"pdf","paginas":4,"legivel":true},{"id":"AN-007-2","nome":"Termo_2026.1007-DNA.pdf","tipo":"pdf","paginas":4,"legivel":true}],"campos":{"data_cobranca":"2026-11-02","numero_cobranca":"COB-2026-007","nivel":"Média complexidade","tipo_crime":"Violência doméstica","protocolo":"2026.1007-DNA","ar_para_confronto":"","objetivo_claro":"Realizar exame de DNA para violência doméstica e confrontar com amostra de referência.","regional":"Tangará da Serra"},"confianca":0.82,"alerta":"pendencia","lote_id":"LT-002","validado_por":"","validado_em":""},{"id":"EM-008","assunto":"Encaminhamento para análise de DNA","remetente":"delegacia.de.polícia.civil@exemplo.gov.br","orgao":"Delegacia de Polícia Civil","recebido_em":"2026-11-06T08:18:00-04:00","corpo":"Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1008-DNA, da regional Alta Floresta. O caso envolve homicídio e exige confronto com amostra de referência. Data da cobrança: 2026-11-04. Número da cobrança: COB-2026-008. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.","prioridade":"normal","status":"validado","anexos":[{"id":"AN-008-1","nome":"Oficio_2026.1008-DNA_Alta-Floresta.pdf","tipo":"pdf","paginas":4,"legivel":true},{"id":"AN-008-2","nome":"Termo_2026.1008-DNA.pdf","tipo":"pdf","paginas":4,"legivel":true}],"campos":{"data_cobranca":"2026-11-04","numero_cobranca":"COB-2026-008","nivel":"Baixa complexidade","tipo_crime":"Homicídio","protocolo":"2026.1008-DNA","ar_para_confronto":"Sim","objetivo_claro":"Realizar exame de DNA para homicídio e confrontar com amostra de referência.","regional":"Alta Floresta"},"confianca":0.99,"alerta":"","lote_id":"LT-002","validado_por":"Chefia Fictícia","validado_em":"2026-11-06T15:00:00-04:00"},{"id":"EM-009","assunto":"Requisição de confronto genético","remetente":"delegacia.especializada@exemplo.gov.br","orgao":"Delegacia Especializada","recebido_em":"2026-11-08T09:19:00-04:00","corpo":"Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1009-DNA, da regional Sinop. O caso envolve local de crime e exige confronto com amostra de referência. Data da cobrança: 2026-11-06. Número da cobrança: COB-2026-009. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.","prioridade":"normal","status":"novo","anexos":[{"id":"AN-009-1","nome":"Oficio_2026.1009-DNA_Sinop.pdf","tipo":"pdf","paginas":3,"legivel":true},{"id":"AN-009-2","nome":"Termo_2026.1009-DNA.pdf","tipo":"pdf","paginas":1,"legivel":true}],"campos":{"data_cobranca":"2026-11-06","numero_cobranca":"COB-2026-009","nivel":"Alta complexidade","tipo_crime":"Local de crime","protocolo":"2026.1009-DNA","ar_para_confronto":"Não","objetivo_claro":"Realizar exame de DNA para local de crime e confrontar com amostra de referência.","regional":""},"confianca":0.82,"alerta":"pendencia","lote_id":"LT-002","validado_por":"","validado_em":""},{"id":"EM-010","assunto":"Requerimento de laudo pericial","remetente":"ministério.público.estadual@exemplo.gov.br","orgao":"Ministério Público Estadual","recebido_em":"2026-11-10T10:20:00-04:00","corpo":"Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1010-DNA, da regional Várzea Grande. O caso envolve roubo e exige confronto com amostra de referência. Data da cobrança: 2026-11-08. Número da cobrança: COB-2026-010. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.","prioridade":"normal","status":"novo","anexos":[{"id":"AN-010-1","nome":"Oficio_2026.1010-DNA_Várzea-Grande.pdf","tipo":"pdf","paginas":2,"legivel":true},{"id":"AN-010-2","nome":"Termo_2026.1010-DNA.pdf","tipo":"pdf","paginas":3,"legivel":true}],"campos":{"data_cobranca":"2026-11-08","numero_cobranca":"COB-2026-010","nivel":"Alta complexidade","tipo_crime":"Roubo","protocolo":"2026.1010-DNA","ar_para_confronto":"Sim","objetivo_claro":"Realizar exame de DNA para roubo e confrontar com amostra de referência.","regional":"Várzea Grande"},"confianca":0.99,"alerta":"","lote_id":"LT-002","validado_por":"","validado_em":""}],"lotes":[{"id":"LT-001","nome":"Lote de 01 a 05","criado_em":"2026-10-31T09:00:00-04:00","status":"aberto"},{"id":"LT-002","nome":"Lote de 06 a 10","criado_em":"2026-11-01T09:00:00-04:00","status":"aberto"}]}</script>
+<script type="application/json" id="seed">{"emails":[{"id":"EM-001","assunto":"Requerimento de laudo pericial","remetente":"ministério.público.estadual@exemplo.gov.br","orgao":"Ministério Público Estadual","recebido_em":"2026-10-23T09:11:00-04:00","corpo":"Prezados, solicito a realização de perícia de DNA referente ao protocolo 001001/2026, da regional Cuiabá. O caso envolve homicídio e exige confronto com amostra de referência. Data da cobrança: 2026-10-21. Número da cobrança: COB-2026-001. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.","prioridade":"normal","status":"novo","anexos":[{"id":"AN-001-1","nome":"Oficio_2026.1001-DNA_Cuiabá.pdf","tipo":"pdf","paginas":3,"legivel":true},{"id":"AN-001-2","nome":"Termo_2026.1001-DNA.pdf","tipo":"pdf","paginas":2,"legivel":true}],"campos":{"data_cobranca":"2026-10-23","tipo_crime":"Local de Crime","protocolo":"001001/2026","ar_para_confronto":"Sim","objetivo_claro":"Realizar exame de DNA para homicídio e confrontar com amostra de referência.","regional":"Coordenadoria de Perícias em Vivos","nome_vitima":"Maria Clara Souza","nome_investigado":"João Pedro Alves","reu_preso":"Não"},"confianca":0.99,"alerta":"","lote_id":"LT-001","validado_por":"","validado_em":""},{"id":"EM-002","assunto":"Ofício de solicitação de perícia","remetente":"delegacia.de.polícia.civil@exemplo.gov.br","orgao":"Delegacia de Polícia Civil","recebido_em":"2026-10-25T10:12:00-04:00","corpo":"Prezados, solicito a realização de perícia de DNA referente ao protocolo 001002/2026, da regional Sinop. O caso envolve tráfico de drogas e exige confronto com amostra de referência. Data da cobrança: 2026-10-23. Número da cobrança: COB-2026-002. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.","prioridade":"alta","status":"novo","anexos":[{"id":"AN-002-1","nome":"Oficio_2026.1002-DNA_Sinop.pdf","tipo":"pdf","paginas":3,"legivel":true},{"id":"AN-002-2","nome":"Termo_2026.1002-DNA.pdf","tipo":"pdf","paginas":2,"legivel":true}],"campos":{"data_cobranca":"2026-10-25","tipo_crime":"Biologia","protocolo":"001002/2026","ar_para_confronto":"Sim","objetivo_claro":"Realizar exame de DNA para tráfico de drogas e confrontar com amostra de referência.","regional":"Coordenadoria Regional de Sinop","nome_vitima":"Ana Beatriz Lima","nome_investigado":"Carlos Eduardo Ferreira","reu_preso":"Não informado"},"confianca":0.99,"alerta":"","lote_id":"LT-001","validado_por":"","validado_em":""},{"id":"EM-003","assunto":"Cobrança de laudo pendente","remetente":"ministério.público.estadual@exemplo.gov.br","orgao":"Ministério Público Estadual","recebido_em":"2026-10-27T11:13:00-04:00","corpo":"Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1003-DNA, da regional Rondonópolis. O caso envolve roubo e exige confronto com amostra de referência. Data da cobrança: 2026-10-25. Número da cobrança: COB-2026-003. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.","prioridade":"normal","status":"novo","anexos":[{"id":"AN-003-1","nome":"Oficio_2026.1003-DNA_Rondonópolis.pdf","tipo":"pdf","paginas":6,"legivel":true},{"id":"AN-003-2","nome":"Termo_2026.1003-DNA.pdf","tipo":"pdf","paginas":3,"legivel":true}],"campos":{"data_cobranca":"2026-10-27","tipo_crime":"Local de Crime","protocolo":"","ar_para_confronto":"Não","objetivo_claro":"Realizar exame de DNA para roubo e confrontar com amostra de referência.","regional":"Coordenadoria Regional de Rondonópolis","nome_vitima":"Bruna Almeida","nome_investigado":"Rafael Souza","reu_preso":"Não"},"confianca":0.82,"alerta":"pendencia","lote_id":"LT-001","validado_por":"","validado_em":""},{"id":"EM-004","assunto":"Encaminhamento para análise de DNA","remetente":"delegacia.de.polícia.civil@exemplo.gov.br","orgao":"Delegacia de Polícia Civil","recebido_em":"2026-10-29T12:14:00-04:00","corpo":"Prezados, solicito a realização de perícia de DNA referente ao protocolo 001004/2026, da regional Cáceres. O caso envolve tráfico de drogas e exige confronto com amostra de referência. Data da cobrança: 2026-10-27. Número da cobrança: COB-2026-004. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente. Observação: o corpo do e-mail foi classificado como homicídio; o ofício anexo menciona tráfico de drogas.","prioridade":"normal","status":"novo","anexos":[{"id":"AN-004-1","nome":"Oficio_2026.1004-DNA_Cáceres.pdf","tipo":"pdf","paginas":6,"legivel":true},{"id":"AN-004-2","nome":"Termo_2026.1004-DNA.pdf","tipo":"pdf","paginas":1,"legivel":true}],"campos":{"data_cobranca":"2026-10-29","tipo_crime":"Identificação Humana","protocolo":"001004/2026","ar_para_confronto":"Sim","objetivo_claro":"Realizar exame de DNA para tráfico de drogas e confrontar com amostra de referência.","regional":"Coordenadoria Regional de Cáceres","nome_vitima":"José Carlos Pereira","nome_investigado":"Marcos Vinícius","reu_preso":"Sim"},"confianca":0.99,"alerta":"divergencia","lote_id":"LT-001","validado_por":"","validado_em":""},{"id":"EM-005","assunto":"Requerimento de laudo pericial","remetente":"poder.judiciário@exemplo.gov.br","orgao":"Poder Judiciário","recebido_em":"2026-10-31T13:15:00-04:00","corpo":"Prezados, solicito a realização de perícia de DNA referente ao protocolo 001005/2026, da regional Barra do Garças. O caso envolve abuso sexual e exige confronto com amostra de referência. Data da cobrança: 2026-10-29. Número da cobrança: COB-2026-005. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.","prioridade":"normal","status":"novo","anexos":[{"id":"AN-005-1","nome":"Oficio_2026.1005-DNA_Barra-do-Garças.pdf","tipo":"pdf","paginas":5,"legivel":false},{"id":"AN-005-2","nome":"Termo_2026.1005-DNA.pdf","tipo":"pdf","paginas":2,"legivel":false}],"campos":{"data_cobranca":"2026-10-31","tipo_crime":"Crime Sexual","protocolo":"001005/2026","ar_para_confronto":"Sim","objetivo_claro":"","regional":"Coordenadoria Regional de Barra do Garças","nome_vitima":"Luana Santos","nome_investigado":"Pedro Henrique","reu_preso":"Não"},"confianca":0.55,"alerta":"ocr","lote_id":"LT-001","validado_por":"","validado_em":""},{"id":"EM-006","assunto":"Ofício de solicitação de perícia","remetente":"delegacia.de.polícia.civil@exemplo.gov.br","orgao":"Delegacia de Polícia Civil","recebido_em":"2026-11-02T14:16:00-04:00","corpo":"URGENTE / PLANTÃO. Prezados, solicito a realização de perícia de DNA referente ao protocolo 001001/2026, da regional Cuiabá. O caso envolve latrocínio e exige confronto com amostra de referência. Data da cobrança: 2026-10-31. Número da cobrança: COB-2026-006. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.","prioridade":"urgente","status":"novo","anexos":[{"id":"AN-006-1","nome":"Oficio_2026.1006-DNA_Cuiabá.pdf","tipo":"pdf","paginas":6,"legivel":true},{"id":"AN-006-2","nome":"Termo_2026.1006-DNA.pdf","tipo":"pdf","paginas":2,"legivel":true}],"campos":{"data_cobranca":"2026-11-02","tipo_crime":"Local de Crime","protocolo":"001001/2026","ar_para_confronto":"Não","objetivo_claro":"Realizar exame de DNA para latrocínio e confrontar com amostra de referência.","regional":"Coordenadoria de Perícias em Vivos","nome_vitima":"Patrícia Gomes","nome_investigado":"André Luiz","reu_preso":"Não informado"},"confianca":0.99,"alerta":"","lote_id":"LT-002","validado_por":"","validado_em":""},{"id":"EM-007","assunto":"Cobrança de laudo pendente","remetente":"ministério.público.estadual@exemplo.gov.br","orgao":"Ministério Público Estadual","recebido_em":"2026-11-04T15:17:00-04:00","corpo":"Prezados, solicito a realização de perícia de DNA referente ao protocolo 001007/2026, da regional Tangará da Serra. O caso envolve violência doméstica e exige confronto com amostra de referência. Data da cobrança: 2026-11-02. Número da cobrança: COB-2026-007. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.","prioridade":"normal","status":"novo","anexos":[{"id":"AN-007-1","nome":"Oficio_2026.1007-DNA_Tangará-da-Serra.pdf","tipo":"pdf","paginas":4,"legivel":true},{"id":"AN-007-2","nome":"Termo_2026.1007-DNA.pdf","tipo":"pdf","paginas":4,"legivel":true}],"campos":{"data_cobranca":"2026-11-04","tipo_crime":"Crime Sexual","protocolo":"001007/2026","ar_para_confronto":"","objetivo_claro":"Realizar exame de DNA para violência doméstica e confrontar com amostra de referência.","regional":"Coordenadoria Regional de Tangará da Serra","nome_vitima":"Fernanda Alves","nome_investigado":"Marcos Paulo","reu_preso":"Sim"},"confianca":0.82,"alerta":"pendencia","lote_id":"LT-002","validado_por":"","validado_em":""},{"id":"EM-008","assunto":"Encaminhamento para análise de DNA","remetente":"delegacia.de.polícia.civil@exemplo.gov.br","orgao":"Delegacia de Polícia Civil","recebido_em":"2026-11-06T08:18:00-04:00","corpo":"Prezados, solicito a realização de perícia de DNA referente ao protocolo 001008/2026, da regional Alta Floresta. O caso envolve homicídio e exige confronto com amostra de referência. Data da cobrança: 2026-11-04. Número da cobrança: COB-2026-008. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.","prioridade":"normal","status":"validado","anexos":[{"id":"AN-008-1","nome":"Oficio_2026.1008-DNA_Alta-Floresta.pdf","tipo":"pdf","paginas":4,"legivel":true},{"id":"AN-008-2","nome":"Termo_2026.1008-DNA.pdf","tipo":"pdf","paginas":4,"legivel":true}],"campos":{"data_cobranca":"2026-11-06","tipo_crime":"Identificação Humana","protocolo":"001008/2026","ar_para_confronto":"Sim","objetivo_claro":"Realizar exame de DNA para homicídio e confrontar com amostra de referência.","regional":"Gerência Regional de Alta Floresta","nome_vitima":"Pedro Henrique Lima","nome_investigado":"Não informado","reu_preso":"Não"},"confianca":0.99,"alerta":"","lote_id":"LT-002","validado_por":"Chefia Fictícia","validado_em":"2026-11-06T15:00:00-04:00"},{"id":"EM-009","assunto":"Requisição de confronto genético","remetente":"delegacia.especializada@exemplo.gov.br","orgao":"Delegacia Especializada","recebido_em":"2026-11-08T09:19:00-04:00","corpo":"Prezados, solicito a realização de perícia de DNA referente ao protocolo 001009/2026, da regional Sinop. O caso envolve local de crime e exige confronto com amostra de referência. Data da cobrança: 2026-11-06. Número da cobrança: COB-2026-009. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.","prioridade":"normal","status":"novo","anexos":[{"id":"AN-009-1","nome":"Oficio_2026.1009-DNA_Sinop.pdf","tipo":"pdf","paginas":3,"legivel":true},{"id":"AN-009-2","nome":"Termo_2026.1009-DNA.pdf","tipo":"pdf","paginas":1,"legivel":true}],"campos":{"data_cobranca":"2026-11-08","tipo_crime":"Local de Crime","protocolo":"001009/2026","ar_para_confronto":"Não","objetivo_claro":"Realizar exame de DNA para local de crime e confrontar com amostra de referência.","regional":"","nome_vitima":"Não informado","nome_investigado":"Não informado","reu_preso":"Não informado"},"confianca":0.82,"alerta":"pendencia","lote_id":"LT-002","validado_por":"","validado_em":""},{"id":"EM-010","assunto":"Requerimento de laudo pericial","remetente":"ministério.público.estadual@exemplo.gov.br","orgao":"Ministério Público Estadual","recebido_em":"2026-11-10T10:20:00-04:00","corpo":"Prezados, solicito a realização de perícia de DNA referente ao protocolo 001010/2026, da regional Várzea Grande. O caso envolve roubo e exige confronto com amostra de referência. Data da cobrança: 2026-11-08. Número da cobrança: COB-2026-010. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.","prioridade":"normal","status":"novo","anexos":[{"id":"AN-010-1","nome":"Oficio_2026.1010-DNA_Várzea-Grande.pdf","tipo":"pdf","paginas":2,"legivel":true},{"id":"AN-010-2","nome":"Termo_2026.1010-DNA.pdf","tipo":"pdf","paginas":3,"legivel":true}],"campos":{"data_cobranca":"2026-11-10","tipo_crime":"Biologia","protocolo":"001010/2026","ar_para_confronto":"Sim","objetivo_claro":"Realizar exame de DNA para roubo e confrontar com amostra de referência.","regional":"Coordenadoria de Perícias em Vivos","nome_vitima":"Juliana Ribeiro","nome_investigado":"Não informado","reu_preso":"Não"},"confianca":0.99,"alerta":"","lote_id":"LT-002","validado_por":"","validado_em":""}],"lotes":[{"id":"LT-001","nome":"Lote de 01 a 05","criado_em":"2026-10-31T09:00:00-04:00","status":"aberto"},{"id":"LT-002","nome":"Lote de 06 a 10","criado_em":"2026-11-01T09:00:00-04:00","status":"aberto"}]}</script>
 <!-- /DADOS:seed -->
 
 <script>
@@ -923,6 +992,7 @@ function montarTrilha(r, params){
 }
 async function navegar(){
   const hash = location.hash || rotaInicial();
+  const rotaAnterior = estado.rota;
   const achou = hash.startsWith("#/testes") ? {r: {rota: "#/testes", titulo: "Testes", publica: false}, params: {}} : casarRota(hash);
   const alvo = $("#conteudo");
   fecharSuspensos();
@@ -951,6 +1021,7 @@ async function navegar(){
   try { alvo.innerHTML = await fn(achou.params); ligarAbas(alvo); if (TELAS_DEPOIS[achou.r.rota]) await TELAS_DEPOIS[achou.r.rota](achou.params); }
   catch(e){ console.error(e); alvo.innerHTML = `<div class="card pendente"><b>Erro nesta tela.</b><p class="mono">${esc(e.message)}</p></div>`; }
   alvo.focus({preventScroll: true});
+  if (rotaAnterior !== achou.r.rota) window.scrollTo({top: 0, left: 0, behavior: "auto"});
 }
 function telaPendente(r){
   return async ()=>`<h1>${esc(r.titulo)}</h1><p class="sub">${esc(r.descricao || "")}</p>
@@ -1272,7 +1343,7 @@ const APP = {
       "rota": "#/painel",
       "titulo": "Bancada de triagem",
       "sprint": 1,
-      "descricao": "Fila de e-mails e extração dos 8 campos."
+      "descricao": "Fila de e-mails e extração dos 9 campos."
     },
     {
       "rota": "#/email/:id",
@@ -1318,7 +1389,7 @@ const APP = {
     {
       "id": "triador",
       "nome": "Servidor triador",
-      "descricao": "Lê a fila, confere os 8 campos e valida a requisição.",
+      "descricao": "Lê a fila, confere os 9 campos e valida a requisição.",
       "inicio": "#/painel"
     },
     {
@@ -1365,24 +1436,80 @@ teste("dataDeTexto('29/10/2026 09:05:00')", ()=> dataDeTexto("29/10/2026 09:05:0
 "use strict";
 /* TEIA · Triagem de E-mails
    Protótipo local do painel do triador. A extração é simulada com os dados
-   fictícios: o app mostra os 8 campos, as confianças e as pendências que o
+   fictícios: o app mostra os 9 campos, as confianças e as pendências que o
    script local produziria. Nenhum dado sai do navegador. */
 
 const TE_CAMPOS = [
   {id: "data_cobranca", rotulo: "Data da cobrança", tipo: "date"},
-  {id: "numero_cobranca", rotulo: "Nº da cobrança", tipo: "text"},
-  {id: "nivel", rotulo: "Nível", tipo: "select", opcoes: ["Alta complexidade", "Média complexidade", "Baixa complexidade"]},
-  {id: "tipo_crime", rotulo: "Tipo de crime", tipo: "select", opcoes: ["Homicídio", "Tráfico de drogas", "Latrocínio", "Violência doméstica", "Roubo", "Abuso sexual", "Local de crime"]},
   {id: "protocolo", rotulo: "Protocolo", tipo: "text"},
-  {id: "ar_para_confronto", rotulo: "AR para confronto", tipo: "select", opcoes: ["Sim", "Não", "Pendente de recebimento físico"]},
-  {id: "objetivo_claro", rotulo: "Objetivo claro", tipo: "textarea"},
-  {id: "regional", rotulo: "Regional", tipo: "select", opcoes: ["Cuiabá", "Várzea Grande", "Sinop", "Rondonópolis", "Cáceres", "Barra do Garças", "Tangará da Serra", "Alta Floresta"]}
+  {id: "tipo_crime", rotulo: "Tipo de crime", tipo: "select", opcoes: ["Crime Sexual", "Local de Crime", "Identificação Humana", "Biologia"]},
+  {id: "nome_vitima", rotulo: "Nome da vítima", tipo: "text"},
+  {id: "nome_investigado", rotulo: "Nome do investigado", tipo: "text"},
+  {id: "reu_preso", rotulo: "Réu preso", tipo: "select", opcoes: ["Sim", "Não", "Não informado"]},
+  {id: "ar_para_confronto", rotulo: "AR para confronto", tipo: "select", opcoes: ["Sim", "Não", "Não informado"]},
+  {id: "regional", rotulo: "Regional", tipo: "select", opcoes: [
+    "Coordenadoria de Perícias em Vivos",
+    "Gerência de Perícias em Vítimas de Violência Sexual e de Gênero",
+    "Coordenadoria de Perícias em Mortos",
+    "Gerência de Necropsia",
+    "Gerência de Antropologia",
+    "Coordenadoria de Perícias Externas",
+    "Coordenadoria Regional de Rondonópolis",
+    "Gerência de Criminalística de Rondonópolis",
+    "Gerência de Medicina Legal de Rondonópolis",
+    "Gerência Regional de Primavera do Leste",
+    "Gerência Regional de Alto Araguaia",
+    "Coordenadoria Regional de Barra do Garças",
+    "Gerência de Criminalística de Barra do Garças",
+    "Gerência de Medicina Legal de Barra do Garças",
+    "Gerência Regional de Água Boa",
+    "Gerência Regional de Confresa",
+    "Coordenadoria Regional de Cáceres",
+    "Gerência de Criminalística de Cáceres",
+    "Gerência de Medicina Legal de Cáceres",
+    "Gerência Regional de Pontes e Lacerda",
+    "Coordenadoria Regional de Sinop",
+    "Gerência de Criminalística de Sinop",
+    "Gerência de Medicina Legal de Sinop",
+    "Gerência Regional de Alta Floresta",
+    "Gerência Regional de Guarantã do Norte",
+    "Gerência Regional de Sorriso",
+    "Coordenadoria Regional de Tangará da Serra",
+    "Gerência de Criminalística de Tangará da Serra",
+    "Gerência de Medicina Legal de Tangará da Serra",
+    "Gerência Regional de Juina",
+    "Gerência Regional de Juara",
+    "Coordenadoria Regional de Nova Mutum",
+    "Gerência de Criminalística de Nova Mutum",
+    "Gerência de Medicina Legal de Nova Mutum",
+    "Gerência Regional de Diamantino",
+    "Gerência Regional de Lucas do Rio Verde"
+  ]},
+  {id: "objetivo_claro", rotulo: "Objetivo claro", tipo: "textarea"}
 ];
 const TE_STATUS = {novo: "Novo", extraido: "Extraído", pendente: "Pendente", validado: "Validado", recusado: "Recusado"};
 const TE_PRIORIDADE = {normal: "Normal", alta: "Alta", urgente: "Urgente"};
-const TE_ALERTA = {divergencia: "Divergência entre corpo e anexo", ocr: "PDF sem texto: leitura manual", pendencia: "Campo ausente"};
+const TE_ALERTA = {divergencia: "Divergência entre corpo e anexo", ocr: "PDF sem texto: leitura manual", pendencia: "Campo ausente", reiteracao: "Cobrança reiterada para o mesmo protocolo"};
 const TE_REGIONAIS = TE_CAMPOS.find(c=>c.id === "regional").opcoes;
 const TE_CRIMES = TE_CAMPOS.find(c=>c.id === "tipo_crime").opcoes;
+const TE_REITERACAO_DIAS = 30;
+const teProtocoloValido = p => /^\d{6}\/\d{4}$/.test(String(p || "").trim());
+function teDataDe(valor){ const d = new Date(valor); return Number.isNaN(d.getTime()) ? null : d; }
+function teMesmaCobranca(a, b){
+  const da = teDataDe(a), db = teDataDe(b);
+  if (!da || !db) return true;
+  return Math.abs(da - db) <= TE_REITERACAO_DIAS * 86400000;
+}
+async function teTemReiteracao(e, c){
+  const p = String(c.protocolo || "").trim();
+  if (!p) return false;
+  return (await db.list("emails")).some(x =>
+    x.id !== e.id && x.status !== "recusado" &&
+    String((x.campos || {}).protocolo || "").trim() === p &&
+    teMesmaCobranca(x.recebido_em, e.recebido_em));
+}
+teste("TEIA: protocolo no formato 000000/0000", ()=> teProtocoloValido("001001/2026") && !teProtocoloValido("2026.1001-DNA") && !teProtocoloValido("1001/2026"));
+teste("TEIA: reiteração dentro da janela", ()=> teMesmaCobranca("2026-10-23T09:00:00-04:00", "2026-11-02T10:00:00-04:00") && !teMesmaCobranca("2026-01-01T00:00:00-04:00", "2026-06-01T00:00:00-04:00"));
 
 const teNormal = s => normalizar(s || "");
 const teCampos = e => e.campos || {};
@@ -1403,24 +1530,27 @@ async function teLog(acao, e, detalhe=""){
 }
 
 async function teExtrair(e){
-  const c = teCampos(e);
+  const c = {...teCampos(e)};
+  if (!c.data_cobranca && e.recebido_em) c.data_cobranca = e.recebido_em.slice(0, 10);
   const falta = teFaltando(c);
-  const alerta = e.alerta || (falta.length ? "pendencia" : "");
+  const reiterada = !falta.length && await teTemReiteracao(e, c);
+  const alerta = e.alerta || (falta.length ? "pendencia" : reiterada ? "reiteracao" : "");
   const extracao = {id: e.id, email_id: e.id, campos: c, confianca: e.confianca ?? 0.9, alerta, faltando: falta, status: "extraido", criado_em: agora()};
   await db.put("extracao", extracao);
-  await db.put("emails", {...e, status: teAtualizarStatus({...e, alerta, status: "extraido"}), alerta});
-  await teLog("extração executada", e, falta.length ? `falta: ${falta.join(", ")}` : "8 campos localizados");
+  await db.put("emails", {...e, campos: c, status: teAtualizarStatus({...e, alerta, status: "extraido"}), alerta});
+  await teLog("extração executada", e, falta.length ? `falta: ${falta.join(", ")}` : `9 campos localizados${reiterada ? " · protocolo reiterado" : ""}`);
   return {extracao, falta, alerta};
 }
 
 async function teValidar(e){
   const c = teCampos(e), falta = teFaltando(c);
-  if (falta.length) throw new Error(`Preencha os 8 campos antes de validar. Falta: ${falta.join(", ")}.`);
+  if (falta.length) throw new Error(`Preencha os 9 campos antes de validar. Falta: ${falta.join(", ")}.`);
+  if (!teProtocoloValido(c.protocolo)) throw new Error("Protocolo no formato 000000/0000 (seis números, barra e ano).");
   if (e.alerta) throw new Error("Trate o alerta antes de validar: " + (TE_ALERTA[e.alerta] || e.alerta) + ".");
   const atualizado = {...e, status: "validado", validado_por: estado.perfil || "triador", validado_em: agora()};
   await db.put("emails", atualizado);
   await db.put("extracao", {...(await db.get("extracao", e.id) || {id: e.id, email_id: e.id}), campos: c, status: "validado", validado_por: atualizado.validado_por, validado_em: atualizado.validado_em});
-  await teLog("requisição validada", e, "8 campos conferidos e fé pública registrada");
+  await teLog("requisição validada", e, "9 campos conferidos e fé pública registrada");
   return atualizado;
 }
 
@@ -1435,39 +1565,44 @@ async function teRecusar(e, motivo){
   await teLog("requisição recusada", e, motivo);
 }
 
-async function teDetalhe(e){
-  if (!e) return `<div class="card vazio"><b>Selecione um e-mail na fila</b><p class="sub">A bancada mostra a mensagem e os 8 campos extraídos.</p></div>`;
+async function teDetalhe(e, nav = {}){
+  if (!e) return `<div class="card vazio te-vazio"><b>Selecione um e-mail na fila</b><p class="sub">A bancada mostra a mensagem e os 9 campos extraídos.</p></div>`;
   const c = teCampos(e), falta = teFaltando(c);
   const campos = TE_CAMPOS.map(x=>{
-    const valor = c[x.id] || "";
+    const valor = c[x.id] || (x.id === "data_cobranca" && e.recebido_em ? e.recebido_em.slice(0, 10) : "");
+    const extra = x.id === "data_cobranca" ? ' readonly title="Data do e-mail"' : (x.id === "protocolo" ? ' placeholder="000000/0000" inputmode="numeric"' : "");
     return `<div class="campo"><label for="te_${x.id}">${esc(x.rotulo)}${falta.includes(x.rotulo) ? ' <span class="erro-txt">falta</span>' : ""}</label>
       ${x.tipo === "select" ? `<select id="te_${x.id}">${["", ...x.opcoes].map(v=>`<option value="${esc(v)}" ${String(v) === String(valor) ? "selected" : ""}>${esc(v || "—")}</option>`).join("")}</select>`
         : x.tipo === "textarea" ? `<textarea id="te_${x.id}" rows="2">${esc(valor)}</textarea>`
-        : `<input id="te_${x.id}" type="${x.tipo}" value="${esc(valor)}">`}</div>`;
+        : `<input id="te_${x.id}" type="${x.tipo}" value="${esc(valor)}"${extra}>`}</div>`;
   }).join("");
   const anexos = (e.anexos || []).map(a=>`<tr><td class="mono">${esc(a.nome)}</td><td>${esc(a.tipo)}</td><td class="num">${a.paginas}</td>
     <td>${a.legivel ? '<span class="selo ok">legível</span>' : '<span class="selo erro">imagem/manuscrito</span>'}</td></tr>`).join("");
   const podeValidar = !falta.length && !e.alerta && e.status !== "validado" && e.status !== "recusado";
+  const navHtml = nav.total ? `<div class="te-nav">
+    <button type="button" class="sec" data-te-nav="anterior" ${nav.anterior ? `data-te-id="${esc(nav.anterior)}"` : "disabled"} aria-label="E-mail anterior" title="E-mail anterior">‹</button>
+    <span class="sub">${nav.posicao} de ${nav.total}</span>
+    <button type="button" class="sec" data-te-nav="proximo" ${nav.proximo ? `data-te-id="${esc(nav.proximo)}"` : "disabled"} aria-label="Próximo e-mail" title="Próximo e-mail">›</button></div>` : "";
   return `<div class="card te-detalhe" id="teDetalhe">
-    <div class="te-detalhe-topo"><div><span class="sub">${esc(e.orgao)} · ${esc(e.remetente)}</span>
+    <div class="te-detalhe-topo"><div class="te-detalhe-ident"><span class="sub">${esc(e.orgao)} · ${esc(e.remetente)}</span>
       <h2>${esc(e.assunto)}</h2><p class="sub">Recebido em ${teData(e.recebido_em)} · ${esc(e.id)}</p></div>
-      <div class="te-selos"><span class="selo ${teSeloPrioridade(e.prioridade)}">${esc(TE_PRIORIDADE[e.prioridade] || e.prioridade)}</span>
-        <span class="selo ${teSeloStatus(e.status)}">${esc(TE_STATUS[e.status] || e.status)}</span></div></div>
+      <div class="te-detalhe-lado"><div class="te-selos"><span class="selo ${teSeloPrioridade(e.prioridade)}">${esc(TE_PRIORIDADE[e.prioridade] || e.prioridade)}</span>
+        <span class="selo ${teSeloStatus(e.status)}">${esc(TE_STATUS[e.status] || e.status)}</span></div>${navHtml}</div></div>
     ${e.alerta ? `<div class="caixa-alerta"><b>Alerta:</b> ${esc(TE_ALERTA[e.alerta] || e.alerta)}.</div>` : ""}
     <div class="te-grade">
       <section class="te-mensagem"><h3>Mensagem</h3><p class="te-corpo">${esc(e.corpo)}</p>
         <h3>Anexos</h3><div class="tabela-wrap"><table><tr><th>Arquivo</th><th>Tipo</th><th class="num">Páginas</th><th>Leitura</th></tr>${anexos || '<tr><td colspan="4" class="vazio">Sem anexos.</td></tr>'}</table></div>
-        <p class="sub">Confiança da extração: <b>${Math.round((e.confianca || 0) * 100)}%</b> · ${falta.length ? `${falta.length} campo(s) faltando` : "8 campos localizados"}</p>
+        <p class="sub">Confiança da extração: <b>${Math.round((e.confianca || 0) * 100)}%</b> · ${falta.length ? `${falta.length} campo(s) faltando` : "9 campos localizados"}</p>
         <details class="te-auditoria"><summary>Auditoria do e-mail</summary><div id="teAuditoria">${await teAuditoria(e.id)}</div></details>
       </section>
-      <section class="te-form"><h3>8 campos essenciais</h3><div class="campos">${campos}</div>
-        <div class="linha-botoes">
+      <section class="te-form"><h3>9 campos essenciais</h3><div class="campos">${campos}</div>
+        <div class="te-acoes"><div class="linha-botoes">
           <button type="button" id="btnTeExtrair">Extrair de novo</button>
           <button type="button" class="prim" id="btnTeSalvar">Salvar campos</button>
           <button type="button" id="btnTeValidar" ${podeValidar ? "" : "disabled"} title="${podeValidar ? "" : "Resolva os campos e os alertas"}">Validar requisição</button>
           ${e.alerta ? '<button type="button" id="btnTeAlerta">Tratar alerta</button>' : ""}
           <button type="button" class="perigo" id="btnTeRecusar">Recusar</button>
-        </div>
+        </div></div>
         <div id="teErros"></div>
         <p class="sub">A validação é ato humano e fica registrada com perfil e data/hora. O app não envia nada para fora.</p>
       </section>
@@ -1484,34 +1619,55 @@ function teFiltro(){ return estado.teSit || ""; }
 
 TELAS["#/painel"] = async ()=>{
   const emails = await db.list("emails");
-  const f = teFiltro(), busca = normalizar(estado.teBusca || "");
-  const vis = emails.filter(e=>!f || e.status === f)
+  const f = teFiltro(), busca = normalizar(estado.teBusca || ""), urgente = !!estado.teUrgente;
+  const vis = emails.filter(e=>!f || e.status === f).filter(e=>!urgente || e.prioridade === "urgente")
     .filter(e=>!busca || normalizar(`${e.assunto} ${e.remetente} ${e.orgao} ${(e.campos || {}).protocolo || ""}`).includes(busca))
     .sort((a, b)=>String(b.prioridade).localeCompare(String(a.prioridade)) || String(b.recebido_em).localeCompare(String(a.recebido_em)));
   let sel = estado.teSel ? await db.get("emails", estado.teSel) : null;
   if (!sel || !vis.some(e=>e.id === sel.id)) sel = vis[0] || null;
   if (sel) estado.teSel = sel.id;
   const conta = s => emails.filter(e=>e.status === s).length;
+  const fila = emails.filter(e=>e.status === "novo" || e.status === "extraido").length;
+  const urg = emails.filter(e=>e.prioridade === "urgente").length;
+  const idx = sel ? vis.findIndex(e=>e.id === sel.id) : -1;
+  const nav = sel ? {anterior: vis[idx - 1]?.id, proximo: vis[idx + 1]?.id, posicao: idx + 1, total: vis.length} : {};
+  const ativo = k => k === "fila" ? (!f && !urgente) : (k === "urgente" ? urgente : f === k && !urgente);
   return `<h1>Bancada de triagem</h1>
-    <p class="sub">A fila à esquerda e os 8 campos à direita. A extração é simulada; a validação é humana.</p>
-    <div class="grade"><div class="card kpi"><div class="v">${emails.filter(e=>e.status === "novo" || e.status === "extraido").length}</div><div class="r">na fila</div></div>
-      <div class="card kpi"><div class="v">${conta("pendente")}</div><div class="r">pendentes</div></div>
-      <div class="card kpi"><div class="v">${emails.filter(e=>e.prioridade === "urgente").length}</div><div class="r">urgentes</div></div>
-      <div class="card kpi"><div class="v">${conta("validado")}</div><div class="r">validados</div></div></div>
+    <p class="sub">Escolha um e-mail na fila. Os 9 campos ficam à direita; a extração é simulada e a validação é humana.</p>
+    <div class="grade te-kpis">
+      <button type="button" class="card kpi te-kpi" data-te-kpi="fila" aria-pressed="${ativo("fila")}"><span class="v">${fila}</span><span class="r">na fila</span></button>
+      <button type="button" class="card kpi te-kpi" data-te-kpi="pendente" aria-pressed="${ativo("pendente")}"><span class="v">${conta("pendente")}</span><span class="r">pendentes</span></button>
+      <button type="button" class="card kpi te-kpi" data-te-kpi="urgente" aria-pressed="${ativo("urgente")}"><span class="v">${urg}</span><span class="r">urgentes</span></button>
+      <button type="button" class="card kpi te-kpi" data-te-kpi="validado" aria-pressed="${ativo("validado")}"><span class="v">${conta("validado")}</span><span class="r">validados</span></button></div>
     <div class="card te-filtros"><div class="campos">
       ${campo("teBusca", "Buscar por assunto, remetente, órgão ou protocolo", {valor: estado.teBusca || "", attrs: 'autocomplete="off"'})}
-      <div class="campo"><label>Fila</label><div class="chips">${[["", "Todos"], ...Object.entries(TE_STATUS)].map(([v, t])=>`<button type="button" class="${f === v ? "prim" : ""}" data-te-sit="${v}">${t} (${v ? conta(v) : emails.length})</button>`).join("")}</div></div></div></div>
-    <div class="te-bancada"><div class="te-fila">${vis.length ? vis.map(e=>`<button type="button" class="te-item ${e.id === estado.teSel ? "escolhido" : ""}" data-te-email="${esc(e.id)}">
-      <span class="te-item-topo"><b>${esc(e.assunto)}</b><span class="selo ${teSeloPrioridade(e.prioridade)}">${esc(e.prioridade)}</span></span>
+      <div class="campo"><label>Fila</label><div class="chips">${[["", "Todos"], ...Object.entries(TE_STATUS)].map(([v, t])=>`<button type="button" class="${f === v && !urgente ? "prim" : ""}" data-te-sit="${v}">${t} (${v ? conta(v) : emails.length})</button>`).join("")}
+        ${(f || busca || urgente) ? '<button type="button" class="sec" data-te-limpar>Limpar filtros</button>' : ""}</div></div></div></div>
+    <div class="te-bancada"><div class="te-fila-wrap"><div class="te-fila-topo"><b>${vis.length}</b> e-mail(s)${urgente ? " urgente(s)" : ""}<span class="sub">${vis.length ? "deslize para ver os outros" : ""}</span></div>
+      <div class="te-fila">${vis.length ? vis.map(e=>`<button type="button" class="te-item ${e.id === estado.teSel ? "escolhido" : ""}" data-te-email="${esc(e.id)}" aria-current="${e.id === estado.teSel}">
+      <span class="te-item-topo"><b>${esc(e.assunto)}</b><span class="selo ${teSeloPrioridade(e.prioridade)}">${esc(TE_PRIORIDADE[e.prioridade] || e.prioridade)}</span></span>
       <span class="sub">${esc(e.orgao)} · ${esc((e.campos || {}).regional || "sem regional")}</span>
-      <span class="te-item-meta"><span class="selo ${teSeloStatus(e.status)}">${esc(TE_STATUS[e.status] || e.status)}</span>${e.alerta ? `<span class="selo erro">${esc(TE_ALERTA[e.alerta] || "alerta")}</span>` : ""}<small class="sub">${teData(e.recebido_em)}</small></span></button>`).join("") : '<p class="sub">Nenhum e-mail nesta fila.</p>'}</div>
-      <div id="tePainel">${await teDetalhe(sel)}</div></div>`;
+      <span class="te-item-meta"><span class="selo ${teSeloStatus(e.status)}">${esc(TE_STATUS[e.status] || e.status)}</span>${e.alerta ? `<span class="selo erro">${esc(TE_ALERTA[e.alerta] || "alerta")}</span>` : ""}<small class="sub">${teData(e.recebido_em)}</small></span></button>`).join("") : '<p class="sub te-vazio-fila">Nenhum e-mail nesta fila. Limpe os filtros para ver todos.</p>'}</div></div>
+      <div id="tePainel">${await teDetalhe(sel, nav)}</div></div>`;
 };
 TELAS_DEPOIS["#/painel"] = ()=>teLigar();
 
 function teLigar(){
-  $$("[data-te-email]").forEach(b=>b.addEventListener("click", ()=>{ estado.teSel = b.dataset.teEmail; navegar(); }));
-  $$("[data-te-sit]").forEach(b=>b.addEventListener("click", ()=>{ estado.teSit = b.dataset.teSit; navegar(); }));
+  const irPara = async id=>{
+    if (!id) return;
+    estado.teSel = id; await navegar();
+    if (matchMedia("(max-width:900px)").matches) $("#teDetalhe")?.scrollIntoView({behavior: "smooth", block: "start"});
+  };
+  $$("[data-te-email]").forEach(b=>b.addEventListener("click", ()=>irPara(b.dataset.teEmail)));
+  $$("[data-te-nav]").forEach(b=>b.addEventListener("click", ()=>irPara(b.dataset.teId)));
+  $$("[data-te-kpi]").forEach(b=>b.addEventListener("click", ()=>{
+    const k = b.dataset.teKpi;
+    if (k === "urgente"){ estado.teUrgente = !estado.teUrgente; estado.teSit = ""; }
+    else { estado.teUrgente = false; estado.teSit = k === "fila" ? "" : k; }
+    navegar();
+  }));
+  $("[data-te-limpar]")?.addEventListener("click", ()=>{ estado.teSit = ""; estado.teUrgente = false; estado.teBusca = ""; navegar(); });
+  $$("[data-te-sit]").forEach(b=>b.addEventListener("click", ()=>{ estado.teSit = b.dataset.teSit; estado.teUrgente = false; navegar(); }));
   let t = null;
   $("#teBusca")?.addEventListener("input", e=>{ clearTimeout(t); const v = e.target.value; t = setTimeout(()=>{ estado.teBusca = v; navegar(); }, 350); });
   const atual = async ()=> estado.teSel ? await db.get("emails", estado.teSel) : null;
@@ -1521,7 +1677,7 @@ function teLigar(){
       const falta = teFaltando(c); let alerta = e.alerta;
       if (alerta === "pendencia" && !falta.length) alerta = "";
       const n = {...e, campos: c, alerta}; n.status = teAtualizarStatus(n);
-      await db.put("emails", n); await teLog("campos salvos", n, falta.length ? `falta: ${falta.join(", ")}` : "8 campos"); toast("Campos salvos."); navegar(); }
+      await db.put("emails", n); await teLog("campos salvos", n, falta.length ? `falta: ${falta.join(", ")}` : "9 campos"); toast("Campos salvos."); navegar(); }
     catch(err){ mostrarErros("#teErros", [err.message]); }
   });
   $("#btnTeExtrair")?.addEventListener("click", async ()=>{
@@ -1578,7 +1734,7 @@ function teCSV(linhas){
 TELAS["#/planilha"] = async ()=>{
   const emails = (await db.list("emails")).sort((a, b)=>String(a.id).localeCompare(String(b.id)));
   const linhas = teLinhasPlanilha(emails);
-  return `<h1>Planilha consolidada</h1><p class="sub">Os 8 campos de cada e-mail, com a situação e a confiança. O CSV sai com BOM e ponto e vírgula.</p>
+  return `<h1>Planilha consolidada</h1><p class="sub">Os 9 campos de cada e-mail, com a situação e a confiança. O CSV sai com BOM e ponto e vírgula.</p>
     <div class="linha-botoes"><button class="prim" id="btnTeCsv">Exportar CSV</button></div>
     <div class="card tabela-wrap"><table id="tabelaTeia"><thead><tr><th>E-mail</th><th>Situação</th>${TE_CAMPOS.map(c=>`<th>${esc(c.rotulo)}</th>`).join("")}<th class="num">Confiança</th></tr></thead>
       <tbody>${linhas.map(l=>`<tr><td class="mono">${esc(l.id)}</td><td><span class="selo ${teSeloStatus(l.status)}">${esc(TE_STATUS[l.status] || l.status)}</span></td>
@@ -1596,9 +1752,9 @@ async function configExtra(){
   return `<div class="card"><h2 style="margin-top:0">Dicionários da triagem</h2>
     <p class="sub">No script local, estas listas ficam em um arquivo de configuração. Aqui elas são somente leitura.</p>
     <div class="duas"><div><h3>Regionais (${TE_REGIONAIS.length})</h3><p>${TE_REGIONAIS.map(r=>`<span class="tag">${esc(r)}</span>`).join("")}</p>
-      <h3>Níveis</h3><p>${TE_CAMPOS.find(c=>c.id === "nivel").opcoes.map(n=>`<span class="tag">${esc(n)}</span>`).join("")}</p></div>
+      <h3>Réu preso</h3><p>${TE_CAMPOS.find(c=>c.id === "reu_preso").opcoes.map(n=>`<span class="tag">${esc(n)}</span>`).join("")}</p></div>
       <div><h3>Tipos de crime (${TE_CRIMES.length})</h3><p>${TE_CRIMES.map(c=>`<span class="tag">${esc(c)}</span>`).join("")}</p>
-        <h3>Regras</h3><p class="sub">8 campos obrigatórios; divergência e PDF imagem viram alerta; a validação é humana; nada sai da estação (LGPD).</p></div></div></div>`;
+        <h3>Regras</h3><p class="sub">9 campos obrigatórios; divergência, PDF imagem e cobrança reiterada viram alerta; a validação é humana; nada sai da estação (LGPD).</p></div></div></div>`;
 }
 async function ligarConfigExtra(){}
 
@@ -1607,16 +1763,21 @@ async function iniciarApp(){
     const seed = dadosEmbutidos("seed");
     if (seed) await db.importar({app: APP.id, dados: seed}, true);
   }
-  // Deriva a situação a partir dos 8 campos e dos alertas do seed.
+  // Deriva a situação a partir dos 9 campos e dos alertas do seed.
   for (const e of await db.list("emails")){
     const s = teAtualizarStatus(e);
     if (s !== e.status) await db.put("emails", {...e, status: s});
   }
 }
 
-teste("TEIA: 8 campos essenciais definidos", ()=> TE_CAMPOS.length === 8 && TE_CAMPOS.every(c=>c.id && c.rotulo));
-teste("TEIA: campo vazio conta como falta", ()=> teFaltando({protocolo: "2026.1", regional: "Cuiabá"}).length === 6);
-teste("TEIA: validação exige os 8 campos", ()=> teFaltando({...Object.fromEntries(TE_CAMPOS.map(c=>[c.id, "x"]))}).length === 0);
+teste("TEIA: 9 campos essenciais definidos", ()=> TE_CAMPOS.length === 9 && TE_CAMPOS.every(c=>c.id && c.rotulo));
+teste("TEIA: campo vazio conta como falta", ()=>{
+  const c = Object.fromEntries(TE_CAMPOS.map(x=>[x.id, "x"]));
+  delete c.protocolo;
+  const falta = teFaltando(c);
+  return falta.length === 1 && falta[0] === "Protocolo";
+});
+teste("TEIA: validação exige os 9 campos", ()=> teFaltando({...Object.fromEntries(TE_CAMPOS.map(c=>[c.id, "x"]))}).length === 0);
 teste("TEIA: divergência é alerta", ()=> !!TE_ALERTA.divergencia && !!TE_ALERTA.ocr);
 teste("TEIA: status pendente quando falta campo", ()=> teAtualizarStatus({status: "extraido", campos: {protocolo: "x"}}) === "pendente");
 

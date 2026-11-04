@@ -106,21 +106,24 @@ def s3_mapa_e_pdf(pg, url, ok):
     ir(pg, url, "#/mapa/REQ-0013", 400)
     pg.select_option("#paModelo", "delimitacao")
     pg.click("#formPaMapa button[type=submit]"); pg.wait_for_timeout(400)
-    ok("mapa sem elementos obrigatórios é recusado (RN02)", "RN02" in pg.inner_text("#paErrosMapa") and contar(pg, "mapas") == 4)
-    pg.select_option("#paModelo", "localizacao")
-    pg.fill("#paExtra", "12,5")
-    for campo_id in ("paEl_norte", "paEl_escala", "paEl_legenda", "paEl_data", "paEl_fonte"):
-        pg.fill("#" + campo_id, "valor de teste")
-    pg.click("#formPaMapa button[type=submit]"); pg.wait_for_timeout(600)
-    ok("o mapa completo é anexado ao laudo", "#/laudo/REQ-0013" in pg.url and contar(pg, "mapas") == 5)
-    m = pg.evaluate("async ()=> (await db.porIndice('mapas','laudo_id','L-REQ-0013'))[0]")
-    ok("o mapa guarda modelo, elementos e medida (RN02)", m["modelo_id"] == "localizacao" and m["elementos"]["norte"] == "valor de teste" and m["valor_extra"] == "12,5")
-    ok("a lista de mapas mostra os elementos conferidos", pg.locator("#paListaMapas li.feito").count() == 1)
+    ok("mapa sem elementos obrigatórios é recusado (RN02)", "RN02" in pg.inner_text("#paErrosMapa") and contar(pg, "mapas") == 6)
+    for tipo in ("localizacao", "antes", "depois"):
+        ir(pg, url, "#/mapa/REQ-0013", 300)
+        pg.select_option("#paTipoMapa", tipo)
+        pg.select_option("#paModelo", "localizacao")
+        pg.fill("#paExtra", "12,5")
+        for campo_id in ("paEl_norte", "paEl_escala", "paEl_legenda", "paEl_data", "paEl_fonte"):
+            pg.fill("#" + campo_id, "valor de teste")
+        pg.click("#formPaMapa button[type=submit]"); pg.wait_for_timeout(500)
+    ok("os três mapas completos são anexados ao laudo", "#/laudo/REQ-0013" in pg.url and contar(pg, "mapas") == 9)
+    m = pg.evaluate("async ()=> (await db.porIndice('mapas','laudo_id','L-REQ-0013')).find(x=>x.tipo_mapa==='localizacao')")
+    ok("o mapa guarda tipo, modelo, elementos e medida (RN02)", m["tipo_mapa"] == "localizacao" and m["modelo_id"] == "localizacao" and m["elementos"]["norte"] == "valor de teste" and m["valor_extra"] == "12,5")
+    ok("a lista de mapas mostra os três elementos conferidos", pg.locator("#paListaMapas li.feito").count() == 3)
     # com mapa e cabeçalho, a versão impressa abre
     ir(pg, url, "#/pdf/REQ-0013", 500)
     ok("com mapa e cabeçalho, a versão impressa abre (RN03)", pg.locator("#paDocumento").count() == 1)
     doc = pg.inner_text("#paDocumento")
-    ok("o documento traz o cabeçalho e os mapas anexados", "LAUDO" in doc and "2026.888888-8" in doc and "Mapas anexados (1)" in doc)
+    ok("o documento traz o cabeçalho e os mapas anexados", "LAUDO" in doc and "2026.888888-8" in doc and "Mapas anexados (3)" in doc)
     # conclusão salva aparece no documento
     ir(pg, url, "#/laudo/REQ-0013", 400)
     pg.fill("#paConclusao", "Área de 12,5 ha com vegetação queimada."); pg.click("#formPaConclusao button[type=submit]"); pg.wait_for_timeout(500)
@@ -128,7 +131,7 @@ def s3_mapa_e_pdf(pg, url, ok):
     ok("a conclusão vai para a versão impressa", "vegetação queimada" in pg.inner_text("#paDocumento"))
     # a conclusão do laudo concluído exige mapa, e o exemplo já tem
     ok("todos os mapas do exemplo e o novo vêm com os elementos completos",
-       pg.evaluate("async ()=> (await db.list('mapas')).filter(m=>paMapaCompleto(m)).length") == 5)
+       pg.evaluate("async ()=> (await db.list('mapas')).filter(m=>paMapaCompleto(m)).length") == 9)
 
 # origem: sprint4.py
 @cenario
@@ -137,7 +140,8 @@ def s4_conclusao_com_assinatura(pg, url, ok):
     semear(pg, url)
     rid = pg.evaluate("""async ()=>{ const rs = await db.list('requisicoes'); const r = rs.find(x=>x.status!=='concluida');
         const l = (await db.porIndice('laudos','requisicao_id',r.id_requisicao))[0];
-        await db.put('mapas', {id_mapa: 'M-TESTE', laudo_id: l.id_laudo, modelo_id: 'delimitacao', modelo: 'Delimitação da área de dano',
+        for (const [i, tipo] of ['localizacao','antes','depois'].entries()) await db.put('mapas', {id_mapa: 'M-TESTE-' + i, laudo_id: l.id_laudo,
+          tipo_mapa: tipo, modelo_id: 'delimitacao', modelo: 'Delimitação da área de dano',
           elementos: {norte: 'N', escala: '1:25.000', legenda: 'dano', data: '2026-10-20', fonte: 'satélite'}, valor_extra: '10,0', criado_em: agora()});
         return r.id_requisicao; }""")
     ir(pg, url, "#/laudo/" + rid, 700)
@@ -182,6 +186,33 @@ def s6_produtividade_e_aceite(pg, url, ok):
     csv = pathlib.Path(dl.value.path()).read_bytes()
     ok("o CSV de produtividade sai com BOM e as colunas do laudo", csv.startswith(b"\xef\xbb\xbf") and b"requisicao;numero;orgao" in csv)
     ok("o roteiro de aceite está em modelos/", (PASTA / "modelos" / "roteiro-aceite.md").exists())
+
+@cenario
+def s8_feedback_secoes_e_docx(pg, url, ok):
+    perfil(pg, url, "perito")
+    semear(pg, url)
+    rid = pg.evaluate("async ()=> (await db.list('requisicoes')).find(r=>r.status!=='concluida').id_requisicao")
+    ir(pg, url, "#/laudo/" + rid, 700)
+    ok("o cabeçalho tem autoridade, natureza, datas, horários e setor",
+       all(x in pg.inner_text("#tabelaCabecalho") for x in ("Autoridade requisitante", "Natureza do exame", "Data de elaboração", "Horário de início", "Setor")))
+    ok("as abas novas existem", all(pg.locator("#aba-" + a).count() == 1 for a in ("metodologia", "consideracoes", "valoracao", "quesitos")))
+    pg.click("#aba-metodologia"); pg.fill("#paMetodologia", "Metodologia de teste com sensoriamento remoto.")
+    pg.click("#aba-consideracoes"); pg.fill("#paConsideracoes", "Considerações de teste sobre a imagem.")
+    pg.click("#aba-valoracao"); pg.fill("#paAreaHa", "2"); pg.fill("#paValorHa", "100")
+    ok("a valoração calcula o total", pg.input_value("#paValorTotal") == "200.00")
+    pg.click("#aba-quesitos"); pg.fill("#paQuesitos", "1) Houve dano? Sim.")
+    pg.click("#aba-conclusao"); pg.click("[data-pa-salvar]"); pg.wait_for_timeout(700)
+    l = pg.evaluate("async id => (await db.porIndice('laudos','requisicao_id',id))[0]", rid)
+    ok("as seções ficam gravadas no laudo", l.get("metodologia", "").startswith("Metodologia de teste") and l.get("valor_total") == 200 and l.get("quesitos_texto", "").startswith("1)"))
+    with pg.expect_download() as dl:
+        pg.click("#btnPaDocx")
+    dados = pathlib.Path(dl.value.path()).read_bytes()
+    import io, zipfile
+    with zipfile.ZipFile(io.BytesIO(dados)) as z:
+        xml = z.read("word/document.xml").decode("utf-8")
+    ok("o .docx leva cabeçalho, metodologia, valoração e quesitos",
+       dados[:2] == b"PK" and all(x in xml for x in ("LAUDO PERICIAL AMBIENTAL", "Metodologia", "Valoração", "Quesitos", "Autoridade requisitante")))
+
 
 def main():
     erro = False

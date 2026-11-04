@@ -27,7 +27,7 @@ TELAS["#/laudo/:id"] = async (p)=>{
     ${assin.length ? `<p class="ok-txt">Assinado por <b>${esc(assin[assin.length - 1].nome)}</b> (${esc(assin[assin.length - 1].cargo)}) em ${dataBR(assin[assin.length - 1].data)}.</p>`
       : `<p class="sub">A conclusão registra a assinatura do perito responsável.</p>
         <div class="campos">${campo("paAssNome", "Perito responsável", {valor: "Perito Fictício"})}${campo("paAssCargo", "Cargo ou matrícula", {valor: "Perito criminal"})}</div>`}
-    <p class="sub">Mapas anexados: <b>${mapas.length}</b> · cabeçalho ${paCabecalho(r, l).every(([, v])=>String(v || "").trim() && !/não informad/i.test(v)) ? "completo" : "incompleto"}.</p></div>`;
+    <p class="sub">Mapas anexados: <b>${mapas.length}</b> (${PA_TIPOS_MAPA.length} tipos) · cabeçalho ${paCabecalho(r, l).every(([, v])=>String(v || "").trim() && !/não informad/i.test(v)) ? "completo" : "incompleto"}.</p></div>`;
   return html + card;
 };
 TELAS_DEPOIS["#/laudo/:id"] = async (p)=>{
@@ -41,7 +41,7 @@ TELAS_DEPOIS["#/laudo/:id"] = async (p)=>{
     const semCab = cab.filter(([, v])=>!String(v || "").trim() || /não informad/i.test(v)).map(([k])=>k);
     const erros = [
       ...semCab.map(k=>`Cabeçalho incompleto: ${k}.`),
-      !mapas.length && "Anexe pelo menos 1 mapa temático (RN03).",
+      paMapasObrigatorios(mapas).length && `Anexe os mapas obrigatórios: ${paMapasObrigatorios(mapas).join(", ")} (RN03).`,
       ...paFaltaAssinatura($("#paAssNome") ? assinatura : (await paAssinaturas(p.id)).pop() || null).map(f=>`Falta ${f}.`),
     ].filter(Boolean);
     if (!mostrarErros("#paErrosLaudo", erros)) return;

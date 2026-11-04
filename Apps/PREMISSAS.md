@@ -1,4 +1,4 @@
-# Premissas dos apps (elucubração para não parar o desenvolvimento)
+﻿# Premissas dos apps (elucubração para não parar o desenvolvimento)
 
 > Documento de referência da fase de ideação. Cada item do Sprint 0 que dependia de
 > decisão institucional, documento oficial ou medição do processo real foi
@@ -35,6 +35,10 @@ passo de cada app) e o `sprint.md` de cada app (itens do Sprint 0).
 | Anexar os documentos citados (AS-IS e TO-BE em .docx, planilha de controle) | A tabela AS-IS vira `modelos/tabela-as-is.md` e a planilha de controle vira `exemplos/planilha-controle.csv`, ambos fictícios | `modelos/`, `exemplos/` | A | Os arquivos reais das unidades |
 | Acrescentar os feriados de MT e do município (Cuiabá) | A lista tem 24 feriados: os **20 nacionais** de 2026 e 2027, o **Corpus Christi** (ponto facultativo estadual de MT) e o **aniversário de Cuiabá** (municipal). **No prazo entram só os nacionais e o estadual**, porque o recurso é federal; o municipal fica na lista marcado como `escopo: "municipal"` | store `feriados` (`escopo`), `exemplos/gerar_exemplos.py` | B | Se o Modesc conta o feriado municipal |
 | Linha de base: datas dos pedidos de 4 semanas | 10 processos de exemplo com entrada entre agosto e outubro de 2026, tempo médio de 21 dias da solicitação ao pagamento | store `processos`, `exemplos/gerar_exemplos.py` | B | As datas reais das 4 semanas |
+| De onde vem o afastamento (férias/licença-prêmio) | Marcação manual na Configuração (`afastamentos`), com matrícula, tipo, início, fim e motivo; o pedido é bloqueado no período. A integração com RH/SIGRH fica para a versão institucional | `src/sprint5.js`, store `afastamentos`, `#/config` | B | A fonte oficial do afastamento e a periodicidade da atualização |
+| Quem autoriza a urgência e o critério | A chefia da unidade autoriza; o app exige justificativa de 30+ caracteres, grava a trilha e marca o pedido como urgente fora da fila normal. O app não substitui a autorização | `src/app.js` (`#/pedido/novo`), `src/sprint5.js` (ficha/painel) | B | O critério formal e quem assina a urgência |
+| Prazo de 24 h para o recurso | Conta da aprovação da chefia; o app mostra o prazo, a contagem e o alerta na ficha e no painel | `src/sprint5.js` (`moverEtapa`, ficha, painel) | B | Se conta da aprovação, do empenho ou da disponibilidade |
+| O que é "construção" para o Linicker | Pendência de escopo: pode ser a etapa de construção ou o acompanhamento da implantação. Não bloqueia o MVP; o app registra as 12 etapas atuais | `sprint.md` (Sprint 8) | C | O significado e se vira uma etapa/registro separado |
 
 ## 2. Agendamento CIN (`agendamento-cin`)
 
@@ -53,7 +57,10 @@ passo de cada app) e o `sprint.md` de cada app (itens do Sprint 0).
 | Conferir com o perito o formato real dos TXT e HTML | Os formatos do app são os de Android 11 e 12: `DEVICE INFO.txt`, `HASHDOHASH.txt` e `HTML do SIM`; o app lê e mostra o que encontrou, sem exigir todos | `exemplos/FORMATOS.md`, `src/app.js` | A | O formato de cada aparelho em uso |
 | Copiar o modelo institucional para `modelos/modelo-laudo-celular.docx` | O modelo do laudo celular tem as seções: identificação do aparelho, IMEIs, SIMs, hash e assinaturas | `modelos/modelo-laudo-celular.docx`, `modelos/MARCADORES.md` | A | O modelo institucional verdadeiro |
 | Reunir os textos padronizados da Gerência | 11 textos padronizados (histórico, conclusão, laudo e outros) no store `textos`, com o conteúdo de cada um. A classificação por quesitos fica no app, não no seed | store `textos`, `exemplos/textos.json` | A | Os textos oficiais da Gerência |
-| Criar a planilha da linha de base | 3 casos fictícios com inventário completo (aparelhos, SIMs e hashes), com o tempo de conferência | `exemplos/caso-ficticio-001..003` | B | Os números reais de 1 mês |
+'| Criar a planilha da linha de base | 3 casos fictícios com inventário completo (aparelhos, SIMs e hashes), com o tempo de conferência | `exemplos/caso-ficticio-001..003` | B | Os números reais de 1 mês |
+| Modelo institucional timbrado e marcadores | O app aceita `.docx`/`.dotx` e avisa se o modelo não tem marcadores; a versão fictícia de `modelos/modelo-laudo-celular.docx` é a referência. O modelo oficial ainda precisa receber os marcadores | `modelos/`, `#/config`, `marcadoresDoModelo` | B | O modelo oficial e a lista de marcadores |
+| Uso de IA e foto do aparelho | A adaptação de texto é local, por marcadores; não há chamada de IA externa. A foto é reduzida a 800 px, a cor é uma sugestão assistida e o perito confirma | `src/sprint4.js` (`sugerirCorDeImagem`, `preencherMarcadores`) | B | Se a IA externa será autorizada e qual a política de LGPD |
+| Formato dos textos e teste com o caso real | O app permite editar Histórico, Exames e Considerações por caso; o texto padrão e o teste com o `CASO TESTE 2` dependem da Gerência | `#/textos`, `modelos/` | C | O texto oficial e os arquivos do caso real |'
 
 ## 4. Segunda via da CIN (`cin-segunda-via`)
 
@@ -62,7 +69,10 @@ passo de cada app) e o `sprint.md` de cada app (itens do Sprint 0).
 | Confirmar as regras oficiais da segunda via | O pedido online é admitido quando a **primeira via da CIN ainda está válida** e **nenhum dado mudou** (nome, estado civil, filiação). Com dado alterado, o cidadão vai ao posto. O app não trata "cadastro com menos de 15 dias" como regra de elegibilidade | `src/app.js` (RN03, `elegivel`), `contexto.md` | B | As regras de dispensa e os prazos do cadastro |
 | Indicar a fonte dos números (15 dias, 21.000 por mês) | 15 dias é a **validade do cadastro no posto** (o app mostra a validade da CIN); 21.000 por mês é o **volume de emissões no estado** | `contexto.md`, painel | B | A fonte oficial dos dois números |
 | Fotos de teste geradas (sem pessoas reais) | As fotos do exemplo são imagens sintéticas, geradas no `exemplos/gerar_exemplos.py`, com 3 fotos por pedido | store `fotos`, `exemplos/gerar_exemplos.py` | A | Nenhuma (dado fictício por definição) |
-| Conversa com a TI sobre a integração com a coleta biométrica | **Não há integração**: o app é um protótipo offline, e o registro do atendimento é feito à mão no sistema oficial. A posição fica registrada em `contexto.md` | `contexto.md`, `README.md` | C | A TI confirma que não há API no curto prazo |
+'| Conversa com a TI sobre a integração com a coleta biométrica | **Não há integração**: o app é um protótipo offline, e o registro do atendimento é feito à mão no sistema oficial. A posição fica registrada em `contexto.md` | `contexto.md`, `README.md` | C | A TI confirma que não há API no curto prazo |
+| Fotos das impressões quando o documento foi extraviado | 4 fotos (polegar e indicador de cada mão), reduzidas a 800 px e JPEG 0.8; nesse caso o app não pede a foto do documento. O conjunto mínimo e a qualidade precisam ser confirmados com a papiloscopia | `tiposDeFoto`, `formDados`, store `fotos` | B | Quantos dedos e qual a qualidade mínima |
+| Quem valida o confronto papiloscópico | O papiloscopista; a fila registra o perfil na decisão de aceitar ou recusar; o resultado do confronto não é automático | `src/sprint3.js`, store `decisoes` | B | Quem assina e o que fica registrado |
+| Integração com a base biométrica | Não há integração no MVP; as imagens ficam no navegador e são apagadas depois da decisão | `src/sprint4.js`, `contexto.md` | C | A API e a LGPD da integração |'
 
 ## 5. Comissão de Ética (`comissao-etica-denuncias`)
 
@@ -86,6 +96,8 @@ passo de cada app) e o `sprint.md` de cada app (itens do Sprint 0).
 |---|---|---|---|---|
 | Conferir categorias, condições de conservação e capacidades | 5 categorias (entorpecentes e contraprovas, armas brancas, roupas e têxteis, eletrônicos e mídias, materiais biológicos), cada uma com condição de conservação e restrição; 5 contêineres com capacidade em litros (de 40 L a 200 L), um por categoria | store `categorias`, `conteineres`, `exemplos/gerar_exemplos.py` | C | As categorias e a capacidade real dos contêineres |
 | Receber a medição real de volume, tempo de recebimento e tempo de localização | O volume é medido em **litros** (2 L por item típico), o recebimento leva **40 min** e a localização no acervo **15 min** | store `vestigios` (`volume_ocupado`), `historico_mensal` | B | A unidade de medida e os tempos reais |
+| Hierarquia física e confirmação | O contêiner é a caixa/armário; o endereço completo é contêiner > estante > prateleira > nível > posição. O endereço sugerido vira efetivo só depois da confirmação física, com responsável, data e histórico | `conteineres`, `vestigios`, `src/sprint3.js` (`cdEnderecoCompleto`, confirmação) | B | A estrutura real, as capacidades e a unidade (litros) |
+| Cadastro em etapas e conservação | O cadastro guarda procedência, conferência documental, integridade do lacre, embalagem, quantidade, dimensões e conservação; campos vazios aparecem como pendência na ficha | `src/sprint3.js`, `#/vestigio/novo` | B | Quais etapas são obrigatórias e as regras de compatibilidade por categoria |
 
 ## 8. Distribuição de Casos de DNA (`distribuicao-casos-dna`)
 
@@ -238,3 +250,57 @@ O texto das duas foi consultado em 30/10/2026 no acervo
 [ctresb/leis](https://github.com/ctresb/leis) e no site do Planalto. O que continua
 sendo elucubração são os **prazos em dias** e a **divisão em etapas**, porque a
 lei não fixa esses números para o fluxo interno da POLITEC.
+
+---
+
+## Feedback de 03/11/2026
+
+Premissas assumidas para abrir os sprints de correção sem esperar a confirmação do setor. A lista completa de itens está no `sprint.md` de cada app; aqui fica só o que foi assumido.
+
+| App | Premissa assumida | Nível | O que confirmar |
+|---|---|---|---|
+| adiantamento | O afastamento (férias ou licença-prêmio) é marcado à mão ou importado de uma lista; o pedido urgente é aprovado pela chefia com justificativa e o recurso tem 24 h depois da aprovação; "construção" é o acompanhamento da implantação | C | A fonte do afastamento, o critério de urgência, a origem das 24 h e o sentido de "construção" |
+| agiliza-mais | O `.dotx` do `CASO TESTE 2` é o modelo oficial e receberá os marcadores; a IA de texto e de foto é sugestão com revisão humana; o tipo de dispositivo sai do extrator | B | O modelo timbrado, o uso de IA e a lista de tipos de dispositivo |
+| cin-segunda-via | O pedido sem documento passa a aceitar fotos das impressões digitais; a biometria real fica fora do MVP | C | O conjunto mínimo de fotos, a qualidade e a integração com a base biométrica |
+| comissao-etica-denuncias | Membros e textos padrão são fictícios e editáveis em `#/config`; o envio é por e-mail institucional | C | A lista de membros, os modelos de ata/relatório e o canal de e-mail |
+| custodia-definitiva | A estrutura física é fictícia com contêiner, estante, prateleira, nível e posição, capacidade em itens; "contêiner" é a unidade de armazenamento com subdivisões; 30 x 1.168 é o recorte do painel x a base completa | C | A estrutura real, as capacidades e as unidades de medida |
+| equipamentos-google-earth | O único item é o teste manual no Google Earth; não há ajuste de código pedido | A | O teste no Google Earth Pro e Web |
+| gestao-documentos | Processo de acompanhamento dispensa anexo; a cobrança aparece no painel/ficha quando o prazo entra em amarelo (70%) e no vencimento (vermelho); e-mail fica para a versão institucional | B | Quais processos dispensam anexo e qual o canal/antecedência |
+| inscricoes-cursos | Perfis diretoria, coordenação, gerência e chefe; o termo tem convocação e compensação com datas | B | As permissões de cada perfil e o modelo do termo |
+| metas-bi-ocr | As gerências monitoradas são as do exemplo; o cartão "Pendentes" soma as unidades; a aprovação exige soma igual ao total (RN02) | C | A lista de gerências, o conteúdo do cartão e a regra de aprovação |
+| rnc-nao-conformidade | As categorias são ADM, AMB, PES, REA, EQP e MPA; o complemento é 5 dias úteis; o setor é o contexto do perfil e o responsável pelo plano/avaliação é registrado; a autenticação real é externa | A | O modelo oficial, as permissões e os 5 dias úteis |
+| teia-triagem-emails | A lista de regionais é a do feedback; o nível é do coordenador; a reiteração alerta a partir da 2ª cobrança em 30 dias; o protocolo é `nnnnnn/aaaa` | C | A lista de regionais, o fluxo do nível e a regra da reiteração |
+| agendamento-cin | Sem resposta até 03/11/2026; valem as premissas anteriores | C | O feedback do Elthon (em preenchimento) |
+
+### Segunda leva de feedback (03/11/2026)
+
+| App | Premissa assumida | Nível | O que confirmar |
+|---|---|---|---|
+| mapa-distribuicao-credor | O PDF do pregoeiro tem tabela com as mesmas colunas do Excel; a dotação tem os dígitos informados pelo setor e entra depois do tipo; a situação do processo é andamento, concluído ou cancelado; a empresa ganhadora é a primeira colocada do grupo | B | O modelo do mapa da SESP, a amostra do PDF, a máscara da dotação e a regra de desempate |
+| renovacao-contratos-horus | Cada contrato tem um fiscal e um gestor com nome, e-mail e telefone; o aviso sai no laranja e no vermelho; o e-mail é institucional, com confirmação de leitura; WhatsApp fica fora do MVP | B | Os dados dos fiscais, o canal de e-mail, as faixas do semáforo e o modelo da planilha de controle |
+| passivo-ambiental | O laudo segue o modelo oficial com metodologia, considerações, valoração e quesitos; os três mapas são obrigatórios e podem ser PDF; o nome do setor é editável | C | O modelo oficial, o texto de metodologia, a regra de valoração e o nome atual do setor |
+| tap-portfolio-projetos | Os objetivos estratégicos são os do plano da POLITEC; o prazo é de 5 dias; os avisos são por e-mail para equipe, demandante e autoridade | B | A lista oficial dos objetivos, o canal de e-mail e a contagem dos 5 dias |
+
+
+
+
+
+
+### Onda 2 implementada (03/11/2026)
+
+| App | O que ficou assumido no código | Nível | O que confirmar |
+|---|---|---|---|
+| renovacao-contratos-horus | Um fiscal e um gestor por contrato, com nome, e-mail e telefone; o aviso alerta no laranja e no vermelho; a fila é local e o envio real é MailApp/Apps Script; a planilha aceita as colunas numero, fornecedor, cnpj, valor, data_inicio, data_fim, objeto e status | B | Dados reais dos contatos, canal/texto do e-mail, faixas e o modelo da planilha do setor |
+| metas-bi-ocr | A gerência é derivada do nome da unidade (IML, Laboratório Forense, Criminalística, Regionais, Outras); "Pendentes" soma as unidades monitoradas; o total é ajustado ao recorte; a aprovação abre a planilha | C | A lista e a grafia das gerências reais, o conteúdo do cartão e a regra de aprovação |
+| tap-portfolio-projetos | Os objetivos estratégicos são editáveis em `#/config`; o prazo de pendência é de 5 dias úteis; os avisos ficam em fila local; sanar pendências devolve o TAP para a análise | B | A lista oficial dos objetivos, o canal/texto dos avisos e a contagem dos 5 dias |
+| comissao-etica-denuncias | Os membros são fictícios e aparecem em lista suspensa; os textos padrão citam o artigo e as datas; o curso indicado é editável no relatório; o envio usa `mailto:` | C | A lista nominal, os modelos oficiais e o canal institucional de envio |
+
+
+### Onda 3 implementada (03/11/2026)
+
+| App | O que ficou assumido no código | Nível | O que confirmar |
+|---|---|---|---|
+| inscricoes-cursos | Os perfis são diretoria, coordenação, gerência e chefe; o termo usa os campos do curso e as datas de convocação/compensação; instrutores e monitores são uma linha por pessoa | B | As permissões reais de cada perfil, o modelo do termo e as regras de compensação |
+| mapa-distribuicao-credor | O PDF do pregoeiro tem camada de texto e a tabela é reconstruída por coordenadas; o mapa SESP usa processo, órgão, tipo, dotação, credor, CNPJ, grupo/item, valores e ano seguinte | C | A amostra real do PDF, o modelo oficial da SESP e a máscara da dotação |
+| gestao_identificados | O cruzamento usa sexo, idade ±5, altura ±10 cm, município, janela de datas e características; a confirmação é humana e exige justificativa; a decisão fica em `correspondencias` e no `log` | B | A validação do NIHDE, os pesos do match e o fluxo de exames complementares |
+| equipamentos-google-earth | Nenhum ajuste de código; o `.kmz` e os gráficos continuam como estão | A | O teste manual no Google Earth Pro/Web e a base do mapa |

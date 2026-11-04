@@ -18,6 +18,7 @@
 | 5 | Feito em 03/11/2026: empresas por órgão e conferência das divergências D01 a D07. Cenário `s5_empresas_e_conferencia` passa. |
 | 6 | Feito em 03/11/2026: distribuição orçamentária por credor e órgão, com ano seguinte (RN05, RN06 e RN10) e validação da dotação. Cenário `s6_orcamento` passa. |
 | 7 | Feito em 03/11/2026: Excel com 8 abas, relatório de divergências para impressão e trilha de auditoria. Cenário `s7_exportar_e_auditoria` passa. |
+| 9 | Aberto em 03/11/2026 (feedback dos alunos). Ver Sprint 9 abaixo. |
 
 O `mapa-manual-referencia.xlsx` é calculado por um script independente (Decimal), não à mão; o gabarito manual da equipe continua pendente. Dinheiro em centavos testado (9 testes).
 
@@ -163,3 +164,27 @@ aparece na auditoria com o valor anterior.
 - [x] `LEIA-ME` de uso e atualização de `PROJETO.md` e `README.md`.
 
 **Pronto quando**: diferença zero contra o gabarito e piloto medido.
+
+## Sprint 9 · Correções do feedback (03/11/2026)
+
+> Feedback de Igor (nota 3).
+
+### Código
+- [x] Importar o relatório do pregoeiro em **PDF** (além de .xlsx e .csv), com aviso quando o PDF for imagem.
+- [x] Novo mapa de distribuição orçamentária no Exportar, no mesmo modelo que o setor envia à SESP.
+- [x] Campo com os **dígitos da dotação orçamentária**, salvo no processo e mostrado no Resultado, na Orçamentária e no Excel.
+- [x] Situação do processo: **em andamento**, **concluído** e **cancelado**, alterável na lista.
+- [x] Tabela **Grupos e empresas** com a empresa ganhadora, CNPJ, tipo (custeio/investimento) e total homologado.
+- [x] Alinhamento do Mapa por item: descrição justificada e grupo/item/código/unidade centralizados.
+
+### Decisão do setor
+- [ ] Modelo oficial do mapa orçamentário da SESP (arquivo).
+- [ ] Amostra do PDF do pregoeiro e como a tabela aparece.
+- [ ] Regras de situação e quem pode alterar.
+- [ ] Quantos dígitos tem a dotação e como ela se relaciona com o tipo.
+- [ ] Regra da empresa ganhadora por grupo (quando houver empate).
+
+**Pronto quando**: o PDF do pregoeiro é lido, a dotação aparece no resultado e o novo mapa sai no modelo da SESP.
+
+
+**Implementado em 03/11/2026**: leitura de PDF com camada de texto pelo pdf.js (aviso quando é imagem) e botão **Mapa orçamentário (SESP)** no Exportar, com processo, órgão, tipo, dígitos da dotação, credor, CNPJ, valores e ano seguinte. O modelo oficial da SESP e a amostra real do pregoeiro continuam a confirmar.

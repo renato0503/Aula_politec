@@ -106,6 +106,8 @@ def s3_conferencia(pg, url, ok):
     pg.fill("#motivoCorrecao", "Total do PDF inclui laudos de outra diretoria"); pg.click("#btnAceitarSoma"); pg.wait_for_timeout(500)
     ok("aceitar a soma com motivo libera a aprovação", not pg.is_disabled("#btnAprovar"))
     pg.fill("#aprovador", "Chefe Teste"); pg.click("#btnAprovar"); pg.wait_for_timeout(500)
+    ir(pg, url, "#/conferencia/2026-09", 400)
+    ok("mês aprovado abre a planilha e fica travado (RN05)", "Planilha liberada" in pg.inner_text("#conteudo") or "aprovado por Chefe Teste" in pg.inner_text("#situacaoMes"))
     ok("mês aprovado fica travado (RN05)", "aprovado por Chefe Teste" in pg.inner_text("#situacaoMes") and pg.locator("[data-novo]").count() == 0)
     ir(pg, url, "#/conferencia/2026-08", 500)
     ok("agosto: variação acima de 30% sobre julho vira alerta (RN04)", "RN04" in pg.inner_text("[data-unidade='Criminalística Cuiabá']"))
@@ -151,6 +153,60 @@ def s6_aceite_e_piloto(pg, url, ok):
     ir(pg, url, "#/conferencia/2026-07", 600)
     ok("a conferência abre com as divergências do mês", pg.locator("#conteudo").count() == 1)
     ok("o roteiro de aceite está em modelos/", (PASTA / "modelos" / "roteiro-aceite.md").exists())
+
+@cenario
+def s7_mes_escolhido_e_edicao(pg, url, ok):
+    ex = PASTA / "exemplos"
+    semear(pg, url)
+    ir(pg, url, "#/importar", 500)
+    ok("o importador tem o campo de mês", pg.locator("#mesImportar").count() == 1)
+    pg.fill("#mesImportar", "2026-12")
+    pg.set_input_files("#arqMes", str(ex / "powerbi1-2026-07.csv")); pg.wait_for_timeout(1200)
+    ok("o mês escolhido prevalece sobre o do arquivo", "2026-12" in pg.inner_text("#mesLido")
+       and pg.evaluate("async () => !!(await db.get('relatorios','2026-12'))")
+       and "2026-07" in pg.inner_text("#resMes"))
+    ir(pg, url, "#/conferencia/2026-12", 900)
+    primeiro = pg.evaluate("async () => (await db.porIndice('pendencias','mes_ref','2026-12')).sort((a,b)=>a.unidade.localeCompare(b.unidade))[0]")
+    pg.click(f'[data-editar-pend="{primeiro["id"]}"]'); pg.wait_for_timeout(400)
+    ok("a edição abre o diálogo com a unidade e o valor", pg.locator("dialog.metas-dialogo").count() == 1 and pg.input_value("#edPend") == str(primeiro["pendentes"]))
+    pg.fill("#edPend", "777"); pg.fill("#edMotivo", "Correção manual para teste.")
+    pg.click("dialog.metas-dialogo button[type=submit]"); pg.wait_for_timeout(1000)
+    ok("editar grava o novo valor e a correção", pg.evaluate("async id => (await db.get('pendencias', id)).pendentes", primeiro["id"]) == 777
+       and pg.evaluate("async () => (await db.list('correcoes')).some(c => c.tipo === 'edicao' && c.valor_final === 777)"))
+    antes = pg.evaluate("async () => (await db.porIndice('pendencias','mes_ref','2026-12')).length")
+    pg.click(f'[data-excluir-pend="{primeiro["id"]}"]'); pg.wait_for_timeout(900)
+    ok("excluir remove só a linha escolhida", pg.evaluate("async () => (await db.porIndice('pendencias','mes_ref','2026-12')).length") == antes - 1)
+    ir(pg, url, "#/importar", 800)
+    pg.click('[data-excluir-mes="2026-12"]'); pg.wait_for_timeout(900)
+    ok("excluir apaga o mês e as pendências", pg.evaluate("async () => !(await db.get('relatorios','2026-12'))")
+       and pg.evaluate("async () => (await db.porIndice('pendencias','mes_ref','2026-12')).length") == 0)
+
+@cenario
+def s8_gerencia_recorte_e_exportacao(pg, url, ok):
+    semear(pg, url)
+    ex = PASTA / "exemplos"
+    ir(pg, url, "#/importar", 400)
+    pg.select_option("#gerenciaImportar", "IML"); pg.check("#somenteMonitoradas")
+    pg.set_input_files("#arqMes", str(ex / "powerbi1-2026-07.csv")); pg.wait_for_timeout(900)
+    n = pg.evaluate("async ()=> (await db.porIndice('pendencias','mes_ref','2026-07')).length")
+    soma = pg.evaluate("async ()=> (await db.porIndice('pendencias','mes_ref','2026-07')).reduce((a,p)=>a+p.pendentes,0)")
+    rel = pg.evaluate("async ()=> await db.get('relatorios','2026-07')")
+    ok("o filtro de gerência importa só o recorte IML", n == 2 and soma == 1081)
+    ok("o total é ajustado ao recorte", rel["total_relatorio"] == 1081 and rel["gerencia"] == "IML")
+    ir(pg, url, "#/conferencia/2026-07", 500)
+    ok("o cartão Pendentes soma as unidades monitoradas", pg.inner_text("#kpiPendentes") == "1081")
+    pg.select_option("#metasGerenciaConf", "IML"); pg.wait_for_timeout(400)
+    ok("a conferência filtra a tabela por gerência", len(pg.query_selector_all("#tabelaConf tr")) == 3)
+    pg.fill("#aprovador", "Chefe Teste"); pg.click("#btnAprovar"); pg.wait_for_timeout(700)
+    ok("aprovar leva à planilha liberada", "#/exportar/2026-07" in pg.url and pg.query_selector("#btnCsv") is not None)
+    # unidade fora do cadastro é descartada quando a opção está marcada
+    planilha = TMP / "recorte-desconhecida.csv"
+    planilha.write_text("Mês;Unidade;Laudos pendentes\n2026-11;IML Cuiabá;10\n2026-11;Unidade Fantasma;99\n", encoding="utf-8")
+    ir(pg, url, "#/importar", 400)
+    pg.check("#somenteMonitoradas")
+    pg.set_input_files("#arqMes", str(planilha)); pg.wait_for_timeout(700)
+    ok("a unidade fora do cadastro não entra no recorte", pg.evaluate("async ()=> (await db.porIndice('pendencias','mes_ref','2026-11')).every(p=>!p.desconhecida)"))
+
 
 def main():
     erro = False

@@ -1,428 +1,438 @@
 {
- "emails": [
-  {
-   "id": "EM-001",
-   "assunto": "Requerimento de laudo pericial",
-   "remetente": "ministério.público.estadual@exemplo.gov.br",
-   "orgao": "Ministério Público Estadual",
-   "recebido_em": "2026-10-23T09:11:00-04:00",
-   "corpo": "Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1001-DNA, da regional Cuiabá. O caso envolve homicídio e exige confronto com amostra de referência. Data da cobrança: 2026-10-21. Número da cobrança: COB-2026-001. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.",
-   "prioridade": "normal",
-   "status": "novo",
-   "anexos": [
+  "emails": [
     {
-     "id": "AN-001-1",
-     "nome": "Oficio_2026.1001-DNA_Cuiabá.pdf",
-     "tipo": "pdf",
-     "paginas": 3,
-     "legivel": true
+      "id": "EM-001",
+      "assunto": "Requerimento de laudo pericial",
+      "remetente": "ministério.público.estadual@exemplo.gov.br",
+      "orgao": "Ministério Público Estadual",
+      "recebido_em": "2026-10-23T09:11:00-04:00",
+      "corpo": "Prezados, solicito a realização de perícia de DNA referente ao protocolo 001001/2026, da regional Cuiabá. O caso envolve homicídio e exige confronto com amostra de referência. Data da cobrança: 2026-10-21. Número da cobrança: COB-2026-001. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.",
+      "prioridade": "normal",
+      "status": "novo",
+      "anexos": [
+        {
+          "id": "AN-001-1",
+          "nome": "Oficio_2026.1001-DNA_Cuiabá.pdf",
+          "tipo": "pdf",
+          "paginas": 3,
+          "legivel": true
+        },
+        {
+          "id": "AN-001-2",
+          "nome": "Termo_2026.1001-DNA.pdf",
+          "tipo": "pdf",
+          "paginas": 2,
+          "legivel": true
+        }
+      ],
+      "campos": {
+        "data_cobranca": "2026-10-23",
+        "tipo_crime": "Local de Crime",
+        "protocolo": "001001/2026",
+        "ar_para_confronto": "Sim",
+        "objetivo_claro": "Realizar exame de DNA para homicídio e confrontar com amostra de referência.",
+        "regional": "Coordenadoria de Perícias em Vivos",
+        "nome_vitima": "Maria Clara Souza",
+        "nome_investigado": "João Pedro Alves",
+        "reu_preso": "Não"
+      },
+      "confianca": 0.99,
+      "alerta": "",
+      "lote_id": "LT-001",
+      "validado_por": "",
+      "validado_em": ""
     },
     {
-     "id": "AN-001-2",
-     "nome": "Termo_2026.1001-DNA.pdf",
-     "tipo": "pdf",
-     "paginas": 2,
-     "legivel": true
-    }
-   ],
-   "campos": {
-    "data_cobranca": "2026-10-21",
-    "numero_cobranca": "COB-2026-001",
-    "nivel": "Alta complexidade",
-    "tipo_crime": "Homicídio",
-    "protocolo": "2026.1001-DNA",
-    "ar_para_confronto": "Sim",
-    "objetivo_claro": "Realizar exame de DNA para homicídio e confrontar com amostra de referência.",
-    "regional": "Cuiabá"
-   },
-   "confianca": 0.99,
-   "alerta": "",
-   "lote_id": "LT-001",
-   "validado_por": "",
-   "validado_em": ""
-  },
-  {
-   "id": "EM-002",
-   "assunto": "Ofício de solicitação de perícia",
-   "remetente": "delegacia.de.polícia.civil@exemplo.gov.br",
-   "orgao": "Delegacia de Polícia Civil",
-   "recebido_em": "2026-10-25T10:12:00-04:00",
-   "corpo": "Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1002-DNA, da regional Sinop. O caso envolve tráfico de drogas e exige confronto com amostra de referência. Data da cobrança: 2026-10-23. Número da cobrança: COB-2026-002. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.",
-   "prioridade": "alta",
-   "status": "novo",
-   "anexos": [
-    {
-     "id": "AN-002-1",
-     "nome": "Oficio_2026.1002-DNA_Sinop.pdf",
-     "tipo": "pdf",
-     "paginas": 3,
-     "legivel": true
+      "id": "EM-002",
+      "assunto": "Ofício de solicitação de perícia",
+      "remetente": "delegacia.de.polícia.civil@exemplo.gov.br",
+      "orgao": "Delegacia de Polícia Civil",
+      "recebido_em": "2026-10-25T10:12:00-04:00",
+      "corpo": "Prezados, solicito a realização de perícia de DNA referente ao protocolo 001002/2026, da regional Sinop. O caso envolve tráfico de drogas e exige confronto com amostra de referência. Data da cobrança: 2026-10-23. Número da cobrança: COB-2026-002. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.",
+      "prioridade": "alta",
+      "status": "novo",
+      "anexos": [
+        {
+          "id": "AN-002-1",
+          "nome": "Oficio_2026.1002-DNA_Sinop.pdf",
+          "tipo": "pdf",
+          "paginas": 3,
+          "legivel": true
+        },
+        {
+          "id": "AN-002-2",
+          "nome": "Termo_2026.1002-DNA.pdf",
+          "tipo": "pdf",
+          "paginas": 2,
+          "legivel": true
+        }
+      ],
+      "campos": {
+        "data_cobranca": "2026-10-25",
+        "tipo_crime": "Biologia",
+        "protocolo": "001002/2026",
+        "ar_para_confronto": "Sim",
+        "objetivo_claro": "Realizar exame de DNA para tráfico de drogas e confrontar com amostra de referência.",
+        "regional": "Coordenadoria Regional de Sinop",
+        "nome_vitima": "Ana Beatriz Lima",
+        "nome_investigado": "Carlos Eduardo Ferreira",
+        "reu_preso": "Não informado"
+      },
+      "confianca": 0.99,
+      "alerta": "",
+      "lote_id": "LT-001",
+      "validado_por": "",
+      "validado_em": ""
     },
     {
-     "id": "AN-002-2",
-     "nome": "Termo_2026.1002-DNA.pdf",
-     "tipo": "pdf",
-     "paginas": 2,
-     "legivel": true
-    }
-   ],
-   "campos": {
-    "data_cobranca": "2026-10-23",
-    "numero_cobranca": "COB-2026-002",
-    "nivel": "Alta complexidade",
-    "tipo_crime": "Tráfico de drogas",
-    "protocolo": "2026.1002-DNA",
-    "ar_para_confronto": "Sim",
-    "objetivo_claro": "Realizar exame de DNA para tráfico de drogas e confrontar com amostra de referência.",
-    "regional": "Sinop"
-   },
-   "confianca": 0.99,
-   "alerta": "",
-   "lote_id": "LT-001",
-   "validado_por": "",
-   "validado_em": ""
-  },
-  {
-   "id": "EM-003",
-   "assunto": "Cobrança de laudo pendente",
-   "remetente": "ministério.público.estadual@exemplo.gov.br",
-   "orgao": "Ministério Público Estadual",
-   "recebido_em": "2026-10-27T11:13:00-04:00",
-   "corpo": "Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1003-DNA, da regional Rondonópolis. O caso envolve roubo e exige confronto com amostra de referência. Data da cobrança: 2026-10-25. Número da cobrança: COB-2026-003. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.",
-   "prioridade": "normal",
-   "status": "novo",
-   "anexos": [
-    {
-     "id": "AN-003-1",
-     "nome": "Oficio_2026.1003-DNA_Rondonópolis.pdf",
-     "tipo": "pdf",
-     "paginas": 6,
-     "legivel": true
+      "id": "EM-003",
+      "assunto": "Cobrança de laudo pendente",
+      "remetente": "ministério.público.estadual@exemplo.gov.br",
+      "orgao": "Ministério Público Estadual",
+      "recebido_em": "2026-10-27T11:13:00-04:00",
+      "corpo": "Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1003-DNA, da regional Rondonópolis. O caso envolve roubo e exige confronto com amostra de referência. Data da cobrança: 2026-10-25. Número da cobrança: COB-2026-003. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.",
+      "prioridade": "normal",
+      "status": "novo",
+      "anexos": [
+        {
+          "id": "AN-003-1",
+          "nome": "Oficio_2026.1003-DNA_Rondonópolis.pdf",
+          "tipo": "pdf",
+          "paginas": 6,
+          "legivel": true
+        },
+        {
+          "id": "AN-003-2",
+          "nome": "Termo_2026.1003-DNA.pdf",
+          "tipo": "pdf",
+          "paginas": 3,
+          "legivel": true
+        }
+      ],
+      "campos": {
+        "data_cobranca": "2026-10-27",
+        "tipo_crime": "Local de Crime",
+        "protocolo": "",
+        "ar_para_confronto": "Não",
+        "objetivo_claro": "Realizar exame de DNA para roubo e confrontar com amostra de referência.",
+        "regional": "Coordenadoria Regional de Rondonópolis",
+        "nome_vitima": "Bruna Almeida",
+        "nome_investigado": "Rafael Souza",
+        "reu_preso": "Não"
+      },
+      "confianca": 0.82,
+      "alerta": "pendencia",
+      "lote_id": "LT-001",
+      "validado_por": "",
+      "validado_em": ""
     },
     {
-     "id": "AN-003-2",
-     "nome": "Termo_2026.1003-DNA.pdf",
-     "tipo": "pdf",
-     "paginas": 3,
-     "legivel": true
-    }
-   ],
-   "campos": {
-    "data_cobranca": "2026-10-25",
-    "numero_cobranca": "COB-2026-003",
-    "nivel": "Alta complexidade",
-    "tipo_crime": "Roubo",
-    "protocolo": "",
-    "ar_para_confronto": "Não",
-    "objetivo_claro": "Realizar exame de DNA para roubo e confrontar com amostra de referência.",
-    "regional": "Rondonópolis"
-   },
-   "confianca": 0.82,
-   "alerta": "pendencia",
-   "lote_id": "LT-001",
-   "validado_por": "",
-   "validado_em": ""
-  },
-  {
-   "id": "EM-004",
-   "assunto": "Encaminhamento para análise de DNA",
-   "remetente": "delegacia.de.polícia.civil@exemplo.gov.br",
-   "orgao": "Delegacia de Polícia Civil",
-   "recebido_em": "2026-10-29T12:14:00-04:00",
-   "corpo": "Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1004-DNA, da regional Cáceres. O caso envolve tráfico de drogas e exige confronto com amostra de referência. Data da cobrança: 2026-10-27. Número da cobrança: COB-2026-004. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente. Observação: o corpo do e-mail foi classificado como homicídio; o ofício anexo menciona tráfico de drogas.",
-   "prioridade": "normal",
-   "status": "novo",
-   "anexos": [
-    {
-     "id": "AN-004-1",
-     "nome": "Oficio_2026.1004-DNA_Cáceres.pdf",
-     "tipo": "pdf",
-     "paginas": 6,
-     "legivel": true
+      "id": "EM-004",
+      "assunto": "Encaminhamento para análise de DNA",
+      "remetente": "delegacia.de.polícia.civil@exemplo.gov.br",
+      "orgao": "Delegacia de Polícia Civil",
+      "recebido_em": "2026-10-29T12:14:00-04:00",
+      "corpo": "Prezados, solicito a realização de perícia de DNA referente ao protocolo 001004/2026, da regional Cáceres. O caso envolve tráfico de drogas e exige confronto com amostra de referência. Data da cobrança: 2026-10-27. Número da cobrança: COB-2026-004. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente. Observação: o corpo do e-mail foi classificado como homicídio; o ofício anexo menciona tráfico de drogas.",
+      "prioridade": "normal",
+      "status": "novo",
+      "anexos": [
+        {
+          "id": "AN-004-1",
+          "nome": "Oficio_2026.1004-DNA_Cáceres.pdf",
+          "tipo": "pdf",
+          "paginas": 6,
+          "legivel": true
+        },
+        {
+          "id": "AN-004-2",
+          "nome": "Termo_2026.1004-DNA.pdf",
+          "tipo": "pdf",
+          "paginas": 1,
+          "legivel": true
+        }
+      ],
+      "campos": {
+        "data_cobranca": "2026-10-29",
+        "tipo_crime": "Identificação Humana",
+        "protocolo": "001004/2026",
+        "ar_para_confronto": "Sim",
+        "objetivo_claro": "Realizar exame de DNA para tráfico de drogas e confrontar com amostra de referência.",
+        "regional": "Coordenadoria Regional de Cáceres",
+        "nome_vitima": "José Carlos Pereira",
+        "nome_investigado": "Marcos Vinícius",
+        "reu_preso": "Sim"
+      },
+      "confianca": 0.99,
+      "alerta": "divergencia",
+      "lote_id": "LT-001",
+      "validado_por": "",
+      "validado_em": ""
     },
     {
-     "id": "AN-004-2",
-     "nome": "Termo_2026.1004-DNA.pdf",
-     "tipo": "pdf",
-     "paginas": 1,
-     "legivel": true
-    }
-   ],
-   "campos": {
-    "data_cobranca": "2026-10-27",
-    "numero_cobranca": "COB-2026-004",
-    "nivel": "Baixa complexidade",
-    "tipo_crime": "Homicídio",
-    "protocolo": "2026.1004-DNA",
-    "ar_para_confronto": "Sim",
-    "objetivo_claro": "Realizar exame de DNA para tráfico de drogas e confrontar com amostra de referência.",
-    "regional": "Cáceres"
-   },
-   "confianca": 0.99,
-   "alerta": "divergencia",
-   "lote_id": "LT-001",
-   "validado_por": "",
-   "validado_em": ""
-  },
-  {
-   "id": "EM-005",
-   "assunto": "Requerimento de laudo pericial",
-   "remetente": "poder.judiciário@exemplo.gov.br",
-   "orgao": "Poder Judiciário",
-   "recebido_em": "2026-10-31T13:15:00-04:00",
-   "corpo": "Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1005-DNA, da regional Barra do Garças. O caso envolve abuso sexual e exige confronto com amostra de referência. Data da cobrança: 2026-10-29. Número da cobrança: COB-2026-005. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.",
-   "prioridade": "normal",
-   "status": "novo",
-   "anexos": [
-    {
-     "id": "AN-005-1",
-     "nome": "Oficio_2026.1005-DNA_Barra-do-Garças.pdf",
-     "tipo": "pdf",
-     "paginas": 5,
-     "legivel": false
+      "id": "EM-005",
+      "assunto": "Requerimento de laudo pericial",
+      "remetente": "poder.judiciário@exemplo.gov.br",
+      "orgao": "Poder Judiciário",
+      "recebido_em": "2026-10-31T13:15:00-04:00",
+      "corpo": "Prezados, solicito a realização de perícia de DNA referente ao protocolo 001005/2026, da regional Barra do Garças. O caso envolve abuso sexual e exige confronto com amostra de referência. Data da cobrança: 2026-10-29. Número da cobrança: COB-2026-005. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.",
+      "prioridade": "normal",
+      "status": "novo",
+      "anexos": [
+        {
+          "id": "AN-005-1",
+          "nome": "Oficio_2026.1005-DNA_Barra-do-Garças.pdf",
+          "tipo": "pdf",
+          "paginas": 5,
+          "legivel": false
+        },
+        {
+          "id": "AN-005-2",
+          "nome": "Termo_2026.1005-DNA.pdf",
+          "tipo": "pdf",
+          "paginas": 2,
+          "legivel": false
+        }
+      ],
+      "campos": {
+        "data_cobranca": "2026-10-31",
+        "tipo_crime": "Crime Sexual",
+        "protocolo": "001005/2026",
+        "ar_para_confronto": "Sim",
+        "objetivo_claro": "",
+        "regional": "Coordenadoria Regional de Barra do Garças",
+        "nome_vitima": "Luana Santos",
+        "nome_investigado": "Pedro Henrique",
+        "reu_preso": "Não"
+      },
+      "confianca": 0.55,
+      "alerta": "ocr",
+      "lote_id": "LT-001",
+      "validado_por": "",
+      "validado_em": ""
     },
     {
-     "id": "AN-005-2",
-     "nome": "Termo_2026.1005-DNA.pdf",
-     "tipo": "pdf",
-     "paginas": 2,
-     "legivel": false
-    }
-   ],
-   "campos": {
-    "data_cobranca": "2026-10-29",
-    "numero_cobranca": "COB-2026-005",
-    "nivel": "Alta complexidade",
-    "tipo_crime": "Abuso sexual",
-    "protocolo": "2026.1005-DNA",
-    "ar_para_confronto": "Sim",
-    "objetivo_claro": "",
-    "regional": "Barra do Garças"
-   },
-   "confianca": 0.55,
-   "alerta": "ocr",
-   "lote_id": "LT-001",
-   "validado_por": "",
-   "validado_em": ""
-  },
-  {
-   "id": "EM-006",
-   "assunto": "Ofício de solicitação de perícia",
-   "remetente": "delegacia.de.polícia.civil@exemplo.gov.br",
-   "orgao": "Delegacia de Polícia Civil",
-   "recebido_em": "2026-11-02T14:16:00-04:00",
-   "corpo": "URGENTE / PLANTÃO. Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1006-DNA, da regional Cuiabá. O caso envolve latrocínio e exige confronto com amostra de referência. Data da cobrança: 2026-10-31. Número da cobrança: COB-2026-006. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.",
-   "prioridade": "urgente",
-   "status": "novo",
-   "anexos": [
-    {
-     "id": "AN-006-1",
-     "nome": "Oficio_2026.1006-DNA_Cuiabá.pdf",
-     "tipo": "pdf",
-     "paginas": 6,
-     "legivel": true
+      "id": "EM-006",
+      "assunto": "Ofício de solicitação de perícia",
+      "remetente": "delegacia.de.polícia.civil@exemplo.gov.br",
+      "orgao": "Delegacia de Polícia Civil",
+      "recebido_em": "2026-11-02T14:16:00-04:00",
+      "corpo": "URGENTE / PLANTÃO. Prezados, solicito a realização de perícia de DNA referente ao protocolo 001001/2026, da regional Cuiabá. O caso envolve latrocínio e exige confronto com amostra de referência. Data da cobrança: 2026-10-31. Número da cobrança: COB-2026-006. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.",
+      "prioridade": "urgente",
+      "status": "novo",
+      "anexos": [
+        {
+          "id": "AN-006-1",
+          "nome": "Oficio_2026.1006-DNA_Cuiabá.pdf",
+          "tipo": "pdf",
+          "paginas": 6,
+          "legivel": true
+        },
+        {
+          "id": "AN-006-2",
+          "nome": "Termo_2026.1006-DNA.pdf",
+          "tipo": "pdf",
+          "paginas": 2,
+          "legivel": true
+        }
+      ],
+      "campos": {
+        "data_cobranca": "2026-11-02",
+        "tipo_crime": "Local de Crime",
+        "protocolo": "001001/2026",
+        "ar_para_confronto": "Não",
+        "objetivo_claro": "Realizar exame de DNA para latrocínio e confrontar com amostra de referência.",
+        "regional": "Coordenadoria de Perícias em Vivos",
+        "nome_vitima": "Patrícia Gomes",
+        "nome_investigado": "André Luiz",
+        "reu_preso": "Não informado"
+      },
+      "confianca": 0.99,
+      "alerta": "",
+      "lote_id": "LT-002",
+      "validado_por": "",
+      "validado_em": ""
     },
     {
-     "id": "AN-006-2",
-     "nome": "Termo_2026.1006-DNA.pdf",
-     "tipo": "pdf",
-     "paginas": 2,
-     "legivel": true
-    }
-   ],
-   "campos": {
-    "data_cobranca": "2026-10-31",
-    "numero_cobranca": "COB-2026-006",
-    "nivel": "Média complexidade",
-    "tipo_crime": "Latrocínio",
-    "protocolo": "2026.1006-DNA",
-    "ar_para_confronto": "Não",
-    "objetivo_claro": "Realizar exame de DNA para latrocínio e confrontar com amostra de referência.",
-    "regional": "Cuiabá"
-   },
-   "confianca": 0.99,
-   "alerta": "",
-   "lote_id": "LT-002",
-   "validado_por": "",
-   "validado_em": ""
-  },
-  {
-   "id": "EM-007",
-   "assunto": "Cobrança de laudo pendente",
-   "remetente": "ministério.público.estadual@exemplo.gov.br",
-   "orgao": "Ministério Público Estadual",
-   "recebido_em": "2026-11-04T15:17:00-04:00",
-   "corpo": "Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1007-DNA, da regional Tangará da Serra. O caso envolve violência doméstica e exige confronto com amostra de referência. Data da cobrança: 2026-11-02. Número da cobrança: COB-2026-007. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.",
-   "prioridade": "normal",
-   "status": "novo",
-   "anexos": [
-    {
-     "id": "AN-007-1",
-     "nome": "Oficio_2026.1007-DNA_Tangará-da-Serra.pdf",
-     "tipo": "pdf",
-     "paginas": 4,
-     "legivel": true
+      "id": "EM-007",
+      "assunto": "Cobrança de laudo pendente",
+      "remetente": "ministério.público.estadual@exemplo.gov.br",
+      "orgao": "Ministério Público Estadual",
+      "recebido_em": "2026-11-04T15:17:00-04:00",
+      "corpo": "Prezados, solicito a realização de perícia de DNA referente ao protocolo 001007/2026, da regional Tangará da Serra. O caso envolve violência doméstica e exige confronto com amostra de referência. Data da cobrança: 2026-11-02. Número da cobrança: COB-2026-007. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.",
+      "prioridade": "normal",
+      "status": "novo",
+      "anexos": [
+        {
+          "id": "AN-007-1",
+          "nome": "Oficio_2026.1007-DNA_Tangará-da-Serra.pdf",
+          "tipo": "pdf",
+          "paginas": 4,
+          "legivel": true
+        },
+        {
+          "id": "AN-007-2",
+          "nome": "Termo_2026.1007-DNA.pdf",
+          "tipo": "pdf",
+          "paginas": 4,
+          "legivel": true
+        }
+      ],
+      "campos": {
+        "data_cobranca": "2026-11-04",
+        "tipo_crime": "Crime Sexual",
+        "protocolo": "001007/2026",
+        "ar_para_confronto": "",
+        "objetivo_claro": "Realizar exame de DNA para violência doméstica e confrontar com amostra de referência.",
+        "regional": "Coordenadoria Regional de Tangará da Serra",
+        "nome_vitima": "Fernanda Alves",
+        "nome_investigado": "Marcos Paulo",
+        "reu_preso": "Sim"
+      },
+      "confianca": 0.82,
+      "alerta": "pendencia",
+      "lote_id": "LT-002",
+      "validado_por": "",
+      "validado_em": ""
     },
     {
-     "id": "AN-007-2",
-     "nome": "Termo_2026.1007-DNA.pdf",
-     "tipo": "pdf",
-     "paginas": 4,
-     "legivel": true
-    }
-   ],
-   "campos": {
-    "data_cobranca": "2026-11-02",
-    "numero_cobranca": "COB-2026-007",
-    "nivel": "Média complexidade",
-    "tipo_crime": "Violência doméstica",
-    "protocolo": "2026.1007-DNA",
-    "ar_para_confronto": "",
-    "objetivo_claro": "Realizar exame de DNA para violência doméstica e confrontar com amostra de referência.",
-    "regional": "Tangará da Serra"
-   },
-   "confianca": 0.82,
-   "alerta": "pendencia",
-   "lote_id": "LT-002",
-   "validado_por": "",
-   "validado_em": ""
-  },
-  {
-   "id": "EM-008",
-   "assunto": "Encaminhamento para análise de DNA",
-   "remetente": "delegacia.de.polícia.civil@exemplo.gov.br",
-   "orgao": "Delegacia de Polícia Civil",
-   "recebido_em": "2026-11-06T08:18:00-04:00",
-   "corpo": "Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1008-DNA, da regional Alta Floresta. O caso envolve homicídio e exige confronto com amostra de referência. Data da cobrança: 2026-11-04. Número da cobrança: COB-2026-008. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.",
-   "prioridade": "normal",
-   "status": "validado",
-   "anexos": [
-    {
-     "id": "AN-008-1",
-     "nome": "Oficio_2026.1008-DNA_Alta-Floresta.pdf",
-     "tipo": "pdf",
-     "paginas": 4,
-     "legivel": true
+      "id": "EM-008",
+      "assunto": "Encaminhamento para análise de DNA",
+      "remetente": "delegacia.de.polícia.civil@exemplo.gov.br",
+      "orgao": "Delegacia de Polícia Civil",
+      "recebido_em": "2026-11-06T08:18:00-04:00",
+      "corpo": "Prezados, solicito a realização de perícia de DNA referente ao protocolo 001008/2026, da regional Alta Floresta. O caso envolve homicídio e exige confronto com amostra de referência. Data da cobrança: 2026-11-04. Número da cobrança: COB-2026-008. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.",
+      "prioridade": "normal",
+      "status": "validado",
+      "anexos": [
+        {
+          "id": "AN-008-1",
+          "nome": "Oficio_2026.1008-DNA_Alta-Floresta.pdf",
+          "tipo": "pdf",
+          "paginas": 4,
+          "legivel": true
+        },
+        {
+          "id": "AN-008-2",
+          "nome": "Termo_2026.1008-DNA.pdf",
+          "tipo": "pdf",
+          "paginas": 4,
+          "legivel": true
+        }
+      ],
+      "campos": {
+        "data_cobranca": "2026-11-06",
+        "tipo_crime": "Identificação Humana",
+        "protocolo": "001008/2026",
+        "ar_para_confronto": "Sim",
+        "objetivo_claro": "Realizar exame de DNA para homicídio e confrontar com amostra de referência.",
+        "regional": "Gerência Regional de Alta Floresta",
+        "nome_vitima": "Pedro Henrique Lima",
+        "nome_investigado": "Não informado",
+        "reu_preso": "Não"
+      },
+      "confianca": 0.99,
+      "alerta": "",
+      "lote_id": "LT-002",
+      "validado_por": "Chefia Fictícia",
+      "validado_em": "2026-11-06T15:00:00-04:00"
     },
     {
-     "id": "AN-008-2",
-     "nome": "Termo_2026.1008-DNA.pdf",
-     "tipo": "pdf",
-     "paginas": 4,
-     "legivel": true
-    }
-   ],
-   "campos": {
-    "data_cobranca": "2026-11-04",
-    "numero_cobranca": "COB-2026-008",
-    "nivel": "Baixa complexidade",
-    "tipo_crime": "Homicídio",
-    "protocolo": "2026.1008-DNA",
-    "ar_para_confronto": "Sim",
-    "objetivo_claro": "Realizar exame de DNA para homicídio e confrontar com amostra de referência.",
-    "regional": "Alta Floresta"
-   },
-   "confianca": 0.99,
-   "alerta": "",
-   "lote_id": "LT-002",
-   "validado_por": "Chefia Fictícia",
-   "validado_em": "2026-11-06T15:00:00-04:00"
-  },
-  {
-   "id": "EM-009",
-   "assunto": "Requisição de confronto genético",
-   "remetente": "delegacia.especializada@exemplo.gov.br",
-   "orgao": "Delegacia Especializada",
-   "recebido_em": "2026-11-08T09:19:00-04:00",
-   "corpo": "Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1009-DNA, da regional Sinop. O caso envolve local de crime e exige confronto com amostra de referência. Data da cobrança: 2026-11-06. Número da cobrança: COB-2026-009. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.",
-   "prioridade": "normal",
-   "status": "novo",
-   "anexos": [
-    {
-     "id": "AN-009-1",
-     "nome": "Oficio_2026.1009-DNA_Sinop.pdf",
-     "tipo": "pdf",
-     "paginas": 3,
-     "legivel": true
+      "id": "EM-009",
+      "assunto": "Requisição de confronto genético",
+      "remetente": "delegacia.especializada@exemplo.gov.br",
+      "orgao": "Delegacia Especializada",
+      "recebido_em": "2026-11-08T09:19:00-04:00",
+      "corpo": "Prezados, solicito a realização de perícia de DNA referente ao protocolo 001009/2026, da regional Sinop. O caso envolve local de crime e exige confronto com amostra de referência. Data da cobrança: 2026-11-06. Número da cobrança: COB-2026-009. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.",
+      "prioridade": "normal",
+      "status": "novo",
+      "anexos": [
+        {
+          "id": "AN-009-1",
+          "nome": "Oficio_2026.1009-DNA_Sinop.pdf",
+          "tipo": "pdf",
+          "paginas": 3,
+          "legivel": true
+        },
+        {
+          "id": "AN-009-2",
+          "nome": "Termo_2026.1009-DNA.pdf",
+          "tipo": "pdf",
+          "paginas": 1,
+          "legivel": true
+        }
+      ],
+      "campos": {
+        "data_cobranca": "2026-11-08",
+        "tipo_crime": "Local de Crime",
+        "protocolo": "001009/2026",
+        "ar_para_confronto": "Não",
+        "objetivo_claro": "Realizar exame de DNA para local de crime e confrontar com amostra de referência.",
+        "regional": "",
+        "nome_vitima": "Não informado",
+        "nome_investigado": "Não informado",
+        "reu_preso": "Não informado"
+      },
+      "confianca": 0.82,
+      "alerta": "pendencia",
+      "lote_id": "LT-002",
+      "validado_por": "",
+      "validado_em": ""
     },
     {
-     "id": "AN-009-2",
-     "nome": "Termo_2026.1009-DNA.pdf",
-     "tipo": "pdf",
-     "paginas": 1,
-     "legivel": true
+      "id": "EM-010",
+      "assunto": "Requerimento de laudo pericial",
+      "remetente": "ministério.público.estadual@exemplo.gov.br",
+      "orgao": "Ministério Público Estadual",
+      "recebido_em": "2026-11-10T10:20:00-04:00",
+      "corpo": "Prezados, solicito a realização de perícia de DNA referente ao protocolo 001010/2026, da regional Várzea Grande. O caso envolve roubo e exige confronto com amostra de referência. Data da cobrança: 2026-11-08. Número da cobrança: COB-2026-010. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.",
+      "prioridade": "normal",
+      "status": "novo",
+      "anexos": [
+        {
+          "id": "AN-010-1",
+          "nome": "Oficio_2026.1010-DNA_Várzea-Grande.pdf",
+          "tipo": "pdf",
+          "paginas": 2,
+          "legivel": true
+        },
+        {
+          "id": "AN-010-2",
+          "nome": "Termo_2026.1010-DNA.pdf",
+          "tipo": "pdf",
+          "paginas": 3,
+          "legivel": true
+        }
+      ],
+      "campos": {
+        "data_cobranca": "2026-11-10",
+        "tipo_crime": "Biologia",
+        "protocolo": "001010/2026",
+        "ar_para_confronto": "Sim",
+        "objetivo_claro": "Realizar exame de DNA para roubo e confrontar com amostra de referência.",
+        "regional": "Coordenadoria de Perícias em Vivos",
+        "nome_vitima": "Juliana Ribeiro",
+        "nome_investigado": "Não informado",
+        "reu_preso": "Não"
+      },
+      "confianca": 0.99,
+      "alerta": "",
+      "lote_id": "LT-002",
+      "validado_por": "",
+      "validado_em": ""
     }
-   ],
-   "campos": {
-    "data_cobranca": "2026-11-06",
-    "numero_cobranca": "COB-2026-009",
-    "nivel": "Alta complexidade",
-    "tipo_crime": "Local de crime",
-    "protocolo": "2026.1009-DNA",
-    "ar_para_confronto": "Não",
-    "objetivo_claro": "Realizar exame de DNA para local de crime e confrontar com amostra de referência.",
-    "regional": ""
-   },
-   "confianca": 0.82,
-   "alerta": "pendencia",
-   "lote_id": "LT-002",
-   "validado_por": "",
-   "validado_em": ""
-  },
-  {
-   "id": "EM-010",
-   "assunto": "Requerimento de laudo pericial",
-   "remetente": "ministério.público.estadual@exemplo.gov.br",
-   "orgao": "Ministério Público Estadual",
-   "recebido_em": "2026-11-10T10:20:00-04:00",
-   "corpo": "Prezados, solicito a realização de perícia de DNA referente ao protocolo 2026.1010-DNA, da regional Várzea Grande. O caso envolve roubo e exige confronto com amostra de referência. Data da cobrança: 2026-11-08. Número da cobrança: COB-2026-010. Os anexos seguem em PDF, com o ofício e o termo de apreensão. Atenciosamente.",
-   "prioridade": "normal",
-   "status": "novo",
-   "anexos": [
+  ],
+  "lotes": [
     {
-     "id": "AN-010-1",
-     "nome": "Oficio_2026.1010-DNA_Várzea-Grande.pdf",
-     "tipo": "pdf",
-     "paginas": 2,
-     "legivel": true
+      "id": "LT-001",
+      "nome": "Lote de 01 a 05",
+      "criado_em": "2026-10-31T09:00:00-04:00",
+      "status": "aberto"
     },
     {
-     "id": "AN-010-2",
-     "nome": "Termo_2026.1010-DNA.pdf",
-     "tipo": "pdf",
-     "paginas": 3,
-     "legivel": true
+      "id": "LT-002",
+      "nome": "Lote de 06 a 10",
+      "criado_em": "2026-11-01T09:00:00-04:00",
+      "status": "aberto"
     }
-   ],
-   "campos": {
-    "data_cobranca": "2026-11-08",
-    "numero_cobranca": "COB-2026-010",
-    "nivel": "Alta complexidade",
-    "tipo_crime": "Roubo",
-    "protocolo": "2026.1010-DNA",
-    "ar_para_confronto": "Sim",
-    "objetivo_claro": "Realizar exame de DNA para roubo e confrontar com amostra de referência.",
-    "regional": "Várzea Grande"
-   },
-   "confianca": 0.99,
-   "alerta": "",
-   "lote_id": "LT-002",
-   "validado_por": "",
-   "validado_em": ""
-  }
- ],
- "lotes": [
-  {
-   "id": "LT-001",
-   "nome": "Lote de 01 a 05",
-   "criado_em": "2026-10-31T09:00:00-04:00",
-   "status": "aberto"
-  },
-  {
-   "id": "LT-002",
-   "nome": "Lote de 06 a 10",
-   "criado_em": "2026-11-01T09:00:00-04:00",
-   "status": "aberto"
-  }
- ]
+  ]
 }

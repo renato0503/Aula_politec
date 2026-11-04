@@ -250,6 +250,28 @@ def s8_turma_e_privacidade(pg, url, ok):
     ok("a lista final pode ser baixada em CSV", pg.locator("#btnCsv").count() == 1)
 
 
+@cenario
+def s10_perfis_instrutores_e_termo(pg, url, ok):
+    perfil(pg, url, "gerencia")
+    semear(pg, url)
+    curso = pg.evaluate("async ()=> (await db.list('cursos'))[0].id")
+    pg.evaluate("""async id => { const c = await db.get('cursos', id);
+        await db.put('cursos', {...c, instrutores: ['Instrutora Ana'], monitores: ['Monitor Bruno'],
+          convocacao_data: '2026-11-10', compensacao_inicio: '2026-11-20', compensacao_fim: '2026-11-30'}); }""", curso)
+    ir(pg, url, "#/convocacao/" + curso, 600)
+    termo = pg.inner_text("#textoTermo")
+    ok("o termo traz curso, carga, instrutores e monitores", "Instrutora Ana" in termo and "Monitor Bruno" in termo and "Carga horária" in termo)
+    ok("o termo traz as datas de convocação e compensação", "10/11/2026" in termo and "20/11/2026" in termo and "30/11/2026" in termo)
+    ok("o termo pode ser impresso, copiado ou enviado", all(pg.query_selector(s) for s in ["#btnTermoImprimir", "#btnTermoCopiar", "#btnTermoEmail"]))
+    # perfis novos enxergam a lista de inscritos
+    perfil(pg, url, "coordenacao")
+    ir(pg, url, "#/inscritos/" + curso, 500)
+    ok("coordenação acessa os inscritos", "Inscritos" in pg.inner_text("#conteudo"))
+    perfil(pg, url, "chefe")
+    ir(pg, url, "#/turma/" + curso, 500)
+    ok("chefe acessa a turma", "Turma" in pg.inner_text("#conteudo"))
+
+
 def main():
     erro = False
     with sync_playwright() as p:

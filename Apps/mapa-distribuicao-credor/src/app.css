@@ -17,3 +17,9 @@ tr.total td{background:color-mix(in srgb, var(--accent) 16%, transparent)}
 #tabelaMapa td,#tabelaMapa th{border-right:1px solid var(--linha);padding:5px 8px}
 #tabelaMapa td.num,#tabelaMapa th.num{text-align:right;font-family:var(--mono)}
 #tabelaMapa tr:nth-child(even) td{background:color-mix(in srgb, var(--painel-2) 55%, transparent)}
+
+/* alinhamento do mapa por item (feedback do Igor) */
+#tabelaMapa td:nth-child(1),#tabelaMapa td:nth-child(2),#tabelaMapa td:nth-child(3),#tabelaMapa td:nth-child(5){text-align:center}
+#tabelaMapa td:nth-child(4){text-align:justify;white-space:normal;min-width:220px;vertical-align:top;line-height:1.45}
+#tabelaMapa th:nth-child(1),#tabelaMapa th:nth-child(2),#tabelaMapa th:nth-child(3),#tabelaMapa th:nth-child(5){text-align:center}
+@media print{ #tabelaMapa td:nth-child(4){text-align:justify} }

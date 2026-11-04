@@ -141,8 +141,8 @@ def s4_cobranca_automatica(pg, url, ok):
     perfil(pg, url, "gestor")
     semear(pg, url)
     ir(pg, url, "#/painel", 900)
-    venc = pg.evaluate("async ()=> (await db.list('processos')).filter(p=>p.status==='em andamento' && gdPrazo(p).sinal==='vermelho').length")
-    ok("a cobrança é registrada para os processos vencidos (RN08)", pg.evaluate("async ()=> (await db.list('cobrancas')).length") == venc and venc > 0)
+    venc = pg.evaluate("async ()=> (await db.list('processos')).filter(p=>p.status==='em andamento' && ['amarelo','vermelho'].includes(gdPrazo(p).sinal)).length")
+    ok("a cobrança é registrada para os prazos próximos e vencidos (RN08)", pg.evaluate("async ()=> (await db.list('cobrancas')).length") == venc and venc > 0)
     ok("a cobrança entra no histórico do processo", pg.evaluate("async ()=> (await db.list('log')).some(l=>l.tipo_evento==='cobrança automática')"))
     # não duplica ao abrir o painel de novo
     ir(pg, url, "#/painel", 900)
@@ -190,6 +190,32 @@ def s6_painel_e_relatorio(pg, url, ok):
     csv = pathlib.Path(dl.value.path()).read_bytes()
     ok("o CSV sai com BOM e as colunas de sinal e cobranças", csv.startswith(b"\xef\xbb\xbf") and b"sinal" in csv and b"cobrancas" in csv)
     ok("o roteiro de aceite está em modelos/", (PASTA / "modelos" / "roteiro-aceite.md").exists())
+
+@cenario
+def s8_feedback_anexo_entrada_cobranca(pg, url, ok):
+    semear(pg, url)
+    antes = contar(pg, "processos")
+    ir(pg, url, "#/processo/novo", 400)
+    pg.fill("#gdAssunto", "Acompanhamento de ofício"); pg.fill("#gdRequerente", "Requerente Teste")
+    pg.fill("#gdLotacao", "Gabinete de Direção"); pg.select_option("#gdTipo", "acompanhamento")
+    pg.click("#formGdNovo button[type=submit]"); pg.wait_for_timeout(700)
+    ok("acompanhamento é cadastrado sem anexo", contar(pg, "processos") == antes + 1)
+    novo = pg.evaluate("async () => (await db.list('processos')).find(p=>p.tipo_processo==='acompanhamento')")
+    ok("o tipo de acompanhamento é gravado", bool(novo) and novo.get("tipo_processo") == "acompanhamento")
+    ok("o acompanhamento não cria documento", bool(novo) and pg.evaluate("async id => (await db.porIndice('documentos','processo_id',id)).length", novo["id_processo"]) == 0)
+
+    ir(pg, url, "#/processos", 500)
+    ok("a lista mostra a data de entrada", "Entrada" in pg.inner_text("table"))
+    alvo = pg.evaluate("""async () => {
+      const ps = await db.list('processos');
+      const p = ps.find(p=>p.status==='em andamento' && ['amarelo','vermelho'].includes(gdPrazo(p).sinal));
+      return p ? p.id_processo : '';
+    }""")
+    ok("há processo com prazo próximo ou vencido para cobrar", bool(alvo))
+    if alvo:
+        pg.click(f'[data-gd-cobrar="{alvo}"]'); pg.wait_for_timeout(700)
+        ok("a cobrança manual é registrada", pg.evaluate("async id => (await db.porIndice('cobrancas','processo_id',id)).some(c=>c.tipo==='manual')", alvo))
+
 
 def main():
     erro = False

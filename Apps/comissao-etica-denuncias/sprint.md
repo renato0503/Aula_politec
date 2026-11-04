@@ -14,6 +14,7 @@
 | 5 | Feito em 30/10/2026. Oitivas com roteiro da categoria e termo, prazo de nova manifestação (art. 8º, § 4º). |
 | 6 | Feito em 30/10/2026. Minutas sem nomes (art. 11), cominação (art. 9º), encaminhamento ao PAD (art. 10) e encerramento. |
 | 7 | Feito em 30/10/2026. Relatório de contagens e prazos, sem nomes; roteiro de aceite em `modelos/roteiro-aceite.md`. |
+| 8 | Aberto em 03/11/2026 (feedback dos alunos). Ver Sprint 8 abaixo. |
 
 ## Visão geral
 
@@ -87,3 +88,25 @@
 - [x] Relatório: casos por etapa, prazos e categorias, sem nomes nem relatos (RN06).
 - [x] Roteiro de aceite do critério da equipe (registrar, classificar, deliberar, roteiro, minutas, encerrar).
 - [x] Piloto de 30 dias com casos fictícios; atualizar `PROJETO.md` e `README.md`.
+
+## Sprint 8 · Correções do feedback (03/11/2026)
+
+> Feedback de Letícia e Thiago (nota 5). As prioridades são Classificação, Documentos e Admissibilidade; as demais entram na mesma ordem.
+
+### Código
+- [x] Classificação: mostrar o texto do artigo na sugestão e um texto padrão de confirmação do descumprimento.
+- [x] Admissibilidade: lista suspensa com os membros da comissão e fundamento padrão com a data do relato, a data da reunião e o artigo.
+- [x] Oitivas: permitir apagar uma oitiva registrada e ter botão de encerramento das oitivas.
+- [x] Documentos: na Ata de deliberação, trocar "admitida" por "admissão" e informar o enquadramento na fundamentação; no Relatório de recomendações, incluir a indicação de curso.
+- [x] Encerramento conforme o modelo de recomendações.
+- [x] Enviar os documentos gerados por e-mail (fila local e instrução).
+
+### Decisão do setor
+- [ ] Lista nominal dos membros da comissão.
+- [ ] Textos padrão e modelos de ata, relatório e encerramento.
+- [ ] Canal de e-mail institucional e permissões de envio.
+
+**Pronto quando**: a classificação mostra o artigo, a admissibilidade usa a lista de membros e o texto padrão, e as oitivas podem ser apagadas e encerradas.
+
+
+**Implementado em 03/11/2026**: texto do artigo visível e texto padrão de enquadramento; membros em lista suspensa e fundamento padrão com as datas e o artigo; exclusão e encerramento das oitivas; ata com admissão/enquadramento e relatório com curso; encerramento com texto das recomendações; envio dos documentos por `mailto:` (o canal institucional fica a confirmar).

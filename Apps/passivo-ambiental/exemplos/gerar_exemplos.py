@@ -46,9 +46,12 @@ def main():
                        "local": requisicoes[-1]["local"], "coordenadas": requisicoes[-1]["coordenadas"], "tipo_infracao": requisicoes[-1]["tipo_infracao"],
                        "horas_trabalhadas": 16 if concluido else random.choice([0, 4, 8]), "criado_em": data.isoformat() + "T09:00:00"})
         if concluido:
-            for k in range(2):
-                mapas.append({"id_mapa": f"{lid}-M{k + 1}", "laudo_id": lid, "modelo_id": "delimitacao",
-                              "modelo": "Delimitação da área de dano",
+            for k, (tipo, modelo_id, modelo_nome) in enumerate([
+                ("localizacao", "localizacao", "Localização do evento"),
+                ("antes", "delimitacao", "Delimitação da área de dano"),
+                ("depois", "ocupacao", "Ocupação irregular")]):
+                mapas.append({"id_mapa": f"{lid}-M{k + 1}", "laudo_id": lid, "tipo_mapa": tipo,
+                              "modelo_id": modelo_id, "modelo": modelo_nome,
                               "elementos": {"norte": "N", "escala": "1:25.000", "legenda": "azul = área danificada; verde = vegetação preservada",
                                             "data": data.isoformat(), "fonte": "Imagem de satélite (fictícia)"},
                               "valor_extra": f"{12 + k * 3},5", "criado_em": data.isoformat() + "T11:00:00"})

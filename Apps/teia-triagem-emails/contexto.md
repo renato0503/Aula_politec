@@ -3,7 +3,7 @@
 ## Fluxo
 
 1. A pessoa abre a bancada e escolhe um e-mail da fila.
-2. O painel mostra a mensagem, os anexos, os 8 campos, a confiança e os alertas.
+2. O painel mostra a mensagem, os anexos, os 9 campos, a confiança e os alertas.
 3. O triador corrige o que faltar e salva.
 4. Se houver divergência ou PDF imagem, trata o alerta.
 5. A validação é humana, com perfil e data/hora na trilha.
@@ -25,10 +25,10 @@
 
 ## Regras no código
 
-- 8 campos: DATA COBRANÇA, Nº COBRANÇAS, NÍVEL, TIPO DE CRIME, PROTOCOLO, AR PARA CONFRONTO, OBJETIVO CLARO e NOME DA REGIONAL.
+- 9 campos: DATA COBRANÇA, Nº COBRANÇAS, NÍVEL, TIPO DE CRIME, PROTOCOLO, AR PARA CONFRONTO, OBJETIVO CLARO e NOME DA REGIONAL.
 - Campo vazio deixa o e-mail `pendente` e bloqueia a validação.
 - `divergencia` e `ocr` viram alerta e exigem "Tratar alerta".
-- A validação só acontece com os 8 campos e sem alerta.
+- A validação só acontece com os 9 campos e sem alerta.
 - O status `validado` grava `validado_por` e `validado_em`.
 - O CSV sai em `;` com BOM; nenhuma requisição de rede é feita.
 

@@ -117,6 +117,13 @@
       "descricao": "Etapas, prazos, FOR 1, 2 e 3."
     },
     {
+      "rota": "#/rnc/:id/documento",
+      "titulo": "Documento da RNC",
+      "sprint": 7,
+      "descricao": "Versão para impressão e PDF da RNC, no modelo oficial.",
+      "menu": false
+    },
+    {
       "rota": "#/importar",
       "titulo": "Importar",
       "sprint": 2,
@@ -141,7 +148,10 @@
       "descricao": ""
     }
   ],
-  "libs": [],
+  "libs": [
+    "pizzip.min.js"
+  ],
+  "connect_src": "https://docs.google.com https://*.googleusercontent.com",
   "dados": [
     [
       "seed",

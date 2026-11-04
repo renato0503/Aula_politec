@@ -1,9 +1,13 @@
-﻿# Análise da API pública — CNPD/MJ e Desaparecidos BR
+# Análise da API pública — CNPD/MJ e Desaparecidos BR
 
 Data da análise: **03/11/2026**
 Pasta: `Apps/gestao_identificados/`
 Objetivo: transformar a consulta pública de pessoas desaparecidas em uma fonte
 legível por máquina e em um painel de leitura para o NIHDE/POLITEC.
+
+> **Onde isto está implementado:** o módulo `#/desaparecidos` do MVP
+> (`src/desaparecidos.js`), documentado em `MODULO-DESAPARECIDOS.md`. O catálogo
+> de fontes está em `FONTES.md`; o estado e o que falta, em `CONTINUAR.md`.
 
 ---
 
@@ -333,14 +337,25 @@ número de 381 não deve ser citado como "total de desaparecidos do Brasil".
 
 ## 8. Cliente, coleta e painel
 
+### 8.1 No MVP (recomendado)
+
+O módulo **`#/desaparecidos`** do MVP usa os dados embutidos. Ele não faz
+requisição de rede (a CSP é `connect-src 'none'`); a atualização é feita pelos
+scripts abaixo e pelo `construir.py`.
+
 | Arquivo | O que faz |
 |---|---|
 | `api_cnpd.py` | cliente Python tipado (`CnpdClient`, `Pessoa`, `Pagina`) com `filtrar`, `obter`, `imagem`, `todas` e CLI |
 | `coletar_dados.py` | percorre as 13 páginas e grava `dados/cnpd-snapshot.json` |
-| `gerar_painel.py` | injeta o snapshot no `painel/template.html` e grava `index.html` |
-| `painel/template.html` | fonte da tela (HTML, CSS e JS, sem dependência externa) |
-| `index.html` | painel pronto para abrir com duplo clique |
-| `dados/cnpd-snapshot.json` | retrato da coleta: metadados + 381 registros |
+| `coletar_namus.py` | coleta o NamUs com Scrapling e grava `dados/namus-snapshot.json` |
+| `preparar_mapa.py` | gera `municipios-cnpd.json`, `brasil-ufs.geojson` e `eua-ufs.geojson` |
+| `src/desaparecidos.js` | tela, filtros, KPIs, mapa, CSV e catálogo de fontes |
+| `src/app.css` | CSS do Leaflet + módulo |
+| `vendor/leaflet.js` | Leaflet 1.9.4 embutido no `index.html` |
+| `index.html` | **gerado pelo `construir.py`**; não editar |
+| `dados/cnpd-snapshot.json` | retrato do CNPD: metadados + 381 registros |
+| `dados/namus-snapshot.json` | retrato do NamUs: amostra de 300 de 26.607 |
+| `dados/fontes.json` | catálogo de 18 fontes |
 
 Comandos:
 
@@ -349,18 +364,31 @@ cd Apps\gestao_identificados
 python api_cnpd.py --nome maria --uf BA
 python api_cnpd.py --id 229101
 python coletar_dados.py
-python gerar_painel.py
+python coletar_namus.py --limite 300
+python preparar_mapa.py
+python construir.py
 ```
 
-O `index.html` abre sem servidor. Ele já traz o snapshot embutido; o botão
-**Atualizar** refaz a coleta no navegador (quando há internet) e as fotos são
-carregadas sob demanda do CNPD.
+O módulo oferece: abas CNPD/NamUs/Fontes, indicadores (total, mulheres,
+crianças e adolescentes, idosos, UFs e últimos 30 dias), filtros de nome, UF,
+sexo, faixa e ordenação, mapa Leaflet com malha do IBGE/EUA, painel com os nomes
+ao clicar no círculo, link para o cadastro oficial e CSV do recorte.
 
-O painel oferece: indicadores (total, crianças e adolescentes, idosos,
-mulheres, UFs, últimos 30 dias), seis gráficos (UF, sexo, faixa etária, tempo
-desde o desaparecimento, série mensal e municípios), busca por nome, filtros de
-UF, sexo e faixa, ordenação, cartões com foto, ficha completa, link para o
-cartão oficial e exportação CSV do recorte.
+### 8.2 Painel standalone (opcional)
+
+| Arquivo | O que faz |
+|---|---|
+| `painel/template.html` | fonte do painel autônomo (HTML, CSS e JS, sem build) |
+| `gerar_painel.py` | injeta o snapshot no template e grava `desaparecidos.html` |
+| `desaparecidos.html` | painel autônomo; abre com duplo clique e pode buscar fotos/atualizar no CNPD quando há internet |
+
+```powershell
+python gerar_painel.py   # gera desaparecidos.html, não sobrescreve o index.html do MVP
+```
+
+O painel standalone é útil para uma demonstração rápida sem o MVP; ele tem os
+seis gráficos e os cartões com foto. O `index.html` do MVP continua sendo a
+fonte principal.
 
 ---
 

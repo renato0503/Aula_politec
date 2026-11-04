@@ -19,7 +19,7 @@
   },
   "db": {
     "nome": "adiantamento_v1",
-    "versao": 1,
+    "versao": 2,
     "stores": {
       "processos": {
         "keyPath": "id",
@@ -68,6 +68,12 @@
       "feriados": {
         "keyPath": "data",
         "indices": []
+      },
+      "afastamentos": {
+        "keyPath": "id",
+        "indices": [
+          { "nome": "matricula", "campo": "matricula", "unico": false }
+        ]
       },
       "log": {
         "keyPath": "id",

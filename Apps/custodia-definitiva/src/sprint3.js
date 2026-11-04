@@ -56,7 +56,7 @@ TELAS["#/vestigios"] = async ()=>{
     <div class="card tabela-wrap"><table id="cdTabelaAcervo"><tr><th>Vestígio</th><th>Protocolo</th><th>Lacre</th><th>Categoria</th><th>Endereço</th><th>Entrada</th><th>Situação</th></tr>
       ${lista.map(v=>`<tr><td><a href="#/vestigio/${encodeURIComponent(v.id_vestigio)}">${esc(v.id_vestigio)}</a></td><td>${esc(v.protocolo)}</td>
         <td class="mono">${esc(v.lacre)}</td><td>${esc(cats[v.categoria_id]?.nome || v.categoria_id)}</td>
-        <td>${v.conteiner_id ? esc(v.conteiner_id) + " · " + esc(v.posicao || "") : '<span class="selo alerta">sem endereço</span>'}</td>
+        <td>${v.endereco_efetivo ? esc(cdEnderecoCompleto(v.endereco_efetivo, cs)) : v.conteiner_id ? `<span class="selo alerta">sugerido</span> ${esc(cdEnderecoCompleto(v, cs))}` : '<span class="selo erro">sem endereço</span>'}</td>
         <td>${dataCurtaBR(v.data_entrada)}</td><td>${cdSeloStatus(v)}</td></tr>`).join("")
         || '<tr><td colspan="7" class="vazio">Nenhum vestígio com estes filtros.</td></tr>'}</table></div>`;
 };
@@ -115,6 +115,14 @@ TELAS["#/vestigio/:id"] = async ({id})=>{
   const [cats, cs, vs] = await Promise.all([cdCategorias(), db.list("conteineres"), db.list("vestigios")]);
   const csm = Object.fromEntries(cs.map(c=>[c.id_conteiner, c]));
   const movs = (await db.porIndice("movimentacoes", "vestigio_id", id)).sort((a, b)=>b.data_hora.localeCompare(a.data_hora));
+  const efetivo = v.endereco_efetivo || null;
+  const sugerido = v.endereco_sugerido || (v.conteiner_id ? {conteiner_id: v.conteiner_id, posicao: v.posicao} : null);
+  const endereco = efetivo ? cdEnderecoCompleto(efetivo, csm) : sugerido ? cdEnderecoCompleto(sugerido, csm) : "sem endereço";
+  const pendenciasCadastro = [
+    ["Procedência", v.procedencia], ["Conferência documental", v.conferencia_documental],
+    ["Integridade do lacre", v.lacre_integro], ["Embalagem", v.embalagem],
+    ["Quantidade", v.quantidade > 0 ? v.quantidade : ""], ["Dimensões", v.dimensoes], ["Conservação", v.conservacao]
+  ].filter(([, valor])=> !String(valor || "").trim()).map(([rotulo])=> rotulo);
   const destinos = cs.filter(c=>c.id_conteiner !== v.conteiner_id && (c.categoria_permitida === v.categoria_id || c.categoria_permitida === "todas"))
     .map(c=>[c.id_conteiner, `${c.id_conteiner} · folga ${cdFolga(c, vs)}${cdFolga(c, vs) < Number(v.volume_ocupado) ? " (sem folga)" : ""}`]);
   const tipos = v.fora ? [["retorno", CD_TIPOS_MOV.retorno]] : [["transferencia", CD_TIPOS_MOV.transferencia], ["saida", CD_TIPOS_MOV.saida]];
@@ -122,12 +130,24 @@ TELAS["#/vestigio/:id"] = async ({id})=>{
     <h1>${esc(v.id_vestigio)} ${cdSeloStatus(v)}</h1>
     <p class="sub">Protocolo ${esc(v.protocolo)} · lacre <span class="mono">${esc(v.lacre)}</span> · entrada em ${dataCurtaBR(v.data_entrada)}</p>
     <div class="grade"><div class="card kpi"><div class="v">${esc(cats[v.categoria_id]?.nome || v.categoria_id)}</div><div class="r">categoria</div></div>
-      <div class="card kpi"><div class="v" id="cdEndereco">${v.fora ? "Fora" : v.conteiner_id ? esc(v.conteiner_id) + " · " + esc(v.posicao) : "—"}</div><div class="r">${v.fora ? "com " + esc(v.fora_destino) : "endereço digital"}</div></div>
+      <div class="card kpi"><div class="v" id="cdEndereco">${v.fora ? "Fora" : esc(endereco)}</div><div class="r">${v.fora ? "com " + esc(v.fora_destino) : efetivo ? "endereço efetivo" : sugerido ? "endereço sugerido (não confirmado)" : "sem endereço"}</div></div>
       <div class="card kpi"><div class="v">${v.volume_ocupado}</div><div class="r">volume ocupado</div></div>
       <div class="card kpi"><div class="v">${movs.length}</div><div class="r">movimentações</div></div></div>
+    <div class="card" id="cdCadastro"><h2 style="margin-top:0">Cadastro e conferência física</h2>
+      <div class="tabela-wrap"><table><tr><th>Etapa</th><th>Valor</th></tr>
+        ${pendenciasCadastro.length ? pendenciasCadastro.map(x=>`<tr><td>${esc(x)}</td><td><span class="selo alerta">pendente</span></td></tr>`).join("") : '<tr><td colspan="2"><span class="selo ok">cadastro completo</span></td></tr>'}
+        ${v.procedencia ? `<tr><td>Procedência</td><td>${esc(v.procedencia)}</td></tr>` : ""}
+        ${v.embalagem ? `<tr><td>Embalagem</td><td>${esc(v.embalagem)}</td></tr>` : ""}
+        ${v.dimensoes ? `<tr><td>Dimensões</td><td>${esc(v.dimensoes)}</td></tr>` : ""}
+        ${v.quantidade ? `<tr><td>Quantidade</td><td>${esc(v.quantidade)}</td></tr>` : ""}</table></div>
+      ${!efetivo && sugerido && v.status !== "descartado" ? `<h3>Confirmar o acondicionamento</h3>
+        <p class="sub">Endereço sugerido: <b>${esc(endereco)}</b>. A confirmação só deve ser feita depois da conferência física e documental.</p>
+        <div class="campos">${campo("cdConfResp", "Responsável pela conferência física", {valor: estado.perfil || ""})}</div>
+        <div id="cdErrosConf"></div><div class="linha-botoes"><button type="button" class="prim" id="btnCdConfirmar">Confirmar e armazenar</button></div>`
+        : v.confirmacao ? `<p class="sub"><span class="selo ok">endereço confirmado</span> por ${esc(v.confirmacao.por)} em ${dataBR(v.confirmacao.em)}.</p>` : ""}</div>
     <div class="duas-colunas">
       <div class="card"><h2 style="margin-top:0">Material</h2><p>${esc(v.descricao || "Sem descrição.")}</p>
-        <p class="sub">Conservação: ${esc(csm[v.conteiner_id]?.tipo_conservacao || "—")} · localização física: ${esc(csm[v.conteiner_id]?.localizacao_fisica || "—")}</p>
+        <p class="sub">Conservação: ${esc(v.conservacao || csm[v.conteiner_id]?.tipo_conservacao || "—")} · localização física: ${esc(endereco)}</p>
         ${v.status === "descartado" ? "" : `<h3>Registrar movimentação</h3>
         <form id="formCdMov" novalidate><div class="campos">
           ${campo("cdMovTipo", "Tipo", {tipo: "select", opcoes: tipos})}
@@ -142,6 +162,19 @@ TELAS["#/vestigio/:id"] = async ({id})=>{
         <div class="linha-botoes"><button id="btnCdMovCsv" type="button">${icone("download")} Histórico em CSV</button></div></div></div>`;
 };
 TELAS_DEPOIS["#/vestigio/:id"] = ({id})=>{
+  $("#btnCdConfirmar")?.addEventListener("click", async ()=>{
+    const resp = valorDe("cdConfResp").trim();
+    if (!resp) return mostrarErros("#cdErrosConf", ["Informe o responsável pela conferência física."]);
+    const v = await db.get("vestigios", id);
+    if (!v) return;
+    const end = v.endereco_sugerido || (v.conteiner_id ? {conteiner_id: v.conteiner_id, posicao: v.posicao, estante: "", prateleira: "", nivel: ""} : null);
+    if (!end) return mostrarErros("#cdErrosConf", ["Não há endereço sugerido para confirmar."]);
+    await db.put("vestigios", {...v, endereco_efetivo: end, status: "armazenado", confirmacao: {por: resp, em: agora()}});
+    await db.put("movimentacoes", {id_movimentacao: uuid(), vestigio_id: id, tipo: "confirmacao", data_hora: agora(), responsavel: resp,
+      origem: "conferência física", destino: `${end.conteiner_id || ""} · ${end.posicao || ""}`});
+    await registrar("acondicionamento confirmado", {detalhe: `${id} · ${resp}`});
+    toast("Acondicionamento confirmado; vestígio armazenado."); navegar();
+  });
   const ajustar = ()=>{ const t = $("#cdMovTipo")?.value; if (!t) return; $("#cdMovDestCont").hidden = t !== "transferencia"; $("#cdMovDestTxt").hidden = t !== "saida"; };
   $("#cdMovTipo")?.addEventListener("change", ajustar); ajustar();
   $("#formCdMov")?.addEventListener("submit", async e=>{

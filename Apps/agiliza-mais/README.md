@@ -93,6 +93,14 @@ passos deixaram de aparecer no menu, que fica com Casos, Biblioteca, Histórico 
 Configuração (Biblioteca e Histórico aparecem quando forem construídos). A tela
 de casos ganhou cartões. Código em `src/identidade.js` e `src/app.css`.
 
+## Ajustes do feedback (03/11/2026)
+
+- Revisão final sem os campos “Correções feitas no Word” e “Quantidade de correções”; fica só a marcação “revisei o laudo”, com “Concluir o caso” e “Histórico e Metas”.
+- Textos de Histórico, Exames e Considerações editáveis por caso, sem alterar a biblioteca; botão “Adaptar ao caso” preenche os marcadores (adaptação local).
+- Biblioteca com coluna e filtro de tipo de dispositivo (Celular, Tablet, Notebook, Outros).
+- Quesitos deixaram de ser obrigatórios: caso sem quesito na requisição não bloqueia o laudo.
+- O modelo do laudo aceita .docx e .dotx; o .dotx é convertido no carregamento. Os marcadores ainda precisam ser inseridos no modelo timbrado (ver modelos/MARCADORES.md).
+
 ## Mapa do processo
 
 O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o

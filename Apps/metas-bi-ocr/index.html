@@ -452,6 +452,17 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 @media (max-width:900px){ .metas-meses{grid-template-columns:repeat(6,minmax(0,1fr))} }
 @media (max-width:520px){ .metas-meses{grid-template-columns:repeat(3,minmax(0,1fr))} }
 
+/* edição e exclusão de linhas e meses */
+.metas-acoes{white-space:nowrap}
+.metas-acoes button,.meses-acoes button{min-height:30px;padding:3px 9px;font-size:12px;margin-left:4px}
+.metas-acoes button.perigo,.meses-acoes button{color:var(--vermelho)}
+.meses-acoes a{font-size:12px}
+.metas-dialogo{border:0;border-radius:var(--raio);padding:0;max-width:min(480px,92vw);width:100%;background:var(--painel);color:var(--ink);box-shadow:var(--sombra-alta)}
+.metas-dialogo::backdrop{background:rgba(8,20,32,.45)}
+.metas-form{display:flex;flex-direction:column;gap:10px;padding:20px}
+.metas-form h2{margin:0;font-size:18px}
+@media (max-width:640px){ .metas-acoes button,.meses-acoes button{min-height:38px} }
+
 </style>
 </head>
 <body data-layout="topo" data-estilo="institucional" data-cabecalho="claro" data-fonte="sistema" data-densidade="ampla" data-cantos="suaves" data-superficie="cartoes" data-kpi="anel">
@@ -1354,7 +1365,7 @@ teste("RN01: mês de referência em vários formatos", ()=> mesDeTexto("07/2026"
 const inteiro = v => { if (typeof v === "number") return Math.round(v); const s = String(v ?? "").replace(/\./g, "").replace(",", ".").trim(); return s === "" ? NaN : Math.round(Number(s)); };
 
 // arquivo -> {mes, linhas: [{unidade_lida, pendentes}], total} ou {erro}
-function lerRelatorio(nome, linhas){
+function lerRelatorio(nome, linhas, mesForcado){
   const iCab = linhas.findIndex(l=>l.some(c=>COLS_PBI.unidade.some(s=>normalizar(c).includes(s))));
   if (iCab < 0) return {erro: "Não achei a coluna da unidade no arquivo."};
   const cab = linhas[iCab], col = sugerirColunas(cab, COLS_PBI);
@@ -1368,11 +1379,22 @@ function lerRelatorio(nome, linhas){
     if (Number.isNaN(v) || v < 0) return erros.push(`linha ${iCab + i + 2}: número de pendentes ilegível para ${u}`);
     out.push({unidade_lida: u, pendentes: v, linha: iCab + i + 2});
   });
-  mes = mes || mesDeTexto(nome);
-  if (!mes) return {erro: "O arquivo não tem um mês de referência válido (RN01). Ele foi recusado."};
+  const mesArquivo = mes || mesDeTexto(nome);
+  mes = mesForcado || mesArquivo;
+  if (!mes) return {erro: "O arquivo não tem um mês de referência e nenhum mês foi escolhido (RN01). Escolha o mês na tela e importe de novo."};
   if (!out.length) return {erro: "Nenhuma unidade com número de pendentes."};
-  return {mes, linhas: out, total, erros};
+  return {mes, mes_arquivo: mesArquivo, linhas: out, total, erros};
 }
+
+function gerenciaDe(nome){
+  const n = normalizar(nome);
+  if (n.startsWith("iml")) return "IML";
+  if (n.includes("laboratorio")) return "Laboratório Forense";
+  if (n.includes("criminalistica")) return "Criminalística";
+  if (n.startsWith("regional")) return "Regionais";
+  return "Outras";
+}
+const METAS_GERENCIAS = ["IML", "Laboratório Forense", "Criminalística", "Regionais", "Outras"];
 
 async function acharUnidade(nomeLido){
   const n = normalizar(nomeLido);
@@ -1383,7 +1405,10 @@ TELAS["#/importar"] = async ()=>{
   const n = (await db.list("unidades")).length;
   return `<h1>Importar o mês</h1><p class="sub">Escolha o arquivo do Power BI 1: a exportação do visual (CSV ou Excel) ou o PDF mensal. O PDF precisa ter camada de texto.</p>
     ${n ? "" : `<div class="card pendente">Nenhuma unidade cadastrada. Carregue os dados fictícios em <a href="#/config">Configuração</a> ou cadastre as unidades.</div>`}
-    <div class="card"><div class="linha-botoes" style="margin-top:0"><label class="botao prim">Escolher arquivo do mês<input type="file" id="arqMes" accept=".csv,.xlsx,.xls,.pdf" hidden></label>
+    <div class="card"><div class="campos">${campo("mesImportar", "Mês de referência", {tipo: "month", valor: estado.importMes || "", ajuda: "Opcional. Vazio: o app usa o mês do arquivo. Escolha para importar o arquivo em outro mês."})}
+      ${campo("gerenciaImportar", "Gerência", {tipo: "select", opcoes: [["", "Todas as gerências"], ...METAS_GERENCIAS.map(g=>[g, g])]})}</div>
+      <label class="sub"><input type="checkbox" id="somenteMonitoradas"> Importar somente as unidades monitoradas (descarta as demais)</label>
+      <div class="linha-botoes"><label class="botao prim">Escolher arquivo do mês<input type="file" id="arqMes" accept=".csv,.xlsx,.xls,.pdf" hidden></label>
       <button type="button" id="btnExemploMes">Usar arquivo de exemplo</button></div>
       <p class="sub">O exemplo é o CSV de julho/2026, com 10 unidades.</p>
       <div id="errosMes"></div><div id="resMes"></div></div>
@@ -1396,10 +1421,12 @@ async function tabelaMeses(){
   for (const r of rels){
     const ps = await db.porIndice("pendencias", "mes_ref", r.id);
     linhas.push(`<tr><td>${r.id}</td><td>${esc(r.arquivo)}</td><td class="num">${ps.length}</td><td class="num">${ps.reduce((a, p)=>a + p.pendentes, 0)}</td>
-      <td class="num">${r.total_relatorio ?? "—"}</td><td>${r.aprovado_em ? '<span class="selo ok">aprovado</span>' : '<span class="selo info">a conferir</span>'}</td></tr>`);
+      <td class="num">${r.total_relatorio ?? "—"}</td><td>${r.aprovado_em ? '<span class="selo ok">aprovado</span>' : '<span class="selo info">a conferir</span>'}</td>
+      <td class="meses-acoes"><a href="#/conferencia/${encodeURIComponent(r.id)}">Abrir</a>
+        ${r.aprovado_em ? "" : `<button type="button" data-excluir-mes="${esc(r.id)}">Excluir</button>`}</td></tr>`);
   }
   return `<div class="card tabela-wrap"><h2 style="margin-top:0">Meses importados</h2><table><tr><th>Mês</th><th>Arquivo</th><th class="num">Unidades</th>
-    <th class="num">Soma</th><th class="num">Total do relatório</th><th>Situação</th></tr>${linhas.join("")}</table></div>`;
+    <th class="num">Soma</th><th class="num">Total do relatório</th><th>Situação</th><th>Ações</th></tr>${linhas.join("")}</table></div>`;
 }
 async function desenharDesconhecidas(mes){
   const ps = (await db.porIndice("pendencias", "mes_ref", mes)).filter(p=>p.desconhecida);
@@ -1441,31 +1468,58 @@ TELAS_DEPOIS["#/importar"] = ()=>{
       }
       else { const livro = XLSX.read(await lerArrayBuffer(f), {type: "array"}); linhas = XLSX.utils.sheet_to_json(livro.Sheets[livro.SheetNames[0]], {header: 1, raw: true, defval: ""}); }
     } catch(err){ return mostrarErros("#errosMes", ["Não consegui ler o arquivo: " + err.message]); }
-    const r = lerRelatorio(f.name, linhas);
+    const mesEscolhido = valorDe("mesImportar");
+    estado.importMes = mesEscolhido;
+    const r = lerRelatorio(f.name, linhas, mesEscolhido);
     if (r.erro) return mostrarErros("#errosMes", [r.erro]);
     const antes = await db.get("relatorios", r.mes);
     if (antes?.aprovado_em) return mostrarErros("#errosMes", [`O mês ${r.mes} já foi aprovado e não muda (RN05). Uma correção gera nova versão na conferência.`]);
     mostrarErros("#errosMes", []);
     for (const p of await db.porIndice("pendencias", "mes_ref", r.mes)) await db.del("pendencias", p.id);
-    let desconhecidas = 0;
+    const gerencia = valorDe("gerenciaImportar"), somente = $("#somenteMonitoradas")?.checked !== false;
+    let desconhecidas = 0, ignoradas = 0, validas = [];
     for (const l of r.linhas){
-      const u = await acharUnidade(l.unidade_lida); if (!u) desconhecidas++;
-      await db.put("pendencias", {id: `${r.mes}|${u ? u.nome : l.unidade_lida}`, mes_ref: r.mes, unidade: u ? u.nome : l.unidade_lida, unidade_lida: l.unidade_lida,
-        pendentes: l.pendentes, origem: /\.csv$/i.test(f.name) ? "csv" : /\.pdf$/i.test(f.name) ? "pdf" : "excel", confianca: 1, desconhecida: !u, linha: l.linha});
+      if (gerencia && gerenciaDe(l.unidade_lida) !== gerencia) { ignoradas++; continue; }
+      const u = await acharUnidade(l.unidade_lida);
+      if (!u && somente) { ignoradas++; continue; }
+      if (!u) desconhecidas++;
+      validas.push({l, u});
     }
-    await db.put("relatorios", {id: r.mes, arquivo: f.name, tipo: /\.csv$/i.test(f.name) ? "csv" : /\.pdf$/i.test(f.name) ? "pdf" : "excel", importado_em: agora(), total_relatorio: r.total,
+    if (!validas.length) return mostrarErros("#errosMes", ["Nenhuma unidade do recorte escolhido entrou na importação."]);
+    for (const {l, u} of validas){
+      await db.put("pendencias", {id: `${r.mes}|${u ? u.nome : l.unidade_lida}`, mes_ref: r.mes, unidade: u ? u.nome : l.unidade_lida, unidade_lida: l.unidade_lida,
+        pendentes: l.pendentes, gerencia: gerenciaDe(u ? u.nome : l.unidade_lida), origem: /\.csv$/i.test(f.name) ? "csv" : /\.pdf$/i.test(f.name) ? "pdf" : "excel", confianca: 1, desconhecida: !u, linha: l.linha});
+    }
+    const soma = validas.reduce((a, {l})=>a + l.pendentes, 0), recorte = !!gerencia || (somente && ignoradas > 0);
+    await db.put("relatorios", {id: r.mes, arquivo: f.name, tipo: /\.csv$/i.test(f.name) ? "csv" : /\.pdf$/i.test(f.name) ? "pdf" : "excel", importado_em: agora(), total_relatorio: recorte ? soma : r.total, total_original: r.total, gerencia: gerencia || "Todas",
       versao: (antes?.versao || 0) + 1, aprovado_por: null, aprovado_em: null});
-    await registrar("mês importado", {detalhe: `${r.mes}: ${r.linhas.length} unidades (${f.name})`});
-    const soma = r.linhas.reduce((a, l)=>a + l.pendentes, 0);
-    $("#resMes").innerHTML = `<h2 id="mesLido">Mês ${r.mes}</h2><p><span class="selo ok">${r.linhas.length} unidades lidas</span>
+    await registrar("mês importado", {detalhe: `${r.mes}: ${validas.length} unidades · ${gerencia || "todas"} (${f.name})`});
+    const avisoMes = mesEscolhido && r.mes_arquivo && r.mes_arquivo !== mesEscolhido
+      ? `<div class="aviso alerta">O arquivo indica <b>${esc(r.mes_arquivo)}</b>; importei como <b>${esc(r.mes)}</b>, como você escolheu.</div>` : "";
+    $("#resMes").innerHTML = `${avisoMes}<h2 id="mesLido">Mês ${r.mes}</h2><p><span class="selo ok">${validas.length} unidades no recorte</span>
       ${desconhecidas ? `<span class="selo alerta" id="qtdDesconhecidas">${desconhecidas} fora do cadastro</span>` : ""}
+      ${ignoradas ? `<span class="selo info">${ignoradas} fora do recorte</span>` : ""}
       ${r.erros.length ? `<span class="selo erro">${r.erros.length} linhas ilegíveis</span>` : ""}</p>
-      <p>Soma das unidades: <b>${soma}</b> · Total do relatório: <b>${r.total ?? "não informado"}</b></p>
+      <p>Soma do recorte: <b>${soma}</b> · Total do relatório${recorte ? " (ajustado ao recorte)" : ""}: <b>${recorte ? soma : r.total ?? "não informado"}</b></p>
       <p class="sub">A conferência (RN02 a RN04) chega no Sprint 3. <a href="#/conferencia/${r.mes}">Conferência do mês</a></p>`;
     await desenharDesconhecidas(r.mes);
     $("#historicoCurto").innerHTML = await tabelaMeses();
   });
 };
+
+/* ---------- exclusão de um mês importado (na lista e no histórico) ---------- */
+document.addEventListener("click", async e=>{
+  const b = e.target.closest("[data-excluir-mes]"); if (!b) return;
+  const mes = b.dataset.excluirMes, r = await db.get("relatorios", mes); if (!r) return;
+  if (r.aprovado_em) return toast("Mês aprovado não pode ser excluído (RN05).", 5000);
+  if (!confirm(`Excluir o mês ${mes} (${r.arquivo}) e os valores já importados?`)) return;
+  for (const p of await db.porIndice("pendencias", "mes_ref", mes)) await db.del("pendencias", p.id);
+  for (const c of (await db.list("correcoes")).filter(x=>String(x.pendencia_id || "").startsWith(mes + "|"))) await db.del("correcoes", c.id);
+  await db.del("relatorios", mes);
+  await registrar("mês excluído", {detalhe: mes});
+  toast(`Mês ${mes} excluído.`);
+  if (location.hash.includes(mes)) location.hash = "#/importar"; else navegar();
+});
 
 /* ================= Sprint 3 · Conferência (RN02 a RN05) ================= */
 const LIMITE_VARIACAO = 0.30;  // RN04
@@ -1494,17 +1548,23 @@ TELAS["#/conferencia/:mes"] = async ({mes})=>{
   const c = await conferir(mes);
   if (!c.rel) return `<div class="card vazio">Mês ${esc(mes)} não importado. <a href="#/importar">Importar</a></div>`;
   const travado = !!c.rel.aprovado_em, unidades = await db.list("unidades");
-  return `<h1>Conferência · ${esc(mes)}</h1><p class="sub">${esc(c.rel.arquivo)} · versão ${c.rel.versao} ·
+  const ger = estado.metasGerenciaConf || "", visiveis = ger ? c.linhas.filter(l=>(l.gerencia || gerenciaDe(l.unidade)) === ger) : c.linhas;
+  const monitoradas = c.linhas.filter(l=>!l.desconhecida), somaMonitorada = monitoradas.reduce((a, l)=>a + l.pendentes, 0);
+  return `<h1>Conferência · ${esc(mes)}</h1><p class="sub">${esc(c.rel.arquivo)} · versão ${c.rel.versao} · gerência: ${esc(c.rel.gerencia || "Todas")} ·
     ${travado ? `<span class="selo ok" id="situacaoMes">aprovado por ${esc(c.rel.aprovado_por)} em ${dataBR(c.rel.aprovado_em)}</span>` : '<span class="selo info" id="situacaoMes">a conferir</span>'}</p>
-    <div class="grade"><div class="card kpi"><div class="v">${c.soma}</div><div class="r">soma das unidades</div></div>
+    <div class="card">${campo("metasGerenciaConf", "Filtrar a tabela por gerência", {tipo: "select", valor: ger, opcoes: [["", "Todas as gerências"], ...METAS_GERENCIAS.map(g=>[g, g])]})}</div>
+    <div class="grade"><div class="card kpi"><div class="v" id="kpiPendentes">${somaMonitorada}</div><div class="r">Pendentes (unidades monitoradas)</div></div>
+      <div class="card kpi"><div class="v">${c.soma}</div><div class="r">soma das unidades</div></div>
       <div class="card kpi"><div class="v">${c.total ?? "—"}</div><div class="r">total do relatório${c.rel.total_relatorio_aceito !== undefined ? " (ajustado)" : ""}</div></div></div>
-    <div class="card tabela-wrap"><table id="tabelaConf"><tr><th>Unidade</th><th class="num">Mês anterior</th><th class="num">Lido</th><th class="num">Variação</th><th>Alertas</th>${travado ? "" : "<th>Corrigir</th>"}</tr>
-      ${c.linhas.map(l=>`<tr data-unidade="${esc(l.unidade)}"><td>${esc(l.unidade)}${l.desconhecida ? `<br><small class="sub">lido: ${esc(l.unidade_lida)}</small>` : ""}</td>
-        <td class="num">${l.anterior ?? "—"}</td><td class="num"><b>${l.pendentes}</b>${l.origem === "corrigido" ? ' <span class="selo alerta">corrigido</span>' : ""}</td>
+    <div class="card tabela-wrap"><table id="tabelaConf"><tr><th>Unidade</th><th>Gerência</th><th class="num">Mês anterior</th><th class="num">Lido</th><th class="num">Variação</th><th>Alertas</th>${travado ? "" : "<th>Corrigir</th><th>Ações</th>"}</tr>
+      ${visiveis.map(l=>`<tr data-unidade="${esc(l.unidade)}"><td>${esc(l.unidade)}${l.desconhecida ? `<br><small class="sub">lido: ${esc(l.unidade_lida)}</small>` : ""}</td>
+        <td>${esc(l.gerencia || gerenciaDe(l.unidade))}</td><td class="num">${l.anterior ?? "—"}</td><td class="num"><b>${l.pendentes}</b>${l.origem === "corrigido" ? ' <span class="selo alerta">corrigido</span>' : ""}</td>
         <td class="num ${l.variacaoAlta ? "alerta-txt" : ""}">${l.variacao === null ? "—" : (l.variacao * 100).toFixed(0) + "%"}</td>
         <td>${l.alertas.map(a=>`<span class="selo alerta">${esc(a)}</span>`).join(" ")}
           ${!travado && l.variacaoAlta && l.alertas.some(a=>a.startsWith("RN04")) ? `<button data-confirmar="${esc(l.unidade)}">Confirmar valor</button>` : ""}</td>
-        ${travado ? "" : `<td><input type="number" min="0" data-novo="${esc(l.id)}" style="width:110px" aria-label="Novo valor para ${esc(l.unidade)}"></td>`}</tr>`).join("")}</table></div>
+        ${travado ? "" : `<td><input type="number" min="0" data-novo="${esc(l.id)}" style="width:110px" aria-label="Novo valor para ${esc(l.unidade)}"></td>
+          <td class="metas-acoes"><button type="button" data-editar-pend="${esc(l.id)}">Editar</button>
+            <button type="button" class="perigo" data-excluir-pend="${esc(l.id)}">Excluir</button></td>`}</tr>`).join("")}</table></div>
     ${travado ? `<div class="card"><p>O mês aprovado não muda (RN05). Uma correção abre uma nova versão.</p>
       ${campo("motivoVersao", "Motivo da nova versão", {tipo: "textarea", linhas: 2})}<div id="errosVersao"></div><button id="btnNovaVersao">Abrir nova versão para correção</button></div>`
     : `<div class="card"><h2 style="margin-top:0">Correções e aprovação</h2>
@@ -1513,9 +1573,55 @@ TELAS["#/conferencia/:mes"] = async ({mes})=>{
         ${c.total !== null && c.total !== c.soma ? `<button id="btnAceitarSoma">Aceitar a soma (${c.soma}) como total</button>` : ""}</div>
       <hr><div id="bloqueios">${c.bloqueios.length ? `<p class="erro-txt"><b>Não pode aprovar ainda:</b></p><ul>${c.bloqueios.map(b=>`<li>${esc(b)}</li>`).join("")}</ul>` : '<p class="ok-txt">Conferência sem pendências.</p>'}</div>
       ${campo("aprovador", "Aprovado por (chefe de núcleo)", {valor: (await db.meta("aprovador")) || ""})}
-      <div id="errosAprovar"></div><button class="prim" id="btnAprovar" ${c.bloqueios.length ? "disabled" : ""}>Aprovar o mês</button></div>`}`;
+      <div id="errosAprovar"></div><button class="prim" id="btnAprovar" ${c.bloqueios.length ? "disabled" : ""} title="${c.bloqueios.length ? "Resolva os bloqueios ou aceite a soma antes de aprovar" : ""}">Aprovar o mês</button>
+      ${c.bloqueios.length ? '<p class="sub">O botão fica bloqueado enquanto houver RN02/RN03/RN04. Corrija, confirme a variação ou use "Aceitar a soma".</p>' : ""}</div>`}`;
 };
+async function editarPendencia(mes, id){
+  const p = await db.get("pendencias", id); if (!p) return;
+  const unidades = (await db.list("unidades")).map(u=>u.nome);
+  if (p.unidade && !unidades.includes(p.unidade)) unidades.unshift(p.unidade);
+  const dlg = document.createElement("dialog"); dlg.className = "metas-dialogo";
+  dlg.innerHTML = `<form method="dialog" class="metas-form"><h2>Editar ${esc(p.unidade)}</h2>
+    <div class="campos"><div class="campo"><label for="edUnidade">Unidade</label><select id="edUnidade">${unidades.map(u=>`<option value="${esc(u)}" ${u === p.unidade ? "selected" : ""}>${esc(u)}</option>`).join("")}</select></div>
+      ${campo("edLida", "Nome lido no relatório", {valor: p.unidade_lida || p.unidade})}
+      ${campo("edPend", "Laudos pendentes", {tipo: "number", valor: p.pendentes, attrs: 'min="0"'})}</div>
+    ${campo("edMotivo", "Motivo da alteração (obrigatório)", {tipo: "textarea", linhas: 2})}
+    <div id="edErros"></div><div class="linha-botoes"><button type="submit" class="prim">Salvar</button>
+      <button type="button" class="sec" data-fechar>Cancelar</button></div></form>`;
+  document.body.appendChild(dlg);
+  dlg.querySelector("[data-fechar]").addEventListener("click", ()=>dlg.remove());
+  dlg.addEventListener("cancel", e=>{ e.preventDefault(); dlg.remove(); });
+  dlg.querySelector("form").addEventListener("submit", async e=>{
+    e.preventDefault();
+    const unidade = dlg.querySelector("#edUnidade").value, lida = dlg.querySelector("#edLida").value.trim();
+    const pend = Number(dlg.querySelector("#edPend").value), motivo = dlg.querySelector("#edMotivo").value.trim();
+    const erros = [];
+    if (!(pend >= 0)) erros.push("Informe os laudos pendentes.");
+    if (!motivo) erros.push("Escreva o motivo da alteração.");
+    if (!unidade) erros.push("Escolha a unidade.");
+    if (erros.length) return mostrarErros(dlg.querySelector("#edErros"), erros);
+    const novoId = `${mes}|${unidade}`;
+    if (novoId !== p.id && await db.get("pendencias", novoId)) return mostrarErros(dlg.querySelector("#edErros"), ["Já existe uma linha desta unidade no mês."]);
+    await db.put("correcoes", {id: uuid(), pendencia_id: novoId, valor_lido: p.pendentes, valor_final: pend, motivo, data: agora(), tipo: "edicao"});
+    if (novoId !== p.id) await db.del("pendencias", p.id);
+    await db.put("pendencias", {...p, id: novoId, unidade, unidade_lida: lida || unidade, pendentes: pend, origem: "corrigido", desconhecida: false});
+    await registrar("linha editada", {detalhe: `${mes}: ${p.unidade} -> ${unidade} (${pend})`});
+    dlg.remove(); toast("Linha atualizada."); navegar();
+  });
+  dlg.showModal();
+  dlg.querySelector("#edPend")?.focus();
+}
+
 TELAS_DEPOIS["#/conferencia/:mes"] = ({mes})=>{
+  $("#metasGerenciaConf")?.addEventListener("change", e=>{ estado.metasGerenciaConf = e.target.value; navegar(); });
+  $$("[data-editar-pend]").forEach(b=>b.addEventListener("click", ()=>editarPendencia(mes, b.dataset.editarPend)));
+  $$("[data-excluir-pend]").forEach(b=>b.addEventListener("click", async ()=>{
+    const p = await db.get("pendencias", b.dataset.excluirPend); if (!p) return;
+    if (!confirm(`Excluir a linha ${p.unidade} (${p.pendentes}) do mês ${mes}?`)) return;
+    await db.del("pendencias", p.id);
+    await registrar("linha excluída", {detalhe: `${mes}: ${p.unidade}`});
+    toast("Linha excluída."); navegar();
+  }));
   $$("[data-confirmar]").forEach(b=>b.addEventListener("click", async ()=>{
     const r = await db.get("relatorios", mes); r.variacoes_confirmadas = [...new Set([...(r.variacoes_confirmadas || []), b.dataset.confirmar])];
     await db.put("relatorios", r); await registrar("variação confirmada", {detalhe: `${mes} ${b.dataset.confirmar}`}); navegar();
@@ -1541,7 +1647,8 @@ TELAS_DEPOIS["#/conferencia/:mes"] = ({mes})=>{
     const quem = valorDe("aprovador"); if (!quem) return mostrarErros("#errosAprovar", ["Informe quem aprova."]);
     const c = await conferir(mes); if (c.bloqueios.length) return mostrarErros("#errosAprovar", c.bloqueios);
     await db.meta("aprovador", quem); await db.put("relatorios", {...c.rel, aprovado_por: quem, aprovado_em: agora()});
-    await registrar("mês aprovado", {detalhe: `${mes} por ${quem}`}); toast(`Mês ${mes} aprovado.`); navegar();
+    await registrar("mês aprovado", {detalhe: `${mes} por ${quem}`}); toast(`Mês ${mes} aprovado. Planilha liberada.`);
+    location.hash = "#/exportar/" + encodeURIComponent(mes);
   });
   $("#btnNovaVersao")?.addEventListener("click", async ()=>{
     const motivo = valorDe("motivoVersao"); if (!motivo) return mostrarErros("#errosVersao", ["Escreva o motivo da nova versão (RN05)."]);
@@ -1560,7 +1667,10 @@ TELAS["#/historico"] = async ()=>{
 /* ================= Sprint 4 · Exportar o mês (RN06) ================= */
 // Só o mês aprovado pode ser exportado; o arquivo sai no layout da planilha do Google.
 async function linhasDoMes(mes){
-  const ps = (await db.porIndice("pendencias", "mes_ref", mes)).sort((a, b)=>a.unidade.localeCompare(b.unidade));
+  const rel = await db.get("relatorios", mes), ger = rel?.gerencia;
+  const ps = (await db.porIndice("pendencias", "mes_ref", mes))
+    .filter(p=>!p.desconhecida && (!ger || ger === "Todas" || (p.gerencia || gerenciaDe(p.unidade)) === ger))
+    .sort((a, b)=>a.unidade.localeCompare(b.unidade));
   return ps.map(p=>({Unidade: p.unidade, "Laudos pendentes": p.pendentes}));
 }
 TELAS["#/exportar/:mes"] = async ({mes})=>{

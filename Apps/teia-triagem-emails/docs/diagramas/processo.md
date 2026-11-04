@@ -11,7 +11,7 @@ flowchart TD
   N1["1. Chegada do e-mail de requisição"]:::wait
   N2["2. Triagem inicial e abertura do e-mail"]:::wait
   N3["3. Download e leitura dos anexos"]:::wait
-  N4["4. Mapeamento dos 8 campos essenciais"]:::wait
+  N4["4. Mapeamento dos 9 campos essenciais"]:::wait
   N5["5. Digitação e consolidação na planilha"]:::wait
   N6["6. Download, renomeação e organização dos PDFs"]:::wait
   N7["7. Validação, aceite e encaminhamento legal"]:::wait
@@ -38,7 +38,7 @@ flowchart TD
   IN(["Início"])
   N1["1. Monitoramento e varredura da caixa de e-mails<br/><small>A máquina (automação)</small>"]:::auto
   N2["2. Extração de texto e leitura dos anexos (PDF/Imagens)<br/><small>A máquina (automação)</small>"]:::auto
-  N3["3. Mapeamento dos 8 campos essenciais<br/><small>A máquina (automação)</small>"]:::auto
+  N3["3. Mapeamento dos 9 campos essenciais<br/><small>A máquina (automação)</small>"]:::auto
   N4["4. Preenchimento da planilha e sinalização de alertas<br/><small>A máquina (automação)</small>"]:::auto
   N5["5. Salvamento, renomeação e organização dos arquivos<br/><small>A máquina (automação)</small>"]:::auto
   N6["6. Validação de fé pública e decisão de aceite<br/><small>A pessoa, sem mudança</small>"]:::humano

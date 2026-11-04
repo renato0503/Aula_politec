@@ -19,7 +19,7 @@
   },
   "db": {
     "nome": "tap_portfolio_v1",
-    "versao": 2,
+    "versao": 4,
     "stores": {
       "propostas": {
         "keyPath": "id",
@@ -73,7 +73,32 @@
         "keyPath": "id",
         "indices": []
       },
+      "orcamentos": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "ano",
+            "campo": "ano",
+            "unico": false
+          },
+          {
+            "nome": "eixo",
+            "campo": "eixo",
+            "unico": false
+          }
+        ]
+      },
       "pareceres": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "proposta_id",
+            "campo": "proposta_id",
+            "unico": false
+          }
+        ]
+      },
+      "avisos": {
         "keyPath": "id",
         "indices": [
           {
@@ -157,6 +182,12 @@
       "perfis": [
         "equipe"
       ]
+    },
+    {
+      "rota": "#/dashboard",
+      "titulo": "Dashboard orçamentário",
+      "sprint": 7,
+      "descricao": "Execução do portfólio por ano e eixo: empenhado, liquidado, saldo e percentual, com edição e importação dos lançamentos."
     },
     {
       "rota": "#/config",

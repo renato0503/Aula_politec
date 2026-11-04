@@ -5,6 +5,11 @@ inteiro antes de mexer em qualquer app. Depois leia
 `Apps/PLANO-USABILIDADE.md` (o diagnóstico e o plano de cada app) e
 `AGENTS.md` (seção 3.8).
 
+> **Estado global de 03/11/2026:** `ANALISE-GLOBAL-PENDENCIAS.md` traz a matriz
+> dos 21 apps, o que pode ser feito agora, o que depende de pessoas e o que
+> depende de serviço externo. Ele exclui `horus-banco-demandas` (Iohan) e
+> `agendamento-cin` (Elthon), pausados por decisão do professor.
+
 ---
 
 ## 1. O que o professor pediu (as quatro solicitações, nesta ordem)

@@ -391,6 +391,7 @@ function montarTrilha(r, params){
 }
 async function navegar(){
   const hash = location.hash || rotaInicial();
+  const rotaAnterior = estado.rota;
   const achou = hash.startsWith("#/testes") ? {r: {rota: "#/testes", titulo: "Testes", publica: false}, params: {}} : casarRota(hash);
   const alvo = $("#conteudo");
   fecharSuspensos();
@@ -419,6 +420,7 @@ async function navegar(){
   try { alvo.innerHTML = await fn(achou.params); ligarAbas(alvo); if (TELAS_DEPOIS[achou.r.rota]) await TELAS_DEPOIS[achou.r.rota](achou.params); }
   catch(e){ console.error(e); alvo.innerHTML = `<div class="card pendente"><b>Erro nesta tela.</b><p class="mono">${esc(e.message)}</p></div>`; }
   alvo.focus({preventScroll: true});
+  if (rotaAnterior !== achou.r.rota) window.scrollTo({top: 0, left: 0, behavior: "auto"});
 }
 function telaPendente(r){
   return async ()=>`<h1>${esc(r.titulo)}</h1><p class="sub">${esc(r.descricao || "")}</p>

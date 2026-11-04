@@ -38,7 +38,12 @@
    "capacidade": 200,
    "tipo_conservacao": "ambiente seco",
    "localizacao_fisica": "Sala de custódia, prateleira A",
-   "status": "ativo"
+   "status": "ativo",
+   "unidade": "litros",
+   "sala": "Sala de custódia",
+   "estante": "E-01",
+   "prateleira": "P-01",
+   "nivel": "N-1"
   },
   {
    "id_conteiner": "C-02",
@@ -46,7 +51,12 @@
    "capacidade": 80,
    "tipo_conservacao": "ambiente seco",
    "localizacao_fisica": "Sala de custódia, armário B",
-   "status": "ativo"
+   "status": "ativo",
+   "unidade": "litros",
+   "sala": "Sala de custódia",
+   "estante": "E-02",
+   "prateleira": "P-02",
+   "nivel": "N-1"
   },
   {
    "id_conteiner": "C-03",
@@ -54,7 +64,12 @@
    "capacidade": 60,
    "tipo_conservacao": "ambiente seco e ventilado",
    "localizacao_fisica": "Sala de custódia, prateleira C",
-   "status": "ativo"
+   "status": "ativo",
+   "unidade": "litros",
+   "sala": "Sala de custódia",
+   "estante": "E-03",
+   "prateleira": "P-03",
+   "nivel": "N-1"
   },
   {
    "id_conteiner": "C-04",
@@ -62,7 +77,12 @@
    "capacidade": 40,
    "tipo_conservacao": "ambiente seco",
    "localizacao_fisica": "Sala de custódia, armário D",
-   "status": "ativo"
+   "status": "ativo",
+   "unidade": "litros",
+   "sala": "Sala de custódia",
+   "estante": "E-04",
+   "prateleira": "P-04",
+   "nivel": "N-2"
   },
   {
    "id_conteiner": "C-05",
@@ -70,7 +90,12 @@
    "capacidade": 50,
    "tipo_conservacao": "refrigerado de 2 a 8 graus",
    "localizacao_fisica": "Contêiner refrigerado, doca 5",
-   "status": "ativo"
+   "status": "ativo",
+   "unidade": "litros",
+   "sala": "Sala refrigerada",
+   "estante": "E-05",
+   "prateleira": "P-05",
+   "nivel": "N-1"
   }
  ],
  "vestigios": [
@@ -83,8 +108,33 @@
    "data_entrada": "2025-11-03",
    "status": "armazenado",
    "descricao": "5 alíquotas/unidades de entorpecentes e contraprovas.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 5,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-01",
-   "posicao": "P005"
+   "posicao": "P005",
+   "endereco_sugerido": {
+    "conteiner_id": "C-01",
+    "posicao": "P005",
+    "estante": "E-01",
+    "prateleira": "P-01",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-01",
+    "posicao": "P005",
+    "estante": "E-01",
+    "prateleira": "P-01",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2025-11-03T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0002",
@@ -95,8 +145,33 @@
    "data_entrada": "2025-11-14",
    "status": "armazenado",
    "descricao": "3 alíquotas/unidades de armas brancas.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 3,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-02",
-   "posicao": "P003"
+   "posicao": "P003",
+   "endereco_sugerido": {
+    "conteiner_id": "C-02",
+    "posicao": "P003",
+    "estante": "E-02",
+    "prateleira": "P-02",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-02",
+    "posicao": "P003",
+    "estante": "E-02",
+    "prateleira": "P-02",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2025-11-14T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0003",
@@ -107,8 +182,33 @@
    "data_entrada": "2025-11-25",
    "status": "armazenado",
    "descricao": "4 alíquotas/unidades de roupas e têxteis.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 4,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-03",
-   "posicao": "P004"
+   "posicao": "P004",
+   "endereco_sugerido": {
+    "conteiner_id": "C-03",
+    "posicao": "P004",
+    "estante": "E-03",
+    "prateleira": "P-03",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-03",
+    "posicao": "P004",
+    "estante": "E-03",
+    "prateleira": "P-03",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2025-11-25T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0004",
@@ -119,8 +219,33 @@
    "data_entrada": "2025-12-06",
    "status": "armazenado",
    "descricao": "5 alíquotas/unidades de eletrônicos e mídias.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 5,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-04",
-   "posicao": "P005"
+   "posicao": "P005",
+   "endereco_sugerido": {
+    "conteiner_id": "C-04",
+    "posicao": "P005",
+    "estante": "E-04",
+    "prateleira": "P-04",
+    "nivel": "N-2"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-04",
+    "posicao": "P005",
+    "estante": "E-04",
+    "prateleira": "P-04",
+    "nivel": "N-2"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2025-12-06T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0005",
@@ -131,8 +256,33 @@
    "data_entrada": "2025-12-17",
    "status": "armazenado",
    "descricao": "4 alíquotas/unidades de materiais biológicos.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 4,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-05",
-   "posicao": "P004"
+   "posicao": "P004",
+   "endereco_sugerido": {
+    "conteiner_id": "C-05",
+    "posicao": "P004",
+    "estante": "E-05",
+    "prateleira": "P-05",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-05",
+    "posicao": "P004",
+    "estante": "E-05",
+    "prateleira": "P-05",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2025-12-17T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0006",
@@ -143,8 +293,33 @@
    "data_entrada": "2025-12-28",
    "status": "armazenado",
    "descricao": "3 alíquotas/unidades de entorpecentes e contraprovas.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 3,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-01",
-   "posicao": "P008"
+   "posicao": "P008",
+   "endereco_sugerido": {
+    "conteiner_id": "C-01",
+    "posicao": "P008",
+    "estante": "E-01",
+    "prateleira": "P-01",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-01",
+    "posicao": "P008",
+    "estante": "E-01",
+    "prateleira": "P-01",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2025-12-28T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0007",
@@ -155,8 +330,33 @@
    "data_entrada": "2026-01-08",
    "status": "armazenado",
    "descricao": "5 alíquotas/unidades de armas brancas.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 5,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-02",
-   "posicao": "P008"
+   "posicao": "P008",
+   "endereco_sugerido": {
+    "conteiner_id": "C-02",
+    "posicao": "P008",
+    "estante": "E-02",
+    "prateleira": "P-02",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-02",
+    "posicao": "P008",
+    "estante": "E-02",
+    "prateleira": "P-02",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-01-08T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0008",
@@ -168,7 +368,17 @@
    "status": "pendencia",
    "descricao": "Material separado para conferência documental; sem endereço até a regularização.",
    "conteiner_id": null,
-   "posicao": null
+   "posicao": null,
+   "procedencia": "",
+   "conferencia_documental": "pendente",
+   "lacre_integro": "nao_verificado",
+   "embalagem": "",
+   "quantidade": 0,
+   "dimensoes": "",
+   "conservacao": "",
+   "endereco_sugerido": null,
+   "endereco_efetivo": null,
+   "confirmacao": null
   },
   {
    "id_vestigio": "V-0009",
@@ -179,8 +389,33 @@
    "data_entrada": "2026-01-30",
    "status": "armazenado",
    "descricao": "2 alíquotas/unidades de eletrônicos e mídias.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 2,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-04",
-   "posicao": "P007"
+   "posicao": "P007",
+   "endereco_sugerido": {
+    "conteiner_id": "C-04",
+    "posicao": "P007",
+    "estante": "E-04",
+    "prateleira": "P-04",
+    "nivel": "N-2"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-04",
+    "posicao": "P007",
+    "estante": "E-04",
+    "prateleira": "P-04",
+    "nivel": "N-2"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-01-30T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0010",
@@ -191,8 +426,33 @@
    "data_entrada": "2026-02-10",
    "status": "armazenado",
    "descricao": "4 alíquotas/unidades de materiais biológicos.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 4,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-05",
-   "posicao": "P008"
+   "posicao": "P008",
+   "endereco_sugerido": {
+    "conteiner_id": "C-05",
+    "posicao": "P008",
+    "estante": "E-05",
+    "prateleira": "P-05",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-05",
+    "posicao": "P008",
+    "estante": "E-05",
+    "prateleira": "P-05",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-02-10T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0011",
@@ -203,8 +463,33 @@
    "data_entrada": "2026-02-21",
    "status": "armazenado",
    "descricao": "4 alíquotas/unidades de entorpecentes e contraprovas.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 4,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-01",
-   "posicao": "P012"
+   "posicao": "P012",
+   "endereco_sugerido": {
+    "conteiner_id": "C-01",
+    "posicao": "P012",
+    "estante": "E-01",
+    "prateleira": "P-01",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-01",
+    "posicao": "P012",
+    "estante": "E-01",
+    "prateleira": "P-01",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-02-21T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0012",
@@ -215,8 +500,33 @@
    "data_entrada": "2026-03-04",
    "status": "armazenado",
    "descricao": "3 alíquotas/unidades de armas brancas.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 3,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-02",
-   "posicao": "P011"
+   "posicao": "P011",
+   "endereco_sugerido": {
+    "conteiner_id": "C-02",
+    "posicao": "P011",
+    "estante": "E-02",
+    "prateleira": "P-02",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-02",
+    "posicao": "P011",
+    "estante": "E-02",
+    "prateleira": "P-02",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-03-04T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0013",
@@ -227,8 +537,33 @@
    "data_entrada": "2026-03-15",
    "status": "armazenado",
    "descricao": "5 alíquotas/unidades de roupas e têxteis.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 5,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-03",
-   "posicao": "P009"
+   "posicao": "P009",
+   "endereco_sugerido": {
+    "conteiner_id": "C-03",
+    "posicao": "P009",
+    "estante": "E-03",
+    "prateleira": "P-03",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-03",
+    "posicao": "P009",
+    "estante": "E-03",
+    "prateleira": "P-03",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-03-15T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0014",
@@ -239,8 +574,33 @@
    "data_entrada": "2026-03-26",
    "status": "armazenado",
    "descricao": "3 alíquotas/unidades de eletrônicos e mídias.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 3,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-04",
-   "posicao": "P010"
+   "posicao": "P010",
+   "endereco_sugerido": {
+    "conteiner_id": "C-04",
+    "posicao": "P010",
+    "estante": "E-04",
+    "prateleira": "P-04",
+    "nivel": "N-2"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-04",
+    "posicao": "P010",
+    "estante": "E-04",
+    "prateleira": "P-04",
+    "nivel": "N-2"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-03-26T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0015",
@@ -251,8 +611,33 @@
    "data_entrada": "2026-04-06",
    "status": "armazenado",
    "descricao": "3 alíquotas/unidades de materiais biológicos.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 3,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-05",
-   "posicao": "P011"
+   "posicao": "P011",
+   "endereco_sugerido": {
+    "conteiner_id": "C-05",
+    "posicao": "P011",
+    "estante": "E-05",
+    "prateleira": "P-05",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-05",
+    "posicao": "P011",
+    "estante": "E-05",
+    "prateleira": "P-05",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-04-06T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0016",
@@ -263,8 +648,33 @@
    "data_entrada": "2026-04-17",
    "status": "armazenado",
    "descricao": "4 alíquotas/unidades de entorpecentes e contraprovas.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 4,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-01",
-   "posicao": "P016"
+   "posicao": "P016",
+   "endereco_sugerido": {
+    "conteiner_id": "C-01",
+    "posicao": "P016",
+    "estante": "E-01",
+    "prateleira": "P-01",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-01",
+    "posicao": "P016",
+    "estante": "E-01",
+    "prateleira": "P-01",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-04-17T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0017",
@@ -275,8 +685,33 @@
    "data_entrada": "2026-04-28",
    "status": "armazenado",
    "descricao": "4 alíquotas/unidades de armas brancas.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 4,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-02",
-   "posicao": "P015"
+   "posicao": "P015",
+   "endereco_sugerido": {
+    "conteiner_id": "C-02",
+    "posicao": "P015",
+    "estante": "E-02",
+    "prateleira": "P-02",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-02",
+    "posicao": "P015",
+    "estante": "E-02",
+    "prateleira": "P-02",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-04-28T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0018",
@@ -287,8 +722,33 @@
    "data_entrada": "2026-05-09",
    "status": "armazenado",
    "descricao": "2 alíquotas/unidades de roupas e têxteis.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 2,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-03",
-   "posicao": "P011"
+   "posicao": "P011",
+   "endereco_sugerido": {
+    "conteiner_id": "C-03",
+    "posicao": "P011",
+    "estante": "E-03",
+    "prateleira": "P-03",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-03",
+    "posicao": "P011",
+    "estante": "E-03",
+    "prateleira": "P-03",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-05-09T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0019",
@@ -299,8 +759,33 @@
    "data_entrada": "2026-05-20",
    "status": "armazenado",
    "descricao": "3 alíquotas/unidades de eletrônicos e mídias.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 3,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-04",
-   "posicao": "P013"
+   "posicao": "P013",
+   "endereco_sugerido": {
+    "conteiner_id": "C-04",
+    "posicao": "P013",
+    "estante": "E-04",
+    "prateleira": "P-04",
+    "nivel": "N-2"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-04",
+    "posicao": "P013",
+    "estante": "E-04",
+    "prateleira": "P-04",
+    "nivel": "N-2"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-05-20T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0020",
@@ -311,8 +796,33 @@
    "data_entrada": "2026-05-31",
    "status": "armazenado",
    "descricao": "2 alíquotas/unidades de materiais biológicos.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 2,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-05",
-   "posicao": "P013"
+   "posicao": "P013",
+   "endereco_sugerido": {
+    "conteiner_id": "C-05",
+    "posicao": "P013",
+    "estante": "E-05",
+    "prateleira": "P-05",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-05",
+    "posicao": "P013",
+    "estante": "E-05",
+    "prateleira": "P-05",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-05-31T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0021",
@@ -323,8 +833,33 @@
    "data_entrada": "2026-06-11",
    "status": "armazenado",
    "descricao": "4 alíquotas/unidades de entorpecentes e contraprovas.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 4,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-01",
-   "posicao": "P020"
+   "posicao": "P020",
+   "endereco_sugerido": {
+    "conteiner_id": "C-01",
+    "posicao": "P020",
+    "estante": "E-01",
+    "prateleira": "P-01",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-01",
+    "posicao": "P020",
+    "estante": "E-01",
+    "prateleira": "P-01",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-06-11T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0022",
@@ -335,8 +870,33 @@
    "data_entrada": "2026-06-22",
    "status": "armazenado",
    "descricao": "4 alíquotas/unidades de armas brancas.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 4,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-02",
-   "posicao": "P019"
+   "posicao": "P019",
+   "endereco_sugerido": {
+    "conteiner_id": "C-02",
+    "posicao": "P019",
+    "estante": "E-02",
+    "prateleira": "P-02",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-02",
+    "posicao": "P019",
+    "estante": "E-02",
+    "prateleira": "P-02",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-06-22T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0023",
@@ -347,8 +907,33 @@
    "data_entrada": "2026-07-03",
    "status": "armazenado",
    "descricao": "3 alíquotas/unidades de roupas e têxteis.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 3,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-03",
-   "posicao": "P014"
+   "posicao": "P014",
+   "endereco_sugerido": {
+    "conteiner_id": "C-03",
+    "posicao": "P014",
+    "estante": "E-03",
+    "prateleira": "P-03",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-03",
+    "posicao": "P014",
+    "estante": "E-03",
+    "prateleira": "P-03",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-07-03T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0024",
@@ -359,8 +944,33 @@
    "data_entrada": "2026-07-14",
    "status": "armazenado",
    "descricao": "5 alíquotas/unidades de eletrônicos e mídias.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 5,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-04",
-   "posicao": "P018"
+   "posicao": "P018",
+   "endereco_sugerido": {
+    "conteiner_id": "C-04",
+    "posicao": "P018",
+    "estante": "E-04",
+    "prateleira": "P-04",
+    "nivel": "N-2"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-04",
+    "posicao": "P018",
+    "estante": "E-04",
+    "prateleira": "P-04",
+    "nivel": "N-2"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-07-14T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0025",
@@ -371,8 +981,33 @@
    "data_entrada": "2026-07-25",
    "status": "armazenado",
    "descricao": "5 alíquotas/unidades de materiais biológicos.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 5,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-05",
-   "posicao": "P018"
+   "posicao": "P018",
+   "endereco_sugerido": {
+    "conteiner_id": "C-05",
+    "posicao": "P018",
+    "estante": "E-05",
+    "prateleira": "P-05",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-05",
+    "posicao": "P018",
+    "estante": "E-05",
+    "prateleira": "P-05",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-07-25T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0026",
@@ -383,8 +1018,33 @@
    "data_entrada": "2026-08-05",
    "status": "armazenado",
    "descricao": "3 alíquotas/unidades de entorpecentes e contraprovas.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 3,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-01",
-   "posicao": "P023"
+   "posicao": "P023",
+   "endereco_sugerido": {
+    "conteiner_id": "C-01",
+    "posicao": "P023",
+    "estante": "E-01",
+    "prateleira": "P-01",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-01",
+    "posicao": "P023",
+    "estante": "E-01",
+    "prateleira": "P-01",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-08-05T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0027",
@@ -395,8 +1055,33 @@
    "data_entrada": "2026-08-16",
    "status": "armazenado",
    "descricao": "3 alíquotas/unidades de armas brancas.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 3,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-02",
-   "posicao": "P022"
+   "posicao": "P022",
+   "endereco_sugerido": {
+    "conteiner_id": "C-02",
+    "posicao": "P022",
+    "estante": "E-02",
+    "prateleira": "P-02",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-02",
+    "posicao": "P022",
+    "estante": "E-02",
+    "prateleira": "P-02",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-08-16T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0028",
@@ -407,8 +1092,33 @@
    "data_entrada": "2026-08-27",
    "status": "armazenado",
    "descricao": "2 alíquotas/unidades de roupas e têxteis.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 2,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-03",
-   "posicao": "P016"
+   "posicao": "P016",
+   "endereco_sugerido": {
+    "conteiner_id": "C-03",
+    "posicao": "P016",
+    "estante": "E-03",
+    "prateleira": "P-03",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-03",
+    "posicao": "P016",
+    "estante": "E-03",
+    "prateleira": "P-03",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-08-27T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0029",
@@ -419,8 +1129,33 @@
    "data_entrada": "2026-09-07",
    "status": "armazenado",
    "descricao": "2 alíquotas/unidades de eletrônicos e mídias.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 2,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-04",
-   "posicao": "P020"
+   "posicao": "P020",
+   "endereco_sugerido": {
+    "conteiner_id": "C-04",
+    "posicao": "P020",
+    "estante": "E-04",
+    "prateleira": "P-04",
+    "nivel": "N-2"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-04",
+    "posicao": "P020",
+    "estante": "E-04",
+    "prateleira": "P-04",
+    "nivel": "N-2"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-09-07T09:00:00"
+   }
   },
   {
    "id_vestigio": "V-0030",
@@ -431,8 +1166,33 @@
    "data_entrada": "2026-09-18",
    "status": "armazenado",
    "descricao": "3 alíquotas/unidades de materiais biológicos.",
+   "procedencia": "carga fictícia",
+   "conferencia_documental": "completa",
+   "lacre_integro": "integro",
+   "embalagem": "caixa lacrada",
+   "quantidade": 3,
+   "dimensoes": "30 x 20 x 15 cm",
+   "conservacao": "boa",
    "conteiner_id": "C-05",
-   "posicao": "P021"
+   "posicao": "P021",
+   "endereco_sugerido": {
+    "conteiner_id": "C-05",
+    "posicao": "P021",
+    "estante": "E-05",
+    "prateleira": "P-05",
+    "nivel": "N-1"
+   },
+   "endereco_efetivo": {
+    "conteiner_id": "C-05",
+    "posicao": "P021",
+    "estante": "E-05",
+    "prateleira": "P-05",
+    "nivel": "N-1"
+   },
+   "confirmacao": {
+    "por": "carga fictícia",
+    "em": "2026-09-18T09:00:00"
+   }
   }
  ],
  "movimentacoes": [

@@ -55,7 +55,7 @@ TELAS["#/caso/:id/classificacao"] = async ({id})=>{
     <div class="card"><h2 style="margin-top:0">Relato</h2><p style="white-space:pre-wrap">${rel}</p></div>
     <div class="card"><h2 style="margin-top:0">Sugestões</h2>${sug.length ? `<ol id="sugestoes">${sug.map(s=>`<li data-cat="${esc(s.id)}"><b>${esc(s.nome)}</b> · ${s.pontos} ocorrência(s)
       <br><small class="sub">Palavras: ${s.palavras.map(esc).join(", ")} · ${esc(s.artigos)}</small>
-      ${s.texto_artigo ? `<details style="margin-top:6px"><summary>Texto do artigo</summary><p class="sub" style="white-space:pre-wrap;margin-top:6px">${esc(s.texto_artigo)}</p></details>` : ""}</li>`).join("")}</ol>` : '<p class="sub" id="sugestoes">Nenhuma palavra das categorias aparece no relato. Classifique manualmente.</p>'}
+      ${s.texto_artigo ? `<p class="sub" style="white-space:pre-wrap;margin-top:6px"><b>Texto do artigo:</b> ${esc(s.texto_artigo)}</p>` : ""}</li>`).join("")}</ol>` : '<p class="sub" id="sugestoes">Nenhuma palavra das categorias aparece no relato. Classifique manualmente.</p>'}
       <p class="sub" style="margin-top:12px">Fonte das categorias: ${esc(CE_FONTE)}</p></div>
     <details class="card"><summary><b>Usar uma ferramenta de IA autorizada (opcional)</b></summary>
       <p class="sub">O prompt sai sem os nomes das partes. Cole a resposta abaixo; ela fica registrada como apoio à decisão.</p>
@@ -66,10 +66,20 @@ TELAS["#/caso/:id/classificacao"] = async ({id})=>{
       por ${esc(feita.membro)} em ${dataBR(feita.data)}<br><small>${esc(feita.justificativa)}</small></div>` : ""}
     ${["presidente", "membro"].includes(estado.perfil) ? `<form class="card" id="formClassif"><h2 style="margin-top:0">${feita ? "Reclassificar" : "Confirmar"}</h2>
       ${campo("cCategoria", "Categoria", {tipo: "select", opcoes: [["", "Escolha"], ...cats.map(c=>[c.id, c.nome])], valor: sug[0]?.id || ""})}
+      <div class="linha-botoes"><button type="button" id="btnTextoPadrao">Usar o texto padrão do enquadramento</button></div>
       ${campo("cJustificativa", "Justificativa (mínimo de 20 caracteres)", {tipo: "textarea", linhas: 3})}
       <div id="errosClassif"></div><div class="linha-botoes"><button class="prim" type="submit">Confirmar classificação</button></div></form>` : ""}`;
 };
 TELAS_DEPOIS["#/caso/:id/classificacao"] = ({id})=>{
+  const preencherEnquadramento = async ()=>{
+    const cat = (await categoriasAtivas()).find(c=>c.id === valorDe("cCategoria"));
+    if (!cat) return;
+    const artigo = cat.artigos || "artigo aplicável";
+    const d = await db.get("denuncias", id);
+    $("#cJustificativa").value = `A conduta relatada no protocolo ${d.protocolo} configura descumprimento do ${artigo}, pois se enquadra na categoria ${cat.nome}, conforme o relato recebido e a análise da Comissão de Ética.`;
+  };
+  $("#btnTextoPadrao")?.addEventListener("click", preencherEnquadramento);
+  $("#cCategoria")?.addEventListener("change", preencherEnquadramento);
   $("#btnCopiarPrompt")?.addEventListener("click", async ()=>{ try { await navigator.clipboard.writeText($("#promptIA").value); toast("Prompt copiado."); } catch(e){ $("#promptIA").select(); toast("Use Ctrl+C."); } });
   $("#formClassif")?.addEventListener("submit", async e=>{
     e.preventDefault();

@@ -21,6 +21,7 @@
 | 8 | Feito em 03/11/2026: KML com pastas por diretoria e unidade, `.kmz` com JSZip, opção de exportar só os sem contrato, JSON da base e CSV. Cenário `s8_exportar` passa. |
 | 10 | Feito em 03/11/2026 (`src/sprint6.js` e `src/sprint4.js`): parâmetros de custo com data da alteração, unidade dona da cópia, `.json` com ou sem fotos, gráficos de barras e de linha em SVG, fórmula no hover dos KPIs, KPI que abre o mapa filtrado, aviso de CPF antes de salvar (RN09), texto de privacidade, foto no balão do `.kmz` e tela de conflitos campo a campo na mesclagem. Acessibilidade conferida por varredura no Playwright (rótulos, nome dos botões e contraste AA nos dois temas) e pelo Lighthouse (100 em 03/11/2026). O `.kmz` é validado no esquema OGC KML 2.2 pelo cenário `s8_kml_valido`. Cenários `s10_config_e_graficos` (7/7) e `s9_conflitos` (4/4) passam. Falta abrir o `.kmz` no Google Earth Pro e Web (manual) e o Sprint 11 (aceite e piloto). |
 | 9 | Feito em 03/11/2026: importação da planilha em CSV com relatório de aceitas e recusadas, e mesclagem do `.json` de uma unidade com escolha de versão (RN10). Cenário `s9_importar` passa. |
+| 12 | Aberto em 03/11/2026 (feedback dos alunos). Ver Sprint 12 abaixo. |
 
 Malha do IBGE: 141 polígonos para 142 municípios (Boa Esperança do Norte, criado em 2023, ainda sem polígono). Coordenada da unidade = centroide do município.
 
@@ -253,3 +254,16 @@ impresso cabe em A4 sem cortar tabela.
 - [ ] Atualizar o `PROJETO.md` (marcos, defesa) e o `README.md` da pasta.
 
 **Pronto quando**: a coordenadora cumpre os 8 passos sem ajuda, e o piloto está aberto.
+
+## Sprint 12 · Correções do feedback (03/11/2026)
+
+> Feedback de João Lucas (nota 5). Não pediu ajuste de código; o que falta é o teste manual no Google Earth, que depende de internet.
+
+### Código
+- [ ] Nenhum ajuste pedido; manter os gráficos em até 720 px.
+
+### Depende de pessoa
+- [ ] Testar o `.kmz` no Google Earth Pro e no Web.
+- [ ] Confirmar a base do Google Earth e o mapa de fundo escolhido.
+
+**Pronto quando**: o teste no Google Earth estiver registrado em `modelos/roteiro-aceite.md`.

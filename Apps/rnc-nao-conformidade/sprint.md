@@ -1,4 +1,4 @@
-# Registro de Não Conformidade · sprints até o MVP
+﻿# Registro de Não Conformidade · sprints até o MVP
 
 > Arquitetura: HTML monolítico, offline first (ver `contexto.md`). Sprints de 1 semana.
 
@@ -13,6 +13,7 @@
 | 4 | Feito em 30/10/2026. Arquivo do setor (RN06), plano (FOR 2) e avaliação (FOR 3); código em `src/sprint4.js`. |
 | 5 | Feito em 30/10/2026. Painel com 3 gráficos SVG, vencidas, tempo médio por etapa e recorrência (RN05). |
 | 6 | Feito em 30/10/2026. Roteiro e piloto em `modelos/roteiro-aceite.md`. |
+| 7 | Feito em 03/11/2026: relação do setor para impressão, responsável pelo plano/avaliação, registro de quem importou e "Minhas RNCs" pelo setor. Modelo oficial e autenticação real continuam externos. |
 
 A planilha `respostas-forms-ficticio.csv` tem colunas **supostas**; trocar pelo cabeçalho real do Forms no Sprint 0.
 
@@ -78,3 +79,29 @@ A planilha `respostas-forms-ficticio.csv` tem colunas **supostas**; trocar pelo 
 - [x] Roteiro: importar, validar, exportar para o setor, receber o plano, ver o painel.
 - [x] Piloto de 30 dias na Diretoria de Laboratório Forense.
 - [x] Comparar com a linha de base e atualizar `PROJETO.md` e `README.md`.
+
+## Sprint 7 · Correções do feedback (03/11/2026)
+
+> Feedback de Sabrina (notas 3 e 4). O importador do `.xlsx` oficial e o Google Planilhas já foram feitos nesta etapa.
+
+### Já feito
+- [x] Importar o `.xlsx` oficial com as 23 colunas traduzidas e descartar nome/e-mail (RN07).
+- [x] Sincronizar com o Google Planilhas por CSV público.
+
+### Código
+- [x] Gerar a RNC em documento para impressão/PDF (`#/rnc/:id/documento`), com identificação, ocorrência, requisitos, plano, avaliação, etapas e assinaturas. Falta conferir com o modelo oficial.
+- [x] Nomenclatura oficial das categorias: ADM, AMB, PES, REA, EQP e MPA, com a descrição e a sigla na ficha.
+- [x] Documento por RNC disponível no `#/minhas` (link "Documento").
+- [x] Gerar a relação do setor para impressão (além do pacote `.json`), com botão de imprimir.
+- [x] Login/perfil por setor e registro de quem registrou e de quem respondeu. (contexto do perfil + `registrado_por` + responsável no plano/avaliação)
+- [x] Prazo de complemento em 5 dias úteis (com fim de semana fora) e plano em 30 dias.
+- [x] "Minhas RNCs": identificação de quem fez e responsável no plano/avaliação. A autenticação real segue externa.
+
+### Decisão do setor
+- [ ] Modelo oficial da RNC e das categorias. As categorias oficiais já estão no app; falta conferir o documento com o modelo da CQUAL.
+- [ ] Regras de login e permissão por setor. Premissa: contexto do setor no perfil; a autenticação real depende da TI.
+- [x] 5 dias úteis implementados; quem responde fica no campo de responsável do plano/avaliação. Confirmar no aceite.
+- [ ] Testar a planilha real compartilhada (link público).
+
+**Pronto quando**: uma RNC vira o documento oficial, o setor recebe o arquivo e o prazo de complemento conta em dias úteis.
+

@@ -149,6 +149,8 @@
     }
   ],
   "libs": [
+    "pdf.worker.min.js",
+    "pdf.min.js",
     "xlsx.full.min.js"
   ],
   "dados": [

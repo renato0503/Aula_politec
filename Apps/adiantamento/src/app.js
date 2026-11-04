@@ -49,9 +49,12 @@ TELAS["#/pedido/novo"] = async ()=>{
       ${campo("pMatricula", "Matrícula", {obrigatorio: true, attrs: 'inputmode="numeric"'})}
       ${campo("pTipo", "Tipo", {tipo: "select", opcoes: TIPOS})}
       ${campo("pValor", "Valor solicitado (R$)", {obrigatorio: true, attrs: 'inputmode="decimal" placeholder="0,00"'})}
-      </div><datalist id="listaUnidades">${unidades.map(u=>`<option value="${esc(u)}">`).join("")}</datalist>
+      </div><p class="sub" id="pAfastado"></p><datalist id="listaUnidades">${unidades.map(u=>`<option value="${esc(u)}">`).join("")}</datalist>
       ${campo("pFinalidade", "Finalidade", {obrigatorio: true})}
-      ${campo("pJust", "Justificativa da necessidade", {tipo: "textarea", obrigatorio: true})}</div>
+      ${campo("pJust", "Justificativa da necessidade", {tipo: "textarea", obrigatorio: true})}
+      <label style="display:flex;gap:8px;align-items:flex-start;margin:10px 0"><input type="checkbox" id="pUrgente" style="width:auto;margin-top:3px">
+        <span><b>Pedido urgente</b><br><small class="sub">Fora da fila normal; a chefia da unidade autoriza e o app registra a justificativa na trilha.</small></span></label>
+      ${campo("pUrgenteJust", "Justificativa da urgência", {tipo: "textarea", linhas: 2, ajuda: "Obrigatória quando o pedido é urgente (mínimo de 30 caracteres)."})}</div>
     <div class="card"><h2 style="margin-top:0">Três orçamentos (RN01)</h2>
       ${[1, 2, 3].map(i=>`<div class="campos">${campo(`oForn${i}`, `Fornecedor ${i}`)}${campo(`oCnpj${i}`, "CNPJ", {attrs: 'inputmode="numeric" placeholder="00.000.000/0000-00"'})}
         ${campo(`oValor${i}`, "Valor (R$)", {attrs: 'inputmode="decimal"'})}</div>`).join("")}
@@ -66,19 +69,32 @@ TELAS_DEPOIS["#/pedido/novo"] = ()=>{
     $(`#oValor${i}`).addEventListener("input", menor);
     $(`#oCnpj${i}`).addEventListener("blur", e=>{ const d = e.target.value.replace(/\D/g, ""); e.target.style.borderColor = d && !cnpjValido(d) ? "var(--vermelho)" : ""; });
   });
+  $("#pMatricula").addEventListener("blur", async e=>{
+    const af = adAfastamentoAtivo(await db.list("afastamentos"), e.target.value, hojeISO());
+    const alvo = $("#pAfastado");
+    if (alvo) alvo.innerHTML = af ? `<span class="erro-txt">Servidor em ${esc(af.tipo)} de ${dataCurtaBR(af.inicio)} a ${dataCurtaBR(af.fim)}: ${esc(af.motivo)}. O pedido será bloqueado.</span>` : "";
+  });
   $("#formPedido").addEventListener("submit", async e=>{
     e.preventDefault();
+    const hoje = hojeISO();
     const p = {unidade: valorDe("pUnidade"), solicitante: valorDe("pSolicitante"), matricula: valorDe("pMatricula"), tipo: valorDe("pTipo"),
                valor_solicitado: (dinheiro.de(valorDe("pValor")) || 0) / 100, finalidade: valorDe("pFinalidade"), justificativa: valorDe("pJust")};
     const os = orcs();
-    if (!mostrarErros("#errosPedido", validarPedido(p, os))) return;
+    const urgente = $("#pUrgente").checked, urgenteJust = valorDe("pUrgenteJust");
+    const erros = validarPedido(p, os);
+    if (urgente && urgenteJust.trim().length < 30) erros.push("Justifique a urgência com pelo menos 30 caracteres.");
+    const af = adAfastamentoAtivo(await db.list("afastamentos"), p.matricula, hoje);
+    if (af) erros.push(`Servidor em ${af.tipo} de ${dataCurtaBR(af.inicio)} a ${dataCurtaBR(af.fim)}: ${af.motivo}. O pedido não pode ser registrado.`);
+    if (!mostrarErros("#errosPedido", erros)) return;
     const ano = new Date().getFullYear(), seq = (await db.list("processos")).filter(x=>x.id.startsWith(`AD-${ano}-`)).length + 1;
-    const id = `AD-${ano}-${String(seq).padStart(3, "0")}`, hoje = hojeISO();
-    await db.put("processos", {id, numero_sicad: "", ...p, valor_concedido: null, situacao: "em andamento", etapa_atual: ETAPAS[1], pago_em: null, criado_em: hoje});
+    const id = `AD-${ano}-${String(seq).padStart(3, "0")}`;
+    await db.put("processos", {id, numero_sicad: "", ...p, valor_concedido: null, situacao: "em andamento", etapa_atual: ETAPAS[1], pago_em: null, criado_em: hoje,
+      urgente: !!urgente, urgencia_justificativa: urgente ? urgenteJust.trim() : "", aprovado_em: "", recurso_ate: "", recurso_em: "", recurso_texto: ""});
     for (const [i, o] of os.entries()) await db.put("orcamentos", {id: `${id}-O${i + 1}`, processo_id: id, ...o});
     await db.put("etapas", {id: `${id}-E00`, processo_id: id, etapa: ETAPAS[0], entrada_em: hoje, saida_em: hoje, responsavel: p.unidade});
     await db.put("etapas", {id: `${id}-E01`, processo_id: id, etapa: ETAPAS[1], entrada_em: hoje, saida_em: null, responsavel: "DAS"});
     await registrar("pedido registrado", {processo_id: id, detalhe: p.finalidade});
+    if (urgente) await registrar("pedido urgente", {processo_id: id, detalhe: urgenteJust.trim()});
     toast(`Pedido ${id} registrado na DAS.`); location.hash = "#/painel";
   });
 };

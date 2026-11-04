@@ -66,6 +66,11 @@ TELAS["#/cursos"] = async ()=>{
         ${campo("cInscFim", "Inscrições até", {tipo: "date", obrigatorio: true})}
         ${campo("cTriagem", "Prazo da triagem pelas diretorias", {tipo: "date", obrigatorio: true})}
         ${campo("cGrupo", "Link do grupo oficial da turma", {tipo: "url", ajuda: "Enviado só aos selecionados (RN08)."})}
+        ${campo("cInstrutores", "Instrutores (um por linha)", {tipo: "textarea", linhas: 2})}
+        ${campo("cMonitores", "Monitores (um por linha)", {tipo: "textarea", linhas: 2})}
+        ${campo("cConvData", "Data da convocação", {tipo: "date"})}
+        ${campo("cCompIni", "Compensação a partir de", {tipo: "date"})}
+        ${campo("cCompFim", "Compensação até", {tipo: "date"})}
       </div>
       ${campo("cPre", "Pré-requisitos (um por linha)", {tipo: "textarea", linhas: 3})}
       <h3>Vagas por diretoria</h3>
@@ -83,6 +88,8 @@ TELAS_DEPOIS["#/cursos"] = ()=>{
     $("#cursoId").value = c.id; $("#cNome").value = c.nome; $("#cCarga").value = c.carga_horaria; $("#cLocal").value = c.local || "";
     $("#cInicio").value = c.inicio; $("#cFim").value = c.fim; $("#cInscIni").value = c.inscricao_inicio || ""; $("#cInscFim").value = c.inscricao_fim || "";
     $("#cTriagem").value = c.prazo_triagem || ""; $("#cGrupo").value = c.link_grupo || ""; $("#cPre").value = (c.prerequisitos || []).join("\n");
+    $("#cInstrutores").value = (c.instrutores || []).join("\n"); $("#cMonitores").value = (c.monitores || []).join("\n");
+    $("#cConvData").value = c.convocacao_data || ""; $("#cCompIni").value = c.compensacao_inicio || ""; $("#cCompFim").value = c.compensacao_fim || "";
     $$("[data-vaga]").forEach(i=>i.value = c.vagas_por_diretoria?.[i.dataset.vaga] || 0); soma();
     $("#tituloCurso").textContent = "Editar " + c.nome; $("#formCurso").hidden = false; $("#formCurso").scrollIntoView();
   }));
@@ -91,6 +98,8 @@ TELAS_DEPOIS["#/cursos"] = ()=>{
     const vagas = {}; $$("[data-vaga]").forEach(i=>{ const v = Number(i.value) || 0; if (v > 0) vagas[i.dataset.vaga] = v; });
     const c = {nome: valorDe("cNome"), carga_horaria: Number(valorDe("cCarga")), local: valorDe("cLocal"), inicio: valorDe("cInicio"), fim: valorDe("cFim"),
       inscricao_inicio: valorDe("cInscIni"), inscricao_fim: valorDe("cInscFim"), prazo_triagem: valorDe("cTriagem"), link_grupo: valorDe("cGrupo"),
+      instrutores: valorDe("cInstrutores").split("\n").map(s=>s.trim()).filter(Boolean), monitores: valorDe("cMonitores").split("\n").map(s=>s.trim()).filter(Boolean),
+      convocacao_data: valorDe("cConvData"), compensacao_inicio: valorDe("cCompIni"), compensacao_fim: valorDe("cCompFim"),
       prerequisitos: valorDe("cPre").split("\n").map(s=>s.trim()).filter(Boolean), vagas_por_diretoria: vagas};
     const erros = [];
     if (!c.nome) erros.push("Informe o nome do curso.");
@@ -165,7 +174,14 @@ TELAS["#/divulgar/:curso"] = async ({curso})=>{
       <div class="linha-botoes"><button id="btnBaixarQr">Baixar QR Code (.svg)</button></div></div>
     <div class="card"><h2 style="margin-top:0">Texto para as diretorias</h2>
       <textarea id="textoDivulgacao" rows="16">${esc(textoDivulgacao(c, link, dirs))}</textarea>
-      <div class="linha-botoes"><button id="btnCopiarTexto">Copiar texto</button></div></div>`;
+      <div class="linha-botoes"><button id="btnCopiarTexto">Copiar texto</button></div></div>
+    <div class="card" id="checkDivulgar"><h2 style="margin-top:0">Antes de divulgar</h2>
+      <ul class="check-lista">
+        <li class="${c.inicio && c.fim ? "feito" : "falta"}">${icone(c.inicio && c.fim ? "check" : "alerta")}<span>Datas de inscrição e de realização conferidas</span></li>
+        <li class="${totalVagas(c) > 0 ? "feito" : "falta"}">${icone(totalVagas(c) > 0 ? "check" : "alerta")}<span>Vagas distribuídas por diretoria</span></li>
+        <li class="${c.link_grupo ? "feito" : "falta"}">${icone(c.link_grupo ? "check" : "alerta")}<span>Link do grupo da turma informado</span></li>
+        <li class="${location.protocol === "file:" ? "falta" : "feito"}">${icone(location.protocol === "file:" ? "alerta" : "check")}<span>${location.protocol === "file:" ? "Publique o app (GitHub Pages) para o link funcionar fora deste computador" : "Link de inscrição publicado"}</span></li>
+      </ul></div>`;
 };
 TELAS_DEPOIS["#/divulgar/:curso"] = ({curso})=>{
   if (!$("#btnCopiarLink")) return;  // curso não encontrado

@@ -54,29 +54,41 @@ TELAS["#/processos"] = async ()=>{
       ${campo("gdBusca", "Busca por número, assunto ou requerente", {valor: f.busca})}
       ${campo("gdSinal", "Sinal do prazo", {tipo: "select", opcoes: [["", "Todos"], ...Object.entries(GD_SINAL)], valor: f.sinal})}
       ${campo("gdStatus", "Situação", {tipo: "select", opcoes: [["", "Todas"], ["em andamento", "Em andamento"], ["concluido", "Concluído"], ["arquivado", "Arquivado"]], valor: f.status})}</div></div>
-    <div class="card tabela-wrap"><table><tr><th>Processo</th><th>Assunto</th><th>Requerente</th><th>Responsável</th><th>Limite</th><th>Sinal</th></tr>
-      ${lista.map(x=>`<tr><td><a href="#/processo/${encodeURIComponent(x.p.id_processo)}">${esc(x.p.numero_processo)}</a></td><td>${esc(x.p.assunto)}</td>
-        <td>${esc(x.p.requerente)}</td><td>${esc(x.resp || "—")}</td><td>${dataCurtaBR(x.limite)}</td>
-        <td><span class="selo ${gdSelo(x.sinal)}">${esc(GD_SINAL[x.sinal])}</span></td></tr>`).join("")
-        || '<tr><td colspan="6" class="vazio">Nenhum processo com estes filtros.</td></tr>'}</table></div>`;
+    <div class="card tabela-wrap"><table><tr><th>Processo</th><th>Assunto</th><th>Requerente</th><th>Responsável</th><th>Entrada</th><th>Limite</th><th>Sinal</th><th></th></tr>
+      ${lista.map(x=>`<tr><td><a href="#/processo/${encodeURIComponent(x.p.id_processo)}">${esc(x.p.numero_processo)}</a>${x.p.tipo_processo === "acompanhamento" ? ' <span class="selo info">acompanhamento</span>' : ""}</td><td>${esc(x.p.assunto)}</td>
+        <td>${esc(x.p.requerente)}</td><td>${esc(x.resp || "—")}</td><td>${dataCurtaBR(x.p.data_autuacao)}</td><td>${dataCurtaBR(x.limite)}</td>
+        <td><span class="selo ${gdSelo(x.sinal)}">${esc(GD_SINAL[x.sinal])}</span></td>
+        <td>${x.p.status === "em andamento" && (x.sinal === "amarelo" || x.sinal === "vermelho") ? `<button type="button" class="sec" data-gd-cobrar="${esc(x.p.id_processo)}">Cobrar</button>` : ""}</td></tr>`).join("")
+        || '<tr><td colspan="8" class="vazio">Nenhum processo com estes filtros.</td></tr>'}</table></div>`;
 };
 TELAS_DEPOIS["#/processos"] = ()=>{
   const f = gdFiltros();
   [["gdBusca", "busca", "change"], ["gdSinal", "sinal", "input"], ["gdStatus", "status", "input"]].forEach(([id, k, ev])=>
     $("#" + id).addEventListener(ev, e=>{ f[k] = e.target.value; navegar(); }));
+  $$("[data-gd-cobrar]").forEach(b=>b.addEventListener("click", async ()=>{
+    const id = b.dataset.gdCobrar, p = await db.get("processos", id), pr = gdPrazo(p);
+    if (!p) return;
+    await db.put("cobrancas", {id: uuid(), processo_id: id, tipo: "manual", sinal: pr.sinal, data: hojeISO(),
+      texto: `Cobrança manual: processo ${p.numero_processo} ${pr.sinal === "amarelo" ? "vence em breve" : "venceu"} (${pr.dias} dias de prazo).`,
+      perfil: estado.perfil || ""});
+    await db.put("log", {id: uuid(), processo_id: id, tipo_evento: "cobrança manual", descricao: `sinal ${pr.sinal} (RN08)`, perfil: estado.perfil || "", data_hora: agora()});
+    await registrar("cobrança manual registrada", {detalhe: p.numero_processo});
+    toast("Cobrança registrada."); navegar();
+  }));
 };
 
 TELAS["#/processo/novo"] = async ()=>{
   const us = await db.list("usuarios");
-  return `<h1>Cadastrar processo</h1><p class="sub">Todos os anexos obrigatórios precisam estar presentes (RN01). O número de autuação é gerado no formato AAAA.NNNN-SD (RN02).</p>
+  return `<h1>Cadastrar processo</h1><p class="sub">Na instrução, os três anexos são obrigatórios (RN01); no acompanhamento, o anexo é opcional. O número de autuação é gerado no formato AAAA.NNNN-SD (RN02).</p>
     <form class="card" id="formGdNovo" novalidate><div class="campos">
       ${campo("gdNumero", "Número do processo", {ajuda: "Deixe em branco para gerar automaticamente."})}
       ${campo("gdData", "Data de autuação", {tipo: "date", valor: hojeISO(), obrigatorio: true})}
       ${campo("gdPrazo", "Prazo (dias corridos)", {tipo: "number", valor: GD_PRAZO, attrs: 'min="1" step="1"', obrigatorio: true})}
+      ${campo("gdTipo", "Tipo de processo", {tipo: "select", opcoes: [["instrucao", "Instrução (anexos obrigatórios)"], ["acompanhamento", "Acompanhamento (anexos opcionais)"]]})}
       ${campo("gdResponsavel", "Responsável pela instrução", {tipo: "select", opcoes: [["", "Escolha"], ...us.map(u=>[u.id_usuario, u.nome])]})}</div>
     ${campo("gdAssunto", "Assunto", {obrigatorio: true})}
     <div class="campos">${campo("gdRequerente", "Requerente (nome fictício)", {obrigatorio: true})}${campo("gdLotacao", "Lotação de destino", {obrigatorio: true})}</div>
-    <fieldset class="card"><legend><b>Anexos obrigatórios (RN01)</b></legend>
+    <fieldset class="card"><legend><b>Anexos (RN01; opcionais no acompanhamento)</b></legend>
       ${GD_ANEXOS.map((a, i)=>`<label style="display:flex;gap:8px;align-items:center;margin:6px 0"><input type="checkbox" class="gdAnexo" id="gdAnexo${i}" style="width:auto"> <span>${esc(a)}</span></label>`).join("")}</fieldset>
     <div id="gdErros"></div><div class="linha-botoes"><button class="prim" type="submit">Autuar processo</button></div></form>`;
 };
@@ -84,15 +96,16 @@ TELAS_DEPOIS["#/processo/novo"] = ()=>{
   $("#formGdNovo").addEventListener("submit", async e=>{
     e.preventDefault();
     const ps = await db.list("processos"), ano = (valorDe("gdData") || hojeISO()).slice(0, 4);
+    const tipo = valorDe("gdTipo");
     const d = {numero_processo: valorDe("gdNumero") || gdNumero(ano, ps.length + 1), assunto: valorDe("gdAssunto"), requerente: valorDe("gdRequerente"),
-      lotacao: valorDe("gdLotacao"), data_autuacao: valorDe("gdData"), dias_prazo: Number(valorDe("gdPrazo")), responsavel: valorDe("gdResponsavel")};
+      lotacao: valorDe("gdLotacao"), data_autuacao: valorDe("gdData"), dias_prazo: Number(valorDe("gdPrazo")), responsavel: valorDe("gdResponsavel"), tipo_processo: tipo};
     const anexos = GD_ANEXOS.filter((_, i)=>$("#gdAnexo" + i).checked), erros = [];
     if (!d.assunto) erros.push("Informe o assunto.");
     if (!d.requerente) erros.push("Informe o requerente.");
     if (!d.lotacao) erros.push("Informe a lotação de destino.");
     if (!d.data_autuacao || d.data_autuacao > hojeISO()) erros.push("Informe a data de autuação (não pode ser futura).");
     if (!(d.dias_prazo > 0)) erros.push("O prazo precisa ser de pelo menos 1 dia.");
-    if (anexos.length < GD_ANEXOS.length) erros.push(`Faltam anexos obrigatórios: ${GD_ANEXOS.filter(a=>!anexos.includes(a)).join(", ")} (RN01).`);
+    if (tipo === "instrucao" && anexos.length < GD_ANEXOS.length) erros.push(`Faltam anexos obrigatórios: ${GD_ANEXOS.filter(a=>!anexos.includes(a)).join(", ")} (RN01).`);
     if (ps.some(p=>normalizar(p.numero_processo) === normalizar(d.numero_processo))) erros.push("Este número de processo já está cadastrado.");
     if (d.responsavel && normalizar(d.responsavel) === normalizar(d.requerente)) erros.push("O requerente não pode ser o responsável pela instrução (RN05).");
     if (!mostrarErros("#gdErros", erros)) return;
@@ -115,7 +128,7 @@ TELAS["#/processo/:id"] = async ({id})=>{
     <div class="grade"><div class="card kpi"><div class="v" id="gdPct">${pr.pct}%</div><div class="r">do prazo decorrido</div></div>
       <div class="card kpi"><div class="v">${dataCurtaBR(pr.limite)}</div><div class="r">data limite</div></div>
       <div class="card kpi"><div class="v">${esc(us[p.responsavel]?.nome || p.responsavel || "—")}</div><div class="r">responsável pela instrução</div></div></div>
-    <div class="card"><h2 style="margin-top:0">Dados</h2><p>Requerente: ${esc(p.requerente)} · Lotação: ${esc(p.lotacao)} · Situação: <b>${esc(p.status)}</b></p>
+    <div class="card"><h2 style="margin-top:0">Dados</h2><p>Requerente: ${esc(p.requerente)} · Lotação: ${esc(p.lotacao)} · Tipo: ${esc(p.tipo_processo === "acompanhamento" ? "acompanhamento (anexos opcionais)" : "instrução (anexos obrigatórios)")} · Situação: <b>${esc(p.status)}</b></p>
       <h2>Documentos</h2><ul>${docs.map(d=>`<li>${esc(d.tipo_documento)} · ${dataCurtaBR(d.data_criacao)} · ${d.assinado ? "assinado" : "sem assinatura"}</li>`).join("") || '<li class="sub">Nenhum.</li>'}</ul></div>
     <div class="card tabela-wrap"><h2 style="margin-top:0">Histórico</h2><table><tr><th>Data e hora</th><th>Evento</th><th>Descrição</th></tr>
       ${ls.map(x=>`<tr><td>${dataBR(x.data_hora)}</td><td>${esc(x.tipo_evento)}</td><td>${esc(x.descricao)}</td></tr>`).join("")}</table></div>`;

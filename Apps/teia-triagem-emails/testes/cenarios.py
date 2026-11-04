@@ -1,4 +1,4 @@
-"""Cenários de interface deste app: usam a tela como uma pessoa usaria e conferem
+﻿"""Cenários de interface deste app: usam a tela como uma pessoa usaria e conferem
 o "Pronto quando" de cada sprint do sprint.md.
 
 Uso: python testes/cenarios.py      (requer: pip install playwright && playwright install chromium)
@@ -73,12 +73,12 @@ def s2_fila_e_extracao(pg, url, ok):
     semear(pg, url)
     ir(pg, url, "#/painel", 500)
     ok("a bancada lista os 10 e-mails", contar(pg, "emails") == 10 and pg.locator("[data-te-email]").count() == 10)
-    ok("o detalhe abre com os 8 campos", pg.locator("#teDetalhe").count() == 1 and pg.locator(".te-form .campo").count() == 8)
+    ok("o detalhe abre com os 9 campos", pg.locator("#teDetalhe").count() == 1 and pg.locator(".te-form .campo").count() == 9)
     pg.click("[data-te-email=EM-003]"); pg.wait_for_timeout(500)
     ok("o e-mail com campo faltando não valida", pg.locator("#btnTeValidar").is_disabled())
-    pg.fill("#te_protocolo", "2026.9999-DNA"); pg.click("#btnTeSalvar"); pg.wait_for_timeout(600)
+    pg.fill("#te_protocolo", "000999/2026"); pg.click("#btnTeSalvar"); pg.wait_for_timeout(600)
     pg.click("#btnTeValidar"); pg.wait_for_timeout(600)
-    ok("com os 8 campos, a requisição é validada", pg.evaluate("async () => (await db.get('emails','EM-003')).status") == "validado")
+    ok("com os 9 campos, a requisição é validada", pg.evaluate("async () => (await db.get('emails','EM-003')).status") == "validado")
     ok("a validação entra na trilha", pg.evaluate("async () => (await db.list('log')).some(l=>l.acao==='requisição validada' && String(l.detalhe).startsWith('EM-003'))"))
 
 # origem: sprint3.py
@@ -108,11 +108,35 @@ def s4_lote_e_planilha(pg, url, ok):
     pg.click("[data-te-lote=LT-001]"); pg.wait_for_timeout(1000)
     ok("o lote grava a extração dos e-mails", contar(pg, "extracao") >= 5)
     ir(pg, url, "#/planilha", 500)
-    ok("a planilha traz os 10 e-mails e os 8 campos", pg.locator("#tabelaTeia tr").count() == 11 and pg.locator("#tabelaTeia th").count() == 11)
+    ok("a planilha traz os 10 e-mails e os 9 campos", pg.locator("#tabelaTeia tr").count() == 11 and pg.locator("#tabelaTeia th").count() == 12)
     with pg.expect_download() as dl:
         pg.click("#btnTeCsv")
     csv = pathlib.Path(dl.value.path()).read_bytes()
     ok("o CSV sai com BOM e os campos", csv.startswith(b"\xef\xbb\xbf") and b"data_cobranca" in csv and b"protocolo" in csv)
+
+
+@cenario
+def s5_feedback_campos_e_reiteracao(pg, url, ok):
+    perfil(pg, url, "triador")
+    semear(pg, url)
+    ir(pg, url, "#/painel", 600)
+    pg.click("[data-te-email=EM-001]"); pg.wait_for_timeout(600)
+    ok("a ficha tem vítima, investigado e réu preso",
+       pg.locator("#te_nome_vitima").count() == 1 and pg.locator("#te_nome_investigado").count() == 1 and pg.locator("#te_reu_preso").count() == 1)
+    ok("Nível e Nº da cobrança saíram", pg.locator("#te_nivel").count() == 0 and pg.locator("#te_numero_cobranca").count() == 0)
+    ok("o protocolo está no formato nnnnnn/aaaa",
+       bool(pg.evaluate("/^\\d{6}\\/\\d{4}$/.test(document.getElementById('te_protocolo').value)")))
+    ok("a data da cobrança é a data do e-mail",
+       pg.evaluate("async () => document.getElementById('te_data_cobranca').value === (await db.get('emails','EM-001')).recebido_em.slice(0,10)"))
+    ok("a lista de regionais é a do feedback", pg.locator("#te_regional option").count() >= 30)
+    pg.click("#btnTeExtrair"); pg.wait_for_timeout(700)
+    ok("a cobrança reiterada gera alerta",
+       pg.evaluate("async () => (await db.get('emails','EM-001')).alerta") == "reiteracao")
+    ok("o alerta aparece na ficha", "reiterada" in pg.inner_text("#teDetalhe"))
+    pg.click("#btnTeAlerta"); pg.wait_for_timeout(500)
+    pg.click("#btnTeValidar"); pg.wait_for_timeout(600)
+    ok("depois de tratar, a requisição é validada",
+       pg.evaluate("async () => (await db.get('emails','EM-001')).status") == "validado")
 
 
 def main():
@@ -150,3 +174,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+

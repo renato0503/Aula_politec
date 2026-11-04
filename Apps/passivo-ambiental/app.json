@@ -131,7 +131,9 @@
       "descricao": ""
     }
   ],
-  "libs": [],
+  "libs": [
+    "pizzip.min.js"
+  ],
   "dados": [
     [
       "seed",

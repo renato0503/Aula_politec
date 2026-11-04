@@ -234,6 +234,143 @@
    "situacao_captacao": "em prospecção"
   }
  ],
+ "orcamentos": [
+  {
+   "id": "ORC-2024-01",
+   "ano": 2024,
+   "eixo": "Reduzir o tempo de emissão de laudos",
+   "projeto": "Ampliação do laboratório de DNA",
+   "empenhado": 250000,
+   "liquidado": 105000.0,
+   "atualizado_em": "2024-12-20T10:00:00"
+  },
+  {
+   "id": "ORC-2024-02",
+   "ano": 2024,
+   "eixo": "Modernizar a infraestrutura das unidades",
+   "projeto": "Digitalização do arquivo de identificação",
+   "empenhado": 435000,
+   "liquidado": 221800.0,
+   "atualizado_em": "2024-12-20T10:00:00"
+  },
+  {
+   "id": "ORC-2024-03",
+   "ano": 2024,
+   "eixo": "Ampliar a capacidade dos laboratórios",
+   "projeto": "Reforma do IML de Sinop",
+   "empenhado": 620000,
+   "liquidado": 372000.0,
+   "atualizado_em": "2024-12-20T10:00:00"
+  },
+  {
+   "id": "ORC-2024-04",
+   "ano": 2024,
+   "eixo": "Fortalecer a identificação civil",
+   "projeto": "Capacitação em perícia digital",
+   "empenhado": 805000,
+   "liquidado": 555400.0,
+   "atualizado_em": "2024-12-20T10:00:00"
+  },
+  {
+   "id": "ORC-2024-05",
+   "ano": 2024,
+   "eixo": "Qualificar os servidores",
+   "projeto": "Frota de viaturas para local de crime",
+   "empenhado": 990000,
+   "liquidado": 772200.0,
+   "atualizado_em": "2024-12-20T10:00:00"
+  },
+  {
+   "id": "ORC-2025-01",
+   "ano": 2025,
+   "eixo": "Reduzir o tempo de emissão de laudos",
+   "projeto": "Ampliação do laboratório de DNA",
+   "empenhado": 390000,
+   "liquidado": 191100.0,
+   "atualizado_em": "2025-12-20T10:00:00"
+  },
+  {
+   "id": "ORC-2025-02",
+   "ano": 2025,
+   "eixo": "Modernizar a infraestrutura das unidades",
+   "projeto": "Digitalização do arquivo de identificação",
+   "empenhado": 575000,
+   "liquidado": 333500.0,
+   "atualizado_em": "2025-12-20T10:00:00"
+  },
+  {
+   "id": "ORC-2025-03",
+   "ano": 2025,
+   "eixo": "Ampliar a capacidade dos laboratórios",
+   "projeto": "Reforma do IML de Sinop",
+   "empenhado": 760000,
+   "liquidado": 509200.0,
+   "atualizado_em": "2025-12-20T10:00:00"
+  },
+  {
+   "id": "ORC-2025-04",
+   "ano": 2025,
+   "eixo": "Fortalecer a identificação civil",
+   "projeto": "Capacitação em perícia digital",
+   "empenhado": 945000,
+   "liquidado": 718200.0,
+   "atualizado_em": "2025-12-20T10:00:00"
+  },
+  {
+   "id": "ORC-2025-05",
+   "ano": 2025,
+   "eixo": "Qualificar os servidores",
+   "projeto": "Frota de viaturas para local de crime",
+   "empenhado": 1130000,
+   "liquidado": 960500.0,
+   "atualizado_em": "2025-12-20T10:00:00"
+  },
+  {
+   "id": "ORC-2026-01",
+   "ano": 2026,
+   "eixo": "Reduzir o tempo de emissão de laudos",
+   "projeto": "Ampliação do laboratório de DNA",
+   "empenhado": 530000,
+   "liquidado": 296800.0,
+   "atualizado_em": "2026-12-20T10:00:00"
+  },
+  {
+   "id": "ORC-2026-02",
+   "ano": 2026,
+   "eixo": "Modernizar a infraestrutura das unidades",
+   "projeto": "Digitalização do arquivo de identificação",
+   "empenhado": 715000,
+   "liquidado": 464800.0,
+   "atualizado_em": "2026-12-20T10:00:00"
+  },
+  {
+   "id": "ORC-2026-03",
+   "ano": 2026,
+   "eixo": "Ampliar a capacidade dos laboratórios",
+   "projeto": "Reforma do IML de Sinop",
+   "empenhado": 900000,
+   "liquidado": 666000.0,
+   "atualizado_em": "2026-12-20T10:00:00"
+  },
+  {
+   "id": "ORC-2026-04",
+   "ano": 2026,
+   "eixo": "Fortalecer a identificação civil",
+   "projeto": "Capacitação em perícia digital",
+   "empenhado": 1085000,
+   "liquidado": 900600.0,
+   "atualizado_em": "2026-12-20T10:00:00"
+  },
+  {
+   "id": "ORC-2026-05",
+   "ano": 2026,
+   "eixo": "Qualificar os servidores",
+   "projeto": "Frota de viaturas para local de crime",
+   "empenhado": 1270000,
+   "liquidado": 1168400.0,
+   "atualizado_em": "2026-12-20T10:00:00"
+  }
+ ],
  "documentos": [
   {
    "tipo": "pesquisa_precos",

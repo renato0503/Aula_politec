@@ -4,16 +4,36 @@ teste("Biblioteca de textos do exemplo tem 11 textos", ()=> (dadosEmbutidos("see
 teste("Página sem acesso à rede (CSP connect-src 'none')", ()=> /connect-src 'none'/.test(document.querySelector('meta[http-equiv="Content-Security-Policy"]')?.content || ""));
 
 async function casoAtual(){ const id = await db.meta("caso_atual"); return id ? await db.get("casos", id) : null; }
+async function agPastas(){ return (await db.meta("ag_pastas")) || ["Sem pasta"]; }
+const agPasta = c => c.pasta || "Sem pasta";
+const agTituloCaso = c => c.nome || c.numero_protocolo || c.pasta_nome || c.id_caso;
+const AG_CHAVES = {aparelhos: "id_aparelho", sims: "id_sim", hashes: "id_hash", quesitos: "id_quesito", laudos: "id_laudo"};
+
+async function agExcluirCaso(id){
+  for (const [store, chave] of Object.entries(AG_CHAVES))
+    for (const r of await db.porIndice(store, "id_caso", id)) await db.del(store, r[chave]);
+  for (const r of (await db.list("conferencias")).filter(x=>x.id_caso === id)) await db.del("conferencias", r.id);
+  const c = await db.get("casos", id);
+  await db.del("casos", id);
+  if ((await db.meta("caso_atual")) === id) await db.meta("caso_atual", null);
+  await registrar("caso excluído", {observacao: c ? agTituloCaso(c) : id});
+}
 
 /* ================= Sprint 1 · Início ================= */
 TELAS["#/inicio"] = async ()=>{
   const casos = (await db.list("casos")).sort((a, b)=>(b.inicio_em || "").localeCompare(a.inicio_em || ""));
   const atual = await db.meta("caso_atual");
   return `<h1>Início</h1><p class="sub">Cada caso corresponde a um laudo de um aparelho celular (RN05).</p>
-    <div class="card"><h2 style="margin-top:0">Novo laudo</h2>
+    <div class="card ag-carregar"><h2 style="margin-top:0">Novo laudo a partir da pasta</h2>
+      <p class="sub">Escolha a pasta do caso, com a requisição em PDF, o DEVICE INFO.txt, o HASHDOHASH.txt e os SIMs. O app inventaria os arquivos e abre a conferência.</p>
+      <div class="linha-botoes" style="margin-top:0">
+        <button class="prim" id="btnPastaInicio" type="button">Carregar a pasta do caso</button>
+        <label class="botao">Escolher pelo seletor do sistema
+          <input type="file" id="inpPastaInicio" webkitdirectory multiple hidden></label></div></div>
+    <div class="card"><h2 style="margin-top:0">Novo laudo sem a pasta</h2>
       <label for="novoProtocolo">Protocolo (pode ser preenchido depois, a partir da requisição)</label>
       <input id="novoProtocolo" placeholder="2026.0001001">
-      <div class="linha-botoes"><button class="prim" id="btnNovoCaso">Criar caso e selecionar a pasta</button></div></div>
+      <div class="linha-botoes"><button id="btnNovoCaso">Criar caso e selecionar a pasta depois</button></div></div>
     <div class="card tabela-wrap"><h2 style="margin-top:0">Casos</h2>
       ${casos.length ? `<table><tr><th>Protocolo</th><th>Pasta</th><th>Início</th><th>Situação</th><th></th></tr>${casos.map(c=>`<tr><td>${esc(c.numero_protocolo || "(sem protocolo)")}
         ${c.id_caso === atual ? ' <span class="selo ok">atual</span>' : ""}</td><td>${esc(c.pasta_nome || "")}</td>
@@ -22,6 +42,13 @@ TELAS["#/inicio"] = async ()=>{
       : `<div class="vazio">Nenhum caso ainda.</div>`}</div>`;
 };
 TELAS_DEPOIS["#/inicio"] = ()=>{
+  $("#btnPastaInicio")?.addEventListener("click", ()=>$("#inpPastaInicio").click());
+  $("#inpPastaInicio")?.addEventListener("change", async e=>{
+    const files = e.target.files; if (!files.length) return;
+    const {inv} = await processarPasta(lerPastaPorInput(files), files[0].webkitRelativePath.split("/")[0] || "pasta", null);
+    toast("Pasta carregada.");
+    location.hash = inv.faltando.length ? "#/arquivos" : "#/dados";
+  });
   $("#btnNovoCaso").addEventListener("click", async ()=>{
     const caso = {id_caso: uuid(), numero_protocolo: $("#novoProtocolo").value.trim(), status: "em elaboração", inicio_em: null, fim_em: null, criado_em: agora()};
     await db.put("casos", caso); await db.meta("caso_atual", caso.id_caso); await registrar("caso criado", {id_caso: caso.id_caso});
@@ -78,6 +105,19 @@ async function lerPastaPorHandle(handle, prefixo=""){
 const lerPastaPorInput = files => Array.from(files).map(f=>({caminho: f.webkitRelativePath.split("/").slice(1).join("/") || f.name, file: f}));
 
 const SELO = {presente: "ok", ausente: "erro", duplicado: "alerta"};
+
+async function processarPasta(lista, nomePasta, handle){
+  arquivosDaSessao.clear(); lista.forEach(x=>arquivosDaSessao.set(x.caminho, x.file));
+  let caso = await casoAtual();
+  if (!caso){ caso = {id_caso: uuid(), numero_protocolo: "", status: "em elaboração", criado_em: agora()}; await db.meta("caso_atual", caso.id_caso); }
+  const inv = inventariar(lista.map(x=>x.caminho));
+  caso = {...caso, pasta_nome: nomePasta, pasta: caso.pasta || "Sem pasta", inventario: inv, inventariado_em: agora(), informar_manual: [], inicio_em: caso.inicio_em || agora()};
+  if (handle) caso.pasta_handle = handle;
+  await db.put("casos", caso);
+  await registrar("pasta inventariada", {id_caso: caso.id_caso, campo_verificado: "inventário", resultado: inv.faltando.length ? "faltando: " + inv.faltando.join(", ") : "completo"});
+  return {caso, inv};
+}
+
 TELAS["#/arquivos"] = async ()=>{
   let caso = await casoAtual();
   const inv = caso?.inventario;
@@ -97,27 +137,25 @@ TELAS["#/arquivos"] = async ()=>{
       ${inv.qtdSims ? "" : `<tr><td>Cartão SIM</td><td><span class="selo info">nenhum</span></td><td colspan="2">Aparelho sem SIM: a descrição dos objetos registra isso (RN06).</td></tr>`}
       </table><p class="sub">* obrigatório (RN02)</p>
       <div id="avisoAvancar"></div>
-      <div class="linha-botoes"><button class="prim" id="btnAvancar">Avançar para a extração dos dados</button></div></div>` : ""}`;
+      <div class="linha-botoes"><button class="prim" id="btnAvancar">Avançar para a extração dos dados</button></div></div>` : ""}
+    <div class="card"><h2 style="margin-top:0">O que cada arquivo alimenta</h2>
+      <div class="tabela-wrap"><table>
+        <tr><th>Arquivo</th><th>Vai para</th></tr>
+        <tr><td class="mono">DEVICE INFO.txt</td><td>marca, modelo, cor e IMEIs do aparelho</td></tr>
+        <tr><td class="mono">HASHDOHASH.txt</td><td>hash do arquivo e algoritmo</td></tr>
+        <tr><td class="mono">OBJ 01-A/*.html</td><td>ICCID e operadora do SIM</td></tr>
+        <tr><td>PDF da requisição</td><td>protocolo, ofício, processo, autoridade e quesitos</td></tr>
+        <tr><td class="mono">.docx/.dotx</td><td>modelo e formatação do laudo (marcadores em <span class="mono">modelos/MARCADORES.md</span>)</td></tr>
+      </table></div><p class="sub">Os originais da pasta não são alterados; o laudo gerado vai para <span class="mono">LAUDO_GERADO</span> ou Downloads.</p></div>`;
 };
 TELAS_DEPOIS["#/arquivos"] = ()=>{
-  const processar = async (lista, nomePasta, handle)=>{
-    arquivosDaSessao.clear(); lista.forEach(x=>arquivosDaSessao.set(x.caminho, x.file));
-    let caso = await casoAtual();
-    if (!caso){ caso = {id_caso: uuid(), numero_protocolo: "", status: "em elaboração", criado_em: agora()}; await db.meta("caso_atual", caso.id_caso); }
-    const inv = inventariar(lista.map(x=>x.caminho));
-    caso = {...caso, pasta_nome: nomePasta, inventario: inv, inventariado_em: agora(), informar_manual: [], inicio_em: caso.inicio_em || agora()};
-    if (handle) caso.pasta_handle = handle;  // o handle volta numa próxima sessão, com nova permissão
-    await db.put("casos", caso);
-    await registrar("pasta inventariada", {id_caso: caso.id_caso, campo_verificado: "inventário", resultado: inv.faltando.length ? "faltando: " + inv.faltando.join(", ") : "completo"});
-    navegar();
-  };
   $("#btnPasta")?.addEventListener("click", async ()=>{
-    try { const h = await window.showDirectoryPicker({mode: "read"}); await processar(await lerPastaPorHandle(h), h.name, h); }
+    try { const h = await window.showDirectoryPicker({mode: "read"}); await processarPasta(await lerPastaPorHandle(h), h.name, h); navegar(); }
     catch(e){ if (e.name !== "AbortError") toast("Não consegui abrir a pasta: " + e.message, 5000); }
   });
   $("#inpPasta").addEventListener("change", async e=>{
     const files = e.target.files; if (!files.length) return;
-    await processar(lerPastaPorInput(files), files[0].webkitRelativePath.split("/")[0] || "pasta", null);
+    await processarPasta(lerPastaPorInput(files), files[0].webkitRelativePath.split("/")[0] || "pasta", null); navegar();
   });
   $$("[data-manual]").forEach(cb=>cb.addEventListener("change", async ()=>{
     const caso = await casoAtual();

@@ -20,3 +20,35 @@
 .tap-legenda i{width:11px;height:11px;border-radius:50%;background:var(--accent)}
 .tap-legenda i.sem{background:transparent;border:2px dashed var(--accent)}
 @media (max-width:640px){ .tap-matriz{grid-template-columns:1fr;grid-template-rows:auto 22px} .tap-eixo-y{display:none} .tap-area{grid-column:1} .tap-eixo-x{grid-column:1} }
+
+/* dashboard orçamentário (Sprint 7) */
+.orc-filtros .campos{grid-template-columns:repeat(3,minmax(0,1fr));align-items:end}
+.orc-duas{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.orc-legenda{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--ink2);margin:0 0 10px}
+.orc-legenda span{display:inline-flex;align-items:center;gap:6px}
+.orc-legenda i{width:12px;height:8px;border-radius:2px;display:inline-block}
+.orc-legenda .emp{background:var(--accent)}
+.orc-legenda .liq{background:var(--verde)}
+.orc-grupo{display:grid;grid-template-columns:minmax(82px,150px) minmax(0,1fr) auto;gap:10px;align-items:center;margin:8px 0}
+.orc-rot{font-size:12.5px;color:var(--ink2);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.orc-barras{display:flex;flex-direction:column;gap:3px;min-width:0}
+.orc-b{display:block;height:10px;border-radius:3px;min-width:2px;transition:width .3s}
+.orc-b.emp{background:var(--accent)}
+.orc-b.liq{background:var(--verde)}
+.orc-val{font-size:12px;color:var(--ink);white-space:nowrap;text-align:right}
+.orc-val small{color:var(--ink2);font-weight:400}
+.orc-acoes{white-space:nowrap}
+.orc-acoes button{min-height:30px;padding:3px 9px;font-size:12px;margin-left:4px}
+@media (max-width:1000px){ .orc-duas{grid-template-columns:1fr} }
+@media (max-width:700px){
+  .orc-filtros .campos{grid-template-columns:1fr}
+  .orc-grupo{grid-template-columns:minmax(70px,110px) minmax(0,1fr)}
+  .orc-val{grid-column:1 / -1;text-align:left}
+  .orc-acoes button{flex:1 1 auto}
+}
+
+.orc-kpis .kpi .v{font-size:clamp(15px, 1.25vw, 24px);white-space:nowrap;letter-spacing:-.02em}
+.orc-kpis .kpi .r{font-size:12px}
+#tabelaOrc td.num,#tabelaOrcResumo td.num{white-space:nowrap}
+@media (max-width:900px){ .orc-kpis{grid-template-columns:repeat(2,minmax(0,1fr))} .orc-kpis .kpi .v{font-size:22px} }
+@media (max-width:640px){ .orc-kpis .kpi .v{font-size:19px} .orc-kpis .kpi{padding:12px 12px 10px} }

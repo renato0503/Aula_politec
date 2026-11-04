@@ -203,6 +203,10 @@ TELAS["#/resultado/:proc"] = async ({proc})=>{
     <div class="card tabela-wrap"><h2>Itens do processo</h2><table>${cab}${e.linhas.map(linha).join("")}</table></div>
     <div class="card tabela-wrap"><h2>Por órgão</h2><table>${porOrgaoCab}${porOrgaoLinha.join("")}</table></div>
     <div class="card tabela-wrap"><h2>Situação dos grupos</h2><table>${gruposCab}${gruposLinha.join("")}</table></div>
+    <div class="card"><h2 style="margin-top:0">Dotação orçamentária</h2>
+      <p class="sub">Informe o tipo e os dígitos da dotação que o setor usa no processo (ex.: 3 · 10.301.0001.2000). O campo aparece no resultado, na distribuição e na exportação.</p>
+      <div class="campos">${campo("digitosDotacao", "Dígitos da dotação", {valor: p.digitos_dotacao || "", attrs: 'placeholder="3 · 10.301.0001.2000"'})}</div>
+      <div id="errosDigitos"></div><div class="linha-botoes"><button class="prim" type="button" id="btnSalvarDigitos">Salvar os dígitos</button></div></div>
     <form class="card" id="formEdicao"><h2 style="margin-top:0">Edição manual de valor homologado</h2>
       <p class="sub">A edição pede justificativa e fica na trilha de auditoria com o valor anterior e o novo.</p>
       <div class="campos">
@@ -213,6 +217,13 @@ TELAS["#/resultado/:proc"] = async ({proc})=>{
       <div class="linha-botoes"><button class="prim" type="submit">Salvar edição</button></div></form>`;
 };
 TELAS_DEPOIS["#/resultado/:proc"] = async ({proc})=>{
+  $("#btnSalvarDigitos")?.addEventListener("click", async ()=>{
+    const p = await db.get("processos", proc); if (!p) return;
+    const digitos = valorDe("digitosDotacao");
+    await db.put("processos", {...p, digitos_dotacao: digitos});
+    await registrar("dígitos da dotação", {id_processo: proc, detalhe: digitos});
+    toast("Dígitos da dotação salvos."); navegar();
+  });
   const form = $("#formEdicao"); if (!form) return;
   form.addEventListener("submit", async ev=>{
     ev.preventDefault();
@@ -258,6 +269,10 @@ TELAS["#/empresas/:proc"] = async ({proc})=>{
   return `<h1>Empresas · ${esc(p.numero)}</h1><p class="sub">${esc(p.nome)}. Cada linha é uma empresa vencedora, com os órgãos participantes e o valor homologado (RN03).</p>
     ${linksDoProcesso(p)}
     ${semEmpresa ? `<div class="card pendente"><b>${semEmpresa} item(ns) homologado(s) sem empresa.</b> A conferência aponta isso como D04.</div>` : ""}
+    <div class="card tabela-wrap"><h2>Grupos e empresas</h2><table id="tabelaGruposEmpresas"><tr><th>Grupo</th><th>Tipo</th><th>Situação</th><th>Empresa ganhadora</th><th>CNPJ</th><th class="num">Total homologado</th></tr>
+      ${e.grupos.map(g=>`<tr><td>${esc(g.grupo)}</td><td>${g.tipo === 3 ? "3 · custeio" : "4 · investimento"}</td><td>${seloSit(g.situacao)}</td>
+        <td>${esc(g.empresa || "—")}</td><td class="mono">${esc(g.cnpj || "—")}</td><td class="num">${g.totalHomologado ? F(g.totalHomologado) : "—"}</td></tr>`).join("")
+        || '<tr><td colspan="6" class="vazio">Nenhum grupo.</td></tr>'}</table></div>
     <div class="card tabela-wrap"><table>${cab}${lista.map(linha).join("") || `<tr><td colspan="${6 + e.orgaos.length}">Nenhuma empresa homologada.</td></tr>`}</table></div>`;
 };
 
@@ -300,7 +315,7 @@ TELAS["#/orcamento/:proc"] = async ({proc})=>{
   const credLinha = c=> `<tr><td>${esc(c.grupo)}</td><td class="num">${esc(c.item)}</td><td>${esc(c.orgao)}</td><td>${esc(c.descricao)}</td>
     <td class="num">${F(c.valor)}</td><td class="num">${F(c.ano)}</td><td class="num">${F(c.proximo)}</td></tr>`;
   const prox = o.totais.proximo;
-  return `<h1>Distribuição orçamentária · ${esc(p.numero)}</h1><p class="sub">${esc(p.nome)}. A dotação é consumida na ordem dos grupos do processo (RN10); o que não cabe no ano corrente vai para o ano seguinte (RN05).</p>
+  return `<h1>Distribuição orçamentária · ${esc(p.numero)}</h1><p class="sub">${esc(p.nome)}. A dotação é consumida na ordem dos grupos do processo (RN10); o que não cabe no ano corrente vai para o ano seguinte (RN05).${p.digitos_dotacao ? ` Dotação: <b>${esc(p.digitos_dotacao)}</b>.` : ""}</p>
     ${linksDoProcesso(p)}
     ${bloqueia.length ? `<div class="card pendente"><b>${bloqueia.length} divergência(s) bloqueiam</b> a distribuição orçamentária. <a href="#/conferencia/${encodeURIComponent(proc)}">Ver a conferência</a>.</div>` : ""}
     ${prox ? `<div class="card pendente"><b>${F(prox)}</b> vai para o ano seguinte (D08). O app informa o valor; a decisão é da chefia.</div>` : ""}
@@ -370,9 +385,9 @@ function abasDoExcel(e, o, div, auditoria, p){
   abas.push(["Conferência", div.map(d=>({Código:d.codigo, Situação:SEV_ROTULO[d.severidade], Onde:d.onde,
     "O que aconteceu":d.mensagem, Regra:d.regra}))]);
   abas.push(["Distribuição orçamentária", [
-    ...o.linhas.map(l=>({Órgão:l.orgao, Tipo:l.tipo, Dotação:reais(l.dotacao), "A distribuir":reais(l.total),
+    ...o.linhas.map(l=>({Órgão:l.orgao, Tipo:l.tipo, "Dotação (dígitos)":p.digitos_dotacao || "", Dotação:reais(l.dotacao), "A distribuir":reais(l.total),
       "Ano corrente":reais(l.ano), "Ano seguinte":reais(l.proximo)})),
-    ...o.credores.map(c=>({Órgão:c.orgao, Tipo:c.tipo, Grupo:c.grupo, Item:c.item, Descricao:c.descricao,
+    ...o.credores.map(c=>({Órgão:c.orgao, Tipo:c.tipo, "Dotação (dígitos)":p.digitos_dotacao || "", Grupo:c.grupo, Item:c.item, Descricao:c.descricao,
       Valor:reais(c.valor), "Ano corrente":reais(c.ano), "Ano seguinte":reais(c.proximo)}))
   ]]);
   abas.push(["Auditoria", auditoria.map(a=>({Quando:a.data_hora, Perfil:a.perfil, Ação:a.acao,
@@ -391,6 +406,7 @@ TELAS["#/exportar/:proc"] = async ({proc})=>{
   return `<h1>Exportar · ${esc(p.numero)}</h1><p class="sub">${esc(p.nome)}. O Excel sai com 8 abas, uma por etapa do processo, com os valores como número.</p>
     ${linksDoProcesso(p)}
     <div class="linha-botoes nao-imprimir"><button class="prim" id="btnExcel">Gerar Excel com 8 abas</button>
+      <button id="btnMapaSesp">Gerar mapa orçamentário (SESP)</button>
       <button id="btnImprimir">Imprimir o relatório de divergências</button>
       <button id="btnJson">Baixar o JSON do processo</button></div>
     <div class="card documento-a4" id="relatorioImpressao">
@@ -418,6 +434,20 @@ TELAS_DEPOIS["#/exportar/:proc"] = async ({proc})=>{
     baixar(nome, saida, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
     registrar("exportação do Excel", {id_processo: proc, arquivo: nome});
     toast("Excel gerado: " + nome);
+  };
+  $("#btnMapaSesp").onclick = ()=>{
+    const reais = c=> c === null || c === undefined ? null : Math.round(c) / 100;
+    const linhas = o.credores.map(c=>({Processo:p.numero, "Órgão":c.orgao, "Tipo (3/4)":c.tipo,
+      "Dotação (dígitos)":p.digitos_dotacao || "", Credor:c.empresa || c.credor || "", CNPJ:c.cnpj || "",
+      Grupo:c.grupo, Item:c.item, Descrição:c.descricao, "Valor":reais(c.valor), "Ano corrente":reais(c.ano), "Ano seguinte":reais(c.proximo)}));
+    const wb = XLSX.utils.book_new(), ws = XLSX.utils.json_to_sheet(linhas.length ? linhas : [{Processo:p.numero, Observação:"sem distribuição orçamentária"}]);
+    ws["!cols"] = Object.keys(linhas.length ? linhas[0] : {Processo:1}).map(k=>({wch: Math.max(14, k.length + 2)}));
+    XLSX.utils.book_append_sheet(wb, ws, "Mapa Orçamentário");
+    const saida = XLSX.write(wb, {bookType:"xlsx", type:"array"});
+    const nome = `Mapa_Orcamentario_SESP_${String(p.numero || proc).replace(/[^\w-]+/g, "_")}.xlsx`;
+    baixar(nome, saida, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet");
+    registrar("exportação do mapa orçamentário SESP", {id_processo: proc, arquivo: nome});
+    toast("Mapa orçamentário gerado: " + nome);
   };
   $("#btnImprimir").onclick = ()=> window.print();
   const resultado = await db.porIndice("resultado", "id_processo", proc);

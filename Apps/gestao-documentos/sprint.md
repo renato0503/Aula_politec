@@ -1,4 +1,4 @@
-# Gestão de Documentos · sprints até o MVP
+﻿# Gestão de Documentos · sprints até o MVP
 
 > Arquitetura: HTML monolítico, offline first (ver `contexto.md`). Sprints de 1 semana.
 
@@ -14,6 +14,7 @@
 | 5 | Feito em 30/10/2026. Conclusão com assinatura da autoridade (RN09), notificação ao requerente e arquivamento (RN10) e trilha de aprovação. |
 | 6 | Feito em 30/10/2026. Painel com alertas amarelos, vencidos, cobranças e tempo médio até a conclusão; processos por lotação, CSV e impressão em A4. |
 | 7 | Feito em 30/10/2026. Roteiro de aceite em `modelos/roteiro-aceite.md`. |
+| 8 | Feito em 03/11/2026: anexo opcional no acompanhamento, data de entrada na lista, cobrança em 70% e no vencimento (painel/ficha) e botão Cobrar na lista. |
 
 ## Visão geral
 
@@ -99,3 +100,19 @@
 - [x] Atualizar `PROJETO.md` e `README.md`.
 
 **Meta do piloto**: 30 dias (Da autuação à conclusão assinada.).
+
+## Sprint 8 · Correções do feedback (03/11/2026)
+
+> Feedback de Vitória (nota 3).
+
+### Código
+- [x] Tornar o anexo opcional no cadastro de processo de acompanhamento. (tipo "acompanhamento")
+- [x] Mostrar a data de entrada na lista de processos.
+- [x] Gerar notificação/cobrança quando o prazo final estiver próximo, inclusive para processo em outra lotação. (amarelo em 70% e vermelho no vencimento)
+
+### Decisão do setor
+- [x] Canal da notificação. Premissa: painel/ficha, com 70% do prazo (amarelo) e vencimento (vermelho); e-mail fica para a versão institucional.
+- [x] Quais processos são só de acompanhamento: os marcados como "acompanhamento" no cadastro; o anexo é opcional.
+
+**Pronto quando**: um processo de acompanhamento é cadastrado sem anexo e aparece na cobrança antes do vencimento.
+

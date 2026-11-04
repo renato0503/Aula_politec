@@ -1,7 +1,7 @@
 # Roteiro de aceite · TEIA
 
 1. Abrir `index.html` e conferir que a bancada mostra 10 e-mails fictícios.
-2. Selecionar um e-mail urgente e conferir os 8 campos.
+2. Selecionar um e-mail urgente e conferir os 9 campos.
 3. Selecionar um e-mail com campo faltando: o botão de validação fica desabilitado.
 4. Preencher o campo, salvar e validar. Conferir a trilha de auditoria.
 5. Selecionar o e-mail com divergência: o alerta aparece; tratar o alerta e validar.

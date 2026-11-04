@@ -90,8 +90,13 @@
     },
     {
       "id": "gestor",
-      "nome": "Gestor do IML",
-      "descricao": "Acompanha prazos, situações e a passagem de plantão."
+      "nome": "Gestor ADM",
+      "descricao": "Confirma o recebimento de lacres e do laudo e autoriza o sepultamento pelo Estado."
+    },
+    {
+      "id": "medico",
+      "nome": "Médico Legista",
+      "descricao": "Consulta o caso até a etapa 5, sem editar e sem ver família, funerária ou entrega do laudo."
     }
   ],
   "rotas": [
@@ -120,8 +125,8 @@
     {
       "rota": "#/corpo/:id",
       "titulo": "Corpo",
-      "sprint": 3,
-      "descricao": "Marcos, lacres, identificação, situação com histórico e liberação (RN02, RN03)."
+      "sprint": 8,
+      "descricao": "Etapas 1 a 7, confirmação de lacres, liberação com assinatura, sepultamento pelo Estado e entrega do laudo (RN02, RN03, RN06 a RN09)."
     },
     {
       "rota": "#/busca",
@@ -134,6 +139,12 @@
       "titulo": "Configuração",
       "sprint": 1,
       "descricao": ""
+    },
+    {
+      "rota": "#/resumo",
+      "titulo": "Resumo",
+      "sprint": 8,
+      "descricao": "Distribuição por agente causal: liberados para a família, sepultados pelo Estado, aguardando identificação e custódia finalizada."
     }
   ],
   "libs": [],

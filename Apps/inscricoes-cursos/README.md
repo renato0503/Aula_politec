@@ -131,6 +131,10 @@ um clicável. O curso ganhou a tela central `#/curso/:curso`, com a esteira, as
 inscrições e as vagas por diretoria. O perfil Diretoria abre direto na Triagem.
 Código em `src/identidade.js` e `src/app.css`.
 
+## Sprint 10 · Feedback
+
+Os perfis diretoria, coordenação, gerência e chefe têm rotas próprias; o curso guarda instrutores e monitores; o termo de convocação traz convocação e compensação, com impressão, cópia e envio por e-mail; e a tela Divulgar ganhou um checklist antes da publicação.
+
 ## Mapa do processo
 
 O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o

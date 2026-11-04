@@ -4,6 +4,8 @@ Sintaxe do docxtemplater: `{campo}` troca pelo valor; `{#lista}...{/lista}` repe
 
 O `modelo-laudo-celular.docx` é **fictício**. No Sprint 0, os mesmos marcadores entram no modelo institucional, escritos de uma vez (sem formatação no meio do marcador, para o Word não dividir o texto em vários trechos).
 
+O layout institucional enviado em 03/11/2026 está em `../CASO TESTE 2/MODELO DE LAUDO - Projeto.dotx`. Ele **ainda não tem marcadores**: para usá-lo, copie para `.docx`, insira os marcadores desta tabela e carregue em `#/config`. O passo a passo e o inventário do caso de teste estão em `../CASO TESTE 2/README.md`.
+
 | Marcador | Origem |
 |---|---|
 | `autoridade_solicitante` | requisição em PDF |

@@ -101,6 +101,18 @@ Exportar e Auditoria), fixa no topo de todas as telas do processo, com a etapa
 atual marcada. A tela do mapa usa a **grade em formato planilha**, com cabeçalho
 fixo, subtotais e total. Código em `src/identidade.js` e `src/app.css`.
 
+## Ajustes do feedback (03/11/2026)
+
+- A situação do processo pode ser alterada na lista: **em andamento**, **concluído** ou **cancelado**.
+- O processo guarda os **dígitos da dotação orçamentária**, mostrados no Resultado, na Distribuição e no Excel.
+- A tela Empresas ganhou a tabela **Grupos e empresas**, com a empresa ganhadora, CNPJ, tipo e total homologado.
+- No Mapa por item, a descrição fica justificada e grupo/item/código/unidade centralizados.
+- Ainda pendentes: importar o PDF do pregoeiro e o mapa orçamentário no modelo da SESP.
+
+## Sprint 9 · Feedback
+
+O relatório do pregoeiro entra em PDF com camada de texto (o app avisa quando é imagem); o Exportar ganhou o **Mapa orçamentário (SESP)** com processo, órgão, tipo, dotação, credor, CNPJ e valores.
+
 ## Mapa do processo
 
 O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o

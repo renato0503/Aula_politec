@@ -21,8 +21,10 @@ TELAS["#/exportar"] = async ()=>{
   return `<h1>Arquivo do setor</h1><p class="sub">O arquivo leva só as RNCs notificadas ao setor (RN06). O setor devolve com o plano (FOR 2) e a avaliação (FOR 3).</p>
     <div class="card"><div class="campos">
       ${campo("expSetor", "Setor", {tipo: "select", opcoes: [["", "Escolha"], ...porSetor.map(({s, n})=>[s.sigla, `${s.sigla} · ${s.nome} (${n} RNC)`])]})}</div>
-      <div class="linha-botoes"><button class="prim" id="btnExportarSetor">${icone("download")} Gerar o arquivo do setor</button></div>
-      <p class="sub" id="resExportar"></p></div>
+      <div class="linha-botoes"><button class="prim" id="btnExportarSetor">${icone("download")} Gerar o arquivo do setor</button>
+        <button type="button" id="btnRelacaoSetor">Relação para impressão</button>
+        <button type="button" id="btnImprimirRelacao" hidden>Imprimir a relação</button></div>
+      <p class="sub" id="resExportar"></p><div id="relacaoSetor" class="documento-a4" hidden></div></div>
     <div class="card"><h2 style="margin-top:0">Receber o arquivo do setor</h2>
       <p class="sub">O setor devolve o mesmo arquivo, com o plano de ação e a avaliação. A CQUAL importa e mescla.</p>
       <label class="botao">Importar o arquivo devolvido<input type="file" id="arqSetor" accept=".json" hidden></label>
@@ -36,6 +38,18 @@ TELAS_DEPOIS["#/exportar"] = ()=>{
     await registrar("arquivo do setor gerado", {detalhe: `${setor} · ${conteudo.rncs.length} RNCs`});
     $("#resExportar").innerHTML = `${conteudo.rncs.length} RNC(s) de ${esc(setor)} no arquivo, com ${conteudo.etapas.length} etapa(s), ${conteudo.planos.length} plano(s) e ${conteudo.avaliacoes.length} avaliação(ões).`;
   });
+  $("#btnRelacaoSetor")?.addEventListener("click", async ()=>{
+    const setor = valorDe("expSetor"); if (!setor) return alert("Escolha o setor.");
+    const rncs = (await db.list("rncs")).filter(r=>normalizar(r.setor_notificado) === normalizar(setor)).sort((a, b)=>String(a.aberta_em).localeCompare(String(b.aberta_em)));
+    const rows = rncs.map(r=>`<tr><td>${esc(r.numero)}</td><td>${esc(categoriaOficial(r.categoria)?.sigla || r.categoria_sigla || r.categoria)}</td><td>${dataCurtaBR(r.aberta_em)}</td><td>${esc(r.etapa)}</td><td>${esc(r.registrado_por || "—")}</td></tr>`).join("");
+    const el = $("#relacaoSetor");
+    el.innerHTML = `<h2>Relação de RNCs · ${esc(setor)}</h2><p class="sub">Gerada em ${dataBR(agora())} · ${rncs.length} RNC(s) · responsável pela geração: ${esc(estado.perfil || "—")}</p>
+      <table><thead><tr><th>RNC</th><th>Categoria</th><th>Abertura</th><th>Etapa</th><th>Registrada por</th></tr></thead><tbody>${rows || '<tr><td colspan="5">Nenhuma RNC para este setor.</td></tr>'}</tbody></table>`;
+    el.hidden = false;
+    $("#btnImprimirRelacao").hidden = false;
+    await registrar("relação do setor gerada", {detalhe: `${setor} · ${rncs.length} RNCs`});
+  });
+  $("#btnImprimirRelacao")?.addEventListener("click", ()=>{ try { window.print(); } catch(e){} });
   $("#arqSetor")?.addEventListener("change", async e=>{
     const f = e.target.files[0]; if (!f) return;
     try {
@@ -67,40 +81,53 @@ TELAS["#/minhas"] = async ()=>{
   return `<h1>Minhas RNCs</h1><p class="sub">RNCs em que o seu setor foi notificado. Registre o plano (FOR 2) e a avaliação (FOR 3).</p>
     <div class="card"><div class="campos">${campo("rncMeuSetor", "Setor", {tipo: "select", opcoes: [["", "Escolha"], ...setores.map(s=>[s.sigla, `${s.sigla} · ${s.nome}`])], valor: setor})}</div>
       <div class="linha-botoes"><button id="btnSalvarSetor">Salvar setor</button></div></div>
-    ${setor ? `<div class="card tabela-wrap"><table id="tabelaMinhasRnc"><tr><th>RNC</th><th>Categoria</th><th>Etapa</th><th>Plano (FOR 2)</th><th>Avaliação (FOR 3)</th><th></th></tr>
-      ${rncs.map(r=>`<tr><td><a href="#/rnc/${encodeURIComponent(r.numero)}">${esc(r.numero)}</a></td><td>${esc(r.categoria)}</td><td>${esc(r.etapa)}</td>
+    ${setor ? `<div class="card tabela-wrap"><table id="tabelaMinhasRnc"><tr><th>RNC</th><th>Categoria</th><th>Etapa</th><th>Plano (FOR 2)</th><th>Avaliação (FOR 3)</th><th>Responsável</th><th></th></tr>
+      ${rncs.map(r=>`<tr><td><a href="#/rnc/${encodeURIComponent(r.numero)}">${esc(r.numero)}</a></td><td>${esc(categoriaOficial(r.categoria)?.sigla || r.categoria_sigla || r.categoria)}</td><td>${esc(r.etapa)}</td>
         <td>${plano[r.numero]?.enviado_em ? dataCurtaBR(plano[r.numero].enviado_em) : '<span class="alerta-txt">sem plano</span>'}</td>
         <td>${aval[r.numero] ? (aval[r.numero].eficaz ? "eficaz" : "não eficaz") : "—"}</td>
-        <td><button data-plano="${esc(r.numero)}">Plano</button><button data-aval="${esc(r.numero)}">Avaliação</button></td></tr>`).join("")
-        || '<tr><td colspan="6" class="vazio">Nenhuma RNC para este setor.</td></tr>'}</table></div>
+        <td>${esc(plano[r.numero]?.responsavel || aval[r.numero]?.responsavel || "—")}</td>
+        <td><button data-plano="${esc(r.numero)}">Plano</button><button data-aval="${esc(r.numero)}">Avaliação</button>
+          <a class="botao" href="#/rnc/${encodeURIComponent(r.numero)}/documento" target="_blank" rel="noopener">Documento</a></td></tr>`).join("")
+        || '<tr><td colspan="7" class="vazio">Nenhuma RNC para este setor.</td></tr>'}</table></div>
       <div class="card" id="formSetorBloco"></div>` : '<div class="card pendente">Escolha o setor para ver as RNCs.</div>'}`;
 };
 TELAS_DEPOIS["#/minhas"] = ()=>{
   $("#btnSalvarSetor")?.addEventListener("click", async ()=>{ await db.meta("setor", valorDe("rncMeuSetor")); toast("Setor salvo."); navegar(); });
   const abrir = (html)=>$("#formSetorBloco").innerHTML = html;
   $$("[data-plano]").forEach(b=>b.addEventListener("click", async ()=>{
-    const n = b.dataset.plano, p = await db.get("planos", n + "-plano");
+    const n = b.dataset.plano, p = await db.get("planos", n + "-plano"), r = await db.get("rncs", n);
+    const respPadrao = p?.responsavel || r?.setor_notificado || estado.perfil || "";
     abrir(`<h2 style="margin-top:0">Plano de ação (FOR 2) · ${esc(n)}</h2>
-      <form id="formPlano"><div class="campos">${campo("plData", "Enviado em", {tipo: "date", valor: hojeISO()})}</div>
+      <form id="formPlano"><div class="campos">${campo("plData", "Enviado em", {tipo: "date", valor: hojeISO()})}
+        ${campo("plResp", "Responsável pelo plano", {valor: respPadrao, obrigatorio: true})}</div>
       ${campo("plAcoes", "Ações do plano", {tipo: "textarea", linhas: 4, valor: p?.acoes || "", obrigatorio: true})}
       <div id="errosPlano"></div><div class="linha-botoes"><button class="prim" type="submit">Registrar o plano</button></div></form>`);
     $("#formPlano").addEventListener("submit", async e=>{
       e.preventDefault();
-      const acoes = valorDe("plAcoes"); if (acoes.length < 20) return mostrarErros("#errosPlano", ["Descreva as ações do plano (20 caracteres)."]);
-      await db.put("planos", {...(p || {}), id: n + "-plano", rnc: n, enviado_em: valorDe("plData") || hojeISO(), acoes});
+      const acoes = valorDe("plAcoes");
+      const erros = [];
+      if (!valorDe("plResp").trim()) erros.push("Informe o responsável pelo plano.");
+      if (acoes.length < 20) erros.push("Descreva as ações do plano (20 caracteres).");
+      if (!mostrarErros("#errosPlano", erros)) return;
+      await db.put("planos", {...(p || {}), id: n + "-plano", rnc: n, enviado_em: valorDe("plData") || hojeISO(), acoes,
+        responsavel: valorDe("plResp") || respPadrao});
       await registrar("plano do setor registrado", {detalhe: n}); toast("Plano registrado."); navegar();
     });
   }));
   $$("[data-aval]").forEach(b=>b.addEventListener("click", async ()=>{
-    const n = b.dataset.aval, a = await db.get("avaliacoes", n + "-aval");
+    const n = b.dataset.aval, a = await db.get("avaliacoes", n + "-aval"), r = await db.get("rncs", n);
+    const respPadrao = a?.responsavel || r?.setor_notificado || estado.perfil || "";
     abrir(`<h2 style="margin-top:0">Avaliação da eficácia (FOR 3) · ${esc(n)}</h2>
       <form id="formAval"><div class="campos">${campo("avData", "Avaliada em", {tipo: "date", valor: hojeISO()})}
+        ${campo("avResp", "Responsável pela avaliação", {valor: respPadrao, obrigatorio: true})}
         ${campo("avEficaz", "A ação foi eficaz?", {tipo: "select", opcoes: [["sim", "Sim"], ["nao", "Não"]], valor: a?.eficaz ? "sim" : "nao"})}</div>
       ${campo("avObs", "Observação", {tipo: "textarea", linhas: 3, valor: a?.observacao || ""})}
       <div id="errosAval"></div><div class="linha-botoes"><button class="prim" type="submit">Registrar a avaliação</button></div></form>`);
     $("#formAval").addEventListener("submit", async e=>{
       e.preventDefault();
-      await db.put("avaliacoes", {id: n + "-aval", rnc: n, eficaz: valorDe("avEficaz") === "sim", observacao: valorDe("avObs"), avaliado_em: valorDe("avData") || hojeISO()});
+      if (!valorDe("avResp").trim()) return mostrarErros("#errosAval", ["Informe o responsável pela avaliação."]);
+      await db.put("avaliacoes", {id: n + "-aval", rnc: n, eficaz: valorDe("avEficaz") === "sim", observacao: valorDe("avObs"), avaliado_em: valorDe("avData") || hojeISO(),
+        responsavel: valorDe("avResp") || respPadrao});
       await registrar("avaliação do setor registrada", {detalhe: n}); toast("Avaliação registrada."); navegar();
     });
   }));

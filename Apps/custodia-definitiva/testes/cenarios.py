@@ -177,6 +177,38 @@ def s6_relatorio_e_aceite(pg, url, ok):
     ok("o CSV de ocupação e movimentações sai com BOM e ponto e vírgula", csv.startswith(b"\xef\xbb\xbf") and b"id;protocolo;lacre" in csv)
     ok("o roteiro de aceite está em modelos/", (PASTA / "modelos" / "roteiro-aceite.md").exists())
 
+@cenario
+def s8_endereco_confirmacao_e_painel(pg, url, ok):
+    perfil(pg, url, "custodia")
+    semear(pg, url)
+    ir(pg, url, "#/vestigio/novo", 400)
+    pg.fill("#cdProtocolo", "PROC-END-1"); pg.fill("#cdLacre", "LC-END-1"); pg.select_option("#cdCategoria", "roupas")
+    pg.fill("#cdVolume", "2"); pg.fill("#cdProcedencia", "Delegacia fictícia"); pg.select_option("#cdConfDoc", "completa")
+    pg.select_option("#cdLacreIntegro", "integro"); pg.fill("#cdEmbalagem", "caixa lacrada"); pg.fill("#cdQuantidade", "2")
+    pg.fill("#cdDimensoes", "30 x 20 x 15 cm"); pg.select_option("#cdConservacao", "boa")
+    pg.click("#formCdNovo button[type=submit]"); pg.wait_for_timeout(700)
+    vid = "V-0031"
+    ok("o vestígio nasce com endereço sugerido e status pendente",
+       pg.evaluate("async id => (await db.get('vestigios', id)).status", vid) == "pendencia"
+       and bool(pg.evaluate("async id => !!(await db.get('vestigios', id)).endereco_sugerido", vid))
+       and pg.evaluate("async id => (await db.get('vestigios', id)).endereco_efetivo", vid) is None)
+    ok("a ficha mostra o endereço completo e a confirmação", "Estante" in pg.inner_text("#cdEndereco") and pg.locator("#btnCdConfirmar").count() == 1)
+    pg.fill("#cdConfResp", "Fulano da Conferência"); pg.click("#btnCdConfirmar"); pg.wait_for_timeout(700)
+    ok("a confirmação muda para armazenado e grava responsável/data",
+       pg.evaluate("async id => (await db.get('vestigios', id)).status", vid) == "armazenado"
+       and pg.evaluate("async id => (await db.get('vestigios', id)).confirmacao?.por", vid) == "Fulano da Conferência")
+    ir(pg, url, "#/vestigios", 500)
+    ok("o acervo mostra endereço completo e o que está sem endereço",
+       "Estante" in pg.inner_text("#cdTabelaAcervo") and "sem endereço" in pg.inner_text("#cdTabelaAcervo"))
+    ir(pg, url, "#/painel", 500)
+    ok("o painel tem entradas/saídas e link clicável do contêiner",
+       pg.locator("[data-cd-ind=entradas]").count() == 1 and pg.locator("[data-cd-ind=saidas]").count() == 1 and pg.locator("[data-cd-cont]").count() > 0)
+    pg.locator("[data-cd-cont]").first.click(); pg.wait_for_timeout(500)
+    ok("o alerta do contêiner abre o acervo filtrado", "#/vestigios" in pg.url and pg.evaluate("() => estado.cdFiltros.conteiner") != "")
+    ir(pg, url, "#/conteineres", 400)
+    ok("a tela de contêineres mostra a hierarquia e a unidade", "Estante" in pg.inner_text("main") and "litros" in pg.inner_text("main"))
+
+
 def main():
     erro = False
     with sync_playwright() as p:

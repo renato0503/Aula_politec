@@ -205,6 +205,63 @@ def s6_indicadores_e_aceite(pg, url, ok):
     ok("as propostas por situação são agrupadas", pg.locator("#tabelaStatus tr").count() > 1)
     ok("o roteiro de aceite está em modelos/", (PASTA / "modelos" / "roteiro-aceite.md").exists())
 
+@cenario
+def s7_dashboard_orcamentario(pg, url, ok):
+    perfil(pg, url, "equipe")
+    semear(pg, url)
+    ir(pg, url, "#/dashboard", 900)
+    ok("o dashboard abre com os KPIs", pg.locator("[data-dash=empenhado]").count() == 1 and pg.locator("[data-dash=liquidado]").count() == 1
+       and pg.locator("[data-dash=saldo]").count() == 1 and pg.locator("[data-dash=percentual]").count() == 1)
+    ok("a base de exemplo tem 15 lançamentos", contar(pg, "orcamentos") == 15)
+    ok("o resumo por ano e eixo lista os grupos", pg.locator("#tabelaOrcResumo tr").count() == 16)
+    pg.select_option("#dashAno", "2026"); pg.wait_for_timeout(700)
+    esperado = pg.evaluate("async ()=> tapReal(tapResumoOrc(await db.list('orcamentos'), {ano: '2026'}).empenhado)")
+    ok("o filtro de ano recalcula o empenhado", pg.inner_text("[data-dash=empenhado]") == esperado)
+    pg.fill("#orcAno", "2027"); pg.select_option("#orcEixo", "Infraestrutura"); pg.fill("#orcProjeto", "Projeto de teste")
+    pg.fill("#orcEmpenhado", "1.000,00"); pg.fill("#orcLiquidado", "400,00")
+    pg.click("#formOrc button[type=submit]"); pg.wait_for_timeout(900)
+    ok("adicionar um lançamento grava no banco", contar(pg, "orcamentos") == 16)
+    pg.select_option("#dashAno", ""); pg.wait_for_timeout(700)
+    alvo = pg.evaluate("async ()=> (await db.list('orcamentos')).find(r=>r.projeto==='Projeto de teste').id")
+    pg.click(f'[data-orc-editar="{alvo}"]'); pg.wait_for_timeout(700)
+    pg.fill("#orcLiquidado", "900,00"); pg.click("#formOrc button[type=submit]"); pg.wait_for_timeout(900)
+    ok("editar atualiza o liquidado", pg.evaluate("async id => (await db.get('orcamentos', id)).liquidado", alvo) == 900)
+    pg.click(f'[data-orc-excluir="{alvo}"]'); pg.wait_for_timeout(900)
+    ok("excluir remove o lançamento", contar(pg, "orcamentos") == 15)
+    csv = TMP / "orcamento.csv"
+    csv.write_text("ano;eixo;projeto;empenhado;liquidado\n2028;Infraestrutura;Importado;2.000,00;1.500,00\n", encoding="utf-8")
+    pg.set_input_files("#arqOrc", str(csv)); pg.wait_for_timeout(1600)
+    ok("importar o .csv atualiza a base", contar(pg, "orcamentos") == 16
+       and pg.evaluate("async ()=> !!(await db.list('orcamentos')).find(r=>r.projeto==='Importado')"))
+
+@cenario
+def s8_fluxo_pendencia_e_avisos(pg, url, ok):
+    perfil(pg, url, "equipe")
+    semear(pg, url)
+    ir(pg, url, "#/proposta/TAP-2026-003", 500)
+    ok("a proposta devolvida mostra o botão de sanar", pg.query_selector("#btnTapSanar") is not None)
+    pg.click("#btnTapSanar"); pg.wait_for_timeout(700)
+    ok("sanar volta o TAP para análise", pg.evaluate("async ()=> (await db.get('propostas','TAP-2026-003')).status") == "em análise")
+    avisos = pg.evaluate("async ()=> (await db.porIndice('avisos','proposta_id','TAP-2026-003')).map(a=>a.para)")
+    ok("a equipe e a autoridade entram na fila de avisos", "equipe de projetos" in avisos and "autoridade" in avisos)
+    # pendência em atraso aparece no painel e gera cobrança
+    pg.evaluate("""async ()=>{ const x = (await db.porIndice('pendencias','proposta_id','TAP-2026-007')).find(p=>!p.resolvida_em);
+      await db.put('pendencias', {...x, prazo_limite: '2026-10-01'}); }""")
+    ir(pg, url, "#/triagem", 1000)
+    pg.wait_for_selector("#tapPainelAvisos", timeout=10000)
+    ok("a triagem lista a pendência fora do prazo", "em atraso" in pg.inner_text("#tapPainelAvisos"))
+    pg.click("[data-tap-cobrar]"); pg.wait_for_timeout(600)
+    ok("a cobrança entra na fila local", pg.evaluate("async ()=> (await db.list('avisos')).some(a=>a.texto.includes('venceu'))"))
+    # objetivos configuráveis
+    ir(pg, url, "#/config", 500)
+    pg.fill("#tapObjetivos", "Objetivo oficial A\nObjetivo oficial B")
+    pg.click("#btnTapObjetivos"); pg.wait_for_timeout(500)
+    ir(pg, url, "#/tap/novo", 700)
+    pg.click("[data-etapa='alinhamento']"); pg.wait_for_timeout(400)
+    opcoes = pg.evaluate("()=>[...document.querySelectorAll('#tap-objetivo_estrategico option')].map(o=>o.value)")
+    ok("os objetivos configurados aparecem no novo TAP", "Objetivo oficial A" in opcoes and "Objetivo oficial B" in opcoes)
+
+
 def main():
     erro = False
     with sync_playwright() as p:

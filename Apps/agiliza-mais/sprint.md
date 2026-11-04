@@ -1,4 +1,4 @@
-# Agiliza + · sprints até o MVP
+﻿# Agiliza + · sprints até o MVP
 
 > Arquitetura: HTML monolítico, offline first (ver `contexto.md`).
 > Cada sprint dura **1 semana** e termina com o `index.html` abrindo e
@@ -16,6 +16,8 @@
 | 3 | Feito em 29/10/2026. `python Apps/_base/testar_sprints.py agiliza-mais` passa (cenário do Sprint 3 em `Apps/_base/cenarios/sprint3.py`; código em `src/sprint3.js`). Os testes dos extratores ficaram na tela `#/testes` do próprio app (padrão dos apps), e não num `testes/testes.html` separado; o cenário confere a extração dos 3 casos contra o `GABARITO.json`. |
 | 4 a 11 | Feito em 03/11/2026 (`src/sprint4.js`). Word pelo modelo embutido ou carregado em `#/config`, com a lista de marcadores sem dado e o arquivo `laudo_<protocolo>_v<N>.docx` gravado em `LAUDO_GERADO` (ou baixado); conferência com selo por campo (extraído, corrigido, digitado, confirmado), validação ao digitar, SIM incluído ou removido à mão e "Confirmar todos" preso ao IMEI 1 e ao hash; requisição em PDF lida pelo pdf.js (protocolo, ofício, processo, autoridade, data e quesitos), PDF ao lado e aviso de PDF digitalizado; biblioteca com versão, desativação, importação e exportação; marcadores dentro dos textos e prévia; quesitos da requisição com sugestão de resposta por palavra-chave, que só entra no laudo depois de aprovada; validador com bloqueia, alerta e informa; revisão com as correções feitas no Word; histórico com taxa de correção, `historico.csv` e limpeza do caso; privacidade em `#/config`; caso de exemplo embutido (`exemplos/caso-exemplo.json`). Cenários `s4_a_s11_laudo_completo` (14/14) e `s5_caso_de_exemplo_e_modelo` (4/4) passam. **OCR (S10)**: simulado, como o formulário autoriza; decisão registrada no `PROJETO.md` em 03/11/2026. |
 | 12 | Aceite e piloto: dependem do grupo. |
+| Início e gestão | Feito em 03/11/2026. Botão **Carregar a pasta do caso** em `#/inicio`, com criação do caso e abertura da conferência; lista de laudos em preenchimento com continuar, renomear, mover para pasta e excluir. Cenário `s12_inicio_pasta_e_gestao` (9/9). |
+| 14 | Feito em 03/11/2026: outras informações do perito, foto com sugestão de cor, ajuda dos arquivos, histórico com Abrir e correção do teste. Modelo institucional, IA externa e caso real seguem humanos. |
 
 Modelo `.docx` **fictício** com os marcadores pronto e testado no navegador (`modelos/`); falta pôr os marcadores no modelo institucional. Formatos dos TXT e HTML **supostos** (`exemplos/FORMATOS.md`). `textos.json` fictício.
 
@@ -243,9 +245,45 @@ e a limpeza remove os dados pessoais do IndexedDB (conferir no DevTools).
 
 **Pronto quando**: o perito cumpre os 8 passos sem ajuda, e o piloto está aberto.
 
+## Início e gestão dos laudos (03/11/2026)
+
+- [x] `#/inicio`: botão **Carregar a pasta do caso** (e o seletor do sistema) que inventaria os arquivos, cria o caso e abre a conferência; se faltar arquivo obrigatório, leva ao inventário.
+- [x] Lista de laudos em preenchimento com **Continuar**, **Renomear**, **Pasta** e **Excluir**.
+- [x] Pastas livres, com filtro por pasta e contagem por pasta; a pasta fica no caso e em `ag_pastas`.
+- [x] Exclusão apaga o caso, o aparelho, os SIMs, os hashes, os quesitos, os laudos e as conferências, sem tocar nos arquivos originais.
+- [x] Cenário `s12_inicio_pasta_e_gestao` (9/9) e `python testes/testar.py`.
+- [ ] Testar com a pasta real do `CASO TESTE 2` (nomes de arquivo ainda fora do padrão; ver o `README.md` da pasta).
+
 ## Sprint 13 · (opcional, pós-MVP) Laudo anterior como modelo
 
 - [ ] Abrir um laudo antigo `.docx` e listar os parágrafos.
 - [ ] O perito seleciona trechos e associa cada um a um marcador.
 - [ ] Salvar o resultado como novo modelo em `modelos`, sem alterar o laudo de origem.
 - [ ] Verificar se sobrou algum dado do caso antigo (busca pelos IMEIs e ICCIDs antigos).
+
+## Sprint 14 · Correções do feedback (03/11/2026)
+
+> Feedback de Diego (nota 3). A carga da pasta e a gestão dos laudos já foram feitas; o foco aqui é o Word, a revisão e a edição dos textos.
+
+### Código
+- [x] Aceitar o modelo institucional em `.docx` e `.dotx` (o `.dotx` é convertido no carregamento).
+- [ ] Inserir os marcadores no modelo timbrado da POLITEC e validar a formatação no Word.
+- [x] Revisão: retirar "Correções feitas no Word" e "Quantidade de correções"; manter "Revisei o laudo e ele está pronto para assinatura", "Concluir o caso" e "Histórico e Metas".
+- [x] Biblioteca: coluna e filtro de tipo de dispositivo; adaptação de texto por marcadores (local).
+- [ ] IA externa para criar/adaptar texto. Premissa: a adaptação local por marcadores cobre o MVP; a IA externa fica para a versão institucional, com revisão humana e LGPD.
+- [x] Conferência: a cor do aparelho é editável (já estava no formulário e o teste cobre).
+- [x] Conferência: permitir outras informações do perito. (campo livre que entra nas considerações finais)
+- [x] Textos: editar Histórico, Exames e Considerações por caso, sem mudar a biblioteca.
+- [x] Quesitos: não impedir o laudo quando a requisição não tiver quesitos.
+- [x] Corrigir o histórico. A tela ganhou o botão "Abrir" que retoma o caso; o cenário s14 cobre o caminho. A causa original não foi reproduzida; pedir o caso ao Diego se voltar.
+- [x] Upload de foto do aparelho com sugestão de cor (assistida). A foto fica no navegador; o perito confirma a cor.
+- [x] Esclarecer na tela o que cada arquivo da pasta alimenta.
+
+### Decisão do setor
+- [ ] Modelo institucional timbrado e os marcadores. O app aceita `.docx`/`.dotx` e avisa quando não há marcadores; falta o modelo oficial com os marcadores de `modelos/MARCADORES.md`.
+- [ ] Uso de IA: local, autorizada e com LGPD; lista de tipos de dispositivo.
+- [ ] Formato dos textos de Histórico, Exames e Considerações. O app permite editar por caso; o texto padrão oficial depende da Gerência.
+- [ ] Testar com o caso real do `CASO TESTE 2`. Depende do perito e dos arquivos reais.
+
+**Pronto quando**: um caso completo gera o Word timbrado sem ajuste manual de formatação, a revisão tem só os dois campos pedidos e os textos podem ser editados.
+

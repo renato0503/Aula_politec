@@ -107,6 +107,53 @@ def s3_relatorio_e_csv(pg, url, ok):
     ok("o CSV sai com BOM e as colunas do corpo", csv.startswith(b"\xef\xbb\xbf") and b"protocolo;unidade" in csv and b"sepultado" in csv)
 
 
+@cenario
+def s4_desaparecidos_e_fontes(pg, url, ok):
+    ir(pg, url, "#/desaparecidos", 1200)
+    ok("o módulo CNPD mostra 381 registros", pg.locator("#conteudo .kpi .v").first.inner_text() == "381")
+    ok("o mapa do CNPD desenha as localidades", pg.locator("#desMapa path.leaflet-interactive").count() > 0)
+    pg.select_option("#desUf", "AL"); pg.wait_for_timeout(700)
+    ok("o filtro de UF reduz o recorte", pg.locator("#conteudo .kpi .v").first.inner_text() == "151")
+    pg.click('[data-des-fonte="namus"]'); pg.wait_for_timeout(1000)
+    ok("o NamUs carrega a amostra e o mapa", pg.locator("#conteudo .kpi .v").first.inner_text() == "300" and pg.locator("#desMapa path.leaflet-interactive").count() > 0)
+    pg.click('[data-des-fonte="fontes"]'); pg.wait_for_timeout(400)
+    ok("o catálogo lista as fontes", pg.locator("#conteudo table tbody tr").count() >= 15)
+    with pg.expect_download() as d:
+        pg.click('[data-des-fonte="cnpd"]'); pg.wait_for_timeout(700)
+        pg.click("#desCsv")
+    csv = pathlib.Path(d.value.path()).read_bytes()
+    ok("o CSV do módulo sai com BOM, fonte, data e as colunas", csv.startswith(b"\xef\xbb\xbf") and b"fonte;id;nome" in csv and b"CNPD/MJ" in csv and b"coletado_em" in csv)
+
+
+@cenario
+def s5_cruzamento_cnpd_corpos(pg, url, ok):
+    semear(pg, url)
+    par = pg.evaluate("""async ()=>{
+      const d = dadosEmbutidos('cnpd').registros.find(x=>x.sexo && x.idadeAtual != null && x.localRegistro?.includes('/'));
+      if (!d) return null;
+      const [cidade] = d.localRegistro.split('/');
+      const m = /^(\d{2})\/(\d{2})\/(\d{4})$/.exec(d.dataDesaparecimento || '');
+      const iso = m ? `${m[3]}-${m[2]}-${m[1]}` : '2026-01-01';
+      const dt = new Date(iso + 'T12:00:00'); dt.setDate(dt.getDate() + 30);
+      const corpoId = 'C-TESTE-CRUZAMENTO';
+      await db.put('corpos', {id: corpoId, protocolo: '2026.9999', unidade: 'IML Cuiabá', sexo: d.sexo,
+        idade: d.idadeAtual, altura: '1,65', municipio: cidade, data_localizacao: dt.toISOString().slice(0,10),
+        olhos: 'castanhos', cabelo: 'preto', pele: 'parda', sinais: 'cicatriz', identificado: false, situacao: 'não identificado'});
+      return {id: d.id, nome: d.nome};
+    }""")
+    ok("há um par fictício para o cruzamento", bool(par))
+    pg.reload(); pg.wait_for_function("()=>typeof db!=='undefined'&&!!db.con"); pg.wait_for_timeout(500)
+    ir(pg, url, "#/desaparecidos", 700)
+    pg.fill("#desQ", par["nome"]); pg.wait_for_timeout(500)
+    botao = pg.query_selector(f'[data-des-match="{par["id"]}"]')
+    ok("o registro tem o botão de ver corpos", botao is not None)
+    if botao: pg.click(f'[data-des-match="{par["id"]}"]'); pg.wait_for_timeout(500)
+    ok("o cruzamento lista o corpo compatível", "C-TESTE-CRUZAMENTO" in pg.inner_text("#conteudo") or "2026.9999" in pg.inner_text("#conteudo"))
+    pg.fill("#desMatchJust", "Mesmo sexo, idade, altura e município; indício para revisão humana e exames complementares.")
+    pg.click('[data-des-confirmar="C-TESTE-CRUZAMENTO"]'); pg.wait_for_timeout(700)
+    ok("a confirmação fica na auditoria", pg.evaluate("async ()=> (await db.porIndice('correspondencias','corpo_id','C-TESTE-CRUZAMENTO')).some(x=>x.status==='confirmado')"))
+
+
 def main():
     erro = False
     with sync_playwright() as p:

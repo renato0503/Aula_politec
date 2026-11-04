@@ -13,6 +13,8 @@
 | 4 | Feito em 30/10/2026. O arquivo `.xlsx`/`.csv` dos 3 meses importa na planilha no layout do Google. |
 | 5 | Feito em 30/10/2026, exceto o OCR de PDF em imagem: a leitura do PDF com camada de texto está em `src/sprint5.js` e o limite de confiança em 90% está implementado. Cenário em `Apps/_base/cenarios/sprint5.py`. |
 | 6 | Feito em 30/10/2026. Roteiro e piloto documentados em `modelos/roteiro-aceite.md`. |
+| 7 | Feito em 03/11/2026: mês de referência no importador e edição, renomeação e exclusão de linha e de mês. |
+| 8 | Aberto em 03/11/2026 (feedback dos alunos). Ver Sprint 8 abaixo. |
 
 CSV e PDF com texto de 3 meses fictícios, com uma divergência plantada por mês (`DIVERGENCIAS.md`). O PDF em imagem fica para o Sprint 5. SheetJS copiado do app do mapa.
 
@@ -80,3 +82,36 @@ fica só com o PDF de texto e o OCR passa a ser opcional.
 - [x] Roteiro: importar o mês, conferir, aprovar, gerar o arquivo, importar na planilha.
 - [x] Piloto de 3 meses: os números do app têm que ser iguais aos digitados (diferença zero).
 - [x] Comparar o tempo com a linha de base e atualizar `PROJETO.md` e `README.md`.
+
+## Sprint 7 · Mês escolhido e edição individual (03/11/2026)
+
+- [x] Campo **Mês de referência** no importador: vazio usa o mês do arquivo; escolhido, prevalece (com aviso quando o arquivo indica outro mês).
+- [x] Cada linha da conferência tem **Editar** (unidade, nome lido, pendentes e motivo) e **Excluir**, com registro em `correcoes` e no log.
+- [x] A lista de meses tem **Abrir** e **Excluir**; o mês aprovado não é excluído (RN05).
+- [x] Cenário `s7_mes_escolhido_e_edicao` (6/6).
+
+## Sprint 8 · Correções do feedback (03/11/2026)
+
+> Feedback de Karine (nota 3). O mês escolhido e a edição/exclusão de linha e mês já foram feitos nesta etapa.
+
+### Já feito
+- [x] Selecionar o mês de referência no importador.
+- [x] Editar, renomear e excluir cada linha da conferência.
+- [x] Excluir um mês importado (mês aprovado não muda, RN05).
+
+### Código
+- [x] Filtro por gerência no importador e na conferência.
+- [x] Extrair os dados do cartão "Pendentes" (definir o que ele soma).
+- [x] Revisar o "Aprovar o mês" e o "Gerar planilha": explicar o bloqueio da RN02 e garantir a geração depois de "Aceitar a soma".
+- [x] Não misturar dados fictícios com as unidades não monitoradas na importação.
+
+### Decisão do setor
+- [ ] Lista das gerências monitoradas e a grafia dos nomes.
+- [ ] O que compõe o cartão "Pendentes".
+- [ ] Confirmar a regra de aprovação (soma das unidades x total do relatório).
+- [ ] Rodar com um mês real da Karine.
+
+**Pronto quando**: a gerência é filtrada, o mês é aprovado com a soma aceita e a planilha é gerada.
+
+
+**Implementado em 03/11/2026**: filtro de gerência no importador e na conferência, recorte de unidades monitoradas (opção ligada/desligada), cartão Pendentes só com monitoradas, total ajustado ao recorte e aprovação que abre a planilha. O mês aprovado continua travado (RN05).

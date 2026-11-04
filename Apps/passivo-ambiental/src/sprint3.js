@@ -15,6 +15,11 @@ const PA_ELEMENTOS = [
   {id: "fonte", rotulo: "Fonte da imagem"},
 ];
 const paModelo = id => PA_MODELOS.find(m => m.id === id) || PA_MODELOS[0];
+const PA_TIPOS_MAPA = [["localizacao", "Localização do evento"], ["antes", "Antes do dano"], ["depois", "Depois do dano"]];
+const paTipoMapa = m => m.tipo_mapa || ({localizacao: "localizacao", delimitacao: "antes", ocupacao: "antes", app: "depois"}[m.modelo_id] || "antes");
+function paMapasObrigatorios(mapas){
+  return PA_TIPOS_MAPA.filter(([id])=> !(mapas || []).some(m=> paTipoMapa(m) === id && paMapaCompleto(m))).map(([, rotulo])=> rotulo);
+}
 
 // RN02: devolve a lista de elementos que faltam no mapa
 function paMapaFaltando(m){
@@ -26,7 +31,7 @@ function paMapaFaltando(m){
 }
 function paMapaCompleto(m){ return paMapaFaltando(m).length === 0; }
 // RN03: o laudo só exporta com cabeçalho completo e pelo menos 1 mapa anexado
-function paPodeExportar(cab, mapas){ return cab.every(([, v])=>String(v || "").trim() && !/não informad/i.test(v)) && (mapas || []).length > 0; }
+function paPodeExportar(cab, mapas){ return cab.every(([, v])=>String(v || "").trim() && !/não informad/i.test(v)) && paMapasObrigatorios(mapas).length === 0; }
 teste("RN02: mapa sem os elementos obrigatórios é recusado", ()=>{
   const vazio = {modelo_id: "delimitacao", elementos: {}, valor_extra: ""};
   return paMapaFaltando(vazio).length === PA_ELEMENTOS.length + 1;
@@ -37,7 +42,11 @@ teste("RN02: mapa com norte, escala, legenda, data, fonte e área passa", ()=>{
 });
 teste("RN03: sem cabeçalho completo ou sem mapa, a exportação não abre", ()=>{
   const cab = [["Número", "2026.000001-1"], ["Local", "não informadas"]];
-  return !paPodeExportar(cab, [{id_mapa: "M1"}]) && !paPodeExportar([["Número", "1"], ["Local", "x"]], []) && paPodeExportar([["Número", "1"], ["Local", "x"]], [{id_mapa: "M1"}]);
+  const el = {norte: "N", escala: "1", legenda: "x", data: "2026-01-01", fonte: "f"};
+  const tres = [{id_mapa: "M1", tipo_mapa: "localizacao", modelo_id: "localizacao", elementos: el, valor_extra: "1"},
+    {id_mapa: "M2", tipo_mapa: "antes", modelo_id: "delimitacao", elementos: el, valor_extra: "1"},
+    {id_mapa: "M3", tipo_mapa: "depois", modelo_id: "ocupacao", elementos: el, valor_extra: "1"}];
+  return !paPodeExportar(cab, [{id_mapa: "M1"}]) && !paPodeExportar([["Número", "1"], ["Local", "x"]], []) && paPodeExportar([["Número", "1"], ["Local", "x"]], tres);
 });
 function paElementos(m){
   const el = m.elementos || {};
@@ -63,8 +72,9 @@ TELAS["#/laudo/:id"] = async ({id})=>{
     <div class="grade"><div class="card kpi"><div class="v">${mapas.length}</div><div class="r">mapas anexados</div></div>
       <div class="card kpi"><div class="v">${completos}</div><div class="r">mapas completos</div></div></div>
     ${mapas.length ? `<ul class="check-lista" id="paListaMapas">${mapas.map(m=>`<li class="${paMapaCompleto(m) ? "feito" : "falta"}">${icone(paMapaCompleto(m) ? "check" : "alerta")}
-      <span><b>${esc(paModelo(m.modelo_id).rotulo)}</b> · ${dataCurtaBR(m.criado_em)} · ${esc(m.elementos?.legenda || "sem legenda")}</span></li>`).join("")}</ul>` : '<p class="sub">Nenhum mapa anexado.</p>'}
-    <div class="linha-botoes"><a class="botao prim" href="#/mapa/${encodeURIComponent(id)}">${icone("mapa")} Criar mapa</a>
+      <span><b>${esc(PA_TIPOS_MAPA.find(t=>t[0] === paTipoMapa(m))?.[1] || "Mapa")}</b> · ${esc(paModelo(m.modelo_id).rotulo)} · ${dataCurtaBR(m.criado_em)} · ${esc(m.elementos?.legenda || "sem legenda")}</span></li>`).join("")}</ul>` : '<p class="sub">Nenhum mapa anexado.</p>'}
+    <p class="sub">Mapas obrigatórios: ${PA_TIPOS_MAPA.map(([, r])=>r).join(", ")}. Cada um precisa dos elementos do RN02.</p>
+    <div class="linha-botoes"><a class="botao prim" href="#/mapa/${encodeURIComponent(id)}">${icone("mapa")} Abrir o editor de mapas</a>
       <a class="botao" href="#/pdf/${encodeURIComponent(id)}">${icone("download")} Ver o laudo para impressão</a></div></div>
     <div class="card" id="paCardConclusao"><h2 style="margin-top:0">Conclusão do laudo</h2>
       <form id="formPaConclusao" novalidate>${campo("paConclusao", "Descrição da área e do dano (RN03)", {tipo: "textarea", linhas: 5, valor: l.conclusao || "", ajuda: "Esse texto vai para a versão impressa do laudo."})}
@@ -90,6 +100,7 @@ TELAS["#/mapa/:id"] = async ({id})=>{
     <h1>Novo mapa temático</h1>
     <p class="sub">${esc(r.numero_processo)} · ${esc(r.tipo_infracao)} · ${esc(l.local || r.local)}</p>
     <form class="card" id="formPaMapa" novalidate><div class="campos">
+      ${campo("paTipoMapa", "Tipo do mapa", {tipo: "select", opcoes: PA_TIPOS_MAPA})}
       ${campo("paModelo", "Modelo do mapa (RN02)", {tipo: "select", opcoes: PA_MODELOS.map(m=>[m.id, m.rotulo])})}
       ${campo("paExtra", "Medida do modelo", {ajuda: "Preenchida conforme o modelo escolhido."})}</div>
     <fieldset class="card"><legend><b>Elementos obrigatórios (RN02)</b></legend>
@@ -105,7 +116,7 @@ TELAS_DEPOIS["#/mapa/:id"] = ({id})=>{
     const modelo_id = valorDe("paModelo"), mod = paModelo(modelo_id);
     const elementos = {};
     for (const el of PA_ELEMENTOS) elementos[el.id] = valorDe("paEl_" + el.id);
-    const mapa = {id_mapa: uuid(), laudo_id: l.id_laudo, modelo_id, modelo: mod.rotulo, elementos, valor_extra: valorDe("paExtra"), criado_em: agora()};
+    const mapa = {id_mapa: uuid(), laudo_id: l.id_laudo, tipo_mapa: valorDe("paTipoMapa") || "localizacao", modelo_id, modelo: mod.rotulo, elementos, valor_extra: valorDe("paExtra"), criado_em: agora()};
     const falta = paMapaFaltando(mapa);
     if (!mostrarErros("#paErrosMapa", falta.map(x=>`Falta no mapa: ${x} (RN02).`))) return;
     await db.put("mapas", mapa);
@@ -119,12 +130,13 @@ TELAS["#/pdf/:id"] = async ({id})=>{
   const {r, l, mapas} = await paLaudoDe(id);
   if (!r) return `<div class="card vazio">Requisição não encontrada. <a href="#/requisicoes">Voltar</a></div>`;
   const cab = paCabecalho(r, l), pode = paPodeExportar(cab, mapas), faltando = cab.filter(([, v])=>!String(v || "").trim() || /não informad/i.test(v)).map(([k])=>k);
+  const mapasFaltando = paMapasObrigatorios(mapas);
   if (!pode){
     return `<p class="sub nao-imprimir" style="margin-bottom:6px"><a href="#/laudo/${encodeURIComponent(id)}">← Laudo ${esc(l.id_laudo)}</a></p>
       <h1>Laudo em PDF</h1>
       <div class="card pendente"><b>A exportação está bloqueada (RN03).</b>
         <ul>${faltando.map(k=>`<li>Cabeçalho incompleto: ${esc(k)}.</li>`).join("")}
-        ${!mapas.length ? "<li>Nenhum mapa temático anexado.</li>" : ""}</ul>
+        ${mapasFaltando.length ? `<li>Mapas obrigatórios faltando: ${esc(mapasFaltando.join(", "))}.</li>` : ""}</ul>
         <p class="sub">A versão impressa sai com o cabeçalho completo e os mapas anexados.</p>
         <div class="linha-botoes"><a class="botao prim" href="#/mapa/${encodeURIComponent(id)}">Criar mapa</a></div></div>`;
   }
@@ -134,10 +146,14 @@ TELAS["#/pdf/:id"] = async ({id})=>{
       <div class="doc-cab">Governo de Mato Grosso · SESP/MT · POLITEC/MT<br>Laudo pericial ambiental</div>
       <h2 style="text-align:center">LAUDO Nº ${esc(l.id_laudo)}</h2>
       <table style="font-family:var(--ui);font-size:13px">${cab.map(([k, v])=>`<tr><th style="width:38%">${esc(k)}</th><td>${esc(v)}</td></tr>`).join("")}</table>
+      ${l.metodologia ? `<h3>Metodologia</h3><p>${esc(l.metodologia)}</p>` : ""}
+      ${l.consideracoes ? `<h3>Considerações</h3><p>${esc(l.consideracoes)}</p>` : ""}
+      ${l.valoracao || l.valor_total ? `<h3>Valoração do dano</h3><p>${esc(l.valoracao || "")} ${l.area_ha || l.valor_ha || l.valor_total ? `Área: ${esc(l.area_ha || "—")} ha · Valor de referência: R$ ${esc(l.valor_ha || "—")} · Total: R$ ${esc(l.valor_total || "—")}.` : ""}</p>` : ""}
+      ${l.quesitos_texto ? `<h3>Quesitos</h3><p>${esc(l.quesitos_texto)}</p>` : ""}
       <h3>Conclusão</h3>
       <p>${esc(l.conclusao || "Conclusão não registrada.")}</p>
       <h3>Mapas anexados (${mapas.length})</h3>
-      <ul>${mapas.map(m=>`<li>${esc(paModelo(m.modelo_id).rotulo)} — ${esc(m.valor_extra)} ${esc(paModelo(m.modelo_id).rotulo_extra.toLowerCase())}
+      <ul>${mapas.map(m=>`<li>${esc(PA_TIPOS_MAPA.find(t=>t[0] === paTipoMapa(m))?.[1] || "Mapa")} · ${esc(paModelo(m.modelo_id).rotulo)} — ${esc(m.valor_extra)} ${esc(paModelo(m.modelo_id).rotulo_extra.toLowerCase())}
         · ${esc(m.elementos.escala || "")} · ${esc(m.elementos.fonte || "")}</li>`).join("")}</ul>
       <p style="margin-top:40px">Politec/MT — Perícia Oficial e Identificação Técnica · Responsável: ${esc(l.tecnico || "—")}</p>
     </div>`;

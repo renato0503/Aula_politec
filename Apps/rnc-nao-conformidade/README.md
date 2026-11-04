@@ -101,6 +101,12 @@ etapa vencida. O perfil Setor ganhou o **setor como contexto** no menu do perfil
 que já abre “Minhas RNCs” no setor escolhido. O item “Arquivo do setor” passou a
 “Enviar ao setor”. Código em `src/identidade.js` e `src/app.css`.
 
+## Ajustes do feedback (03/11/2026)
+
+- Categorias oficiais com sigla e descrição (ADM, AMB, PES, REA, EQP, MPA); a importação grava a sigla e a ficha mostra a descrição.
+- O complemento de dados passou a contar em **5 dias úteis** (fim de semana fora); o plano continua em 30 dias.
+- Nova tela #/rnc/:id/documento: versão para impressão/PDF com identificação, ocorrência, requisitos, plano, avaliação, etapas e assinaturas. O link “Documento” aparece na RNC e em Minhas RNCs.
+
 ## Mapa do processo
 
 O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o

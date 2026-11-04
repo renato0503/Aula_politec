@@ -34,3 +34,29 @@
 :root[data-theme="dark"] .ag-rail li.atual a{color:#0b1220}
 :root[data-theme="dark"] .ag-rail li.atual .n{background:#0b1220;color:#fff;border-color:#0b1220}
 :root[data-theme="dark"] .ag-rail li.feito .n{color:#0b1220}
+
+/* início: carregar a pasta, pastas e ações dos casos */
+.ag-carregar{border-left:4px solid var(--accent)}
+.ag-casos-bloco{display:flex;flex-direction:column;gap:10px}
+.ag-pastas{display:flex;flex-wrap:wrap;gap:6px;margin:0 0 4px}
+.ag-pastas button{min-height:32px;padding:4px 10px;font-size:12px}
+.ag-caso{display:flex;flex-direction:column;gap:5px}
+.ag-caso-topo{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.ag-caso-acoes{margin-top:auto;padding-top:6px}
+.ag-caso-acoes button{min-height:32px;padding:4px 9px;font-size:12px}
+.ag-dialog{border:0;border-radius:var(--raio);padding:0;max-width:min(460px,92vw);width:100%;background:var(--painel);color:var(--ink);box-shadow:var(--sombra-alta)}
+.ag-dialog::backdrop{background:rgba(8,20,32,.45)}
+.ag-dialog-form{display:flex;flex-direction:column;gap:10px;padding:20px}
+.ag-dialog-form h2{margin:0;font-size:18px}
+.ag-dialog-corpo{display:flex;flex-direction:column;gap:8px}
+.ag-dialog-corpo label{font-size:13px;font-weight:600}
+.ag-dialog-corpo input,.ag-dialog-corpo select{width:100%}
+@media (max-width:640px){
+  .ag-caso-acoes button{flex:1 1 100%;min-height:38px}
+  .ag-pastas button{min-height:38px}
+}
+
+/* edição do texto por caso (feedback do Diego) */
+.ag-editar-texto{margin:6px 0 0}
+.ag-editar-texto summary{cursor:pointer;color:var(--accent);font-size:13px;font-weight:600}
+.ag-editar-texto textarea{width:100%;margin-top:6px;font-family:var(--ui)}

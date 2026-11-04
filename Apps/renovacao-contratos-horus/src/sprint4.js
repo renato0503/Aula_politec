@@ -45,10 +45,13 @@ TELAS["#/contrato/:id"] = async (p)=>{
     </div>
     <div class="card" id="rcFiscais"><h2 style="margin-top:0">Fiscais do contrato</h2>
       <ul class="check-lista">${fiscais.map(f=>`<li class="${f.ate ? "falta" : "feito"}">${icone(f.ate ? "alerta" : "check")}
-        <span><b>${esc(f.nome)}</b> · desde ${dataCurtaBR(f.desde)}${f.ate ? ` · até ${dataCurtaBR(f.ate)}` : " · atual"}${f.motivo ? ` · ${esc(f.motivo)}` : ""}</span></li>`).join("")
+        <span><b>${esc(f.nome)}</b> · ${esc(f.papel || "fiscal")} · desde ${dataCurtaBR(f.desde)}${f.ate ? ` · até ${dataCurtaBR(f.ate)}` : " · atual"}
+        ${f.email ? ` · ${esc(f.email)}` : ""}${f.telefone ? ` · ${esc(f.telefone)}` : ""}${f.motivo ? ` · ${esc(f.motivo)}` : ""}</span></li>`).join("")
         || '<li class="vazio">Nenhum fiscal registrado.</li>'}</ul>
       <form id="formRcFiscal" class="campos" style="align-items:end">
-        ${campo("rcFisNome", "Novo fiscal", {})}<div class="campo"><label>&nbsp;</label><button type="button" id="btnRcFiscal">Substituir o fiscal</button></div></form></div>`;
+        ${campo("rcFisNome", "Nome", {})}${campo("rcFisPapel", "Papel", {tipo: "select", opcoes: [["fiscal", "Fiscal"], ["gestor", "Gestor"]]})}
+        ${campo("rcFisEmail", "E-mail", {tipo: "email"})}${campo("rcFisTelefone", "Telefone", {})}
+        <div class="campo"><label>&nbsp;</label><button type="button" id="btnRcFiscal">Registrar contato</button></div></form></div>`;
   return html + card;
 };
 TELAS_DEPOIS["#/contrato/:id"] = async (p)=>{
@@ -84,11 +87,13 @@ TELAS_DEPOIS["#/contrato/:id"] = async (p)=>{
     toast(`Ajuste ${novo}.`); navegar();
   }));
   $("#btnRcFiscal")?.addEventListener("click", async ()=>{
-    const nome = valorDe("rcFisNome"); if (!nome) return toast("Informe o nome do fiscal.");
-    for (const f of await rcFiscais(p.id)) if (!f.ate) await db.put("fiscais", {...f, ate: hojeISO()});
-    await db.put("fiscais", {id: uuid(), contrato_id: p.id, nome, desde: hojeISO(), ate: null, motivo: "substituição"});
-    await rcAuditar(p.id, "fiscal substituído", nome);
-    toast("Fiscal substituído."); navegar();
+    const nome = valorDe("rcFisNome"); if (!nome) return toast("Informe o nome do contato.");
+    const papel = valorDe("rcFisPapel") || "fiscal";
+    for (const f of await rcFiscais(p.id)) if (!f.ate && (f.papel || "fiscal") === papel) await db.put("fiscais", {...f, ate: hojeISO()});
+    await db.put("fiscais", {id: uuid(), contrato_id: p.id, nome, papel, email: valorDe("rcFisEmail"), telefone: valorDe("rcFisTelefone"),
+      desde: hojeISO(), ate: null, motivo: "substituição"});
+    await rcAuditar(p.id, "fiscal substituído", `${nome} · ${papel}`);
+    toast("Contato registrado."); navegar();
   });
 };
 
