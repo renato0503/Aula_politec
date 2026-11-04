@@ -19,7 +19,7 @@ TELAS["#/rnc/:id/documento"] = async ({id})=>{
         <div class="dir">Registro de Não Conformidade<br><b>${esc(r.numero)}</b></div></header>
       <h1>REGISTRO DE NÃO CONFORMIDADE</h1>
       <table><tr><th>Data de abertura</th><td>${dataCurtaBR(r.aberta_em)}</td><th>Situação</th><td>${esc(r.situacao)}</td></tr>
-        <tr><th>Setor relator</th><td>${esc(r.setor_relator)}</td><th>Setor notificado</th><td>${esc(setor)}</td></tr>
+        <tr><th>Setor relator</th><td>${esc((await db.get("setores", r.setor_relator))?.nome || r.setor_relator)}</td><th>Setor notificado</th><td>${esc(setor)}</td></tr>
         <tr><th>Categoria</th><td colspan="3">${cat ? `<b>${esc(cat.sigla)}</b> · ${esc(cat.nome)}. ${esc(cat.descricao)}` : esc(r.categoria)}</td></tr>
         <tr><th>Criticidade</th><td colspan="3">${esc(r.gravidade || "não informada")}</td></tr></table>
       <h2>1. Ocorrência</h2>

@@ -1459,6 +1459,71 @@ function categoriaOficial(txt){
 teste("Categorias oficiais da RNC", ()=> categoriaOficial("Administração")?.sigla === "ADM" && categoriaOficial("Pessoas")?.sigla === "PES"
   && categoriaOficial("Métodos de Processamento e Análise")?.sigla === "MPA" && categoriaOficial("Outra") === null);
 teste("RN03: complemento em 5 dias úteis pula o fim de semana", ()=> somarDiasUteisRnc("2026-10-02", 5) === "2026-10-09" && somarDiasUteisRnc("2026-10-05", 5) === "2026-10-12");
+/* ---------- setores da planilha oficial ----------
+   A planilha traz o setor por extenso e escrito de vários jeitos ("GML de Rondonópolis",
+   "GERÊNCIA DE MEDICINA LEGAL DE RONDONÓPOLIS"...), às vezes com nome de pessoa junto.
+   O catálogo junta as grafias numa sigla só; a lista é premissa (Apps/PREMISSAS.md, seção 18). */
+const SETORES_POLITEC = [
+  {sigla: "CPBM", nome: "Coordenadoria de Perícias em Biologia Molecular", diretoria: "DLF", re: /biologia molecular|\bcpbm\b/},
+  {sigla: "GPTF", nome: "Gerência de Perícias em Toxicologia Forense", diretoria: "DLF", re: /toxicologia/},
+  {sigla: "GPQF", nome: "Gerência de Perícias em Química Forense", diretoria: "DLF", re: /quimica forense/},
+  {sigla: "GPEN", nome: "Gerência de Perícias em Entorpecentes", diretoria: "DLF", re: /entorpecentes/},
+  {sigla: "GNEC", nome: "Gerência de Necropsia de Cuiabá (DMML)", diretoria: "DMML", re: /necrop/},
+  {sigla: "GPVV", nome: "Gerência de Perícias em Vítimas de Violência Sexual e de Gênero", diretoria: "DMML", re: /violencia sexual|vitimas de violencia/},
+  {sigla: "GPVI", nome: "Gerência de Perícia em Vivos (DMML)", diretoria: "DMML", re: /pericias? em vivos/},
+  {sigla: "GMLROO", nome: "Gerência de Medicina Legal de Rondonópolis", diretoria: "Regionais", re: /(medicina legal|\bgml\b).*rondonopolis|rondonopolis.*(medicina legal|\bgml\b)/},
+  {sigla: "GMLAGB", nome: "Medicina Legal da POLITEC de Água Boa", diretoria: "Regionais", re: /agua boa/},
+  {sigla: "GRCONF", nome: "Gerência Regional da POLITEC de Confresa", diretoria: "Regionais", re: /confresa/},
+  {sigla: "GRNMT", nome: "Gerência Regional de Nova Mutum", diretoria: "Regionais", re: /nova mutum/}
+];
+const SETOR_A_DEFINIR = {sigla: "ADEF", nome: "Setor a definir na validação", diretoria: "CQUAL"};
+const RE_UNIDADE = /\b(gerencia|coordenadoria|coordenacao|diretoria|laboratorio|nucleo|setor|secao|divisao|superintendencia|medicina legal|gml|iml|dmml|regional|almoxarifado|custodia|recepcao)\b/;
+// separa as partes do texto e devolve só as que são unidade; o resto (nome de pessoa, cargo) fica de fora (RN07)
+function partesDeUnidade(txt){
+  return String(txt || "").split(/\n|;|\s+-\s+|,/).map(x=>x.trim()).filter(x=>RE_UNIDADE.test(normalizar(x)));
+}
+// "GERÊNCIA DE BALÍSTICA" -> "Gerência de Balística" (mantém os acentos)
+const titulo = s => String(s || "").trim().replace(/\s+/g, " ").toLocaleLowerCase("pt-BR")
+  .replace(/(^|[\s(])(\p{L})/gu, (m, a, b)=>a + b.toLocaleUpperCase("pt-BR")).replace(/ (De|Da|Do|Das|Dos|E|Em)(?= )/g, x=>x.toLowerCase());
+function siglaGerada(nome, ocupadas){
+  const base = normalizar(nome).split(/[^a-z]+/).filter(w=>w.length > 2 && !["das", "dos", "politec"].includes(w)).map(w=>w[0]).join("").toUpperCase().slice(0, 6) || "SET";
+  let s = base, n = 2; while (ocupadas.has(s)) s = base + n++;
+  return s;
+}
+// texto da planilha -> {setor (do cadastro, do catálogo, novo ou a definir), envolvidos sem nome de pessoa}
+function resolverSetor(txt, setores){
+  const n = normalizar(txt);
+  if (!n) return {setor: null};
+  const cad = setores.find(s=>normalizar(s.sigla) === n || normalizar(s.nome) === n);
+  if (cad) return {setor: cad};
+  const cat = SETORES_POLITEC.find(s=>s.re.test(n));
+  if (cat) return {setor: {sigla: cat.sigla, nome: cat.nome, diretoria: cat.diretoria}, novo: !setores.some(s=>s.sigla === cat.sigla)};
+  const partes = partesDeUnidade(txt);
+  if (!partes.length) return {setor: SETOR_A_DEFINIR, novo: !setores.some(s=>s.sigla === SETOR_A_DEFINIR.sigla), semUnidade: true};
+  const nome = titulo(partes[0]);
+  const igual = setores.find(s=>normalizar(s.nome) === normalizar(nome));
+  if (igual) return {setor: igual};
+  return {setor: {sigla: siglaGerada(nome, new Set(setores.map(s=>s.sigla))), nome, diretoria: ""}, novo: true};
+}
+// "Pessoas ou setores envolvidos": guarda só as unidades; nome de pessoa não entra no app (RN07)
+function envolvidosSemNome(txt){
+  const t = String(txt || "").trim(); if (!t) return "";
+  const cat = SETORES_POLITEC.filter(s=>s.re.test(normalizar(t))).map(s=>s.nome);
+  const unidades = cat.length ? cat : partesDeUnidade(t).map(titulo);
+  return unidades.length ? unidades.join("; ") : "(texto omitido: pode conter nome de pessoa, RN07)";
+}
+teste("Setor: grafias diferentes viram a mesma sigla", ()=> ["GML de Rondonópolis ", "GERÊNCIA DE MEDICINA LEGAL DE RONDONÓPOLIS", "Gerência de medicina legal de Rondonópolis "].every(t=>resolverSetor(t, []).setor.sigla === "GMLROO")
+  && resolverSetor("Gerência de necropsia (DMML - Cuiabá) ", []).setor.sigla === "GNEC" && resolverSetor("GERÊNCIA DE NECROPSIA DE CUIABA", []).setor.sigla === "GNEC");
+teste("RN07: nome de pessoa sai do setor e dos envolvidos", ()=>{
+  const t = "MARIA FICTÍCIA DE SOUZA - PERITA OFICIAL MÉDICA LEGISTA\nGERÊNCIA DE NECRÓPSIA DE CUIABÁ";
+  return resolverSetor(t, []).setor.sigla === "GNEC" && !/maria/i.test(envolvidosSemNome(t)) && !/neimar/i.test(envolvidosSemNome("Gerência Regional de Nova Mutum-Neimar de Souza"))
+    && resolverSetor("Fulana e ciclano ", []).setor.sigla === "ADEF" && !/fulana/i.test(envolvidosSemNome("Fulana e ciclano"));
+});
+teste("Setor fora do catálogo vira setor novo, sem o nome da pessoa", ()=>{
+  const r = resolverSetor("João da Silva - Gerência de Balística Forense", []);
+  return r.novo && r.setor.nome === "Gerência de Balística Forense" && r.setor.sigla === "GBF";
+});
+
 let planilhaRnc = null;  // {nome, linhas, cabecalho, mapa}
 
 function colunasDescartadas(cab){ return cab.map((c, i)=>({c, i})).filter(x=>RE_PESSOAL.test(normalizar(x.c)) && !/setor/.test(normalizar(x.c))); }
@@ -1603,8 +1668,16 @@ async function importarRnc(){
   await db.meta("diretoria", diretoria);
   const nomes = {}; Object.entries(P.mapa).forEach(([k, i])=>{ if (i >= 0) nomes[k] = P.cabecalho[i]; }); await db.meta("modelo:forms", nomes);
   const setores = await db.list("setores");
-  const acharSetor = t => setores.find(s=>normalizar(s.sigla) === normalizar(t) || normalizar(s.nome) === normalizar(t));
+  // setor da planilha -> sigla do cadastro; o que não está cadastrado entra no cadastro (catálogo ou setor novo)
+  const novosSetores = new Set(), semUnidade = [];
+  const siglaDe = async (txt, linha, papel)=>{
+    const r = resolverSetor(txt, setores);
+    if (r.novo){ await db.put("setores", r.setor); setores.push(r.setor); novosSetores.add(`${r.setor.sigla} · ${r.setor.nome}`); }
+    if (r.semUnidade) semUnidade.push({linha, motivo: `setor ${papel} sem unidade identificável: ficou como "${SETOR_A_DEFINIR.nome}"`});
+    return r.setor.sigla;
+  };
   const existentes = await db.list("rncs"), chaves = new Set(existentes.map(r=>r.chave_importacao).filter(Boolean)), numeros = new Set(existentes.map(r=>r.numero));
+  const porNumero = new Map(existentes.map(r=>[r.numero, r])), porChave = new Map(existentes.filter(r=>r.chave_importacao).map(r=>[r.chave_importacao, r]));
   const rel = {novas: 0, existentes: 0, recusadas: [], alertas: []};
   const col = (l, k)=> P.mapa[k] >= 0 ? String(l[P.mapa[k]] ?? "").trim() : "";
   for (const [n, l] of P.linhas.slice(1).entries()){
@@ -1615,33 +1688,71 @@ async function importarRnc(){
     if (!relT || !notT) { rel.recusadas.push({linha, motivo: "setor relator ou notificado vazio"}); continue; }
     if (!col(l, "descricao")) { rel.recusadas.push({linha, motivo: "descrição vazia"}); continue; }
     const chave = fnvRnc([aberta, normalizar(relT), normalizar(col(l, "descricao"))].join("|"));
-    let numero = col(l, "numero").toUpperCase();
-    if (numero && !RE_NUMERO.test(numero)) { rel.alertas.push({linha, motivo: `número "${numero}" fora do padrão DIRETORIA/ANO-SEQ; gerado outro`}); numero = ""; }
-    if ((numero && numeros.has(numero)) || chaves.has(chave)) { rel.existentes++; continue; }
+    // o número da planilha (ID ocorrência) é a fonte de verdade: só é gerado quando a célula está vazia
+    let numero = numeroDaPlanilha(col(l, "numero"));
+    if (numero && !RE_NUMERO.test(numero)) rel.alertas.push({linha, motivo: `número "${numero}" fora do padrão DIRETORIA/ANO-SEQ; mantido como está na planilha`});
+    const siglaRel = await siglaDe(relT, linha, "relator"), siglaNot = await siglaDe(notT, linha, "notificado");
+    const envolvidos = envolvidosSemNome(col(l, "envolvidos"));
+    const mesma = porChave.get(chave);
+    if (mesma){
+      // já importada: atualiza só os setores e os envolvidos (as etapas da CQUAL ficam como estão)
+      const atual = await db.get("rncs", mesma.numero);
+      if (atual && (atual.setor_relator !== siglaRel || atual.setor_notificado !== siglaNot || atual.envolvidos !== envolvidos))
+        await db.put("rncs", {...atual, setor_relator: siglaRel, setor_notificado: siglaNot, envolvidos});
+      // a linha já entrou antes com outro número (gerado pelo app): passa a usar o da planilha
+      if (numero && mesma.numero !== numero && !porNumero.get(numero)?.chave_importacao){
+        if (porNumero.has(numero)) await removerRnc(numero);
+        await renumerarRnc(mesma.numero, numero);
+        rel.alertas.push({linha, motivo: `RNC ${mesma.numero} renumerada para ${numero}, como está na planilha`});
+        numeros.delete(mesma.numero); numeros.add(numero); porNumero.delete(mesma.numero); porNumero.set(numero, {...mesma, numero});
+      }
+      rel.existentes++; continue;
+    }
+    if (numero && porNumero.has(numero)){
+      if (porNumero.get(numero).chave_importacao) { rel.existentes++; continue; }
+      // o número está ocupado por um registro fictício (não veio de planilha): a planilha real ocupa o lugar
+      await removerRnc(numero);
+      rel.alertas.push({linha, motivo: `registro fictício ${numero} substituído pela linha da planilha`});
+    }
     if (!numero){
       const ano = aberta.slice(0, 4); let seq = 1;
       while (numeros.has(`${diretoria}/${ano}-${String(seq).padStart(3, "0")}`)) seq++;
       numero = `${diretoria}/${ano}-${String(seq).padStart(3, "0")}`;
     }
-    const sRel = acharSetor(relT), sNot = acharSetor(notT);
-    if (!sRel) rel.alertas.push({linha, motivo: `setor relator "${relT}" não cadastrado`});
-    if (!sNot) rel.alertas.push({linha, motivo: `setor notificado "${notT}" não cadastrado`});
     const extras = Object.fromEntries(EXTRAS_RNC.map(k=>[k, col(l, k)]));
+    extras.envolvidos = envolvidos;
     if (extras.data_ocorrido) extras.data_ocorrido = dataDeTexto(extras.data_ocorrido) || dataPlanilha(extras.data_ocorrido) || extras.data_ocorrido;
-    await db.put("rncs", {numero, aberta_em: aberta, setor_relator: sRel?.sigla || relT, setor_notificado: sNot?.sigla || notT,
+    await db.put("rncs", {numero, aberta_em: aberta, setor_relator: siglaRel, setor_notificado: siglaNot,
       categoria: col(l, "categoria"), categoria_sigla: categoriaOficial(col(l, "categoria"))?.sigla || "",
       gravidade: col(l, "gravidade") || "não informada", descricao: col(l, "descricao"),
       ...extras, planilha: {nome: P.nome, url: P.url || ""},
       etapa: "validação", situacao: "aberta", chave_importacao: chave, registrado_por: estado.perfil || "importação", registrado_em: agora(), origem: {arquivo: P.nome, linha, url: P.url || ""}});
     await db.put("etapas", {id: `${numero}#0`, rnc: numero, etapa: "validação", inicio: aberta.slice(0, 10), fim: null, prazo: somarDiasRnc(aberta, 5)});
     numeros.add(numero); chaves.add(chave); rel.novas++;
+    porNumero.set(numero, {numero, chave_importacao: chave}); porChave.set(chave, {numero, chave_importacao: chave});
   }
+  rel.alertas.push(...semUnidade);
+  if (novosSetores.size) rel.alertas.push({linha: "—", motivo: `setores cadastrados a partir da planilha: ${[...novosSetores].join("; ")}`});
   await registrar("planilha importada", {detalhe: `${P.nome}: ${rel.novas} novas, ${rel.existentes} já existentes, ${rel.recusadas.length} recusadas`});
   const lista = [...rel.recusadas.map(x=>({...x, t: "recusada"})), ...rel.alertas.map(x=>({...x, t: "alerta"}))];
   $("#relRnc").innerHTML = `<h2>Resultado</h2><p><span class="selo ok" id="qtdNovas">${rel.novas} novas</span>
     <span class="selo info" id="qtdExistentes">${rel.existentes} já existentes</span> <span class="selo erro">${rel.recusadas.length} recusadas</span>
     <span class="selo alerta">${rel.alertas.length} alertas</span></p>
     ${lista.length ? `<div class="tabela-wrap"><table><tr><th>Linha</th><th>Tipo</th><th>Motivo</th></tr>${lista.map(x=>`<tr><td class="num">${x.linha}</td><td>${x.t}</td><td>${esc(x.motivo)}</td></tr>`).join("")}</table></div>` : ""}`;
+}
+// "dlf / 2026-008 " -> "DLF/2026-008": tira espaços e põe em maiúsculas, sem trocar o número
+const numeroDaPlanilha = txt => String(txt ?? "").toUpperCase().replace(/\s+/g, "");
+teste("Número da planilha é mantido (só tira espaços)", ()=> numeroDaPlanilha(" dlf / 2026-008 ") === "DLF/2026-008" && numeroDaPlanilha("CPBM/2026-10") === "CPBM/2026-10" && numeroDaPlanilha("") === "");
+async function removerRnc(numero){
+  await db.del("rncs", numero);
+  for (const loja of ["etapas", "planos", "avaliacoes"]) for (const x of (await db.list(loja)).filter(x=>x.rnc === numero)) await db.del(loja, x.id);
+}
+async function renumerarRnc(antigo, novo){
+  const r = await db.get("rncs", antigo); if (!r) return;
+  await db.put("rncs", {...r, numero: novo, numero_anterior: antigo}); await db.del("rncs", antigo);
+  for (const loja of ["etapas", "planos", "avaliacoes"]) for (const x of (await db.list(loja)).filter(x=>x.rnc === antigo)){
+    await db.del(loja, x.id); await db.put(loja, {...x, id: String(x.id).replace(antigo, novo), rnc: novo});
+  }
 }
 function fnvRnc(txt){ let h = 0x811c9dc5; for (const b of new TextEncoder().encode(txt)){ h ^= b; h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(16); }
 
@@ -1724,8 +1835,10 @@ TELAS["#/rnc/:id"] = async ({id})=>{
   const es = await etapasRnc(id), hoje = hojeISO(), ativa = !["anulada", "encerrada", "encaminhada à corregedoria"].includes(r.situacao);
   const plano = await db.get("planos", id + "-plano"), aval = await db.get("avaliacoes", id + "-aval");
   const cat = categoriaOficial(r.categoria);
+  const nomeSet = Object.fromEntries((await db.list("setores")).map(s=>[s.sigla, s.nome]));
+  const setorTxt = sg => nomeSet[sg] && nomeSet[sg] !== sg ? `<b title="${esc(nomeSet[sg])}">${esc(sg)}</b> (${esc(nomeSet[sg])})` : `<b>${esc(sg)}</b>`;
   return `<h1>RNC ${esc(r.numero)}</h1>
-    <p class="sub">Aberta em ${dataCurtaBR(r.aberta_em)} · relator <b>${esc(r.setor_relator)}</b> · notificado <b>${esc(r.setor_notificado)}</b> · ${cat ? `<b>${esc(cat.sigla)}</b> ${esc(cat.nome)}` : esc(r.categoria)} ·
+    <p class="sub">Aberta em ${dataCurtaBR(r.aberta_em)} · relator ${setorTxt(r.setor_relator)} · notificado ${setorTxt(r.setor_notificado)} · ${cat ? `<b>${esc(cat.sigla)}</b> ${esc(cat.nome)}` : esc(r.categoria)} ·
       gravidade ${esc(r.gravidade)} · registrada por <b>${esc(r.registrado_por || "—")}</b> · <span class="selo ${ativa ? "info" : r.situacao === "encerrada" ? "ok" : "erro"}" id="situacaoRnc">${esc(r.situacao)}</span>
       <a class="botao" href="#/rnc/${encodeURIComponent(r.numero)}/documento" target="_blank" rel="noopener">Documento para impressão</a></p>
     <div class="card"><h2 style="margin-top:0">Ocorrência</h2><p>${esc(r.descricao)}</p>
@@ -1979,7 +2092,7 @@ TELAS["#/rnc/:id/documento"] = async ({id})=>{
         <div class="dir">Registro de Não Conformidade<br><b>${esc(r.numero)}</b></div></header>
       <h1>REGISTRO DE NÃO CONFORMIDADE</h1>
       <table><tr><th>Data de abertura</th><td>${dataCurtaBR(r.aberta_em)}</td><th>Situação</th><td>${esc(r.situacao)}</td></tr>
-        <tr><th>Setor relator</th><td>${esc(r.setor_relator)}</td><th>Setor notificado</th><td>${esc(setor)}</td></tr>
+        <tr><th>Setor relator</th><td>${esc((await db.get("setores", r.setor_relator))?.nome || r.setor_relator)}</td><th>Setor notificado</th><td>${esc(setor)}</td></tr>
         <tr><th>Categoria</th><td colspan="3">${cat ? `<b>${esc(cat.sigla)}</b> · ${esc(cat.nome)}. ${esc(cat.descricao)}` : esc(r.categoria)}</td></tr>
         <tr><th>Criticidade</th><td colspan="3">${esc(r.gravidade || "não informada")}</td></tr></table>
       <h2>1. Ocorrência</h2>

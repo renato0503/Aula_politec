@@ -77,8 +77,10 @@ TELAS["#/rnc/:id"] = async ({id})=>{
   const es = await etapasRnc(id), hoje = hojeISO(), ativa = !["anulada", "encerrada", "encaminhada à corregedoria"].includes(r.situacao);
   const plano = await db.get("planos", id + "-plano"), aval = await db.get("avaliacoes", id + "-aval");
   const cat = categoriaOficial(r.categoria);
+  const nomeSet = Object.fromEntries((await db.list("setores")).map(s=>[s.sigla, s.nome]));
+  const setorTxt = sg => nomeSet[sg] && nomeSet[sg] !== sg ? `<b title="${esc(nomeSet[sg])}">${esc(sg)}</b> (${esc(nomeSet[sg])})` : `<b>${esc(sg)}</b>`;
   return `<h1>RNC ${esc(r.numero)}</h1>
-    <p class="sub">Aberta em ${dataCurtaBR(r.aberta_em)} · relator <b>${esc(r.setor_relator)}</b> · notificado <b>${esc(r.setor_notificado)}</b> · ${cat ? `<b>${esc(cat.sigla)}</b> ${esc(cat.nome)}` : esc(r.categoria)} ·
+    <p class="sub">Aberta em ${dataCurtaBR(r.aberta_em)} · relator ${setorTxt(r.setor_relator)} · notificado ${setorTxt(r.setor_notificado)} · ${cat ? `<b>${esc(cat.sigla)}</b> ${esc(cat.nome)}` : esc(r.categoria)} ·
       gravidade ${esc(r.gravidade)} · registrada por <b>${esc(r.registrado_por || "—")}</b> · <span class="selo ${ativa ? "info" : r.situacao === "encerrada" ? "ok" : "erro"}" id="situacaoRnc">${esc(r.situacao)}</span>
       <a class="botao" href="#/rnc/${encodeURIComponent(r.numero)}/documento" target="_blank" rel="noopener">Documento para impressão</a></p>
     <div class="card"><h2 style="margin-top:0">Ocorrência</h2><p>${esc(r.descricao)}</p>

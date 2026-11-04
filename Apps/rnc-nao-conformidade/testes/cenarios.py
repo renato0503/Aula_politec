@@ -262,6 +262,58 @@ def s10_relacao_e_responsavel(pg, url, ok):
     ok("a avaliação registra quem respondeu", pg.evaluate("async ()=> (await db.list('avaliacoes'))[0].responsavel") == "Beltrano (setor)")
 
 
+@cenario
+def s11_numero_da_planilha(pg, url, ok):
+    """Feedback da Sabrina (04/11): o app criava um código em vez de usar o ID ocorrência da planilha."""
+    perfil(pg, url, "cqual")
+    semear(pg, url)
+    arq = PASTA / "Registro de Não Conformidade Oficial 1.xlsx"
+    ir(pg, url, "#/importar", 700)
+    pg.set_input_files("#arqRnc", str(arq)); pg.wait_for_timeout(2200)
+    pg.click("#btnImportarRnc"); pg.wait_for_timeout(3000)
+    ok("com os fictícios carregados, as 19 linhas da planilha entram como novas", pg.inner_text("#qtdNovas") == "19 novas")
+    ok("DLF/2026-008 traz a descrição real, e não a fictícia", pg.evaluate("""async ()=>{
+        const r = await db.get('rncs', 'DLF/2026-008'); return !!r.chave_importacao && !/fictícia/.test(r.descricao) && r.data_ocorrido === '2026-05-31'; }"""))
+    ok("as etapas do fictício substituído saem junto", pg.evaluate("async ()=> (await db.list('etapas')).filter(e=>e.rnc==='DLF/2026-008').length") == 1)
+    # linha importada antes com código gerado pelo app; a planilha corrigida traz o ID certo
+    pg.evaluate("async ()=>{ for (const n of ['rncs','etapas','planos','avaliacoes']) await db.limpar(n); }")
+    cab = "Carimbo de data/hora,Setor relator,Setor notificado,Categoria,Descrição da ocorrência,Gravidade,ID ocorrência"
+    errado = TMP / "rnc-id-errado.csv"; certo = TMP / "rnc-id-certo.csv"
+    errado.write_text(cab + "\n05/10/2026 09:00:00,CQUAL,LGF,Administração,Teste de número,leve,\n", encoding="utf-8")
+    certo.write_text(cab + "\n05/10/2026 09:00:00,CQUAL,LGF,Administração,Teste de número,leve, dlf / 2026-050 \n", encoding="utf-8")
+    for a in (errado, certo):
+        ir(pg, url, "#/importar", 400); pg.set_input_files("#arqRnc", str(a)); pg.wait_for_timeout(500)
+        pg.click("#btnImportarRnc"); pg.wait_for_timeout(1200)
+    ok("a RNC com código gerado passa a usar o ID da planilha", pg.evaluate("""async ()=>{
+        const l = await db.list('rncs'); return l.length === 1 && l[0].numero === 'DLF/2026-050'
+          && (await db.list('etapas')).every(e=>e.rnc === 'DLF/2026-050'); }"""))
+
+
+@cenario
+def s12_setores_da_planilha(pg, url, ok):
+    """Feedback da Sabrina (04/11): setores por extenso, grafias diferentes e nome de pessoa no setor notificado."""
+    perfil(pg, url, "cqual")
+    arq = PASTA / "Registro de Não Conformidade Oficial 1.xlsx"
+    ir(pg, url, "#/importar", 700)
+    pg.set_input_files("#arqRnc", str(arq)); pg.wait_for_timeout(2200)
+    pg.click("#btnImportarRnc"); pg.wait_for_timeout(3000)
+    conta = pg.evaluate("""async ()=>{ const c = {}; (await db.list('rncs')).forEach(r=>c[r.setor_notificado]=(c[r.setor_notificado]||0)+1); return c; }""")
+    ok("as 3 grafias da GML de Rondonópolis viram GMLROO (4 RNCs)", conta.get("GMLROO") == 4)
+    ok("as 3 grafias da necropsia de Cuiabá viram GNEC", conta.get("GNEC") == 3)
+    ok("o relator por extenso vira CPBM", pg.evaluate("async ()=> (await db.get('rncs','DLF/2026-008')).setor_relator") == "CPBM")
+    ok("texto sem unidade (aaaa, Fulana e ciclano) fica como setor a definir", conta.get("ADEF", 0) >= 6)
+    tudo = pg.evaluate("async ()=> JSON.stringify({r: await db.list('rncs'), s: await db.list('setores')})")
+    ok("nenhum nome de pessoa da coluna de envolvidos entra no app (RN07)", not any(x in tudo for x in ("RENATA", "Neimar", "Fulana")))
+    ok("os setores da planilha entram no cadastro com o nome", pg.evaluate("async ()=> (await db.get('setores','GMLROO'))?.nome") == "Gerência de Medicina Legal de Rondonópolis")
+    ir(pg, url, "#/rnc/DLF%2F2026-008", 900)
+    ok("a ficha mostra a sigla e o nome do setor", "CPBM (Coordenadoria de Perícias em Biologia Molecular)" in pg.inner_text("#conteudo"))
+    ir(pg, url, "#/importar", 700)
+    pg.set_input_files("#arqRnc", str(arq)); pg.wait_for_timeout(2200)
+    pg.click("#btnImportarRnc"); pg.wait_for_timeout(3000)
+    ok("reimportar não duplica nem cria setor de novo", pg.inner_text("#qtdNovas") == "0 novas"
+       and "setores cadastrados" not in pg.inner_text("#relRnc"))
+
+
 def main():
     erro = False
     with sync_playwright() as p:
