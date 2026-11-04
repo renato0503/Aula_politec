@@ -23,6 +23,7 @@ PASTA = pathlib.Path(__file__).resolve().parent
 NUCLEO = PASTA / "nucleo"
 
 CSP = ('<meta http-equiv="Content-Security-Policy" content="default-src \'self\' \'unsafe-inline\' data: blob:; '
+       'script-src \'self\' \'unsafe-inline\' \'wasm-unsafe-eval\' data: blob:; '
        'connect-src \'none\'; img-src \'self\' data: blob:; media-src \'self\' blob: mediastream:; worker-src blob:">')
 
 PADROES = {
@@ -37,6 +38,7 @@ VISUAL_PADRAO = {"acento": "#12487f", "icone": "escudo", "layout": "topo", "padr
 IDENTIDADE = {"cabecalho": "degrade", "fonte": "sistema", "densidade": "normal", "cantos": "suaves", "superficie": "cartoes", "kpi": "barra"}
 
 RE_LIB = re.compile(r"<!-- LIB:([\w.\-]+) -->.*?<!-- /LIB:\1 -->", re.S)
+RE_BLOB = re.compile(r"<!-- BLOB:([\w.\-]+) -->.*?<!-- /BLOB:\1 -->", re.S)
 RE_DADOS = re.compile(r"<!-- DADOS:([\w\-]+):([^ ]+) -->.*?<!-- /DADOS:\1 -->", re.S)
 
 
@@ -69,6 +71,19 @@ def embutir(html):
         relatorio.append(f"LIB   {nome:28s} {len(codigo) / 1024:8.0f} KB")
         return f"<!-- LIB:{nome} -->\n<script>{codigo}</script>\n<!-- /LIB:{nome} -->"
 
+    def blob(m):
+        # bloco que não executa na página: o worker do OCR monta um Blob com ele.
+        # Binário (.gz, .wasm) vai em base64; texto vai como está.
+        import base64
+        nome = m.group(1)
+        arq = PASTA / "vendor" / nome
+        if arq.suffix in (".gz", ".wasm"):
+            corpo, tipo = base64.b64encode(arq.read_bytes()).decode("ascii"), "application/octet-stream;base64"
+        else:
+            corpo, tipo = arq.read_text(encoding="utf-8").replace("</script", "<\\/script"), "text/plain"
+        relatorio.append(f"BLOB  {nome:28s} {len(corpo) / 1024:8.0f} KB")
+        return f'<!-- BLOB:{nome} -->\n<script type="{tipo}" id="blob-{nome}">{corpo}</script>\n<!-- /BLOB:{nome} -->'
+
     def dados(m):
         ident, caminho = m.group(1), m.group(2)
         obj = json.loads((PASTA / caminho).read_text(encoding="utf-8"))
@@ -76,7 +91,7 @@ def embutir(html):
         relatorio.append(f"DADOS {ident:28s} {len(texto.encode('utf-8')) / 1024:8.0f} KB  ({caminho})")
         return f'<!-- DADOS:{ident}:{caminho} -->\n<script type="application/json" id="{ident}">{texto}</script>\n<!-- /DADOS:{ident} -->'
 
-    return RE_DADOS.sub(dados, RE_LIB.sub(lib, html)), relatorio
+    return RE_DADOS.sub(dados, RE_BLOB.sub(blob, RE_LIB.sub(lib, html))), relatorio
 
 
 def construir():
@@ -93,6 +108,7 @@ def construir():
         if k in cfg:
             app[k] = cfg[k]
     libs = [f"<!-- LIB:{n} --><!-- /LIB:{n} -->" for n in cfg.get("libs", [])]
+    libs += [f"<!-- BLOB:{n} --><!-- /BLOB:{n} -->" for n in cfg.get("blobs", [])]
     libs += [f"<!-- DADOS:{i}:{c} --><!-- /DADOS:{i} -->" for i, c in cfg.get("dados", [])]
     data_visual = " ".join(f'data-{k}="{visual.get(k) or p}"' for k, p in IDENTIDADE.items())
     trocas = {

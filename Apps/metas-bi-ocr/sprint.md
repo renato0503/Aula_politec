@@ -73,7 +73,7 @@ fica só com o PDF de texto e o OCR passa a ser opcional.
 ## Sprint 5 · PDF com texto e OCR
 
 - [x] pdf.js: extrair o texto e montar a tabela por posição (linhas e colunas).
-- [ ] PDF sem texto: rodar OCR. **Decisão de 30/10/2026**: o Tesseract.js não está embutido porque passa de 10 MB e o app é offline; a tela avisa e aceita o CSV/Excel ou a digitação na conferência. Ver `modelos/roteiro-aceite.md`.
+- [x] PDF sem texto: rodar OCR (feito em 04/11/2026, Sprint 9). ~~**Decisão de 30/10/2026**: o Tesseract.js não está embutido porque passa de 10 MB e o app é offline; a tela avisa e aceita o CSV/Excel ou a digitação na conferência. Ver `modelos/roteiro-aceite.md`.~~
 - [x] Cada número do OCR traz a confiança; abaixo de 90%, vira alerta na conferência.
 - [ ] Se o arquivo passar de 15 MB, mover o OCR para `ocr.html`. (Só faz sentido quando o OCR existir.)
 
@@ -115,3 +115,22 @@ fica só com o PDF de texto e o OCR passa a ser opcional.
 
 
 **Implementado em 03/11/2026**: filtro de gerência no importador e na conferência, recorte de unidades monitoradas (opção ligada/desligada), cartão Pendentes só com monitoradas, total ajustado ao recorte e aprovação que abre a planilha. O mês aprovado continua travado (RN05).
+
+
+## Sprint 9 · Feedback Q0C5iOOEWMGnqDUDw541 (Karine, 04/11/2026)
+
+> Nota 3. Prioridades: ler o PDF em imagem e filtrar pelo organograma. Erros: "lido" errado, soma/total errados e "Aprovar o mês" sem resposta.
+
+- [x] **OCR embutido** (Tesseract.js 5.1.1, português): o PDF em imagem é desenhado pelo pdf.js e lido offline. O `index.html` passou a 8,2 MB (limite do Sprint 5: 15 MB).
+- [x] PDF com texto lido pelo **pdf.js** (posição de cada palavra), no lugar do leitor próprio.
+- [x] Tabela montada pela **geometria das colunas**: nome à esquerda, cada número na coluna mais próxima; título e cabeçalho não viram unidade; faixas escuras do cabeçalho do Power BI são clareadas antes do OCR.
+- [x] **Prévia da leitura** antes de gravar: nome e números editáveis, escolha da coluna de laudos pendentes, desmarcar linhas, selo de confiança abaixo de 90%.
+- [x] Mês de referência lido do título ("outubro de 2026", "10/2026", "2026-10").
+- [x] **Organograma do Decreto nº 2.180/2026**: 5 diretorias, coordenadorias e 67 gerências/núcleos (`src/organograma.js`); botão para cadastrar as gerências; filtro em cascata Diretoria > Coordenadoria > Gerência na importação e na conferência; a lotação fica gravada em cada linha.
+- [x] **Aprovar o mês** nunca fica mudo: o botão responde sempre; a lista "Para aprovar, resolva" traz o botão de cada caso (aceitar a soma, confirmar as variações, cadastrar ou excluir as linhas fora do cadastro) e avisa quando há pendência fora do filtro.
+- [x] Lista de meses: total aceito no lugar do total original, coluna Recorte e selo "soma ≠ total".
+- [x] Cenário `s9_ocr_organograma_e_aprovacao` (11/11) com `exemplos/powerbi1-2026-10-imagem.pdf`.
+
+### Falta confirmar com o setor
+- [ ] Rodar com o PDF real de um mês da Karine (o OCR foi validado com um PDF em imagem montado no layout do Power BI).
+- [ ] Grafia das unidades no relatório real x nomes do organograma (o app associa e lembra os apelidos).

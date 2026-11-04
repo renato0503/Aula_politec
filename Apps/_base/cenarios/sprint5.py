@@ -68,12 +68,13 @@ def s5_leitura_do_pdf(pg, url, ok):
          const c = ps.find(p=>p.unidade==='Criminalística Cuiabá'); return c && c.pendentes === 1472; }"""))
     ok("a origem fica registrada como PDF", pg.evaluate("async ()=>{ const ps = await db.porIndice('pendencias','mes_ref','2026-07'); return ps.every(p=>p.origem==='pdf'); }"))
     ok("a confiança do texto extraído é 100%", pg.evaluate("async ()=>{ const ps = await db.porIndice('pendencias','mes_ref','2026-07'); return ps.every(p=>p.confianca===1); }"))
-    # PDF sem camada de texto: gera uma página em branco e confere a mensagem
+    # PDF sem camada de texto e sem tabela: página em branco passa pelo OCR e a tela avisa
     from reportlab.pdfgen import canvas as _cv
     sem = TMP / "powerbi1-2026-10.pdf"
     c = _cv.Canvas(str(sem)); c.showPage(); c.save()
-    pg.set_input_files("#arqMes", str(sem)); pg.wait_for_timeout(1200)
-    ok("PDF em imagem é recusado com a mensagem do OCR", "camada de texto" in pg.inner_text("#errosMes"))
+    pg.set_input_files("#arqMes", str(sem))
+    pg.wait_for_function("()=>document.querySelector('#errosMes').innerText.includes('OCR')", timeout=90000)
+    ok("PDF sem tabela passa pelo OCR e avisa", "OCR" in pg.inner_text("#errosMes"))
 
 
 @cenario("metas-bi-ocr")

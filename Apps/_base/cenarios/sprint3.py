@@ -156,9 +156,10 @@ def s3_conferencia(pg, url, ok):
         if mes == "2026-08":
             pg.select_option("select[id^=assoc-]", "Regional Sinop"); pg.click("[data-assoc]"); pg.wait_for_timeout(500)
     ir(pg, url, "#/conferencia/2026-09", 500)
-    ok("setembro: soma diferente do total bloqueia a aprovação (RN02)", "RN02" in pg.inner_text("#bloqueios") and pg.is_disabled("#btnAprovar"))
+    pg.fill("#aprovador", "Chefe Teste"); pg.click("#btnAprovar"); pg.wait_for_timeout(400)
+    ok("setembro: soma diferente do total bloqueia a aprovação (RN02)", "RN02" in pg.inner_text("#bloqueios") and "RN02" in pg.inner_text("#errosAprovar") and "#/conferencia/" in pg.url)
     pg.fill("#motivoCorrecao", "Total do PDF inclui laudos de outra diretoria"); pg.click("#btnAceitarSoma"); pg.wait_for_timeout(500)
-    ok("aceitar a soma com motivo libera a aprovação", not pg.is_disabled("#btnAprovar"))
+    ok("aceitar a soma com motivo libera a aprovação", pg.query_selector("#semBloqueio") is not None)
     pg.fill("#aprovador", "Chefe Teste"); pg.click("#btnAprovar"); pg.wait_for_timeout(500)
     ok("mês aprovado fica travado (RN05)", "aprovado por Chefe Teste" in pg.inner_text("#situacaoMes") and pg.locator("[data-novo]").count() == 0)
     ir(pg, url, "#/conferencia/2026-08", 500)

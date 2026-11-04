@@ -102,9 +102,10 @@ def s3_conferencia(pg, url, ok):
         if mes == "2026-08":
             pg.select_option("select[id^=assoc-]", "Regional Sinop"); pg.click("[data-assoc]"); pg.wait_for_timeout(500)
     ir(pg, url, "#/conferencia/2026-09", 500)
-    ok("setembro: soma diferente do total bloqueia a aprovação (RN02)", "RN02" in pg.inner_text("#bloqueios") and pg.is_disabled("#btnAprovar"))
+    pg.fill("#aprovador", "Chefe Teste"); pg.click("#btnAprovar"); pg.wait_for_timeout(400)
+    ok("setembro: soma diferente do total bloqueia a aprovação (RN02)", "RN02" in pg.inner_text("#bloqueios") and "RN02" in pg.inner_text("#errosAprovar") and "#/conferencia/" in pg.url)
     pg.fill("#motivoCorrecao", "Total do PDF inclui laudos de outra diretoria"); pg.click("#btnAceitarSoma"); pg.wait_for_timeout(500)
-    ok("aceitar a soma com motivo libera a aprovação", not pg.is_disabled("#btnAprovar"))
+    ok("aceitar a soma com motivo libera a aprovação", pg.query_selector("#semBloqueio") is not None)
     pg.fill("#aprovador", "Chefe Teste"); pg.click("#btnAprovar"); pg.wait_for_timeout(500)
     ir(pg, url, "#/conferencia/2026-09", 400)
     ok("mês aprovado abre a planilha e fica travado (RN05)", "Planilha liberada" in pg.inner_text("#conteudo") or "aprovado por Chefe Teste" in pg.inner_text("#situacaoMes"))
@@ -135,12 +136,13 @@ def s5_leitura_do_pdf(pg, url, ok):
          const c = ps.find(p=>p.unidade==='Criminalística Cuiabá'); return c && c.pendentes === 1472; }"""))
     ok("a origem fica registrada como PDF", pg.evaluate("async ()=>{ const ps = await db.porIndice('pendencias','mes_ref','2026-07'); return ps.every(p=>p.origem==='pdf'); }"))
     ok("a confiança do texto extraído é 100%", pg.evaluate("async ()=>{ const ps = await db.porIndice('pendencias','mes_ref','2026-07'); return ps.every(p=>p.confianca===1); }"))
-    # PDF sem camada de texto: gera uma página em branco e confere a mensagem
+    # PDF sem camada de texto e sem tabela: página em branco passa pelo OCR e a tela avisa
     from reportlab.pdfgen import canvas as _cv
     sem = TMP / "powerbi1-2026-10.pdf"
     c = _cv.Canvas(str(sem)); c.showPage(); c.save()
-    pg.set_input_files("#arqMes", str(sem)); pg.wait_for_timeout(1200)
-    ok("PDF em imagem é recusado com a mensagem do OCR", "camada de texto" in pg.inner_text("#errosMes"))
+    pg.set_input_files("#arqMes", str(sem))
+    pg.wait_for_function("()=>document.querySelector('#errosMes').innerText.includes('OCR')", timeout=90000)
+    ok("PDF sem tabela passa pelo OCR e avisa", "OCR" in pg.inner_text("#errosMes"))
 
 # origem: sprint5.py
 @cenario
@@ -186,17 +188,17 @@ def s8_gerencia_recorte_e_exportacao(pg, url, ok):
     semear(pg, url)
     ex = PASTA / "exemplos"
     ir(pg, url, "#/importar", 400)
-    pg.select_option("#gerenciaImportar", "IML"); pg.check("#somenteMonitoradas")
+    pg.select_option("#impDiretoria", "Diretoria de Medicina Legal"); pg.wait_for_timeout(200); pg.check("#somenteMonitoradas")
     pg.set_input_files("#arqMes", str(ex / "powerbi1-2026-07.csv")); pg.wait_for_timeout(900)
     n = pg.evaluate("async ()=> (await db.porIndice('pendencias','mes_ref','2026-07')).length")
     soma = pg.evaluate("async ()=> (await db.porIndice('pendencias','mes_ref','2026-07')).reduce((a,p)=>a+p.pendentes,0)")
     rel = pg.evaluate("async ()=> await db.get('relatorios','2026-07')")
-    ok("o filtro de gerência importa só o recorte IML", n == 2 and soma == 1081)
-    ok("o total é ajustado ao recorte", rel["total_relatorio"] == 1081 and rel["gerencia"] == "IML")
+    ok("o filtro de diretoria importa só a Medicina Legal", n == 2 and soma == 1081)
+    ok("o total é ajustado ao recorte", rel["total_relatorio"] == 1081 and rel["gerencia"] == "Diretoria de Medicina Legal")
     ir(pg, url, "#/conferencia/2026-07", 500)
     ok("o cartão Pendentes soma as unidades monitoradas", pg.inner_text("#kpiPendentes") == "1081")
-    pg.select_option("#metasGerenciaConf", "IML"); pg.wait_for_timeout(400)
-    ok("a conferência filtra a tabela por gerência", len(pg.query_selector_all("#tabelaConf tr")) == 3)
+    pg.select_option("#confDiretoria", "Diretoria de Medicina Legal"); pg.wait_for_timeout(400)
+    ok("a conferência filtra a tabela pela diretoria", len(pg.query_selector_all("#tabelaConf tr")) == 3)
     pg.fill("#aprovador", "Chefe Teste"); pg.click("#btnAprovar"); pg.wait_for_timeout(700)
     ok("aprovar leva à planilha liberada", "#/exportar/2026-07" in pg.url and pg.query_selector("#btnCsv") is not None)
     # unidade fora do cadastro é descartada quando a opção está marcada
@@ -206,6 +208,44 @@ def s8_gerencia_recorte_e_exportacao(pg, url, ok):
     pg.check("#somenteMonitoradas")
     pg.set_input_files("#arqMes", str(planilha)); pg.wait_for_timeout(700)
     ok("a unidade fora do cadastro não entra no recorte", pg.evaluate("async ()=> (await db.porIndice('pendencias','mes_ref','2026-11')).every(p=>!p.desconhecida)"))
+
+
+@cenario
+def s9_ocr_organograma_e_aprovacao(pg, url, ok):
+    """Feedback Q0C5iOOEWMGnqDUDw541 (Karine, 04/11/2026): PDF em imagem, filtros do organograma e aprovação."""
+    ex = PASTA / "exemplos"
+    ir(pg, url, "#/importar", 500)
+    pg.click("#btnOrganograma"); pg.wait_for_timeout(800)
+    ok("o organograma cadastra as 67 gerências e núcleos das 5 diretorias", contar(pg, "unidades") == 67)
+    pg.select_option("#impDiretoria", "Diretoria de Medicina Legal"); pg.wait_for_timeout(200)
+    ok("a cascata lista as coordenadorias da diretoria",
+       "Coordenadoria de Perícias em Mortos" in pg.inner_text("#impCoordenadoria"))
+    pg.select_option("#impDiretoria", ""); pg.wait_for_timeout(200)
+    pg.set_input_files("#arqMes", str(ex / "powerbi1-2026-10-imagem.pdf"))
+    pg.wait_for_selector("#previaPdf", timeout=90000)
+    ok("o PDF em imagem é lido pelo OCR e abre a prévia", "OCR" in pg.inner_text("#previaPdf") and len(pg.query_selector_all("#tabelaPrevia tr[data-i]")) == 9)
+    ok("a coluna de laudos pendentes vem escolhida", pg.input_value("#colPendentes") == "2")
+    pg.click("#btnUsarPrevia"); pg.wait_for_timeout(1500)
+    ps = pg.evaluate("async ()=> await db.porIndice('pendencias','mes_ref','2026-10')")
+    ok("o mês sai do título do relatório (outubro de 2026)", len(ps) == 9)
+    ok("os números lidos pelo OCR batem com o relatório", sum(p["pendentes"] for p in ps) == 805
+       and next(p for p in ps if p["unidade"] == "Gerência de Necropsia")["pendentes"] == 224)
+    ok("cada linha guarda a lotação do organograma",
+       next(p for p in ps if p["unidade"] == "Gerência Regional de Alta Floresta")["lotacao"]["coordenadoria"] == "Coordenadoria Regional 4 - Sinop")
+    ir(pg, url, "#/conferencia/2026-10", 700)
+    pg.select_option("#confDiretoria", "Diretoria de Criminalística"); pg.wait_for_timeout(500)
+    pg.select_option("#confCoordenadoria", "Coordenadoria de Perícias Internas"); pg.wait_for_timeout(500)
+    ok("a conferência filtra por diretoria e coordenadoria", len(pg.query_selector_all("#tabelaConf tr")) == 3)
+    # corrigir um número deixa a soma diferente do total: o botão responde e aponta o caminho
+    nec = "2026-10|Gerência de Perícias de Balística"
+    pg.fill(f'[data-novo="{nec}"]', "130"); pg.fill("#motivoCorrecao", "Conferido no SIGT"); pg.click("#btnCorrigir"); pg.wait_for_timeout(700)
+    pg.fill("#aprovador", "Karine"); pg.click("#btnAprovar"); pg.wait_for_timeout(500)
+    ok("aprovar com RN02 explica o bloqueio em vez de não fazer nada", "RN02" in pg.inner_text("#errosAprovar") and pg.query_selector("#btnAceitarSoma2") is not None)
+    pg.fill("#motivoCorrecao", "Total do PDF desatualizado"); pg.click("#btnAceitarSoma2"); pg.wait_for_timeout(600)
+    pg.fill("#aprovador", "Karine"); pg.click("#btnAprovar"); pg.wait_for_timeout(800)
+    ok("depois de aceitar a soma, aprovar abre a planilha", "#/exportar/2026-10" in pg.url and pg.query_selector("#btnCsv") is not None)
+    ir(pg, url, "#/historico", 500)
+    ok("a lista de meses mostra soma e total aceitos iguais", "807" in pg.inner_text("#conteudo") and "aceito" in pg.inner_text("#conteudo"))
 
 
 def main():

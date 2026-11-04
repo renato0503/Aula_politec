@@ -1,9 +1,9 @@
 /* ================= Sprint 4 · Exportar o mês (RN06) ================= */
 // Só o mês aprovado pode ser exportado; o arquivo sai no layout da planilha do Google.
 async function linhasDoMes(mes){
-  const rel = await db.get("relatorios", mes), ger = rel?.gerencia;
+  // o recorte já foi aplicado na importação; aqui saem as unidades do cadastro
   const ps = (await db.porIndice("pendencias", "mes_ref", mes))
-    .filter(p=>!p.desconhecida && (!ger || ger === "Todas" || (p.gerencia || gerenciaDe(p.unidade)) === ger))
+    .filter(p=>!p.desconhecida)
     .sort((a, b)=>a.unidade.localeCompare(b.unidade));
   return ps.map(p=>({Unidade: p.unidade, "Laudos pendentes": p.pendentes}));
 }

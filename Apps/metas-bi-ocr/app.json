@@ -60,7 +60,7 @@
       "rota": "#/importar",
       "titulo": "Importar o mês",
       "sprint": 2,
-      "descricao": "Arquivo do Power BI 1 (CSV, Excel ou PDF)."
+      "descricao": "Arquivo do Power BI 1 (CSV, Excel ou PDF com texto ou imagem, lido por OCR)."
     },
     {
       "rota": "#/conferencia/:mes",
@@ -88,7 +88,10 @@
     }
   ],
   "libs": [
-    "xlsx.full.min.js"
+    "xlsx.full.min.js",
+    "pdf.min.js",
+    "pdf.worker.min.js",
+    "tesseract.min.js"
   ],
   "dados": [
     [
@@ -99,5 +102,10 @@
       "exemplo",
       "exemplos/exemplo-mes.json"
     ]
+  ],
+  "blobs": [
+    "tesseract-worker.min.js",
+    "tesseract-core-simd-lstm.wasm.js",
+    "por.traineddata.gz"
   ]
 }
