@@ -16,6 +16,27 @@ from caderno_lib import (Caderno, p, h3, h4, ul, ol, checklist, ficha, callout,
                          tbl, code, step, q, aplicab, grid2, flow_h, kpi,
                          antesdepois, legenda, glossary)
 from dados_apps import APPS, BASE, SITE
+import re as _re
+from caderno_lib import step as _step_lib, ul as _ul_lib
+
+
+def md(txt):
+    """Converte **negrito** e `codigo` (Markdown inline) em HTML."""
+    if not isinstance(txt, str):
+        return txt
+    txt = _re.sub(r"\*\*(.+?)\*\*", r"<b>\1</b>", txt)
+    return _re.sub(r"`([^`]+?)`", r"<code>\1</code>", txt)
+
+
+def step(items):
+    """Aceita frases soltas (um passo por item) ou tuplas (titulo, texto[, nota])."""
+    if items and all(isinstance(it, str) for it in items):
+        return "<ol class='step'>" + "".join(f"<li><div>{md(it)}</div></li>" for it in items) + "</ol>"
+    return _step_lib([tuple(md(x) for x in it) for it in items])
+
+
+def ul(items):
+    return _ul_lib([md(it) for it in items])
 
 
 def repo(a):
@@ -46,7 +67,9 @@ def html_app(a):
     body += ficha("g", "O que já está pronto", ul(a["pronto"]))
     body += ficha("a", "O que falta", ul(a["falta"]))
     body += h3("Roteiro no GitHub, do zero ao pull request")
-    body += step(git_steps(a))
+    passos_git = [x.replace("<tema>", "&lt;tema&gt;") for x in git_steps(a)]
+    passos_git[0] = passos_git[0].replace(repo(a), f'<a href="{repo(a)}">{repo(a)}</a>', 1)
+    body += step(passos_git)
     body += h3("Integração que falta, passo a passo")
     for titulo, passos in a["etapas"]:
         body += h4(titulo) + step(passos)
