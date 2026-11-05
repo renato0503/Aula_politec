@@ -157,8 +157,134 @@ function clarearFaixasEscuras(ctx, w, h){
   ctx.putImageData(img, 0, 0);
 }
 
+/* ---------- painel do Power BI: várias tabelas na mesma página ----------
+   O PDF impresso do painel traz vários visuais lado a lado. Ler a página inteira
+   mistura as tabelas (o número de uma cola na linha da outra). Aqui cada tabela é
+   achada pela linha "Total": as colunas são os números do Total, a largura da tabela
+   vai do "Total" ao último número, e as linhas de cima entram até o cabeçalho.
+   Nome quebrado em duas linhas ("PERÍCIAS EM LABORATÓRIOS" / "DE MATERIAIS") é juntado. */
+function tabelasPorTotal(palavras){
+  const linhas = agruparLinhas(palavras), achadas = [];
+  const altura = (palavras.map(p=>p.h || 10).sort((a, b)=>a - b)[Math.floor(palavras.length / 2)]) || 10;
+  linhas.forEach((l, iTot)=>{
+    const iT = l.findIndex(p=>normalizar(p.t) === "total"); if (iT < 0) return;
+    const nums = [];
+    for (const p of l.slice(iT + 1)){
+      if (RE_NUM.test(limparNumero(p.t))) nums.push(p);
+      else if (nums.length) break;
+      else if (p.x0 - l[iT].x1 > altura * 30) break;
+    }
+    if (!nums.length) return;
+    const centros = nums.map(p=>(p.x0 + p.x1) / 2);
+    const passo = centros.length > 1 ? Math.min(...centros.slice(1).map((c, j)=>c - centros[j])) : altura * 8;
+    const x0 = l[iT].x0 - altura, x1 = nums[nums.length - 1].x1 + passo / 2, inicioCols = centros[0] - passo / 2;
+    // fatia de uma linha dentro da tabela: nome (à esquerda das colunas) e células por coluna
+    const fatia = linha => {
+      const dentro = linha.filter(p=>{ const cx = (p.x0 + p.x1) / 2; return cx >= x0 && cx <= x1; });
+      const nome = [], cel = centros.map(()=>[]);
+      for (const p of dentro){
+        const cx = (p.x0 + p.x1) / 2;
+        if (cx < inicioCols){ nome.push(p); continue; }
+        let j = 0; centros.forEach((c, i)=>{ if (Math.abs(cx - c) < Math.abs(cx - centros[j])) j = i; });
+        cel[j].push(p);
+      }
+      return {nome, cel, y: dentro[0]?.y ?? linha[0].y, vazia: !dentro.length};
+    };
+    const celula = ps => {
+      if (!ps.length) return null;
+      const cru = ps.map(p=>p.t).join("").replace(/[|»«"'`]/g, ""), t = limparNumero(cru, true);
+      const conf = Math.min(...ps.map(p=>p.conf ?? 1));
+      return RE_NUM.test(t) ? {v: numeroDe(t), conf: t !== cru ? Math.min(conf, 0.6) : conf} : {v: null, conf: 0, lido: cru};
+    };
+    const temLetra = ps => ps.some(p=>/\p{L}/u.test(p.t));
+    // sobe a partir do Total até o cabeçalho (linha com texto em metade ou mais das colunas)
+    const corpo = []; let cab = null, titulo = "", seco = 0;
+    for (let i = iTot - 1; i >= 0; i--){
+      const f = fatia(linhas[i]); if (f.vazia) continue;
+      const comLetra = f.cel.filter(temLetra).length, comNum = f.cel.filter(c=>c.length && !temLetra(c)).length;
+      if (comLetra >= Math.max(1, Math.ceil(centros.length / 2))){
+        cab = f;
+        // título: a primeira linha de texto acima do cabeçalho, na largura da tabela
+        for (let k = i - 1; k >= 0 && k >= i - 3; k--){
+          const g = fatia(linhas[k]);
+          if (!g.vazia){ titulo = [...g.nome, ...g.cel.flat()].sort((a, b)=>a.x0 - b.x0).map(p=>p.t).join(" "); break; }
+        }
+        break;
+      }
+      if (comNum){ corpo.unshift(f); seco = 0; }
+      else if (f.nome.length){ corpo.unshift(f); if (++seco > 3) break; }
+    }
+    // linhas de dados (de cima para baixo); linha só com texto logo abaixo de uma de dados é continuação do nome
+    const dados = [];
+    for (const f of corpo){
+      const comNum = f.cel.some(c=>c.length);
+      const nome = f.nome.map(p=>p.t).join(" ").replace(/^[^\p{L}\d]+|[^\p{L}\d)]+$/gu, "").replace(/\s+/g, " ").trim();
+      if (comNum){ if (/\p{L}/u.test(nome)) dados.push({nome, nums: f.cel.map(celula), y: f.y, xNome: (f.nome.find(p=>/\p{L}/u.test(p.t)) || f.nome[0]).x0}); }
+      else if (dados.length && nome && f.y - dados[dados.length - 1].y < altura * 2.6) dados[dados.length - 1].nome += " " + nome;
+    }
+    if (!dados.length) return;
+    const total = {nome: "Total", nums: fatia(l).cel.map(celula), y: l[0].y};
+    const bordas = nums.map(p=>p.x1), rotulos = centros.map(()=>[]);
+    if (cab){
+      const grupos = [];
+      const todos = [...cab.nome, ...cab.cel.flat()], gs = new Set(todos.filter(p=>p.x1 > inicioCols && p.g !== undefined).map(p=>p.g));
+      for (const p of todos.filter(p=>p.x1 > inicioCols || gs.has(p.g)).sort((a, b)=>a.x0 - b.x0)){
+        const ult = grupos[grupos.length - 1];
+        if (ult && (p.g !== undefined ? ult.g === p.g : p.x0 - ult.x1 < altura * 0.6)){ ult.t += " " + p.t; ult.x1 = p.x1; }
+        else grupos.push({t: p.t, x1: p.x1, g: p.g});
+      }
+      for (const gr of grupos){ let j = 0; bordas.forEach((b, i)=>{ if (Math.abs(gr.x1 - b) < Math.abs(gr.x1 - bordas[j])) j = i; }); rotulos[j].push(gr.t); }
+    }
+    const cabecalho = rotulos.map((r, j)=>r.join(" ") || `Coluna ${j + 1}`);
+    // subtotal de hierarquia (ex.: a diretoria acima das coordenadorias): o vetor é a soma das linhas de baixo
+    const vet = d => d.nums.map(n=>n && n.v !== null ? n.v : 0);
+    dados.forEach((d, i)=>{
+      const alvo = vet(d), acc = alvo.map(()=>0);
+      for (let k = i + 1; k < dados.length; k++){
+        if (!(dados[k].xNome > d.xNome + 2)) break;
+        vet(dados[k]).forEach((v, j)=>acc[j] += v);
+        if (k > i + 1 && acc.every((v, j)=>v === alvo[j])){ d.subtotal = true; break; }
+        if (acc.some((v, j)=>v > alvo[j])) break;
+      }
+    });
+    let colPadrao = cabecalho.findIndex(h=>/pendente/.test(normalizar(h)));
+    if (colPadrao < 0) colPadrao = cabecalho.length - 1;
+    achadas.push({titulo: titulo || `Tabela ${achadas.length + 1}`, tabela: {cabecalho, linhas: dados, total, colPadrao}});
+  });
+  return achadas;
+}
+// a tabela de pendentes por unidade vem primeiro; depois as que falam de pendentes
+function tabelaPreferida(tabelas){
+  const nota = t => {
+    const n = normalizar(t.titulo + " " + t.tabela.cabecalho.join(" "));
+    return (/pendente/.test(n) ? 2 : 0) + (/unidade|lotacao|diretoria|coordenadoria|gerencia/.test(n) ? 1 : 0);
+  };
+  let melhor = 0; tabelas.forEach((t, i)=>{ if (nota(t) > nota(tabelas[melhor])) melhor = i; });
+  return melhor;
+}
+teste("Painel com duas tabelas lado a lado: cada uma pelo seu Total", ()=>{
+  const w = (t, x, y)=>({t, x0: x, x1: x + t.length * 5, y, h: 8, conf: 1});
+  const ps = [w("Matriz", 10, 0), w("de", 45, 0), w("Pendentes", 60, 0), w("por", 110, 0), w("Unidade", 130, 0),
+    w("DIRETORIA", 10, 15), w("Até", 200, 15), w("10", 220, 15), w("Total", 300, 15),
+    w("DMLF", 12, 30), w("45", 215, 30), w("1.972", 300, 30), w("Servidor", 420, 30), w("4953", 520, 30),
+    w("PERÍCIAS", 20, 45), w("EM", 65, 45), w("LABORATÓRIOS", 80, 45), w("44", 215, 45), w("1.969", 300, 45), w("4847", 520, 45),
+    w("DE", 20, 54), w("MATERIAIS", 35, 54),
+    w("Outro", 20, 69), w("1", 215, 69), w("3", 300, 69),
+    w("Total", 10, 84), w("45", 215, 84), w("1.972", 300, 84)];
+  const t = tabelasPorTotal(ps); if (t.length !== 1) return false;
+  const tb = t[0].tabela;
+  return /Matriz/.test(t[0].titulo) && tb.linhas.length === 3 && tb.linhas[0].subtotal && !tb.linhas[1].subtotal
+    && tb.linhas[1].nome === "PERÍCIAS EM LABORATÓRIOS DE MATERIAIS" && tb.linhas[1].nums[1].v === 1969 && tb.total.nums[1].v === 1972 && tb.colPadrao === 1;
+});
+
 /* ---------- leitura do PDF ---------- */
-// devolve {tabela, texto, origem: "pdf"|"ocr", paginas}
+// devolve {tabelas: [{titulo, tabela}], tabela (a escolhida), escolhida, texto, origem: "pdf"|"ocr", paginas}
+function resultadoLeitura(palavras, texto, origem, paginas){
+  let tabelas = tabelasPorTotal(palavras);
+  if (!tabelas.length){ const t = tabelaDeLinhas(agruparLinhas(palavras)); if (t.linhas.length) tabelas = [{titulo: "Tabela da página", tabela: t}]; }
+  const escolhida = tabelas.length ? tabelaPreferida(tabelas) : 0;
+  return {tabelas, escolhida, tabela: tabelas[escolhida]?.tabela || {cabecalho: [], linhas: [], total: null, colPadrao: 0}, texto, origem, paginas};
+}
 async function lerPdfRelatorio(buffer, aviso = ()=>{}){
   if (typeof pdfjsLib === "undefined") throw new Error("o leitor de PDF não está embutido");
   const doc = await pdfjsLib.getDocument({data: new Uint8Array(buffer), isEvalSupported: false}).promise;
@@ -173,14 +299,14 @@ async function lerPdfRelatorio(buffer, aviso = ()=>{}){
       const x = it.transform[4], y = yBase + (vp.height - it.transform[5]), larg = it.width || s.length * 5, h = it.height || 10;
       let pos = 0;
       for (const parte of s.split(/(\s+)/)){
-        if (parte.trim()) palavras.push({t: parte, x0: x + larg * pos / s.length, x1: x + larg * (pos + parte.length) / s.length, y, h, conf: 1});
+        if (parte.trim()) palavras.push({t: parte, x0: x + larg * pos / s.length, x1: x + larg * (pos + parte.length) / s.length, y, h, conf: 1, g: `${n}:${tc.items.indexOf(it)}`});
         pos += parte.length;
       }
     }
     yBase += vp.height + 50;
   }
-  let tabela = tabelaDeLinhas(agruparLinhas(palavras));
-  if (tabela.linhas.length) return {tabela, texto: textos.join(" "), origem: "pdf", paginas: doc.numPages};
+  const lidoTexto = resultadoLeitura(palavras, textos.join(" "), "pdf", doc.numPages);
+  if (lidoTexto.tabela.linhas.length) return lidoTexto;
   // sem texto aproveitável: OCR página a página
   aviso("Preparando o OCR (a primeira leitura leva alguns segundos)...");
   const w = await ocrWorker((st, p)=>aviso(`OCR: ${st}${p ? ` ${Math.round(p * 100)}%` : ""}`));
@@ -198,8 +324,7 @@ async function lerPdfRelatorio(buffer, aviso = ()=>{}){
     for (const p of data.words || []) pOcr.push({t: p.text, x0: p.bbox.x0, x1: p.bbox.x1, y: yBase + (p.bbox.y0 + p.bbox.y1) / 2, h: p.bbox.y1 - p.bbox.y0, conf: (p.confidence ?? 0) / 100});
     yBase += cv.height + 100;
   }
-  tabela = tabelaDeLinhas(agruparLinhas(pOcr));
-  return {tabela, texto: txt, origem: "ocr", paginas: doc.numPages};
+  return resultadoLeitura(pOcr, txt, "ocr", doc.numPages);
 }
 
 /* ---------- prévia: o que foi lido, antes de gravar ---------- */
@@ -210,11 +335,13 @@ function previaLeitura(arquivo, r){
     <p class="sub">${esc(arquivo)} · ${r.paginas} página(s) · ${r.origem === "ocr" ? "lido por <b>OCR</b> (o PDF é imagem)" : "lido pela camada de texto"} ·
       ${t.linhas.length} linhas${baixa ? ` · <span class="selo alerta">${baixa} número(s) com confiança abaixo de 90%</span>` : ""}</p>
     <p class="sub">Confira os nomes e os números, desmarque o que não é unidade e escolha a coluna dos laudos pendentes. O que você corrigir aqui entra como lido.</p>
-    <div class="campos">${campo("colPendentes", "Coluna dos laudos pendentes", {tipo: "select", valor: String(t.colPadrao), opcoes: op})}</div>
+    <div class="campos">${r.tabelas.length > 1 ? campo("tabelaPdf", `Tabela do relatório (${r.tabelas.length} no PDF)`, {tipo: "select", valor: String(r.escolhida), opcoes: r.tabelas.map((x, i)=>[String(i), x.titulo])}) : ""}
+      ${campo("colPendentes", "Coluna dos laudos pendentes", {tipo: "select", valor: String(t.colPadrao), opcoes: op})}</div>
+    ${t.linhas.some(l=>l.subtotal) ? '<p class="sub">As linhas marcadas como <b>subtotal</b> somam as de baixo (ex.: a diretoria acima das coordenadorias). Elas vêm desmarcadas para não contar duas vezes.</p>' : ""}
     <div class="tabela-wrap"><table id="tabelaPrevia"><tr><th>Usar</th><th>Unidade lida</th>${t.cabecalho.map((h, j)=>`<th class="num" data-col="${j}">${esc(h)}</th>`).join("")}<th>Lotação</th></tr>
       ${t.linhas.map((l, i)=>{ const lot = lotacaoDe(l.nome);
-        return `<tr data-i="${i}"><td><input type="checkbox" data-usar checked aria-label="Usar a linha ${esc(l.nome)}"></td>
-        <td><input type="text" data-nome value="${esc(l.nome)}" aria-label="Unidade" style="min-width:16rem"></td>
+        return `<tr data-i="${i}"${l.subtotal ? ' class="subtotal"' : ""}><td><input type="checkbox" data-usar ${l.subtotal ? "" : "checked"} aria-label="Usar a linha ${esc(l.nome)}"></td>
+        <td><input type="text" data-nome value="${esc(l.nome)}" aria-label="Unidade" style="min-width:16rem">${l.subtotal ? ' <span class="selo info">subtotal</span>' : ""}</td>
         ${l.nums.map((n, j)=>`<td class="num" data-col="${j}"><input type="number" min="0" data-num="${j}" value="${n && n.v !== null ? n.v : ""}" style="width:7rem" aria-label="${esc(t.cabecalho[j])}">
           ${n && confiancaBaixa(n.conf) ? `<span class="selo alerta" title="${n.lido ? `o OCR leu “${esc(n.lido)}”` : "confiança do OCR"}">${n.v === null ? "ilegível" : Math.round(n.conf * 100) + "%"}</span>` : ""}</td>`).join("")}
         <td><small>${esc(lot.gerencia || lot.coordenadoria || lot.diretoria || "fora do organograma")}</small></td></tr>`; }).join("")}

@@ -33,8 +33,8 @@ function painelBloqueios(c, ocultos){
     ${c.rn04.length ? `<li><b>RN04 · variação acima de ${LIMITE_VARIACAO * 100}%</b> em ${c.rn04.length} unidade(s): ${c.rn04.map(l=>esc(l.unidade)).join(", ")}.
       Corrija o número ou <button type="button" id="btnConfirmarTodas">Confirmar as ${c.rn04.length} variações</button></li>` : ""}
     ${c.rn03.length ? `<li><b>RN03 · fora do cadastro</b>: ${c.rn03.map(l=>esc(l.unidade_lida || l.unidade)).join(", ")}.
-      Use <b>Editar</b> na linha para escolher a unidade, ou <button type="button" id="btnCadastrarTodas">Cadastrar as ${c.rn03.length} como unidades</button>
-      <button type="button" class="perigo" id="btnExcluirForaCadastro">Excluir as ${c.rn03.length} linhas</button></li>` : ""}</ol>
+      Use <b>Editar</b> na linha para escolher a unidade, ou <button type="button" id="btnCadastrarTodas">${c.rn03.length === 1 ? "Cadastrar como unidade" : `Cadastrar as ${c.rn03.length} como unidades`}</button>
+      <button type="button" class="perigo" id="btnExcluirForaCadastro">${c.rn03.length === 1 ? "Excluir a linha" : `Excluir as ${c.rn03.length} linhas`}</button></li>` : ""}</ol>
     ${ocultos ? `<p class="sub">${ocultos} linha(s) com pendência estão fora do filtro da tabela. A aprovação vale para o mês inteiro.</p>` : ""}`;
 }
 

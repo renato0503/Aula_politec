@@ -131,6 +131,19 @@ fica só com o PDF de texto e o OCR passa a ser opcional.
 - [x] Lista de meses: total aceito no lugar do total original, coluna Recorte e selo "soma ≠ total".
 - [x] Cenário `s9_ocr_organograma_e_aprovacao` (11/11) com `exemplos/powerbi1-2026-10-imagem.pdf`.
 
+### Teste com o PDF real (04/11/2026, `2026_10_14_Química_Pendentes.pdf`)
+
+O PDF real é o **painel inteiro impresso pelo navegador**, com camada de texto e vários visuais lado a lado. A leitura antiga misturava as tabelas (o "Tempo" da Relação de Pendentes, 4953, entrava como pendentes): era o "lido errado" do feedback.
+
+- [x] Cada tabela é achada pela **linha Total** (colunas = números do Total, largura = do "Total" ao último número); o que está fora dessa faixa não entra.
+- [x] Seletor **Tabela do relatório** na prévia; escolhe sozinho a que fala de pendentes por unidade ("Matriz de Duração de Pendentes por Unidade") e a coluna **Total**.
+- [x] Nome quebrado em duas linhas é juntado ("PERÍCIAS EM LABORATÓRIOS" + "DE MATERIAIS").
+- [x] Linha de hierarquia (DMLF acima das coordenadorias recuadas) é marcada como **subtotal** e vem desmarcada.
+- [x] Rótulos do cabeçalho pelo item do PDF ("1. Até 10 Dias" ... "Total").
+- [x] Organograma: coordenadorias também são unidades (14) e são reconhecidas pelo nome do painel; sigla DMLF = Diretoria de Laboratório Forense; nome lido que corresponde a uma unidade cadastrada é associado sozinho e vira apelido.
+- [x] Resultado no PDF real: Laboratório de Materiais 1.892, Biologia Molecular 3, Outro 77; soma 1.972 = total 1.972. O mesmo PDF convertido em imagem dá os mesmos números pelo OCR (cerca de 15 s).
+- [x] Cenário `s10_painel_power_bi_com_varias_tabelas` (9/9) com `exemplos/painel-pbi-2026-10.pdf` (fictício, gerado por `exemplos/gerar_painel_ficticio.py`). O PDF real não entra no repositório: traz nomes de servidores.
+
 ### Falta confirmar com o setor
-- [ ] Rodar com o PDF real de um mês da Karine (o OCR foi validado com um PDF em imagem montado no layout do Power BI).
+- [ ] "Outro" (77 no PDF de Química): cadastrar como unidade ou excluir? Hoje fica como RN03 para a pessoa decidir.
 - [ ] Grafia das unidades no relatório real x nomes do organograma (o app associa e lembra os apelidos).

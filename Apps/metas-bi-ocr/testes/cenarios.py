@@ -216,7 +216,7 @@ def s9_ocr_organograma_e_aprovacao(pg, url, ok):
     ex = PASTA / "exemplos"
     ir(pg, url, "#/importar", 500)
     pg.click("#btnOrganograma"); pg.wait_for_timeout(800)
-    ok("o organograma cadastra as 67 gerências e núcleos das 5 diretorias", contar(pg, "unidades") == 67)
+    ok("o organograma cadastra 14 coordenadorias e 67 gerências e núcleos", contar(pg, "unidades") == 81)
     pg.select_option("#impDiretoria", "Diretoria de Medicina Legal"); pg.wait_for_timeout(200)
     ok("a cascata lista as coordenadorias da diretoria",
        "Coordenadoria de Perícias em Mortos" in pg.inner_text("#impCoordenadoria"))
@@ -246,6 +246,38 @@ def s9_ocr_organograma_e_aprovacao(pg, url, ok):
     ok("depois de aceitar a soma, aprovar abre a planilha", "#/exportar/2026-10" in pg.url and pg.query_selector("#btnCsv") is not None)
     ir(pg, url, "#/historico", 500)
     ok("a lista de meses mostra soma e total aceitos iguais", "807" in pg.inner_text("#conteudo") and "aceito" in pg.inner_text("#conteudo"))
+
+
+@cenario
+def s10_painel_power_bi_com_varias_tabelas(pg, url, ok):
+    """PDF do painel impresso pelo navegador (como o 2026_10_14_Química_Pendentes.pdf da CQUAL):
+    várias tabelas lado a lado, diretoria como subtotal e nome quebrado em duas linhas."""
+    ex = PASTA / "exemplos"
+    ir(pg, url, "#/importar", 500)
+    pg.click("#btnOrganograma"); pg.wait_for_timeout(900)
+    pg.set_input_files("#arqMes", str(ex / "painel-pbi-2026-10.pdf"))
+    pg.wait_for_selector("#previaPdf", timeout=60000)
+    opcoes = pg.evaluate("()=>[...document.querySelectorAll('#tabelaPdf option')].map(o=>o.text)")
+    ok("acha as duas tabelas com Total e escolhe a de pendentes por unidade",
+       len(opcoes) == 2 and pg.input_value("#tabelaPdf") == "0" and "Matriz" in opcoes[0])
+    ok("a coluna escolhida é a do Total", pg.evaluate("()=>{const s=document.querySelector('#colPendentes');return s.options[s.selectedIndex].text}") == "Total")
+    nomes = pg.evaluate("()=>[...document.querySelectorAll('#tabelaPrevia [data-nome]')].map(i=>i.value)")
+    ok("o nome quebrado em duas linhas é juntado", "PERÍCIAS EM LABORATÓRIOS DE MATERIAIS" in nomes)
+    ok("a diretoria (subtotal) vem desmarcada", pg.evaluate("()=>!document.querySelector('#tabelaPrevia tr.subtotal [data-usar]').checked"))
+    ok("a tabela do lado não mistura os números (4953 não aparece)",
+       "4953" not in pg.evaluate("()=>[...document.querySelectorAll('#tabelaPrevia input[type=number]')].map(i=>i.value).join(',')"))
+    pg.click("#btnUsarPrevia"); pg.wait_for_timeout(1500)
+    ps = pg.evaluate("async ()=> await db.porIndice('pendencias','mes_ref','2026-10')")
+    soma = sum(p["pendentes"] for p in ps)
+    ok("soma das unidades igual ao total do relatório (1.972)", soma == 1972
+       and pg.evaluate("async ()=> (await db.get('relatorios','2026-10')).total_relatorio") == 1972)
+    ok("as coordenadorias do painel são associadas pelo organograma",
+       {p["unidade"] for p in ps if not p["desconhecida"]} == {"Coordenadoria do Laboratório de Materiais", "Coordenadoria de Perícias em Biologia Molecular"})
+    ir(pg, url, "#/conferencia/2026-10", 700)
+    ok("'Outro' fica como RN03 para a pessoa decidir", "Outro" in pg.inner_text("#bloqueios"))
+    pg.click("#btnCadastrarTodas"); pg.wait_for_timeout(800)
+    pg.fill("#aprovador", "Chefe Teste"); pg.click("#btnAprovar"); pg.wait_for_timeout(900)
+    ok("cadastrado o 'Outro', o mês é aprovado e a planilha abre", "#/exportar/2026-10" in pg.url)
 
 
 def main():

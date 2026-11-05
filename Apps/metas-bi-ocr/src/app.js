@@ -46,8 +46,17 @@ const rotuloLotacao = lot => lot.gerencia || lot.coordenadoria || lot.diretoria 
 const gerenciaDe = nome => rotuloLotacao(lotacaoDe(nome));
 
 async function acharUnidade(nomeLido){
-  const n = normalizar(nomeLido);
-  return (await db.list("unidades")).find(u=>normalizar(u.nome) === n || (u.apelidos || []).some(a=>normalizar(a) === n)) || null;
+  const n = normalizar(nomeLido), unidades = await db.list("unidades");
+  const u = unidades.find(x=>normalizar(x.nome) === n || (x.apelidos || []).some(a=>normalizar(a) === n));
+  if (u) return u;
+  // pelo organograma: "PERÍCIAS EM LABORATÓRIOS DE MATERIAIS" -> Coordenadoria do Laboratório de Materiais
+  const lot = lotacaoDe(nomeLido), alvo = lot.gerencia || lot.coordenadoria;
+  const pelaLotacao = alvo && unidades.find(x=>x.nome === alvo);
+  if (!pelaLotacao) return null;
+  pelaLotacao.apelidos = [...new Set([...(pelaLotacao.apelidos || []), nomeLido])];
+  await db.put("unidades", pelaLotacao);
+  await registrar("unidade associada pelo organograma", {detalhe: `${nomeLido} -> ${alvo}`});
+  return pelaLotacao;
 }
 
 TELAS["#/importar"] = async ()=>{
@@ -189,11 +198,16 @@ TELAS_DEPOIS["#/importar"] = ()=>{
         : "O PDF não traz a tabela de unidades."]);
       const mesTexto = mesNoTexto(r.texto);
       // PDF com texto e uma só coluna de número: grava direto, como o CSV. Nos demais, mostra a prévia.
-      if (r.origem === "pdf" && r.tabela.cabecalho.length === 1){
+      if (r.origem === "pdf" && r.tabelas.length === 1 && r.tabela.cabecalho.length === 1){
         const linhas = [["Unidade", "Laudos pendentes"], ...r.tabela.linhas.map(l=>[l.nome, l.nums[0].v]), ...(r.tabela.total ? [["Total", r.tabela.total.nums[0]?.v ?? ""]] : [])];
         return await gravarImportacao(f.name, linhas, "pdf", {mesTexto});
       }
-      $("#resMes").innerHTML = previaLeitura(f.name, r);
+      const desenhar = ()=>{
+        $("#resMes").innerHTML = previaLeitura(f.name, r);
+        $("#tabelaPdf")?.addEventListener("change", e=>{ r.escolhida = Number(e.target.value); r.tabela = r.tabelas[r.escolhida].tabela; desenhar(); });
+        ligarPrevia();
+      };
+      const ligarPrevia = ()=>{
       $("#btnDescartarPrevia").addEventListener("click", ()=>{ $("#resMes").innerHTML = ""; });
       $("#btnUsarPrevia").addEventListener("click", async ()=>{
         const {linhas, conf, editadas} = linhasDaPrevia(r);
@@ -201,6 +215,8 @@ TELAS_DEPOIS["#/importar"] = ()=>{
         await gravarImportacao(f.name, linhas, r.origem, {mesTexto, conf});
         if (editadas.length) await registrar("leitura do PDF corrigida na prévia", {detalhe: `${f.name}: ${editadas.join(", ")}`});
       });
+      };
+      desenhar();
       $("#previaPdf").scrollIntoView({block: "start"});
     } catch(err){ progresso(""); return mostrarErros("#errosMes", ["Não consegui ler o arquivo: " + err.message]); }
   });

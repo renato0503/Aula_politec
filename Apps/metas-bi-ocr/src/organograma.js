@@ -19,7 +19,7 @@ const ORGANOGRAMA = [
     {nome: "Coordenadoria de Perícias em Mortos", gerencias: ["Gerência de Necropsia", "Gerência de Antropologia", "Gerência de Histopatologia"]},
     {nome: VINCULADAS, gerencias: ["Gerência de Atendimento de Processamento de Documentos", "Núcleo de Apoio Operacional de Medicina Legal",
       "Núcleo de Custódia e Logística de Medicina Legal"]}]},
-  {diretoria: "Diretoria de Laboratório Forense", chaves: ["laboratorio"], coordenadorias: [
+  {diretoria: "Diretoria de Laboratório Forense", chaves: ["laboratorio"], siglas: ["DMLF", "DLF"], coordenadorias: [
     {nome: "Coordenadoria de Perícias em Biologia Molecular", gerencias: ["Gerência Técnica", "Gerência de Qualidade em Biologia Molecular"]},
     {nome: "Coordenadoria do Laboratório de Materiais", gerencias: [
       "Gerência de Perícias em Química Forense", "Gerência de Perícias em Toxicologia Forense", "Gerência de Perícias em Entorpecentes"]},
@@ -61,6 +61,17 @@ function lotacaoDe(nome){
     if (s > nota){ nota = s; melhor = {diretoria: d.diretoria, coordenadoria: c.nome, gerencia: g}; }
   }
   if (melhor) return melhor;
+  // coordenadoria pelo nome ("PERÍCIAS EM LABORATÓRIOS DE MATERIAIS" = Coordenadoria do Laboratório de Materiais):
+  // todas as palavras do miolo da coordenadoria aparecem no nome lido (plural e singular contam igual)
+  const palavrasDe = s => normalizar(s).split(/[^a-z0-9]+/).filter(w=>w.length > 3).map(w=>w.replace(/s$/, ""));
+  const lidas = new Set(palavrasDe(nome));
+  let coord = null, tam = 0;
+  for (const d of ORGANOGRAMA) for (const c of d.coordenadorias){
+    if (c.nome === VINCULADAS || c.sede) continue;   // as regionais têm a regra da cidade, abaixo
+    const ws = palavrasDe(miolo(c.nome));
+    if (ws.length && ws.every(w=>lidas.has(w)) && ws.length > tam){ tam = ws.length; coord = {diretoria: d.diretoria, coordenadoria: c.nome, gerencia: ""}; }
+  }
+  if (coord) return coord;
   const interior = ORGANOGRAMA.find(d=>d.diretoria === "Diretoria de Interiorização");
   for (const c of interior.coordenadorias) for (const cidade of c.cidades){
     if (!n.includes(normalizar(cidade))) continue;
@@ -68,7 +79,7 @@ function lotacaoDe(nome){
     const g = cidade === c.sede ? (tipo ? `Gerência de ${tipo} de ${cidade}` : "") : `Gerência Regional de ${cidade}`;
     return {diretoria: interior.diretoria, coordenadoria: c.nome, gerencia: g};
   }
-  const d = ORGANOGRAMA.find(o=>o.chaves.some(k=>new RegExp(`\\b${k}\\b`).test(n)));
+  const d = ORGANOGRAMA.find(o=>o.chaves.some(k=>new RegExp(`\\b${k}\\b`).test(n)) || (o.siglas || []).some(k=>normalizar(k) === n));
   return d ? {diretoria: d.diretoria, coordenadoria: "", gerencia: ""} : vazio;
 }
 teste("Organograma: gerência pelo nome", ()=> lotacaoDe("GERÊNCIA DE PERÍCIAS DE BALÍSTICA").coordenadoria === "Coordenadoria de Perícias Internas"
@@ -76,6 +87,10 @@ teste("Organograma: gerência pelo nome", ()=> lotacaoDe("GERÊNCIA DE PERÍCIAS
 teste("Organograma: cidade do interior vai para a regional", ()=> lotacaoDe("Regional Alta Floresta").gerencia === "Gerência Regional de Alta Floresta"
   && lotacaoDe("IML Sinop").gerencia === "Gerência de Medicina Legal de Sinop"
   && lotacaoDe("Gerência de Identificação Técnica de Sinop").coordenadoria === "Coordenadoria Regional 4 - Sinop" && lotacaoDe("Regional Sinop").coordenadoria === "Coordenadoria Regional 4 - Sinop");
+teste("Organograma: coordenadoria e sigla como aparecem no painel do Power BI", ()=>
+  lotacaoDe("PERÍCIAS EM LABORATÓRIOS DE MATERIAIS").coordenadoria === "Coordenadoria do Laboratório de Materiais"
+  && lotacaoDe("PERÍCIAS EM BIOLOGIA MOLECULAR").coordenadoria === "Coordenadoria de Perícias em Biologia Molecular"
+  && lotacaoDe("DMLF").diretoria === "Diretoria de Laboratório Forense" && lotacaoDe("Outro").diretoria === "");
 teste("Organograma: IML da capital fica na Medicina Legal", ()=> lotacaoDe("IML Cuiabá").diretoria === "Diretoria de Medicina Legal" && lotacaoDe("Unidade Fantasma").diretoria === "");
 
 // lotação gravada na linha (ou na unidade) vence a dedução pelo nome
@@ -124,9 +139,13 @@ const textoRecorte = sel => !sel?.diretoria ? "Todas" : (sel.gerencia || sel.coo
 teste("Recorte por diretoria e coordenadoria", ()=> noRecorte(lotacaoDe("Balística"), {diretoria: "Diretoria de Criminalística", coordenadoria: "Coordenadoria de Perícias Internas"})
   && !noRecorte(lotacaoDe("IML Cuiabá"), {diretoria: "Diretoria de Criminalística"}) && noRecorte(lotacaoDe("Unidade X"), {diretoria: "Outras"}));
 
-// cadastra todas as gerências e núcleos das cinco diretorias como unidades monitoradas
+// cadastra as coordenadorias, as gerências e os núcleos das cinco diretorias como unidades monitoradas
 async function carregarOrganograma(){
   let novas = 0;
+  for (const d of ORGANOGRAMA) for (const c of d.coordenadorias){
+    if (c.nome === VINCULADAS || await db.get("unidades", c.nome)) continue;
+    await db.put("unidades", {nome: c.nome, apelidos: [], lotacao: {diretoria: d.diretoria, coordenadoria: c.nome, gerencia: ""}}); novas++;
+  }
   for (const d of ORGANOGRAMA) for (const c of d.coordenadorias) for (const g of c.gerencias){
     if (await db.get("unidades", g)) continue;
     await db.put("unidades", {nome: g, apelidos: [], lotacao: {diretoria: d.diretoria, coordenadoria: c.nome, gerencia: g}}); novas++;
