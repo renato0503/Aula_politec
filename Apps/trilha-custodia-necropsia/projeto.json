@@ -261,41 +261,54 @@
     "tArtefatos": [
       {
         "n": "",
-        "nome": "Painel",
+        "nome": "Painel de situação",
         "rota": "#/painel",
-        "objetivo": "Ver a situação de todos os corpos",
-        "usuario": "Equipe do IML",
-        "dados": "Corpos, situações e marcos",
-        "acao": "Filtrar e abrir o caso",
+        "objetivo": "Ver a situação de todos os corpos em dez indicadores e filtrar a lista por eles",
+        "usuario": "Técnico, Médico Legista e Gestor ADM",
+        "dados": "Corpos, materiais e lacres pendentes",
+        "acao": "Clicar no indicador e abrir a lista já filtrada",
         "regra": "RN05",
         "tipo": "Tela",
-        "verificacao": "Contagens conferem com a base",
+        "verificacao": "Os números batem com o registro",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Corpos",
+        "rota": "#/corpos",
+        "objetivo": "Localizar o corpo e abrir a ficha na gaveta lateral",
+        "usuario": "Equipe do IML",
+        "dados": "Protocolo, data de entrada, nome, agente causal, situação e etapa",
+        "acao": "Buscar, filtrar por situação e período e ver os detalhes",
+        "regra": "RN05",
+        "tipo": "Tela",
+        "verificacao": "A lista filtrada e a contagem conferem",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Ficha do caso",
+        "rota": "#/corpo/:id",
+        "objetivo": "Registrar a cadeia de custódia nas sete etapas",
+        "usuario": "Técnico, Médico Legista (leitura até a etapa 5) e Gestor ADM",
+        "dados": "Acionamento, ocorrência, alocação na base, necropsia, materiais, identificação, família, funerária e laudo",
+        "acao": "Preencher, assinar no canvas, confirmar recebimento e encerrar",
+        "regra": "RN02, RN03, RN09, RN10, RN11, RN12",
+        "tipo": "Tela",
+        "verificacao": "O histórico mostra cada ação com perfil, data e hora",
         "mvp": "Sim"
       },
       {
         "n": "",
         "nome": "Acionamento",
         "rota": "#/corpo/novo",
-        "objetivo": "Registrar um corpo",
-        "usuario": "Operador e técnico",
-        "dados": "Protocolo, origem, local e vítima",
-        "acao": "Salvar",
+        "objetivo": "Registrar o acionamento e a ocorrência",
+        "usuario": "Técnico e Gestor ADM",
+        "dados": "Número da necropsia, horário, ocorrência e possível vítima",
+        "acao": "Salvar e abrir a ficha",
         "regra": "RN01",
         "tipo": "Tela",
-        "verificacao": "Corpo criado com protocolo único",
-        "mvp": "Sim"
-      },
-      {
-        "n": "",
-        "nome": "Ficha e marcos",
-        "rota": "#/corpo/:id",
-        "objetivo": "Registrar marcos, lacres e situação",
-        "usuario": "Técnico e plantonista",
-        "dados": "Marcos, lacres e situação",
-        "acao": "Registrar",
-        "regra": "RN02, RN03",
-        "tipo": "Tela",
-        "verificacao": "Marcos e lacres na trilha",
+        "verificacao": "Número de necropsia único",
         "mvp": "Sim"
       },
       {
@@ -303,22 +316,35 @@
         "nome": "Busca",
         "rota": "#/busca",
         "objetivo": "Localizar o corpo",
-        "usuario": "Equipe e autoridade",
-        "dados": "Protocolo, nome ou documento",
+        "usuario": "Equipe do IML",
+        "dados": "Protocolo, nome, documento, delegacia ou lacre",
         "acao": "Buscar",
         "regra": "RN04",
         "tipo": "Tela",
-        "verificacao": "Resultado com a situação",
+        "verificacao": "Resultado com a situação do corpo",
+        "mvp": "Sim"
+      },
+      {
+        "n": "",
+        "nome": "Resumo por agente causal",
+        "rota": "#/resumo",
+        "objetivo": "Ver a distribuição dos corpos e a situação administrativa",
+        "usuario": "Gestor ADM e equipe",
+        "dados": "Corpos por agente causal e destino",
+        "acao": "Ler e exportar em CSV",
+        "regra": "—",
+        "tipo": "Tela",
+        "verificacao": "As colunas somam o total geral",
         "mvp": "Sim"
       }
     ],
     "tEntidades": [
       {
         "entidade": "Corpo",
-        "representa": "Registro único de um corpo",
-        "colunas": "id_corpo; protocolo; origem; natureza; municipio; local; nome; documento; desconhecido; tecnico; situacao; criado_em",
+        "representa": "Registro único de um corpo, da etapa 1 à 7",
+        "colunas": "id_corpo; protocolo; numero_necropsia; acionamento{horario,numero}; ocorrencia{chegada,delegacia,autoridade,endereco,municipio,uf,possivel_nome,filiacao,nascimento,idade,sexo,fonte,documento,telefone,observacoes,fotos}; camara; gaveta; estado_corpo; lacre_corpo; necropsia{medico,tecnico,odonto,inicio,termino}; identificacao{resultado,metodo,nome_confirmado,responsavel,busca,autorizacao,tentativas,pendente}; familia{tipo,nome,parentesco,documento,data_liberacao,assinatura,busca,autorizacao}; funeraria{destino,nome,auto,data_entrega,autorizacao,local}; laudo{entregue_por,recebido_por,recebido_em,assinatura}; sepultamento{justificativa,autorizacao}; destino_final; custodia_finalizada; retificacoes",
         "chave": "id_corpo",
-        "volume": "12 no exemplo",
+        "volume": "10 no exemplo",
         "origem": "App",
         "sintetico": "Sim"
       },
@@ -327,23 +353,23 @@
         "representa": "Marco do deslocamento",
         "colunas": "id_marco; corpo_id; tipo; data_hora; perfil; observacao",
         "chave": "id_marco",
-        "volume": "48 no exemplo",
+        "volume": "36 no exemplo",
         "origem": "App",
         "sintetico": "Sim"
       },
       {
-        "entidade": "Lacre",
-        "representa": "Amostra lacrada",
-        "colunas": "id_lacre; corpo_id; codigo; destino; data_hora; perfil",
+        "entidade": "Material lacrado",
+        "representa": "Material da necropsia com número de lacre e recebimento pela ADM",
+        "colunas": "id_lacre; corpo_id; tipo; nome; coletado; codigo; destino; data_hora; perfil; recebido_em; recebido_por",
         "chave": "id_lacre",
-        "volume": "24 no exemplo",
+        "volume": "40 no exemplo (4 por corpo)",
         "origem": "App",
         "sintetico": "Sim"
       },
       {
         "entidade": "Log",
-        "representa": "Trilha de auditoria",
-        "colunas": "id; corpo_id; acao; perfil; data_hora",
+        "representa": "Trilha de auditoria, inclusive das consultas",
+        "colunas": "id; corpo_id; acao; motivo; perfil; data_hora",
         "chave": "id",
         "volume": "—",
         "origem": "App",
@@ -353,7 +379,7 @@
     "tRegras": [
       {
         "id": "RN01",
-        "regra": "O protocolo é único e gerado no acionamento",
+        "regra": "O número da necropsia é único e gerado no acionamento",
         "quando": "No cadastro",
         "excecao": "Nenhuma",
         "valida": "Sistema",
@@ -361,15 +387,15 @@
       },
       {
         "id": "RN02",
-        "regra": "A liberação exige identificação registrada e auto de entrega com responsável e data",
-        "quando": "Na liberação",
-        "excecao": "Nenhuma",
-        "valida": "Plantonista",
+        "regra": "A liberação à família exige corpo identificado, assinatura do familiar e documento",
+        "quando": "Na etapa 6",
+        "excecao": "Corpo não identificado",
+        "valida": "Sistema",
         "tipo": "Negócio"
       },
       {
         "id": "RN03",
-        "regra": "Todo marco, lacre e mudança de situação registra perfil, data e hora",
+        "regra": "Todo marco, lacre, campo alterado e consulta ao caso registra perfil, data e hora",
         "quando": "Em toda ação",
         "excecao": "Nenhuma",
         "valida": "Sistema",
@@ -377,7 +403,7 @@
       },
       {
         "id": "RN04",
-        "regra": "A busca aceita protocolo, nome ou documento",
+        "regra": "A busca aceita protocolo, número da necropsia, nome, documento, delegacia ou lacre",
         "quando": "Na busca",
         "excecao": "Caso sem nome",
         "valida": "Sistema",
@@ -385,11 +411,43 @@
       },
       {
         "id": "RN05",
-        "regra": "A lista do painel não mostra nome completo",
-        "quando": "No painel",
+        "regra": "A lista e o painel não mostram o nome completo, só as iniciais",
+        "quando": "No painel e na lista",
         "excecao": "Ficha do caso",
         "valida": "Sistema",
         "tipo": "LGPD"
+      },
+      {
+        "id": "RN09",
+        "regra": "O sepultamento pelo Estado é decisão do Gestor ADM, com justificativa de no mínimo 20 caracteres, autorização e Auto de Entrega da funerária",
+        "quando": "Na etapa 5 ou 6",
+        "excecao": "Nenhuma",
+        "valida": "Gestor ADM",
+        "tipo": "Negócio"
+      },
+      {
+        "id": "RN10",
+        "regra": "A custódia só se encerra com o destino do corpo, o laudo recebido pela ADM e todos os lacres recebidos",
+        "quando": "No recebimento do laudo",
+        "excecao": "Nenhuma",
+        "valida": "Sistema",
+        "tipo": "Validação"
+      },
+      {
+        "id": "RN11",
+        "regra": "Os métodos de identificação só se esgotam depois de pelo menos um exame complementar (DNA, odontologia legal ou antropologia forense)",
+        "quando": "Na etapa 5",
+        "excecao": "Nenhuma",
+        "valida": "Sistema",
+        "tipo": "Validação"
+      },
+      {
+        "id": "RN12",
+        "regra": "Depois do encerramento ou do sepultamento o caso não se edita: a correção entra como retificação, com tipo, o que muda e motivo",
+        "quando": "Depois do encerramento",
+        "excecao": "Nenhuma",
+        "valida": "Técnico ou Gestor ADM",
+        "tipo": "Negócio"
       }
     ],
     "tFontes": [

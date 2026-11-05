@@ -48,10 +48,10 @@
 
 | Entidade | O que representa | Colunas | Chave | Volume | Origem | Sintético |
 |---|---|---|---|---|---|---|
-| Corpo | Registro único de um corpo | id_corpo; protocolo; origem; natureza; municipio; local; nome; documento; desconhecido; tecnico; situacao; criado_em | id_corpo | 12 no exemplo | App | Sim |
-| Marco | Marco do deslocamento | id_marco; corpo_id; tipo; data_hora; perfil; observacao | id_marco | 48 no exemplo | App | Sim |
-| Lacre | Amostra lacrada | id_lacre; corpo_id; codigo; destino; data_hora; perfil | id_lacre | 24 no exemplo | App | Sim |
-| Log | Trilha de auditoria | id; corpo_id; acao; perfil; data_hora | id | — | App | Sim |
+| Corpo | Registro único de um corpo, da etapa 1 à 7 | id_corpo; protocolo; numero_necropsia; acionamento{horario,numero}; ocorrencia{chegada,delegacia,autoridade,endereco,municipio,uf,possivel_nome,filiacao,nascimento,idade,sexo,fonte,documento,telefone,observacoes,fotos}; camara; gaveta; estado_corpo; lacre_corpo; necropsia{medico,tecnico,odonto,inicio,termino}; identificacao{resultado,metodo,nome_confirmado,responsavel,busca,autorizacao,tentativas,pendente}; familia{tipo,nome,parentesco,documento,data_liberacao,assinatura,busca,autorizacao}; funeraria{destino,nome,auto,data_entrega,autorizacao,local}; laudo{entregue_por,recebido_por,recebido_em,assinatura}; sepultamento{justificativa,autorizacao}; destino_final; custodia_finalizada; retificacoes | id_corpo | 10 no exemplo | App | Sim |
+| Marco | Marco do deslocamento | id_marco; corpo_id; tipo; data_hora; perfil; observacao | id_marco | 36 no exemplo | App | Sim |
+| Material lacrado | Material da necropsia com número de lacre e recebimento pela ADM | id_lacre; corpo_id; tipo; nome; coletado; codigo; destino; data_hora; perfil; recebido_em; recebido_por | id_lacre | 40 no exemplo (4 por corpo) | App | Sim |
+| Log | Trilha de auditoria, inclusive das consultas | id; corpo_id; acao; motivo; perfil; data_hora | id | — | App | Sim |
 
 **O que precisa ser coletado:** Tempo de remoção, de chegada ao IML, de identificação e de liberação; volume de corpos não identificados e não reclamados.
 **Quem libera o acesso:** A chefia do IML libera o acesso; no MVP, só dados fictícios.
@@ -69,21 +69,27 @@
 
 | ID | Regra | Quando se aplica | Exceção | Quem valida | Tipo |
 |---|---|---|---|---|---|
-| RN01 | O protocolo é único e gerado no acionamento | No cadastro | Nenhuma | Sistema | Validação |
-| RN02 | A liberação exige identificação registrada e auto de entrega com responsável e data | Na liberação | Nenhuma | Plantonista | Negócio |
-| RN03 | Todo marco, lacre e mudança de situação registra perfil, data e hora | Em toda ação | Nenhuma | Sistema | Validação |
-| RN04 | A busca aceita protocolo, nome ou documento | Na busca | Caso sem nome | Sistema | Negócio |
-| RN05 | A lista do painel não mostra nome completo | No painel | Ficha do caso | Sistema | LGPD |
+| RN01 | O número da necropsia é único e gerado no acionamento | No cadastro | Nenhuma | Sistema | Validação |
+| RN02 | A liberação à família exige corpo identificado, assinatura do familiar e documento | Na etapa 6 | Corpo não identificado | Sistema | Negócio |
+| RN03 | Todo marco, lacre, campo alterado e consulta ao caso registra perfil, data e hora | Em toda ação | Nenhuma | Sistema | Validação |
+| RN04 | A busca aceita protocolo, número da necropsia, nome, documento, delegacia ou lacre | Na busca | Caso sem nome | Sistema | Negócio |
+| RN05 | A lista e o painel não mostram o nome completo, só as iniciais | No painel e na lista | Ficha do caso | Sistema | LGPD |
+| RN09 | O sepultamento pelo Estado é decisão do Gestor ADM, com justificativa de no mínimo 20 caracteres, autorização e Auto de Entrega da funerária | Na etapa 5 ou 6 | Nenhuma | Gestor ADM | Negócio |
+| RN10 | A custódia só se encerra com o destino do corpo, o laudo recebido pela ADM e todos os lacres recebidos | No recebimento do laudo | Nenhuma | Sistema | Validação |
+| RN11 | Os métodos de identificação só se esgotam depois de pelo menos um exame complementar (DNA, odontologia legal ou antropologia forense) | Na etapa 5 | Nenhuma | Sistema | Validação |
+| RN12 | Depois do encerramento ou do sepultamento o caso não se edita: a correção entra como retificação, com tipo, o que muda e motivo | Depois do encerramento | Nenhuma | Técnico ou Gestor ADM | Negócio |
 
 
 ## 6. Telas (#/painel, #/lista...)
 
 | Rota | Tela | Objetivo | Quem usa | Dados | Ação | Regra | Tipo | Verificável como | MVP |
 |---|---|---|---|---|---|---|---|---|---|
-| #/painel | Painel | Ver a situação de todos os corpos | Equipe do IML | Corpos, situações e marcos | Filtrar e abrir o caso | RN05 | Tela | Contagens conferem com a base | Sim |
-| #/corpo/novo | Acionamento | Registrar um corpo | Operador e técnico | Protocolo, origem, local e vítima | Salvar | RN01 | Tela | Corpo criado com protocolo único | Sim |
-| #/corpo/:id | Ficha e marcos | Registrar marcos, lacres e situação | Técnico e plantonista | Marcos, lacres e situação | Registrar | RN02, RN03 | Tela | Marcos e lacres na trilha | Sim |
-| #/busca | Busca | Localizar o corpo | Equipe e autoridade | Protocolo, nome ou documento | Buscar | RN04 | Tela | Resultado com a situação | Sim |
+| #/painel | Painel de situação | Ver a situação de todos os corpos em dez indicadores | Técnico, Médico Legista e Gestor ADM | Corpos, materiais e lacres pendentes | Clicar no indicador e abrir a lista já filtrada | RN05 | Tela | Os números batem com o registro | Sim |
+| #/corpos | Corpos | Localizar o corpo e abrir a ficha na gaveta lateral | Equipe do IML | Protocolo, data de entrada, nome, agente causal, situação e etapa | Buscar, filtrar por situação e período e ver os detalhes | RN05 | Tela | A lista filtrada e a contagem conferem | Sim |
+| #/corpo/:id | Ficha do caso | Registrar a cadeia de custódia nas sete etapas | Técnico, Médico Legista (leitura até a etapa 5) e Gestor ADM | Acionamento, ocorrência, alocação na base, necropsia, materiais, identificação, família, funerária e laudo | Preencher, assinar no canvas, confirmar recebimento e encerrar | RN02, RN03, RN09, RN10, RN11, RN12 | Tela | O histórico mostra cada ação com perfil, data e hora | Sim |
+| #/corpo/novo | Acionamento | Registrar o acionamento e a ocorrência | Técnico e Gestor ADM | Número da necropsia, horário, ocorrência e possível vítima | Salvar e abrir a ficha | RN01 | Tela | Número de necropsia único | Sim |
+| #/busca | Busca | Localizar o corpo | Equipe do IML | Protocolo, nome, documento, delegacia ou lacre | Buscar | RN04 | Tela | Resultado com a situação do corpo | Sim |
+| #/resumo | Resumo por agente causal | Ver a distribuição dos corpos e a situação administrativa | Gestor ADM e equipe | Corpos por agente causal e destino | Ler e exportar em CSV | — | Tela | As colunas somam o total geral | Sim |
 
 
 ## 7. KPIs (nome = fórmula em uma linha)
@@ -93,6 +99,8 @@
 | Tempo de remoção | Quanto tempo entre o acionamento e a chegada ao IML? | Média(chegada - acionamento) | Marcos do app | não medida | medir no piloto | Comparar as datas dos marcos |
 | Tempo até a identificação | Quanto tempo a família espera para saber da identificação? | Média(identificação - entrada) | App | dias | menos de 1 dia | Comparar antes e depois |
 | Corpos não reclamados | Quantos corpos ficam sem retirada? | Não reclamados / total | App | não medido | acompanhar | Contar por situação |
+| Lacres pendentes de recebimento | Quantos materiais saíram da necropsia sem comprovação de recebimento? | Contagem(lacre com coletado e sem recebido_em) | App | não medido |zerar a fila da ADM | Contar pelo painel |
+| Corpos por agente causal | Como se distribui a carga por tipo de morte? | Contagem por agente causal | App | 10 no exemplo | acompanhar | Ler o resumo |
 
 **Período da linha de base:** Não informada no envio; medir no piloto.
 **Campos de data e tempo que existem:** Data e hora do acionamento, dos quatro marcos, dos lacres e da liberação.

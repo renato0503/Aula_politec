@@ -5,8 +5,22 @@ Arquivos que a Silmara trouxe em `Ncropsia/`, guardados sem alteração:
 | Arquivo | O que é |
 |---|---|
 | `Flowchart.md` | Fluxograma Mermaid com as possibilidades do caso (desfechos da identificação, da família e do sepultamento) |
-| `prototipo-sistema-controle-necropsia.html` | Protótipo salvo do navegador (as duas cópias de `Ncropsia/` eram idênticas). Depende de `shell.css` e `shell.js`, que não vieram, e de imagens da internet |
+| `prototipo-sistema-controle-necropsia.html` | Protótipo salvo do navegador (as duas cópias de `Ncropsia/` eram idênticas). É o mesmo arquivo de `Ncropsia/Sistema de Controle de Necropsia — DMML _ POLITEC.html` |
+| `shell.css` e `shell.js` | Os arquivos de estilo e de script do protótipo, recuperados de `prototipo/tci_files/`. Sem eles o HTML abria sem a casca; com eles, o protótipo abre offline |
 | `PROJETO-2026-11-02.md` | `PROJETO.md` exportado do formulário (igual à cópia em `Aula 8/Entregas/Silmara/`) |
+
+## O app é o espelho deste protótipo
+
+Desde o Sprint 10 (05/11/2026) o app do curso reproduz este protótipo, campo a
+campo: a faixa de cabeçalho navy, o painel com dez indicadores, a lista de
+corpos com filtros, o resumo por agente causal e a ficha do caso com as sete
+etapas, a assinatura no canvas e a janela de justificativa. O que o app
+acrescenta é o que o curso exige: RN05 (iniciais fora da ficha), exame
+complementar (RN11), laudo em paralelo, encerramento com três condições (RN10)
+e retificação (RN12).
+
+Para comparar, abra `prototipo-sistema-controle-necropsia.html` ao lado do
+`index.html` do app.
 
 ## Revisão do fluxograma
 

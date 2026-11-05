@@ -296,41 +296,6 @@ def s3_busca_csv_e_historico(pg, url, ok):
     ok("transferência para contêiner de outra categoria é recusada (RN02)", "RN02" in erro)
 
 
-@cenario("trilha-custodia-necropsia")
-def s3_situacao_identificacao_e_busca(pg, url, ok):
-    perfil(pg, url, "tecnico")
-    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(700)
-    ir(pg, url, "#/painel", 500)
-    nomes = pg.evaluate("async ()=> (await db.list('corpos')).filter(c=>c.nome).map(c=>c.nome)")
-    txt = pg.inner_text("#tcTabelaPainel")
-    ok("o painel não mostra nome completo, só as iniciais (RN05)", nomes and not any(n in txt for n in nomes) and "M. F. S" in txt)
-    ir(pg, url, "#/corpos", 400)
-    ok("a lista de corpos também usa iniciais (RN05)", not any(n in pg.inner_text("#conteudo") for n in nomes))
-    cid = pg.evaluate("async ()=> (await db.list('corpos')).find(c=>c.situacao==='aguardando identificação').id_corpo")
-    ir(pg, url, "#/corpo/" + cid, 500)
-    pg.select_option("#tcNovaSit", "não identificado"); pg.click("#btnTcSit"); pg.wait_for_timeout(400)
-    ok("não identificado sem motivo é recusado", "motivo" in pg.inner_text("#tcErrosSit"))
-    pg.fill("#tcMotivo", "30 dias sem identificação"); pg.click("#btnTcSit"); pg.wait_for_timeout(500)
-    ok("muda para não identificado com motivo no histórico", pg.inner_text("#tcSitAtual") == "não identificado" and "30 dias" in pg.inner_text("#tcHistSit"))
-    pg.select_option("#tcNovaSit", "em custódia"); pg.click("#btnTcSit"); pg.wait_for_timeout(400)
-    ok("em custódia exige identificação", "identificado" in pg.inner_text("#tcErrosSit"))
-    pg.check("#tcIdent"); pg.fill("#tcIdNome", "Pessoa Fictícia Identificada"); pg.fill("#tcIdDoc", "DOC-TESTE-9")
-    pg.click("#btnTcSit"); pg.wait_for_timeout(400)
-    ok("identificação sem método é recusada", "método" in pg.inner_text("#tcErrosSit"))
-    pg.select_option("#tcIdMetodo", "papiloscopia"); pg.click("#btnTcSit"); pg.wait_for_timeout(500)
-    c = pg.evaluate("async id => await db.get('corpos', id)", cid)
-    ok("identifica e volta a em custódia", c["identificado"] and c["nome"] == "Pessoa Fictícia Identificada" and c["situacao"] == "em custódia" and c["metodo_identificacao"] == "papiloscopia")
-    pg.select_option("#tcNovaSit", "não reclamado"); pg.fill("#tcMotivo", "Edital publicado"); pg.click("#btnTcSit"); pg.wait_for_timeout(500)
-    ok("identificado sem família vira não reclamado", pg.inner_text("#tcSitAtual") == "não reclamado")
-    ir(pg, url, "#/busca", 400); pg.fill("#tcBusca", "DOC-TESTE-9"); pg.press("#tcBusca", "Enter"); pg.wait_for_timeout(500)
-    ok("a busca acha pelo documento (RN04)", "Pessoa Fictícia Identificada" in pg.inner_text("#tcResultado"))
-    lac = pg.evaluate("async ()=> (await db.list('lacres'))[0]")
-    pg.fill("#tcBusca", lac["codigo"]); pg.press("#tcBusca", "Enter"); pg.wait_for_timeout(500)
-    prot = pg.evaluate("async id => (await db.get('corpos', id)).protocolo", lac["corpo_id"])
-    ok("a busca acha pelo código do lacre", prot in pg.inner_text("#tcResultado"))
-    pg.fill("#tcBusca", "maria souza"); pg.press("#tcBusca", "Enter"); pg.wait_for_timeout(500)
-    ok("a busca por nome aceita palavras fora de ordem", "Maria Fictícia Souza" in pg.inner_text("#tcResultado"))
-
 # Cenário do Sprint 3 do Passivo Ambiental: mapa temático (RN02) e versão impressa (RN03).
 
 

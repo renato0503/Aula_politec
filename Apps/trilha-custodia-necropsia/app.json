@@ -1,14 +1,14 @@
 {
   "titulo": "Sistema de Controle de Necropsia",
-  "subtitulo": "POLITEC/MT · IML, perícias em mortos",
-  "descricao": "Registro único de cada corpo, da remoção à liberação: acionamento, marcos, lacres, situação de identificação e busca. Dados fictícios.",
+  "subtitulo": "POLITEC/MT · Gerência de Necropsia — DMML",
+  "descricao": "Espelho do protótipo DMML/POLITEC: painel de situação, lista de corpos, resumo por agente causal e a ficha do caso com as sete etapas, a lacração dos materiais, a identificação, a liberação, o sepultamento pelo Estado e a entrega do laudo à ADM. Dados fictícios.",
   "visual": {
-    "acento": "#0a5c64",
+    "acento": "#1e3a5f",
     "icone": "etiqueta",
     "layout": "lateral",
     "padrao": "pontos",
     "estilo": "institucional",
-    "setor": "IML · Perícias em Mortos",
+    "setor": "IML · Gerência de Necropsia",
     "casca": "trilho",
     "cabecalho": "solido",
     "fonte": "condensada",
@@ -93,20 +93,20 @@
     {
       "rota": "#/painel",
       "titulo": "Painel",
-      "sprint": 3,
-      "descricao": "Painel por perfil: quadro das sete etapas (Técnico), sala de necropsia (Médico Legista) e fila da ADM (Gestor ADM). Lista com iniciais (RN05)."
+      "sprint": 10,
+      "descricao": "Painel de situação do espelho DMML: dez indicadores (casos totais, ocorrência em andamento, fila da necropsia, necropsia em andamento, aguardando identificação, aguardando família, aguardando funerária, sepultados pelo Estado, custódia finalizada e lacres pendentes). Clique no indicador para filtrar a lista. Por perfil: quadro das sete etapas (Técnico), sala de necropsia (Médico Legista) e fila da ADM (Gestor)."
     },
     {
       "rota": "#/corpos",
       "titulo": "Corpos",
-      "sprint": 2,
-      "descricao": "Lista com filtros de situação."
+      "sprint": 10,
+      "descricao": "Lista com busca, filtro de status, período e os cartões no celular. O botão Ver detalhes abre a gaveta lateral com a ficha do caso."
     },
     {
       "rota": "#/corpo/novo",
       "titulo": "Novo acionamento",
       "sprint": 2,
-      "descricao": "Registro com protocolo único (RN01).",
+      "descricao": "Registro das etapas 1 e 2 com protocolo único (RN01).",
       "perfis": [
         "tecnico",
         "gestor"
@@ -115,14 +115,14 @@
     {
       "rota": "#/corpo/:id",
       "titulo": "Corpo",
-      "sprint": 9,
-      "descricao": "Etapas 1 a 7, exame complementar (DNA, odontologia legal, antropologia), decisão de sepultamento pelo Gestor ADM, funerária nos dois destinos, laudo em paralelo, encerramento com três condições e retificação (RN02, RN03, RN06 a RN12)."
+      "sprint": 10,
+      "descricao": "Ficha do caso no espelho DMML: stepper das sete etapas, acionamento, ocorrência e possível vítima, alocação na base, necropsia com os quatro materiais lacrados, identificação com exame complementar (RN11), família e liberação, funerária, entrega do laudo à ADM, encerramento (RN10) e retificação (RN12)."
     },
     {
       "rota": "#/busca",
       "titulo": "Busca",
       "sprint": 3,
-      "descricao": "Busca por protocolo, nome, documento ou lacre (RN04)."
+      "descricao": "Busca por protocolo, nome, documento, delegacia ou lacre (RN04)."
     },
     {
       "rota": "#/config",
@@ -133,8 +133,8 @@
     {
       "rota": "#/resumo",
       "titulo": "Resumo",
-      "sprint": 8,
-      "descricao": "Distribuição por agente causal: liberados para a família, sepultados pelo Estado, aguardando identificação e custódia finalizada."
+      "sprint": 10,
+      "descricao": "Resumo por agente causal: total de corpos, liberados para a família, sepultados pelo Estado, aguardando identificação, identificados mas não reclamados e custódia finalizada."
     }
   ],
   "libs": [],

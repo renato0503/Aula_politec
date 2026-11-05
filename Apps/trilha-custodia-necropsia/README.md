@@ -1,4 +1,4 @@
-# Sistema de Controle de Necropsia
+﻿# Sistema de Controle de Necropsia
 
 Registro digital único de cada corpo, da remoção à liberação: acionamento,
 marcos de deslocamento, lacres das amostras, situação de identificação e busca
@@ -18,12 +18,14 @@ parciais e do protótipo que a aluna construiu.
 
 ## Arquivos
 
-- `envio-original.json`: o envio mais recente (CNC, 29/10/2026 13:30), sem alteração.
+- `entrega-original.json`: o envio mais recente (CNC, 29/10/2026 13:30), sem alteração.
 - `envio-tcin.json`: o envio anterior (TCIN, 29/10/2026 12:37), preservado.
 - `prototipo/tci.html`: o protótipo que a aluna gerou na IA, com os assets e o link original.
+- `entregas/2026-11-02/` e `entregas/2026-11-05/`: o protótipo e o fluxograma
+  revisado que a aluna entregou, com o novo TO-BE em `docs/diagramas/to-be.manual.mmd`.
 - `projeto.json` e `PROJETO.md`: o envio completado (o original parava no problema).
 - `contexto.md` e `sprint.md`: arquitetura e plano de construção.
-- `app.json`, `src/app.js`, `exemplos/`, `index.html`.
+- `app.json`, `src/app.js`, `src/identidade.js`, `exemplos/`, `index.html`.
 
 ## Pendências
 
@@ -121,16 +123,32 @@ Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app �
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
 seguem o português do Brasil com acentuação, sem travessões.
 
-## Identidade e usabilidade (02/11/2026)
+## Espelho do protótipo DMML / POLITEC (05/11/2026)
 
-O app tem casca de trilho de ícones, cabeçalho sólido, fonte condensada e
-densidade ampla, para uso em tablet no IML. O painel é **por perfil** (atualizado
-no Sprint 9): o Técnico vê o **quadro das sete etapas** em colunas (com cartões de
-corpo, iniciais, dias no IML e último marco), o Médico Legista vê a sala de
-necropsia (etapas 3 a 5) e o Gestor ADM vê a **fila da ADM**, os tempos, a
-permanência e o alerta de 12 h. A ficha do corpo virou abas: Resumo, Etapas,
-Marcos, Lacres, Situação, Liberação e Auditoria.
-Código em `src/identidade.js` e `src/app.css`.
+O app é o **espelho** do protótipo "Sistema de Controle de Necropsia — DMML _
+POLITEC.html" (em `Ncropsis/`, na raiz do repositório), campo a campo:
+
+- **Faixa de cabeçalho** navy com o título, o perfil de acesso e a marca de
+  protótipo.
+- **Painel** com os dez indicadores do protótipo. Clicar num indicador abre a
+  lista já filtrada. Abaixo, por perfil: o quadro das sete etapas (Técnico), a
+  sala de necropsia (Médico Legista) e a fila da ADM (Gestor).
+- **Corpos**: busca, filtro de situação, período, contagem, tabela e cartões no
+  celular. O botão "Ver detalhes" abre a **gaveta lateral** com a ficha.
+- **Resumo** por agente causal, com as seis colunas e o total geral.
+- **Ficha do caso**: stepper das sete etapas e os blocos do protótipo
+  (acionamento, ocorrência e possível vítima, alocação na base, necropsia com
+  os quatro materiais lacrados, identificação, família e liberação, funerária,
+  entrega do laudo à ADM), mais o encerramento, as retificações e o histórico.
+- **Janelas**: assinatura no canvas e justificativa do sepultamento pelo Estado.
+
+Código em `src/identidade.js` (interface) e `src/app.js` (modelo e regras);
+CSS em `src/app.css`. Os dados fictícios são os dez corpos do protótipo, gerados
+por `exemplos/gerar_exemplos.py`.
+
+O que continua sendo do curso, e não do protótipo: a RN05 (a lista mostra só as
+iniciais do nome), o exame complementar (RN11), o laudo em paralelo, o
+encerramento com três condições (RN10) e a retificação (RN12).
 
 ## Mapa do processo
 
@@ -162,5 +180,9 @@ O fluxograma e o protótipo que a Silmara trouxe em 05/11/2026 estão em
 - **A liberação só acontece pela etapa 6**: os atalhos antigos (situação manual e
   auto de entrega do Sprint 4) foram fechados.
 
-Código em `src/sprint8.js` (etapas 5 a 7), `src/sprint9.js` (retificação e
-bloqueios) e `src/identidade.js` (painéis). Cenário `s9_fluxograma_da_silmara`.
+Código: as regras das etapas 5 a 7, do laudo em paralelo e da retificação estão
+em `src/app.js`; a interface (painel, lista, gaveta, ficha e janelas) está em
+`src/identidade.js`. No Sprint 10 os arquivos `src/sprint3.js`, `src/sprint4.js`,
+`src/sprint8.js` e `src/sprint9.js` foram consolidados nesses dois arquivos,
+porque o espelho do protótipo reescreveu as telas; as regras e os testes
+embutidos foram mantidos.

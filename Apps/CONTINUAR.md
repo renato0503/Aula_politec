@@ -507,14 +507,17 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 
 ### TCIN · Trilha de Custódia e Identificação (`trilha-custodia-necropsia`)
 
-- **Visual**: acento `#0a5c64`, emblema `etiqueta`, layout `lateral`, padrão `pontos`, cabeçalho `institucional`.
-- **Sprints concluídos**: 1, 2, 3, 4, 5, 6, 7.
-- **Situação**: MVP completo até o Sprint 7. Roteiro de aceite em `modelos/roteiro-aceite.md`; o que falta depende de pessoas (ver `PREMISSAS.md`).
+- **Visual**: acento `#1e3a5f` (navy do protótipo DMML), emblema `etiqueta`, layout `lateral`, padrão `pontos`, cabeçalho `institucional`.
+- **Sprints concluídos**: 1 a 10.
+- **Situação**: MVP completo. Desde o Sprint 10 (05/11/2026) o app é o **espelho do protótipo** da aluna ("Sistema de Controle de Necropsia — DMML _ POLITEC.html", em `entregas/2026-11-05/`): faixa de cabeçalho navy, painel de dez indicadores, lista de corpos com filtros e gaveta lateral, resumo por agente causal e ficha do caso com as sete etapas, assinatura no canvas e janela de justificativa. Os dados fictícios são os dez corpos do protótipo. O que falta depende de pessoas (ver `PREMISSAS.md`).
 - **Sprint 0**: premissas assumidas em 30/10/2026. Cada item abaixo tem o valor
   adotado em [PREMISSAS.md](PREMISSAS.md), que é o que falta confirmar:
   - [ ] Confirmar com a aluna e o IML o nome do projeto (CNC ou TCIN).
   - [ ] Validar os quatro marcos e os livros que o app substitui.
   - [ ] Medir a linha de base de remoção, identificação e liberação.
+  - [ ] Confirmar os campos do protótipo que o app assume (chegada ao local,
+    câmara e gaveta, estado do corpo, os quatro materiais da necropsia e o
+    alcance de cada perfil).
 
 
 ## Onda 2 concluída (03/11/2026)

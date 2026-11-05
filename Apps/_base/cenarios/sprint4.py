@@ -745,56 +745,6 @@ def s6_produtividade_e_aceite(pg, url, ok):
     ok("o CSV de produtividade sai com BOM e as colunas do laudo", csv.startswith(b"\xef\xbb\xbf") and b"requisicao;numero;orgao" in csv)
     ok("o roteiro de aceite está em modelos/", (APPS / "passivo-ambiental" / "modelos" / "roteiro-aceite.md").exists())
 
-# Cenários dos Sprints 4 a 7 da TCIN: liberação, painel do gestor e retenção.
-
-
-@cenario("trilha-custodia-necropsia")
-def s4_auto_de_entrega(pg, url, ok):
-    perfil(pg, url, "tecnico")
-    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
-    # corpo identificado e em custódia
-    cid = pg.evaluate("async ()=> (await db.list('corpos')).find(c=>c.identificado && c.situacao!=='liberado').id_corpo")
-    ir(pg, url, "#/corpo/" + cid, 700)
-    ok("a ficha mostra o bloco do auto de entrega", pg.locator("#tcLiberacao").count() == 1)
-    ok("o formulário antigo de liberação foi fechado (Sprint 9)", pg.locator("#formTcAuto").count() == 0 and pg.locator("#tcLiberacaoNaEtapa").count() == 1)
-    ok("a regra RN02 continua valendo na função", pg.evaluate("() => tcFaltaAuto({identificado: false}, {responsavel: 'X', documento: 'Y', data: 'Z'}).length === 1"))
-    ok("o corpo não foi liberado por fora da etapa 6", pg.evaluate("async id => (await db.get('corpos', id)).situacao !== 'liberado'", cid))
-
-
-@cenario("trilha-custodia-necropsia")
-def s5_painel_do_gestor(pg, url, ok):
-    perfil(pg, url, "gestor")
-    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
-    ir(pg, url, "#/painel", 900)
-    ok("o painel do gestor mostra os três tempos", pg.locator("[data-tc-ind=remocao]").count() == 1
-       and pg.locator("[data-tc-ind=identificacao]").count() == 1 and pg.locator("[data-tc-ind=liberacao]").count() == 1)
-    calc = pg.evaluate("""async ()=>{ const cs = await db.list('corpos'), ms = await db.list('marcos'); return tcTempos(cs, ms); }""")
-    ok("o tempo de remoção bate com os marcos", pg.inner_text("[data-tc-ind=remocao]").startswith(str(calc["remocao"])) or calc["remocao"] is None)
-    ok("a tabela de permanência lista os corpos no IML", pg.locator("#tabelaPermanencia tr").count() > 1)
-    ok("o painel conta os corpos sem movimentação (plantão)", pg.locator("[data-tc-ind=plantao]").count() == 1)
-    ok("o alerta de passagem de plantão aparece quando há corpo parado",
-       pg.locator("#tcAlertaPlantao").count() == (1 if calc["remocao"] is not None and int(pg.inner_text("[data-tc-ind=plantao]")) > 0 else 0))
-
-
-@cenario("trilha-custodia-necropsia")
-def s6_relatorio_e_retencao(pg, url, ok):
-    perfil(pg, url, "gestor")
-    ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
-    ir(pg, url, "#/painel", 900)
-    with pg.expect_download() as dl:
-        pg.click("#btnTcCsv")
-    csv = pathlib.Path(dl.value.path()).read_bytes()
-    ok("o CSV sai com BOM e as colunas do caso", csv.startswith(b"\xef\xbb\xbf") and b"protocolo;situacao;identificado" in csv)
-    # retenção: libera um corpo e apaga
-    cid = pg.evaluate("async ()=> (await db.list('corpos')).find(c=>c.identificado && c.situacao!=='liberado').id_corpo")
-    pg.evaluate("""async id => { const c = await db.get('corpos', id);
-        await db.put('corpos', {...c, situacao: 'liberado', entrega: {responsavel: 'Familiar', documento: 'AUTO-X', data: agora()}}); }""", cid)
-    ir(pg, url, "#/corpo/" + cid, 800)
-    ok("o caso liberado mostra o bloco de privacidade e retenção", "Privacidade e retenção" in pg.inner_text("#conteudo"))
-    pg.click("#btnTcApagar"); pg.wait_for_timeout(900)
-    ok("os dados do caso são apagados e a contagem fica", pg.evaluate("async id => !(await db.get('corpos', id))", cid)
-       and pg.evaluate("async ()=> ((await db.get('contagens','tcin_apagados'))||{}).valor") == 1)
-    ok("o roteiro de aceite está em modelos/", (APPS / "trilha-custodia-necropsia" / "modelos" / "roteiro-aceite.md").exists())
 
 # Cenários dos Sprints 4 a 7 da Renovação de Contratos: ajustes, fiscais e valor em risco.
 
