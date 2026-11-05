@@ -1436,19 +1436,172 @@ teste("dataDeTexto('29/10/2026 09:05:00')", ()=> dataDeTexto("29/10/2026 09:05:0
 
 /* Banco de Demandas · código do app (o construir.py junta com a base comum) */
 "use strict";
+/* ================= Catálogo: unidades (setores) e unidades de medida ================= */
+/* A nova demanda exige unidade e unidade de medida; sem catálogo ela não salva. */
+function validarUnidade(u, todas = []){
+  const e = [], nome = String(u.nome || "").trim(), sigla = String(u.sigla || "").trim();
+  if (!nome) e.push("Informe o nome da unidade (setor).");
+  if (!sigla) e.push("Informe a sigla da unidade.");
+  const repetida = sigla && todas.find(o => o.id !== u.id && String(o.sigla || "").trim().toUpperCase() === sigla.toUpperCase());
+  if (repetida) e.push(`A sigla ${sigla} já é da unidade "${repetida.nome}".`);
+  return e;
+}
+function validarMedida(m, todas = []){
+  const e = [], sigla = String(m.sigla || "").trim(), nome = String(m.nome || "").trim();
+  if (!sigla) e.push("Informe a sigla da unidade de medida (un, kg, L...).");
+  if (!nome) e.push("Informe o nome da unidade de medida.");
+  const repetida = sigla && todas.find(o => o.id !== m.id && String(o.sigla || "").trim().toUpperCase() === sigla.toUpperCase());
+  if (repetida) e.push(`A sigla ${sigla} já é da unidade de medida "${repetida.nome}".`);
+  return e;
+}
+// Quantos registros usam o item do catálogo: impede excluir o que está em uso.
+async function usoNoCatalogo(store, id){
+  if (store === "unidades"){
+    const [ds, ms, is] = await Promise.all([db.list("banco_demandas"), db.list("banco_demanda_manifestacoes"), db.list("banco_demanda_inclusoes")]);
+    return ds.filter(x=>x.unidade_id === id).length + ms.filter(x=>x.unidade_id === id).length + is.filter(x=>x.unidade_id === id).length;
+  }
+  return (await db.list("banco_demandas")).filter(x=>x.unidade_medida_id === id).length;
+}
+teste("Catálogo: unidade exige nome e sigla", ()=> validarUnidade({nome: "", sigla: ""}, []).length === 2);
+teste("Catálogo: sigla de unidade repetida é recusada", ()=> validarUnidade({id: "b", nome: "Setor B", sigla: "lqf"}, [{id: "a", nome: "Setor A", sigla: "LQF"}]).length === 1);
+teste("Catálogo: unidade de medida exige sigla e nome", ()=> validarMedida({sigla: "", nome: ""}, []).length === 2);
+teste("Catálogo: não exclui unidade em uso", async ()=>{
+  await db.put("unidades", {id: "uCat", nome: "Unidade de teste", sigla: "TST"});
+  await db.put("banco_demandas", {id: "dCat", unidade_id: "uCat", unidade_medida_id: "mCat", grupo: "CUSTEIO", especificacao_tecnica: "teste"});
+  const uso = await usoNoCatalogo("unidades", "uCat");
+  await db.del("banco_demandas", "dCat"); await db.del("unidades", "uCat");
+  return uso === 1;
+});
+
+async function blocoUnidades(){
+  const [unidades, diretorias, orgaos] = await Promise.all([db.list("unidades"), db.list("diretorias"), db.list("orgaos")]);
+  const dir = Object.fromEntries(diretorias.map(d=>[d.id, d])), org = Object.fromEntries(orgaos.map(o=>[o.id, o]));
+  const lista = [...unidades].sort((a, b)=>String(a.nome).localeCompare(String(b.nome), "pt-BR"));
+  return `<div class="card" id="blocoUnidades"><h2 style="margin-top:0">Unidades (setores)</h2>
+    <p class="sub">O setor a que a demanda pertence. É obrigatório na nova demanda: sem ao menos uma unidade cadastrada, não é possível salvar.</p>
+    ${lista.length ? `<div class="tabela-wrap"><table>
+      <tr><th>Sigla</th><th>Nome</th><th>Diretoria</th><th>Órgão</th><th>Ações</th></tr>
+      ${lista.map(u=>`<tr><td class="mono">${esc(u.sigla || "—")}</td><td>${esc(u.nome)}</td>
+        <td>${esc(dir[u.diretoria_id]?.nome || "—")}</td><td>${esc(org[u.orgao_id]?.nome || "—")}</td>
+        <td><button type="button" data-editar-unidade="${esc(u.id)}">Editar</button>
+        <button type="button" class="perigo" data-excluir-unidade="${esc(u.id)}">Excluir</button></td></tr>`).join("")}</table></div>`
+      : `<p class="sub"><b>Nenhuma unidade cadastrada ainda.</b> Cadastre a primeira no formulário abaixo.</p>`}
+    <form id="formUnidade" style="margin-top:14px"><input type="hidden" id="uId" value="">
+      <div class="campos">
+        ${campo("uNome", "Nome da unidade (setor)", {obrigatorio: true, attrs: 'placeholder="Ex.: Laboratório de Química Forense"'})}
+        ${campo("uSigla", "Sigla", {obrigatorio: true, attrs: 'placeholder="Ex.: LQF" maxlength="12"'})}
+        ${campo("uDiretoria", "Diretoria (opcional)", {tipo: "select", opcoes: [["", "Sem diretoria"], ...diretorias.map(d=>[d.id, `${d.sigla ? d.sigla + " · " : ""}${d.nome}`])]})}
+        ${campo("uOrgao", "Órgão (opcional)", {tipo: "select", opcoes: [["", "Sem órgão"], ...orgaos.map(o=>[o.id, o.nome])]})}
+      </div>
+      <div id="errosUnidade"></div>
+      <div class="linha-botoes"><button class="prim" type="submit" id="btnUnidade">Cadastrar unidade</button>
+        <button type="button" id="btnCancelarUnidade" hidden>Cancelar edição</button></div>
+    </form></div>`;
+}
+
+async function blocoMedidas(){
+  const medidas = await db.list("unidades_medida");
+  const lista = [...medidas].sort((a, b)=>String(a.sigla).localeCompare(String(b.sigla), "pt-BR"));
+  return `<div class="card" id="blocoMedidas"><h2 style="margin-top:0">Unidades de medida</h2>
+    <p class="sub">Como a quantidade é contada: un, lic, kg, L, m²... É obrigatória na nova demanda.</p>
+    ${lista.length ? `<div class="tabela-wrap"><table><tr><th>Sigla</th><th>Nome</th><th>Ações</th></tr>
+      ${lista.map(m=>`<tr><td class="mono">${esc(m.sigla)}</td><td>${esc(m.nome)}</td>
+        <td><button type="button" data-editar-medida="${esc(m.id)}">Editar</button>
+        <button type="button" class="perigo" data-excluir-medida="${esc(m.id)}">Excluir</button></td></tr>`).join("")}</table></div>`
+      : `<p class="sub"><b>Nenhuma unidade de medida cadastrada ainda.</b> Cadastre a primeira no formulário abaixo.</p>`}
+    <form id="formMedida" style="margin-top:14px"><input type="hidden" id="mId" value="">
+      <div class="campos">
+        ${campo("mSigla", "Sigla", {obrigatorio: true, attrs: 'placeholder="Ex.: UN" maxlength="10"'})}
+        ${campo("mNome", "Nome", {obrigatorio: true, attrs: 'placeholder="Ex.: unidade"'})}
+      </div>
+      <div id="errosMedida"></div>
+      <div class="linha-botoes"><button class="prim" type="submit" id="btnMedida">Cadastrar unidade de medida</button>
+        <button type="button" id="btnCancelarMedida" hidden>Cancelar edição</button></div>
+    </form></div>`;
+}
+
 async function configExtra(){
   const unidades = await db.list("unidades"); const atual = await db.meta("unidade_id");
   return `<div class="card"><h2 style="margin-top:0">Unidade e usuário desta cópia</h2>
     <p class="sub">A unidade define de quem são as demandas criadas aqui. O usuário fica registrado como autor (criado_por).</p>
     <div class="campos">
     ${unidades.length ? campo("selUnidade", "Unidade", {tipo: "select", opcoes: [["", "Escolha"], ...unidades.map(u=>[u.id, u.nome])], valor: atual || ""})
-      : `<p class="sub">Carregue os dados fictícios para escolher uma unidade.</p>`}
+      : `<p class="sub">Cadastre uma unidade no catálogo abaixo para escolher a desta cópia.</p>`}
     ${campo("cfgUsuario", "Seu usuário", {valor: (await db.meta("usuario")) || "", ajuda: "O mesmo login do Hórus, para a exportação bater."})}
-    </div></div>`;
+    </div></div>
+    ${await blocoUnidades()}
+    ${await blocoMedidas()}`;
 }
+
+function preencherUnidade(u = {}){
+  $("#uId").value = u.id || ""; $("#uNome").value = u.nome || ""; $("#uSigla").value = u.sigla || "";
+  $("#uDiretoria").value = u.diretoria_id || ""; $("#uOrgao").value = u.orgao_id || "";
+  $("#btnUnidade").textContent = u.id ? "Salvar alterações" : "Cadastrar unidade";
+  $("#btnCancelarUnidade").hidden = !u.id; $("#errosUnidade").innerHTML = "";
+  if (u.id) $("#uNome").focus();
+}
+function preencherMedida(m = {}){
+  $("#mId").value = m.id || ""; $("#mSigla").value = m.sigla || ""; $("#mNome").value = m.nome || "";
+  $("#btnMedida").textContent = m.id ? "Salvar alterações" : "Cadastrar unidade de medida";
+  $("#btnCancelarMedida").hidden = !m.id; $("#errosMedida").innerHTML = "";
+  if (m.id) $("#mSigla").focus();
+}
+
 async function ligarConfigExtra(){
   $("#selUnidade")?.addEventListener("change", async e=>{ await db.meta("unidade_id", e.target.value); await registrar("unidade da cópia", {detalhe: e.target.value}); toast("Unidade salva."); });
   $("#cfgUsuario")?.addEventListener("change", async e=>{ await db.meta("usuario", e.target.value.trim()); toast("Usuário salvo."); });
+
+  /* catálogo de unidades (setores) */
+  $("#formUnidade")?.addEventListener("submit", async ev=>{
+    ev.preventDefault();
+    const todas = await db.list("unidades"), id = valorDe("uId"), antes = id ? todas.find(u=>u.id === id) : null;
+    const u = {id: id || uuid(), nome: valorDe("uNome"), sigla: valorDe("uSigla").toUpperCase(),
+      diretoria_id: valorDe("uDiretoria") || null, orgao_id: valorDe("uOrgao") || null,
+      created_at: antes?.created_at || agora(), updated_at: agora()};
+    if (!mostrarErros("#errosUnidade", validarUnidade(u, todas))) return;
+    await db.put("unidades", u);
+    await registrar(antes ? "unidade alterada" : "unidade cadastrada", {detalhe: `${u.sigla} · ${u.nome}`});
+    toast(antes ? "Unidade alterada." : "Unidade cadastrada."); navegar();
+  });
+  $("#btnCancelarUnidade")?.addEventListener("click", ()=>preencherUnidade());
+  $$("[data-editar-unidade]").forEach(b=>b.addEventListener("click", async ()=>{
+    const u = await db.get("unidades", b.dataset.editarUnidade); if (u) preencherUnidade(u);
+  }));
+  $$("[data-excluir-unidade]").forEach(b=>b.addEventListener("click", async ()=>{
+    const id = b.dataset.excluirUnidade, u = await db.get("unidades", id); if (!u) return;
+    const uso = await usoNoCatalogo("unidades", id);
+    if (uso) return toast(`Não dá para excluir: ${uso} registro(s) usam esta unidade.`, 5000);
+    if (!confirm(`Excluir a unidade "${u.nome}" do catálogo?`)) return;
+    await db.del("unidades", id);
+    if ((await db.meta("unidade_id")) === id) await db.meta("unidade_id", "");
+    await registrar("unidade excluída", {detalhe: `${u.sigla} · ${u.nome}`});
+    toast("Unidade excluída."); navegar();
+  }));
+
+  /* catálogo de unidades de medida */
+  $("#formMedida")?.addEventListener("submit", async ev=>{
+    ev.preventDefault();
+    const todas = await db.list("unidades_medida"), id = valorDe("mId"), antes = id ? todas.find(m=>m.id === id) : null;
+    const m = {id: id || uuid(), sigla: valorDe("mSigla").toUpperCase(), nome: valorDe("mNome"),
+      created_at: antes?.created_at || agora(), updated_at: agora()};
+    if (!mostrarErros("#errosMedida", validarMedida(m, todas))) return;
+    await db.put("unidades_medida", m);
+    await registrar(antes ? "unidade de medida alterada" : "unidade de medida cadastrada", {detalhe: `${m.sigla} · ${m.nome}`});
+    toast(antes ? "Unidade de medida alterada." : "Unidade de medida cadastrada."); navegar();
+  });
+  $("#btnCancelarMedida")?.addEventListener("click", ()=>preencherMedida());
+  $$("[data-editar-medida]").forEach(b=>b.addEventListener("click", async ()=>{
+    const m = await db.get("unidades_medida", b.dataset.editarMedida); if (m) preencherMedida(m);
+  }));
+  $$("[data-excluir-medida]").forEach(b=>b.addEventListener("click", async ()=>{
+    const id = b.dataset.excluirMedida, m = await db.get("unidades_medida", id); if (!m) return;
+    const uso = await usoNoCatalogo("unidades_medida", id);
+    if (uso) return toast(`Não dá para excluir: ${uso} demanda(s) usam esta unidade de medida.`, 5000);
+    if (!confirm(`Excluir a unidade de medida "${m.sigla} · ${m.nome}" do catálogo?`)) return;
+    await db.del("unidades_medida", id);
+    await registrar("unidade de medida excluída", {detalhe: `${m.sigla} · ${m.nome}`});
+    toast("Unidade de medida excluída."); navegar();
+  }));
 }
 teste("R9: segunda manifestação da mesma unidade no mesmo item é recusada", async ()=>{
   const a = {id: "t1", banco_demanda_id: "dX", unidade_id: "uX"}, b = {id: "t2", banco_demanda_id: "dX", unidade_id: "uX"};
@@ -1500,8 +1653,14 @@ async function telaDemanda({id}){
   const usuario = await db.meta("usuario"), unidadeCopia = await db.meta("unidade_id");
   const v = d || {grupo: "CUSTEIO", unidade_id: unidadeCopia || "", links_referencia: [""]};
   const reais = x => x ? dinheiro.fmt(Math.round(x * 100)).replace("R$ ", "") : "";
+  const faltaCatalogo = [
+    unidades.length ? "" : "nenhuma unidade (setor)",
+    medidas.length ? "" : "nenhuma unidade de medida"
+  ].filter(Boolean);
   return `<h1>${d ? "Editar demanda" : "Nova demanda"}</h1>
     ${usuario ? "" : `<div class="card pendente">Informe o seu usuário em <a href="#/config">Configuração</a>; ele fica registrado como autor da demanda.</div>`}
+    ${faltaCatalogo.length ? `<div class="card pendente">O catálogo está incompleto: falta ${faltaCatalogo.join(" e ")}.
+      Esses campos são obrigatórios, então a demanda não salva sem eles. <a href="#/config">Cadastrar em Configuração</a>.</div>` : ""}
     <form class="card" id="formDemanda"><div class="campos">
       ${campo("dGrupo", "Grupo", {tipo: "select", opcoes: [["CUSTEIO", "Custeio"], ["INVESTIMENTO", "Investimento"]], valor: v.grupo, obrigatorio: true})}
       ${campo("dUnidade", "Unidade", {tipo: "select", opcoes: [["", "Escolha"], ...unidades.map(u=>[u.id, u.nome])], valor: v.unidade_id, obrigatorio: true})}

@@ -41,6 +41,40 @@ def jornada_horus(j):
 
 
 
+def jornada_catalogo(j):
+    """Catálogo de unidades (setores) e de unidades de medida, e uma demanda usando as duas."""
+    j.trocar_perfil("DIRETOR")
+    j.ir("#/config")
+    j.preencher("#uNome", "Setor de Catálogo")
+    j.preencher("#uSigla", "CAT")
+    j.clicar("#btnUnidade")
+    j.esperar_texto("#blocoUnidades", "Setor de Catálogo")
+    j.ok("cadastra uma unidade (setor) no catálogo", "Setor de Catálogo" in j.texto("#blocoUnidades"))
+    j.preencher("#mSigla", "M3")
+    j.preencher("#mNome", "metro cúbico")
+    j.clicar("#btnMedida")
+    j.esperar_texto("#blocoMedidas", "M3")
+    j.ok("cadastra uma unidade de medida no catálogo", "M3" in j.texto("#blocoMedidas"))
+
+    j.ir("#/demanda/nova")
+    uid = j.avaliar("() => db.list('unidades').then(x => x.find(u => u.sigla === 'CAT').id)")
+    mid = j.avaliar("() => db.list('unidades_medida').then(x => x.find(m => m.sigla === 'M3').id)")
+    j.selecionar("#dUnidade", uid)
+    j.selecionar("#dMedida", mid)
+    j.preencher("#dValor", "12,50")
+    j.preencher("#dQtd", "4")
+    j.preencher("#dEspec", "Material de consumo do setor de catálogo, com especificação técnica acima do mínimo exigido de cinquenta caracteres.")
+    j.preencher("#dJust", "Justificativa acima de cem caracteres para atender à regra R2, descrevendo a necessidade do setor de catálogo e a finalidade do item no ciclo do PCA.")
+    j.preencher("#dLinks", "https://www.gov.br/compras")
+    j.clicar("#formDemanda button[type=submit]")
+    j.esperar(lambda: j.avaliar("() => location.hash") == "#/banco", 15)
+    j.ok("salva a demanda com a unidade e a medida cadastradas", j.avaliar("() => location.hash") == "#/banco")
+    j.ir("#/config")
+    j.clicar("[data-excluir-unidade='%s']" % uid)
+    j.esperar_texto("#blocoUnidades", "Setor de Catálogo")
+    j.ok("bloqueia excluir uma unidade que já está em uso", "Setor de Catálogo" in j.texto("#blocoUnidades"))
+
+
 def jornada_mobile(j):
     j.abrir("")
     j.pg.wait_for_timeout(500)
@@ -66,6 +100,7 @@ def executar(navegador, url, cdp):
             j.abrir("#/config")
             j.trocar_perfil(PERFIL)
         jornada_horus(j)
+        jornada_catalogo(j)
     except Exception as e:
         j.erro("exceção durante a jornada", "P1", "a jornada termina sem exceção", f"{type(e).__name__}: {e}")
         traceback.print_exc()
