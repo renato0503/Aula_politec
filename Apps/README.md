@@ -26,7 +26,7 @@ recebe o código do app.
 | [metas-bi-ocr/](metas-bi-ocr/) | Monitoramento de Metas pelo BI | Karine Assunção · karineassuncao@politec.mt.gov.br | CQUAL (NIINS) | Automação de script ou rotina | `Aula 8/Entregas/`, 29/10/2026 10:14 |
 | [rnc-nao-conformidade/](rnc-nao-conformidade/) | Registro de Não Conformidade (RNC) | Sabrina Ellen · sabrinasilva@politec.mt.gov.br | CQUAL | Formulário + painel | `Aula 8/Entregas/`, 29/10/2026 09:46 |
 | [agendamento-cin/](agendamento-cin/) | Agendamento CIN (postos de identificação) | Elthon Teixeira · elthonteixeira@politec.mt.gov.br | Identificação Civil | Aplicativo web / portal | `Aula 8/Entregas/`, 29/10/2026 09:08 |
-| [agiliza-mais/](agiliza-mais/) | Agiliza + · gerador de laudos Word | Diego Costa, Francineide da Silva, Andreia Cristina e Eric Zambrim · diego.n.costa@aluno.senai.br | POLITEC no geral | Automação de script ou rotina | Firestore, 27/10/2026 |
+| [agiliza-mais/](agiliza-mais/) | Agiliza + · gerador de laudos Word | Diego Costa, Francineide da Silva, Andreia Cristina, Eric Zambrim e Mario Palma · diego.n.costa@aluno.senai.br | POLITEC no geral | Automação de script ou rotina | Firestore, 27/10/2026 |
 | [horus-banco-demandas/](horus-banco-demandas/) | Hórus · Banco de Demandas (PCA) | Iohan Camões de Albuquerque · iohan.camoes@gmail.com | Planejamento de Contratações | Aplicativo web / portal | `Aula 8/Entregas/`, 29/10/2026 08:47 |
 | [inscricoes-cursos/](inscricoes-cursos/) | Gestão Dinâmica de Inscrições em Cursos | Edilaura Rondon · capacitacao@politec.mt.gov.br | Gerência de Formação Inicial e Continuada | Aplicativo para servidor | `Aula 8/Entregas/`, 29/10/2026 08:56 |
 | [mapa-distribuicao-credor/](mapa-distribuicao-credor/) | Mapa de Distribuição por Credor e Distribuição Orçamentária | Igor Henrique de Menezes Costa · izgdreyar@gmail.com | Setor de Licitações | Automação de script ou rotina | `Aula 8/Entregas/`, 29/10/2026 09:04 |
@@ -167,7 +167,7 @@ Para acrescentar um login: `python Apps/_base/equipes.py <app> "<nome>" <login>`
 |---|---|---|
 | adiantamento | Jaqueline, Linicker | `jaquelineaguiar-prog` (Jaqueline), `Linickeraraujo-sd` (Linicker) |
 | agendamento-cin | Elthon | `Elthonteix-debug` (Elthon) |
-| agiliza-mais | Diego Costa, Francineide da Silva, Andreia Cristina, Eric Zambrim | `diegocosta-dotcom` (Diego), `francineidesilva-sys` (Francineide), `andreiamunzlinger-web` (Andreia) |
+| agiliza-mais | Diego Costa, Francineide da Silva, Andreia Cristina, Eric Zambrim, Mario Palma | `diegocosta-dotcom` (Diego), `francineidesilva-sys` (Francineide), `andreiamunzlinger-web` (Andreia) |
 | cin-segunda-via | André, Flávia, Glauce | `andresilva-papi` (André), `flaviasilva-oss` (Flávia) |
 | comissao-etica-denuncias | Letícia, Thiago | `thiagouchaki` (Thiago) |
 | controle-aquisicoes | Kasteline Gonçalves | `kastelinesilva-netizen` (Kasteline) |

@@ -287,3 +287,18 @@ e a limpeza remove os dados pessoais do IndexedDB (conferir no DevTools).
 
 **Pronto quando**: um caso completo gera o Word timbrado sem ajuste manual de formatação, a revisão tem só os dois campos pedidos e os textos podem ser editados.
 
+
+## Sprint 15 · OCR real e leitura da requisição da Polícia Civil (05/11/2026)
+
+O OCR do Sprint 10 era simulado: com a requisição escaneada (`CASO TESTE 2`, 16 páginas em imagem), o app mostrava "o OCR não está embutido" e não lia nada. Além disso, os arquivos reais não tinham os nomes nem os rótulos que os extratores esperavam.
+
+- [x] OCR embutido (Tesseract.js 5.1.1, idioma português, copiado do `metas-bi-ocr`), sem rede: `src/ocr.js`, blobs no `app.json` e `'wasm-unsafe-eval'` na CSP.
+- [x] Todas as páginas são lidas: camada de texto quando existe e OCR nas escaneadas, com até 3 workers em paralelo e barra de andamento (16 páginas em cerca de 90 s; antes, 240 s com um worker).
+- [x] Texto lido de cada página, com a origem e a confiança, na Conferência.
+- [x] Requisição de perícia da Polícia Civil: número da requisição, natureza do exame, itens a periciar (descrição, lacre, identificador, IMEI e código de apreensão), quesitos específicos sem numeração, procedimento (I.P.), BO, enquadramento, destinação, data e local do fato, autoridade (linha acima de "Delegado(a) de Polícia"), data por extenso ("Cuiabá/MT, 31 de julho de 2025") e processo no formato CNJ em qualquer página. O protocolo vem do nome do arquivo (`-082977.2026`).
+- [x] Rótulos e nomes de arquivo reconhecidos sem diferença de maiúsculas, minúsculas e acentos: `DeviceInfo - Projeto.txt`, `Hashdohash - Projeto.txt`, `Vendor`, `Device Model`, `IMEI`, `IMEI2`, `Filename`, `SHA-256` com o valor na linha seguinte, `Report.html` do UFED (`ICCID:` e `SPN`) fora da pasta OBJ.
+- [x] O PDF do DeviceInfo, do Hashdohash e do SIM/USIM servem de reserva quando o TXT ou o HTML não estão na pasta.
+- [x] Marcadores novos no laudo (`modelos/MARCADORES.md`): `numero_requisicao`, `natureza_exame`, `procedimento`, `boletim_ocorrencia`, `enquadramento`, `destinacao_laudo`, `data_fato`, `local_fato`, `itens_requisicao` e `qtd_itens`.
+- [x] Resultado no `CASO TESTE 2`: 16/16 páginas pelo OCR (confiança de 85% a 95%), 12 campos da requisição, 7 itens, 1 quesito, aparelho, hash e SIM; zero erro de console e zero requisição de rede.
+- [ ] O IMEI 1 do `DeviceInfo - Projeto.txt` de teste (`868843076680001`) não passa no dígito verificador e bloqueia a confirmação: conferir com a equipe se o número foi editado à mão.
+- [ ] O OCR troca letras em modelos ("Galaxy A05" sai "AOS"): o perito confere na tabela de itens.

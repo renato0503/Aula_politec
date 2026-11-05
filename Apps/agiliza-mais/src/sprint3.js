@@ -23,9 +23,17 @@ const iccidValido = s => /^89\d{17,18}$/.test(s) && luhnValido(s);
 const sha256Valido = s => /^[a-f0-9]{64}$/i.test(s);
 
 // linhas "Rótulo: valor" -> [{rotulo, valor, linha}]
-const linhasRotuladas = txt => txt.split(/\r?\n/).map((l, i)=>{ const m = l.match(/^\s*([^:]{1,40}):\s*(.*?)\s*$/); return m ? {rotulo: normalizar(m[1]), valor: m[2], linha: i + 1} : null; }).filter(Boolean);
-const ROTULOS_APARELHO = {marca: ["manufacturer", "fabricante", "marca"], modelo: ["model", "modelo"], cor: ["color", "cor"],
-                          imei_1: ["imei 1", "imei1", "imei"], imei_2: ["imei 2", "imei2"]};
+// O rótulo é comparado sem maiúsculas, minúsculas e acentos ("IMEI2", "Imei 2" e "imei2" valem igual).
+// Quando o valor está vazio, ele é a linha seguinte (o PDF do relatório quebra "SHA-256 :" e o hash em duas linhas).
+const linhasRotuladas = txt => { const ls = String(txt).split(/\r?\n/), out = [];
+  ls.forEach((l, i)=>{ const m = l.match(/^\s*([^:]{1,40}):\s*(.*?)\s*$/); if (!m) return;
+    let valor = m[2], linha = i + 1;
+    if (!valor && ls[i + 1] !== undefined && !/^\s*[^:]{1,40}:/.test(ls[i + 1]) && ls[i + 1].trim()) { valor = ls[i + 1].trim(); linha = i + 2; }
+    out.push({rotulo: normalizar(m[1]), valor, linha}); });
+  return out; };
+const ROTULOS_APARELHO = {marca: ["manufacturer", "fabricante", "marca", "vendor", "brand", "device vendor"],
+                          modelo: ["model", "modelo", "device model", "model name", "nome do modelo"], cor: ["color", "colour", "cor"],
+                          imei_1: ["imei 1", "imei1", "imei", "imei (slot 1)", "imei slot 1"], imei_2: ["imei 2", "imei2", "imei (slot 2)", "imei slot 2"]};
 
 // cada valor sai com a origem (arquivo e linha) e se é válido; ausente = null
 function extrairAparelho(txt, arquivo="DEVICE INFO.txt"){
@@ -41,11 +49,11 @@ function extrairAparelho(txt, arquivo="DEVICE INFO.txt"){
 }
 function extrairHash(txt, arquivo="HASHDOHASH.txt"){
   const ls = linhasRotuladas(txt);
-  const lh = ls.find(x=>["hash", "sha-256", "sha256", "valor"].includes(x.rotulo));
+  const lh = ls.find(x=>["hash", "sha-256", "sha256", "sha 256", "valor"].includes(x.rotulo));
   let valor = lh?.valor?.trim().toLowerCase(), linha = lh?.linha;
   if (!valor){ const i = txt.split(/\r?\n/).findIndex(x=>/\b[a-f0-9]{64}\b/i.test(x)); if (i >= 0){ valor = txt.split(/\r?\n/)[i].match(/\b[a-f0-9]{64}\b/i)[0].toLowerCase(); linha = i + 1; } }
   if (!valor) return null;
-  const arq = ls.find(x=>["arquivo", "file", "nome do arquivo"].includes(x.rotulo)), alg = ls.find(x=>["algoritmo", "algorithm"].includes(x.rotulo));
+  const arq = ls.find(x=>["arquivo", "file", "filename", "file name", "nome do arquivo"].includes(x.rotulo)), alg = ls.find(x=>["algoritmo", "algorithm"].includes(x.rotulo));
   return {valor_hash: {valor, origem: arquivo, linha, valido: sha256Valido(valor)}, hash_arquivo: arq ? {valor: arq.valor, origem: arquivo, linha: arq.linha, valido: true} : null,
           algoritmo: alg ? alg.valor : "SHA-256"};
 }
@@ -53,8 +61,12 @@ function extrairHash(txt, arquivo="HASHDOHASH.txt"){
 function extrairSim(html, caminho){
   const pasta = caminho.split("/").slice(-2, -1)[0] || "", m = pasta.match(/obj\s*(\d{2}-[a-z])/i);
   const doc = new DOMParser().parseFromString(html, "text/html"), pares = {};
-  doc.querySelectorAll("tr").forEach(tr=>{ const td = tr.querySelectorAll("td,th"); if (td.length >= 2) pares[normalizar(td[0].textContent)] = td[1].textContent.trim(); });
+  const chave = t=> normalizar(t).replace(/[:\s]+$/, "");
+  doc.querySelectorAll("tr").forEach(tr=>{ const td = tr.querySelectorAll("td,th"); if (td.length >= 2 && !(chave(td[0].textContent) in pares)) pares[chave(td[0].textContent)] = td[1].textContent.trim(); });
+  // texto corrido (PDF do relatório): "ICCID:" e o valor na linha seguinte
+  if (!doc.querySelector("tr")) for (const l of linhasRotuladas(html)) if (!(l.rotulo in pares)) pares[l.rotulo] = l.valor;
   const iccid = (pares["iccid"] || "").replace(/\D/g, "");
+  if (!pares["operadora"]) pares["operadora"] = pares["spn"] || pares["operator"] || pares["service provider name"] || "";
   return {identificador_objeto: m ? m[1].toUpperCase() : null, objeto_no_html: pares["objeto"] || null,
           iccid: iccid ? {valor: iccid, origem: caminho, valido: iccidValido(iccid)} : null,
           operadora: pares["operadora"] ? {valor: pares["operadora"], origem: caminho, valido: true} : null};
@@ -71,6 +83,14 @@ teste("hash: arquivo sem hash devolve null", ()=> extrairHash("Arquivo: x.zip\n"
 teste("hash: 63 caracteres é inválido", ()=> extrairHash("Hash: " + "a".repeat(63) + "\n").valor_hash.valido === false);
 teste("SIM: ICCID, operadora e objeto da pasta", ()=>{ const s = extrairSim('<table><tr><td>ICCID</td><td>8955100000000000009</td></tr><tr><td>Operadora</td><td>VIVO</td></tr></table>', "OBJ 01-A/SIM.html");
   return s.identificador_objeto === "01-A" && s.operadora.valor === "VIVO" && s.iccid.valor === "8955100000000000009"; });
+teste("aparelho: formato real do DeviceInfo (Vendor, Device Model, IMEI, IMEI2) em qualquer caixa", ()=>{
+  const a = extrairAparelho("Date and time:21/10/2026 12:14:44 (-4)\r\nDEVICE MODEL:SM-X000\r\nimei:490154203237518\r\nImei2:356938035643809\r\nvendor:samsung\r\n");
+  return a.marca.valor === "samsung" && a.modelo.valor === "SM-X000" && a.imei_1.valido && a.imei_2.valor === "356938035643809"; });
+teste("hash: formato real do Hashdohash (Filename e SHA-256 na linha seguinte)", ()=>{
+  const h = extrairHash("=====\nFilename          : hash.txt\nMD5               : " + "c".repeat(32) + "\nSHA-256           : \n" + "ab".repeat(32) + "\nSHA-512           : \n" + "d".repeat(80) + "\n");
+  return h.valor_hash.valido && h.valor_hash.valor === "ab".repeat(32) && h.hash_arquivo.valor === "hash.txt"; });
+teste("SIM: Report.html do UFED (ICCID: e SPN)", ()=>{ const s = extrairSim('<table><tr><td>ICCID:</td><td>8955100000000000009</td></tr><tr><td>SPN:</td><td>VIVO</td></tr></table>', "Report.html");
+  return s.iccid.valor === "8955100000000000009" && s.operadora.valor === "VIVO"; });
 teste("SIM: HTML sem ICCID devolve null no campo", ()=> extrairSim("<table><tr><td>Operadora</td><td>TIM</td></tr></table>", "OBJ 01-B/x.html").iccid === null);
 teste("SIM: ICCID que não começa com 89 é inválido", ()=> extrairSim("<table><tr><td>ICCID</td><td>1234567890123456789</td></tr></table>", "OBJ 01-A/x.html").iccid.valido === false);
 teste("texto UTF-16 com BOM", ()=>{ const s = "Model: Moto ç"; const b = new Uint8Array(2 + s.length * 2); b[0] = 0xFF; b[1] = 0xFE; for (let i = 0; i < s.length; i++){ b[2 + i * 2] = s.charCodeAt(i) & 255; b[3 + i * 2] = s.charCodeAt(i) >> 8; } return decodificar(b.buffer) === s; });
@@ -78,7 +98,7 @@ teste("texto Windows-1252", ()=> decodificar(new Uint8Array([77, 111, 100, 101, 
 
 /* ---- extração do caso a partir da pasta lida no Sprint 2 ---- */
 async function extrairCaso(caso){
-  const ler = async c => decodificar(await lerArrayBuffer(arquivosDaSessao.get(c)));
+  const ler = async c => extensao(c) === "pdf" ? (await lerPdfCompleto(arquivosDaSessao.get(c))).texto : decodificar(await lerArrayBuffer(arquivosDaSessao.get(c)));
   const inv = caso.inventario, achar = ch => inv.itens.find(i=>i.chave === ch)?.arquivos[0];
   const id = caso.id_caso, log = [];
   for (const s of ["aparelhos", "sims", "hashes"]) for (const r of await db.porIndice(s, "id_caso", id)) await db.del(s, r[s === "aparelhos" ? "id_aparelho" : s === "sims" ? "id_sim" : "id_hash"]);
@@ -86,6 +106,7 @@ async function extrairCaso(caso){
   if (achar("hash")){ const h = extrairHash(await ler(achar("hash")), achar("hash")); if (h) { await db.put("hashes", {id_hash: id + "-H1", id_caso: id, ...h}); log.push("hash"); } }
   for (const it of inv.itens.filter(i=>i.chave.startsWith("sim:"))){
     const s = extrairSim(await ler(it.arquivos[0]), it.arquivos[0]);
+    s.identificador_objeto = s.identificador_objeto || it.chave.slice(4);
     await db.put("sims", {id_sim: `${id}-${s.identificador_objeto}`, id_caso: id, ...s}); log.push("sim " + s.identificador_objeto);
   }
   await db.put("casos", {...caso, extraido_em: agora()});

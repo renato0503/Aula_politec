@@ -38,3 +38,13 @@ O layout institucional enviado em 03/11/2026 está em `../CASO TESTE 2/MODELO DE
 | `texto_historico` | biblioteca de textos padronizados |
 | `texto_sem_sim` | biblioteca de textos padronizados |
 | `valor_hash` | HASHDOHASH.txt |
+| `numero_requisicao` | requisição em PDF (REQUISIÇÃO DE PERÍCIA Nº) |
+| `natureza_exame` | requisição em PDF |
+| `procedimento` | requisição em PDF (I.P.) |
+| `boletim_ocorrencia` | requisição em PDF |
+| `enquadramento` | requisição em PDF |
+| `destinacao_laudo` | requisição em PDF |
+| `data_fato` | requisição em PDF |
+| `local_fato` | requisição em PDF |
+| `itens_requisicao` | lista dos itens a periciar: `{#itens_requisicao}{numero_item}. {descricao} · lacre {lacre}{/itens_requisicao}`; também `identificador`, `imei` e `codigo_apreensao` |
+| `qtd_itens` | quantidade de itens a periciar |

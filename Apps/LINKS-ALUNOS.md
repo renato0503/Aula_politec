@@ -32,7 +32,7 @@ Todos os apps em uma página: https://renato0503.github.io/Aula_politec/Apps/ind
 
 ## 3. Agiliza+ · Gerador de laudos de exame em celular
 
-- **Equipe:** Diego Costa, Francineide da Silva, Andreia Cristina, Eric Zambrim
+- **Equipe:** Diego Costa, Francineide da Silva, Andreia Cristina, Eric Zambrim, Mario Palma
 - **App:** https://renato0503.github.io/Aula_politec/Apps/agiliza-mais/index.html
 - **Hub do app:** https://renato0503.github.io/Aula_politec/Apps/agiliza-mais/processo.html
 - **Feedback:** https://renato0503.github.io/Aula_politec/Aula%208/feedback/agiliza-mais.html

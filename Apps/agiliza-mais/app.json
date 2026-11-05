@@ -168,7 +168,8 @@
     "pizzip.min.js",
     "docxtemplater.js",
     "pdf.min.js",
-    "pdf.worker.min.js"
+    "pdf.worker.min.js",
+    "tesseract.min.js"
   ],
   "dados": [
     [
@@ -183,5 +184,10 @@
       "caso-exemplo",
       "exemplos/caso-exemplo.json"
     ]
+  ],
+  "blobs": [
+    "tesseract-worker.min.js",
+    "tesseract-core-simd-lstm.wasm.js",
+    "por.traineddata.gz"
   ]
 }

@@ -59,11 +59,18 @@ TELAS_DEPOIS["#/inicio"] = ()=>{
 
 /* ================= Sprint 2 · Pasta do caso (RN01, RN02) ================= */
 // Arquivos esperados na pasta do caso (formato em exemplos/FORMATOS.md).
+// Os nomes são comparados sem maiúsculas, minúsculas, acentos, espaços e pontuação:
+// "DEVICE INFO.txt", "DeviceInfo - Projeto.txt" e "deviceinfo.TXT" são o mesmo arquivo.
+const chaveNome = c => normalizar(nomeDe(c)).replace(/\.[a-z0-9]+$/, "").replace(/[^a-z0-9]/g, "");
+const extensao = c => (normalizar(nomeDe(c)).match(/\.([a-z0-9]+)$/) || [])[1] || "";
 const ESPERADOS = [
-  {chave: "requisicao", rotulo: "Requisição em PDF", obrigatorio: true, casa: c=>/\.pdf$/i.test(c) && /requisi/i.test(normalizar(nomeDe(c))), varios: true},
-  {chave: "device", rotulo: "DEVICE INFO.txt", obrigatorio: true, casa: c=>normalizar(nomeDe(c)) === "device info.txt"},
-  {chave: "hash", rotulo: "HASHDOHASH.txt", obrigatorio: true, casa: c=>normalizar(nomeDe(c)) === "hashdohash.txt"}
+  {chave: "requisicao", rotulo: "Requisição em PDF", obrigatorio: true, casa: c=>extensao(c) === "pdf" && chaveNome(c).includes("requisi"), varios: true},
+  // o TXT vem primeiro; o PDF do mesmo relatório serve de reserva quando o TXT não está na pasta
+  {chave: "device", rotulo: "DEVICE INFO (.txt ou .pdf)", obrigatorio: true, casa: c=>["txt", "pdf"].includes(extensao(c)) && chaveNome(c).includes("deviceinfo"), varios: true},
+  {chave: "hash", rotulo: "HASHDOHASH (.txt ou .pdf)", obrigatorio: true, casa: c=>["txt", "pdf"].includes(extensao(c)) && chaveNome(c).includes("hashdohash"), varios: true}
 ];
+// o TXT antes do PDF
+const ordemArquivo = lista => [...lista].sort((a, b)=> (extensao(a) === "pdf") - (extensao(b) === "pdf"));
 const nomeDe = caminho => caminho.split("/").pop();
 const RE_OBJ = /^obj\s*(\d{2}-[a-z])$/i;
 const arquivosDaSessao = new Map();  // caminho -> File (os extratores do Sprint 3 leem daqui)
@@ -72,14 +79,23 @@ const arquivosDaSessao = new Map();  // caminho -> File (os extratores do Sprint
 function inventariar(caminhos){
   const itens = ESPERADOS.map(e=>{
     const arquivos = caminhos.filter(e.casa);
-    const status = !arquivos.length ? "ausente" : (arquivos.length > 1 && !e.varios ? "duplicado" : "presente");
+    // TXT e PDF do mesmo relatório não são duplicados; dois TXT (ou dois PDF sem TXT) são
+    const txt = arquivos.filter(c=> extensao(c) !== "pdf"), mesmos = e.chave === "requisicao" ? [] : (txt.length ? txt : arquivos);
+    const status = !arquivos.length ? "ausente" : (mesmos.length > 1 ? "duplicado" : "presente");
+    arquivos.splice(0, arquivos.length, ...ordemArquivo(arquivos));
     return {chave: e.chave, rotulo: e.rotulo, obrigatorio: e.obrigatorio, arquivos, status};
   });
   const sims = {};
   for (const c of caminhos){
-    const partes = c.split("/"); if (partes.length < 2 || !/\.html?$/i.test(c)) continue;
+    const partes = c.split("/"); if (partes.length < 2 || extensao(c) !== "html" && extensao(c) !== "htm") continue;
     const m = partes[partes.length - 2].match(RE_OBJ); if (!m) continue;
     const obj = m[1].toUpperCase(); (sims[obj] = sims[obj] || []).push(c);
+  }
+  // relatório de SIM fora de uma pasta OBJ (Report.html do UFED ou "SIM_USIM Examination Report.pdf"): objeto 01-A, 01-B...
+  if (!Object.keys(sims).length){
+    const html = caminhos.filter(c=> ["html", "htm"].includes(extensao(c)) && !c.includes("/") && !ESPERADOS.some(e=> e.casa(c)));
+    const pdf = caminhos.filter(c=> extensao(c) === "pdf" && /sim|usim/.test(chaveNome(c)) && !ESPERADOS.some(e=> e.casa(c)));
+    (html.length ? html : pdf).forEach((c, i)=>{ sims["01-" + String.fromCharCode(65 + i)] = [c]; });
   }
   itens.push(...Object.keys(sims).sort().map(obj=>({chave: "sim:" + obj, rotulo: `Cartão SIM · objeto ${obj}`, obrigatorio: false,
     arquivos: sims[obj], status: sims[obj].length > 1 ? "duplicado" : "presente"})));
@@ -88,6 +104,11 @@ function inventariar(caminhos){
 teste("inventário do caso 001: completo, 2 SIMs", ()=>{
   const r = inventariar(["Requisicao.pdf", "Requisicao-digitalizada.pdf", "DEVICE INFO.txt", "HASHDOHASH.txt", "OBJ 01-A/SIM.html", "OBJ 01-B/SIM.html", "GABARITO.json"]);
   return r.faltando.length === 0 && r.qtdSims === 2;
+});
+teste("inventário: nomes reais em qualquer caixa (DeviceInfo - Projeto.txt, Hashdohash, Report.html)", ()=>{
+  const r = inventariar(["REQUISIÇÃO 2025.1-000001.2026.pdf", "DeviceInfo -  Projeto.txt", "DeviceInfo-000001.2026.pdf", "hashdohash - projeto.TXT", "Report.html", "SIM_USIM Examination Report.pdf"]);
+  const dev = r.itens.find(i=> i.chave === "device");
+  return r.faltando.length === 0 && dev.arquivos[0] === "DeviceInfo -  Projeto.txt" && r.qtdSims === 1 && r.itens.find(i=> i.chave === "sim:01-A").arquivos[0] === "Report.html";
 });
 teste("inventário do caso 003: falta o hash (RN02)", ()=> inventariar(["Requisicao.pdf", "DEVICE INFO.txt", "OBJ 01-A/SIM.html"]).faltando.join() === "hash");
 teste("inventário: dois DEVICE INFO.txt é duplicado", ()=> inventariar(["DEVICE INFO.txt", "copia/DEVICE INFO.txt"]).itens.find(i=>i.chave === "device").status === "duplicado");
@@ -144,7 +165,7 @@ TELAS["#/arquivos"] = async ()=>{
         <tr><td class="mono">DEVICE INFO.txt</td><td>marca, modelo, cor e IMEIs do aparelho</td></tr>
         <tr><td class="mono">HASHDOHASH.txt</td><td>hash do arquivo e algoritmo</td></tr>
         <tr><td class="mono">OBJ 01-A/*.html</td><td>ICCID e operadora do SIM</td></tr>
-        <tr><td>PDF da requisição</td><td>protocolo, ofício, processo, autoridade e quesitos</td></tr>
+        <tr><td>PDF da requisição (com texto ou escaneado: as páginas escaneadas passam pelo OCR)</td><td>protocolo, requisição, processo, autoridade, data, natureza, procedimento, BO, enquadramento, destinação, fato, itens a periciar e quesitos</td></tr>
         <tr><td class="mono">.docx/.dotx</td><td>modelo e formatação do laudo (marcadores em <span class="mono">modelos/MARCADORES.md</span>)</td></tr>
       </table></div><p class="sub">Os originais da pasta não são alterados; o laudo gerado vai para <span class="mono">LAUDO_GERADO</span> ou Downloads.</p></div>`;
 };

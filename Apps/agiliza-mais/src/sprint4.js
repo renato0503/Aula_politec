@@ -1,12 +1,16 @@
 /* ================= Sprints 4 a 11 · conferência, requisição em PDF, textos, quesitos, Word, revisão e histórico =================
-   O OCR do PDF digitalizado (Sprint 10) fica simulado, como o formulário autoriza: o app detecta o PDF sem camada de texto
-   e o perito digita os campos com o PDF aberto ao lado. */
+   A requisição é lida página a página: camada de texto quando existe e OCR embutido (src/ocr.js) nas páginas escaneadas. */
 "use strict";
 
 const CATEGORIAS_TEXTO = [["historico", "Histórico"], ["descricao_objetos", "Descrição dos objetos"], ["sem_sim", "Aparelho sem SIM"],
   ["exames", "Exames"], ["anexos", "Anexos e mídias"], ["consideracoes", "Considerações finais"]];
 const CAMPOS_REQUISICAO = [["numero_protocolo", "Protocolo"], ["numero_oficio", "Ofício"], ["numero_processo", "Processo"],
   ["autoridade_solicitante", "Autoridade requisitante"], ["data_solicitacao", "Data da solicitação"]];
+// campos do modelo de requisição da Polícia Civil; aparecem na conferência, mas não geram alerta quando faltam
+const CAMPOS_REQUISICAO_EXTRA = [["numero_requisicao", "Requisição de perícia nº"], ["natureza_exame", "Natureza do exame"],
+  ["procedimento", "Procedimento policial"], ["boletim_ocorrencia", "Boletim de ocorrência"], ["enquadramento", "Enquadramento"],
+  ["destinacao_laudo", "Destinação do laudo"], ["data_fato", "Data/hora do fato"], ["local_fato", "Local do fato"]];
+const TODOS_CAMPOS_REQUISICAO = [...CAMPOS_REQUISICAO, ...CAMPOS_REQUISICAO_EXTRA];
 const semCaso = titulo=> `<h1>${titulo}</h1><div class="card vazio">Abra um caso em <a href="#/inicio">Início</a>.</div>`;
 
 // a biblioteca começa com os textos do exemplo quando está vazia
@@ -79,20 +83,115 @@ async function textoDoPdf(file){
   }
   return paginas.join("\n");
 }
-// regex dos campos da requisição; os quesitos são o bloco depois de "QUESITOS"
-function extrairRequisicao(txt){
-  const pega = re=> (String(txt).match(re) || [])[1]?.trim() || "";
-  const r = {numero_protocolo: pega(/Protocolo\s*:?\s*([\d./-]+)/i), numero_oficio: pega(/Of[ií]cio\s*(?:n[ºo°.]*)?\s*:?\s*([\w/.-]+)/i),
-    numero_processo: pega(/Processo\s*(?:n[ºo°.]*)?\s*:?\s*([\d.-]+)/i), autoridade_solicitante: pega(/Autoridade(?: requisitante)?\s*:\s*(.+)/i),
-    data_solicitacao: pega(/Data da solicita[cç][aã]o\s*:\s*(\d{2}\/\d{2}\/\d{4})/i)};
-  const bloco = (String(txt).split(/\n\s*QUESITOS\s*\n/i)[1] || "").split(/\n(?=Documento|Atenciosamente|Cuiabá,)/i)[0];
-  const quesitos = [];
-  for (const l of bloco.split(/\r?\n/)){
-    if (/^\s*\d+\s*[).\-–]/.test(l)) quesitos.push(l.replace(/^\s*\d+\s*[).\-–:]\s*/, "").trim());
-    else if (l.trim() && quesitos.length) quesitos[quesitos.length - 1] += " " + l.trim();  // quesito quebrado em duas linhas
+/* Campos da requisição. Os rótulos são achados sem diferença de maiúsculas, minúsculas e acentos
+   ("Natureza do Exame", "NATUREZA DO EXAME" e "natureza do exame" são o mesmo rótulo).
+   Atende dois modelos: o "Protocolo: / Ofício nº / QUESITOS" e a requisição de perícia da Polícia Civil
+   (Natureza do Exame, Item(ns) a ser(em) periciado(s), Quesitos Específicos, Procedimento, BO...). */
+const ehLinhaDeRotulo = l=> /^[^:\d]{2,40}:/.test(l) && !/^\s*\d+\s*[).\-–]/.test(l);
+// valor do rótulo: o que vem depois dos dois-pontos; com multilinha, segue nas linhas seguintes até o próximo rótulo
+function campoPorRotulo(linhas, rotulos, {multilinha = false, max = 4} = {}){
+  const alvos = rotulos.map(normalizar);
+  for (let i = 0; i < linhas.length; i++){
+    const n = normalizar(linhas[i]), alvo = alvos.find(a=> n.startsWith(a) && /^\s*(\([^)]*\))?\s*:/.test(n.slice(a.length)));
+    if (!alvo) continue;
+    let valor = linhas[i].slice(linhas[i].indexOf(":") + 1).trim();
+    if (multilinha || !valor){
+      for (let k = i + 1; k < linhas.length && k <= i + max; k++){
+        const l = linhas[k].trim();
+        if (!l || ehLinhaDeRotulo(l) || /^[\p{L} ]+\/[A-Z]{2},\s*\d{1,2}\s+de\s/u.test(l)) break;
+        valor += (valor ? " " : "") + l;
+        if (!multilinha) break;
+      }
+    }
+    return valor.replace(/\s+/g, " ").trim();
   }
-  return {...r, quesitos};
+  return "";
 }
+const MESES = ["janeiro", "fevereiro", "marco", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+// "Cuiabá/MT, 31 de julho de 2025." -> 31/07/2025
+function dataPorExtenso(linhas){
+  for (const l of linhas){
+    const m = normalizar(l).match(/^[a-z .'-]+\/[a-z]{2},?\s*(\d{1,2})\s+de\s+([a-z]+)\s+de\s+(\d{4})/);
+    if (m && MESES.includes(m[2])) return `${m[1].padStart(2, "0")}/${String(MESES.indexOf(m[2]) + 1).padStart(2, "0")}/${m[3]}`;
+  }
+  return "";
+}
+// itens a periciar: cada "01(um) unidade(s) ..." vira um item com lacre, identificador e código de apreensão
+function itensDaRequisicao(linhas){
+  const ini = linhas.findIndex(l=> /^ite(m|ns)\b.*periciad/.test(normalizar(l)));
+  if (ini < 0) return [];
+  const bloco = [];
+  for (let k = ini + 1; k < linhas.length; k++){
+    const n = normalizar(linhas[k]);
+    if (/^(local|quesitos|informacoes do procedimento)\b/.test(n)) break;
+    bloco.push(linhas[k].trim());
+  }
+  return bloco.join(" ").split(/\s*(?:[*•·]\s*)?(?:\b[a-z][.)]\s*)?(?:[O0o]{1,2}1?\s*\(um\)\s*)?unidade\(s\)\s*/i).map(s=> s.trim()).filter(s=> s.length > 8).map(s=>{
+    const pega = re=> (s.match(re) || [])[1] || "";
+    s = s.replace(/(\d)[lI|](\d)/g, "$1$2");   // OCR: "A1l4g" é "A14g"
+    return {descricao: s.split(/\s+-\s+Obs/i)[0].replace(/\(Encaminhad[oa] para Per[íi]cia\)/i, "").replace(/[\s,;.]+$/, "").trim(),
+      lacre: pega(/Lacre\s*:?\s*([\w-]+)/i), identificador: pega(/Identificador\s*:?\s*([\w/.-]+)/i),
+      imei: pega(/Imei\s*\d*\s*:?\s*(\d{15})/i), codigo_apreensao: pega(/C[óo]digo de Apreens[ãa]o\s*:?\s*(\w+)/i)};
+  });
+}
+function quesitosDaRequisicao(linhas){
+  const ini = linhas.findIndex(l=> /^quesitos\b/.test(normalizar(l)));
+  if (ini < 0) return [];
+  const resto = linhas[ini].includes(":") ? linhas[ini].slice(linhas[ini].indexOf(":") + 1).trim() : "";
+  const bloco = resto ? [resto] : [];
+  for (let k = ini + 1; k < linhas.length; k++){
+    const l = linhas[k].trim(), n = normalizar(l);
+    if (/^(informacoes do procedimento|documento|atenciosamente)\b/.test(n) || ehLinhaDeRotulo(l) || /^[\p{L} ]+\/[A-Z]{2},\s*\d{1,2}\s+de\s/u.test(l)) break;
+    if (l) bloco.push(l);
+  }
+  const quesitos = [];
+  for (const l of bloco){
+    if (/^\s*\d+\s*[).\-–]/.test(l)) quesitos.push(l.replace(/^\s*\d+\s*[).\-–:]\s*/, "").trim());
+    else if (quesitos.length) quesitos[quesitos.length - 1] += " " + l;   // quesito quebrado em duas linhas
+    else quesitos.push(l);
+  }
+  // sem numeração: o bloco inteiro é um quesito só
+  return quesitos.length > 1 && !bloco.some(l=> /^\s*\d+\s*[).\-–]/.test(l)) ? [quesitos.join(" ")] : quesitos;
+}
+function extrairRequisicao(txt, nomeArquivo = ""){
+  const texto = String(txt), linhas = texto.split(/\r?\n/).map(l=> l.trim()).filter(Boolean);
+  const pega = re=> (texto.match(re) || [])[1]?.trim() || "";
+  const numReq = (normalizar(texto).match(/requisicao de pericia\s*n\S{0,2}\s*([\d.]{6,})/) || [])[1]?.replace(/\.$/, "") || "";
+  // autoridade: a linha acima de "Delegado(a) de Polícia"
+  const iDel = linhas.findIndex(l=> /^delegad[oa]\b/.test(normalizar(l)));
+  const autoridade = campoPorRotulo(linhas, ["autoridade requisitante", "autoridade solicitante", "autoridade"])
+    || (iDel > 0 ? `${linhas[iDel - 1]}, ${linhas[iDel]}` : "");
+  const protocoloArquivo = (String(nomeArquivo).match(/-(\d{4,6}\.\d{4})(?!\d)/) || [])[1] || "";
+  const r = {
+    numero_protocolo: pega(/Protocolo\s*:?\s*([\d./-]+)/i) || protocoloArquivo || numReq,
+    numero_oficio: pega(/Of[ií]cio\s*(?:n[ºo°.]*)?\s*:?\s*(\d[\w/.-]*)/i),
+    numero_processo: pega(/\b(\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4})\b/) || pega(/Processo\s*(?:n[ºo°.]*)?\s*:?\s*(\d[\d.-]+\d)/i),
+    autoridade_solicitante: autoridade,
+    data_solicitacao: pega(/Data da solicita[cç][aã]o\s*:\s*(\d{2}\/\d{2}\/\d{4})/i) || dataPorExtenso(linhas),
+    numero_requisicao: numReq,
+    natureza_exame: campoPorRotulo(linhas, ["natureza do exame", "natureza da pericia"]),
+    procedimento: campoPorRotulo(linhas, ["procedimento", "inquerito policial"]).replace(/^[1l|]\.\s?P\./i, "I.P."),
+    boletim_ocorrencia: campoPorRotulo(linhas, ["boletim de ocorrencia", "b.o."]),
+    enquadramento: campoPorRotulo(linhas, ["enquadramento"], {multilinha: true}),
+    destinacao_laudo: campoPorRotulo(linhas, ["destinacao do laudo"], {multilinha: true}),
+    data_fato: campoPorRotulo(linhas, ["data/hora do fato", "data do fato"]),
+    local_fato: campoPorRotulo(linhas, ["local do fato"], {multilinha: true}),
+  };
+  return {...r, quesitos: quesitosDaRequisicao(linhas), itens: itensDaRequisicao(linhas)};
+}
+teste("requisição (Polícia Civil): rótulos em qualquer caixa, itens, quesito sem número, autoridade e data", ()=>{
+  const r = extrairRequisicao("REQUISIÇÃO DE PERÍCIA Nº 2026.10.00001\nnatureza do exame: COMPUTAÇÃO FORENSE\nITEM(NS) A SER(EM) PERICIADO(S):\n"
+    + "* a. 01(um) unidade(s) Celular Fictício X1, Azul, Imei 02 351234567890126, Lacre: 00000001, Código de Apreensão 11111 (Encaminhado para Perícia) - Obs.: na sala\n"
+    + "b. O1(um) unidade(s) Cartão Sd 2gb, Lacre: 00000002, Código de Apreensão 11112 - Obs.: x\nLocal:\nRua Exemplo, 1\nQUESITOS ESPECÍFICOS:\n"
+    + "p/ extração de dados dos aparelhos.\nInformações do Procedimento Policial:\nProcedimento: 1.P. 100.1.2026.1\nBOLETIM DE OCORRÊNCIA: BO 2026.1\n"
+    + "Enquadramento: FURTO, tipificado no Art. 155 do DECRETO LEI Nº\n2.848/1940\nData/Hora do Fato: 01/01/2026 10:00\nLocal do Fato: Rua Exemplo, 1\nBairro Centro - Cuiabá/MT\n"
+    + "Cuiabá/MT, 5 de março de 2026.\nFULANO DE TAL\nDelegado(a) de Polícia\nProcesso: 0001231-56.2026.8.11.0041.", "REQUISIÇÃO 2026.10.00001-000123.2026.pdf");
+  return r.numero_requisicao === "2026.10.00001" && r.numero_protocolo === "000123.2026" && r.natureza_exame === "COMPUTAÇÃO FORENSE"
+    && r.itens.length === 2 && r.itens[0].lacre === "00000001" && r.itens[0].imei === "351234567890126" && r.itens[1].codigo_apreensao === "11112"
+    && r.quesitos.length === 1 && r.quesitos[0] === "p/ extração de dados dos aparelhos." && r.procedimento === "I.P. 100.1.2026.1"
+    && r.boletim_ocorrencia === "BO 2026.1" && r.enquadramento.endsWith("2.848/1940") && r.local_fato === "Rua Exemplo, 1 Bairro Centro - Cuiabá/MT"
+    && r.data_solicitacao === "05/03/2026" && r.autoridade_solicitante === "FULANO DE TAL, Delegado(a) de Polícia" && r.numero_processo === "0001231-56.2026.8.11.0041";
+});
 teste("requisição: protocolo, ofício, processo, data e 2 quesitos", ()=>{
   const r = extrairRequisicao("Protocolo: 2026.0001001\nOfício nº 101/2026/DPF-CBA\nProcesso nº 0001231-56.2026.8.11.0041\nAutoridade requisitante: Delegado X\nData da solicitação: 19/10/2026\nQUESITOS\n1) Qual a marca?\n2) Havia SIM? Em caso\npositivo, qual?\nDocumento fictício.");
   return r.numero_protocolo === "2026.0001001" && r.numero_oficio === "101/2026/DPF-CBA" && r.numero_processo === "0001231-56.2026.8.11.0041"
@@ -115,15 +214,16 @@ TELAS["#/dados"] = async (p)=>{
   const doPdf = String(caso.requisicao_origem || "").includes("PDF");
   return html.replace("A conferência campo a campo chega no Sprint 5.", "Confira cada valor com a origem ao lado e corrija o que precisar (RN04).") + `
     <div class="card"><h2 style="margin-top:0">Requisição</h2>
-      ${pdf ? `<div class="linha-botoes" style="margin-top:0"><button id="btnLerPdf" class="prim">Ler os dados da requisição em PDF</button>
-        <button id="btnVerPdf">Ver o PDF ao lado</button></div><div id="avisoPdf"></div>`
+      ${pdf ? `<div class="linha-botoes" style="margin-top:0"><button id="btnLerPdf" class="prim">${caso.requisicao_paginas ? "Ler a requisição de novo" : "Ler a requisição (todas as páginas, com OCR)"}</button>
+        <button id="btnVerPdf">Ver o PDF ao lado</button></div><div id="avisoPdf" aria-live="polite"></div>
+        <p class="sub">Páginas escaneadas são lidas pelo OCR embutido, sem internet (cerca de 5 a 15 s por página). ${caso.requisicao_paginas ? `Última leitura: ${caso.requisicao_paginas.length} página(s), ${caso.requisicao_paginas.filter(x=> x.origem === "ocr").length} pelo OCR.` : ""}</p>`
         : '<p class="sub">A requisição em PDF não está na sessão (selecione a pasta de novo para ler o PDF). Os campos podem ser digitados.</p>'}</div>
     <div class="ag-conf">
     <form class="card tabela-wrap" id="formConferencia"><h2 style="margin-top:0">Conferência</h2>
       <p class="sub">${conf ? `<span class="selo ok">conferido em ${dataBR(caso.conferido_em)}</span>` : '<span class="selo alerta">não conferido</span>'}
         O botão confirma todos os campos de uma vez e só libera com IMEI 1 e hash válidos.</p>
       <table><tr><th>Campo</th><th>Valor</th><th>Situação e origem</th></tr>
-        ${CAMPOS_REQUISICAO.map(([k, r])=> `<tr><th><label for="req_${k}">${esc(r)}</label></th><td><input id="req_${k}" value="${esc(req[k] || (k === "numero_protocolo" ? caso.numero_protocolo || "" : ""))}"
+        ${TODOS_CAMPOS_REQUISICAO.map(([k, r])=> `<tr><th><label for="req_${k}">${esc(r)}</label></th><td><input id="req_${k}" value="${esc(req[k] || (k === "numero_protocolo" ? caso.numero_protocolo || "" : ""))}"
           ${k === "numero_protocolo" ? `data-valida="obrigatorio" aria-describedby="req_${k}-msg"` : ""}><small class="erro-campo" id="req_${k}-msg" aria-live="polite"></small></td>
           <td>${req[k] ? `<span class="selo ${doPdf ? "ok" : "info"}">${doPdf ? "extraído" : "digitado"}</span>${conf ? ' <span class="selo ok">confirmado</span>' : ""}` : '<span class="selo alerta">vazio</span>'}
           <br><small class="sub">${esc(caso.requisicao_origem || "digitado pelo perito")}</small></td></tr>`).join("")}
@@ -141,6 +241,14 @@ TELAS["#/dados"] = async (p)=>{
       <div id="errosConferencia"></div>
       <div class="linha-botoes"><button class="prim" type="submit" id="btnConfirmarTodos">Confirmar todos os campos</button><a class="botao" href="#/textos">Próximo: textos</a></div></form>
     <div id="painelPdf"></div></div>
+    ${(caso.itens_requisicao || []).length ? `<div class="card tabela-wrap"><h2 style="margin-top:0">Itens a periciar (${caso.itens_requisicao.length}), lidos da requisição</h2>
+      <table><tr><th>#</th><th>Descrição</th><th>Lacre</th><th>Identificador / IMEI</th><th>Apreensão</th></tr>
+      ${caso.itens_requisicao.map((it, i)=> `<tr><td>${i + 1}</td><td>${esc(it.descricao)}</td><td class="mono">${esc(it.lacre || "—")}</td>
+        <td class="mono">${esc([it.identificador, it.imei].filter(Boolean).join(" · ") || "—")}</td><td class="mono">${esc(it.codigo_apreensao || "—")}</td></tr>`).join("")}</table></div>` : ""}
+    ${(caso.requisicao_paginas || []).length ? `<div class="card"><h2 style="margin-top:0">Texto lido da requisição (${caso.requisicao_paginas.length} páginas)</h2>
+      <p class="sub">Confira aqui o que o OCR leu em cada página.</p>
+      ${caso.requisicao_paginas.map(pg=> `<details><summary>Página ${pg.n} · ${pg.origem === "ocr" ? `OCR, confiança ${pg.confianca}%` : "texto do PDF"} · ${pg.texto.length} caracteres</summary>
+        <pre class="mono" style="white-space:pre-wrap;max-height:320px;overflow:auto">${esc(pg.texto)}</pre></details>`).join("")}</div>` : ""}
     <div class="card" id="cardFoto"><h2 style="margin-top:0">Foto do aparelho</h2>
       <p class="sub">A sugestão de cor é assistida; o perito confirma no campo “cor”. A foto fica neste navegador e não vai para o Word.</p>
       <div id="prevFoto" class="sub">Sem foto.</div>
@@ -231,19 +339,25 @@ TELAS_DEPOIS["#/dados"] = async (p)=>{
     } catch(err){ toast("Não consegui ler a imagem: " + err.message); }
   });
   $("#btnLerPdf")?.addEventListener("click", async ()=>{
-    const caso = await casoAtual(), caminho = arquivoRequisicao(caso);
+    const caso = await casoAtual(), caminho = arquivoRequisicao(caso), btn = $("#btnLerPdf");
+    const aviso = (msg, frac)=>{ const el = $("#avisoPdf"); if (el) el.innerHTML = `<div class="card" role="status"><b>${esc(msg)}</b>${frac !== undefined ? ` <progress max="1" value="${frac}" style="width:100%"></progress>` : ""}</div>`; };
+    btn.disabled = true; const t0 = Date.now();
     try {
-      const txt = await textoDoPdf(arquivosDaSessao.get(caminho));
-      if (txt.replace(/\s/g, "").length < 20){
-        $("#avisoPdf").innerHTML = `<div class="card pendente" role="alert">PDF digitalizado, sem camada de texto. Digite os dados com o PDF aberto ao lado (o OCR não está embutido).</div>`;
+      const lido = await lerPdfCompleto(arquivosDaSessao.get(caminho), aviso);
+      if (lido.texto.replace(/\s/g, "").length < 20){
+        aviso("Não foi possível ler texto do PDF, nem pelo OCR. Digite os dados com o PDF aberto ao lado.");
         return registrar("requisição sem texto", {id_caso: caso.id_caso, resultado: caminho});
       }
-      const r = extrairRequisicao(txt);
-      await db.put("casos", {...caso, requisicao: Object.fromEntries(CAMPOS_REQUISICAO.map(([k])=> [k, r[k] || (caso.requisicao || {})[k] || ""])),
-        numero_protocolo: r.numero_protocolo || caso.numero_protocolo, requisicao_origem: `requisição em PDF (${caminho})`, quesitos_requisicao: r.quesitos});
-      await registrar("requisição lida do PDF", {id_caso: caso.id_caso, resultado: `${CAMPOS_REQUISICAO.filter(([k])=> r[k]).length} campos, ${r.quesitos.length} quesitos`});
-      toast(`Requisição lida: ${r.quesitos.length} quesito(s) prontos para a tela de quesitos.`); navegar();
-    } catch(e){ $("#avisoPdf").innerHTML = `<div class="card pendente">Não consegui ler o PDF: ${esc(e.message)}</div>`; }
+      const r = extrairRequisicao(lido.texto, nomeDe(caminho));
+      const atual = await casoAtual();
+      await db.put("casos", {...atual, requisicao: Object.fromEntries(TODOS_CAMPOS_REQUISICAO.map(([k])=> [k, r[k] || (atual.requisicao || {})[k] || ""])),
+        numero_protocolo: r.numero_protocolo || atual.numero_protocolo, requisicao_origem: `requisição em PDF (${caminho})`, quesitos_requisicao: r.quesitos,
+        itens_requisicao: r.itens, requisicao_paginas: lido.paginas, requisicao_lida_em: agora()});
+      const nCampos = TODOS_CAMPOS_REQUISICAO.filter(([k])=> r[k]).length, nOcr = lido.paginas.filter(x=> x.origem === "ocr").length;
+      await registrar("requisição lida do PDF", {id_caso: caso.id_caso, resultado: `${lido.paginas.length} páginas (${nOcr} por OCR), ${nCampos} campos, ${r.itens.length} itens, ${r.quesitos.length} quesitos, ${Math.round((Date.now() - t0) / 1000)} s`});
+      toast(`Requisição lida: ${lido.paginas.length} página(s), ${nCampos} campos, ${r.itens.length} item(ns) e ${r.quesitos.length} quesito(s).`, 6000); navegar();
+    } catch(e){ aviso("Não consegui ler o PDF: " + e.message); }
+    finally { if (btn) btn.disabled = false; }
   });
   form.addEventListener("submit", async ev=>{
     ev.preventDefault();
@@ -273,8 +387,8 @@ TELAS_DEPOIS["#/dados"] = async (p)=>{
       s.operadora = corrigir(s.operadora, "sim_op_" + s.identificador_objeto, "perito");
       await db.put("sims", s);
     }
-    const requisicao = Object.fromEntries(CAMPOS_REQUISICAO.map(([k])=> [k, valorDe("req_" + k)]));
-    const reqCorrigidos = CAMPOS_REQUISICAO.filter(([k])=> (caso.requisicao || {})[k] && caso.requisicao[k] !== requisicao[k]).length;
+    const requisicao = Object.fromEntries(TODOS_CAMPOS_REQUISICAO.map(([k])=> [k, valorDe("req_" + k)]));
+    const reqCorrigidos = TODOS_CAMPOS_REQUISICAO.filter(([k])=> (caso.requisicao || {})[k] && caso.requisicao[k] !== requisicao[k]).length;
     const total = correcoes + reqCorrigidos;
     await db.put("casos", {...caso, requisicao, numero_protocolo: requisicao.numero_protocolo || caso.numero_protocolo,
       outras_informacoes: valorDe("outrasInfo"), conferido_em: agora(), sem_sim_confirmado: !d.sims.length, correcoes: (caso.correcoes || 0) + total,
@@ -522,6 +636,8 @@ async function dadosDoLaudo(caso, rascunho){
   // só respostas aprovadas entram no laudo final (RN10)
   base.quesitos = d.qs.map(q=> ({numero_quesito: q.numero, enunciado: q.enunciado, resposta: q.aprovada || rascunho ? q.resposta || "" : ""}));
   for (const [c] of CATEGORIAS_TEXTO) base["texto_" + c] = texto(c);
+  base.itens_requisicao = (caso.itens_requisicao || []).map((it, i)=> ({numero_item: i + 1, ...it}));
+  base.qtd_itens = base.itens_requisicao.length;
   base.outras_informacoes = caso.outras_informacoes || "";
   if (base.outras_informacoes && base.texto_consideracoes)
     base.texto_consideracoes += `\n\nOutras informações: ${base.outras_informacoes}`;
