@@ -188,3 +188,23 @@ aparece na auditoria com o valor anterior.
 
 
 **Implementado em 03/11/2026**: leitura de PDF com camada de texto pelo pdf.js (aviso quando é imagem) e botão **Mapa orçamentário (SESP)** no Exportar, com processo, órgão, tipo, dígitos da dotação, credor, CNPJ, valores e ano seguinte. O modelo oficial da SESP e a amostra real do pregoeiro continuam a confirmar.
+
+## Sprint 10 · Versão 2: planilha única (05/11/2026)
+
+> O app passou a partir da planilha real do setor. A versão anterior foi para `legado/`.
+
+### Código
+- [x] Importação de uma planilha só (layout de mapa com GP/ITEM e QTD, VALOR UNITÁRIO e VALOR TOTAL por órgão, ou o modelo do app), em qualquer aba.
+- [x] Leitura das abas PROCESSO, DOTAÇÃO, DOTAÇÃO POR ITEM e LANÇAMENTOS.
+- [x] Avisos de linha repetida, valor solto, fórmula quebrada, dotação digitada à mão e CNPJ inválido.
+- [x] Relatório do pregoeiro em PDF lido sem biblioteca externa (pdf.js saiu do app).
+- [x] Dotação por grupo ou item, lançamentos por exercício e saldo não distribuído.
+- [x] Conferência, Excel completo, planilha de entrada e modelo em branco.
+- [x] Backup `.json` de um processo ou de todos, com prévia.
+- [x] `src/mapa.html` + `construir.py` novo; teste `testes/testar.py` e exemplo fictício `exemplos/mapa-exemplo.xlsx`.
+
+### Decisão do setor
+- [ ] Rodar um processo real encerrado e comparar com o mapa manual.
+
+**Pronto quando**: a planilha real do setor importa sem ajuste e o Excel exportado bate com o mapa manual.
+

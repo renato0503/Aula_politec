@@ -1,0 +1,1976 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: blob:; connect-src 'none'; img-src 'self' data: blob:; worker-src blob:">
+<title>Mapa de Distribuição</title>
+<style>
+:root{
+  --bg:#f3f5f9;--painel:#fff;--painel-2:#f8fafc;--ink:#14213d;--ink2:#55627a;--linha:#dfe4ec;
+  --verde:#127a45;--ambar:#a35f00;--vermelho:#b42318;--ouro:#c99a2e;
+  --accent:#047857;--accent-forte:#035640;--accent-ink:#fff;
+  --accent-suave:color-mix(in srgb,var(--accent) 10%,var(--painel));
+  --ambar-suave:color-mix(in srgb,var(--ambar) 10%,var(--painel));
+  --vermelho-suave:color-mix(in srgb,var(--vermelho) 10%,var(--painel));
+  --topo-gov:linear-gradient(120deg,#061f3d,#0a2f5c 45%,#12487f);
+  --topo-app:linear-gradient(120deg,#035640,#047857);
+  --mono:"JetBrains Mono",ui-monospace,SFMono-Regular,Consolas,monospace;
+  --ui:"Segoe UI Variable Text","Segoe UI",system-ui,-apple-system,Roboto,Arial,sans-serif;
+  --raio:4px;color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --bg:#0a1424;--painel:#101e34;--painel-2:#0d192c;--ink:#e7edf6;--ink2:#9fb0c8;--linha:#22324b;
+  --verde:#4cc283;--ambar:#f0b44c;--vermelho:#ff8a80;
+  --accent:#6ee7b7;--accent-forte:#6ee7b7;--accent-ink:#06241a;
+  --topo-gov:linear-gradient(120deg,#040f20,#071a35 55%,#0b2a52);
+  --topo-app:linear-gradient(120deg,#02352a,#035640);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.45 var(--ui);min-height:100vh;display:flex;flex-direction:column}
+button,input,select{font:inherit;color:inherit}
+a{color:var(--accent)}
+:focus-visible{outline:2px solid var(--ouro);outline-offset:2px}
+.num,.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+
+.gov{background:var(--topo-gov);color:#fff;font-size:11px;letter-spacing:.06em;text-transform:uppercase;padding:7px 20px;display:flex;flex-wrap:wrap;gap:4px 12px;align-items:center}
+.gov .cores{display:inline-flex;gap:2px}
+.gov .cores i{width:9px;height:9px;display:block}
+.gov span{color:rgba(255,255,255,.76)}
+.topo{background:var(--topo-app);color:#fff;border-bottom:3px solid var(--ouro);padding:9px 20px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.emblema{width:34px;height:34px;display:grid;place-items:center;border:1px solid var(--ouro);border-radius:var(--raio);background:rgba(255,255,255,.1);flex:none}
+.marca{font-size:16px;font-weight:700;line-height:1.2;min-width:0;flex:1 1 240px}
+.marca small{display:block;font-size:12px;font-weight:400;color:rgba(255,255,255,.8)}
+.topo .acoes{display:flex;gap:8px}
+.btn-cab{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.4);border-radius:var(--raio);color:#fff;padding:7px 12px;cursor:pointer;font-size:13px;font-weight:600}
+.btn-cab:hover{background:rgba(255,255,255,.2)}
+
+.passos{position:sticky;top:0;z-index:10;display:flex;align-items:center;gap:4px;padding:6px 20px;background:var(--painel);border-bottom:1px solid var(--linha);overflow-x:auto}
+.passos[hidden]{display:none}
+.passos a{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;font-size:13px;color:var(--ink2);text-decoration:none;border-radius:var(--raio);white-space:nowrap}
+.passos a:not(.voltar){text-transform:uppercase}
+.passos a:hover{background:var(--accent-suave);color:var(--accent)}
+.passos a .n{display:grid;place-items:center;width:18px;height:18px;border-radius:3px;background:var(--painel-2);border:1px solid var(--linha);font-size:11px;font-weight:700}
+.passos a[aria-current="page"]{background:var(--accent);color:var(--accent-ink);font-weight:600}
+.passos a[aria-current="page"] .n{background:var(--accent-ink);color:var(--accent);border-color:transparent}
+.passos .voltar{font-weight:700;color:var(--accent);border-right:1px solid var(--linha);border-radius:0;margin-right:4px}
+
+main{width:100%;max-width:1500px;margin:0 auto;padding:18px 20px 40px;flex:1;outline:none}
+h1{margin:0;font-size:22px;line-height:1.25;padding-left:10px;border-left:4px solid var(--accent)}
+.sub{margin:4px 0 0;color:var(--ink2)}
+h2{font-size:16px;margin:0}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin:14px 0}
+.kpi{background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio);padding:10px 12px;min-width:0}
+.kpi span{display:block;font-size:12px;color:var(--ink2);overflow-wrap:anywhere}
+.kpi b{display:block;font:700 19px/1.25 var(--mono);font-variant-numeric:tabular-nums;overflow-wrap:anywhere}
+.kpi small{color:var(--ink2);font-size:12px}
+.filtros{display:grid;grid-template-columns:minmax(220px,2fr) repeat(3,minmax(140px,1fr)) auto;gap:8px;align-items:end;background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio);padding:10px 12px;margin-bottom:6px}
+label.campo{display:block;font-size:12px;font-weight:600;color:var(--ink2);min-width:0}
+label.campo input,label.campo select{display:block;width:100%;margin-top:3px;padding:7px 8px;background:var(--painel-2);border:1px solid var(--linha);border-radius:var(--raio);font-weight:400;color:var(--ink)}
+.campos{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:10px;padding:12px}
+.btn{display:inline-block;padding:7px 12px;background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio);cursor:pointer;font-weight:600;font-size:14px;color:var(--ink);text-decoration:none}
+.btn:hover{background:var(--accent-suave)}
+.btn.prim{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.prim:hover{background:var(--accent-forte)}
+.btn.perigo{color:var(--vermelho);border-color:var(--vermelho)}
+label.btn:focus-within{outline:2px solid var(--ouro);outline-offset:2px}
+.visual-oculto{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.btn-icone{display:grid;place-items:center;width:32px;height:32px;margin-left:auto;padding:0;background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio);color:var(--ink2);cursor:pointer}
+.btn-icone:hover{background:var(--accent-suave);color:var(--accent)}
+.botoes{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+.contagem{margin:8px 0 12px;color:var(--ink2);font-size:13px}
+
+.cartao{background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio);margin:0 0 12px}
+.corpo{padding:12px}
+.cab-grupo{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;padding:9px 12px;border-bottom:1px solid var(--linha)}
+.cab-grupo .emp{min-width:0;flex:1 1 280px}
+.cab-grupo .emp small{display:block;color:var(--ink2);font-size:12px}
+.cab-grupo .valor{text-align:right;margin-left:auto}
+.cab-grupo .valor small{display:block;color:var(--ink2);font-size:12px}
+.cab-grupo .valor b{font:700 15px var(--mono)}
+.tag{display:inline-block;padding:2px 8px;border-radius:999px;font-size:12px;font-weight:600;border:1px solid var(--linha);white-space:nowrap}
+.tag.ok{color:var(--verde);border-color:var(--verde)}
+.tag.fra{color:var(--ambar);border-color:var(--ambar);background:var(--ambar-suave)}
+.tag.erro{color:var(--vermelho);border-color:var(--vermelho)}
+.rolagem{overflow-x:auto}
+table{border-collapse:collapse;width:100%;font-size:13px}
+th,td{border:1px solid var(--linha);padding:5px 8px;vertical-align:top;text-align:left}
+th{background:var(--painel-2);font-size:11.5px;font-weight:700;color:var(--ink2);white-space:nowrap}
+th.org{text-align:center;background:var(--accent-suave);color:var(--accent-forte)}
+td.num,th.num{text-align:right;white-space:nowrap}
+td.centro,th.centro{text-align:center}
+tbody tr:nth-child(even) td{background:color-mix(in srgb,var(--painel-2) 55%,transparent)}
+tr.subtotal td{background:var(--accent-suave)!important;font-weight:700}
+tr.total td{background:color-mix(in srgb,var(--accent) 18%,var(--painel))!important;font-weight:700}
+.grade-itens th,.grade-itens td{vertical-align:middle}
+.desc{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;width:100%;min-width:300px;padding:0;margin:0;background:none;border:0;text-align:justify;cursor:pointer;line-height:1.35;font-size:12px}
+.desc[aria-expanded="true"]{display:block;overflow:visible}
+.desc:hover{color:var(--accent)}
+.zero{color:var(--ink2)}
+.caixa{border-left:4px solid var(--accent);background:var(--accent-suave);padding:10px 12px;margin:12px 0;border-radius:0 var(--raio) var(--raio) 0}
+.caixa.aviso{border-left-color:var(--ambar);background:var(--ambar-suave)}
+.caixa.erro{border-left-color:var(--vermelho);background:var(--vermelho-suave)}
+.caixa p{margin:0}
+.vazio{background:var(--painel);border:1px dashed var(--linha);border-radius:var(--raio);padding:24px;text-align:center;color:var(--ink2);margin-bottom:12px}
+details.cartao>summary{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;padding:9px 12px;cursor:pointer;font-weight:600}
+details.cartao>summary .num{margin-left:auto}
+details[open].cartao>summary{border-bottom:1px solid var(--linha)}
+.dot{font:11px/1.3 var(--mono);font-weight:400;overflow-wrap:anywhere;white-space:normal;display:block;min-width:190px;color:var(--ink)}
+.emp-cel small{display:block;color:var(--ink2);font-family:var(--mono);font-size:12px}
+.lista{list-style:none;margin:0;padding:0}
+.lista li{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border-bottom:1px solid var(--linha)}
+.lista li:last-child{border-bottom:0}
+.lista .tag{flex:none;min-width:76px;text-align:center}
+.lista b{display:block}
+.lista small{color:var(--ink2);font-size:12.5px;display:block;overflow-wrap:anywhere}
+input.cod{display:block;width:100%;min-width:230px;margin-top:3px;padding:5px 6px;background:var(--painel-2);border:1px solid var(--linha);border-radius:var(--raio);font:12px var(--mono);font-weight:400;color:var(--ink)}
+input.cod.falta{border-color:var(--ambar);background:var(--ambar-suave)}
+.tag.definir{color:#5b3fa8;border-color:#5b3fa8;background:color-mix(in srgb,#5b3fa8 10%,var(--painel))}
+:root[data-theme="dark"] .tag.definir{color:#c4b5fd;border-color:#c4b5fd}
+.lanc{margin-top:6px}
+.parc{display:flex;flex-wrap:wrap;gap:4px 6px;align-items:flex-end;padding:6px;margin-bottom:4px;background:var(--painel-2);border:1px dashed var(--linha);border-radius:var(--raio)}
+.parc-campo{display:block;font-size:11px;font-weight:600;color:var(--ink2);width:64px}
+.parc-campo:nth-child(2){width:96px}
+.parc-campo.parc-cod{flex:1 1 180px;width:auto}
+.parc-campo input{display:block;width:100%;margin-top:2px;padding:4px 5px;background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio);font:12px var(--mono);color:var(--ink)}
+.parc-numero::placeholder{color:#5b3fa8;font-weight:700;opacity:1}
+:root[data-theme="dark"] .parc-numero::placeholder{color:#c4b5fd}
+.btn-mini{padding:2px 8px;background:var(--painel);border:1px solid var(--linha);border-radius:var(--raio);cursor:pointer;font-size:12px;color:var(--ink);line-height:1.5}
+.btn-mini:hover{background:var(--accent-suave)}
+.btn-mini.texto{margin-top:2px;color:var(--accent);font-weight:600}
+.resto{display:block;margin:2px 0;font-size:11.5px;color:var(--ink2)}
+.resto.erro{color:var(--vermelho);font-weight:600}
+.dica{display:block;margin-top:4px;font-size:11.5px;color:var(--ambar);max-width:320px}
+tr[hidden]{display:none}
+.saidas{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:10px}
+.saidas .cartao{margin:0;padding:12px;display:flex;flex-direction:column;gap:8px;align-items:flex-start}
+.saidas p{margin:0;color:var(--ink2);flex:1}
+#avisoToast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);max-width:min(92vw,560px);background:#14213d;color:#fff;border-left:4px solid var(--ouro);padding:10px 14px;border-radius:var(--raio);z-index:50}
+#avisoToast[hidden]{display:none}
+footer{padding:12px 20px 24px;color:var(--ink2);font-size:12px;border-top:1px solid var(--linha);display:flex;flex-wrap:wrap;gap:4px 16px;justify-content:space-between}
+@media(max-width:900px){.filtros{grid-template-columns:1fr 1fr}.filtros .amplo{grid-column:1/-1}}
+@media(max-width:520px){.filtros{grid-template-columns:1fr}main{padding:14px 12px 32px}.passos{padding:6px 12px}.gov,.topo{padding-left:12px;padding-right:12px}}
+@media print{
+  @page{size:A4 landscape;margin:10mm}
+  :root{--bg:#fff}
+  body{font-size:11px;display:block}
+  .passos,.filtros,.acoes,.contagem,.botoes,.btn-icone,#avisoToast{display:none!important}
+  .gov,.topo{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  main{max-width:none;padding:8px 0}
+  .rolagem{overflow:visible}
+  .desc{-webkit-line-clamp:unset;display:block;min-width:0}
+  tr{break-inside:avoid}
+}
+</style>
+<!-- LIB:xlsx.full.min.js -->
+</head>
+<body>
+<div class="gov"><span class="cores" aria-hidden="true"><i style="background:#1e63ae"></i><i style="background:#c99a2e"></i><i style="background:#0b7a3e"></i></span><b>Governo de Mato Grosso</b><span>Secretaria de Estado de Segurança Pública</span><span><b>POLITEC</b> · Perícia Oficial e Identificação Técnica</span></div>
+<header class="topo">
+  <div class="emblema" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M3 10h18M3 15h18M9 4v16"/></svg></div>
+  <div class="marca">Mapa de Distribuição<small id="subtitulo">Importe uma planilha para montar o mapa</small></div>
+  <div class="acoes">
+    <button class="btn-cab" id="btnImprimir" type="button">Imprimir</button>
+    <button class="btn-cab" id="btnTema" type="button" aria-pressed="false">Tema escuro</button>
+  </div>
+</header>
+<nav class="passos" id="passos" aria-label="Etapas do processo" hidden></nav>
+<main id="tela" tabindex="-1"></main>
+<div id="avisoToast" role="status" aria-live="polite" hidden></div>
+<footer>
+  <span id="fonte"></span>
+  <span>Dados guardados só neste navegador. Funciona sem internet e não envia dados.</span>
+</footer>
+<script>
+"use strict";
+/* ---------- Utilidades ---------- */
+const fN = new Intl.NumberFormat("pt-BR", { maximumFractionDigits: 3 });
+const fM = new Intl.NumberFormat("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const c = v => Math.round((Number(v) || 0) * 100);
+const r2 = v => Math.round((Number(v) || 0) * 100) / 100;
+const real = v => "R$ " + fM.format(v);
+const esc = s => String(s == null ? "" : s).replace(/[&<>"']/g, m => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m]));
+const soma = (l, f) => l.reduce((a, x) => a + c(f(x)), 0) / 100;
+const somaQ = (l, f) => l.reduce((a, x) => a + (Number(f(x)) || 0), 0);
+const dinheiro = v => (c(v) === 0 ? '<span class="zero">0,00</span>' : fM.format(v));
+const sem = s => String(s == null ? "" : s).normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
+const norm = s => sem(s).trim().replace(/\s+/g, " ");
+const limpa = s => String(s == null ? "" : s).replace(/\s+/g, " ").trim();
+const pct = (a, b) => (b ? (a / b * 100).toFixed(1).replace(".", ",") + "%" : "0%");
+const agora = () => new Date().toLocaleString("pt-BR");
+function num(v) {
+  if (typeof v === "number") return Number.isFinite(v) ? v : null;
+  let s = String(v == null ? "" : v).replace(/R\$/gi, "").replace(/\s/g, "");
+  if (!s) return null;
+  if (s.includes(",")) s = s.replace(/\./g, "").replace(",", ".");
+  const n = Number(s);
+  return Number.isFinite(n) ? n : null;
+}
+function cnpjValido(v) {
+  const d = String(v).replace(/\D/g, "");
+  if (d.length !== 14 || /^(\d)\1+$/.test(d)) return false;
+  const dig = n => {
+    let s = 0, p = n - 7;
+    for (let i = 0; i < n; i++) { s += Number(d[i]) * p--; if (p < 2) p = 9; }
+    const r = s % 11;
+    return r < 2 ? 0 : 11 - r;
+  };
+  return dig(12) === Number(d[12]) && dig(13) === Number(d[13]);
+}
+function separaEmpresa(t) {
+  const s = limpa(t);
+  const m = s.match(/\d{2}\.?\d{3}\.?\d{3}\/?\d{4}-?\d{2}/);
+  if (!m) return { nome: s, cnpj: "" };
+  const nome = s.replace(m[0], "").replace(/\bCNPJ\b\s*(n[º°o.]*)?\s*:?/i, "").replace(/[\s\-–,;:]+$/, "").trim();
+  return { nome, cnpj: m[0] };
+}
+/* Dotação informada: a do item vale sobre a do grupo (primeira coluna do mapa). */
+const chaveG = (g, o) => `${g}|${o}`;
+const chaveI = (g, i, o) => `${g}|${i}|${o}`;
+const limpaCod = s => String(s == null ? "" : s).replace(/\s/g, "");
+const dotacaoDe = (p, i, o) => p.dot.itens[chaveI(i.grupo, i.item, o)] || p.dot.grupos[chaveG(i.grupo, o)] || "";
+function situacaoDe(t) {
+  const n = norm(t);
+  if (!n) return "sem";
+  if (n.includes("fracassad")) return "fracassado";
+  if (n.includes("desert")) return "deserto";
+  return "vencedor";
+}
+const ROTULO_SIT = { vencedor: "Com vencedor", fracassado: "Fracassado", deserto: "Deserto", sem: "Sem resultado" };
+
+/* ---------- Banco local ---------- */
+const banco = {
+  _db: null,
+  abrir() {
+    if (this._db) return Promise.resolve(this._db);
+    return new Promise((ok, erro) => {
+      const r = indexedDB.open("mapa_planilha_v1", 1);
+      r.onupgradeneeded = () => r.result.createObjectStore("processos", { keyPath: "id" });
+      r.onsuccess = () => { this._db = r.result; ok(r.result); };
+      r.onerror = () => erro(r.error);
+    });
+  },
+  async _op(modo, f) {
+    const d = await this.abrir();
+    return new Promise((ok, erro) => {
+      const t = d.transaction("processos", modo);
+      const r = f(t.objectStore("processos"));
+      t.oncomplete = () => ok(r && r.result);
+      t.onerror = () => erro(t.error);
+    });
+  },
+  listar() { return this._op("readonly", s => s.getAll()); },
+  ler(id) { return this._op("readonly", s => s.get(id)); },
+  gravar(p) { return this._op("readwrite", s => s.put(p)); },
+  apagar(id) { return this._op("readwrite", s => s.delete(id)); }
+};
+
+/* ---------- Leitura das planilhas ---------- */
+const linhasDe = ws => XLSX.utils.sheet_to_json(ws, { header: 1, raw: true, defval: "", blankrows: true });
+function grupoTexto(v) {
+  if (typeof v === "number") return String(Math.round(v * 100) / 100);
+  const s = String(v == null ? "" : v).trim().replace(",", ".");
+  return /^\d+(\.\d+)?$/.test(s) ? s : "";
+}
+function ultimoNumero(l) {
+  for (let j = l.length - 1; j >= 0; j--) { const n = num(l[j]); if (n != null) return n; }
+  return null;
+}
+
+function interpretar(livro, arquivo) {
+  const visiveis = livro.SheetNames.filter((n, i) => !(livro.Workbook && livro.Workbook.Sheets && livro.Workbook.Sheets[i] && livro.Workbook.Sheets[i].Hidden));
+  let origem = null;
+  for (const aba of visiveis) {
+    if (norm(aba).includes("dotacao")) continue;
+    const linhas = linhasDe(livro.Sheets[aba]);
+    for (let r = 0; r < linhas.length; r++) {
+      const n = linhas[r].map(norm);
+      if (n.includes("grupo") && n.includes("item") && n.some(x => /^qtd\.? .+/.test(x))) { origem = { aba, linhas, tipo: "itens" }; break; }
+      if (ehCabMapa(linhas[r], linhas[r + 1])) { origem = { aba, linhas, tipo: "mapa" }; break; }
+    }
+    if (origem) break;
+  }
+  if (!origem) throw new Error('Não encontrei a tabela de itens. A planilha precisa ter uma aba com a primeira coluna GP, GRUPO ou LOTE, a coluna ITEM e, logo abaixo do nome de cada órgão, QTD, VALOR UNITÁRIO e VALOR TOTAL. Outra opção é usar o modelo em branco.');
+  const d = { arquivo, aba: origem.aba, layout: origem.tipo, processo: "", pregao: "", objeto: "", titulo: "", orgaos: [], grupos: [], itens: [], apuracao: [], resumo: { orgaos: {} }, dotacao: null, avisos: [], recusadas: [] };
+  if (origem.tipo === "mapa") lerLayoutMapa(origem, d); else lerLayoutItens(origem, d);
+  if (!d.itens.length) {
+    const motivo = d.recusadas.length ? ` ${d.recusadas.length} linhas foram recusadas. A primeira: linha ${d.recusadas[0].linha} (${d.recusadas[0].motivo}).` : "";
+    throw new Error(`A aba ${origem.aba} não tem nenhum item preenchido.${motivo}`);
+  }
+  lerAbaProcesso(livro, visiveis, d);
+  lerDotacao(livro, visiveis, d);
+  concluir(d);
+  prepararDot(d);
+  lerPorItem(livro, visiveis, d);
+  lerLancamentos(livro, visiveis, d);
+  return d;
+}
+const CHAVES_GP = ["gp", "grupo", "lote"];
+const ehColItem = x => x === "item" || x === "itens";
+function ehCabMapa(l, prox) {
+  const n = l.map(norm);
+  return n.some(x => CHAVES_GP.includes(x)) && n.some(ehColItem) && (prox || []).map(norm).some(x => x.startsWith("qt"));
+}
+/* Aproveita a aba de dotação, quando existe: empresa e órgão com uma só dotação já vêm preenchidos. */
+function prepararDot(d) {
+  d.dot = { grupos: {}, itens: {}, saldos: {}, lanc: {}, exercicio: d.exercicio || "" };
+  d.dicas = {};
+  const dt = d.dotacao;
+  if (!dt) return;
+  dt.colunas.forEach((cl, j) => { if (cl.codigo && dt.saldos && dt.saldos[j]) d.dot.saldos[`${cl.orgao}|${cl.codigo}`] = dt.saldos[j]; });
+  d.grupos.filter(g => g.situacao === "vencedor").forEach(g => {
+    const l = dt.linhas.find(x => (g.cnpj && x.cnpj === g.cnpj) || norm(x.empresa) === norm(g.empresa));
+    if (!l) return;
+    d.orgaos.forEach(o => {
+      const cods = [];
+      dt.colunas.forEach((cl, j) => { if (cl.orgao === o && cl.codigo && c(l.valores[j]) > 0) cods.push({ codigo: cl.codigo, valor: l.valores[j] }); });
+      if (cods.length === 1) d.dot.grupos[chaveG(g.grupo, o)] = cods[0].codigo;
+      else if (cods.length > 1) d.dicas[chaveG(g.grupo, o)] = cods;
+    });
+  });
+}
+/* Aba DOTAÇÃO POR ITEM, gerada pela exportação: guarda o que foi informado e pode ser preenchida à mão. */
+function lerPorItem(livro, visiveis, d) {
+  const aba = visiveis.find(n => norm(n).includes("dotacao por item"));
+  if (!aba) return;
+  const linhas = linhasDe(livro.Sheets[aba]);
+  const iCab = linhas.findIndex(l => { const n = l.map(norm); return n.some(x => CHAVES_GP.includes(x)) && n.some(ehColItem) && n.some(x => x.startsWith("dotacao")); });
+  if (iCab < 0) return;
+  const cab = linhas[iCab].map(norm);
+  const cG = cab.findIndex(x => CHAVES_GP.includes(x)), cI = cab.findIndex(ehColItem), cO = cab.findIndex(x => x.startsWith("orgao")), cD = cab.findIndex(x => x.startsWith("dotacao"));
+  if (cO < 0) return;
+  d.dot.grupos = {}; d.dot.itens = {}; d.dicas = {};
+  d.dotacao = null;
+  for (let r = iCab + 1; r < linhas.length; r++) {
+    const l = linhas[r], g = grupoTexto(l[cG]), it = num(l[cI]), o = d.orgaos.find(x => norm(x) === norm(l[cO])), cod = limpaCod(l[cD]);
+    if (!g || it == null || !o || !cod) continue;
+    if (d.itens.some(i => i.grupo === g && i.item === it)) d.dot.itens[chaveI(g, it, o)] = cod;
+  }
+  d.grupos.forEach(g => d.orgaos.forEach(o => {
+    const its = d.itens.filter(i => i.grupo === g.grupo && i.org[o] && c(i.org[o].t) > 0);
+    const cods = new Set(its.map(i => d.dot.itens[chaveI(i.grupo, i.item, o)] || ""));
+    if (its.length && cods.size === 1 && !cods.has("")) {
+      d.dot.grupos[chaveG(g.grupo, o)] = [...cods][0];
+      its.forEach(i => { delete d.dot.itens[chaveI(i.grupo, i.item, o)]; });
+    }
+  }));
+}
+/* Monta o quadro de dotação a partir dos valores do mapa e das dotações informadas. */
+function exercicioBase(p) {
+  if (p.dot && p.dot.exercicio) return String(p.dot.exercicio);
+  const m = String(p.processo || "").match(/\b(20\d{2})\b/);
+  return m ? m[1] : String(new Date().getFullYear());
+}
+/* Os lançamentos são retirados do valor do GP ou do item. O que sobra vai para o número informado no campo
+   principal, no exercício atual. Sem número nem lançamento, o valor é saldo não distribuído. */
+function dotacaoGerada(X) {
+  const { p, orgaos, EMP, orgT } = X;
+  const base = exercicioBase(p), lanc = p.dot.lanc || {};
+  const cols = new Map(), pend = [], aDefinir = [], excessos = [], restos = {};
+  const linhas = EMP.map(e => {
+    const por = {};
+    const lanca = (o, ex, cod, v) => {
+      const k = !cod ? `${o}|${ex}|A DEFINIR` : (String(ex) === base ? `${o}|${cod}` : `${o}|${ex}|${cod}`);
+      if (!cols.has(k)) cols.set(k, { chave: k, orgao: o, exercicio: String(ex), codigo: cod, aDefinir: !cod, rotulo: "Dotação" });
+      por[k] = (por[k] || 0) + v;
+    };
+    const aplica = (chave, nome, disponivel, o, grupo, item) => {
+      let usado = 0;
+      (lanc[chave] || []).forEach(l => {
+        const v = c(l.valor);
+        if (v <= 0) return;
+        usado += v;
+        const ex = limpa(l.exercicio) || base;
+        lanca(o, ex, limpaCod(l.codigo), v);
+        if (!limpaCod(l.codigo)) aDefinir.push({ grupo, item, orgao: o, exercicio: ex, valor: v / 100, empresa: e.nome });
+      });
+      if (usado > disponivel) excessos.push(`${nome}, ${o}: lançamentos de ${fM.format(usado / 100)} para ${fM.format(disponivel / 100)} disponíveis`);
+      restos[chave] = { resto: Math.max(0, disponivel - usado), excesso: Math.max(0, usado - disponivel), temLanc: usado > 0 };
+      return usado;
+    };
+    e.grupos.forEach(gid => orgaos.forEach(o => {
+      let livre = 0;
+      const livres = [];
+      e.itens.filter(i => i.grupo === gid).forEach(i => {
+        const v = c(orgT(i, o));
+        if (!v) return;
+        const usado = aplica(chaveI(gid, i.item, o), `GP ${gid} item ${i.item}`, v, o, gid, i.item);
+        const resto = Math.max(0, v - usado);
+        if (!resto) return;
+        const proprio = p.dot.itens[chaveI(gid, i.item, o)];
+        if (proprio) lanca(o, base, proprio, resto);
+        else { livre += resto; livres.push({ item: i.item, resto }); }
+      });
+      const usadoG = aplica(chaveG(gid, o), `GP ${gid}`, livre, o, gid, null);
+      const sobra = Math.max(0, livre - usadoG);
+      if (!sobra) return;
+      const cod = p.dot.grupos[chaveG(gid, o)];
+      if (cod) lanca(o, base, cod, sobra);
+      else if (usadoG) pend.push({ grupo: gid, item: null, orgao: o, valor: sobra / 100, empresa: e.nome });
+      else livres.forEach(x => pend.push({ grupo: gid, item: x.item, orgao: o, valor: x.resto / 100, empresa: e.nome }));
+    }));
+    return { empresa: e.nome, cnpj: e.cnpj, por };
+  });
+  const ordem = o => orgaos.indexOf(o);
+  const colunas = [...cols.values()].sort((a, b) => ordem(a.orgao) - ordem(b.orgao) || a.exercicio.localeCompare(b.exercicio) || Number(a.aDefinir) - Number(b.aDefinir));
+  linhas.forEach(l => {
+    l.valores = colunas.map(cl => (l.por[cl.chave] || 0) / 100);
+    l.total = soma(l.valores, v => v);
+  });
+  return { colunas, linhas, pend, aDefinir, excessos, restos, base, totalPendente: soma(pend, x => x.valor), totalADefinir: soma(aDefinir, x => x.valor) };
+}
+function lerLancamentos(livro, visiveis, d) {
+  const aba = visiveis.find(n => norm(n).startsWith("lancamentos"));
+  if (!aba) return;
+  const linhas = linhasDe(livro.Sheets[aba]);
+  const iCab = linhas.findIndex(l => { const n = l.map(norm); return n.some(x => CHAVES_GP.includes(x)) && n.some(x => x.startsWith("exercicio")); });
+  if (iCab < 0) return;
+  const cab = linhas[iCab].map(norm), col = f => cab.findIndex(f);
+  const cG = col(x => CHAVES_GP.includes(x)), cI = col(ehColItem), cO = col(x => x.startsWith("orgao")), cE = col(x => x.startsWith("exercicio")), cV = col(x => x.startsWith("valor")), cD = col(x => x.startsWith("dotacao"));
+  for (let r = iCab + 1; r < linhas.length; r++) {
+    const l = linhas[r], g = grupoTexto(l[cG]), it = num(l[cI]), o = d.orgaos.find(x => norm(x) === norm(l[cO])), v = num(l[cV]);
+    if (!g || !o || !v) continue;
+    const cod = limpaCod(l[cD]);
+    const k = it == null ? chaveG(g, o) : chaveI(g, it, o);
+    (d.dot.lanc[k] = d.dot.lanc[k] || []).push({ exercicio: limpa(l[cE]), valor: v, codigo: norm(cod) === "adefinir" ? "" : cod });
+  }
+}
+
+function pegaGrupo(d, id) {
+  let g = d.grupos.find(x => x.grupo === id);
+  if (!g) { g = { grupo: id, empresa: "", cnpj: "", situacao: "sem", textoSituacao: "", homologado: null, totalPlanilha: null }; d.grupos.push(g); }
+  return g;
+}
+function defineResultado(g, texto) {
+  if (!limpa(texto) || g.textoSituacao) return;
+  g.textoSituacao = limpa(texto);
+  g.situacao = situacaoDe(texto);
+  if (g.situacao === "vencedor") { const e = separaEmpresa(texto); g.empresa = e.nome; g.cnpj = e.cnpj; }
+}
+function acrescentaItem(d, it, linha, aba) {
+  if (d.itens.some(x => x.grupo === it.grupo && x.item === it.item)) { d.recusadas.push({ linha, motivo: `Grupo ${it.grupo} item ${it.item} repetido` }); return; }
+  it.linha = linha; it.abaOrigem = aba;
+  d.itens.push(it);
+}
+
+function lerLayoutMapa({ aba, linhas }, d) {
+  let cols = null, fim = false, emp = null;
+  for (let r = 0; r < linhas.length; r++) {
+    const l = linhas[r], n = l.map(norm), nLinha = r + 1;
+    const txt = sem(l.filter(x => typeof x === "string").join(" "));
+    if (!d.pregao) { const m = txt.match(/pregao\s*(?:n[o.º°]*\s*)?(\d+\/\d{4})/); if (m) d.pregao = m[1]; }
+    if (ehCabMapa(l, linhas[r + 1])) {
+      const sub = (linhas[r + 1] || []).map(norm);
+      const novo = cols ? { ...cols } : { org: [] };
+      const primeiroOrg = sub.findIndex(x => x.startsWith("qt"));
+      const antes = j => primeiroOrg < 0 || j < primeiroOrg;
+      n.forEach((x, j) => {
+        if (CHAVES_GP.includes(x)) novo.gp = j;
+        else if (ehColItem(x)) novo.item = j;
+        else if (x.includes("codigo") || x.includes("catmat")) novo.codigo = j;
+        else if (x.includes("descricao") || x.includes("especificacao")) novo.desc = j;
+        else if (x.startsWith("unid")) novo.unidade = j;
+        else if ((x.startsWith("quant") || x.startsWith("qt")) && antes(j)) novo.qtd = j;
+        else if (x.includes("empresa") || x.includes("vencedor") || x.includes("fornecedor")) novo.empresa = j;
+        else if (x.includes("homologado")) novo.homologado = j;
+        else if (x.includes("unit") && antes(j)) novo.vu = j;
+        else if (x.includes("valor total") && antes(j)) novo.total = j;
+      });
+      novo.org = [];
+      sub.forEach((x, j) => {
+        if (!x.startsWith("qt")) return;
+        const nome = limpa(l[j]);
+        if (nome) novo.org.push({ nome, q: j, vu: j + 1, t: j + 2 });
+      });
+      cols = novo;
+      novo.org.forEach(o => { if (!d.orgaos.includes(o.nome)) d.orgaos.push(o.nome); });
+      r++;
+      continue;
+    }
+    if (!cols) { if (!d.titulo) { const t = l.find(x => typeof x === "string" && x.trim()); if (t) d.titulo = limpa(t); } continue; }
+    const a = n[0] || "";
+    if (fim) {
+      if (a === "valor") {
+        const j = l.findIndex(x => d.orgaos.some(o => norm(o) === norm(x)));
+        if (j >= 0) { const nome = d.orgaos.find(o => norm(o) === norm(l[j])); const v = l.slice(j + 1).find(x => typeof x === "number"); if (v != null) d.resumo.orgaos[nome] = v; }
+      } else if (a === "valor total" && d.resumo.total == null) d.resumo.total = ultimoNumero(l);
+      if (n.some(x => x === "emp." || x === "emp")) {
+        emp = { org: {} };
+        n.forEach((x, j) => { const o = d.orgaos.find(z => norm(z) === x); if (o) emp.org[o] = j; });
+      }
+      if (emp) {
+        n.forEach((x, j) => {
+          const m = x.match(/^grupo\s+([\d.,]+)\s+item\s+(\d+)/);
+          if (!m) return;
+          const org = {};
+          Object.entries(emp.org).forEach(([o, col]) => { org[o] = num(l[col]) || 0; });
+          d.apuracao.push({ grupo: m[1].replace(",", "."), item: Number(m[2]), total: num(l[j + 1]) || 0, org });
+        });
+      }
+      continue;
+    }
+    const tg = a.match(/^total grupo\s*(.+)$/);
+    if (tg) {
+      const g = pegaGrupo(d, tg[1].trim().replace(",", "."));
+      const v = cols.total != null && num(l[cols.total]) != null ? num(l[cols.total]) : ultimoNumero(l);
+      if (v != null) g.totalPlanilha = v;
+      continue;
+    }
+    if (a === "total geral") {
+      d.resumo.total = cols.total != null && num(l[cols.total]) != null ? num(l[cols.total]) : ultimoNumero(l);
+      fim = true;
+      continue;
+    }
+    const gp = grupoTexto(l[cols.gp]), item = num(l[cols.item]);
+    if (gp && item != null) {
+      const g = pegaGrupo(d, gp);
+      if (cols.empresa != null) {
+        const tx = limpa(l[cols.empresa]);
+        if (g.textoSituacao && tx && norm(g.textoSituacao) !== norm(tx)) d.avisos.push({ tipo: "texto", titulo: `Grupo ${gp} com mais de um resultado`, detalhe: `Linha ${nLinha}: "${tx}" difere de "${g.textoSituacao}". Foi mantido o primeiro.` });
+        defineResultado(g, tx);
+      }
+      if (cols.homologado != null && g.homologado == null) { const h = num(l[cols.homologado]); if (h != null) g.homologado = h; }
+      const org = {};
+      cols.org.forEach(o => {
+        const q = num(l[o.q]) || 0;
+        const vu0 = num(l[o.vu]);
+        const vu = vu0 != null ? vu0 : (num(l[cols.vu]) || 0);
+        const t0 = num(l[o.t]);
+        org[o.nome] = { q, vu, t: t0 != null ? t0 : r2(q * vu) };
+      });
+      const q0 = num(l[cols.qtd]);
+      const qtd = q0 != null ? q0 : somaQ(Object.values(org), o => o.q);
+      const vu = num(l[cols.vu]) || 0;
+      const t0 = num(l[cols.total]);
+      if (!limpa(l[cols.desc]) && !limpa(l[cols.codigo])) { d.recusadas.push({ linha: nLinha, motivo: "Item sem código e sem descrição" }); continue; }
+      acrescentaItem(d, { grupo: gp, item, codigo: String(l[cols.codigo] == null ? "" : l[cols.codigo]).trim(), descricao: limpa(l[cols.desc]), unidade: limpa(l[cols.unidade]), qtd, vu, total: t0 != null ? t0 : r2(qtd * vu), org }, nLinha, aba);
+      continue;
+    }
+    const preenchidas = l.map((x, j) => ({ x, j })).filter(o => limpa(o.x) !== "");
+    if (preenchidas.length && preenchidas.every(o => typeof o.x === "number")) {
+      preenchidas.filter(o => o.x !== 0).forEach(o => d.avisos.push({ tipo: "solto", celula: XLSX.utils.encode_cell({ r, c: o.j }), valor: o.x }));
+    }
+  }
+}
+
+function lerLayoutItens({ aba, linhas }, d) {
+  const iCab = linhas.findIndex(l => { const n = l.map(norm); return n.includes("grupo") && n.includes("item") && n.some(x => /^qtd\.? .+/.test(x)); });
+  const cab = linhas[iCab].map(norm), acha = f => cab.findIndex(f);
+  const col = {
+    grupo: cab.indexOf("grupo"), item: cab.indexOf("item"), codigo: acha(x => x.includes("codigo")), desc: acha(x => x.includes("descricao")),
+    unidade: acha(x => x.startsWith("unidade")), empresa: acha(x => x.includes("empresa")), cnpj: acha(x => x.includes("cnpj")),
+    situacao: acha(x => x.includes("situacao")), vu: acha(x => x.includes("unitario"))
+  };
+  const orgCols = [];
+  linhas[iCab].forEach((x, j) => { const m = limpa(x).match(/^qtd\.?\s+(.+)$/i); if (m) orgCols.push({ nome: m[1], j }); });
+  d.orgaos = orgCols.map(o => o.nome);
+  for (let r = iCab + 1; r < linhas.length; r++) {
+    const l = linhas[r], nLinha = r + 1;
+    if (l.every(x => limpa(x) === "")) continue;
+    const gp = grupoTexto(l[col.grupo]), item = num(l[col.item]);
+    if (!gp || item == null) { d.recusadas.push({ linha: nLinha, motivo: "Grupo ou item vazio ou inválido" }); continue; }
+    const g = pegaGrupo(d, gp);
+    const emp = col.empresa >= 0 ? limpa(l[col.empresa]) : "", cn = col.cnpj >= 0 ? limpa(l[col.cnpj]) : "", sit = col.situacao >= 0 ? limpa(l[col.situacao]) : "";
+    const texto = emp ? (cn ? `${emp} CNPJ ${cn}` : emp) : sit;
+    if (g.textoSituacao && texto && norm(g.textoSituacao) !== norm(texto)) d.avisos.push({ tipo: "texto", titulo: `Grupo ${gp} com mais de um resultado`, detalhe: `Linha ${nLinha}: "${texto}" difere de "${g.textoSituacao}". Foi mantido o primeiro.` });
+    defineResultado(g, texto);
+    const vu = (col.vu >= 0 ? num(l[col.vu]) : 0) || 0;
+    const org = {};
+    orgCols.forEach(o => { const q = num(l[o.j]) || 0; org[o.nome] = { q, vu: q ? vu : 0, t: r2(q * vu) }; });
+    const qtd = somaQ(Object.values(org), o => o.q);
+    if (!qtd) d.avisos.push({ tipo: "texto", titulo: `Grupo ${gp} item ${item} sem quantidade`, detalhe: `Linha ${nLinha} da aba ${aba}.` });
+    acrescentaItem(d, { grupo: gp, item, codigo: limpa(col.codigo >= 0 ? l[col.codigo] : ""), descricao: limpa(col.desc >= 0 ? l[col.desc] : ""), unidade: limpa(col.unidade >= 0 ? l[col.unidade] : ""), qtd, vu, total: r2(qtd * vu), org }, nLinha, aba);
+  }
+}
+
+function lerAbaProcesso(livro, visiveis, d) {
+  const aba = visiveis.find(n => norm(n) === "processo");
+  if (!aba) return;
+  linhasDe(livro.Sheets[aba]).forEach(l => {
+    const k = norm(l[0]), v = limpa(l[1]);
+    if (!v) return;
+    if (k.startsWith("processo")) d.processo = v;
+    else if (k.startsWith("pregao")) d.pregao = v;
+    else if (k.startsWith("objeto")) d.objeto = v;
+    else if (k.startsWith("exercicio")) d.exercicio = v;
+  });
+}
+
+function lerDotacao(livro, visiveis, d) {
+  const aba = visiveis.find(n => norm(n).includes("dotacao") && !norm(n).includes("por item"));
+  if (!aba) return;
+  const ws = livro.Sheets[aba], linhas = linhasDe(ws);
+  const iCab = linhas.findIndex(l => norm(l[0]).startsWith("dotacao"));
+  if (iCab < 0) return;
+  for (let i = 0; i < iCab; i++) {
+    const a = limpa(linhas[i][0]), b = limpa(linhas[i][1]);
+    if (a && !d.processo) d.processo = a;
+    if (b && !d.objeto) d.objeto = b;
+  }
+  const cols = [];
+  let iTotalCol = -1;
+  linhas[iCab].forEach((x, j) => {
+    if (j === 0 || !limpa(x)) return;
+    if (norm(x).startsWith("valor")) iTotalCol = j; else cols.push({ j, orgao: limpa(x), rotulo: "", codigo: "" });
+  });
+  const dot = { titulo: d.objeto, colunas: cols, linhas: [], saldos: [] };
+  const digitadas = [];
+  let temFormula = false;
+  for (let r = iCab + 1; r < linhas.length; r++) {
+    const l = linhas[r], a = norm(l[0]);
+    if (a.startsWith("saldo")) {
+      dot.saldos = cols.map(cl => { const s = limpa(l[cl.j]); return s === "-" ? "" : s; });
+      break;
+    }
+    if (!a || a.startsWith("codigo") || a.startsWith("exercicio")) {
+      cols.forEach(cl => {
+        const v = l[cl.j];
+        if (typeof v === "string" && /\d+\.\d+\./.test(v)) cl.codigo = v.replace(/\s/g, "");
+        else if (typeof v === "string" && limpa(v) && !cl.rotulo) cl.rotulo = limpa(v);
+      });
+      continue;
+    }
+    if (l.slice(1).every(x => limpa(x) === "")) continue;
+    const e = separaEmpresa(l[0]);
+    const valores = cols.map(cl => {
+      const v = num(l[cl.j]) || 0;
+      const cel = ws[XLSX.utils.encode_cell({ r, c: cl.j })];
+      if (cel && cel.f) temFormula = true;
+      else if (v > 0) digitadas.push(XLSX.utils.encode_cell({ r, c: cl.j }));
+      return v;
+    });
+    dot.linhas.push({ empresa: e.nome, cnpj: e.cnpj, valores, total: (iTotalCol >= 0 ? num(l[iTotalCol]) : null) });
+  }
+  d.codigosPlanilha = cols.filter(cl => cl.codigo).map(({ orgao, codigo }) => ({ orgao, codigo }));
+  if (!dot.linhas.length || !cols.some(cl => cl.codigo)) return;
+  dot.colunas = cols.map(({ orgao, rotulo, codigo }) => ({ orgao, rotulo, codigo }));
+  const quebradas = [];
+  for (let r = iCab + 1; r < linhas.length; r++) cols.forEach(cl => {
+    const cel = ws[XLSX.utils.encode_cell({ r, c: cl.j })];
+    if (cel && cel.t === "e") quebradas.push(XLSX.utils.encode_cell({ r, c: cl.j }));
+  });
+  if (quebradas.length) {
+    d.avisos.push({ tipo: "texto", titulo: "Aba de dotação com fórmulas quebradas", detalhe: `As células ${quebradas.join(", ")} da aba ${aba} estão com erro, como #REF!. Aproveitei só os números das dotações como sugestão; os valores do quadro são gerados a partir do mapa.` });
+    return;
+  }
+  d.dotacao = dot;
+  if (temFormula && digitadas.length) d.avisos.push({ tipo: "texto", titulo: "Valores da dotação digitados à mão", detalhe: `As células ${digitadas.join(", ")} da aba ${aba} não têm fórmula, enquanto outras têm. A dotação gerada pelo app será comparada com elas.` });
+}
+
+function concluir(d) {
+  const soltos = d.avisos.filter(a => a.tipo === "solto");
+  d.avisos = d.avisos.filter(a => a.tipo !== "solto");
+  if (soltos.length) d.avisos.push({ tipo: "texto", titulo: "Valores soltos fora dos quadros", detalhe: `${soltos.map(s => `${s.celula} (${fM.format(s.valor)})`).join(", ")}, na aba ${d.aba}: sem rótulo e fora dos totais. Não foram importados.` });
+  d.grupos.filter(g => !d.itens.some(i => i.grupo === g.grupo)).forEach(g => d.avisos.push({ tipo: "texto", titulo: `Grupo ${g.grupo} sem itens`, detalhe: "O total do grupo aparece na planilha, mas nenhum item foi lido." }));
+  d.grupos = d.grupos.filter(g => d.itens.some(i => i.grupo === g.grupo));
+  const vistos = new Set();
+  d.grupos.forEach(g => {
+    if (g.situacao !== "vencedor" || vistos.has(g.cnpj + g.empresa)) return;
+    vistos.add(g.cnpj + g.empresa);
+    if (!g.cnpj) d.avisos.push({ tipo: "texto", titulo: `Empresa sem CNPJ: ${g.empresa}`, detalhe: `Grupo ${g.grupo}.` });
+    else if (!cnpjValido(g.cnpj)) d.avisos.push({ tipo: "texto", titulo: `CNPJ com dígito inválido: ${g.cnpj}`, detalhe: `${g.empresa}, grupo ${g.grupo}.` });
+  });
+}
+
+/* ---------- Cálculos e verificações ---------- */
+function derivar(p) {
+  if (!p.dot) prepararDot(p);
+  if (!p.dot.lanc) p.dot.lanc = {};
+  const orgaos = p.orgaos;
+  const G = p.grupos.map(g => ({ ...g, itens: p.itens.filter(i => i.grupo === g.grupo) }));
+  const orgT = (i, o) => (i.org[o] ? i.org[o].t : 0);
+  const orgQ = (i, o) => (i.org[o] ? i.org[o].q : 0);
+  const TOT = { geral: soma(p.itens, i => i.total), org: {} };
+  orgaos.forEach(o => { TOT.org[o] = soma(p.itens, i => orgT(i, o)); });
+  const EMP = [];
+  G.filter(g => g.situacao === "vencedor").forEach(g => {
+    const chave = g.cnpj || g.empresa;
+    let e = EMP.find(x => x.chave === chave);
+    if (!e) { e = { chave, cnpj: g.cnpj, nome: g.empresa, grupos: [], itens: [] }; EMP.push(e); }
+    e.grupos.push(g.grupo); e.itens.push(...g.itens);
+  });
+  EMP.forEach(e => { e.total = soma(e.itens, i => i.total); e.org = {}; orgaos.forEach(o => { e.org[o] = soma(e.itens, i => orgT(i, o)); }); });
+  EMP.sort((a, b) => b.total - a.total);
+  return { p, orgaos, G, TOT, EMP, orgT, orgQ };
+}
+function verificacoes(X) {
+  const { p, orgaos, G, TOT, EMP, orgT, orgQ } = X;
+  const r = [];
+  const add = (nome, falhas, okTxt) => r.push({ nome, falhas, ok: !falhas.length, okTxt });
+  const dif = (a, b) => c(a) !== c(b);
+  const nomeI = i => `Grupo ${i.grupo} item ${i.item}`;
+  add("Soma dos itens igual ao valor homologado e ao total de cada grupo",
+    G.filter(g => { const s = soma(g.itens, i => i.total); return (g.homologado != null && dif(s, g.homologado)) || (g.totalPlanilha != null && dif(s, g.totalPlanilha)); })
+      .map(g => `Grupo ${g.grupo}: itens ${fM.format(soma(g.itens, i => i.total))}, homologado ${fM.format(g.homologado || 0)}, total ${fM.format(g.totalPlanilha || 0)}`),
+    G.length === 1 ? "1 grupo conferido." : `${G.length} grupos conferidos.`);
+  add("Soma das quantidades por órgão igual à quantidade do item",
+    p.itens.filter(i => somaQ(orgaos, o => orgQ(i, o)) !== i.qtd).map(i => `${nomeI(i)}: soma ${fN.format(somaQ(orgaos, o => orgQ(i, o)))}, quantidade ${fN.format(i.qtd)}`),
+    p.itens.length === 1 ? "1 item conferido." : `${p.itens.length} itens conferidos.`);
+  add("Valor unitário vezes quantidade igual ao valor total, no item e em cada órgão",
+    p.itens.filter(i => dif(i.vu * i.qtd, i.total) || orgaos.some(o => i.org[o] && dif(i.org[o].vu * i.org[o].q, i.org[o].t))).map(nomeI),
+    p.itens.length === 1 ? "1 item conferido." : `${p.itens.length} itens conferidos.`);
+  add("Soma dos totais por órgão igual ao total do item",
+    p.itens.filter(i => dif(soma(orgaos, o => orgT(i, o)), i.total)).map(nomeI),
+    p.itens.length === 1 ? "1 item conferido." : `${p.itens.length} itens conferidos.`);
+  add("Grupos sem vencedor com valor zero",
+    G.filter(g => g.situacao !== "vencedor" && c(soma(g.itens, i => i.total)) !== 0).map(g => `Grupo ${g.grupo}: ${fM.format(soma(g.itens, i => i.total))}`),
+    (n => (n === 1 ? "1 grupo sem vencedor." : `${n} grupos sem vencedor.`))(G.filter(g => g.situacao !== "vencedor").length));
+  if (p.apuracao.length) {
+    const falhas = [];
+    p.apuracao.forEach(a => {
+      const i = p.itens.find(x => x.grupo === a.grupo && x.item === a.item);
+      if (!i) falhas.push(`Grupo ${a.grupo} item ${a.item}: fora do mapa`);
+      else if (dif(i.total, a.total) || Object.entries(a.org).some(([o, v]) => dif(orgT(i, o), v))) falhas.push(`${nomeI(i)}: valores diferentes do mapa`);
+    });
+    G.filter(g => g.situacao === "vencedor").flatMap(g => g.itens).filter(i => !p.apuracao.some(a => a.grupo === i.grupo && a.item === i.item)).forEach(i => falhas.push(`${nomeI(i)}: fora da tabela de apuração`));
+    add("Tabela de apuração por empresa igual ao mapa", falhas, `${p.apuracao.length} linhas conferidas.`);
+  }
+  if (p.dotacao) {
+    const dt = p.dotacao, falhas = [];
+    const porOrg = o => soma(dt.linhas, l => soma(dt.colunas.map((cl, j) => ({ cl, j })).filter(x => x.cl.orgao === o), x => l.valores[x.j]));
+    orgaos.forEach(o => { if (dif(porOrg(o), TOT.org[o])) falhas.push(`${o} na dotação ${fM.format(porOrg(o))}, no mapa ${fM.format(TOT.org[o])}`); });
+    dt.linhas.forEach(l => {
+      const e = EMP.find(x => (l.cnpj && x.cnpj === l.cnpj) || (!l.cnpj && norm(x.nome) === norm(l.empresa)));
+      if (!e) { falhas.push(`${l.empresa}: fora do mapa`); return; }
+      orgaos.forEach(o => {
+        const v = soma(dt.colunas.map((cl, j) => ({ cl, j })).filter(x => x.cl.orgao === o), x => l.valores[x.j]);
+        if (dif(v, e.org[o])) falhas.push(`${l.empresa}: ${o} na dotação ${fM.format(v)}, no mapa ${fM.format(e.org[o])}`);
+      });
+    });
+    EMP.filter(e => !dt.linhas.some(l => (l.cnpj && l.cnpj === e.cnpj) || (!l.cnpj && norm(e.nome) === norm(l.empresa)))).forEach(e => falhas.push(`${e.nome}: sem linha na dotação`));
+    add("Aba de dotação da planilha igual ao mapa, por empresa e por órgão", falhas, dt.linhas.length === 1 ? "1 empresa conferida." : `${dt.linhas.length} empresas conferidas.`);
+  }
+  if (p.id) {
+    r.push({ nome: "Todos os GPs com resultado", falhas: G.filter(g => g.situacao === "sem").map(g => `GP ${g.grupo}`), ok: !G.some(g => g.situacao === "sem"), pendente: true, okTxt: G.length === 1 ? "1 GP com situação definida." : `${G.length} GPs com situação definida.` });
+    const semValor = G.filter(g => g.situacao === "vencedor").flatMap(g => g.itens).filter(i => c(i.vu) === 0);
+    r.push({ nome: "Itens dos GPs com vencedor com valor unitário", falhas: semValor.map(nomeI), ok: !semValor.length, pendente: true, okTxt: "Nenhum item sem valor." });
+    if ((p.relatorios || []).length) {
+      const div = p.itens.filter(i => i.rel && ((i.rel.qtd != null && i.rel.qtd !== i.qtd) || (i.rel.total != null && dif(i.rel.total, i.total))))
+        .map(i => `${nomeI(i)}: relatório qtd. ${fN.format(i.rel.qtd)} e total ${fM.format(i.rel.total)}; mapa qtd. ${fN.format(i.qtd)} e total ${fM.format(i.total)}`);
+      add("Relatórios do pregoeiro iguais ao mapa, em quantidade e valor total", div, `${p.relatorios.length} ${p.relatorios.length === 1 ? "relatório conferido" : "relatórios conferidos"}.`);
+    }
+    const ger = dotacaoGerada(X);
+    r.push({ nome: "Sem saldo financeiro não distribuído", falhas: ger.pend.map(x => `${x.item == null ? `GP ${x.grupo}` : `Grupo ${x.grupo} item ${x.item}`}, ${x.orgao}: ${fM.format(x.valor)}`), ok: !ger.pend.length, pendente: true, okTxt: `${ger.colunas.length} ${ger.colunas.length === 1 ? "lançamento" : "lançamentos"} no quadro.` });
+    if (Object.keys(p.dot.lanc || {}).length) add("Lançamentos dentro do valor de cada GP ou item", ger.excessos, "Nenhum lançamento acima do valor disponível.");
+    if (ger.aDefinir.length) r.push({ nome: `A DEFINIR: ${real(ger.totalADefinir)} distribuídos sem número de dotação`, falhas: [], ok: true, rotuloTag: "Pendente de definição", okTxt: ger.aDefinir.map(x => `${x.item == null ? `GP ${x.grupo}` : `Grupo ${x.grupo} item ${x.item}`}, ${x.orgao}, ${x.exercicio}: ${fM.format(x.valor)}`).join("; ") });
+    if (p.dotacao && !ger.pend.length && !Object.values(p.dot.lanc || {}).some(l => l.length)) {
+      const falhas = [];
+      p.dotacao.linhas.forEach(l => {
+        const g = ger.linhas.find(x => (l.cnpj && x.cnpj === l.cnpj) || norm(x.empresa) === norm(l.empresa));
+        if (!g) return;
+        const chaves = new Set(p.dotacao.colunas.map(cl => `${cl.orgao}|${cl.codigo}`));
+        Object.keys(g.por).forEach(k => chaves.add(k));
+        chaves.forEach(k => {
+          const v0 = soma(p.dotacao.colunas.map((cl, j) => ({ cl, j })).filter(x => `${x.cl.orgao}|${x.cl.codigo}` === k), x => l.valores[x.j]);
+          const v1 = (g.por[k] || 0) / 100;
+          if (dif(v0, v1)) falhas.push(`${l.empresa}, ${k.replace("|", " ")}: planilha ${fM.format(v0)}, gerada ${fM.format(v1)}`);
+        });
+      });
+      add("Dotação gerada igual à aba de dotação da planilha", falhas, "Mesmos valores por empresa e por dotação.");
+    }
+  }
+  if (p.resumo.total != null || Object.keys(p.resumo.orgaos).length) {
+    const falhas = [];
+    if (p.resumo.total != null && dif(p.resumo.total, TOT.geral)) falhas.push(`Total na planilha ${fM.format(p.resumo.total)}, soma dos itens ${fM.format(TOT.geral)}`);
+    Object.entries(p.resumo.orgaos).forEach(([o, v]) => { if (dif(v, TOT.org[o])) falhas.push(`${o} na planilha ${fM.format(v)}, soma dos itens ${fM.format(TOT.org[o])}`); });
+    add("Resumo final da planilha igual à soma dos itens", falhas, `Total ${real(TOT.geral)}.`);
+  }
+  return r;
+}
+
+/* ---------- Exportação ---------- */
+const U = () => XLSX.utils;
+const celM = (v, f) => { const o = { t: "n", v: r2(v), z: "#,##0.00" }; if (f) o.f = f; return o; };
+const celQ = (v, f) => { const o = { t: "n", v: Number(v) || 0 }; if (f) o.f = f; return o; };
+const addr = (r, cl) => XLSX.utils.encode_cell({ r, c: cl });
+
+function abaMapa(X) {
+  const { p, orgaos, G, TOT, orgT } = X;
+  const nOrg = orgaos.length, cTot = 10 + nOrg * 3, nCols = cTot + 2;
+  const linhas = [], merges = [];
+  const vazia = () => new Array(nCols).fill("");
+  linhas.push(vazia());
+  const t = vazia(); t[0] = p.titulo || p.objeto || "Mapa de Distribuição"; linhas.push(t);
+  merges.push({ s: { r: 1, c: 0 }, e: { r: 1, c: nCols - 1 } });
+  G.forEach(g => {
+    const h1 = vazia(), h2 = vazia(), r1 = linhas.length;
+    ["GP", "ITEM", "CÓDIGO SIAG", "DESCRIÇÃO/ESPECIFICAÇÃO", "UNIDADE", "QUANTIDADE", "EMPRESA VENCEDORA", "VALOR HOMOLOGADO", "VALOR UNITÁRIO", "VALOR TOTAL"].forEach((x, j) => { h1[j] = x; merges.push({ s: { r: r1, c: j }, e: { r: r1 + 1, c: j } }); });
+    orgaos.forEach((o, k) => {
+      const j = 10 + k * 3;
+      h1[j] = o; merges.push({ s: { r: r1, c: j }, e: { r: r1, c: j + 2 } });
+      h2[j] = "QTD"; h2[j + 1] = "VALOR UNITÁRIO"; h2[j + 2] = "VALOR TOTAL";
+    });
+    h1[cTot] = "VALOR TOTAL"; merges.push({ s: { r: r1, c: cTot }, e: { r: r1, c: cTot + 1 } });
+    h2[cTot] = "VALOR ITEM"; h2[cTot + 1] = "TOTAL ITEM";
+    linhas.push(h1, h2);
+    const ini = linhas.length;
+    g.itens.forEach((i, idx) => {
+      const r = linhas.length, l = vazia();
+      l[0] = isNaN(Number(g.grupo)) ? g.grupo : Number(g.grupo); l[1] = i.item; l[2] = i.codigo; l[3] = i.descricao; l[4] = i.unidade;
+      l[5] = celQ(i.qtd);
+      if (idx === 0) {
+        l[6] = g.situacao === "vencedor" ? (g.cnpj ? `${g.empresa} CNPJ ${g.cnpj}` : g.empresa) : (g.textoSituacao || "");
+        if (g.situacao === "vencedor") l[7] = celM(soma(g.itens, x => x.total));
+      }
+      l[8] = celM(i.vu); l[9] = celM(i.total, `${addr(r, 8)}*${addr(r, 5)}`);
+      orgaos.forEach((o, k) => {
+        const j = 10 + k * 3, d = i.org[o] || { q: 0, vu: 0, t: 0 };
+        l[j] = celQ(d.q); l[j + 1] = celM(d.vu); l[j + 2] = celM(d.t, `${addr(r, j)}*${addr(r, j + 1)}`);
+      });
+      l[cTot] = celM(soma(orgaos, o => orgT(i, o)), orgaos.map((o, k) => addr(r, 12 + k * 3)).join("+") || undefined);
+      l[cTot + 1] = celQ(somaQ(orgaos, o => (i.org[o] ? i.org[o].q : 0)), orgaos.map((o, k) => addr(r, 10 + k * 3)).join("+") || undefined);
+      linhas.push(l);
+    });
+    const fimG = linhas.length - 1;
+    if (g.itens.length > 1) { merges.push({ s: { r: ini, c: 6 }, e: { r: fimG, c: 6 } }); merges.push({ s: { r: ini, c: 7 }, e: { r: fimG, c: 7 } }); }
+    const tg = vazia(), rt = linhas.length;
+    tg[0] = `TOTAL GRUPO ${g.grupo}`;
+    const sm = j => `SUM(${addr(ini, j)}:${addr(fimG, j)})`;
+    tg[9] = celM(soma(g.itens, i => i.total), sm(9));
+    orgaos.forEach((o, k) => { const j = 12 + k * 3; tg[j] = celM(soma(g.itens, i => orgT(i, o)), sm(j)); });
+    merges.push({ s: { r: rt, c: 0 }, e: { r: rt, c: 8 } });
+    linhas.push(tg, vazia());
+  });
+  const tGer = vazia(); tGer[0] = "TOTAL GERAL"; tGer[9] = celM(TOT.geral);
+  orgaos.forEach((o, k) => { tGer[12 + k * 3] = celM(TOT.org[o]); });
+  linhas.push(tGer, vazia());
+  orgaos.forEach(o => { const l = vazia(); l[0] = "VALOR"; l[3] = o; l[4] = celM(TOT.org[o]); linhas.push(l); });
+  const lt = vazia(); lt[0] = "VALOR TOTAL"; lt[4] = celM(TOT.geral); linhas.push(lt);
+  const ws = U().aoa_to_sheet(linhas);
+  ws["!merges"] = merges;
+  const larg = [6, 6, 15, 60, 10, 12, 34, 15, 12, 14];
+  orgaos.forEach(() => larg.push(9, 12, 14));
+  larg.push(14, 11);
+  ws["!cols"] = larg.map(w => ({ wch: w }));
+  return ws;
+}
+function abaDotacao(X) {
+  const g = dotacaoGerada(X), colunas = g.colunas, fim = colunas.length;
+  const linhas = [[X.p.processo || "", X.p.objeto || ""]];
+  linhas.push(["DOTAÇÃO", ...colunas.map(cl => cl.orgao), "VALOR DA AQUISIÇÃO"]);
+  linhas.push(["", ...colunas.map(cl => cl.rotulo), ""]);
+  linhas.push(["EXERCÍCIO", ...colunas.map(cl => cl.exercicio), ""]);
+  linhas.push(["CÓDIGO", ...colunas.map(cl => (cl.aDefinir ? "A DEFINIR" : cl.codigo)), ""]);
+  const ini = linhas.length;
+  g.linhas.forEach(l => {
+    const r = linhas.length;
+    linhas.push([l.cnpj ? `${l.empresa} CNPJ ${l.cnpj}` : l.empresa, ...l.valores.map(v => celM(v)), celM(l.total, fim ? `SUM(${addr(r, 1)}:${addr(r, fim)})` : undefined)]);
+  });
+  const ult = linhas.length - 1;
+  const sm = j => (ult >= ini ? `SUM(${addr(ini, j)}:${addr(ult, j)})` : undefined);
+  linhas.push(["", ...colunas.map((cl, j) => celM(soma(g.linhas, l => l.valores[j]), sm(j + 1))), celM(soma(g.linhas, l => l.total), sm(fim + 1))]);
+  linhas.push(["SALDO SGPA", ...colunas.map(cl => {
+    const s = X.p.dot.saldos[cl.chave], n = num(s);
+    return !s ? "-" : (n != null ? celM(n) : s);
+  })]);
+  if (g.aDefinir.length) linhas.push(["A DEFINIR: PENDENTE DE DEFINIÇÃO (JÁ INCLUÍDO NO TOTAL)", celM(g.totalADefinir)]);
+  if (g.pend.length) linhas.push(["SALDO FINANCEIRO NÃO DISTRIBUÍDO (FORA DO TOTAL)", celM(g.totalPendente)]);
+  const ws = U().aoa_to_sheet(linhas);
+  ws["!cols"] = [{ wch: 56 }, ...colunas.map(() => ({ wch: 34 })), { wch: 18 }];
+  return ws;
+}
+function abaLancamentos(X) {
+  const lanc = X.p.dot.lanc || {};
+  const linhas = [["GP", "ITEM", "ÓRGÃO", "EXERCÍCIO", "VALOR", "DOTAÇÃO", "SITUAÇÃO"]];
+  Object.entries(lanc).forEach(([k, lista]) => {
+    const pt = k.split("|"), item = pt.length === 3 ? Number(pt[1]) : "", o = pt[pt.length - 1];
+    lista.filter(l => c(l.valor) > 0).forEach(l => {
+      const cod = limpaCod(l.codigo);
+      linhas.push([isNaN(Number(pt[0])) ? pt[0] : Number(pt[0]), item, o, limpa(l.exercicio), celM(l.valor), cod || "A DEFINIR", cod ? "Definida" : "Pendente de definição"]);
+    });
+  });
+  const ws = U().aoa_to_sheet(linhas);
+  ws["!cols"] = [{ wch: 6 }, { wch: 6 }, { wch: 12 }, { wch: 10 }, { wch: 13 }, { wch: 66 }, { wch: 22 }];
+  return ws;
+}
+function abaPorItem(X) {
+  const { p, G, orgaos, orgT } = X;
+  const linhas = [["GP", "ITEM", "CÓDIGO SIAG", "EMPRESA", "ÓRGÃO", "VALOR", "DOTAÇÃO"]];
+  G.filter(g => g.situacao === "vencedor").forEach(g => g.itens.forEach(i => orgaos.forEach(o => {
+    if (c(orgT(i, o))) linhas.push([isNaN(Number(g.grupo)) ? g.grupo : Number(g.grupo), i.item, i.codigo, g.empresa, o, celM(orgT(i, o)), dotacaoDe(p, i, o)]);
+  })));
+  const ws = U().aoa_to_sheet(linhas);
+  ws["!cols"] = [{ wch: 6 }, { wch: 6 }, { wch: 15 }, { wch: 44 }, { wch: 12 }, { wch: 13 }, { wch: 66 }];
+  return ws;
+}
+function abaApuracao(X) {
+  const { orgaos, EMP, TOT, orgT } = X;
+  const linhas = [["EMPRESA", "CNPJ", "GRUPO", "ITEM", "CÓDIGO SIAG", "QUANTIDADE", "VALOR UNITÁRIO", ...orgaos, "TOTAL"]];
+  EMP.forEach(e => {
+    e.itens.forEach(i => linhas.push([e.nome, e.cnpj, i.grupo, i.item, i.codigo, celQ(i.qtd), celM(i.vu), ...orgaos.map(o => celM(orgT(i, o))), celM(i.total)]));
+    linhas.push([`TOTAL ${e.nome}`, e.cnpj, "", "", "", "", "", ...orgaos.map(o => celM(e.org[o])), celM(e.total)]);
+  });
+  linhas.push(["TOTAL GERAL", "", "", "", "", "", "", ...orgaos.map(o => celM(soma(EMP, e => e.org[o]))), celM(soma(EMP, e => e.total))]);
+  const ws = U().aoa_to_sheet(linhas);
+  ws["!cols"] = [{ wch: 44 }, { wch: 20 }, { wch: 7 }, { wch: 6 }, { wch: 15 }, { wch: 11 }, { wch: 13 }, ...orgaos.map(() => ({ wch: 14 })), { wch: 14 }];
+  return ws;
+}
+function abaConferencia(X) {
+  const linhas = [["RESULTADO", "VERIFICAÇÃO", "DETALHE"]];
+  verificacoes(X).forEach(v => linhas.push([v.rotuloTag || (v.ok ? "Confere" : (v.pendente ? "Pendente" : "Diverge")), v.nome, v.ok ? v.okTxt : v.falhas.join("; ")]));
+  X.p.avisos.forEach(a => linhas.push(["Revisar", a.titulo, a.detalhe]));
+  const ws = U().aoa_to_sheet(linhas);
+  ws["!cols"] = [{ wch: 11 }, { wch: 70 }, { wch: 90 }];
+  return ws;
+}
+function abaProcesso(p) {
+  const ws = U().aoa_to_sheet([["Processo", (p && p.processo) || ""], ["Pregão", (p && p.pregao) || ""], ["Objeto", (p && p.objeto) || ""], ["Exercício atual", p ? exercicioBase(p) : ""]]);
+  ws["!cols"] = [{ wch: 14 }, { wch: 70 }];
+  return ws;
+}
+function abaItens(X, orgaosModelo) {
+  const orgaos = X ? X.orgaos : orgaosModelo;
+  const linhas = [["Grupo", "Item", "Código SIAG", "Descrição", "Unidade", "Empresa", "CNPJ", "Situação", "Valor unitário", ...orgaos.map(o => "QTD " + o)]];
+  if (X) X.G.forEach(g => g.itens.forEach(i => linhas.push([
+    isNaN(Number(g.grupo)) ? g.grupo : Number(g.grupo), i.item, i.codigo, i.descricao, i.unidade,
+    g.situacao === "vencedor" ? g.empresa : "", g.situacao === "vencedor" ? g.cnpj : "", g.situacao === "vencedor" ? "" : (g.textoSituacao || ""),
+    celM(i.vu), ...orgaos.map(o => celQ(i.org[o] ? i.org[o].q : 0))
+  ])));
+  const ws = U().aoa_to_sheet(linhas);
+  ws["!cols"] = [{ wch: 7 }, { wch: 6 }, { wch: 15 }, { wch: 60 }, { wch: 10 }, { wch: 40 }, { wch: 20 }, { wch: 14 }, { wch: 13 }, ...orgaos.map(() => ({ wch: 12 }))];
+  return ws;
+}
+function abaLeiame() {
+  const ws = U().aoa_to_sheet([
+    ["Como preencher"],
+    ["1. Aba PROCESSO: informe o número do processo, o pregão e o objeto."],
+    ["2. Aba ITENS: uma linha por item. Em cada linha do grupo, repita a empresa e o CNPJ."],
+    ["3. Grupo sem vencedor: deixe Empresa em branco e escreva Fracassado ou Deserto em Situação."],
+    ["4. Órgãos: há uma coluna QTD para cada órgão. Para incluir outro, acrescente uma coluna, por exemplo QTD SESP. Para retirar, apague a coluna."],
+    ["5. Os totais são calculados pelo app a partir do valor unitário e das quantidades."],
+    ["6. Salve e importe este arquivo na tela Processos."],
+    ["7. Depois de importar, informe o número da dotação por grupo, ou por item quando um grupo usar mais de uma, na etapa Dotação orçamentária. O quadro e a aba de dotação são gerados pelo app."]
+  ]);
+  ws["!cols"] = [{ wch: 120 }];
+  return ws;
+}
+function salvarLivro(wb, nome) {
+  const saida = XLSX.write(wb, { bookType: "xlsx", type: "array", compression: true });
+  const url = URL.createObjectURL(new Blob([saida], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" }));
+  const a = document.createElement("a");
+  a.href = url; a.download = nome;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+const nomeArq = s => String(s || "processo").replace(/[^\w-]+/g, "_").replace(/^_+|_+$/g, "");
+function exportarCompleto(X) {
+  const wb = U().book_new();
+  U().book_append_sheet(wb, abaProcesso(X.p), "PROCESSO");
+  U().book_append_sheet(wb, abaMapa(X), "MAPA");
+  U().book_append_sheet(wb, abaDotacao(X), "DOTAÇÃO ORÇAMENTÁRIA");
+  U().book_append_sheet(wb, abaPorItem(X), "DOTAÇÃO POR ITEM");
+  U().book_append_sheet(wb, abaLancamentos(X), "LANÇAMENTOS POR EXERCÍCIO");
+  U().book_append_sheet(wb, abaApuracao(X), "APURAÇÃO POR EMPRESA");
+  U().book_append_sheet(wb, abaConferencia(X), "CONFERÊNCIA");
+  salvarLivro(wb, `mapa_${nomeArq(X.p.processo)}.xlsx`);
+}
+function exportarEntrada(X) {
+  const wb = U().book_new();
+  U().book_append_sheet(wb, abaLeiame(), "LEIA-ME");
+  U().book_append_sheet(wb, abaProcesso(X.p), "PROCESSO");
+  U().book_append_sheet(wb, abaItens(X), "ITENS");
+  U().book_append_sheet(wb, abaPorItem(X), "DOTAÇÃO POR ITEM");
+  U().book_append_sheet(wb, abaLancamentos(X), "LANÇAMENTOS POR EXERCÍCIO");
+  salvarLivro(wb, `entrada_${nomeArq(X.p.processo)}.xlsx`);
+}
+function baixarModelo() {
+  const wb = U().book_new();
+  U().book_append_sheet(wb, abaLeiame(), "LEIA-ME");
+  U().book_append_sheet(wb, abaProcesso(null), "PROCESSO");
+  U().book_append_sheet(wb, abaItens(null, ["POLITEC", "PM"]), "ITENS");
+  salvarLivro(wb, "modelo_mapa_de_distribuicao.xlsx");
+}
+
+/* ---------- Relatório do pregoeiro (PDF) ---------- */
+async function inflar(bytes) {
+  const leitor = new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate")).getReader();
+  const partes = [];
+  try {
+    for (;;) { const { done, value } = await leitor.read(); if (done) break; partes.push(value); }
+  } catch (e) { if (!partes.length) throw e; }
+  return new Uint8Array(await new Blob(partes).arrayBuffer());
+}
+function desfazEscapes(s) {
+  return s.replace(/\\([0-7]{1,3}|[\s\S])/g, (m, x) => {
+    if (/^[0-7]/.test(x)) return String.fromCharCode(parseInt(x, 8));
+    return { n: "\n", r: "\r", t: "\t", b: "\b", f: "\f" }[x] || x;
+  });
+}
+/* Lê o texto com a posição de cada trecho. Serve para PDFs gerados por sistema, não para digitalizados. */
+async function textoDoPdf(buf) {
+  const dec = new TextDecoder("windows-1252");
+  const bytes = new Uint8Array(buf), bruto = dec.decode(bytes);
+  if (!bruto.startsWith("%PDF")) throw new Error("O arquivo não é um PDF válido.");
+  if (/\/Encrypt\b/.test(bruto)) throw new Error("O PDF está protegido por senha ou criptografia.");
+  const paginas = [], re = /stream\r?\n/g;
+  let m;
+  while ((m = re.exec(bruto))) {
+    const ini = m.index + m[0].length, fim = bruto.indexOf("endstream", ini);
+    if (fim < 0) break;
+    const dic = bruto.slice(bruto.lastIndexOf(" obj", m.index), m.index);
+    re.lastIndex = fim + 9;
+    if (/\/Subtype\s*\/Image|DCTDecode/.test(dic)) continue;
+    let txt;
+    try { txt = dec.decode(/FlateDecode/.test(dic) ? await inflar(bytes.subarray(ini, fim)) : bytes.subarray(ini, fim)); } catch (e) { continue; }
+    const itens = [], rt = /([-\d.]+)\s+([-\d.]+)\s+Tm\s*\(((?:\\[\s\S]|[^\\)])*)\)\s*Tj/g;
+    let t;
+    while ((t = rt.exec(txt))) itens.push({ x: Number(t[1]), y: Number(t[2]), t: desfazEscapes(t[3]) });
+    if (itens.length) paginas.push(itens);
+  }
+  if (!paginas.length) throw new Error("Não encontrei texto no PDF. Ele pode ser digitalizado (imagem), e este leitor só funciona com o relatório gerado pelo sistema.");
+  return paginas;
+}
+function interpretarRelatorio(paginas, arquivo) {
+  const p0 = paginas[0];
+  if (!p0.some(i => norm(i.t).includes("relatorio de resultado"))) throw new Error("Não parece um Relatório de Resultado: faltou o título do documento.");
+  const abaixo = rx => {
+    const r = p0.find(i => rx.test(norm(i.t)));
+    if (!r) return "";
+    const v = p0.filter(i => Math.abs(i.x - r.x) < 6 && i.y < r.y && r.y - i.y < 18).sort((a, b) => b.y - a.y)[0];
+    return v ? limpa(v.t) : "";
+  };
+  const rel = {
+    arquivo, autorizacao: abaixo(/autorizacao/), processo: abaixo(/processo$/), orgao: abaixo(/^orgao$/),
+    empresa: abaixo(/razao social/), cnpj: abaixo(/cpf\/cnpj|^cnpj/), itens: [], totalRelatorio: null
+  };
+  if (!rel.empresa) throw new Error("Não encontrei o fornecedor no relatório.");
+  let dentro = false, atual = null;
+  const R$ = s => /^R\$/.test(limpa(s));
+  paginas.forEach(pag => {
+    const grupos = new Map();
+    pag.filter(i => i.y > 30 && i.y < 520).forEach(i => {
+      const k = Math.round(i.y);
+      const c0 = [k, k - 1, k + 1].find(z => grupos.has(z));
+      const ch = c0 != null ? c0 : k;
+      if (!grupos.has(ch)) grupos.set(ch, []);
+      grupos.get(ch).push(i);
+    });
+    [...grupos.keys()].sort((a, b) => b - a).forEach(k => {
+      const l = grupos.get(k).sort((a, b) => a.x - b.x), n = l.map(i => norm(i.t));
+      if (!dentro) { if (n.some(x => x.includes("resultado dos itens"))) dentro = true; return; }
+      if (rel.totalRelatorio != null) return;
+      if (n.includes("seq.") || n.some(x => x.startsWith("seq"))) return;
+      if (n[0] === "valor total") { rel.totalRelatorio = num(l.find(i => R$(i.t)) ? l.find(i => R$(i.t)).t : ""); atual = null; return; }
+      const tp = l[0].x < 115 ? limpa(l[0].t).match(/^(grupo|lote|item)\b\s*([\d.,]*)$/i) : null;
+      if (tp) {
+        const seq = l.find(i => i.x >= 100 && i.x < 180 && /^\d+$/.test(limpa(i.t)));
+        const desc = l.find(i => i.x >= 180 && i.x < 385);
+        const resto = l.filter(i => i.x >= 385);
+        const reais = resto.filter(i => R$(i.t));
+        const qtd = resto.find(i => !R$(i.t) && num(i.t) != null && i.x < 455);
+        const un = resto.find(i => !R$(i.t) && i.x >= 450 && i.x < 520);
+        atual = {
+          grupo: (tp[2] || "").replace(",", "."), item: seq ? Number(limpa(seq.t)) : null, bruto: desc ? desc.t : "",
+          qtd: qtd ? num(qtd.t) : null, unidade: un ? limpa(un.t) : "",
+          vu: reais[0] ? num(reais[0].t) : null, total: reais[1] ? num(reais[1].t) : null
+        };
+        rel.itens.push(atual);
+      } else if (atual) {
+        l.filter(i => i.x >= 180 && i.x < 385).forEach(i => { atual.bruto += i.t; });
+      }
+    });
+  });
+  if (!rel.itens.length) throw new Error("Encontrei o relatório, mas nenhum item na tabela de resultado. O formato pode ser diferente do esperado.");
+  rel.itens.forEach(i => {
+    const t = limpa(i.bruto), mc = t.match(/^(\S+)\s+-\s+([\s\S]*)$/);
+    i.codigo = mc ? mc[1] : "";
+    i.descricao = mc ? mc[2] : t;
+    delete i.bruto;
+  });
+  return rel;
+}
+/* Falta resultado: grupo sem situação, ou grupo com empresa e item ainda sem valor unitário. */
+const faltaResultado = p => p.grupos.some(g => g.situacao === "sem" || (g.situacao === "vencedor" && p.itens.some(i => i.grupo === g.grupo && c(i.vu) === 0)));
+const outroProcesso = (rel, p) => rel.processo && p.processo && norm(rel.processo) !== norm(p.processo);
+const codIgual = (a, b) => String(a).replace(/\D/g, "").replace(/^0+/, "") === String(b).replace(/\D/g, "").replace(/^0+/, "");
+/* Casa cada linha do relatório com o mapa: grupo e item primeiro, código como conferência e como alternativa. */
+function casarRelatorio(p, rel) {
+  return rel.itens.map(r => {
+    let alvo = p.itens.find(i => i.grupo === r.grupo && i.item === r.item);
+    const obs = [];
+    let erro = "";
+    if (alvo && r.codigo && alvo.codigo && !codIgual(alvo.codigo, r.codigo)) {
+      const noGrupo = p.itens.filter(i => i.grupo === r.grupo && codIgual(i.codigo, r.codigo));
+      if (noGrupo.length === 1) { obs.push(`No mapa é o item ${noGrupo[0].item} do grupo, casado pelo código`); alvo = noGrupo[0]; }
+      else { erro = `Código ${r.codigo} difere do mapa (${alvo.codigo})`; alvo = null; }
+    } else if (!alvo) {
+      const porCod = r.codigo ? p.itens.filter(i => codIgual(i.codigo, r.codigo)) : [];
+      if (porCod.length === 1) { alvo = porCod[0]; obs.push(`Casado pelo código com o grupo ${alvo.grupo} item ${alvo.item}`); }
+      else erro = porCod.length > 1 ? `Código ${r.codigo} aparece em ${porCod.length} itens do mapa` : `Grupo ${r.grupo || "?"} item ${r.item == null ? "?" : r.item} não existe no mapa`;
+    }
+    if (r.vu == null) { erro = erro || "Sem valor unitário no relatório"; alvo = null; }
+    if (alvo) {
+      if (r.qtd != null && r.qtd !== alvo.qtd) obs.push(`Quantidade: relatório ${fN.format(r.qtd)}, mapa ${fN.format(alvo.qtd)}`);
+      const calc = r2(alvo.qtd * r.vu);
+      if (r.total != null && c(calc) !== c(r.total)) obs.push(`Total: relatório ${fM.format(r.total)}, calculado ${fM.format(calc)}`);
+    }
+    return { r, alvo, obs, erro };
+  });
+}
+function aplicarRelatorio(p, rel, soSemResultado) {
+  let n = 0;
+  casarRelatorio(p, rel).forEach(({ r, alvo }) => {
+    if (!alvo) return;
+    const g = p.grupos.find(x => x.grupo === alvo.grupo);
+    if (soSemResultado && g.situacao !== "sem" && c(alvo.vu) > 0) return;
+    alvo.vu = r.vu;
+    alvo.total = r2(alvo.qtd * r.vu);
+    Object.values(alvo.org).forEach(o => { o.vu = o.q ? r.vu : 0; o.t = r2(o.q * r.vu); });
+    alvo.rel = { qtd: r.qtd, total: r.total, autorizacao: rel.autorizacao };
+    if (!alvo.codigo) alvo.codigo = r.codigo;
+    if (!alvo.descricao) alvo.descricao = r.descricao;
+    if (!alvo.unidade) alvo.unidade = r.unidade;
+    g.situacao = "vencedor"; g.empresa = rel.empresa; g.cnpj = rel.cnpj;
+    g.textoSituacao = rel.cnpj ? `${rel.empresa} CNPJ ${rel.cnpj}` : rel.empresa;
+    g.homologado = null; g.totalPlanilha = null;
+    n++;
+  });
+  if (n) { p.resumo = { orgaos: {} }; p.apuracao = []; p.dotacao = null; }
+  return n;
+}
+
+/* ---------- Telas ---------- */
+const tela = document.getElementById("tela");
+let ATUAL = null;       // derivar(processo aberto)
+let PENDENTE = null;    // planilha lida e ainda não salva
+const filtro = { busca: "", grupo: "", empresa: "", situacao: "" };
+
+function toast(msg) {
+  const el = document.getElementById("avisoToast");
+  el.textContent = msg; el.hidden = false;
+  clearTimeout(toast.t);
+  toast.t = setTimeout(() => { el.hidden = true; }, 5000);
+}
+const idDe = processo => "P-" + norm(processo).replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
+function blocoImportar() {
+  return `<div class="cartao"><div class="corpo">
+      <h2>Importar planilha</h2>
+      <p class="sub">Aceita o mapa no formato de grupos e itens, em qualquer aba, ou o modelo de preenchimento. Depois de salvar, você informa as dotações e o quadro é gerado.</p>
+      <div class="botoes" style="margin-top:10px">
+        <label class="btn prim">Escolher arquivo (.xlsx ou .xls)<input class="visual-oculto" id="arquivo" type="file" accept=".xlsx,.xls,.xlsm"></label>
+        <button class="btn" id="btnModelo" type="button">Baixar modelo em branco</button>
+      </div>
+    </div></div>
+    <div id="previa"></div>`;
+}
+function ligarImportar() {
+  document.getElementById("btnModelo").addEventListener("click", () => { baixarModelo(); toast("Modelo em branco gerado."); });
+  document.getElementById("arquivo").addEventListener("change", async e => {
+    const arq = e.target.files[0];
+    if (!arq) return;
+    const previa = document.getElementById("previa");
+    previa.innerHTML = '<div class="vazio">Lendo a planilha...</div>';
+    try {
+      const livro = XLSX.read(await arq.arrayBuffer(), { type: "array", cellFormula: true });
+      PENDENTE = interpretar(livro, arq.name);
+      if (!PENDENTE.processo && ATUAL) PENDENTE.processo = ATUAL.p.processo;
+      if (!PENDENTE.objeto && PENDENTE.titulo) PENDENTE.objeto = PENDENTE.titulo;
+      await desenharPrevia();
+    } catch (err) {
+      PENDENTE = null;
+      previa.innerHTML = `<div class="caixa erro" role="alert"><p><b>Não foi possível importar ${esc(arq.name)}.</b> ${esc(err.message)}</p></div>`;
+    }
+    e.target.value = "";
+  });
+}
+async function desenharPrevia() {
+  const d = PENDENTE, X = derivar(d), v = verificacoes(X), erros = v.filter(x => !x.ok);
+  const previa = document.getElementById("previa");
+  previa.innerHTML = `<section class="cartao" aria-label="Prévia da importação">
+    <div class="cab-grupo"><h2>Prévia: ${esc(d.arquivo)}</h2><span class="tag ok">Aba ${esc(d.aba)}</span></div>
+    <div class="campos">
+      <label class="campo">Número do processo *<input id="pProcesso" value="${esc(d.processo)}" required></label>
+      <label class="campo">Pregão<input id="pPregao" value="${esc(d.pregao)}"></label>
+      <label class="campo">Objeto<input id="pObjeto" value="${esc(d.objeto)}"></label>
+    </div>
+    <div class="corpo" style="padding-top:0">
+      <div class="kpis" style="margin-top:0">
+        <div class="kpi"><span>Valor total</span><b>${real(X.TOT.geral)}</b></div>
+        ${X.orgaos.map(o => `<div class="kpi"><span>${esc(o)}</span><b>${real(X.TOT.org[o])}</b></div>`).join("")}
+        <div class="kpi"><span>Grupos e itens</span><b>${X.G.length} e ${d.itens.length}</b></div>
+        <div class="kpi"><span>Empresas</span><b>${X.EMP.length}</b></div>
+      </div>
+      ${d.recusadas.length ? `<div class="caixa erro"><p><b>${d.recusadas.length} ${d.recusadas.length === 1 ? "linha recusada" : "linhas recusadas"}:</b> ${d.recusadas.slice(0, 8).map(r => `linha ${r.linha} (${esc(r.motivo)})`).join("; ")}${d.recusadas.length > 8 ? "; ..." : ""}</p></div>` : ""}
+      ${erros.length ? `<div class="caixa erro"><p><b>${erros.length} ${erros.length === 1 ? "verificação diverge" : "verificações divergem"}:</b> ${erros.map(x => esc(x.nome)).join("; ")}. Você pode salvar e ver o detalhe em Conferência.</p></div>` : `<div class="caixa"><p>As ${v.length} verificações de valores conferem.</p></div>`}
+      ${d.avisos.length ? `<div class="caixa aviso"><p><b>${d.avisos.length} ${d.avisos.length === 1 ? "ponto" : "pontos"} para revisar:</b> ${d.avisos.map(a => esc(a.titulo)).join("; ")}.</p></div>` : ""}
+      ${faltaResultado(d) ? '<div class="caixa aviso"><p><b>Resultado:</b> o mapa veio sem empresa ou sem valores em parte dos grupos. Depois de salvar, importe o relatório do pregoeiro em PDF e o mapa é preenchido.</p></div>' : ""}
+      ${(pend => (pend ? `<div class="caixa aviso"><p><b>Dotação:</b> ${pend} ${pend === 1 ? "valor ainda sem dotação" : "valores ainda sem dotação"}. Depois de salvar, você informa o número por grupo ou por item, e o quadro é gerado.</p></div>` : (c(X.TOT.geral) ? '<div class="caixa"><p><b>Dotação:</b> todos os valores já têm dotação.</p></div>' : "")))(dotacaoGerada(X).pend.length)}
+      <div id="pErro" role="alert"></div>
+      <div id="pExiste"></div>
+      <div class="botoes"><button class="btn prim" id="pSalvar" type="button">Salvar processo</button><button class="btn" id="pCancelar" type="button">Cancelar</button></div>
+    </div></section>`;
+  const inp = document.getElementById("pProcesso");
+  const checa = async () => {
+    const atual = limpa(inp.value) ? await banco.ler(idDe(inp.value)) : null;
+    document.getElementById("pExiste").innerHTML = atual ? `<div class="caixa aviso"><p>O processo ${esc(atual.processo)} já existe e será <b>substituído</b> por esta planilha.</p></div>` : "";
+    document.getElementById("pSalvar").textContent = atual ? "Substituir processo" : "Salvar processo";
+  };
+  inp.addEventListener("input", checa);
+  await checa();
+  document.getElementById("pCancelar").addEventListener("click", () => { PENDENTE = null; previa.innerHTML = ""; });
+  document.getElementById("pSalvar").addEventListener("click", async () => {
+    const processo = limpa(inp.value);
+    if (!processo) { document.getElementById("pErro").innerHTML = '<div class="caixa erro"><p>Informe o número do processo.</p></div>'; inp.focus(); return; }
+    const id = idDe(processo), antigo = await banco.ler(id);
+    if (antigo && antigo.dot) {
+      /* Reimportação: mantém o que já foi digitado onde a planilha nova não informa dotação. */
+      const novo = PENDENTE.dot;
+      const temNovo = (g, o) => novo.grupos[chaveG(g, o)] || Object.keys(novo.itens).some(k => k.startsWith(`${g}|`) && k.endsWith(`|${o}`));
+      Object.entries(antigo.dot.grupos).forEach(([k, v]) => { const [g, o] = k.split("|"); if (!temNovo(g, o)) novo.grupos[k] = v; });
+      Object.entries(antigo.dot.itens).forEach(([k, v]) => { const [g, , o] = k.split("|"); if (!novo.grupos[chaveG(g, o)] && !novo.itens[k]) novo.itens[k] = v; });
+      novo.saldos = { ...antigo.dot.saldos, ...novo.saldos };
+      novo.lanc = { ...(antigo.dot.lanc || {}), ...novo.lanc };
+      if (!novo.exercicio) novo.exercicio = antigo.dot.exercicio || "";
+    }
+    const reg = { ...PENDENTE, id, processo, pregao: limpa(document.getElementById("pPregao").value), objeto: limpa(document.getElementById("pObjeto").value), importadoEm: agora(),
+      historico: [...((antigo && antigo.historico) || []), { quando: agora(), acao: antigo ? "Importação substituiu os dados" : "Importação", detalhe: PENDENTE.arquivo }] };
+    if (antigo && (antigo.relatorios || []).length) {
+      /* Mapa importado de novo: os relatórios já aplicados voltam a preencher o que veio em branco. */
+      reg.relatorios = antigo.relatorios;
+      reg.relatorios.forEach(rel => aplicarRelatorio(reg, rel, true));
+    }
+    if (antigo) reg.grupos.forEach(g => {
+      /* Mantém o fracassado ou deserto marcado na tela quando a planilha nova não diz nada. */
+      const a = antigo.grupos.find(x => x.grupo === g.grupo);
+      if (g.situacao === "sem" && a && (a.situacao === "fracassado" || a.situacao === "deserto")) { g.situacao = a.situacao; g.textoSituacao = a.textoSituacao; }
+    });
+    await banco.gravar(reg);
+    PENDENTE = null;
+    const semRes = faltaResultado(reg);
+    const faltam = dotacaoGerada(derivar(reg)).pend.length;
+    toast(semRes ? "Processo salvo. Agora importe o relatório do pregoeiro." : (faltam ? "Processo salvo. Agora informe as dotações." : "Processo salvo neste navegador."));
+    const destino = `#/p/${encodeURIComponent(id)}/${semRes ? "relatorio" : (faltam ? "dotacao" : "mapa")}`;
+    if (location.hash === destino) navegar(true); else location.hash = destino;
+  });
+}
+
+async function telaProcessos() {
+  const lista = (await banco.listar()).sort((a, b) => String(a.processo).localeCompare(b.processo));
+  tela.innerHTML = `<h1>Processos</h1>
+    <p class="sub">Cada processo vem de uma planilha importada. Os dados ficam guardados só neste navegador.</p>
+    <div style="height:14px"></div>
+    ${blocoImportar()}
+    ${lista.length ? `<div class="cartao"><div class="rolagem"><table>
+      <thead><tr><th>Processo</th><th>Objeto</th><th class="num">Itens</th><th class="num">Valor total</th><th>Importado em</th><th>Ações</th></tr></thead>
+      <tbody>${lista.map(p => {
+        const u = encodeURIComponent(p.id);
+        return `<tr><td class="mono">${esc(p.processo)}</td><td>${esc(p.objeto)}</td><td class="num">${p.itens.length}</td><td class="num">${fM.format(soma(p.itens, i => i.total))}</td><td>${esc(p.importadoEm)}</td>
+          <td><a href="#/p/${u}/mapa">Abrir</a> · <a href="#/p/${u}/exportar">Exportar</a> · <button class="btn perigo" style="padding:1px 8px;font-size:12px" data-apagar="${esc(p.id)}" type="button">Excluir</button></td></tr>`;
+      }).join("")}</tbody></table></div></div>` : '<div class="vazio">Nenhum processo ainda. Importe uma planilha, baixe o modelo em branco ou restaure um backup.</div>'}
+    <h2 style="margin:18px 0 8px">Backup</h2>
+    ${blocoBackup(false)}`;
+  ligarImportar();
+  ligarBackup();
+  tela.querySelectorAll("[data-apagar]").forEach(b => b.addEventListener("click", async () => {
+    if (b.dataset.confirma !== "1") { b.dataset.confirma = "1"; b.textContent = "Confirmar exclusão"; return; }
+    await banco.apagar(b.dataset.apagar);
+    toast("Processo excluído deste navegador.");
+    navegar(false);
+  }));
+}
+
+function telaImportar() {
+  const p = ATUAL.p;
+  tela.innerHTML = `<h1>Importar</h1>
+    <p class="sub">Dados atuais: ${esc(p.arquivo)}, importado em ${esc(p.importadoEm)}. Uma nova planilha deste processo substitui os dados atuais.</p>
+    <div style="height:14px"></div>
+    ${blocoImportar()}
+    <div class="cartao"><div class="cab-grupo"><h2>Histórico</h2><button class="btn-icone" id="btnHistorico" type="button" aria-controls="tabelaHistorico"></button></div><div class="rolagem" id="tabelaHistorico"><table>
+      <thead><tr><th>Quando</th><th>Ação</th><th>Detalhe</th></tr></thead>
+      <tbody>${(p.historico || []).slice().reverse().map(h => `<tr><td class="mono">${esc(h.quando)}</td><td>${esc(h.acao)}</td><td>${esc(detalheHistorico(h.detalhe))}</td></tr>`).join("")}</tbody>
+    </table></div></div>`;
+  ligarImportar();
+  const btn = document.getElementById("btnHistorico"), tabela = document.getElementById("tabelaHistorico");
+  const OLHO = '<circle cx="12" cy="12" r="3"/><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/>';
+  const OLHO_FECHADO = '<path d="M3 3l18 18"/><path d="M10.6 5.1A10 10 0 0 1 12 5c6 0 10 7 10 7a18 18 0 0 1-3.2 3.9M6.6 6.6A18 18 0 0 0 2 12s4 7 10 7a10 10 0 0 0 4.3-1"/>';
+  const aplica = oculto => {
+    tabela.hidden = oculto;
+    const rotulo = oculto ? "Mostrar histórico" : "Ocultar histórico";
+    btn.innerHTML = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${oculto ? OLHO_FECHADO : OLHO}</svg>`;
+    btn.title = rotulo;
+    btn.setAttribute("aria-label", rotulo);
+    btn.setAttribute("aria-expanded", String(!oculto));
+  };
+  let oculto = false;
+  try { oculto = localStorage.getItem(CHAVE_HIST) === "1"; } catch (e) { /* sem armazenamento: começa visível */ }
+  aplica(oculto);
+  btn.addEventListener("click", () => {
+    oculto = !oculto;
+    aplica(oculto);
+    try { localStorage.setItem(CHAVE_HIST, oculto ? "1" : "0"); } catch (e) { /* vale só nesta sessão */ }
+  });
+}
+const detalheHistorico = s => semExtensao(s).replace(/:\s*\d+\s+itens?\s+de\s+/i, ": ");
+const CHAVE_HIST = "mapa-planilha-historico-oculto";
+const semExtensao = s => String(s == null ? "" : s).replace(/\.(pdf|xlsx|xlsm|xls)(?=\s*(:|$))/i, "");
+
+let LIDOS_REL = [];
+function telaRelatorio() {
+  const { p, G } = ATUAL;
+  const rels = p.relatorios || [];
+  const semRes = G.filter(g => g.situacao !== "vencedor");
+  tela.innerHTML = `<h1>Relatório do pregoeiro</h1>
+    <p class="sub">Importe o PDF do Relatório de Resultado de cada fornecedor. O app preenche a empresa, o CNPJ e os valores no mapa, pelo grupo e item. As quantidades por órgão continuam as da planilha.</p>
+    <div style="height:14px"></div>
+    <div class="cartao"><div class="corpo">
+      <h2>Importar relatórios</h2>
+      <p class="sub">Pode escolher vários PDFs de uma vez. Nada é preenchido antes da sua confirmação.</p>
+      <div class="botoes" style="margin-top:10px"><label class="btn prim">Escolher PDF<input class="visual-oculto" id="arquivoRel" type="file" accept=".pdf,application/pdf" multiple></label></div>
+    </div></div>
+    <div id="previaRel"></div>
+    ${rels.length ? `<div class="cartao"><div class="cab-grupo"><h2>Relatórios aplicados</h2></div><div class="rolagem"><table>
+      <thead><tr><th>Autorização</th><th>Fornecedor</th><th>CNPJ</th><th class="num">Valor total</th><th>Arquivo</th></tr></thead>
+      <tbody>${rels.map(r => `<tr><td class="mono">${esc(r.autorizacao)}</td><td>${esc(r.empresa)}</td><td class="mono">${esc(r.cnpj)}</td><td class="num">${fM.format(soma(r.itens, i => i.total))}</td><td>${esc(semExtensao(r.arquivo))}</td></tr>`).join("")}</tbody>
+    </table></div></div>` : ""}
+    ${semRes.length ? `<div class="cartao"><div class="cab-grupo"><div class="emp"><h2>GPs sem vencedor</h2><small>Sem relatório, o app não sabe o motivo. Marque aqui os que forem fracassados ou desertos.</small></div></div><div class="rolagem"><table>
+      <thead><tr><th>GP</th><th class="num">Itens</th><th>Situação</th></tr></thead>
+      <tbody>${semRes.map(g => `<tr><td class="centro"><b>${esc(g.grupo)}</b></td><td class="num">${g.itens.length}</td><td><select data-sit="${esc(g.grupo)}" aria-label="Situação do GP ${esc(g.grupo)}">
+        ${["sem", "fracassado", "deserto"].map(s => `<option value="${s}"${g.situacao === s ? " selected" : ""}>${ROTULO_SIT[s]}</option>`).join("")}</select></td></tr>`).join("")}</tbody>
+    </table></div></div>` : ""}`;
+  tela.querySelectorAll("[data-sit]").forEach(el => el.addEventListener("change", async () => {
+    const g = ATUAL.p.grupos.find(x => x.grupo === el.dataset.sit);
+    g.situacao = el.value;
+    g.textoSituacao = el.value === "sem" ? "" : ROTULO_SIT[el.value].toUpperCase();
+    await banco.gravar(ATUAL.p);
+    ATUAL = derivar(ATUAL.p);
+    desenharPassos("relatorio");
+    toast(`GP ${g.grupo}: ${ROTULO_SIT[el.value]}.`);
+  }));
+  document.getElementById("arquivoRel").addEventListener("change", async e => {
+    const arqs = [...e.target.files];
+    if (!arqs.length) return;
+    const previa = document.getElementById("previaRel");
+    previa.innerHTML = '<div class="vazio">Lendo os relatórios...</div>';
+    LIDOS_REL = [];
+    for (const a of arqs) {
+      try { LIDOS_REL.push({ arquivo: a.name, rel: interpretarRelatorio(await textoDoPdf(await a.arrayBuffer()), a.name) }); }
+      catch (err) { LIDOS_REL.push({ arquivo: a.name, erro: err.message }); }
+    }
+    e.target.value = "";
+    desenharPreviaRel();
+  });
+}
+function desenharPreviaRel() {
+  const p = ATUAL.p;
+  const validos = LIDOS_REL.filter(x => x.rel);
+  const cards = LIDOS_REL.map((x, n) => {
+    if (x.erro) return `<div class="caixa erro" role="alert"><p><b>Não foi possível ler ${esc(x.arquivo)}.</b> ${esc(x.erro)}</p></div>`;
+    const r = x.rel, cs = casarRelatorio(p, r);
+    const outro = outroProcesso(r, p);
+    const soma0 = soma(r.itens, i => i.total);
+    const trocas = [...new Set(cs.filter(k => k.alvo).map(k => k.alvo.grupo))].map(gid => p.grupos.find(g => g.grupo === gid)).filter(g => g.situacao === "vencedor" && (g.cnpj !== r.cnpj));
+    return `<section class="cartao" aria-label="Prévia de ${esc(r.arquivo)}">
+      <div class="cab-grupo"><div class="emp"><b>${esc(r.empresa)}</b><small class="mono">CNPJ ${esc(r.cnpj)} · Autorização ${esc(r.autorizacao)} · Processo ${esc(r.processo)}</small></div><div class="valor"><small>Valor total do relatório</small><b>${real(r.totalRelatorio != null ? r.totalRelatorio : soma0)}</b></div></div>
+      <div class="corpo">
+        ${outro ? `<div class="caixa erro"><p><b>Processo diferente:</b> o relatório é do ${esc(r.processo)}, e este mapa é do ${esc(p.processo)}. Ele fica de fora, a não ser que você marque:</p><label style="display:block;margin-top:6px"><input type="checkbox" data-forcar="${n}"> Preencher com este relatório mesmo assim</label></div>` : ""}
+        ${r.cnpj && !cnpjValido(r.cnpj) ? `<div class="caixa aviso"><p>CNPJ ${esc(r.cnpj)} com dígito inválido.</p></div>` : ""}
+        ${r.totalRelatorio != null && c(r.totalRelatorio) !== c(soma0) ? `<div class="caixa erro"><p>A soma dos itens lidos (${fM.format(soma0)}) difere do total impresso no relatório (${fM.format(r.totalRelatorio)}). Pode haver item que não foi lido.</p></div>` : ""}
+        ${trocas.length ? `<div class="caixa aviso"><p>Vai substituir a empresa atual em: ${trocas.map(g => `GP ${esc(g.grupo)} (${esc(g.empresa)})`).join("; ")}.</p></div>` : ""}
+      </div>
+      <div class="rolagem"><table style="min-width:800px">
+        <thead><tr><th>GP</th><th>Item</th><th>Código</th><th>Descrição</th><th class="num">Qtd. relatório</th><th class="num">Qtd. mapa</th><th class="num">Valor unit.</th><th class="num">Valor total</th><th>Resultado</th></tr></thead>
+        <tbody>${cs.map(({ r: i, alvo, obs, erro }) => `<tr><td class="centro">${esc(i.grupo)}</td><td class="centro">${i.item == null ? "" : i.item}</td><td class="mono">${esc(i.codigo)}</td><td style="max-width:300px;font-size:12px">${esc(i.descricao.slice(0, 80))}${i.descricao.length > 80 ? "..." : ""}</td>
+          <td class="num">${i.qtd == null ? "" : fN.format(i.qtd)}</td><td class="num">${alvo ? fN.format(alvo.qtd) : ""}</td><td class="num">${i.vu == null ? "" : fM.format(i.vu)}</td><td class="num">${i.total == null ? "" : fM.format(i.total)}</td>
+          <td>${erro ? `<span class="tag erro">Fora do mapa</span> <small>${esc(erro)}</small>` : (obs.length ? `<span class="tag fra">Conferir</span> <small>${obs.map(esc).join("; ")}</small>` : '<span class="tag ok">Confere</span>')}</td></tr>`).join("")}</tbody>
+      </table></div></section>`;
+  }).join("");
+  document.getElementById("previaRel").innerHTML = cards + (validos.length ? `<div class="botoes" style="margin-bottom:12px">
+    <button class="btn prim" id="relAplicar" type="button">Preencher o mapa</button>
+    <button class="btn" id="relCancelar" type="button">Cancelar</button></div>` : "");
+  const can = document.getElementById("relCancelar");
+  if (can) can.addEventListener("click", () => { LIDOS_REL = []; document.getElementById("previaRel").innerHTML = ""; });
+  const ap = document.getElementById("relAplicar");
+  if (ap) ap.addEventListener("click", async () => {
+    const pr = ATUAL.p;
+    let n = 0;
+    pr.relatorios = pr.relatorios || [];
+    const marcados = new Set([...document.querySelectorAll("[data-forcar]:checked")].map(x => Number(x.dataset.forcar)));
+    LIDOS_REL.forEach((x, idx) => {
+      if (!x.rel || (outroProcesso(x.rel, pr) && !marcados.has(idx))) return;
+      const rel = x.rel;
+      const q = aplicarRelatorio(pr, rel, false);
+      n += q;
+      if (q) {
+        pr.relatorios = pr.relatorios.filter(x => !(x.autorizacao === rel.autorizacao && x.cnpj === rel.cnpj));
+        pr.relatorios.push(rel);
+        pr.historico = [...(pr.historico || []), { quando: agora(), acao: "Relatório do pregoeiro", detalhe: `${rel.arquivo}: ${q} itens de ${rel.empresa}` }];
+      }
+    });
+    await banco.gravar(pr);
+    LIDOS_REL = [];
+    toast(n ? `${n} ${n === 1 ? "item preenchido" : "itens preenchidos"} no mapa.` : "Nenhum item preenchido.");
+    navegar(true);
+  });
+}
+
+function telaMapa() {
+  const { p, orgaos, G, TOT, EMP } = ATUAL;
+  const venc = G.filter(g => g.situacao === "vencedor").length;
+  const sits = [...new Set(G.map(g => g.situacao))];
+  tela.innerHTML = `<h1>Mapa por item</h1>
+    <p class="sub">${esc(p.titulo || p.objeto)}. Cada grupo traz a empresa vencedora e a divisão entre os órgãos.</p>
+    <div class="kpis">
+      <div class="kpi"><span>Valor total</span><b>${real(TOT.geral)}</b></div>
+      ${orgaos.map(o => `<div class="kpi"><span>${esc(o)}</span><b>${real(TOT.org[o])}</b><small>${pct(TOT.org[o], TOT.geral)} do total</small></div>`).join("")}
+      <div class="kpi"><span>Grupos com vencedor</span><b>${venc} de ${G.length}</b><small>${G.length - venc} sem vencedor</small></div>
+      <div class="kpi"><span>Empresas vencedoras</span><b>${EMP.length}</b><small>${p.itens.length} itens no mapa</small></div>
+    </div>
+    <div class="filtros">
+      <label class="campo amplo">Buscar item, código ou empresa<input id="fBusca" type="search" placeholder="Ex.: luva, 1104487"></label>
+      <label class="campo">Grupo<select id="fGrupo"><option value="">Todos</option>${G.map(g => `<option value="${esc(g.grupo)}">Grupo ${esc(g.grupo)}</option>`).join("")}</select></label>
+      <label class="campo">Empresa<select id="fEmpresa"><option value="">Todas</option>${EMP.map(e => `<option value="${esc(e.chave)}">${esc(e.nome)}</option>`).join("")}</select></label>
+      <label class="campo">Situação<select id="fSituacao"><option value="">Todas</option>${sits.map(s => `<option value="${s}">${ROTULO_SIT[s]}</option>`).join("")}</select></label>
+      <button class="btn" id="fLimpar" type="button">Limpar</button>
+    </div>
+    <p class="contagem" id="contagem" aria-live="polite"></p>
+    <div id="grade"></div>`;
+  const liga = (id, k, ev) => {
+    const el = document.getElementById(id);
+    el.value = filtro[k];
+    if (el.value !== filtro[k]) { el.value = ""; filtro[k] = ""; }
+    el.addEventListener(ev, () => { filtro[k] = el.value; desenharGrade(); });
+  };
+  liga("fBusca", "busca", "input"); liga("fGrupo", "grupo", "change");
+  liga("fEmpresa", "empresa", "change"); liga("fSituacao", "situacao", "change");
+  document.getElementById("fLimpar").addEventListener("click", () => { Object.keys(filtro).forEach(k => { filtro[k] = ""; }); telaMapa(); });
+  desenharGrade();
+}
+function desenharGrade() {
+  const { p, orgaos, G, orgT } = ATUAL;
+  const t = sem(filtro.busca.trim());
+  const gs = G.filter(g => (!filtro.grupo || g.grupo === filtro.grupo)
+      && (!filtro.empresa || (g.situacao === "vencedor" && (g.cnpj || g.empresa) === filtro.empresa))
+      && (!filtro.situacao || g.situacao === filtro.situacao))
+    .map(g => ({ g, itens: g.itens.filter(i => !t || sem(`${i.descricao} ${i.codigo} ${g.empresa} ${g.cnpj}`).includes(t)) }))
+    .filter(x => x.itens.length);
+  const vis = gs.flatMap(x => x.itens);
+  document.getElementById("contagem").textContent = `${vis.length} ${vis.length === 1 ? "item" : "itens"} em ${gs.length} ${gs.length === 1 ? "grupo" : "grupos"}. Clique na descrição para ler o texto completo.`;
+  const grade = document.getElementById("grade");
+  if (!gs.length) { grade.innerHTML = '<div class="vazio">Nenhum item com esses filtros.</div>'; return; }
+  grade.innerHTML = gs.map(({ g, itens }) => cartaoGrupo(g, itens)).join("") + `
+    <div class="cartao"><div class="rolagem"><table><tbody><tr class="total">
+      <td>${vis.length === p.itens.length ? "TOTAL GERAL" : "TOTAL EXIBIDO"}</td>
+      <td class="num">Total ${fM.format(soma(vis, i => i.total))}</td>
+      ${orgaos.map(o => `<td class="num">${esc(o)} ${fM.format(soma(vis, i => orgT(i, o)))}</td>`).join("")}
+    </tr></tbody></table></div></div>`;
+}
+function cartaoGrupo(g, itens) {
+  const { orgaos, orgT, orgQ } = ATUAL;
+  const venc = g.situacao === "vencedor";
+  const larg = 760 + orgaos.length * 210;
+  return `<section class="cartao" aria-label="Grupo ${esc(g.grupo)}">
+    <div class="cab-grupo">
+      <h2>Grupo ${esc(g.grupo)}</h2>
+      <span class="tag ${venc ? "ok" : "fra"}">${ROTULO_SIT[g.situacao]}</span>
+      <div class="emp">${venc ? `<b>${esc(g.empresa)}</b>${g.cnpj ? `<small class="mono">CNPJ ${esc(g.cnpj)}</small>` : ""}` : "<small>Sem empresa vencedora. As quantidades seguem a planilha.</small>"}</div>
+      ${venc ? `<div class="valor"><small>Valor homologado</small><b>${real(g.homologado != null ? g.homologado : soma(g.itens, i => i.total))}</b></div>` : ""}
+    </div>
+    <div class="rolagem"><table class="grade-itens" style="min-width:${larg}px">
+      <thead>
+        <tr><th rowspan="2" class="centro">Item</th><th rowspan="2" class="centro">Código SIAG</th><th rowspan="2">Descrição / especificação</th><th rowspan="2" class="centro">Unidade</th><th rowspan="2" class="num centro">Qtd.</th><th rowspan="2" class="num">Valor unit.</th><th rowspan="2" class="num">Valor total</th>${orgaos.map(o => `<th colspan="3" class="org">${esc(o)}</th>`).join("")}</tr>
+        <tr>${orgaos.map(() => '<th class="num centro">Qtd.</th><th class="num">Unit.</th><th class="num">Total</th>').join("")}</tr>
+      </thead>
+      <tbody>${itens.map(i => `<tr>
+        <td class="centro">${i.item}</td><td class="mono centro">${esc(i.codigo)}</td>
+        <td><button class="desc" type="button" aria-expanded="false" title="Mostrar ou recolher a descrição">${esc(i.descricao)}</button></td>
+        <td class="centro">${esc(i.unidade)}</td><td class="num centro">${fN.format(i.qtd)}</td><td class="num">${dinheiro(i.vu)}</td><td class="num">${dinheiro(i.total)}</td>
+        ${orgaos.map(o => { const d = i.org[o] || { q: 0, vu: 0, t: 0 }; return `<td class="num centro">${fN.format(d.q)}</td><td class="num">${dinheiro(d.vu)}</td><td class="num">${dinheiro(d.t)}</td>`; }).join("")}
+      </tr>`).join("")}
+      <tr class="subtotal"><td colspan="4">${itens.length === g.itens.length ? "Total do grupo " + esc(g.grupo) : "Total dos itens exibidos"}</td>
+        <td class="num centro">${fN.format(somaQ(itens, i => i.qtd))}</td><td></td><td class="num">${dinheiro(soma(itens, i => i.total))}</td>
+        ${orgaos.map(o => `<td class="num centro">${fN.format(somaQ(itens, i => orgQ(i, o)))}</td><td></td><td class="num">${dinheiro(soma(itens, i => orgT(i, o)))}</td>`).join("")}</tr>
+      </tbody>
+    </table></div>
+  </section>`;
+}
+
+function telaEmpresas() {
+  const { p, orgaos, EMP, TOT, orgT } = ATUAL;
+  if (!EMP.length) { tela.innerHTML = '<h1>Apuração por empresa</h1><div class="vazio" style="margin-top:14px">Nenhum grupo com empresa vencedora neste processo.</div>'; return; }
+  const totalEmp = soma(EMP, e => e.total);
+  tela.innerHTML = `<h1>Apuração por empresa</h1>
+    <p class="sub">${p.pregao ? "Resultado do Pregão " + esc(p.pregao) + ": q" : "Q"}uanto cada empresa recebe de cada órgão, com o detalhe por item.</p>
+    <div class="cartao" style="margin-top:14px"><div class="rolagem"><table>
+      <thead><tr><th>Empresa</th><th>CNPJ</th><th>Grupos</th>${orgaos.map(o => `<th class="num">${esc(o)}</th>`).join("")}<th class="num">Total</th><th class="num">% do total</th></tr></thead>
+      <tbody>${EMP.map(e => `<tr><td>${esc(e.nome)}</td><td class="mono">${esc(e.cnpj)}</td><td>${e.grupos.map(esc).join(", ")}</td>${orgaos.map(o => `<td class="num">${dinheiro(e.org[o])}</td>`).join("")}<td class="num">${dinheiro(e.total)}</td><td class="num">${pct(e.total, TOT.geral)}</td></tr>`).join("")}
+      <tr class="total"><td colspan="3">Total</td>${orgaos.map(o => `<td class="num">${fM.format(soma(EMP, e => e.org[o]))}</td>`).join("")}<td class="num">${fM.format(totalEmp)}</td><td class="num">${pct(totalEmp, TOT.geral)}</td></tr></tbody>
+    </table></div></div>
+    ${EMP.map(e => `<details class="cartao" open>
+      <summary>${esc(e.nome)} <span class="num">${real(e.total)}</span></summary>
+      <div class="rolagem"><table>
+        <thead><tr><th>Grupo e item</th><th>Código SIAG</th><th class="num">Qtd.</th><th class="num">Valor unit.</th>${orgaos.map(o => `<th class="num">${esc(o)}</th>`).join("")}<th class="num">Total</th></tr></thead>
+        <tbody>${e.itens.map(i => `<tr><td>Grupo ${esc(i.grupo)} · Item ${i.item}</td><td class="mono">${esc(i.codigo)}</td><td class="num">${fN.format(i.qtd)}</td><td class="num">${dinheiro(i.vu)}</td>${orgaos.map(o => `<td class="num">${dinheiro(orgT(i, o))}</td>`).join("")}<td class="num">${dinheiro(i.total)}</td></tr>`).join("")}
+        <tr class="subtotal"><td colspan="4">Total</td>${orgaos.map(o => `<td class="num">${dinheiro(e.org[o])}</td>`).join("")}<td class="num">${dinheiro(e.total)}</td></tr></tbody>
+      </table></div>
+    </details>`).join("")}`;
+}
+
+/* Campos de dotação: gravam sozinhos e atualizam o quadro a cada digitação. */
+let tDot = null;
+function salvarDotAgora() {
+  if (!tDot) return Promise.resolve();
+  clearTimeout(tDot); tDot = null;
+  return ATUAL ? banco.gravar(ATUAL.p) : Promise.resolve();
+}
+function agendarDot() {
+  clearTimeout(tDot);
+  tDot = setTimeout(() => { tDot = null; if (ATUAL) banco.gravar(ATUAL.p); }, 250);
+}
+function codigosEmUso(o) {
+  const { p } = ATUAL, s = new Set();
+  Object.entries(p.dot.grupos).forEach(([k, v]) => { if (k.split("|")[1] === o && v) s.add(v); });
+  Object.entries(p.dot.itens).forEach(([k, v]) => { if (k.split("|")[2] === o && v) s.add(v); });
+  (p.codigosPlanilha || []).forEach(cl => { if (cl.orgao === o) s.add(cl.codigo); });
+  return [...s];
+}
+function linhaLanc(chave, n, l, k) {
+  const cod = limpaCod(l.codigo);
+  return `<div class="parc" data-chave="${esc(chave)}" data-idx="${n}">
+    <label class="parc-campo">Exercício<input data-campo="exercicio" inputmode="numeric" maxlength="4" value="${esc(l.exercicio)}"></label>
+    <label class="parc-campo">Valor<input data-campo="valor" inputmode="decimal" placeholder="0,00" value="${c(l.valor) ? esc(fM.format(l.valor)) : ""}"></label>
+    <label class="parc-campo parc-cod">Número da dotação<input class="parc-numero" data-campo="codigo" list="dl${k}" autocomplete="off" placeholder="A DEFINIR" value="${esc(cod)}"></label>
+    <button class="btn-mini" data-remover type="button" aria-label="Excluir lançamento" title="Excluir lançamento">×</button>
+  </div>`;
+}
+function blocoLanc(chave, k) {
+  const lista = ATUAL.p.dot.lanc[chave] || [];
+  return `<div class="lanc" data-lista="${esc(chave)}" data-orgk="${k}">
+    <div data-linhas>${lista.map((l, n) => linhaLanc(chave, n, l, k)).join("")}</div>
+    <small class="resto" data-resto></small>
+    <button class="btn-mini texto" data-adicionar type="button">+ Outro exercício</button>
+  </div>`;
+}
+function atualizarLanc() {
+  const g = dotacaoGerada(ATUAL);
+  tela.querySelectorAll(".lanc").forEach(b => {
+    const r = g.restos[b.dataset.lista], el = b.querySelector("[data-resto]");
+    if (!r || (!r.temLanc && !r.excesso)) { el.textContent = ""; el.classList.remove("erro"); return; }
+    el.textContent = r.excesso ? `Lançamentos acima do disponível em ${fM.format(r.excesso / 100)}` : `Restante para a dotação acima, no exercício atual: ${fM.format(r.resto / 100)}`;
+    el.classList.toggle("erro", r.excesso > 0);
+  });
+}
+function telaDotacao() {
+  const { p, orgaos, G, orgT } = ATUAL;
+  const grupos = G.filter(g => g.situacao === "vencedor" && orgaos.some(o => c(soma(g.itens, i => orgT(i, o))) > 0));
+  if (!grupos.length) { tela.innerHTML = '<h1>Dotação orçamentária</h1><div class="vazio" style="margin-top:14px">Nenhum grupo com vencedor e valor neste processo.</div>'; return; }
+  const semVenc = G.length - G.filter(g => g.situacao === "vencedor").length;
+  tela.innerHTML = `<h1>Dotação orçamentária</h1>
+    <p class="sub">${esc(p.processo)}${p.objeto ? " · " + esc(p.objeto) : ""}</p>
+    <div id="dotResumo"></div>
+    <section class="cartao" aria-label="Informar dotações">
+      <div class="cab-grupo"><div class="emp"><h2>Informar o número da dotação</h2><small>Um número por GP (primeira coluna do mapa) e por órgão. Se o GP usar mais de uma dotação, abra Por item: o número do item vale sobre o do GP. Para parte do valor em outro exercício, use + Outro exercício: sem número, o lançamento fica como A DEFINIR e pode ser completado depois.${semVenc ? ` ${semVenc} ${semVenc === 1 ? "GP sem vencedor não aparece" : "GPs sem vencedor não aparecem"}, porque não têm valor.` : ""}</small></div></div>
+      <div class="campos">
+        <div><label class="campo">Exercício atual<input id="dotExercicio" class="cod" style="min-width:90px" inputmode="numeric" maxlength="4" value="${esc(exercicioBase(p))}"></label></div>
+        ${orgaos.map((o, k) => `<div><label class="campo">Preencher ${esc(o)} de uma vez<input class="cod" data-padrao="${k}" list="dl${k}" autocomplete="off" placeholder="Número da dotação"></label><button class="btn" style="margin-top:6px" data-aplicar="${k}" type="button">Aplicar nos GPs vazios</button></div>`).join("")}
+      </div>
+      ${orgaos.map((o, k) => `<datalist id="dl${k}"></datalist>`).join("")}
+      <div class="rolagem"><table style="min-width:${360 + orgaos.length * 300}px">
+        <thead><tr><th>GP</th><th>Empresa</th>${orgaos.map(o => `<th class="org">${esc(o)}</th>`).join("")}<th>Detalhe</th></tr></thead>
+        <tbody>${grupos.map((g, n) => `<tr>
+          <td class="centro"><b>${esc(g.grupo)}</b></td>
+          <td>${esc(g.empresa)}<div class="zero mono" style="font-size:12px">${fM.format(soma(g.itens, i => i.total))}</div></td>
+          ${orgaos.map((o, k) => {
+            const v = soma(g.itens, i => orgT(i, o));
+            if (!c(v)) return '<td class="zero">Sem valor</td>';
+            const dica = p.dicas && p.dicas[chaveG(g.grupo, o)];
+            return `<td><div class="num" style="font-size:12px">${fM.format(v)}</div>
+              <input class="cod" data-g="${esc(g.grupo)}" data-org="${k}" list="dl${k}" autocomplete="off" value="${esc(p.dot.grupos[chaveG(g.grupo, o)] || "")}" aria-label="Dotação de ${esc(o)} no GP ${esc(g.grupo)}" placeholder="Número da dotação">
+              ${dica ? `<small class="dica">A planilha divide esta empresa em ${dica.length} dotações: ${dica.map(x => `${esc(x.codigo.slice(-5))} ${fM.format(x.valor)}`).join("; ")}. Indique as exceções em Por item.</small>` : ""}
+              ${blocoLanc(chaveG(g.grupo, o), k)}</td>`;
+          }).join("")}
+          <td><button class="btn" style="padding:3px 8px;font-size:12px" data-abrir="${n}" aria-expanded="false" aria-controls="det${n}" type="button">Por item</button></td>
+        </tr>
+        <tr id="det${n}" hidden><td colspan="${orgaos.length + 3}" style="padding:8px"><table>
+          <thead><tr><th>Item</th><th>Código SIAG</th><th>Descrição</th>${orgaos.map(o => `<th class="org">${esc(o)}</th>`).join("")}</tr></thead>
+          <tbody>${g.itens.map(i => `<tr><td class="centro">${i.item}</td><td class="mono">${esc(i.codigo)}</td><td style="max-width:320px;font-size:12px">${esc(i.descricao.slice(0, 90))}${i.descricao.length > 90 ? "..." : ""}</td>
+            ${orgaos.map((o, k) => {
+              const v = orgT(i, o);
+              if (!c(v)) return '<td class="zero">Sem valor</td>';
+              return `<td><div class="num" style="font-size:12px">${fM.format(v)}</div><input class="cod" data-g="${esc(g.grupo)}" data-i="${i.item}" data-org="${k}" list="dl${k}" autocomplete="off" value="${esc(p.dot.itens[chaveI(g.grupo, i.item, o)] || "")}" aria-label="Dotação de ${esc(o)} no GP ${esc(g.grupo)}, item ${i.item}">${blocoLanc(chaveI(g.grupo, i.item, o), k)}</td>`;
+            }).join("")}</tr>`).join("")}</tbody>
+        </table></td></tr>`).join("")}</tbody>
+      </table></div>
+    </section>
+    <h2 style="margin:16px 0 8px">Quadro gerado</h2>
+    <p class="sub" style="margin:-4px 0 8px">É este quadro que sai na aba DOTAÇÃO ORÇAMENTÁRIA do Excel.</p>
+    <div id="dotQuadro"></div>`;
+  atualizarDot();
+  desenharQuadroDot();
+}
+function atualizarDot() {
+  const { p, orgaos, TOT } = ATUAL;
+  const g = dotacaoGerada(ATUAL);
+  document.getElementById("dotResumo").innerHTML = `<div class="kpis">
+      <div class="kpi"><span>Valor da aquisição</span><b>${real(TOT.geral)}</b></div>
+      <div class="kpi"><span>Com dotação definida</span><b>${real(soma(g.linhas, l => l.total) - g.totalADefinir)}</b></div>
+      <div class="kpi"><span>A DEFINIR</span><b>${real(g.totalADefinir)}</b><small>Distribuído, pendente de definição</small></div>
+      <div class="kpi"><span>Total distribuído previsto</span><b>${real(soma(g.linhas, l => l.total))}</b><small>Com dotação mais A DEFINIR</small></div>
+      <div class="kpi"><span>Saldo não distribuído</span><b>${real(g.totalPendente)}</b><small>Fora do total previsto</small></div>
+    </div>`;
+  atualizarLanc();
+  orgaos.forEach((o, k) => {
+    const dl = document.getElementById("dl" + k);
+    if (dl) dl.innerHTML = codigosEmUso(o).map(x => `<option value="${esc(x)}"></option>`).join("");
+  });
+  tela.querySelectorAll("input.cod[data-g]").forEach(el => {
+    const o = orgaos[Number(el.dataset.org)], gp = el.dataset.g;
+    const doGrupo = p.dot.grupos[chaveG(gp, o)] || "";
+    if (el.dataset.i) { el.placeholder = doGrupo || "Número da dotação"; el.classList.toggle("falta", !el.value && !doGrupo); return; }
+    const r = g.restos[chaveG(gp, o)];
+    el.classList.toggle("falta", !el.value && !!r && r.resto > 0);
+  });
+  desenharPassos("dotacao");
+}
+function desenharQuadroDot() {
+  const { p } = ATUAL;
+  const g = dotacaoGerada(ATUAL), cols = g.colunas;
+  const alvo = document.getElementById("dotQuadro");
+  if (!cols.length) { alvo.innerHTML = '<div class="vazio">Informe ao menos uma dotação ou um lançamento para gerar o quadro.</div>'; return; }
+  const tCol = cols.map((cl, j) => soma(g.linhas, l => l.valores[j])), tGeral = soma(tCol, v => v);
+  alvo.innerHTML = `<div class="cartao"><div class="rolagem"><table>
+      <thead>
+        <tr><th rowspan="4">Empresa</th>${cols.map(cl => `<th class="org">${esc(cl.orgao)}</th>`).join("")}<th rowspan="4" class="num">Valor da aquisição</th></tr>
+        <tr>${cols.map(cl => `<th class="centro">${esc(cl.rotulo)}</th>`).join("")}</tr>
+        <tr>${cols.map(cl => `<th class="centro">Exercício ${esc(cl.exercicio)}</th>`).join("")}</tr>
+        <tr>${cols.map(cl => `<th class="${cl.aDefinir ? "centro" : ""}">${cl.aDefinir ? "A DEFINIR" : `<span class="dot">${esc(cl.codigo)}</span>`}</th>`).join("")}</tr>
+      </thead>
+      <tbody>${g.linhas.map(l => `<tr><td class="emp-cel">${esc(l.empresa)}${l.cnpj ? `<small>CNPJ ${esc(l.cnpj)}</small>` : ""}</td>${l.valores.map(v => `<td class="num">${dinheiro(v)}</td>`).join("")}<td class="num">${dinheiro(l.total)}</td></tr>`).join("")}
+      <tr class="total"><td>Total</td>${tCol.map(v => `<td class="num">${fM.format(v)}</td>`).join("")}<td class="num">${fM.format(tGeral)}</td></tr>
+      <tr><td>Saldo SGPA</td>${cols.map(cl => (cl.aDefinir ? '<td class="zero centro">Sem dotação</td>' : `<td><input class="cod" style="min-width:120px" data-saldo="${esc(cl.chave)}" value="${esc(p.dot.saldos[cl.chave] || "")}" aria-label="Saldo SGPA de ${esc(cl.orgao)}, dotação ${esc(cl.codigo)}" placeholder="Saldo"></td>`)).join("")}<td></td></tr></tbody>
+    </table></div></div>
+    ${g.aDefinir.length ? `<div class="caixa"><p><b>${real(g.totalADefinir)} A DEFINIR:</b> já distribuídos e incluídos no total do quadro, aguardando o número da dotação.</p></div>` : ""}
+    ${g.excessos.length ? `<div class="caixa erro"><p><b>Lançamentos acima do valor disponível:</b> ${g.excessos.map(esc).join("; ")}.</p></div>` : ""}
+    ${g.pend.length ? `<div class="caixa aviso"><p><b>Saldo financeiro não distribuído: ${real(g.totalPendente)}</b>, fora do quadro acima. O total só fecha com a aquisição depois de distribuir esse valor nos campos destacados.</p></div>` : (g.excessos.length ? "" : '<div class="caixa"><p>Todo o valor está distribuído. O total do quadro é igual ao valor da aquisição.</p></div>')}`;
+}
+tela.addEventListener("input", e => {
+  const el = e.target;
+  if (!ATUAL || !el.matches) return;
+  if (el.id === "dotExercicio") {
+    const v = limpa(el.value);
+    if (!/^20\d{2}$/.test(v)) return;
+    ATUAL.p.dot.exercicio = v;
+    agendarDot(); atualizarDot(); desenharQuadroDot();
+    return;
+  }
+  const parc = el.closest(".parc");
+  if (parc && el.dataset.campo) {
+    const l = (ATUAL.p.dot.lanc[parc.dataset.chave] || [])[Number(parc.dataset.idx)];
+    if (!l) return;
+    if (el.dataset.campo === "valor") l.valor = num(el.value) || 0;
+    else if (el.dataset.campo === "codigo") l.codigo = limpaCod(el.value);
+    else l.exercicio = limpa(el.value);
+    agendarDot(); atualizarDot(); desenharQuadroDot();
+    return;
+  }
+  if (!el.matches("input.cod")) return;
+  if (el.dataset.saldo) { ATUAL.p.dot.saldos[el.dataset.saldo] = limpa(el.value); agendarDot(); return; }
+  if (el.dataset.g == null) return;
+  const o = ATUAL.orgaos[Number(el.dataset.org)], cod = limpaCod(el.value);
+  const alvo = el.dataset.i ? ATUAL.p.dot.itens : ATUAL.p.dot.grupos;
+  const k = el.dataset.i ? chaveI(el.dataset.g, Number(el.dataset.i), o) : chaveG(el.dataset.g, o);
+  if (cod) alvo[k] = cod; else delete alvo[k];
+  agendarDot();
+  atualizarDot();
+  desenharQuadroDot();
+});
+function desenharLinhasLanc(bloco) {
+  const chave = bloco.dataset.lista, k = bloco.dataset.orgk;
+  bloco.querySelector("[data-linhas]").innerHTML = (ATUAL.p.dot.lanc[chave] || []).map((l, n) => linhaLanc(chave, n, l, k)).join("");
+}
+tela.addEventListener("click", e => {
+  const adicionar = e.target.closest("[data-adicionar]");
+  if (adicionar) {
+    const b = adicionar.closest(".lanc"), chave = b.dataset.lista, base = Number(exercicioBase(ATUAL.p));
+    const r = dotacaoGerada(ATUAL).restos[chave];
+    const pt = chave.split("|"), o = pt[pt.length - 1];
+    const temCod = pt.length === 3 ? ATUAL.p.dot.itens[chave] : ATUAL.p.dot.grupos[chaveG(pt[0], o)];
+    const l = { exercicio: String(base + 1), valor: !temCod && r ? r.resto / 100 : 0, codigo: "" };
+    (ATUAL.p.dot.lanc[chave] = ATUAL.p.dot.lanc[chave] || []).push(l);
+    desenharLinhasLanc(b);
+    agendarDot(); atualizarDot(); desenharQuadroDot();
+    const linhas = b.querySelectorAll(".parc");
+    linhas[linhas.length - 1].querySelector('[data-campo="valor"]').focus();
+    return;
+  }
+  const remover = e.target.closest("[data-remover]");
+  if (remover) {
+    const parc = remover.closest(".parc"), b = remover.closest(".lanc"), chave = b.dataset.lista;
+    const lista = ATUAL.p.dot.lanc[chave] || [];
+    lista.splice(Number(parc.dataset.idx), 1);
+    if (!lista.length) delete ATUAL.p.dot.lanc[chave];
+    desenharLinhasLanc(b);
+    agendarDot(); atualizarDot(); desenharQuadroDot();
+    b.querySelector("[data-adicionar]").focus();
+    return;
+  }
+  const abrir = e.target.closest("[data-abrir]");
+  if (abrir) {
+    const d = document.getElementById("det" + abrir.dataset.abrir);
+    d.hidden = !d.hidden;
+    abrir.setAttribute("aria-expanded", String(!d.hidden));
+    return;
+  }
+  const ap = e.target.closest("[data-aplicar]");
+  if (!ap) return;
+  const k = ap.dataset.aplicar, entrada = tela.querySelector(`[data-padrao="${k}"]`), cod = limpaCod(entrada.value);
+  if (!cod) { toast("Digite o número da dotação antes de aplicar."); entrada.focus(); return; }
+  let n = 0;
+  tela.querySelectorAll(`input.cod[data-g][data-org="${k}"]:not([data-i])`).forEach(el => {
+    if (el.value) return;
+    el.value = cod; ATUAL.p.dot.grupos[chaveG(el.dataset.g, ATUAL.orgaos[Number(k)])] = cod; n++;
+  });
+  agendarDot(); atualizarDot(); desenharQuadroDot();
+  toast(n ? `Dotação aplicada em ${n} ${n === 1 ? "GP" : "GPs"}.` : "Nenhum GP vazio neste órgão.");
+});
+
+function telaConferencia() {
+  const v = verificacoes(ATUAL), erros = v.filter(x => !x.ok).length, av = ATUAL.p.avisos;
+  tela.innerHTML = `<h1>Conferência</h1>
+    <p class="sub">Recalcula os números a partir dos itens e compara com os totais e as tabelas da planilha.</p>
+    <div class="kpis">
+      <div class="kpi"><span>Verificações sem divergência</span><b>${v.length - erros} de ${v.length}</b></div>
+      <div class="kpi"><span>Pontos para revisar</span><b>${av.length}</b></div>
+      <div class="kpi"><span>Linhas recusadas</span><b>${ATUAL.p.recusadas.length}</b></div>
+    </div>
+    <div class="cartao"><ul class="lista">${v.map(x => `<li><span class="tag ${x.rotuloTag ? "definir" : (x.ok ? "ok" : (x.pendente ? "fra" : "erro"))}">${x.rotuloTag || (x.ok ? "Confere" : (x.pendente ? "Pendente" : "Diverge"))}</span><div><b>${esc(x.nome)}</b><small>${x.ok ? esc(x.okTxt) : x.falhas.map(esc).join("; ")}</small></div></li>`).join("")}</ul></div>
+    ${av.length ? `<h2 style="margin:16px 0 8px">Pontos para revisar na planilha</h2>
+    <div class="cartao"><ul class="lista">${av.map(a => `<li><span class="tag fra">Revisar</span><div><b>${esc(a.titulo)}</b><small>${esc(a.detalhe)}</small></div></li>`).join("")}</ul></div>` : ""}
+    ${ATUAL.p.recusadas.length ? `<h2 style="margin:16px 0 8px">Linhas recusadas na importação</h2>
+    <div class="cartao"><ul class="lista">${ATUAL.p.recusadas.map(r => `<li><span class="tag erro">Linha ${r.linha}</span><div><small>${esc(r.motivo)}</small></div></li>`).join("")}</ul></div>` : ""}`;
+}
+
+function telaExportar() {
+  tela.innerHTML = `<h1>Exportar</h1>
+    <p class="sub">${esc(ATUAL.p.processo)}. Os arquivos são gerados aqui mesmo, no seu computador.</p>
+    ${(g => (g.pend.length ? `<div class="caixa aviso"><p><b>${real(g.totalPendente)} de saldo não distribuído.</b> A aba de dotação sai incompleta, com o saldo indicado. <a href="#/p/${encodeURIComponent(ATUAL.p.id)}/dotacao">Distribuir</a></p></div>` : "") + (g.aDefinir.length ? `<div class="caixa"><p><b>${real(g.totalADefinir)} A DEFINIR.</b> O valor entra no total da distribuição e sai identificado como pendente de definição.</p></div>` : ""))(dotacaoGerada(ATUAL))}
+    <div style="height:14px"></div>
+    <div class="saidas">
+      <div class="cartao"><h2>Mapa completo</h2><p>Excel com as abas Processo, Mapa, Dotação Orçamentária, Dotação por item, Apuração por empresa e Conferência. Pode ser importado de novo, com as dotações.</p><button class="btn prim" id="xCompleto" type="button">Baixar mapa (.xlsx)</button></div>
+      <div class="cartao"><h2>Planilha de entrada</h2><p>Os dados deste processo no modelo de preenchimento, uma linha por item. É o jeito mais simples de corrigir e importar de novo.</p><button class="btn" id="xEntrada" type="button">Baixar entrada (.xlsx)</button></div>
+      <div class="cartao"><h2>Modelo em branco</h2><p>Para começar outro processo: só cabeçalhos, com as instruções na aba Leia-me.</p><button class="btn" id="xModelo" type="button">Baixar modelo (.xlsx)</button></div>
+    </div>`;
+  const reg = async (acao, detalhe) => {
+    const p = await banco.ler(ATUAL.p.id);
+    if (!p) return;
+    p.historico = [...(p.historico || []), { quando: agora(), acao, detalhe }];
+    await banco.gravar(p);
+    ATUAL.p.historico = p.historico;
+  };
+  document.getElementById("xCompleto").addEventListener("click", async () => { exportarCompleto(ATUAL); await reg("Exportação", "Mapa completo"); toast("Mapa completo gerado."); });
+  document.getElementById("xEntrada").addEventListener("click", async () => { exportarEntrada(ATUAL); await reg("Exportação", "Planilha de entrada"); toast("Planilha de entrada gerada."); });
+  document.getElementById("xModelo").addEventListener("click", () => { baixarModelo(); toast("Modelo em branco gerado."); });
+}
+
+/* ---------- Backup ---------- */
+const APP_BACKUP = "mapa-distribuicao-planilha";
+let LIDO_BK = null;
+function baixarJson(conteudo, nome) {
+  const url = URL.createObjectURL(new Blob([conteudo], { type: "application/json" }));
+  const a = document.createElement("a");
+  a.href = url; a.download = nome;
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+}
+const dataArquivo = () => { const d = new Date(), z = n => String(n).padStart(2, "0"); return `${d.getFullYear()}-${z(d.getMonth() + 1)}-${z(d.getDate())}`; };
+function exportarBackup(lista, nome) {
+  baixarJson(JSON.stringify({ app: APP_BACKUP, versao: 1, criadoEm: new Date().toISOString(), processos: lista }, null, 2), nome);
+}
+/* Recusa o arquivo inteiro se algum processo não puder ser aberto: nada é gravado sem passar por aqui. */
+function validarBackup(texto, arquivo) {
+  let o;
+  try { o = JSON.parse(texto); } catch (e) { throw new Error("O arquivo não é um backup válido: não foi possível ler o conteúdo."); }
+  if (!o || o.app !== APP_BACKUP || !Array.isArray(o.processos)) throw new Error("Este arquivo não é um backup do Mapa de Distribuição.");
+  if (!o.processos.length) throw new Error("O backup não tem nenhum processo.");
+  const processos = o.processos.map((p, n) => {
+    const rot = p && p.processo ? `Processo ${p.processo}` : `Processo ${n + 1} do arquivo`;
+    if (!p || !limpa(p.processo) || !Array.isArray(p.orgaos) || !Array.isArray(p.grupos) || !Array.isArray(p.itens)) throw new Error(`${rot}: dados incompletos.`);
+    const reg = { recusadas: [], avisos: [], apuracao: [], resumo: { orgaos: {} }, historico: [], ...p, id: idDe(p.processo) };
+    try { verificacoes(derivar(reg)); dotacaoGerada(derivar(reg)); } catch (e) { throw new Error(`${rot}: os dados não puderam ser abertos.`); }
+    return reg;
+  });
+  return { arquivo, criadoEm: o.criadoEm, processos };
+}
+function blocoBackup(noProcesso) {
+  return `<div class="saidas" style="margin-bottom:12px">
+      ${noProcesso ? '<div class="cartao"><h2>Backup deste processo</h2><p>Arquivo com tudo deste processo: mapa, relatórios, dotações, lançamentos e histórico.</p><button class="btn prim" id="bkEste" type="button">Baixar backup (.json)</button></div>' : ""}
+      <div class="cartao"><h2>Backup de todos os processos</h2><p>Um único arquivo com todos os processos guardados neste navegador.</p><button class="btn${noProcesso ? "" : " prim"}" id="bkTodos" type="button">Baixar todos (.json)</button></div>
+      <div class="cartao"><h2>Importar e visualizar</h2><p>Abre um backup para você conferir. Nada é restaurado antes da sua confirmação.</p><label class="btn">Escolher backup (.json)<input class="visual-oculto" id="bkArquivo" type="file" accept=".json,application/json"></label></div>
+    </div>
+    <div class="caixa aviso"><p>O backup traz os dados do processo em texto aberto. Guarde em local seguro e não envie ao repositório.</p></div>
+    <div id="previaBk"></div>`;
+}
+function ligarBackup() {
+  const este = document.getElementById("bkEste");
+  if (este) este.addEventListener("click", async () => {
+    await salvarDotAgora();
+    const p = await banco.ler(ATUAL.p.id);
+    p.historico = [...(p.historico || []), { quando: agora(), acao: "Backup", detalhe: "Backup deste processo" }];
+    await banco.gravar(p);
+    exportarBackup([p], `backup_${nomeArq(p.processo)}_${dataArquivo()}.json`);
+    toast("Backup gerado.");
+    navegar(false);
+  });
+  document.getElementById("bkTodos").addEventListener("click", async () => {
+    await salvarDotAgora();
+    const lista = await banco.listar();
+    if (!lista.length) { toast("Não há processos para o backup."); return; }
+    exportarBackup(lista, `backup_mapa_todos_${dataArquivo()}.json`);
+    toast(`Backup gerado com ${lista.length} ${lista.length === 1 ? "processo" : "processos"}.`);
+  });
+  document.getElementById("bkArquivo").addEventListener("change", async e => {
+    const a = e.target.files[0];
+    if (!a) return;
+    const alvo = document.getElementById("previaBk");
+    try {
+      LIDO_BK = validarBackup(await a.text(), a.name);
+      await desenharPreviaBk();
+    } catch (err) {
+      LIDO_BK = null;
+      alvo.innerHTML = `<div class="caixa erro" role="alert"><p><b>Não foi possível abrir ${esc(a.name)}.</b> ${esc(err.message)} Nada foi alterado.</p></div>`;
+    }
+    e.target.value = "";
+  });
+}
+function visualBackup(p) {
+  const X = derivar(p), g = dotacaoGerada(X), v = verificacoes(X);
+  const lancs = Object.values(p.dot.lanc || {}).reduce((a, l) => a + l.length, 0);
+  return `<div class="kpis">
+      <div class="kpi"><span>Valor total</span><b>${real(X.TOT.geral)}</b></div>
+      ${X.orgaos.map(o => `<div class="kpi"><span>${esc(o)}</span><b>${real(X.TOT.org[o])}</b></div>`).join("")}
+      <div class="kpi"><span>Grupos e itens</span><b>${X.G.length} e ${p.itens.length}</b></div>
+      <div class="kpi"><span>Empresas</span><b>${X.EMP.length}</b></div>
+      <div class="kpi"><span>Relatórios</span><b>${(p.relatorios || []).length}</b></div>
+      <div class="kpi"><span>Lançamentos</span><b>${lancs}</b></div>
+      <div class="kpi"><span>A DEFINIR</span><b>${real(g.totalADefinir)}</b></div>
+      <div class="kpi"><span>Saldo não distribuído</span><b>${real(g.totalPendente)}</b></div>
+      <div class="kpi"><span>Verificações sem pendência</span><b>${v.filter(x => x.ok).length} de ${v.length}</b></div>
+    </div>
+    <div class="rolagem"><table>
+      <thead><tr><th class="centro">GP</th><th>Situação</th><th>Empresa</th><th class="num centro">Itens</th><th class="num">Valor</th></tr></thead>
+      <tbody>${X.G.map(gr => `<tr><td class="centro">${esc(gr.grupo)}</td><td>${esc(ROTULO_SIT[gr.situacao] || gr.situacao)}</td><td>${esc(gr.empresa)}</td><td class="num centro">${gr.itens.length}</td><td class="num">${dinheiro(soma(gr.itens, i => i.total))}</td></tr>`).join("")}</tbody>
+    </table></div>
+    ${g.colunas.length ? `<h3 style="margin:12px 0 6px;font-size:14px">Dotações</h3><div class="rolagem"><table>
+      <thead><tr><th>Órgão</th><th class="centro">Exercício</th><th>Dotação</th><th class="num">Valor</th></tr></thead>
+      <tbody>${g.colunas.map((cl, j) => `<tr><td>${esc(cl.orgao)}</td><td class="centro">${esc(cl.exercicio)}</td><td class="mono">${cl.aDefinir ? 'A DEFINIR <span class="tag definir">Pendente de definição</span>' : esc(cl.codigo)}</td><td class="num">${dinheiro(soma(g.linhas, l => l.valores[j]))}</td></tr>`).join("")}</tbody>
+    </table></div>` : ""}`;
+}
+async function desenharPreviaBk() {
+  const b = LIDO_BK, alvo = document.getElementById("previaBk");
+  const existentes = await Promise.all(b.processos.map(p => banco.ler(p.id)));
+  const quando = b.criadoEm && !isNaN(new Date(b.criadoEm)) ? new Date(b.criadoEm).toLocaleString("pt-BR") : "data não informada";
+  alvo.innerHTML = `<section class="cartao" aria-label="Visualização do backup">
+    <div class="cab-grupo"><div class="emp"><h2>Backup: ${esc(semExtensao(b.arquivo))}</h2><small>Gerado em ${esc(quando)}. ${b.processos.length} ${b.processos.length === 1 ? "processo" : "processos"}.</small></div></div>
+    <div class="corpo">
+      ${b.processos.map((p, n) => `<details class="cartao"${b.processos.length === 1 ? " open" : ""}>
+        <summary><input type="checkbox" data-bk="${n}" checked aria-label="Restaurar ${esc(p.processo)}"> <span class="mono">${esc(p.processo)}</span> ${esc(p.objeto)} ${existentes[n] ? '<span class="tag fra">Substitui o atual</span>' : '<span class="tag ok">Novo neste navegador</span>'}</summary>
+        <div class="corpo">${existentes[n] ? `<div class="caixa aviso"><p>Este processo já existe neste navegador, importado em ${esc(existentes[n].importadoEm)}. Restaurar troca os dados atuais pelos do backup.</p></div>` : ""}${visualBackup(p)}</div>
+      </details>`).join("")}
+      <div class="botoes"><button class="btn prim" id="bkRestaurar" type="button">Restaurar selecionados</button><button class="btn" id="bkCancelar" type="button">Cancelar</button></div>
+    </div></section>`;
+  document.getElementById("bkCancelar").addEventListener("click", () => { LIDO_BK = null; alvo.innerHTML = ""; });
+  alvo.querySelectorAll("summary input").forEach(i => i.addEventListener("click", e => e.stopPropagation()));
+  const btn = document.getElementById("bkRestaurar");
+  btn.addEventListener("click", async () => {
+    const marcados = [...alvo.querySelectorAll("[data-bk]:checked")].map(x => Number(x.dataset.bk));
+    if (!marcados.length) { toast("Selecione ao menos um processo."); return; }
+    const troca = marcados.filter(n => existentes[n]).length;
+    if (troca && btn.dataset.confirma !== "1") {
+      btn.dataset.confirma = "1";
+      btn.textContent = `Confirmar: substituir ${troca} ${troca === 1 ? "processo" : "processos"}`;
+      btn.classList.add("perigo");
+      return;
+    }
+    for (const n of marcados) {
+      const p = b.processos[n];
+      await banco.gravar({ ...p, historico: [...(p.historico || []), { quando: agora(), acao: "Backup restaurado", detalhe: semExtensao(b.arquivo) }] });
+    }
+    const unico = marcados.length === 1 ? b.processos[marcados[0]].id : null;
+    LIDO_BK = null;
+    toast(`${marcados.length} ${marcados.length === 1 ? "processo restaurado" : "processos restaurados"}.`);
+    const destino = unico ? `#/p/${encodeURIComponent(unico)}/mapa` : "#/processos";
+    if (location.hash === destino) navegar(true); else location.hash = destino;
+  });
+}
+function telaBackup() {
+  tela.innerHTML = `<h1>Backup</h1>
+    <p class="sub">Guarde uma cópia do processo em um arquivo, para restaurar neste ou em outro navegador. Os dados deste app ficam só no navegador, e limpar o navegador apaga os processos.</p>
+    <div style="height:14px"></div>
+    ${blocoBackup(true)}`;
+  ligarBackup();
+}
+
+/* ---------- Navegação, tema e impressão ---------- */
+const TELAS = {
+  importar: ["Importar", telaImportar], relatorio: ["Relatório do pregoeiro", telaRelatorio], mapa: ["Mapa por item", telaMapa], empresas: ["Apuração por empresa", telaEmpresas],
+  dotacao: ["Dotação orçamentária", telaDotacao], conferencia: ["Conferência", telaConferencia], exportar: ["Exportar", telaExportar], backup: ["Backup", telaBackup]
+};
+function desenharPassos(rota) {
+  const nav = document.getElementById("passos");
+  const u = encodeURIComponent(ATUAL.p.id);
+  const erros = verificacoes(ATUAL).filter(x => !x.ok).length;
+  nav.hidden = false;
+  nav.innerHTML = `<a class="voltar" href="#/processos">Processos</a>` + Object.keys(TELAS).map((k, i) =>
+    `<a href="#/p/${u}/${k}"${k === rota ? ' aria-current="page"' : ""}><span class="n">${i + 1}</span>${TELAS[k][0]}${k === "conferencia" && erros ? ` <span class="tag erro">${erros}</span>` : ""}</a>`).join("");
+}
+function defineCabecalho(p) {
+  document.getElementById("subtitulo").textContent = p ? [p.processo, p.pregao && "Pregão " + p.pregao, p.objeto].filter(Boolean).join(" · ") : "Importe uma planilha para montar o mapa";
+  document.getElementById("fonte").textContent = p ? "Fonte: " + p.arquivo + ", importado em " + p.importadoEm + "." : "";
+}
+async function navegar(foco) {
+  await salvarDotAgora();
+  const m = location.hash.match(/^#\/p\/([^/]+)\/(\w+)/);
+  PENDENTE = null;
+  LIDO_BK = null;
+  try {
+    if (m) {
+      const p = await banco.ler(decodeURIComponent(m[1]));
+      if (p) {
+        if (!ATUAL || ATUAL.p.id !== p.id) Object.keys(filtro).forEach(k => { filtro[k] = ""; });
+        const rota = TELAS[m[2]] ? m[2] : "mapa";
+        ATUAL = derivar(p);
+        defineCabecalho(p);
+        desenharPassos(rota);
+        TELAS[rota][1]();
+        document.title = TELAS[rota][0] + " · " + p.processo + " · Mapa de Distribuição";
+      } else {
+        ATUAL = null; defineCabecalho(null);
+        document.getElementById("passos").hidden = true;
+        tela.innerHTML = '<div class="vazio">Processo não encontrado neste navegador. <a href="#/processos">Voltar aos processos</a></div>';
+      }
+    } else {
+      ATUAL = null; defineCabecalho(null);
+      document.getElementById("passos").hidden = true;
+      await telaProcessos();
+      document.title = "Processos · Mapa de Distribuição";
+    }
+  } catch (err) {
+    tela.innerHTML = `<div class="caixa erro" role="alert"><p><b>Não consegui abrir os dados guardados neste navegador.</b> ${esc(err.message)}</p></div>`;
+  }
+  if (foco) { tela.focus({ preventScroll: true }); window.scrollTo(0, 0); }
+}
+window.addEventListener("hashchange", () => navegar(true));
+tela.addEventListener("click", e => {
+  const b = e.target.closest(".desc");
+  if (b) b.setAttribute("aria-expanded", b.getAttribute("aria-expanded") === "true" ? "false" : "true");
+});
+const btnTema = document.getElementById("btnTema");
+function aplicarTema(t) {
+  if (t === "dark") document.documentElement.dataset.theme = "dark"; else delete document.documentElement.dataset.theme;
+  btnTema.textContent = t === "dark" ? "Tema claro" : "Tema escuro";
+  btnTema.setAttribute("aria-pressed", String(t === "dark"));
+}
+const CHAVE = "mapa-planilha-tema";
+try { aplicarTema(localStorage.getItem(CHAVE) === "dark" ? "dark" : "claro"); } catch (e) { aplicarTema("claro"); }
+btnTema.addEventListener("click", () => {
+  const t = document.documentElement.dataset.theme === "dark" ? "claro" : "dark";
+  aplicarTema(t);
+  try { localStorage.setItem(CHAVE, t); } catch (e) { /* sem armazenamento: vale só nesta sessão */ }
+});
+document.getElementById("btnImprimir").addEventListener("click", () => window.print());
+navegar(false);
+</script>
+</body>
+</html>

@@ -1,38 +1,33 @@
 # Mapa de Distribuição · como usar
 
-O app monta o mapa de distribuição por credor de um processo de compra: junta a
-distribuição por órgão, o resultado do pregoeiro e a dotação, confere as
-divergências e gera o Excel final. É um arquivo só (`index.html`), funciona sem
+O app monta o mapa de distribuição por credor a partir da planilha do processo:
+lê grupos, itens e órgãos, aplica o resultado do pregoeiro, distribui a
+dotação e gera o Excel final. É um arquivo só (`index.html`), funciona sem
 internet e guarda os dados apenas no navegador deste computador.
 
 ## Abrir
 
 1. Dê dois cliques em `index.html` (Edge ou Chrome).
-2. Para conhecer o app, abra **Configuração** e carregue os dados fictícios.
+2. Para testar, importe `exemplos/mapa-exemplo.xlsx` (dados fictícios).
 
 ## Montar o mapa de um processo
 
-1. **Processos**: crie o processo ou abra um da lista.
-2. **Importar**: carregue a distribuição por órgão, o relatório do pregoeiro e
-   a dotação orçamentária.
-3. **Mapa por item**: confira grupo, item, quantidade e estimado por órgão.
-4. **Resultado**: veja a situação de cada grupo (homologado, fracassado ou
-   deserto) e o homologado por órgão.
-5. **Empresas** e **Conferência**: confira a tabela por empresa e resolva as
-   divergências D01 a D07 apontadas pelo app.
-6. **Orçamentária**: confira a distribuição por credor e órgão, no ano corrente
-   e no seguinte.
-7. **Exportar**: baixe o Excel com 8 abas e imprima o relatório de divergências.
-8. **Auditoria**: cada importação, edição e validação fica registrada.
-
-## Backup
-
-Os dados ficam só neste navegador. Por isso, depois de cada processo, abra
-**Configuração** e clique em **Exportar backup (.json)**.
+1. **Importar**: escolha a planilha (.xlsx ou .xls) ou baixe o modelo em
+   branco, preencha e importe. Confira a prévia e salve.
+2. **Relatório do pregoeiro**: carregue o PDF para preencher vencedor,
+   fracassado e deserto de cada grupo.
+3. **Mapa por item**: confira grupo, item, quantidade e valor por órgão.
+4. **Apuração por empresa**: veja o total de cada empresa por órgão.
+5. **Dotação orçamentária**: informe a dotação por grupo ou por item e os
+   lançamentos por exercício.
+6. **Conferência**: resolva o que aparece em vermelho.
+7. **Exportar**: baixe o Excel completo ou a planilha de entrada.
+8. **Backup**: exporte o `.json` do processo ou de todos.
 
 ## O que não fazer
 
 - Não use dado pessoal nos arquivos de entrada. O mapa trata empresa, órgão e
   valor, e não pessoa.
 - Não limpe os dados do navegador sem antes exportar o backup.
-- Não edite o `index.html`: ele é gerado pelo `construir.py`.
+- Não edite o `index.html`: ele é gerado pelo `construir.py` a partir de
+  `src/mapa.html`.

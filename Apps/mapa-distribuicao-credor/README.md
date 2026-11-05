@@ -67,26 +67,49 @@ Os totais do exemplo batem com o gabarito calculado pelo script independente:
 estimado R$ 2.958.629,46, homologado R$ 917.504,89, ano corrente R$ 830.286,54
 e ano seguinte R$ 87.218,35. São seis testes do motor na tela `#/testes`.
 
+## Versão 2: planilha única (05/11/2026)
+
+O app foi substituído por uma versão que parte da **planilha real do setor**:
+uma só importação monta o mapa, e o resto do trabalho acontece numa esteira de
+8 etapas (Importar, Relatório do pregoeiro, Mapa por item, Apuração por
+empresa, Dotação orçamentária, Conferência, Exportar e Backup).
+
+- **Importar**: aceita o mapa no formato de grupos e itens (coluna GP, GRUPO ou
+  LOTE, coluna ITEM e, abaixo de cada órgão, QTD, VALOR UNITÁRIO e VALOR TOTAL),
+  em qualquer aba, ou o modelo em branco do app. Lê também as abas PROCESSO,
+  DOTAÇÃO, DOTAÇÃO POR ITEM e LANÇAMENTOS, quando existem. Recusa linhas
+  repetidas ou sem código e descrição e avisa valores soltos, fórmulas quebradas
+  (`#REF!`) e CNPJ com dígito inválido.
+- **Relatório do pregoeiro (PDF)**: lê o texto do PDF sem biblioteca externa e
+  aplica vencedor, fracassado e deserto por grupo.
+- **Dotação**: dotação por grupo ou por item, lançamentos por exercício
+  (ano atual, ano seguinte ou "a definir") e saldo não distribuído.
+- **Conferência e Exportar**: verificações dos totais e o Excel completo
+  (mapa, dotação, lançamentos, dotação por item, apuração, conferência), além
+  da planilha de entrada para continuar depois.
+- **Backup**: `.json` de um processo ou de todos, com prévia antes de restaurar.
+
+Os dados ficam no IndexedDB `mapa_planilha_v1`, separado da versão anterior. A
+versão anterior (Sprints 1 a 9, com núcleo comum, perfis e `#/testes`) está em
+`legado/`: `legado/index-sprint7.html` abre direto e as fontes estão em
+`legado/src/`, `legado/nucleo/` e `legado/testes/`.
+
 ## Como construir e testar
 
-Este app é autônomo. `nucleo/`, `construir.py` e `testes/` são só dele e não
-importam nada de `Apps/_base/`, porque esta pasta vai virar um repositório
-próprio no GitHub. O `index.html` é **gerado**: edite as fontes (`app.json`,
-`src/`, `nucleo/`, `exemplos/seed.json`) e rode a construção.
+O `index.html` é **gerado**: edite `src/mapa.html` e rode a construção, que
+embute a SheetJS 0.18.5 de `vendor/xlsx.full.min.js` no lugar do marcador
+`<!-- LIB:xlsx.full.min.js -->`.
 
 ```powershell
 cd "Apps/mapa-distribuicao-credor"
-python construir.py           # gera o index.html a partir de app.json, src/, nucleo/ e os dados
-python testes/testar.py       # estrutura: zero rede, #/testes 100%, rotas por perfil, tema e celular
-python testes/cenarios.py     # cenários dos sprints: usa a tela como uma pessoa usaria
+python construir.py                    # gera o index.html a partir de src/mapa.html e vendor/
+python testes/testar.py                # zero rede, sem erro no console, modelo, importação, 8 etapas, tema
+python testes/cenarios.py              # o mesmo cenário, no formato do testar_sprints.py
+python exemplos/gerar_planilha_mapa.py # refaz exemplos/mapa-exemplo.xlsx (fictício, semente fixa)
 ```
 
-Antes da primeira execução: `pip install playwright` e
+Antes da primeira execução: `pip install playwright openpyxl` e
 `playwright install chromium`.
-
-Os dados fictícios são gerados por `exemplos/gerar_exemplos.py`; rode-o quando
-mudar o esquema e confira o novo `exemplos/seed.json` no navegador.
-
 
 Regras: não edite `index.html` direto; nenhum arquivo de fora da pasta do app é
 importado; o tema claro é o padrão e o escuro só entra pelo botão; os textos
