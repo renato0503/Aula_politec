@@ -17,6 +17,7 @@
 | 6 | Feito em 30/10/2026. Ciclos (criar e ativar) e aprovação das demandas no ciclo ativo. |
 | 7 | Feito em 30/10/2026. Relatório por grupo e por unidade, valor estimado, CSV, A4 e pacote `horus-import-ciclo.json` só com as aprovadas. |
 | 8 | Feito em 30/10/2026. Roteiro de aceite em `modelos/roteiro-aceite.md`. |
+| Contribuição do Iohan | Incorporada em 05/11/2026 (PR #1 do fork `iohancamoes/horus-banco-demandas`, commit `ca985cf`). A Configuração ganhou o catálogo de **unidades (setores)** e de **unidades de medida**, com cadastro, edição e exclusão; sigla única em maiúsculas; exclusão bloqueada quando o item está em uso; registro no log; e aviso na Nova demanda quando falta catálogo. Antes, sem os dados fictícios, a demanda não salvava. `testar.py`, `jornada.py` (11/11) e `cenarios.py` passam. |
 
 Seed fictício pronto (1 diretoria, 4 unidades, 15 demandas, 3 manifestações, ciclo 2027 ATIVO). Índices únicos de R9 e das inclusões testados.
 
