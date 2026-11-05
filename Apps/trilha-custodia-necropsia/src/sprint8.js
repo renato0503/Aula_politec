@@ -91,47 +91,97 @@ function tcLigarAssinatura(id){
   $(`[data-limpar="${id}"]`)?.addEventListener("click", ()=>{ ctx.clearRect(0, 0, cv.width, cv.height); $("#" + id + "Valor").value = ""; $("#" + id + "Estado").textContent = "Assine no campo com o dedo ou o mouse."; });
 }
 
+const TC_EXAMES_COMPL = ["DNA", "odontologia legal", "antropologia forense"];
+const tcTentativas = c => c?.identificacao?.tentativas || [];
+// RN11: os métodos só se esgotam depois de pelo menos um exame complementar sem resultado
+const tcPodeEsgotar = tent => (tent || []).some(t=>TC_EXAMES_COMPL.includes(t.metodo) && t.resultado !== "identificou");
+
 function tcAcoesEtapa5(c){
-  return `<div class="campos">
-    ${campo("tcResultadoIdent", "Resultado da identificação", {tipo: "select", opcoes: [["", "Escolha"], ["identificado", "Identificado"], ["nao_identificado", "Não identificado"], ["obito_adm", "Óbito administrativo, sem identificação"]]})}
-    ${campo("tcMetodoIdent8", "Método de identificação", {tipo: "select", opcoes: [["", "Escolha"], ...TC_METODOS]})}
+  const pend = c.identificacao?.pendente, tent = tcTentativas(c);
+  const hist = tent.length ? `<p class="sub" id="tcTentativas">Tentativas: ${tent.map(t=>`${esc(t.metodo)} (${esc(t.resultado)})`).join(" · ")}.</p>` : "";
+  if (pend) return `${hist}<div class="card pendente" id="tcExamePendente"><b>Exame complementar em andamento:</b> ${esc(pend.metodo)}, solicitado em ${dataBR(pend.enviado_em)}.</div>
+    <div class="campos">
+    ${campo("tcResultadoExame", "Resultado do exame", {tipo: "select", opcoes: [["", "Escolha"], ["identificou", "Identificou a pessoa"], ["sem_resultado", "Não identificou"]]})}
+    ${campo("tcNomeExame", "Nome (fictício)")}${campo("tcDocExame", "Documento (fictício)")}</div>
+    <div class="linha-botoes"><button class="prim" id="btnTcResultadoExame">Registrar o resultado do exame</button></div>`;
+  return `${hist}<p class="sub">A identificação começa pela necropapiloscopia. Sem resultado, o caso segue para exame complementar (DNA, odontologia legal ou antropologia forense). Os métodos só se esgotam depois de pelo menos um exame complementar.</p>
+    <div class="campos">
+    ${campo("tcResultadoIdent", "Resultado da identificação", {tipo: "select", opcoes: [["", "Escolha"], ["identificado", "Identificado"], ["exame", "Não identificado: encaminhar a exame complementar"], ["esgotado", "Métodos esgotados: não identificado"]]})}
+    ${campo("tcMetodoIdent8", "Método usado ou exame solicitado", {tipo: "select", opcoes: [["", "Escolha"], ...TC_METODOS, ...TC_EXAMES_COMPL.filter(x=>!TC_METODOS.includes(x))]})}
     ${campo("tcNomeIdent8", "Nome (fictício)", {valor: c.nome || ""})}
     ${campo("tcDocIdent8", "Documento (fictício)", {valor: c.documento || ""})}</div>
-    <div class="linha-botoes"><button class="prim" id="btnTcIdent8">Registrar o resultado (etapa 6)</button></div>`;
+    <div class="linha-botoes"><button class="prim" id="btnTcIdent8">Registrar o resultado</button></div>`;
+}
+
+function tcFunerariaCampos(pref){
+  return `<div class="campos">${campo(pref + "Funeraria", "Funerária (fictícia)")}${campo(pref + "Auto", "Nº do Auto de Entrega da funerária")}</div>`;
 }
 
 function tcAcoesFamilia(c){
-  const f = c.familia || {}, adm = c.identificacao?.resultado === "obito_adm";
-  const busca = !f.busca_encerrada_em && !f.busca_sem_sucesso;
+  const f = c.familia || {}, semIdent = !c.identificado;
   const partes = [];
-  if (busca) partes.push(`<p class="sub">${f.busca_iniciada_em ? "Busca de familiares em andamento desde " + dataBR(f.busca_iniciada_em) + "." : "A busca de familiares ainda não começou."}</p>
+  if (!semIdent && !f.encontrada && !f.busca_sem_sucesso) partes.push(`<p class="sub">${f.busca_iniciada_em ? "Busca de familiares em andamento desde " + dataBR(f.busca_iniciada_em) + "." : "A busca de familiares ainda não começou."}</p>
     <div class="linha-botoes">${f.busca_iniciada_em ? "" : '<button class="sec" id="btnTcFamBusca">Registrar o início da busca</button>'}</div>
     <div class="campos">${campo("tcFamNome", "Familiar localizado (fictício)")}${campo("tcFamParentesco", "Parentesco")}${campo("tcFamDoc", "Documento do familiar (fictício)")}</div>
-    <div class="linha-botoes"><button class="prim" id="btnTcFamEncontrado">Familiar localizado</button><button class="sec" id="btnTcFamSem">Sem familiar localizado</button></div>`);
-  if (c.identificado && f.encontrada && !f.liberado_em) partes.push(`<div id="tcBlocoFamilia"><h3>Liberação à família</h3>
-    <p class="sub">Confira o familiar e capture a assinatura de quem recebe o corpo.</p>
-    ${tcAssinaturaHtml("tcAssinaturaFamilia", "Assinatura do familiar")}
-    <div class="linha-botoes"><button class="prim" id="btnTcLiberarFamilia">Registrar a liberação à família</button></div></div>`);
-  if (!c.identificado || adm || f.busca_sem_sucesso) partes.push(`<div id="tcBlocoSepultamento"><h3>Sepultamento pelo Estado</h3>
-    <p class="sub">A justificativa é obrigatória, com no mínimo ${TC_JUSTIFICATIVA_MIN} caracteres, e fica no histórico do caso.</p>
-    ${campo("tcJustSepult", "Justificativa", {tipo: "textarea", linhas: 3, ajuda: `Mínimo de ${TC_JUSTIFICATIVA_MIN} caracteres.`})}
-    <div class="campos">${campo("tcFuneraria", "Funerária (fictícia)")}${campo("tcAutoFuneraria", "Auto de entrega da funerária")}</div>
-    <div class="linha-botoes"><button class="prim" id="btnTcSepultar">Encaminhar para sepultamento pelo Estado (etapa 7)</button></div></div>`);
+    <div class="linha-botoes"><button class="prim" id="btnTcFamEncontrado">Familiar localizado</button><button class="sec" id="btnTcFamSem">Busca sem êxito (prazo esgotado)</button></div>`);
+  if (!semIdent && f.encontrada && !f.liberado_em) partes.push(`<div id="tcBlocoFamilia"><h3>Liberação à família</h3>
+    <p class="sub">Confira o familiar, capture a assinatura do termo de liberação e registre a funerária que retira o corpo.</p>
+    ${tcAssinaturaHtml("tcAssinaturaFamilia", "Assinatura do familiar (termo de liberação)")}
+    ${tcFunerariaCampos("tcFam")}
+    <div class="linha-botoes"><button class="prim" id="btnTcLiberarFamilia">Registrar a liberação à família (etapa 7)</button></div></div>`);
+  if ((semIdent || f.busca_sem_sucesso) && !c.sepultamento){
+    const motivo = semIdent ? "Corpo não identificado depois dos exames complementares." : "Corpo identificado e não reclamado: busca de familiares sem êxito.";
+    partes.push(`<div id="tcBlocoSepultamento"><h3>Decisão do Gestor ADM: sepultamento pelo Estado</h3>
+    <p class="sub">${motivo} A decisão é do Gestor ADM, com justificativa de no mínimo ${TC_JUSTIFICATIVA_MIN} caracteres, número da autorização e Auto de Entrega da funerária.</p>
+    ${tcPodeReceber(estado.perfil) ? `${campo("tcJustSepult", "Justificativa", {tipo: "textarea", linhas: 3, ajuda: `Mínimo de ${TC_JUSTIFICATIVA_MIN} caracteres.`})}
+      <div class="campos">${campo("tcAutSepult", "Nº da autorização de sepultamento")}</div>
+      ${tcFunerariaCampos("tcSep")}
+      <div class="linha-botoes"><button class="prim" id="btnTcSepultar">Autorizar o sepultamento pelo Estado (etapa 7)</button></div>`
+      : '<p class="alerta-txt" id="tcAguardaGestor">Aguardando a decisão do Gestor ADM.</p>'}</div>`);
+  }
   return partes.join("") || '<p class="sub">Etapa concluída.</p>';
 }
 
 function tcAcoesLaudo(c){
   const l = c.laudo || {}, entregue = !!l.entregue_em, recebido = !!l.recebido_em;
-  const recebidoTxt = recebido ? `<p class="ok-txt"><b>Custódia finalizada.</b> Laudo recebido na ADM em ${dataBR(l.recebido_em)} por ${esc(l.recebido_por || "")}.</p>` : "";
-  const blocoEntrega = entregue
-    ? `<div id="tcBlocoLaudo"><h3>Recebimento pela ADM</h3>
-       <p class="sub">Entrega registrada por <b>${esc(l.entregue_por || "")}</b> em ${dataBR(l.entregue_em)}. O recebimento é confirmado apenas pelo Gestor ADM.</p>
-       ${estado.perfil === "gestor" ? `${tcAssinaturaHtml("tcAssinaturaLaudo", "Assinatura de quem recebe na ADM")}
-         <div class="linha-botoes"><button class="prim" id="btnTcReceberLaudo">Confirmar o recebimento (Gestor ADM)</button></div>`
-        : '<p class="sub">Troque para o perfil Gestor ADM para confirmar o recebimento.</p>'}</div>`
-    : `<div class="campos">${campo("tcLaudoEntreguePor", "Quem entrega o laudo", {valor: c.tecnico || ""})}${campo("tcLaudoRecebidoPor", "Quem recebe na ADM")}</div>
-       <div class="linha-botoes"><button class="prim" id="btnTcEntregaLaudo">Registrar a entrega do laudo</button></div>`;
-  return `${recebidoTxt}${recebido ? "" : blocoEntrega}`;
+  if (recebido) return `<p class="ok-txt"><b>Laudo recebido na ADM</b> em ${dataBR(l.recebido_em)}, por ${esc(l.recebido_por || "")}. A confirmação não pode ser desfeita.</p>`;
+  if (entregue) return `<p class="sub">Entrega registrada por <b>${esc(l.entregue_por || "")}</b> em ${dataBR(l.entregue_em)}. O recebimento é confirmado apenas pelo Gestor ADM.</p>
+     ${tcPodeReceber(estado.perfil) ? `${tcAssinaturaHtml("tcAssinaturaLaudo", "Assinatura de quem recebe na ADM")}
+       <div class="linha-botoes"><button class="prim" id="btnTcReceberLaudo">Confirmar o recebimento (Gestor ADM)</button></div>`
+      : '<p class="sub">Troque para o perfil Gestor ADM para confirmar o recebimento.</p>'}`;
+  return `<div class="campos">${campo("tcLaudoEntreguePor", "Quem entrega o laudo", {valor: c.tecnico || ""})}${campo("tcLaudoRecebidoPor", "Quem recebe na ADM")}</div>
+     <div class="linha-botoes"><button class="prim" id="btnTcEntregaLaudo">Registrar a entrega do laudo</button></div>`;
+}
+
+// RN10: a custódia só se encerra com destino do corpo, laudo recebido e todos os lacres recebidos
+function tcPendenciasEncerramento(c, ls){
+  const p = [];
+  if (!c.destino_final) p.push("destino do corpo (liberação à família ou sepultamento pelo Estado)");
+  if (!c.laudo?.recebido_em) p.push("laudo recebido pela ADM");
+  const sem = (ls || []).filter(l=>!l.recebido_em).length;
+  if (sem) p.push(`${sem} lacre(s) sem recebimento confirmado pela ADM`);
+  return p;
+}
+async function tcTentarFinalizar(id){
+  const c = await db.get("corpos", id);
+  if (!c || c.custodia_finalizada) return false;
+  if (tcPendenciasEncerramento(c, await tcLacres(id)).length) return false;
+  await db.put("corpos", {...c, custodia_finalizada: true, finalizada_em: agora(), etapa: 7});
+  await db.put("log", {id: uuid(), corpo_id: id, acao: "custódia finalizada", motivo: "destino, laudo e lacres confirmados", perfil: estado.perfil || "", data_hora: agora()});
+  return true;
+}
+
+function tcCardEncerramento(c, ls){
+  const sem = ls.filter(l=>!l.recebido_em).length;
+  const itens = [
+    [!!c.destino_final, c.destino_final ? `Destino do corpo: ${c.destino_final === "família" ? "liberado à família" : "sepultamento pelo Estado"}` : "Destino do corpo (etapa 6)"],
+    [!!c.laudo?.recebido_em, c.laudo?.recebido_em ? `Laudo recebido pela ADM em ${dataBR(c.laudo.recebido_em)}` : "Laudo recebido pela ADM"],
+    [!sem, ls.length ? `${ls.length - sem} de ${ls.length} lacre(s) recebidos pela ADM` : "Nenhum lacre registrado"],
+  ];
+  return `<div class="card" id="tcEncerramento"><h2 style="margin-top:0">Encerramento da custódia</h2>
+    <p class="sub">O caso só se encerra quando as três condições estão confirmadas. Depois disso, nada é editado: correções entram como retificação.</p>
+    <ul class="tc-checklist">${itens.map(([ok, t])=>`<li class="${ok ? "ok-txt" : "alerta-txt"}">${ok ? "✓" : "○"} ${esc(t)}</li>`).join("")}</ul>
+    ${c.custodia_finalizada ? `<p class="ok-txt" id="tcFinalizada"><b>Custódia finalizada</b>${c.finalizada_em ? " em " + dataBR(c.finalizada_em) : ""}.</p>` : ""}</div>`;
 }
 
 function tcCardEtapas(c, ls){
@@ -142,20 +192,24 @@ function tcCardEtapas(c, ls){
     ${ls.map(l=>`<tr><td class="mono">${esc(l.codigo)}</td><td>${esc(l.destino)}</td>
       <td>${l.recebido_em ? `${dataBR(l.recebido_em)} · ${esc(l.recebido_por || "")}` : '<span class="alerta-txt">pendente</span>'}</td>
       <td>${!l.recebido_em && estado.perfil === "gestor" ? `<button class="sec" data-tc-receber-lacre="${esc(l.id_lacre)}">Confirmar recebimento</button>` : ""}</td></tr>`).join("")}
-    </table><p class="sub">${recebidos} de ${ls.length} lacre(s) com recebimento confirmado. A confirmação é exclusiva do Gestor ADM.</p>` : "";
+    </table><p class="sub">${recebidos} de ${ls.length} lacre(s) com recebimento confirmado. A confirmação é exclusiva do Gestor ADM e não pode ser desfeita.</p>` : "";
+  const acoes7 = c.custodia_finalizada ? '<p class="ok-txt">Caso concluído.</p>'
+    : `<p class="sub">Destino registrado. Falta: ${esc(tcPendenciasEncerramento(c, ls).join("; ") || "nada")}.</p>`;
+  const laudo = e >= 5 ? `<div class="card" id="tcBlocoLaudo"><h2 style="margin-top:0">Laudo à ADM</h2>
+    <p class="sub">O laudo nasce na necropsia e corre em paralelo ao destino do corpo. Ele pode ser entregue à ADM a partir da etapa 5.</p>${tcAcoesLaudo(c)}</div>` : "";
   return `<div class="card" id="tcEtapasCard"><h2 style="margin-top:0">Etapas do caso</h2>
     <p class="sub">Etapa atual: <b>${e}. ${esc(atual.nome)}</b>. ${c.etapa_em ? "Desde " + dataBR(c.etapa_em) + "." : ""}</p>
-    <div class="etapas">${TC_ETAPAS.map(x=>`<span class="${x.n < e ? "feita" : x.n === e ? "atual" : ""}" title="${esc(x.nome)}">${x.n}. ${esc(x.nome)}</span>`).join("")}</div>
+    <div class="etapas">${TC_ETAPAS.map(x=>`<span class="${x.n < e || c.custodia_finalizada ? "feita" : x.n === e ? "atual" : ""}" title="${esc(x.nome)}">${x.n}. ${esc(x.nome)}</span>`).join("")}</div>
     <div id="tcEtapaAcoes">${e === 1 ? `<p class="sub">Registre a ocorrência e a possível vítima para seguir.</p>
         ${campo("tcOcorrencia8", "Ocorrência e possível vítima", {tipo: "textarea", linhas: 3})}
         <div class="linha-botoes"><button class="prim" id="btnTcE2">Registrar a ocorrência (etapa 2)</button></div>`
       : e === 2 ? `<p class="sub">O corpo aguarda a fila da necropsia.</p><div class="linha-botoes"><button class="prim" id="btnTcE3">Enviar para a fila da necropsia (etapa 3)</button></div>`
       : e === 3 ? `<p class="sub">Necropsia ainda não iniciada.</p><div class="linha-botoes"><button class="prim" id="btnTcE4">Iniciar a necropsia (etapa 4)</button></div>`
-      : e === 4 ? `<p class="sub">Necropsia em andamento.</p><div class="linha-botoes"><button class="prim" id="btnTcE5">Concluir a necropsia (etapa 5)</button></div>`
+      : e === 4 ? `<p class="sub">Necropsia em andamento. Os lacres coletados entram na aba Lacres.</p><div class="linha-botoes"><button class="prim" id="btnTcE5">Concluir a necropsia (etapa 5)</button></div>`
       : e === 5 ? tcAcoesEtapa5(c)
       : e === 6 ? tcAcoesFamilia(c)
-      : tcAcoesLaudo(c)}</div>
-    <div id="tcErrosEtapa8"></div>${lacres}</div>`;
+      : acoes7}</div>
+    <div id="tcErrosEtapa8"></div>${lacres}</div>${laudo}${e >= 5 ? tcCardEncerramento(c, ls) : ""}`;
 }
 
 const tcFichaEtapa7 = TELAS["#/corpo/:id"];
@@ -183,19 +237,45 @@ TELAS_DEPOIS["#/corpo/:id"] = async p=>{
   $("#btnTcE4")?.addEventListener("click", ()=>avancar(4, {}, "etapa 4: necropsia iniciada"));
   $("#btnTcE5")?.addEventListener("click", ()=>avancar(5, {}, "etapa 5: necropsia concluída"));
   $("#btnTcIdent8")?.addEventListener("click", async ()=>{
-    const r = valorDe("tcResultadoIdent");
+    const r = valorDe("tcResultadoIdent"), metodo = valorDe("tcMetodoIdent8");
+    const at = await db.get("corpos", p.id), tent = tcTentativas(at);
     if (!r) return erro("Escolha o resultado da identificação.");
     if (r === "identificado"){
-      const nome = valorDe("tcNomeIdent8"), metodo = valorDe("tcMetodoIdent8");
+      const nome = valorDe("tcNomeIdent8");
       if (!nome) return erro("Informe o nome da pessoa identificada.");
       if (!metodo) return erro("Informe o método de identificação.");
-      return avancar(6, {identificado: true, desconhecido: false, nome, documento: valorDe("tcDocIdent8"), metodo_identificacao: metodo,
-        identificacao: {resultado: r, metodo, em: agora()}, situacao: "em custódia"}, `identificação por ${metodo}`);
+      return avancar(6, {identificado: true, desconhecido: false, nome, documento: valorDe("tcDocIdent8"), metodo_identificacao: metodo, identificado_em: agora(),
+        identificacao: {resultado: r, metodo, em: agora(), tentativas: [...tent, {metodo, resultado: "identificou", em: agora()}]}, situacao: "em custódia"}, `identificação por ${metodo}`);
     }
-    if (r === "nao_identificado") return avancar(6, {identificado: false, desconhecido: true, nome: "", documento: "",
-      identificacao: {resultado: r, em: agora()}, situacao: "aguardando identificação"}, "identificação: não identificado");
+    if (r === "exame"){
+      if (!TC_EXAMES_COMPL.includes(metodo)) return erro("Escolha o exame complementar: DNA, odontologia legal ou antropologia forense.");
+      const anteriores = tent.length ? tent : [{metodo: "papiloscopia", resultado: "sem resultado", em: agora()}];
+      try {
+        await db.put("corpos", {...at, situacao: "aguardando identificação",
+          identificacao: {resultado: "pendente", tentativas: anteriores, pendente: {metodo, enviado_em: agora()}}});
+        await tcAuditar(p.id, `exame complementar solicitado: ${metodo}`); toast("Exame complementar registrado."); navegar();
+      } catch(e){ erro(e.message); }
+      return;
+    }
+    if (!tcPodeEsgotar(tent)) return erro("Encaminhe a pelo menos um exame complementar (DNA, odontologia legal ou antropologia forense) antes de declarar os métodos esgotados.");
     return avancar(6, {identificado: false, desconhecido: true, nome: "", documento: "",
-      identificacao: {resultado: "obito_adm", em: agora()}, situacao: "aguardando identificação"}, "identificação: óbito administrativo");
+      identificacao: {resultado: "nao_identificado", em: agora(), tentativas: tent}, situacao: "não identificado"}, "identificação: métodos esgotados, não identificado");
+  });
+  $("#btnTcResultadoExame")?.addEventListener("click", async ()=>{
+    const at = await db.get("corpos", p.id), pend = at?.identificacao?.pendente, r = valorDe("tcResultadoExame");
+    if (!pend) return;
+    if (!r) return erro("Escolha o resultado do exame.");
+    const tent = [...tcTentativas(at), {metodo: pend.metodo, resultado: r === "identificou" ? "identificou" : "sem resultado", em: agora()}];
+    if (r === "identificou"){
+      const nome = valorDe("tcNomeExame");
+      if (!nome) return erro("Informe o nome da pessoa identificada.");
+      return avancar(6, {identificado: true, desconhecido: false, nome, documento: valorDe("tcDocExame"), metodo_identificacao: pend.metodo, identificado_em: agora(),
+        identificacao: {resultado: "identificado", metodo: pend.metodo, em: agora(), tentativas: tent}, situacao: "em custódia"}, `identificação por ${pend.metodo}`);
+    }
+    try {
+      await db.put("corpos", {...at, identificacao: {resultado: "pendente", tentativas: tent}});
+      await tcAuditar(p.id, `exame complementar sem resultado: ${pend.metodo}`); toast("Resultado registrado."); navegar();
+    } catch(e){ erro(e.message); }
   });
   $("#btnTcFamBusca")?.addEventListener("click", async ()=>{
     try { const at = await db.get("corpos", p.id);
@@ -213,31 +293,39 @@ TELAS_DEPOIS["#/corpo/:id"] = async p=>{
   });
   $("#btnTcFamSem")?.addEventListener("click", async ()=>{
     try { const at = await db.get("corpos", p.id);
-      await db.put("corpos", {...at, familia: {...(at.familia || {}), encontrada: false, busca_sem_sucesso: true, busca_encerrada_em: agora()}});
-      await tcAuditar(p.id, "busca de familiares sem êxito"); toast("Busca encerrada sem familiar."); navegar();
+      await db.put("corpos", {...at, situacao: "não reclamado", familia: {...(at.familia || {}), encontrada: false, busca_sem_sucesso: true, busca_encerrada_em: agora()}});
+      await db.put("log", {id: uuid(), corpo_id: p.id, acao: "situação: não reclamado", motivo: "busca de familiares sem êxito", perfil: estado.perfil || "", data_hora: agora()});
+      toast("Busca encerrada sem familiar. O caso aguarda a decisão do Gestor ADM."); navegar();
     } catch(e){ erro(e.message); }
   });
   $("#btnTcLiberarFamilia")?.addEventListener("click", async ()=>{
     const at = await db.get("corpos", p.id), assinatura = valorDe("tcAssinaturaFamiliaValor");
+    const fun = {nome: valorDe("tcFamFuneraria"), auto: valorDe("tcFamAuto"), data_hora: agora()};
     if (!at?.familia?.encontrada) return erro("Registre o familiar localizado antes da liberação.");
     if (!assinatura) return erro("Capture a assinatura do familiar no campo.");
+    if (!fun.nome || !fun.auto) return erro("Informe a funerária e o número do Auto de Entrega.");
     try {
       const entrega = {responsavel: at.familia.nome, documento: at.familia.documento, data: agora()};
       await db.put("corpos", {...at, etapa: 7, etapa_em: agora(), situacao: "liberado", destino_final: "família",
-        familia: {...at.familia, liberado_em: agora(), assinatura}, entrega});
-      await db.put("log", {id: uuid(), corpo_id: p.id, acao: "liberação à família", motivo: `auto ${entrega.documento} · ${entrega.responsavel}`, perfil: estado.perfil || "", data_hora: agora()});
+        familia: {...at.familia, liberado_em: agora(), assinatura}, entrega, funeraria: fun});
+      await db.put("log", {id: uuid(), corpo_id: p.id, acao: "liberação à família", motivo: `${entrega.responsavel} · funerária ${fun.nome} · auto ${fun.auto}`, perfil: estado.perfil || "", data_hora: agora()});
+      await tcTentarFinalizar(p.id);
       toast("Liberação registrada."); navegar();
     } catch(e){ erro(e.message); }
   });
   $("#btnTcSepultar")?.addEventListener("click", async ()=>{
-    const at = await db.get("corpos", p.id), just = valorDe("tcJustSepult");
+    const at = await db.get("corpos", p.id), just = valorDe("tcJustSepult"), aut = valorDe("tcAutSepult");
+    const fun = {nome: valorDe("tcSepFuneraria"), auto: valorDe("tcSepAuto"), data_hora: agora()};
+    if (!tcPodeReceber(estado.perfil)) return erro("Somente o Gestor ADM autoriza o sepultamento pelo Estado.");
     if (!tcJustificativaOk(just)) return erro(`A justificativa precisa de ${TC_JUSTIFICATIVA_MIN} caracteres ou mais.`);
+    if (!aut) return erro("Informe o número da autorização de sepultamento.");
+    if (!fun.nome || !fun.auto) return erro("Informe a funerária e o número do Auto de Entrega.");
     try {
-      const sep = {justificativa: just, autorizado_em: agora(), perfil: estado.perfil || ""};
-      const fun = valorDe("tcFuneraria") || valorDe("tcAutoFuneraria") ? {nome: valorDe("tcFuneraria"), auto: valorDe("tcAutoFuneraria"), data_hora: agora()} : null;
+      const sep = {justificativa: just, autorizacao: aut, autorizado_em: agora(), perfil: estado.perfil || ""};
       await db.put("corpos", {...at, etapa: 7, etapa_em: agora(), situacao: "liberado", destino_final: "sepultamento", sepultamento: sep, funeraria: fun});
-      await db.put("log", {id: uuid(), corpo_id: p.id, acao: "sepultamento pelo Estado", motivo: just, perfil: estado.perfil || "", data_hora: agora()});
-      toast("Sepultamento registrado."); navegar();
+      await db.put("log", {id: uuid(), corpo_id: p.id, acao: "sepultamento pelo Estado autorizado", motivo: `${aut} · ${just}`, perfil: estado.perfil || "", data_hora: agora()});
+      await tcTentarFinalizar(p.id);
+      toast("Sepultamento autorizado."); navegar();
     } catch(e){ erro(e.message); }
   });
   $("#btnTcEntregaLaudo")?.addEventListener("click", async ()=>{
@@ -252,26 +340,29 @@ TELAS_DEPOIS["#/corpo/:id"] = async p=>{
     const at = await db.get("corpos", p.id), assinatura = valorDe("tcAssinaturaLaudoValor");
     if (!tcPodeReceber(estado.perfil)) return erro("Somente o Gestor ADM confirma o recebimento.");
     if (!assinatura) return erro("Capture a assinatura de quem recebe na ADM.");
+    if (at.laudo?.recebido_em) return erro("O recebimento do laudo já foi confirmado e não pode ser alterado.");
     try {
-      await db.put("corpos", {...at, custodia_finalizada: true, etapa: 7, situacao: "liberado",
-        laudo: {...at.laudo, recebido_em: agora(), assinatura_recebimento: assinatura}});
-      await db.put("log", {id: uuid(), corpo_id: p.id, acao: "custódia finalizada", motivo: "laudo recebido pela ADM", perfil: estado.perfil || "", data_hora: agora()});
-      toast("Recebimento confirmado."); navegar();
+      await db.put("corpos", {...at, laudo: {...at.laudo, recebido_em: agora(), confirmado_perfil: estado.perfil, assinatura_recebimento: assinatura}});
+      await db.put("log", {id: uuid(), corpo_id: p.id, acao: "laudo recebido pela ADM", motivo: at.laudo?.recebido_por || "", perfil: estado.perfil || "", data_hora: agora()});
+      const fim = await tcTentarFinalizar(p.id);
+      toast(fim ? "Recebimento confirmado. Custódia finalizada." : "Recebimento confirmado."); navegar();
     } catch(e){ erro(e.message); }
   });
   $$("[data-tc-receber-lacre]").forEach(b=>b.addEventListener("click", async ()=>{
     if (!tcPodeReceber(estado.perfil)) return erro("Somente o Gestor ADM confirma o recebimento.");
-    const l = await db.get("lacres", b.dataset.tcReceberLacre); if (!l) return;
+    const l = await db.get("lacres", b.dataset.tcReceberLacre); if (!l || l.recebido_em) return;
     await db.put("lacres", {...l, recebido_em: agora(), recebido_por: estado.perfil, recebido_perfil: estado.perfil});
-    await tcAuditar(p.id, `lacre recebido pela ADM: ${l.codigo}`); toast("Recebimento do lacre confirmado."); navegar();
+    await tcAuditar(p.id, `lacre recebido pela ADM: ${l.codigo}`);
+    const fim = await tcTentarFinalizar(p.id);
+    toast(fim ? "Lacre recebido. Custódia finalizada." : "Recebimento do lacre confirmado."); navegar();
   }));
 
   if (estado.perfil === "medico"){
     const aviso = document.createElement("div");
     aviso.className = "card pendente"; aviso.id = "tcModoMedico";
-    aviso.innerHTML = "<b>Perfil Médico Legista:</b> leitura até a etapa 5. As etapas 6 e 7 e as ações de escrita ficam bloqueadas.";
+    aviso.innerHTML = "<b>Perfil Médico Legista:</b> leitura até a etapa 5. As etapas 6 e 7, o laudo à ADM, o encerramento e as ações de escrita ficam bloqueados.";
     $("#conteudo").prepend(aviso);
-    $$("#tcBlocoFamilia, #tcBlocoSepultamento, #tcBlocoLaudo").forEach(x=>x.hidden = true);
+    $$("#tcBlocoFamilia, #tcBlocoSepultamento, #tcBlocoLaudo, #tcEncerramento").forEach(x=>x.hidden = true);
     $$("#conteudo button").forEach(b=>{ if (!b.closest(".abas")) b.disabled = true; });
     $$("#conteudo input, #conteudo select, #conteudo textarea").forEach(x=>x.disabled = true);
   }

@@ -1,4 +1,4 @@
-# TCIN · Trilha de Custódia e Identificação de Necropsia
+# Sistema de Controle de Necropsia
 
 Registro digital único de cada corpo, da remoção à liberação: acionamento,
 marcos de deslocamento, lacres das amostras, situação de identificação e busca
@@ -14,7 +14,7 @@ parciais e do protótipo que a aluna construiu.
 | Tipo | Aplicativo para servidor |
 | Stack | HTML único (CSS/JS inline), IndexedDB, GitHub Pages |
 | Fonte | `Aula 8/Entregas/Silmara/` (dois JSON parciais, protótipo e link) |
-| GitHub | a informar |
+| GitHub | `silmarabueno-droid` (colaboradora) |
 
 ## Arquivos
 
@@ -124,11 +124,12 @@ seguem o português do Brasil com acentuação, sem travessões.
 ## Identidade e usabilidade (02/11/2026)
 
 O app tem casca de trilho de ícones, cabeçalho sólido, fonte condensada e
-densidade ampla, para uso em tablet no IML. O painel é **por perfil**: o
-operador vê os acionamentos, o técnico vê a sala, o plantonista vê o **quadro de
-plantão** em colunas por situação (com cartões de corpo, iniciais, dias no IML e
-último marco) e o gestor vê os tempos, a permanência e o alerta de 12 h. A ficha
-do corpo virou abas: Resumo, Marcos, Lacres, Situação, Liberação e Auditoria.
+densidade ampla, para uso em tablet no IML. O painel é **por perfil** (atualizado
+no Sprint 9): o Técnico vê o **quadro das sete etapas** em colunas (com cartões de
+corpo, iniciais, dias no IML e último marco), o Médico Legista vê a sala de
+necropsia (etapas 3 a 5) e o Gestor ADM vê a **fila da ADM**, os tempos, a
+permanência e o alerta de 12 h. A ficha do corpo virou abas: Resumo, Etapas,
+Marcos, Lacres, Situação, Liberação e Auditoria.
 Código em `src/identidade.js` e `src/app.css`.
 
 ## Mapa do processo
@@ -136,3 +137,30 @@ Código em `src/identidade.js` e `src/app.css`.
 O `processo.html` mostra o **AS-IS** (como o processo funciona antes do MVP) e o
 **TO-BE** (como fica com o MVP), com as métricas, regras e papéis do projeto.
 Abra ao lado do `index.html`.
+
+## Sprint 9 · Fluxograma da Silmara (05/11/2026)
+
+O fluxograma e o protótipo que a Silmara trouxe em 05/11/2026 estão em
+`entregas/2026-11-05/`. A revisão do fluxograma virou o TO-BE do app
+(`docs/diagramas/to-be.manual.mmd`, renderizado em `to-be.svg` e no `processo.html`).
+
+- **Três perfis só**: Técnico, Médico Legista e Gestor ADM. O Operador do CIOP e
+  o Plantonista saíram.
+- **Identificação com exame complementar (RN11)**: necropapiloscopia, depois DNA,
+  odontologia legal ou antropologia forense, com as tentativas registradas. Os
+  métodos só se esgotam depois de pelo menos um exame complementar.
+- **Sepultamento pelo Estado só por decisão do Gestor ADM (RN09)**, nos dois
+  caminhos (não identificado ou identificado e não reclamado), com justificativa,
+  número da autorização e Auto de Entrega da funerária.
+- **Funerária nos dois destinos**: a liberação à família também exige a funerária
+  e o Auto de Entrega.
+- **Laudo em paralelo e encerramento com três condições (RN10)**: o laudo pode ir
+  à ADM a partir da etapa 5; a custódia só se encerra com o destino do corpo, o
+  laudo recebido e todos os lacres recebidos.
+- **Caso encerrado não se edita (RN12)**: a correção entra como retificação, com
+  tipo, o que muda e motivo, inclusive "familiar localizado após o sepultamento".
+- **A liberação só acontece pela etapa 6**: os atalhos antigos (situação manual e
+  auto de entrega do Sprint 4) foram fechados.
+
+Código em `src/sprint8.js` (etapas 5 a 7), `src/sprint9.js` (retificação e
+bloqueios) e `src/identidade.js` (painéis). Cenário `s9_fluxograma_da_silmara`.

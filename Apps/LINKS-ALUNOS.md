@@ -159,21 +159,21 @@ Todos os apps em uma página: https://renato0503.github.io/Aula_politec/Apps/ind
 - **Feedback:** https://renato0503.github.io/Aula_politec/Aula%208/feedback/cin-segunda-via.html
 - **Código (GitHub):** https://github.com/renato0503/cin-segunda-via
 
-## 19. TAP Digital e Portfólio de Projetos Estratégicos
-
-- **Equipe:** Danielle Marques de Almeida Trevizan, Cristiane Souza Ferraz, Luciana
-- **App:** https://renato0503.github.io/Aula_politec/Apps/tap-portfolio-projetos/index.html
-- **Hub do app:** https://renato0503.github.io/Aula_politec/Apps/tap-portfolio-projetos/processo.html
-- **Feedback:** https://renato0503.github.io/Aula_politec/Aula%208/feedback/tap-portfolio-projetos.html
-- **Código (GitHub):** https://github.com/renato0503/tap-portfolio-projetos
-
-## 20. TCIN · Trilha de Custódia e Identificação de Necropsia
+## 19. Sistema de Controle de Necropsia
 
 - **Equipe:** Silmara Bueno
 - **App:** https://renato0503.github.io/Aula_politec/Apps/trilha-custodia-necropsia/index.html
 - **Hub do app:** https://renato0503.github.io/Aula_politec/Apps/trilha-custodia-necropsia/processo.html
 - **Feedback:** https://renato0503.github.io/Aula_politec/Aula%208/feedback/trilha-custodia-necropsia.html
 - **Código (GitHub):** https://github.com/renato0503/trilha-custodia-necropsia
+
+## 20. TAP Digital e Portfólio de Projetos Estratégicos
+
+- **Equipe:** Danielle Marques de Almeida Trevizan, Cristiane Souza Ferraz, Luciana
+- **App:** https://renato0503.github.io/Aula_politec/Apps/tap-portfolio-projetos/index.html
+- **Hub do app:** https://renato0503.github.io/Aula_politec/Apps/tap-portfolio-projetos/processo.html
+- **Feedback:** https://renato0503.github.io/Aula_politec/Aula%208/feedback/tap-portfolio-projetos.html
+- **Código (GitHub):** https://github.com/renato0503/tap-portfolio-projetos
 
 ## 21. TEIA · Triagem de E-mails com Isolação Automatizada
 

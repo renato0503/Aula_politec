@@ -1,6 +1,7 @@
 /* Identidade da Trilha de Custódia e Identificação (TCIN).
-   Entra por último no build. O painel passa a ser por perfil e o plantonista
-   ganha o quadro de plantão em colunas por situação; a ficha vira abas. */
+   Entra por último no build. O painel é por perfil (Técnico, Médico Legista e
+   Gestor ADM): o Técnico vê o quadro das sete etapas, o Médico Legista a sala de
+   necropsia e o Gestor ADM a fila da ADM; a ficha vira abas. */
 
 function tcinUltimoMarco(ms, id){
   return ms.filter(m=>m.corpo_id === id).sort((a, b)=>b.data_hora.localeCompare(a.data_hora))[0];
@@ -11,29 +12,28 @@ function tcinCorpoCard(c, ms){
     <span class="tc-corpo-topo"><b class="mono">${esc(c.protocolo)}</b><span class="selo ${tcSel(c.situacao)}">${esc(c.situacao)}</span></span>
     <span class="tc-corpo-nome">${esc(tcRotuloLista(c))}</span>
     <span class="tc-corpo-dias ${d > 30 ? "erro-txt" : d > 10 ? "alerta-txt" : ""}">${c.situacao === "liberado" ? "liberado" : `${plural(d, "dia", "dias")} no IML`}</span>
-    <span class="sub">${u ? esc(u.tipo) + " · " + dataBR(u.data_hora) : "sem movimentação"}</span></a>`;
+    <span class="sub">${c.identificacao?.pendente ? "exame complementar: " + esc(c.identificacao.pendente.metodo) : u ? esc(u.tipo) + " · " + dataBR(u.data_hora) : "sem movimentação"}</span></a>`;
 }
 function tcinCabecalho(perfil){
   const titulos = {
-    operador: ["Painel do CIOP", "Acionamentos em deslocamento e corpos que chegaram ao IML."],
-    tecnico: ["Sala de necropsia", "Corpos na sala, dias no IML e último marco de cada um."],
-    plantonista: ["Passagem de plantão", "Quadro por situação, com os dias no IML e o último marco."],
-    gestor: ["Painel do gestor", "Tempos do percurso, permanência e corpos sem movimentação."],
-    medico: ["Painel do médico legista", "Corpos na sala de necropsia, com leitura até a etapa 5."],
+    tecnico: ["Quadro das sete etapas", "Casos abertos por etapa, com os dias no IML e o último marco. Serve também para a passagem de plantão."],
+    gestor: ["Painel do Gestor ADM", "Fila da ADM (lacres, laudos e decisões de sepultamento), tempos do percurso e permanência."],
+    medico: ["Sala de necropsia", "Corpos da fila da necropsia à identificação, com leitura até a etapa 5."],
   };
   const [t, s] = titulos[perfil] || titulos.tecnico;
-  return `<h1>${t}</h1><p class="sub">${s} <a href="#/corpo/novo">Novo acionamento</a></p>`;
+  return `<h1>${t}</h1><p class="sub">${s}${perfil === "medico" ? "" : ' <a href="#/corpo/novo">Novo acionamento</a>'}</p>`;
 }
 function tcinKpi(valor, rotulo, attr){
   return `<div class="card kpi"><div class="v"${attr ? ` ${attr}` : ""}>${valor}</div><div class="r">${rotulo}</div></div>`;
 }
+const tcinLink = c => `<a href="#/corpo/${encodeURIComponent(c.id_corpo)}">${esc(c.protocolo)}</a>`;
 
 TELAS["#/painel"] = async ()=>{
-  const [cs, ms] = await Promise.all([db.list("corpos"), db.list("marcos")]);
+  const [cs, ms, ls] = await Promise.all([db.list("corpos"), db.list("marcos"), db.list("lacres")]);
   const por = s => cs.filter(c=>c.situacao === s).length;
   const perfil = estado.perfil || "tecnico";
-  const liberados = cs.filter(c=>c.situacao === "liberado").length;
-  const plantao = cs.filter(c=>{
+  const abertos = cs.filter(c=>!c.custodia_finalizada);
+  const plantao = abertos.filter(c=>{
     if (c.situacao === "liberado") return false;
     const ultimo = ms.filter(m=>m.corpo_id === c.id_corpo).map(m=>m.data_hora).sort().pop() || c.criado_em;
     return tcHoras(ultimo) > TC_PLANTao_HORAS;
@@ -42,14 +42,29 @@ TELAS["#/painel"] = async ()=>{
     const tempos = tcTempos(cs, ms);
     const permanencia = cs.filter(c=>c.situacao !== "liberado").map(c=>({c, dias: Math.max(0, Math.round((Date.now() - new Date(c.criado_em)) / 86400000))}))
       .sort((a, b)=>b.dias - a.dias);
+    const lacresPend = ls.filter(l=>!l.recebido_em);
+    const laudosPend = cs.filter(c=>c.laudo?.entregue_em && !c.laudo?.recebido_em);
+    const decisoes = cs.filter(c=>tcEtapa(c) === 6 && !c.sepultamento && (!c.identificado || c.familia?.busca_sem_sucesso));
+    const corpoDe = id => cs.find(c=>c.id_corpo === id);
     return `${tcinCabecalho(perfil)}
+      <div class="grade">${tcinKpi(lacresPend.length, "lacres pendentes de recebimento", 'data-tc-adm="lacres"')}
+        ${tcinKpi(laudosPend.length, "laudos aguardando recebimento", 'data-tc-adm="laudos"')}
+        ${tcinKpi(decisoes.length, "decisões de sepultamento pendentes", 'data-tc-adm="decisoes"')}
+        ${tcinKpi(cs.filter(c=>c.custodia_finalizada).length, "custódias finalizadas", 'data-tc-adm="finalizadas"')}</div>
+      <div class="card tabela-wrap" id="tcFilaAdm"><h2 style="margin-top:0">Fila da ADM</h2>
+        <table><tr><th>Protocolo</th><th>Pendência</th><th>Desde</th></tr>
+        ${[...decisoes.map(c=>[c, `decisão de sepultamento (${c.identificado ? "não reclamado" : "não identificado"})`, c.etapa_em]),
+           ...laudosPend.map(c=>[c, "recebimento do laudo", c.laudo.entregue_em]),
+           ...lacresPend.map(l=>[corpoDe(l.corpo_id), `recebimento do lacre ${l.codigo} (${l.destino})`, l.data_hora])]
+          .filter(([c])=>c).map(([c, t, d])=>`<tr><td>${tcinLink(c)}</td><td>${esc(t)}</td><td>${dataBR(d)}</td></tr>`).join("")
+          || '<tr><td colspan="3" class="vazio">Nada pendente na ADM.</td></tr>'}</table></div>
       <div class="grade">${tcinKpi(tempos.remocao === null ? "—" : tempos.remocao + " h", "tempo médio de remoção", 'data-tc-ind="remocao"')}
         ${tcinKpi(tempos.identificacao === null ? "—" : tempos.identificacao + " h", "tempo médio de identificação", 'data-tc-ind="identificacao"')}
         ${tcinKpi(tempos.liberacao === null ? "—" : tempos.liberacao + " h", "tempo médio de liberação", 'data-tc-ind="liberacao"')}
         ${tcinKpi(plantao.length, `sem movimentação há mais de ${TC_PLANTao_HORAS} h`, 'data-tc-ind="plantao"')}</div>
       <div class="card tabela-wrap"><h2 style="margin-top:0">Permanência por corpo</h2>
         <table id="tabelaPermanencia"><tr><th>Protocolo</th><th>Identificação</th><th>Situação</th><th class="num">Dias no IML</th><th>Último marco</th></tr>
-        ${permanencia.map(({c, dias})=>{ const u = tcinUltimoMarco(ms, c.id_corpo); return `<tr><td><a href="#/corpo/${encodeURIComponent(c.id_corpo)}">${esc(c.protocolo)}</a></td>
+        ${permanencia.map(({c, dias})=>{ const u = tcinUltimoMarco(ms, c.id_corpo); return `<tr><td>${tcinLink(c)}</td>
           <td>${esc(tcRotuloLista(c))}</td>
           <td><span class="selo ${tcSel(c.situacao)}">${esc(c.situacao)}</span></td>
           <td class="num">${dias > 30 ? `<span class="erro-txt">${dias}</span>` : dias}</td>
@@ -59,32 +74,31 @@ TELAS["#/painel"] = async ()=>{
       <div class="linha-botoes nao-imprimir"><button class="prim" id="btnTcCsv">${icone("download")} Exportar CSV</button>
         <button onclick="window.print()">${icone("imprimir")} Imprimir em A4</button></div>`;
   }
-  if (perfil === "plantonista"){
-    const colunas = TC_SIT.map(sit=>{
-      const lista = cs.filter(c=>c.situacao === sit);
-      return `<section class="tc-col"><h3>${esc(sit)} <span class="conta">${lista.length}</span></h3>
-        <div class="tc-col-lista">${lista.length ? lista.map(c=>tcinCorpoCard(c, ms)).join("") : '<p class="sub">Nenhum corpo.</p>'}</div></section>`;
-    }).join("");
+  if (perfil === "medico"){
+    const sala = cs.filter(c=>[3, 4, 5].includes(tcEtapa(c)) && !c.custodia_finalizada).sort((a, b)=>tcDias(b) - tcDias(a));
     return `${tcinCabecalho(perfil)}
-      <div class="grade">${tcinKpi(por("em custódia"), "em custódia", "data-em-custodia")}
-        ${tcinKpi(plantao.length, `sem movimentação há mais de ${TC_PLANTao_HORAS} h`)}
-        ${tcinKpi(liberados, "liberados")}</div>
-      ${plantao.length ? `<div class="card pendente" id="tcAlertaPlantao"><b>Passagem de plantão:</b> ${plantao.length} corpo(s) sem movimentação há mais de ${TC_PLANTao_HORAS} h.
-        ${plantao.map(c=>`<a class="botao" href="#/corpo/${encodeURIComponent(c.id_corpo)}">${esc(c.protocolo)}</a>`).join(" ")}</div>` : ""}
-      <div class="tc-quadro" id="tcTabelaPainel">${colunas}</div>`;
+      <div class="grade">${tcinKpi(sala.filter(c=>tcEtapa(c) === 3).length, "aguardando necropsia")}
+        ${tcinKpi(sala.filter(c=>tcEtapa(c) === 4).length, "necropsia em andamento")}
+        ${tcinKpi(sala.filter(c=>tcEtapa(c) === 5).length, "em identificação")}</div>
+      <div class="card tabela-wrap"><h2 style="margin-top:0">Corpos na sala</h2>
+        <table id="tcTabelaPainel"><tr><th>Protocolo</th><th>Identificação</th><th>Etapa</th><th>Agente causal</th><th class="num">Dias no IML</th></tr>
+        ${sala.map(c=>`<tr><td>${tcinLink(c)}</td><td>${esc(tcRotuloLista(c))}</td><td>${tcEtapa(c)}. ${esc(TC_ETAPAS[tcEtapa(c) - 1].nome)}${c.identificacao?.pendente ? " · " + esc(c.identificacao.pendente.metodo) : ""}</td>
+          <td>${esc(c.agente_causal || "—")}</td><td class="num">${tcDias(c)}</td></tr>`).join("") || '<tr><td colspan="5" class="vazio">Nenhum corpo na sala.</td></tr>'}</table></div>`;
   }
-  const lista = cs.filter(c=>c.situacao !== "liberado").sort((a, b)=>tcDias(b) - tcDias(a));
-  const deslocamento = cs.filter(c=>{ const u = tcinUltimoMarco(ms, c.id_corpo); return u && ["Saída da base", "Saída do local"].includes(u.tipo); }).length;
+  // Técnico: quadro das sete etapas (casos abertos)
+  const colunas = TC_ETAPAS.map(et=>{
+    const lista = abertos.filter(c=>tcEtapa(c) === et.n);
+    return `<section class="tc-col"><h3>${et.n}. ${esc(et.nome)} <span class="conta">${lista.length}</span></h3>
+      <div class="tc-col-lista">${lista.length ? lista.map(c=>tcinCorpoCard(c, ms)).join("") : '<p class="sub">Nenhum corpo.</p>'}</div></section>`;
+  }).join("");
   return `${tcinCabecalho(perfil)}
     <div class="grade">${tcinKpi(por("em custódia"), "em custódia", "data-em-custodia")}
-      ${tcinKpi(deslocamento, "em deslocamento")}
-      ${tcinKpi(por("aguardando identificação") + por("não identificado") + por("não reclamado"), "sem identificação ou não reclamados")}</div>
-    <div class="card tabela-wrap"><h2 style="margin-top:0">${perfil === "operador" ? "Acionamentos" : "Corpos na sala"}</h2>
-      <table id="tcTabelaPainel"><tr><th>Protocolo</th><th>Identificação</th><th>Origem</th><th>Situação</th><th class="num">Dias no IML</th><th>Último marco</th></tr>
-      ${lista.map(c=>{ const u = tcinUltimoMarco(ms, c.id_corpo), d = tcDias(c); return `<tr><td><a href="#/corpo/${encodeURIComponent(c.id_corpo)}">${esc(c.protocolo)}</a></td>
-        <td>${esc(tcRotuloLista(c))}</td><td>${esc(c.municipio || c.origem)}</td><td><span class="selo ${tcSel(c.situacao)}">${esc(c.situacao)}</span></td>
-        <td class="num"><span class="${d > 30 ? "erro-txt" : d > 10 ? "alerta-txt" : ""}">${d}</span></td>
-        <td>${u ? esc(u.tipo) + " · " + dataBR(u.data_hora) : "—"}</td></tr>`; }).join("") || '<tr><td colspan="6" class="vazio">Nenhum corpo na sala.</td></tr>'}</table></div>`;
+      ${tcinKpi(abertos.filter(c=>c.identificacao?.pendente).length, "em exame complementar")}
+      ${tcinKpi(plantao.length, `sem movimentação há mais de ${TC_PLANTao_HORAS} h`)}
+      ${tcinKpi(cs.filter(c=>c.custodia_finalizada).length, "custódias finalizadas")}</div>
+    ${plantao.length ? `<div class="card pendente" id="tcAlertaPlantao"><b>Passagem de plantão:</b> ${plantao.length} corpo(s) sem movimentação há mais de ${TC_PLANTao_HORAS} h.
+      ${plantao.map(c=>`<a class="botao" href="#/corpo/${encodeURIComponent(c.id_corpo)}">${esc(c.protocolo)}</a>`).join(" ")}</div>` : ""}
+    <div class="tc-quadro" id="tcTabelaPainel">${colunas}</div>`;
 };
 TELAS_DEPOIS["#/painel"] = ()=>{
   $("#btnTcCsv")?.addEventListener("click", async ()=>{
@@ -116,17 +130,18 @@ TELAS["#/corpo/:id"] = async (p)=>{
   };
   [...raiz.children].forEach(colher);
   if (!cards.length) return html;
-  const grupos = {resumo: [], marcos: [], lacres: [], situacao: [], liberacao: [], auditoria: []};
+  const grupos = {resumo: [], etapas: [], marcos: [], lacres: [], situacao: [], liberacao: [], auditoria: []};
   const destino = h=>{
     if (/marco/.test(h)) return "marcos";
     if (/lacre/.test(h)) return "lacres";
     if (/situa|histórico da situa/.test(h)) return "situacao";
     if (/auto|libera/.test(h)) return "liberacao";
-    if (/auditoria|privacidade|reten/.test(h)) return "auditoria";
+    if (/auditoria|privacidade|reten|retifica/.test(h)) return "auditoria";
+    if (/etapas do caso|laudo à adm|encerramento/.test(h)) return "etapas";
     return "resumo";
   };
   cards.forEach(c=>grupos[destino((c.querySelector("h2")?.textContent || "").toLowerCase())].push(c.outerHTML));
-  const nomes = [["resumo", "Resumo"], ["marcos", "Marcos"], ["lacres", "Lacres"], ["situacao", "Situação"], ["liberacao", "Liberação"], ["auditoria", "Auditoria"]];
+  const nomes = [["resumo", "Resumo"], ["etapas", "Etapas"], ["marcos", "Marcos"], ["lacres", "Lacres"], ["situacao", "Situação"], ["liberacao", "Liberação"], ["auditoria", "Auditoria"]];
   const lista = nomes.filter(([id])=>grupos[id].length).map(([id, titulo])=>({id, titulo, html: grupos[id].join("")}));
   return antes.map(n=>n.outerHTML).join("") + abas("ficha", lista);
 };

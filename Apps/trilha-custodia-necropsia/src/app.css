@@ -1,6 +1,6 @@
 /* Identidade da TCIN: quadro de plantão, cartões de corpo e painel por perfil. */
 
-.tc-quadro{display:grid;grid-template-columns:repeat(5,minmax(210px,1fr));gap:12px;align-items:start}
+.tc-quadro{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(138px,1fr);gap:12px;align-items:start;overflow-x:auto;padding-bottom:6px}
 .tc-col{background:var(--painel-2);border:1px solid var(--linha);border-radius:var(--raio);padding:10px}
 .tc-col h3{margin:0 0 10px;font-size:14px;text-transform:uppercase;letter-spacing:.05em}
 .tc-col h3 .conta{background:var(--painel);border:1px solid var(--linha);border-radius:999px;padding:1px 8px;font-size:12px;margin-left:4px}
@@ -12,11 +12,16 @@
 .tc-corpo-nome{font-weight:700;font-size:16px}
 .tc-corpo-dias{font-size:14px;font-weight:700}
 .tc-corpo .sub{font-size:12px}
-@media (max-width:1200px){ .tc-quadro{grid-template-columns:repeat(2,minmax(0,1fr))} }
-@media (max-width:640px){ .tc-quadro{grid-template-columns:1fr} .tc-corpo{min-height:0} }
+@media (max-width:640px){ .tc-quadro{grid-auto-flow:row;grid-template-columns:1fr;overflow-x:visible} .tc-corpo{min-height:0} }
 
 /* toque no tablet: 44 px e ações grandes */
 @media (pointer: coarse){
   .tc-col-lista .tc-corpo{min-height:120px;padding:16px}
   .tc-corpo-nome{font-size:17px}
 }
+
+/* Sprint 9: lista de condições do encerramento */
+.tc-checklist{list-style:none;padding:0;margin:8px 0;display:grid;gap:6px}
+.tc-checklist li{font-weight:600}
+.tc-quadro .tc-corpo .selo{white-space:normal;max-width:100%}
+.tc-quadro .tc-col h3{font-size:12px}

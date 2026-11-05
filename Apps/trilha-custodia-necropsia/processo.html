@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>AS-IS e TO-BE · CNC</title>
+<title>AS-IS e TO-BE · Sistema de Controle de Necropsia</title>
 <style>
 :root{--acento:#12487f;--tinta:#17212b;--tinta2:#5b6672;--papel:#fff;--fundo:#f2f4f7;--linha:#dce1e8;--suave:#eef3fa;--verde:#127a45;--ambar:#a35f00;--vermelho:#b42318}
 *{box-sizing:border-box}
@@ -67,7 +67,7 @@ body{font-family:'Bahnschrift', 'Arial Narrow', sans-serif}
 </style></head><body>
 <header class="capa"><div class="in">
   <span class="selo">MVP · trilha-custodia-necropsia</span>
-  <h1>CNC</h1>
+  <h1>Sistema de Controle de Necropsia</h1>
   <p>CCN -  Controle de Necropsia Centralizado . Um aplicativo que controla todo Procedimento com registro digital único que acompanha cada corpo da remoção à liberação, para as equipes do IML, no lugar do controle manual disperso e sem rastreabilidade.</p>
   <div class="meta">Silmara Bueno · IML — Coordenadoria de Perícias em Mortos · 2026-10-29 · IML · Perícias em Mortos</div>
   <nav><a href="#asis">Antes · AS-IS</a><a href="#tobe">Depois · TO-BE</a><a href="#mvp">O MVP</a><a class="prim" href="index.html">Abrir o MVP →</a></nav>
@@ -98,11 +98,11 @@ body{font-family:'Bahnschrift', 'Arial Narrow', sans-serif}
   <p>Informações centralizadas e sem retrabalho.</p>
   <ul class="lista"><li><b>Acionamento e marcos</b><br>Os quatro marcos passam a ser registrados no app<br><span class="tag ok">A pessoa assistida pela máquina</span><span class="tag">Rastreabilidade do deslocamento</span></li><li><b>Registro único</b><br>Um cadastro por corpo, sem repetir em quatro livros<br><span class="tag ok">A máquina (automação)</span><span class="tag">Menos retrabalho</span></li><li><b>Lacres</b><br>A entrega das amostras passa a ter registro<br><span class="tag ok">A pessoa assistida pela máquina</span><span class="tag">Custódia com rastro</span></li><li><b>Identificação e busca</b><br>Consulta por protocolo, nome ou documento<br><span class="tag ok">A máquina (automação)</span><span class="tag">Resposta no mesmo dia</span></li><li><b>Painel</b><br>Situação de todos os corpos visível na passagem de plantão<br><span class="tag ok">A máquina (automação)</span><span class="tag">Nada se perde entre plantões</span></li></ul>
   <div class="tabela"><table><thead><tr><th>Etapa</th><th>O que muda</th><th>Quem faz</th><th>Benefício</th><th>Esforço</th></tr></thead><tbody><tr><td>Acionamento e marcos</td><td>Os quatro marcos passam a ser registrados no app</td><td>A pessoa assistida pela máquina</td><td>Rastreabilidade do deslocamento</td><td>Baixo</td></tr><tr><td>Registro único</td><td>Um cadastro por corpo, sem repetir em quatro livros</td><td>A máquina (automação)</td><td>Menos retrabalho</td><td>Médio</td></tr><tr><td>Lacres</td><td>A entrega das amostras passa a ter registro</td><td>A pessoa assistida pela máquina</td><td>Custódia com rastro</td><td>Baixo</td></tr><tr><td>Identificação e busca</td><td>Consulta por protocolo, nome ou documento</td><td>A máquina (automação)</td><td>Resposta no mesmo dia</td><td>Médio</td></tr><tr><td>Painel</td><td>Situação de todos os corpos visível na passagem de plantão</td><td>A máquina (automação)</td><td>Nada se perde entre plantões</td><td>Baixo</td></tr></tbody></table></div>
-  <div class="caixa alerta"><b>Leitura crítica:</b> A ficha em abas esconde a mudança de situação até a pessoa clicar na aba Situação.</div>
+  <div class="caixa alerta"><b>Leitura crítica:</b> A ficha em abas separa as etapas, o laudo e o encerramento na aba Etapas; a mudança manual de situação fica na aba Situação.</div>
 </section>
 
 <section id="mvp"><h2>O que o MVP entrega</h2>
-  <p><b>Tela-assinatura:</b> Quadro de plantão em colunas por situação, com cartões de corpo.</p>
+  <p><b>Tela-assinatura:</b> Quadro das sete etapas para o Técnico e fila da ADM para o Gestor, com cartões de corpo.</p>
   <p class="sub">Menu do MVP: <span class="tag">Painel</span><span class="tag">Corpos</span><span class="tag">Novo acionamento</span><span class="tag">Busca</span><span class="tag">Configuração</span><span class="tag">Resumo</span></p>
   <div class="mvp-tabelas"><div><h3>Regras de negócio</h3><div class="tabela"><table><thead><tr><th>ID</th><th>Regra</th><th>Quando</th><th>Tipo</th><th>Exceção</th></tr></thead><tbody><tr><td><code>RN01</code></td><td>O protocolo é único e gerado no acionamento</td><td>No cadastro</td><td>Validação</td><td>Nenhuma</td></tr><tr><td><code>RN02</code></td><td>A liberação exige identificação registrada e auto de entrega com responsável e data</td><td>Na liberação</td><td>Negócio</td><td>Nenhuma</td></tr><tr><td><code>RN03</code></td><td>Todo marco, lacre e mudança de situação registra perfil, data e hora</td><td>Em toda ação</td><td>Validação</td><td>Nenhuma</td></tr><tr><td><code>RN04</code></td><td>A busca aceita protocolo, nome ou documento</td><td>Na busca</td><td>Negócio</td><td>Caso sem nome</td></tr><tr><td><code>RN05</code></td><td>A lista do painel não mostra nome completo</td><td>No painel</td><td>LGPD</td><td>Ficha do caso</td></tr></tbody></table></div></div>
     <div><h3>Papéis</h3><div class="tabela"><table><thead><tr><th>Papel</th><th>Quem é</th><th>O que vê</th><th>O que faz</th><th>O que não faz</th><th>Registro</th></tr></thead><tbody><tr><td><b>Operador do CIOP</b></td><td>Servidor que recebe o acionamento</td><td>Chamado, protocolo e ocorrência</td><td>Abre o protocolo e registra o acionamento</td><td>Decidir a identificação</td><td>Protocolo e acionamento</td></tr><tr><td><b>Técnico de necropsia</b></td><td>Técnico que vai ao local</td><td>Local, requisição e corpo</td><td>Registra os quatro marcos e recolhe a requisição</td><td>Liberar o corpo</td><td>Marcos e requisição</td></tr><tr><td><b>Plantonista</b></td><td>Servidor do plantão do IML</td><td>Situação, identificação e guarda</td><td>Registra identificação, não reclamado e liberação</td><td>Alterar laudo</td><td>Situação e auto de entrega</td></tr><tr><td><b>Gestor</b></td><td>Chefia da coordenadoria</td><td>Painel, prazos e auditoria</td><td>Acompanha prazos e passagem de plantão</td><td>Suprimir registros</td><td>Trilha de auditoria</td></tr></tbody></table></div></div></div>
@@ -122,5 +122,5 @@ python testes/jornada.py --cdp http://127.0.0.1:9222 --base http://127.0.0.1:800
   <p class="sub">Documentos: <a href="PROJETO.md">PROJETO.md</a> · <a href="sprint.md">sprint.md</a> · <a href="README.md">README.md</a></p>
 </section>
 </main>
-<footer class="rodape">Gerado a partir de <code>projeto.json</code> e <code>app.json</code> · POLITEC/MT · CNC</footer>
+<footer class="rodape">Gerado a partir de <code>projeto.json</code> e <code>app.json</code> · POLITEC/MT · Sistema de Controle de Necropsia</footer>
 </body></html>

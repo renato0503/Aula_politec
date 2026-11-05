@@ -233,12 +233,12 @@
       ]
     },
     "trilha-custodia-necropsia": {
-      "projeto": "TCIN · Trilha de Custódia e Identificação de Necropsia",
+      "projeto": "Sistema de Controle de Necropsia",
       "alunos": [
         {
           "nome": "Silmara Bueno",
           "email": "silmarabueno@politec.mt.gov.br",
-          "github": null
+          "github": "silmarabueno-droid"
         }
       ]
     },

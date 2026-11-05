@@ -22,6 +22,7 @@
    "agente_causal": "Causa natural",
    "ocorrencia": "Acionamento fictício registrado para o exemplo.",
    "identificacao": null,
+   "funeraria": null,
    "familia": null,
    "laudo": null,
    "sepultamento": null,
@@ -50,6 +51,7 @@
    "agente_causal": "Acidente",
    "ocorrencia": "Acionamento fictício registrado para o exemplo.",
    "identificacao": null,
+   "funeraria": null,
    "familia": null,
    "laudo": null,
    "sepultamento": null,
@@ -78,6 +80,7 @@
    "agente_causal": "Homicídio",
    "ocorrencia": "Acionamento fictício registrado para o exemplo.",
    "identificacao": null,
+   "funeraria": null,
    "familia": null,
    "laudo": null,
    "sepultamento": null,
@@ -101,13 +104,30 @@
    "situacao": "não identificado",
    "criado_em": "2026-10-21T08:00:00",
    "entrega": null,
-   "etapa": 6,
+   "etapa": 7,
    "etapa_em": "2026-10-21T08:00:00",
    "agente_causal": "Suicídio",
    "ocorrencia": "Acionamento fictício registrado para o exemplo.",
    "identificacao": {
     "resultado": "nao_identificado",
-    "em": "2026-10-21T12:00:00"
+    "em": "2026-10-21T12:00:00",
+    "tentativas": [
+     {
+      "metodo": "papiloscopia",
+      "resultado": "sem resultado",
+      "em": "2026-10-21T12:00:00"
+     },
+     {
+      "metodo": "DNA",
+      "resultado": "sem resultado",
+      "em": "2026-10-25T12:00:00"
+     }
+    ]
+   },
+   "funeraria": {
+    "nome": "Funerária Fictícia do Estado",
+    "auto": "AE-004",
+    "data_hora": "2026-10-27T10:00:00"
    },
    "familia": {
     "encontrada": false,
@@ -117,7 +137,8 @@
    },
    "laudo": null,
    "sepultamento": {
-    "justificativa": "Busca de familiares encerrada sem êxito após o prazo legal.",
+    "justificativa": "Métodos de identificação esgotados: necropapiloscopia e DNA sem resultado.",
+    "autorizacao": "AUT-SEP-004",
     "autorizado_em": "2026-10-27T09:00:00",
     "perfil": "gestor"
    },
@@ -146,6 +167,7 @@
    "agente_causal": "Indeterminada",
    "ocorrencia": "Acionamento fictício registrado para o exemplo.",
    "identificacao": null,
+   "funeraria": null,
    "familia": {
     "encontrada": false,
     "busca_sem_sucesso": true,
@@ -179,6 +201,7 @@
    "agente_causal": "Óbito administrativo",
    "ocorrencia": "Acionamento fictício registrado para o exemplo.",
    "identificacao": null,
+   "funeraria": null,
    "familia": null,
    "laudo": null,
    "sepultamento": null,
@@ -211,6 +234,11 @@
    "agente_causal": "Causa natural",
    "ocorrencia": "Acionamento fictício registrado para o exemplo.",
    "identificacao": null,
+   "funeraria": {
+    "nome": "Funerária Fictícia Central",
+    "auto": "AE-007",
+    "data_hora": "2026-10-26T15:00:00"
+   },
    "familia": {
     "encontrada": true,
     "nome": "Familiar Fictício",
@@ -252,6 +280,7 @@
    "agente_causal": "Acidente",
    "ocorrencia": "Acionamento fictício registrado para o exemplo.",
    "identificacao": null,
+   "funeraria": null,
    "familia": null,
    "laudo": null,
    "sepultamento": null,
@@ -279,7 +308,21 @@
    "etapa_em": "2026-10-26T08:00:00",
    "agente_causal": "Homicídio",
    "ocorrencia": "Acionamento fictício registrado para o exemplo.",
-   "identificacao": null,
+   "identificacao": {
+    "resultado": "pendente",
+    "tentativas": [
+     {
+      "metodo": "papiloscopia",
+      "resultado": "sem resultado",
+      "em": "2026-10-26T12:00:00"
+     }
+    ],
+    "pendente": {
+     "metodo": "DNA",
+     "enviado_em": "2026-10-26T13:00:00"
+    }
+   },
+   "funeraria": null,
    "familia": null,
    "laudo": null,
    "sepultamento": null,
@@ -308,6 +351,7 @@
    "agente_causal": "Suicídio",
    "ocorrencia": "Acionamento fictício registrado para o exemplo.",
    "identificacao": null,
+   "funeraria": null,
    "familia": {
     "encontrada": false,
     "busca_sem_sucesso": true,
@@ -345,6 +389,11 @@
    "agente_causal": "Indeterminada",
    "ocorrencia": "Acionamento fictício registrado para o exemplo.",
    "identificacao": null,
+   "funeraria": {
+    "nome": "Funerária Fictícia Central",
+    "auto": "AE-011",
+    "data_hora": "2026-10-30T15:00:00"
+   },
    "familia": {
     "encontrada": true,
     "nome": "Familiar Fictício",
@@ -357,12 +406,11 @@
    "laudo": {
     "entregue_por": "Técnico Fictício A",
     "recebido_por": "Gestor ADM Fictício",
-    "entregue_em": "2026-10-30T15:00:00",
-    "recebido_em": "2026-10-30T15:00:00"
+    "entregue_em": "2026-10-30T15:00:00"
    },
    "sepultamento": null,
    "destino_final": "família",
-   "custodia_finalizada": true
+   "custodia_finalizada": false
   },
   {
    "id_corpo": "C-0012",
@@ -386,6 +434,7 @@
    "agente_causal": "Óbito administrativo",
    "ocorrencia": "Acionamento fictício registrado para o exemplo.",
    "identificacao": null,
+   "funeraria": null,
    "familia": null,
    "laudo": null,
    "sepultamento": null,
@@ -790,7 +839,10 @@
    "codigo": "LC-0071",
    "destino": "Laboratório de DNA",
    "data_hora": "2026-10-24T12:00:00",
-   "perfil": "tecnico"
+   "perfil": "tecnico",
+   "recebido_em": "2026-10-24T14:00:00",
+   "recebido_por": "gestor",
+   "recebido_perfil": "gestor"
   },
   {
    "id_lacre": "C-0007-L2",
@@ -798,7 +850,10 @@
    "codigo": "LC-0072",
    "destino": "Toxicologia",
    "data_hora": "2026-10-24T12:00:00",
-   "perfil": "tecnico"
+   "perfil": "tecnico",
+   "recebido_em": "2026-10-24T14:00:00",
+   "recebido_por": "gestor",
+   "recebido_perfil": "gestor"
   },
   {
    "id_lacre": "C-0009-L1",
@@ -844,98 +899,98 @@
    "id": "L-C-0001",
    "corpo_id": "C-0001",
    "acao": "corpo registrado",
-   "perfil": "operador",
+   "perfil": "tecnico",
    "data_hora": "2026-10-18T08:00:00"
   },
   {
    "id": "L-C-0002",
    "corpo_id": "C-0002",
    "acao": "corpo registrado",
-   "perfil": "operador",
+   "perfil": "tecnico",
    "data_hora": "2026-10-19T08:00:00"
   },
   {
    "id": "L-C-0003",
    "corpo_id": "C-0003",
    "acao": "corpo registrado",
-   "perfil": "operador",
+   "perfil": "tecnico",
    "data_hora": "2026-10-20T08:00:00"
   },
   {
    "id": "L-C-0004",
    "corpo_id": "C-0004",
    "acao": "corpo registrado",
-   "perfil": "operador",
+   "perfil": "tecnico",
    "data_hora": "2026-10-21T08:00:00"
   },
   {
    "id": "L-C-0005",
    "corpo_id": "C-0005",
    "acao": "corpo registrado",
-   "perfil": "operador",
+   "perfil": "tecnico",
    "data_hora": "2026-10-22T08:00:00"
   },
   {
    "id": "L-C-0006",
    "corpo_id": "C-0006",
    "acao": "corpo registrado",
-   "perfil": "operador",
+   "perfil": "tecnico",
    "data_hora": "2026-10-23T08:00:00"
   },
   {
    "id": "L-C-0007",
    "corpo_id": "C-0007",
    "acao": "corpo registrado",
-   "perfil": "operador",
+   "perfil": "tecnico",
    "data_hora": "2026-10-24T08:00:00"
   },
   {
    "id": "L-C-0007-lib",
    "corpo_id": "C-0007",
    "acao": "situação: liberado",
-   "perfil": "plantonista",
+   "perfil": "tecnico",
    "data_hora": "2026-10-26T15:00:00"
   },
   {
    "id": "L-C-0008",
    "corpo_id": "C-0008",
    "acao": "corpo registrado",
-   "perfil": "operador",
+   "perfil": "tecnico",
    "data_hora": "2026-10-25T08:00:00"
   },
   {
    "id": "L-C-0009",
    "corpo_id": "C-0009",
    "acao": "corpo registrado",
-   "perfil": "operador",
+   "perfil": "tecnico",
    "data_hora": "2026-10-26T08:00:00"
   },
   {
    "id": "L-C-0010",
    "corpo_id": "C-0010",
    "acao": "corpo registrado",
-   "perfil": "operador",
+   "perfil": "tecnico",
    "data_hora": "2026-10-27T08:00:00"
   },
   {
    "id": "L-C-0011",
    "corpo_id": "C-0011",
    "acao": "corpo registrado",
-   "perfil": "operador",
+   "perfil": "tecnico",
    "data_hora": "2026-10-28T08:00:00"
   },
   {
    "id": "L-C-0011-lib",
    "corpo_id": "C-0011",
    "acao": "situação: liberado",
-   "perfil": "plantonista",
+   "perfil": "tecnico",
    "data_hora": "2026-10-30T15:00:00"
   },
   {
    "id": "L-C-0012",
    "corpo_id": "C-0012",
    "acao": "corpo registrado",
-   "perfil": "operador",
+   "perfil": "tecnico",
    "data_hora": "2026-10-29T08:00:00"
   }
  ]

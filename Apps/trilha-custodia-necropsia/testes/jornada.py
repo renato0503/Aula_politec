@@ -20,13 +20,13 @@ sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
 from jornada_lib import Jornada, aceitar_dialogo, PASTA_APPS  # noqa: E402
 
 APP = "trilha-custodia-necropsia"
-PERFIL = "plantonista"
+PERFIL = "tecnico"
 
 def jornada_tcin(j):
     j.semear()
-    j.trocar_perfil("plantonista")
+    j.trocar_perfil("tecnico")
     j.ir("#/painel")
-    j.ok("o quadro de plantão abre em colunas", j.conta(".tc-col") >= 4)
+    j.ok("o quadro das sete etapas abre em colunas", j.conta(".tc-col") == 7)
     j.ok("os cartões de corpo aparecem", j.conta(".tc-corpo") > 0)
     cid = j.avaliar("async () => (await db.list('corpos')).find(c => c.situacao === 'aguardando identificação')?.id_corpo")
     j.ir("#/corpo/" + cid)

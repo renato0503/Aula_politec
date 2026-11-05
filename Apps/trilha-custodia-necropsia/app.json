@@ -1,5 +1,5 @@
 {
-  "titulo": "TCIN · Trilha de Custódia e Identificação",
+  "titulo": "Sistema de Controle de Necropsia",
   "subtitulo": "POLITEC/MT · IML, perícias em mortos",
   "descricao": "Registro único de cada corpo, da remoção à liberação: acionamento, marcos, lacres, situação de identificação e busca. Dados fictícios.",
   "visual": {
@@ -74,29 +74,19 @@
   },
   "perfis": [
     {
-      "id": "operador",
-      "nome": "Operador do CIOP",
-      "descricao": "Recebe o acionamento e registra o corpo."
-    },
-    {
       "id": "tecnico",
-      "nome": "Técnico de necropsia",
-      "descricao": "Registra os marcos do deslocamento e os lacres."
-    },
-    {
-      "id": "plantonista",
-      "nome": "Plantonista",
-      "descricao": "Acompanha a identificação, a guarda e a liberação."
-    },
-    {
-      "id": "gestor",
-      "nome": "Gestor ADM",
-      "descricao": "Confirma o recebimento de lacres e do laudo e autoriza o sepultamento pelo Estado."
+      "nome": "Técnico",
+      "descricao": "Registra o acionamento, os marcos, os lacres e as sete etapas do caso."
     },
     {
       "id": "medico",
       "nome": "Médico Legista",
       "descricao": "Consulta o caso até a etapa 5, sem editar e sem ver família, funerária ou entrega do laudo."
+    },
+    {
+      "id": "gestor",
+      "nome": "Gestor ADM",
+      "descricao": "Confirma o recebimento de lacres e do laudo e autoriza o sepultamento pelo Estado."
     }
   ],
   "rotas": [
@@ -104,7 +94,7 @@
       "rota": "#/painel",
       "titulo": "Painel",
       "sprint": 3,
-      "descricao": "Situação dos corpos com iniciais, sem nome completo (RN05)."
+      "descricao": "Painel por perfil: quadro das sete etapas (Técnico), sala de necropsia (Médico Legista) e fila da ADM (Gestor ADM). Lista com iniciais (RN05)."
     },
     {
       "rota": "#/corpos",
@@ -118,15 +108,15 @@
       "sprint": 2,
       "descricao": "Registro com protocolo único (RN01).",
       "perfis": [
-        "operador",
-        "tecnico"
+        "tecnico",
+        "gestor"
       ]
     },
     {
       "rota": "#/corpo/:id",
       "titulo": "Corpo",
-      "sprint": 8,
-      "descricao": "Etapas 1 a 7, confirmação de lacres, liberação com assinatura, sepultamento pelo Estado e entrega do laudo (RN02, RN03, RN06 a RN09)."
+      "sprint": 9,
+      "descricao": "Etapas 1 a 7, exame complementar (DNA, odontologia legal, antropologia), decisão de sepultamento pelo Gestor ADM, funerária nos dois destinos, laudo em paralelo, encerramento com três condições e retificação (RN02, RN03, RN06 a RN12)."
     },
     {
       "rota": "#/busca",
@@ -153,5 +143,6 @@
       "seed",
       "exemplos/seed.json"
     ]
-  ]
+  ],
+  "perfilPadrao": "tecnico"
 }

@@ -750,23 +750,15 @@ def s6_produtividade_e_aceite(pg, url, ok):
 
 @cenario("trilha-custodia-necropsia")
 def s4_auto_de_entrega(pg, url, ok):
-    perfil(pg, url, "plantonista")
+    perfil(pg, url, "tecnico")
     ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(800)
     # corpo identificado e em custódia
     cid = pg.evaluate("async ()=> (await db.list('corpos')).find(c=>c.identificado && c.situacao!=='liberado').id_corpo")
     ir(pg, url, "#/corpo/" + cid, 700)
     ok("a ficha mostra o bloco do auto de entrega", pg.locator("#tcLiberacao").count() == 1)
-    pg.fill("#tcAutoResp", ""); pg.fill("#tcAutoDoc", "")
-    pg.click("#formTcAuto button[type=submit]"); pg.wait_for_timeout(600)
-    ok("sem responsável e documento, a liberação é recusada (RN02)", "responsável" in pg.inner_text("#tcErrosAuto"))
-    pg.fill("#tcAutoResp", "Familiar Fictício"); pg.fill("#tcAutoDoc", "AUTO-TESTE-1")
-    pg.click("#formTcAuto button[type=submit]"); pg.wait_for_timeout(900)
-    ok("com o auto completo, o corpo é liberado", pg.evaluate("async id => (await db.get('corpos', id)).situacao === 'liberado'", cid))
-    ok("a liberação entra na trilha do caso", pg.evaluate("async id => (await db.list('log')).some(l=>l.corpo_id===id && l.acao==='liberação registrada')", cid))
-    # corpo não identificado: bloqueado
-    cid2 = pg.evaluate("async ()=> (await db.list('corpos')).find(c=>!c.identificado).id_corpo")
-    ir(pg, url, "#/corpo/" + cid2, 700)
-    ok("corpo sem identificação tem o botão de liberar bloqueado", pg.is_disabled("#formTcAuto button[type=submit]"))
+    ok("o formulário antigo de liberação foi fechado (Sprint 9)", pg.locator("#formTcAuto").count() == 0 and pg.locator("#tcLiberacaoNaEtapa").count() == 1)
+    ok("a regra RN02 continua valendo na função", pg.evaluate("() => tcFaltaAuto({identificado: false}, {responsavel: 'X', documento: 'Y', data: 'Z'}).length === 1"))
+    ok("o corpo não foi liberado por fora da etapa 6", pg.evaluate("async id => (await db.get('corpos', id)).situacao !== 'liberado'", cid))
 
 
 @cenario("trilha-custodia-necropsia")

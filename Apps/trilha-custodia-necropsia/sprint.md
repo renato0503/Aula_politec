@@ -106,3 +106,23 @@
 - [x] Dados fictícios atualizados (etapa, agente causal, família, laudo, sepultamento e lacres recebidos).
 - [x] Cenário `s8_sete_etapas_assinatura_e_recebimento` (14/14).
 - [ ] Confirmar com o IML as regras de recebimento e de sepultamento (ver `Apps/PREMISSAS.md`).
+
+## Sprint 9 · Fluxograma da Silmara e três perfis (05/11/2026)
+
+Entrada: `entregas/2026-11-05/` (fluxograma, protótipo e `PROJETO.md` da aluna).
+
+- [x] Só três perfis: Técnico, Médico Legista e Gestor ADM (saem o Operador do CIOP e o Plantonista).
+- [x] Nome do app: Sistema de Controle de Necropsia.
+- [x] Identificação com laço de exame complementar (DNA, odontologia legal, antropologia forense) e tentativas registradas (RN11).
+- [x] Sepultamento pelo Estado só por decisão do Gestor ADM, com justificativa, número da autorização e funerária (RN09).
+- [x] Funerária e Auto de Entrega também na liberação à família.
+- [x] Laudo em paralelo a partir da etapa 5 e encerramento com destino, laudo e lacres confirmados (RN10).
+- [x] Caso encerrado travado e retificação com tipo, texto e motivo (RN12).
+- [x] Atalhos antigos de liberação (situação manual e auto do Sprint 4) fechados.
+- [x] Painéis: quadro das sete etapas (Técnico), sala de necropsia (Médico Legista) e fila da ADM (Gestor ADM).
+- [x] TO-BE em `docs/diagramas/to-be.manual.mmd`, com SVG e `processo.html` regerados.
+- [x] Cenário `s9_fluxograma_da_silmara` (21/21) e cenários antigos ajustados.
+- [ ] Confirmar com a Silmara e o IML os exames complementares, o laudo em paralelo e os tipos de retificação (ver `Apps/PREMISSAS.md`, seção 20).
+
+**Pronto quando**: `python testes/cenarios.py` passa nos sete cenários.
+

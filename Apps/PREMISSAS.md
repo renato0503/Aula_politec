@@ -208,12 +208,16 @@ passo de cada app) e o `sprint.md` de cada app (itens do Sprint 0).
 | Validar com a área responsável os campos obrigatórios e os tamanhos mínimos (RN01, RN02) | Título com 10 a 120 caracteres; objetivo com 30 a 600; justificativa com 30 a 600; valor estimado positivo; os 3 documentos obrigatórios anexados antes de enviar | `src/app.js` (RN01, RN02) | B | Os limites reais |
 | Linha de base: 4 semanas de registro | 8 propostas de exemplo, com o prazo de captação de 4 meses e a portaria de priorização em 3 faixas (prioridade, fonte de recurso e situação de captação) | store `propostas`, `portfolio` | B | Os números reais |
 
-## 20. TCIN · Trilha de Custódia (`trilha-custodia-necropsia`)
+## 20. Sistema de Controle de Necropsia (`trilha-custodia-necropsia`)
 
 | Item do Sprint 0 | Premissa assumida | Onde aparece | Nível | O que confirmar |
 |---|---|---|---|---|
-| Confirmar com a aluna e o IML o nome do projeto (CNC ou TCIN) | **TCIN** (Trilha de Custódia e Identificação), que é o nome usado no app e no repositório | título do app, `README.md` | A | A decisão final |
+| Confirmar com a aluna e o IML o nome do projeto (CNC ou TCIN) | **Sistema de Controle de Necropsia**, o nome do projeto da Silmara. A pasta e o repositório continuam `trilha-custodia-necropsia` | título do app (`app.json`), `README.md` | A | **Confirmado em 05/11/2026, pelo professor** |
 | Validar os quatro marcos e os livros que o app substitui | Os 4 marcos: Saída da base, Chegada ao local, Saída do local, Retorno ao IML. Os livros substituídos são o livro de entrada e saída e o livro de recebimento de corpos | store `marcos`, `src/app.js` (`TC_MARCOS`) | B | Os marcos e os livros reais |
+| Perfis do sistema | **Três perfis**: Técnico, Médico Legista e Gestor ADM. O Operador do CIOP e o Plantonista saíram; o acionamento passa ao Técnico e o quadro de plantão vira o quadro das sete etapas | `app.json` (`perfis`), `src/identidade.js` | A | **Confirmado em 05/11/2026, pelo professor** |
+| Exames complementares da identificação | DNA, odontologia legal e antropologia forense. Os métodos só se esgotam depois de pelo menos um exame complementar sem resultado (RN11) | `src/sprint8.js` (`TC_EXAMES_COMPL`, `tcPodeEsgotar`) | B | A lista de exames e a regra com o IML |
+| Encerramento da custódia | A custódia só se encerra com o destino do corpo, o laudo recebido pela ADM e todos os lacres recebidos (RN10). O laudo corre em paralelo a partir da etapa 5 | `src/sprint8.js` (`tcPendenciasEncerramento`) | B | Se o laudo pode ser entregue antes do destino do corpo |
+| Retificação | Caso encerrado não se edita; a correção é uma retificação com tipo, o que muda e motivo de 20 caracteres ou mais (RN12) | `src/sprint9.js` | B | Os tipos de retificação e quem pode registrar |
 | Medir a linha de base de remoção, identificação e liberação | Remoção em **4 h**, identificação em **48 h**, liberação em **72 h**. O exemplo traz 12 corpos com as 5 situações e um caso sem identificação | `exemplos/gerar_exemplos.py` (datas) | B | As três medidas |
 
 ---

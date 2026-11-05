@@ -1,0 +1,1832 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="light">
+<head><script>if(location.pathname==="/2m3xav7gyt5on5t3kbvjus2h3a")location.replace("/2m3xav7gyt5on5t3kbvjus2h3a/"+location.search+location.hash)</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sistema de Controle de Necropsia — DMML / POLITEC</title>
+<link rel="stylesheet" href="shell.css">
+<script src="shell.js"></script>
+<style>
+:root {
+--accent: #1e3a5f;
+--accent-contrast: #ffffff;
+--ok: #16a34a;
+--warn: #d97706;
+--err: #dc2626;
+--page-bg: #f5f7fa;
+}
+body { background: var(--page-bg); font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+.app-header { background: #1e3a5f; color: #ffffff; padding: 20px 0; }
+.app-header .muted { color: #cfdbea; }
+.app-header .eyebrow-pill { background: rgba(255,255,255,0.14); color: #ffffff; border-radius: 999px; padding: 3px 12px; font-size: 12px; display: inline-block; }
+.profile-select { min-width: 200px; }
+.demo-band { background: #fff7e6; color: #7c4a03; border: 1px solid #f5d28a; border-radius: 8px; padding: 6px 12px; font-size: 13px; margin-top: 12px; display: inline-block; }
+.tabs-bar { display: flex; gap: 8px; margin: 20px 0 12px; flex-wrap: wrap; }
+.tab-btn { background: #ffffff; border: 1px solid #d6dde8; border-radius: 8px; padding: 10px 18px; font-size: 14px; font-weight: 600; color: #1e3a5f; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.04); }
+.tab-btn[aria-selected="true"] { background: #1e3a5f; color: #ffffff; border-color: #1e3a5f; }
+.tab-btn:focus-visible, .kpi-card:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible, a:focus-visible { outline: 3px solid #5b8fc7; outline-offset: 2px; }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+.card-box { background: #ffffff; border-radius: 8px; box-shadow: 0 1px 3px rgba(15,30,60,0.08); padding: 18px; border: 1px solid #e3e9f1; }
+.section-title { font-size: 18px; font-weight: 700; color: #1e3a5f; margin: 0 0 4px; }
+.section-sub { font-size: 13px; color: #5b6b82; margin: 0 0 14px; }
+.kpi-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+@media (max-width: 1100px) { .kpi-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 640px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+.kpi-card { background: #ffffff; border: 2px solid #e3e9f1; border-radius: 8px; padding: 16px; cursor: pointer; transition: transform .15s ease, box-shadow .15s ease; box-shadow: 0 1px 3px rgba(15,30,60,0.06); display: flex; flex-direction: column; gap: 4px; min-height: 110px; }
+.kpi-card:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(15,30,60,0.12); }
+.kpi-card.active { border-width: 3px; border-color: #1e3a5f; }
+.kpi-num { font-size: 30px; font-weight: 800; color: #1e3a5f; line-height: 1; }
+.kpi-title { font-size: 14px; font-weight: 700; color: #1f2d3d; }
+.kpi-sub { font-size: 12px; color: #5b6b82; }
+.kpi-card.alert .kpi-num { color: var(--warn); }
+.filter-bar { display: flex; flex-wrap: wrap; gap: 10px; align-items: flex-end; margin-bottom: 12px; }
+.field { display: flex; flex-direction: column; gap: 4px; min-width: 150px; flex: 1; }
+.field label { font-size: 12px; font-weight: 600; color: #3b4a5f; }
+.field small { font-size: 11px; color: #6b7a90; }
+.input, select.input, textarea.input { border: 1px solid #c7d2e0; border-radius: 8px; padding: 8px 10px; font-size: 14px; background: #ffffff; color: #1f2d3d; font-family: inherit; width: 100%; box-sizing: border-box; }
+textarea.input { resize: vertical; }
+.input[disabled] { background: #eef2f7; color: #8a97a8; }
+.btn { border: 1px solid #1e3a5f; background: #1e3a5f; color: #ffffff; border-radius: 8px; padding: 9px 16px; font-size: 14px; font-weight: 600; cursor: pointer; transition: background .15s; }
+.btn:hover { background: #163052; }
+.btn:disabled { background: #b9c4d3; border-color: #b9c4d3; cursor: not-allowed; }
+.btn-outline { background: #ffffff; color: #1e3a5f; }
+.btn-outline:hover { background: #eef3f9; }
+.btn-ghost { background: transparent; color: #1e3a5f; border-color: transparent; }
+.btn-danger { background: #dc2626; border-color: #dc2626; }
+.btn-danger:hover { background: #b91c1c; }
+.btn-sm { padding: 6px 10px; font-size: 13px; }
+.badge { display: inline-block; font-size: 12px; font-weight: 600; border-radius: 999px; padding: 3px 10px; background: #e6ecf5; color: #1e3a5f; }
+.badge-ok { background: #dcfce7; color: #166534; }
+.badge-warn { background: #fef3c7; color: #92400e; }
+.badge-err { background: #fee2e2; color: #991b1b; }
+.badge-navy { background: #1e3a5f; color: #ffffff; }
+.seal { display: inline-block; font-size: 11px; font-weight: 800; letter-spacing: .04em; padding: 4px 10px; border-radius: 6px; margin-left: 8px; }
+.seal-amber { background: #d97706; color: #ffffff; }
+.seal-green { background: #16a34a; color: #ffffff; }
+.table-wrap { overflow-x: auto; border-radius: 8px; border: 1px solid #e3e9f1; background: #ffffff; }
+table.data { width: 100%; border-collapse: collapse; font-size: 14px; }
+table.data th { text-align: left; background: #f0f4f9; color: #3b4a5f; font-weight: 700; padding: 10px 12px; font-size: 13px; border-bottom: 1px solid #e3e9f1; }
+table.data td { padding: 10px 12px; border-bottom: 1px solid #eef2f7; color: #1f2d3d; vertical-align: middle; }
+table.data tr:last-child td { border-bottom: none; }
+.chip-filter { display: inline-flex; align-items: center; gap: 8px; background: #e6ecf5; color: #1e3a5f; border-radius: 999px; padding: 6px 8px 6px 14px; font-size: 13px; font-weight: 600; margin-bottom: 10px; }
+.chip-filter button { background: none; border: none; cursor: pointer; font-size: 16px; color: #1e3a5f; line-height: 1; padding: 0 4px; }
+.empty-state { text-align: center; padding: 30px 12px; color: #5b6b82; }
+.card-list { display: none; }
+.stepper { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 8px; }
+.step { flex: 1; min-width: 110px; border-radius: 8px; padding: 10px 8px; font-size: 12px; text-align: center; border: 1px solid #d6dde8; background: #f5f7fa; color: #6b7a90; font-weight: 600; }
+.step .num { display: block; font-size: 16px; margin-bottom: 2px; }
+.step.done { background: #16a34a; border-color: #16a34a; color: #ffffff; }
+.step.current { background: #1e3a5f; border-color: #1e3a5f; color: #ffffff; }
+.step.locked { background: #eef2f7; color: #8a97a8; }
+.step-compact { display: none; font-size: 14px; font-weight: 700; color: #1e3a5f; margin-bottom: 8px; }
+@media (max-width: 720px) { .stepper { display: none; } .step-compact { display: block; } }
+.panel-overlay { position: fixed; inset: 0; background: rgba(15,30,60,0.45); display: none; z-index: 60; }
+.panel-overlay.open { display: block; }
+.side-panel { position: fixed; top: 0; right: 0; height: 100%; width: min(900px, 100%); background: #f5f7fa; box-shadow: -8px 0 24px rgba(0,0,0,0.2); transform: translateX(100%); transition: transform .25s ease; z-index: 61; display: flex; flex-direction: column; }
+.side-panel.open { transform: translateX(0); }
+.panel-head { background: #1e3a5f; color: #ffffff; padding: 16px 20px; display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+.panel-head .muted { color: #cfdbea; font-size: 13px; }
+.panel-body { overflow-y: auto; padding: 18px; flex: 1; }
+.block { background: #ffffff; border: 1px solid #e3e9f1; border-radius: 8px; padding: 16px; margin-bottom: 14px; box-shadow: 0 1px 2px rgba(15,30,60,0.04); }
+.block h3 { margin: 0 0 4px; font-size: 16px; color: #1e3a5f; }
+.block .block-sub { font-size: 13px; color: #5b6b82; margin: 0 0 12px; }
+.block.locked-block { opacity: .6; }
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
+@media (max-width: 640px) { .grid-2, .grid-3 { grid-template-columns: 1fr; } }
+.full { grid-column: 1 / -1; }
+.alert-amber { background: #fef3c7; color: #7c4a03; border: 1px solid #f5d28a; border-radius: 8px; padding: 10px 12px; font-size: 13px; margin: 10px 0; }
+.alert-red { background: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; border-radius: 8px; padding: 10px 12px; font-size: 13px; margin: 10px 0; }
+.alert-blue { background: #e8f0fa; color: #1e3a5f; border: 1px solid #bcd0ea; border-radius: 8px; padding: 10px 12px; font-size: 13px; margin: 10px 0; }
+.alert-info { background: #eef4fb; color: #1e3a5f; border: 1px solid #cfdcec; border-radius: 8px; padding: 10px 12px; font-size: 13px; margin: 10px 0; }
+.note { font-size: 12px; color: #6b7a90; margin-top: 4px; }
+.readonly-val { white-space: pre-wrap; background: #f7f9fc; border-radius: 8px; padding: 8px 10px; font-size: 14px; color: #1f2d3d; min-height: 36px; border: 1px solid #eef2f7; }
+.progress-wrap { height: 6px; background: #e3e9f1; border-radius: 999px; overflow: hidden; margin: 6px 0 10px; }
+.progress-fill { height: 100%; background: #16a34a; border-radius: 999px; transition: width .2s; }
+.material { border: 1px solid #e3e9f1; border-radius: 8px; padding: 12px; margin-bottom: 10px; background: #fbfcfe; }
+.material-head { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-bottom: 8px; }
+.material .row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+.photos { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+.thumb { width: 110px; height: 80px; border-radius: 8px; object-fit: cover; cursor: zoom-in; border: 1px solid #d6dde8; }
+.lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.9); display: none; align-items: center; justify-content: center; z-index: 80; flex-direction: column; gap: 12px; padding: 20px; }
+.lightbox.open { display: flex; }
+.lightbox img { max-width: 100%; max-height: 80vh; border-radius: 8px; }
+.modal { position: fixed; inset: 0; background: rgba(15,30,60,0.5); display: none; align-items: center; justify-content: center; z-index: 90; padding: 16px; }
+.modal.open { display: flex; }
+.modal-box { background: #ffffff; border-radius: 8px; width: min(640px, 100%); max-height: 92vh; overflow-y: auto; padding: 20px; box-shadow: 0 16px 40px rgba(0,0,0,0.25); }
+.modal-box.fullscreen { width: 100vw; height: 100vh; max-height: 100vh; border-radius: 0; display: flex; flex-direction: column; }
+.sig-canvas-wrap { flex: 1; display: flex; flex-direction: column; gap: 10px; }
+#sigCanvas { width: 100%; height: 300px; background: #ffffff; border: 2px dashed #9fb2cc; border-radius: 8px; touch-action: none; }
+.sig-img { max-width: 320px; height: 100px; border: 1px solid #d6dde8; border-radius: 8px; background: #ffffff; object-fit: contain; display: block; margin-bottom: 6px; }
+.file-thumb { display: flex; align-items: center; gap: 10px; border: 1px solid #d6dde8; border-radius: 8px; padding: 8px; background: #fbfcfe; margin-top: 8px; font-size: 13px; }
+.file-thumb img { width: 56px; height: 56px; object-fit: cover; border-radius: 6px; }
+.toast-area { position: fixed; bottom: 18px; right: 18px; display: flex; flex-direction: column; gap: 8px; z-index: 120; }
+.toast { background: #1e3a5f; color: #ffffff; border-radius: 8px; padding: 10px 14px; font-size: 14px; box-shadow: 0 6px 18px rgba(0,0,0,0.25); max-width: 340px; }
+.toast.ok { background: #166534; }
+.toast.err { background: #991b1b; }
+.timeline { list-style: none; padding: 0; margin: 0; }
+.timeline li { border-left: 3px solid #1e3a5f; padding: 8px 12px; margin-bottom: 8px; background: #f7f9fc; border-radius: 0 8px 8px 0; font-size: 13px; }
+.timeline .when { font-weight: 700; color: #1e3a5f; }
+.timeline .who { color: #5b6b82; font-size: 12px; }
+.summary-card { background: #e8f0fa; border: 2px solid #1e3a5f; border-radius: 8px; padding: 16px; margin-bottom: 14px; }
+.summary-card h3 { margin: 0 0 10px; color: #1e3a5f; font-size: 16px; }
+.summary-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; font-size: 13px; }
+@media (max-width: 720px) { .summary-grid { grid-template-columns: 1fr 1fr; } }
+.summary-grid b { color: #1e3a5f; display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .03em; }
+.role-banner { background: #e8f0fa; border: 1px solid #9fbbe0; color: #1e3a5f; border-radius: 8px; padding: 10px 14px; font-size: 14px; display: flex; gap: 8px; align-items: center; margin-bottom: 14px; }
+.hint-locked { font-size: 12px; color: #6b7a90; }
+.sum-table td, .sum-table th { text-align: center; }
+.sum-table td:first-child, .sum-table th:first-child { text-align: left; }
+.sum-total td { font-weight: 800; background: #f0f4f9; }
+.footer-line { text-align: center; font-size: 12px; color: #6b7a90; padding: 24px 0 8px; }
+@media (max-width: 720px) {
+.table-wrap table.data { display: none; }
+.card-list { display: flex; flex-direction: column; gap: 10px; }
+.case-card { background: #ffffff; border: 1px solid #e3e9f1; border-radius: 8px; padding: 12px; }
+.case-card .top { display: flex; justify-content: space-between; gap: 8px; align-items: flex-start; }
+.case-card .meta { font-size: 13px; color: #5b6b82; margin: 6px 0; }
+}
+@media (min-width: 721px) { .card-list { display: none !important; } }
+.check-row { display: flex; align-items: center; gap: 8px; font-size: 14px; }
+.check-row input[type="checkbox"] { width: 18px; height: 18px; }
+.action-row { display: flex; justify-content: flex-end; gap: 10px; margin-top: 12px; flex-wrap: wrap; }
+.hidden-field { display: none !important; }
+.kpi-helper { font-size: 12px; color: #5b6b82; margin-top: 12px; }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+<div class="shell-container">
+<div class="row between items-center" style="flex-wrap: wrap; gap: 14px;">
+<div>
+<span class="eyebrow-pill">Protótipo — dados de exemplo</span>
+<h1 class="text-2xl font-bold m-0" style="margin-top:8px;">Sistema de Controle de Necropsia</h1>
+<p class="muted text-sm m-0 mt-1">Gerência de Necropsia — DMML / POLITEC</p>
+</div>
+<div class="field" style="min-width:220px; flex:0;">
+<label for="profileSelect" style="color:#ffffff;">Perfil de acesso</label>
+<select id="profileSelect" class="input profile-select" data-action="change-profile">
+<option value="tecnico" selected>Técnico</option>
+<option value="medico">Médico Legista</option>
+<option value="gestor">Gestor ADM</option>
+</select>
+</div>
+</div>
+<div class="demo-band">Protótipo — dados de exemplo</div>
+</div>
+</header>
+
+<main class="shell-container" style="padding-top: 8px;">
+<div class="tabs-bar" role="tablist">
+<button class="tab-btn" role="tab" aria-selected="true" data-action="tab" data-tab="painel">Painel</button>
+<button class="tab-btn" role="tab" aria-selected="false" data-action="tab" data-tab="corpos">Corpos</button>
+<button class="tab-btn" role="tab" aria-selected="false" data-action="tab" data-tab="resumo">Resumo</button>
+</div>
+
+<section id="tab-painel" class="tab-panel active" aria-label="Painel">
+<div class="card-box">
+<h2 class="section-title">Painel de situação</h2>
+<p class="section-sub">Clique em um indicador para ver os casos correspondentes na aba Corpos.</p>
+<div class="kpi-grid" id="kpiGrid"></div>
+<p class="kpi-helper">Os números são calculados a partir dos registros em tempo real.</p>
+</div>
+</section>
+
+<section id="tab-corpos" class="tab-panel" aria-label="Corpos">
+<div class="card-box">
+<h2 class="section-title">Corpos registrados</h2>
+<p class="section-sub">Busque por protocolo ou nome, filtre por status e período.</p>
+<div class="filter-bar">
+<div class="field" style="flex:2;">
+<label for="searchInput">Buscar</label>
+<input id="searchInput" class="input" type="text" placeholder="Protocolo ou nome" data-action="filter-change">
+<small>Digite o protocolo (ex.: 000125/2026) ou o nome.</small>
+</div>
+<div class="field">
+<label for="statusSelect">Status</label>
+<select id="statusSelect" class="input" data-action="filter-change"></select>
+</div>
+<div class="field">
+<label for="dateFrom">De</label>
+<input id="dateFrom" class="input" type="date" data-action="filter-change">
+</div>
+<div class="field">
+<label for="dateTo">Até</label>
+<input id="dateTo" class="input" type="date" data-action="filter-change">
+</div>
+<div class="field" style="flex:0; min-width:auto;">
+<label>&nbsp;</label>
+<button class="btn btn-outline" data-action="clear-filters">Limpar filtros</button>
+</div>
+</div>
+<div id="activeChipWrap"></div>
+<p class="note" id="countText"></p>
+<div class="table-wrap" style="margin-top:8px;">
+<table class="data">
+<thead>
+<tr>
+<th>Protocolo</th>
+<th>Data entrada</th>
+<th>Nome / Possível vítima</th>
+<th>Agente causal</th>
+<th>Status</th>
+<th>Etapa</th>
+<th>Ações</th>
+</tr>
+</thead>
+<tbody id="casesTbody"></tbody>
+</table>
+</div>
+<div class="card-list" id="casesCards"></div>
+<div id="emptyWrap"></div>
+</div>
+</section>
+
+<section id="tab-resumo" class="tab-panel" aria-label="Resumo">
+<div class="card-box">
+<h2 class="section-title">Resumo por agente causal</h2>
+<p class="section-sub">Distribuição dos corpos e situação administrativa por agente causal.</p>
+<div class="table-wrap">
+<table class="data sum-table">
+<thead>
+<tr>
+<th>Agente causal</th>
+<th>Total de corpos</th>
+<th>Liberado para a família</th>
+<th>Sepultados pelo Estado</th>
+<th>Aguardando identificação</th>
+<th>Identificados mas não reclamados</th>
+<th>Custódia finalizada</th>
+</tr>
+</thead>
+<tbody id="summaryTbody"></tbody>
+</table>
+</div>
+</div>
+</section>
+
+<div class="footer-line shell-footer">Sistema de Controle de Necropsia · Gerência de Necropsia — DMML / POLITEC · Protótipo com dados de exemplo</div>
+</main>
+
+<div class="panel-overlay" id="panelOverlay" data-action="close-panel"></div>
+<aside class="side-panel" id="sidePanel" aria-hidden="true" role="dialog" aria-label="Detalhes do caso">
+<div class="panel-head">
+<div>
+<div id="panelTitle" style="font-size:18px;font-weight:800;"></div>
+<div id="panelSub" class="muted"></div>
+<div id="panelSeals" style="margin-top:6px;"></div>
+</div>
+<button class="btn btn-outline btn-sm" data-action="close-panel" aria-label="Fechar detalhes">Fechar ×</button>
+</div>
+<div class="panel-body" id="panelBody"></div>
+</aside>
+
+<div class="lightbox" id="lightbox" data-action="close-lightbox">
+<img id="lightboxImg" alt="Foto ampliada">
+<button class="btn btn-outline" data-action="close-lightbox">Fechar</button>
+</div>
+
+<div class="modal" id="sigModal">
+<div class="modal-box fullscreen" style="padding:16px;">
+<h3 class="section-title" style="margin-bottom:4px;">Assinatura digital</h3>
+<p class="section-sub">Assine no campo abaixo com o dedo ou mouse. Limpe e refaça se necessário.</p>
+<div class="sig-canvas-wrap" id="sigWrap" style="flex:1;"></div>
+<div class="action-row">
+<button class="btn btn-outline" data-action="sig-clear">Limpar</button>
+<button class="btn btn-outline" data-action="sig-cancel">Cancelar</button>
+<button class="btn" data-action="sig-confirm">Confirmar assinatura</button>
+</div>
+</div>
+</div>
+
+<div class="modal" id="justModal">
+<div class="modal-box">
+<h3 class="section-title">Encaminhar para sepultamento pelo Estado</h3>
+<p class="section-sub">Esta ação encerra a etapa de identificação sem confirmação de identidade. O corpo seguirá para a funerária e depois para sepultamento pelo Estado. Deseja continuar?</p>
+<div class="field">
+<label for="justText">Justificativa *</label>
+<textarea id="justText" class="input" rows="4" placeholder="Ex.: Busca por familiares e métodos de identificação esgotados após 30 dias."></textarea>
+<small>Mínimo de 20 caracteres.</small>
+</div>
+<div class="action-row">
+<button class="btn btn-outline" data-action="just-cancel">Cancelar</button>
+<button class="btn btn-danger" data-action="just-confirm">Confirmar encaminhamento</button>
+</div>
+</div>
+</div>
+
+<div class="toast-area" id="toastArea"></div>
+
+<script>
+(function () {
+"use strict";
+
+const STAGES = [
+"Acionamento",
+"Ocorrência em andamento",
+"Aguardando necropsia",
+"Necropsia em andamento",
+"Identificação",
+"Família e liberação",
+"Entrega de laudo para ADM"
+];
+
+const STATUSES = [
+"Ocorrência em andamento",
+"Aguardando necropsia",
+"Necropsia em andamento",
+"Necropsia concluída",
+"Aguardando identificação",
+"Não identificado",
+"Identificado",
+"Aguardando família",
+"Não reclamado",
+"Aguardando funerária",
+"Entregue à funerária",
+"Entrega de laudo para ADM",
+"Custódia finalizada"
+];
+
+const KPIS = [
+{ key: "todos", title: "Casos totais", sub: "todos os registros", status: null },
+{ key: "Ocorrência em andamento", title: "Ocorrência em andamento", sub: "em campo", status: "Ocorrência em andamento" },
+{ key: "Aguardando necropsia", title: "Aguardando necropsia", sub: "na fila da base", status: "Aguardando necropsia" },
+{ key: "Necropsia em andamento", title: "Necropsia em andamento", sub: "bancada ativa", status: "Necropsia em andamento" },
+{ key: "Aguardando identificação", title: "Aguardando identificação", sub: "sem nome confirmado", status: "Aguardando identificação" },
+{ key: "Aguardando família", title: "Aguardando família", sub: "para liberação", status: "Aguardando família" },
+{ key: "Aguardando funerária", title: "Aguardando funerária", sub: "retirada pendente", status: "Aguardando funerária" },
+{ key: "Sepultado pelo Estado", title: "Sepultados pelo Estado", sub: "sepultamento público", status: "Sepultado pelo Estado" },
+{ key: "Custódia finalizada", title: "Custódia finalizada", sub: "casos encerrados", status: "Custódia finalizada" },
+{ key: "lacres", title: "Lacres pendentes de recebimento", sub: "aguardando ADM", status: null, special: true }
+];
+
+const ALL_FILTER_STATUSES = STATUSES.concat(["Sepultado pelo Estado"]);
+
+const MATERIAIS_BASE = [
+{ id: "sangue", nome: "Sangue" },
+{ id: "bio", nome: "Material biológico" },
+{ id: "projetil", nome: "Projétil" },
+{ id: "pertences", nome: "Pertences" }
+];
+
+function makeMateriais(overrides) {
+return MATERIAIS_BASE.map(function (m) {
+const o = (overrides && overrides[m.id]) || {};
+return {
+id: m.id,
+nome: m.nome,
+coletado: o.coletado || "Não",
+lacre: o.lacre || "",
+recebidoAdm: o.recebidoAdm || false,
+recebidoEm: o.recebidoEm || "",
+recebidoPor: o.recebidoPor || ""
+};
+});
+}
+
+function hist(when, who, text) { return { when: when, who: who, text: text }; }
+
+let cases = [
+{
+id: "000123/2026", protocolo: "000123/2026", entrada: "2026-03-02", nome: "NÃO IDENTIFICADO",
+status: "Ocorrência em andamento", concluido: false, etapa: 2,
+acionamento: { horario: "07:40", numero: "NEC-2026-0123" },
+ocorrencia: { chegada: "2026-03-02T08:15", delegacia: "77ª DP — Vila Nova", autoridade: "Dr. Henrique Matos", agente: "Indeterminada", endereco: "Rua das Acácias, s/n — margem da rodovia", municipio: "Cachoeirinha", uf: "PE", possivelNome: "", filiacao: "", nascimento: "", idade: "38", sexo: "M", fonte: "Policiamento rodoviário", documento: "Não encontrado", telefone: "", observacoes: "Corpo encontrado em valeta, sem documentos.\nCondição de acesso difícil, chuva forte no local.", fotosDoc: [], fotosCena: ["https://img.usecurling.com/p/400/300?q=crime%20scene%20road&color=gray"] },
+historico: [hist("02/03/2026 08:20", "Técnico Marcos Oliveira", "Ocorrência registrada e acionamento confirmado."), hist("02/03/2026 07:40", "Central de plantão", "Caso acionado pela Polícia Rodoviária.")],
+materiais: makeMateriais(), identificacao: {}, familia: {}, funeraria: {}, laudo: {}
+},
+{
+id: "000124/2026", protocolo: "000124/2026", entrada: "2026-03-04", nome: "NÃO IDENTIFICADO",
+status: "Ocorrência em andamento", concluido: false, etapa: 2,
+acionamento: { horario: "21:10", numero: "NEC-2026-0124" },
+ocorrencia: { chegada: "2026-03-04T22:05", delegacia: "3ª DP — Centro", autoridade: "Dra. Patrícia Leal", agente: "Acidente de trânsito", endereco: "Av. Presidente Kennedy, 1.820", municipio: "Recife", uf: "PE", possivelNome: "", filiacao: "", nascimento: "", idade: "45", sexo: "M", fonte: "Bombeiros", documento: "Não encontrado", telefone: "", observacoes: "Colisão com veículo de grande porte.\nVítima sem identificação no local.", fotosDoc: [], fotosCena: ["https://img.usecurling.com/p/400/300?q=traffic%20accident%20night&color=gray"] },
+historico: [hist("04/03/2026 22:10", "Técnico Marcos Oliveira", "Acionamento recebido dos Bombeiros."), hist("04/03/2026 21:10", "Central de plantão", "Caso registrado para atendimento.")],
+materiais: makeMateriais(), identificacao: {}, familia: {}, funeraria: {}, laudo: {}
+},
+{
+id: "000125/2026", protocolo: "000125/2026", entrada: "2026-03-05", nome: "Ricardo Almeida (possível)",
+status: "Aguardando necropsia", concluido: false, etapa: 3,
+acionamento: { horario: "10:05", numero: "NEC-2026-0125" },
+ocorrencia: { chegada: "2026-03-05T10:50", delegacia: "9ª DP — Jardim Ipê", autoridade: "Dr. Ronaldo Freire", agente: "Homicídio", endereco: "Rua Sete de Setembro, 455", municipio: "Olinda", uf: "PE", possivelNome: "Ricardo Almeida", filiacao: "Maria Almeida / José Almeida", nascimento: "1979-06-12", idade: "46", sexo: "M", fonte: "Carteira de trabalho no local", documento: "Carteira de trabalho (parcial)", telefone: "(81) 99812-4470", observacoes: "Vítima com ferimentos por arma de fogo.\nFamiliar informou possível identidade.", fotosDoc: ["https://img.usecurling.com/p/400/300?q=identity%20card%20document&color=gray"], fotosCena: ["https://img.usecurling.com/p/400/300?q=crime%20scene%20house&color=gray"] },
+historico: [hist("05/03/2026 11:30", "Técnico Marcos Oliveira", "Corpo transferido para câmara fria da base."), hist("05/03/2026 10:50", "Técnico Marcos Oliveira", "Ocorrência registrada e possível vítima informada."), hist("05/03/2026 10:05", "Central de plantão", "Caso acionado pela Delegacia de Olinda.")],
+materiais: makeMateriais(), identificacao: {}, familia: {}, funeraria: {}, laudo: {},
+camara: "Câmara 2", gaveta: "G-07", estadoCorpo: "Conservado", lacreCorpo: "LC-88210", confirmadoEntrada: true
+},
+{
+id: "000126/2026", protocolo: "000126/2026", entrada: "2026-03-06", nome: "NÃO IDENTIFICADO",
+status: "Aguardando necropsia", concluido: false, etapa: 3,
+acionamento: { horario: "14:20", numero: "NEC-2026-0126" },
+ocorrencia: { chegada: "2026-03-06T15:10", delegacia: "Capitania dos Portos", autoridade: "Cap. Lúcio Barros", agente: "Afogamento", endereco: "Praia de Piedade, orla sul", municipio: "Jaboatão dos Guararapes", uf: "PE", possivelNome: "", filiacao: "", nascimento: "", idade: "30", sexo: "M", fonte: "Salva-vidas", documento: "Não encontrado", telefone: "", observacoes: "Corpo recolhido pela maré.\nSem sinais de violência aparente, aguardando exame.", fotosDoc: [], fotosCena: ["https://img.usecurling.com/p/400/300?q=beach%20rescue%20sea&color=gray"] },
+historico: [hist("06/03/2026 15:30", "Técnico Marcos Oliveira", "Corpo acondicionado para câmara fria."), hist("06/03/2026 15:10", "Técnico Marcos Oliveira", "Ocorrência registrada no local."), hist("06/03/2026 14:20", "Central de plantão", "Caso acionado pela Capitania dos Portos.")],
+materiais: makeMateriais(), identificacao: {}, familia: {}, funeraria: {}, laudo: {},
+camara: "Câmara 1", gaveta: "G-03", estadoCorpo: "Putrefeito", lacreCorpo: "LC-88214", confirmadoEntrada: true
+},
+{
+id: "000127/2026", protocolo: "000127/2026", entrada: "2026-03-08", nome: "Desconhecido (possível)",
+status: "Necropsia em andamento", concluido: false, etapa: 4,
+acionamento: { horario: "06:45", numero: "NEC-2026-0127" },
+ocorrencia: { chegada: "2026-03-08T07:30", delegacia: "4ª DP — Boa Viagem", autoridade: "Dra. Fernanda Lima", agente: "Homicídio", endereco: "Rua dos Navegantes, 88", municipio: "Recife", uf: "PE", possivelNome: "Desconhecido", filiacao: "", nascimento: "", idade: "34", sexo: "M", fonte: "Vizinhança", documento: "Não encontrado", telefone: "", observacoes: "Ferimentos múltiplos por instrumento perfurocortante.\nAguardando laudo preliminar da perícia.", fotosDoc: [], fotosCena: ["https://img.usecurling.com/p/400/300?q=crime%20scene%20tape&color=gray"] },
+historico: [hist("08/03/2026 14:00", "Médico Legista Dr. Eduardo Prado", "Necropsia iniciada na bancada 3."), hist("08/03/2026 11:30", "Técnico Marcos Oliveira", "Corpo liberado da câmara fria para necropsia."), hist("08/03/2026 07:30", "Técnico Marcos Oliveira", "Ocorrência registrada.")],
+materiais: makeMateriais({
+sangue: { coletado: "Sim", lacre: "LA-44101", recebidoAdm: true, recebidoEm: "09/03/2026 09:10", recebidoPor: "Gestor ADM Paulo Serrano" },
+bio: { coletado: "Sim", lacre: "LA-44102", recebidoAdm: true, recebidoEm: "09/03/2026 09:12", recebidoPor: "Gestor ADM Paulo Serrano" },
+projetil: { coletado: "Sim", lacre: "LA-44103", recebidoAdm: false },
+pertences: { coletado: "Sim", lacre: "LA-44104", recebidoAdm: false }
+}),
+identificacao: {}, familia: {}, funeraria: {}, laudo: {},
+camara: "Câmara 2", gaveta: "G-11", estadoCorpo: "Conservado", lacreCorpo: "LC-88230", confirmadoEntrada: true,
+necropsia: { medico: "Dr. Eduardo Prado", tecnico: "Marcos Oliveira", odonto: "Dra. Helena Tavares", inicio: "14:00", termino: "" }
+},
+{
+id: "000128/2026", protocolo: "000128/2026", entrada: "2026-03-10", nome: "NÃO IDENTIFICADO",
+status: "Aguardando identificação", concluido: false, etapa: 5,
+acionamento: { horario: "18:30", numero: "NEC-2026-0128" },
+ocorrencia: { chegada: "2026-03-10T19:15", delegacia: "1ª DP — Santo Antônio", autoridade: "Dr. Carlos Ventura", agente: "Indeterminada", endereco: "Estrada do Engenho, km 4", municipio: "Paulista", uf: "PE", possivelNome: "", filiacao: "", nascimento: "", idade: "55", sexo: "M", fonte: "Morador local", documento: "Não encontrado", telefone: "", observacoes: "Corpo em avançado estado de decomposição.\nSem objetos pessoais no local.", fotosDoc: [], fotosCena: [] },
+historico: [hist("12/03/2026 09:00", "Médico Legista Dr. Eduardo Prado", "Necropsia concluída, laudo preliminar emitido."), hist("10/03/2026 19:15", "Técnico Marcos Oliveira", "Ocorrência registrada."), hist("10/03/2026 18:30", "Central de plantão", "Caso acionado.")],
+materiais: makeMateriais({
+sangue: { coletado: "Sim", lacre: "LA-44150", recebidoAdm: true, recebidoEm: "12/03/2026 10:00", recebidoPor: "Gestor ADM Paulo Serrano" },
+bio: { coletado: "Não" }, projetil: { coletado: "Não" }, pertences: { coletado: "Não" }
+}),
+identificacao: { resultado: "identificado", metodo: "Necropapiloscopia", nomeConfirmado: "", responsavel: "", dataConfirmacao: "", busca: { inicio: "", prazo: 30, resultado: "" }, autorizacao: { numero: "", data: "", local: "" }, sepultamentoConfirmado: false },
+familia: {}, funeraria: {}, laudo: {}, decisaoAdm: false,
+camara: "Câmara 1", gaveta: "G-05", estadoCorpo: "Putrefeito", lacreCorpo: "LC-88241", confirmadoEntrada: true,
+necropsia: { medico: "Dr. Eduardo Prado", tecnico: "Marcos Oliveira", odonto: "Dra. Helena Tavares", inicio: "09:30", termino: "12:10" }
+},
+{
+id: "000129/2026", protocolo: "000129/2026", entrada: "2026-03-11", nome: "Juliana Martins",
+status: "Aguardando família", concluido: false, etapa: 6,
+acionamento: { horario: "08:00", numero: "NEC-2026-0129" },
+ocorrencia: { chegada: "2026-03-11T08:40", delegacia: "5ª DP — Casa Amarela", autoridade: "Dra. Renata Vieira", agente: "Suicídio", endereco: "Rua Doutor José Maria, 210", municipio: "Recife", uf: "PE", possivelNome: "Juliana Martins", filiacao: "Clara Martins", nascimento: "1992-02-20", idade: "34", sexo: "F", fonte: "Documento no local", documento: "RG apresentado", telefone: "(81) 98877-1203", observacoes: "Identificação confirmada por documento.\nFamiliar responsável comparecerá para retirada.", fotosDoc: ["https://img.usecurling.com/p/400/300?q=identity%20card%20document&color=gray"], fotosCena: [] },
+historico: [hist("13/03/2026 14:00", "Técnico Marcos Oliveira", "Identificação confirmada por necropapiloscopia."), hist("12/03/2026 10:30", "Médico Legista Dr. Eduardo Prado", "Necropsia concluída."), hist("11/03/2026 08:40", "Técnico Marcos Oliveira", "Ocorrência registrada.")],
+materiais: makeMateriais({
+sangue: { coletado: "Sim", lacre: "LA-44160", recebidoAdm: true, recebidoEm: "12/03/2026 11:20", recebidoPor: "Gestor ADM Paulo Serrano" },
+bio: { coletado: "Não" }, projetil: { coletado: "Não" }, pertences: { coletado: "Sim", lacre: "LA-44161", recebidoAdm: true, recebidoEm: "12/03/2026 11:22", recebidoPor: "Gestor ADM Paulo Serrano" }
+}),
+identificacao: { resultado: "identificado", metodo: "Necropapiloscopia", nomeConfirmado: "Juliana Martins", responsavel: "Técnico Marcos Oliveira", dataConfirmacao: "2026-03-13", busca: {}, autorizacao: {}, sepultamentoConfirmado: false },
+familia: { tipo: "familiar", nome: "", parentesco: "", documento: "", telefone: "", dataLiberacao: "", assinatura: "", busca: {}, autorizacao: {} },
+funeraria: {}, laudo: {}, decisaoAdm: false,
+camara: "Câmara 1", gaveta: "G-02", estadoCorpo: "Conservado", lacreCorpo: "LC-88255", confirmadoEntrada: true,
+necropsia: { medico: "Dr. Eduardo Prado", tecnico: "Marcos Oliveira", odonto: "Dra. Helena Tavares", inicio: "09:00", termino: "12:00" }
+},
+{
+id: "000130/2026", protocolo: "000130/2026", entrada: "2026-03-12", nome: "Paulo Ribeiro",
+status: "Sepultado pelo Estado", concluido: false, etapa: 6, sepultadoEstado: true,
+acionamento: { horario: "11:00", numero: "NEC-2026-0130" },
+ocorrencia: { chegada: "2026-03-12T11:45", delegacia: "2ª DP — Boa Vista", autoridade: "Dr. Marcelo Gomes", agente: "Homicídio", endereco: "Av. Conde da Boa Vista, 900", municipio: "Recife", uf: "PE", possivelNome: "Paulo Ribeiro", filiacao: "Antônio Ribeiro", nascimento: "1968-09-03", idade: "57", sexo: "M", fonte: "Policial militar", documento: "Não encontrado", telefone: "", observacoes: "Identidade informada por vizinho, sem confirmação documental.\nFamiliares não localizados.", fotosDoc: [], fotosCena: ["https://img.usecurling.com/p/400/300?q=city%20street%20night&color=gray"] },
+historico: [
+hist("20/03/2026 16:00", "Técnico Marcos Oliveira", "Sepultamento pelo Estado registrado — funerária Funerária Memorial Bandeirantes, Auto de Entrega AE-20877, autorização SE-5531 de 19/03/2026. Local: Cemitério Municipal Vila Nova Cachoeirinha."),
+hist("19/03/2026 10:00", "Gestor ADM Paulo Serrano", "Busca por familiares encerrada sem êxito. Autorização de sepultamento emitida."),
+hist("13/03/2026 09:00", "Técnico Marcos Oliveira", "Necropsia concluída. Familiar não localizado.")
+],
+materiais: makeMateriais({
+sangue: { coletado: "Sim", lacre: "LA-44170", recebidoAdm: true, recebidoEm: "13/03/2026 09:30", recebidoPor: "Gestor ADM Paulo Serrano" },
+bio: { coletado: "Não" }, projetil: { coletado: "Sim", lacre: "LA-44171", recebidoAdm: true, recebidoEm: "13/03/2026 09:32", recebidoPor: "Gestor ADM Paulo Serrano" }, pertences: { coletado: "Não" }
+}),
+identificacao: { resultado: "identificado", metodo: "Necropapiloscopia", nomeConfirmado: "Paulo Ribeiro", responsavel: "Técnico Marcos Oliveira", dataConfirmacao: "2026-03-14", busca: {}, autorizacao: {}, sepultamentoConfirmado: false },
+familia: { tipo: "semFamiliar", busca: { inicio: "2026-03-14", prazo: 30, resultado: "Sem êxito" }, autorizacao: { numero: "SE-5531", data: "2026-03-19", local: "Cemitério Municipal Vila Nova Cachoeirinha" } },
+funeraria: { destino: "estado", nome: "Funerária Memorial Bandeirantes", auto: "AE-20877", dataEntrega: "2026-03-20", horaEntrega: "15:20", autorizacao: "SE-5531", dataAutorizacao: "2026-03-19", local: "Cemitério Municipal Vila Nova Cachoeirinha", scanner: "" },
+laudo: {}, decisaoAdm: false,
+camara: "Câmara 2", gaveta: "G-09", estadoCorpo: "Conservado", lacreCorpo: "LC-88270", confirmadoEntrada: true,
+necropsia: { medico: "Dr. Eduardo Prado", tecnico: "Marcos Oliveira", odonto: "Dra. Helena Tavares", inicio: "09:00", termino: "11:40" }
+},
+{
+id: "000131/2026", protocolo: "000131/2026", entrada: "2026-03-14", nome: "Marcelo Duarte",
+status: "Entrega de laudo para ADM", concluido: false, etapa: 7,
+acionamento: { horario: "07:10", numero: "NEC-2026-0131" },
+ocorrencia: { chegada: "2026-03-14T07:50", delegacia: "6ª DP — Imbiribeira", autoridade: "Dr. Jorge Teles", agente: "Acidente de trânsito", endereco: "BR-101, km 62", municipio: "Cabo de Santo Agostinho", uf: "PE", possivelNome: "Marcelo Duarte", filiacao: "Lúcia Duarte", nascimento: "1984-11-05", idade: "41", sexo: "M", fonte: "Polícia Rodoviária Federal", documento: "CNH", telefone: "(81) 99650-2281", observacoes: "Colisão frontal entre veículos.\nIdentificação confirmada pela CNH.", fotosDoc: ["https://img.usecurling.com/p/400/300?q=driving%20license%20card&color=gray"], fotosCena: ["https://img.usecurling.com/p/400/300?q=highway%20crash%20car&color=gray"] },
+historico: [hist("17/03/2026 15:00", "Técnico Marcos Oliveira", "Entrega ao familiar confirmada — funerária ação pendente."), hist("16/03/2026 10:00", "Médico Legista Dr. Eduardo Prado", "Necropsia concluída."), hist("14/03/2026 07:50", "Técnico Marcos Oliveira", "Ocorrência registrada.")],
+materiais: makeMateriais({
+sangue: { coletado: "Sim", lacre: "LA-44180", recebidoAdm: true, recebidoEm: "16/03/2026 11:00", recebidoPor: "Gestor ADM Paulo Serrano" },
+bio: { coletado: "Sim", lacre: "LA-44181", recebidoAdm: true, recebidoEm: "16/03/2026 11:02", recebidoPor: "Gestor ADM Paulo Serrano" },
+projetil: { coletado: "Não" }, pertences: { coletado: "Sim", lacre: "LA-44182", recebidoAdm: true, recebidoEm: "16/03/2026 11:04", recebidoPor: "Gestor ADM Paulo Serrano" }
+}),
+identificacao: { resultado: "identificado", metodo: "Necropapiloscopia", nomeConfirmado: "Marcelo Duarte", responsavel: "Técnico Marcos Oliveira", dataConfirmacao: "2026-03-15", busca: {}, autorizacao: {}, sepultamentoConfirmado: false },
+familia: { tipo: "familiar", nome: "Lúcia Duarte", parentesco: "Mãe", documento: "RG 12.998.330-1", telefone: "(81) 99650-2281", dataLiberacao: "2026-03-17", assinatura: "", busca: {}, autorizacao: {} },
+funeraria: { destino: "familia", nome: "Funerária São Judas Tadeu", auto: "AE-20901", dataEntrega: "2026-03-18", horaEntrega: "10:30", scanner: "" },
+laudo: { entregueResp: "", recebeuNome: "", recebeuData: "", assinatura: "", confirmadoAdm: false }, decisaoAdm: false,
+camara: "Câmara 1", gaveta: "G-04", estadoCorpo: "Conservado", lacreCorpo: "LC-88290", confirmadoEntrada: true,
+necropsia: { medico: "Dr. Eduardo Prado", tecnico: "Marcos Oliveira", odonto: "Dra. Helena Tavares", inicio: "09:00", termino: "11:30" }
+},
+{
+id: "000132/2026", protocolo: "000132/2026", entrada: "2026-03-15", nome: "Renata Costa",
+status: "Custódia finalizada", concluido: true, etapa: 7,
+acionamento: { horario: "09:20", numero: "NEC-2026-0132" },
+ocorrencia: { chegada: "2026-03-15T10:05", delegacia: "7ª DP — Afogados", autoridade: "Dra. Simone Brito", agente: "Suicídio", endereco: "Rua da Hora, 77", municipio: "Recife", uf: "PE", possivelNome: "Renata Costa", filiacao: "Helena Costa", nascimento: "1979-04-27", idade: "46", sexo: "F", fonte: "Documento no local", documento: "RG apresentado", telefone: "(81) 98112-0764", observacoes: "Identificação confirmada por documento.\nLaudo entregue à ADM com cadeia de custódia completa.", fotosDoc: ["https://img.usecurling.com/p/400/300?q=identity%20card%20document&color=gray"], fotosCena: [] },
+historico: [
+hist("24/03/2026 11:00", "Gestor ADM Paulo Serrano", "Laudo entregue à ADM — entregue por Ana Paula Ribeiro, recebido por Carlos Eduardo Nunes, em 24/03/2026. Assinatura registrada. Caso concluído."),
+hist("22/03/2026 14:00", "Técnico Marcos Oliveira", "Entrega à funerária confirmada — Funerária Serenidade, Auto AE-20855."),
+hist("18/03/2026 09:00", "Técnico Marcos Oliveira", "Liberação ao familiar confirmada."),
+hist("15/03/2026 10:05", "Técnico Marcos Oliveira", "Ocorrência registrada.")
+],
+materiais: makeMateriais({
+sangue: { coletado: "Sim", lacre: "LA-44190", recebidoAdm: true, recebidoEm: "17/03/2026 10:00", recebidoPor: "Gestor ADM Paulo Serrano" },
+bio: { coletado: "Não" }, projetil: { coletado: "Não" }, pertences: { coletado: "Sim", lacre: "LA-44191", recebidoAdm: true, recebidoEm: "17/03/2026 10:02", recebidoPor: "Gestor ADM Paulo Serrano" }
+}),
+identificacao: { resultado: "identificado", metodo: "Necropapiloscopia", nomeConfirmado: "Renata Costa", responsavel: "Técnico Marcos Oliveira", dataConfirmacao: "2026-03-16", busca: {}, autorizacao: {}, sepultamentoConfirmado: false },
+familia: { tipo: "familiar", nome: "Helena Costa", parentesco: "Mãe", documento: "RG 10.554.201-8", telefone: "(81) 98112-0764", dataLiberacao: "2026-03-18", assinatura: "__SIG_EXEMPLO__", busca: {}, autorizacao: {} },
+funeraria: { destino: "familia", nome: "Funerária Serenidade", auto: "AE-20855", dataEntrega: "2026-03-22", horaEntrega: "14:00", scanner: "" },
+laudo: { entregueResp: "Ana Paula Ribeiro", recebeuNome: "Carlos Eduardo Nunes", recebeuData: "2026-03-24", assinatura: "__SIG_EXEMPLO__", confirmadoAdm: true, recebidoEm: "24/03/2026 11:00", recebidoPor: "Gestor ADM Paulo Serrano" }, decisaoAdm: false,
+camara: "Câmara 1", gaveta: "G-01", estadoCorpo: "Conservado", lacreCorpo: "LC-88301", confirmadoEntrada: true,
+necropsia: { medico: "Dr. Eduardo Prado", tecnico: "Marcos Oliveira", odonto: "Dra. Helena Tavares", inicio: "09:30", termino: "12:00" }
+}
+];
+
+cases.forEach(function (c) {
+if (c.sepultadoEstado) c.status = "Sepultado pelo Estado";
+});
+
+const EXEMPLO_SIG = "data:image/svg+xml;utf8," + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="300" height="100" viewBox="0 0 300 100"><path d="M20 70 C60 20, 90 90, 130 45 S200 30, 280 60" fill="none" stroke="#1e3a5f" stroke-width="3" stroke-linecap="round"/></svg>');
+
+cases.forEach(function (c) {
+if (c.familia && c.familia.assinatura === "__SIG_EXEMPLO__") c.familia.assinatura = EXEMPLO_SIG;
+if (c.laudo && c.laudo.assinatura === "__SIG_EXEMPLO__") c.laudo.assinatura = EXEMPLO_SIG;
+});
+
+let profile = "tecnico";
+let activeTab = "painel";
+let activeFilter = { type: "todos", status: "", search: "", from: "", to: "" };
+let openCaseId = null;
+let sigContext = null;
+let sigCanvasState = null;
+let justCtx = null;
+
+const PROFILE_NAMES = { tecnico: "Técnico Marcos Oliveira", medico: "Médico Legista Dr. Eduardo Prado", gestor: "Gestor ADM Paulo Serrano" };
+
+function $(sel, root) { return (root || document).querySelector(sel); }
+function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
+function esc(s) { return String(s == null ? "" : s).replace(/[&<>"']/g, function (ch) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[ch]; }); }
+
+function toast(msg, kind) {
+const area = $("#toastArea");
+const t = document.createElement("div");
+t.className = "toast " + (kind === "ok" ? "ok" : kind === "err" ? "err" : "");
+t.textContent = msg;
+area.appendChild(t);
+setTimeout(function () { t.remove(); }, 3800);
+}
+
+function nowStamp() {
+const d = new Date();
+const p = function (n) { return String(n).padStart(2, "0"); };
+return p(d.getDate()) + "/" + p(d.getMonth() + 1) + "/" + d.getFullYear() + " " + p(d.getHours()) + ":" + p(d.getMinutes());
+}
+
+function fmtDate(iso) {
+if (!iso) return "";
+const parts = String(iso).slice(0, 10).split("-");
+if (parts.length !== 3) return iso;
+return parts[2] + "/" + parts[1] + "/" + parts[0];
+}
+
+function stageIndexFor(c) {
+if (c.concluido) return 7;
+return c.etapa;
+}
+
+function isDecisaoAdmStage5(c) { return c.decisaoAdm === true; }
+
+function computeLacresPendentes() {
+return cases.reduce(function (acc, c) {
+const mats = c.materiais || [];
+const n = mats.reduce(function (a, m) {
+return a + ((m.coletado === "Sim" && m.lacre && m.recebidoAdm === false) ? 1 : 0);
+}, 0);
+return acc + n;
+}, 0);
+}
+
+function computeLacresCasos() {
+return cases.filter(function (c) {
+return (c.materiais || []).some(function (m) {
+return m.coletado === "Sim" && m.lacre && m.recebidoAdm === false;
+});
+});
+}
+
+function matchesFilters(c) {
+const f = activeFilter;
+if (f.type === "lacres") {
+if (!computeLacresCasos().includes(c)) return false;
+} else if (f.status) {
+if (f.status === "Sepultado pelo Estado") {
+if (c.status !== "Sepultado pelo Estado") return false;
+} else if (c.status !== f.status) return false;
+}
+if (f.search) {
+const q = f.search.toLowerCase();
+if (!(c.protocolo.toLowerCase().indexOf(q) >= 0 || (c.nome || "").toLowerCase().indexOf(q) >= 0)) return false;
+}
+if (f.from && c.entrada < f.from) return false;
+if (f.to && c.entrada > f.to) return false;
+return true;
+}
+
+function filteredCases() { return cases.filter(matchesFilters); }
+
+function renderKpis() {
+const grid = $("#kpiGrid");
+const counts = {};
+KPIS.forEach(function (k) {
+if (k.special) counts[k.key] = computeLacresPendentes();
+else if (k.status) counts[k.key] = cases.filter(function (c) { return c.status === k.status; }).length;
+else counts[k.key] = cases.length;
+});
+grid.innerHTML = KPIS.map(function (k) {
+const active = (activeFilter.type === "lacres" && k.special) || (!k.special && activeFilter.status === (k.status || "") && activeFilter.type !== "lacres" && k.status);
+const alertCls = k.special && counts[k.key] > 0 ? " alert" : "";
+return '<div class="kpi-card' + alertCls + (active ? " active" : "") + '" role="button" tabindex="0" data-action="kpi" data-kpi="' + esc(k.key) + '" aria-label="' + esc(k.title + ": " + counts[k.key] + ". " + k.sub) + '" style="' + (active ? "border-color:" + kpiColor(k) : "") + '">'
++ '<div class="kpi-num">' + counts[k.key] + '</div>'
++ '<div class="kpi-title">' + esc(k.title) + '</div>'
++ '<div class="kpi-sub">' + esc(k.sub) + '</div>'
++ '</div>';
+}).join("");
+}
+
+function kpiColor(k) {
+if (k.special) return "#d97706";
+return "#1e3a5f";
+}
+
+function renderStatusSelect() {
+const sel = $("#statusSelect");
+const current = activeFilter.type === "lacres" ? "" : activeFilter.status;
+sel.innerHTML = '<option value="">Todos os status</option>' + ALL_FILTER_STATUSES.map(function (s) {
+return '<option value="' + esc(s) + '"' + (s === current ? " selected" : "") + ">" + esc(s) + "</option>";
+}).join("");
+}
+
+function renderChip() {
+const wrap = $("#activeChipWrap");
+if (activeFilter.type === "lacres") {
+const n = computeLacresCasos().length;
+wrap.innerHTML = '<span class="chip-filter">Filtrando por: Lacres pendentes de recebimento (' + n + " casos)" + '<button type="button" data-action="remove-chip" aria-label="Remover filtro">×</button></span>';
+} else if (activeFilter.status) {
+const n = filteredCases().length;
+wrap.innerHTML = '<span class="chip-filter">Filtrando por: ' + esc(activeFilter.status) + " (" + n + " casos)" + '<button type="button" data-action="remove-chip" aria-label="Remover filtro">×</button></span>';
+} else {
+wrap.innerHTML = "";
+}
+}
+
+function statusBadge(s) {
+let cls = "badge";
+if (s === "Custódia finalizada") cls = "badge badge-ok";
+else if (s === "Sepultado pelo Estado") cls = "badge badge-warn";
+else if (s === "Aguardando identificação" || s === "Aguardando família") cls = "badge badge-warn";
+return '<span class="' + cls + '">' + esc(s) + "</span>";
+}
+
+function etapaText(c) {
+if (c.concluido) return '<span style="color:#16a34a;font-weight:700;">Concluído</span>';
+return c.etapa + "/7";
+}
+
+function renderCasesTable() {
+const rows = filteredCases();
+const tb = $("#casesTbody");
+const cards = $("#casesCards");
+const empty = $("#emptyWrap");
+$("#countText").textContent = "Exibindo " + rows.length + " de " + cases.length + " corpos registrados.";
+if (!rows.length) {
+tb.innerHTML = "";
+cards.innerHTML = "";
+empty.innerHTML = '<div class="empty-state"><p>Nenhum caso encontrado para este status.</p><button class="btn btn-outline" data-action="show-all">Ver todos os casos</button></div>';
+return;
+}
+empty.innerHTML = "";
+tb.innerHTML = rows.map(function (c) {
+return "<tr>"
++ "<td><b>" + esc(c.protocolo) + "</b></td>"
++ "<td>" + fmtDate(c.entrada) + "</td>"
++ "<td>" + esc(c.nome) + "</td>"
++ "<td>" + esc(c.ocorrencia.agente) + "</td>"
++ "<td>" + statusBadge(c.status) + "</td>"
++ "<td>" + etapaText(c) + "</td>"
++ '<td><button class="btn btn-sm btn-outline" data-action="open-case" data-id="' + esc(c.id) + '">Ver detalhes</button></td>'
++ "</tr>";
+}).join("");
+cards.innerHTML = rows.map(function (c) {
+return '<div class="case-card"><div class="top"><div><b>' + esc(c.protocolo) + "</b><div class='meta'>" + esc(c.nome) + " · " + fmtDate(c.entrada) + "</div></div>" + statusBadge(c.status) + "</div>"
++ "<div class='meta'>Agente: " + esc(c.ocorrencia.agente) + " · Etapa " + etapaText(c) + "</div>"
++ '<button class="btn btn-sm btn-outline" data-action="open-case" data-id="' + esc(c.id) + '">Ver detalhes</button></div>';
+}).join("");
+}
+
+function renderSummary() {
+const agents = ["Homicídio", "Suicídio", "Acidente de trânsito", "Afogamento", "Queda de altura", "Indeterminada"];
+const tb = $("#summaryTbody");
+const tot = { total: 0, familia: 0, estado: 0, aguard: 0, naoRec: 0, custodia: 0 };
+const rows = agents.map(function (a) {
+const list = cases.filter(function (c) { return c.ocorrencia.agente === a; });
+const r = {
+total: list.length,
+familia: list.filter(function (c) { return c.status === "Custódia finalizada" || c.status === "Entregue à funerária" || c.status === "Entrega de laudo para ADM" || c.status === "Aguardando funerária"; }).length,
+estado: list.filter(function (c) { return c.status === "Sepultado pelo Estado"; }).length,
+aguard: list.filter(function (c) { return c.status === "Aguardando identificação" || c.status === "Ocorrência em andamento" || c.status === "Aguardando necropsia" || c.status === "Necropsia em andamento"; }).length,
+naoRec: list.filter(function (c) { return c.status === "Aguardando família" || c.status === "Identificado" || c.status === "Não reclamado"; }).length,
+custodia: list.filter(function (c) { return c.status === "Custódia finalizada"; }).length
+};
+tot.total += r.total; tot.familia += r.familia; tot.estado += r.estado; tot.aguard += r.aguard; tot.naoRec += r.naoRec; tot.custodia += r.custodia;
+return "<tr><td>" + esc(a) + "</td><td>" + r.total + "</td><td>" + r.familia + "</td><td>" + r.estado + "</td><td>" + r.aguard + "</td><td>" + r.naoRec + "</td><td>" + r.custodia + "</td></tr>";
+}).join("");
+tb.innerHTML = rows + '<tr class="sum-total"><td>Total geral</td><td>' + tot.total + "</td><td>" + tot.familia + "</td><td>" + tot.estado + "</td><td>" + tot.aguard + "</td><td>" + tot.naoRec + "</td><td>" + tot.custodia + "</td></tr>";
+}
+
+function refreshAll() {
+renderKpis();
+renderStatusSelect();
+renderChip();
+renderCasesTable();
+renderSummary();
+}
+
+function setTab(name) {
+activeTab = name;
+$$(".tab-btn").forEach(function (b) { b.setAttribute("aria-selected", b.dataset.tab === name ? "true" : "false"); });
+$$(".tab-panel").forEach(function (p) { p.classList.toggle("active", p.id === "tab-" + name); });
+}
+
+function applyKpi(key) {
+if (key === "todos") {
+activeFilter = { type: "todos", status: "", search: activeFilter.search, from: activeFilter.from, to: activeFilter.to };
+activeFilter.search = ""; activeFilter.from = ""; activeFilter.to = "";
+$("#searchInput").value = ""; $("#dateFrom").value = ""; $("#dateTo").value = "";
+} else if (key === "lacres") {
+activeFilter = { type: "lacres", status: "", search: "", from: "", to: "" };
+} else {
+activeFilter = { type: "status", status: key, search: "", from: "", to: "" };
+}
+$("#searchInput").value = "";
+$("#dateFrom").value = "";
+$("#dateTo").value = "";
+setTab("corpos");
+refreshAll();
+const wrap = $("#tab-corpos");
+setTimeout(function () { wrap.scrollIntoView({ behavior: "smooth", block: "start" }); }, 30);
+}
+
+function readFilterInputs() {
+activeFilter.search = $("#searchInput").value.trim();
+activeFilter.from = $("#dateFrom").value;
+activeFilter.to = $("#dateTo").value;
+const s = $("#statusSelect").value;
+if (s) { activeFilter.type = "status"; activeFilter.status = s; }
+else if (activeFilter.type !== "lacres") { activeFilter.type = "todos"; activeFilter.status = ""; }
+}
+
+function clearFilters() {
+activeFilter = { type: "todos", status: "", search: "", from: "", to: "" };
+$("#searchInput").value = "";
+$("#dateFrom").value = "";
+$("#dateTo").value = "";
+refreshAll();
+toast("Filtros limpos.", "ok");
+}
+
+function openPanel(id) {
+const c = cases.find(function (x) { return x.id === id; });
+if (!c) return;
+openCaseId = id;
+$("#panelOverlay").classList.add("open");
+$("#sidePanel").classList.add("open");
+$("#sidePanel").setAttribute("aria-hidden", "false");
+renderPanel();
+}
+
+function closePanel() {
+$("#panelOverlay").classList.remove("open");
+$("#sidePanel").classList.remove("open");
+$("#sidePanel").setAttribute("aria-hidden", "true");
+openCaseId = null;
+}
+
+function currentCase() { return cases.find(function (x) { return x.id === openCaseId; }); }
+
+function isGestor() { return profile === "gestor"; }
+function isMedico() { return profile === "medico"; }
+function isTecnico() { return profile === "tecnico"; }
+function canWrite() { return profile === "tecnico" || profile === "gestor"; }
+
+function stepsFor(c) {
+const cur = c.concluido ? 8 : c.etapa;
+const decided = c.decisaoAdm === true;
+const allDone = c.status === "Custódia finalizada";
+const labels = STAGES.slice();
+if (decided || (c.identificacao && c.identificacao.resultado === "naoIdentificado" && decided)) labels[4] = "Não identificado — Sepultamento pelo Estado";
+return labels.map(function (name, i) {
+const n = i + 1;
+let state = "locked";
+if (allDone) state = "done";
+else if (n < cur) state = "done";
+else if (n === cur) state = "current";
+if (n === 5 && decided) state = "done";
+return { n: n, name: name, state: state };
+});
+}
+
+function renderStepper(c) {
+const steps = stepsFor(c);
+const limit = isMedico() ? 5 : 7;
+const visible = steps.slice(0, limit);
+const curStep = steps.find(function (s) { return s.state === "current"; });
+const doneCount = steps.filter(function (s) { return s.state === "done"; }).length;
+const curNum = c.status === "Custódia finalizada" ? 7 : (curStep ? curStep.n : 7);
+const compactName = c.status === "Custódia finalizada" ? "Concluído" : (steps[curNum - 1] ? steps[curNum - 1].name : "");
+const compact = '<div class="step-compact">Etapa ' + curNum + " de " + limit + " — " + esc(compactName) + "</div>";
+const bars = visible.map(function (s) {
+const icon = s.state === "done" ? "✓ " : (s.state === "locked" ? "🔒 " : "");
+return '<div class="step ' + s.state + '"><span class="num">' + (s.state === "done" ? "✓" : s.n) + "</span>" + icon + esc(s.name) + "</div>";
+}).join("");
+return compact + '<div class="stepper">' + bars + "</div>";
+}
+
+function renderSeals(c) {
+let html = "";
+if (c.status === "Sepultado pelo Estado") html += '<span class="seal seal-amber">SEPULTADO PELO ESTADO</span>';
+if (c.concluido) html += '<span class="seal seal-green">CASO CONCLUÍDO</span>';
+return html;
+}
+
+function renderPanel() {
+const c = currentCase();
+if (!c) return;
+$("#panelTitle").textContent = c.protocolo + " — " + c.nome;
+$("#panelSub").innerHTML = "Status: " + esc(c.status) + " · Entrada " + fmtDate(c.entrada);
+$("#panelSeals").innerHTML = renderSeals(c);
+const body = [];
+if (isMedico()) body.push('<div class="role-banner">👁️ Perfil Médico Legista — acesso somente para consulta. Edição disponível apenas para o perfil Técnico.</div>');
+body.push(renderStepper(c));
+if (isMedico()) body.push(renderMedicoSummary(c));
+body.push(renderEtapa1(c));
+body.push(renderEtapa2(c));
+body.push(renderEtapa3(c));
+body.push(renderEtapa4(c));
+body.push(renderEtapa5(c));
+if (!isMedico()) {
+body.push(renderEtapa6(c));
+body.push(renderFuneraria(c));
+body.push(renderEtapa7(c));
+} else {
+if (c.etapa >= 6 || c.concluido) {
+body.push('<div class="alert-blue">Este caso já avançou para etapas administrativas. As informações clínicas e de identificação permanecem disponíveis para consulta.</div>');
+}
+}
+body.push(renderHistorico(c));
+$("#panelBody").innerHTML = body.join("");
+}
+
+function renderMedicoSummary(c) {
+const o = c.ocorrencia;
+const obs = o.observacoes || "";
+const short = obs.length > 200 ? obs.slice(0, 200) + "…" : obs;
+return '<div class="summary-card" id="medicoSummary">'
++ "<h3>Resumo da ocorrência</h3>"
++ '<div class="summary-grid">'
++ "<div><b>Agente causal</b>" + esc(o.agente) + "</div>"
++ "<div><b>Chegada ao local</b>" + esc(fmtDate(o.chegada.slice(0, 10))) + " " + esc(o.chegada.slice(11, 16)) + "</div>"
++ "<div><b>Local / município</b>" + esc(o.endereco) + " — " + esc(o.municipio) + "/" + esc(o.uf) + "</div>"
++ "<div><b>Sexo</b>" + esc(o.sexo) + "</div>"
++ "<div><b>Idade estimada</b>" + esc(o.idade) + "</div>"
++ "<div><b>Estado do corpo</b>" + esc(c.estadoCorpo || "—") + "</div>"
++ "<div><b>Número da necropsia</b>" + esc(c.acionamento.numero) + "</div>"
++ "<div><b>Protocolo</b>" + esc(c.protocolo) + "</div>"
++ "</div>"
++ '<p style="font-size:13px;margin:10px 0 4px;white-space:pre-wrap;" id="obsResumo">' + esc(short) + "</p>"
++ (obs.length > 200 ? '<button class="btn btn-ghost btn-sm" data-action="toggle-obs" data-full="' + esc(obs) + '">ver mais</button>' : "")
++ '<div class="action-row" style="margin-top:8px;"><button class="btn btn-outline btn-sm" data-action="scroll-etapa" data-target="etapa2">Ver ocorrência completa</button></div>'
++ "</div>";
+}
+
+function dis(attr) { return canWrite() ? "" : " disabled"; }
+
+function readonlyBlock(label, val) {
+return '<div class="field"><label>' + esc(label) + '</label><div class="readonly-val">' + esc(val || "—") + "</div></div>";
+}
+
+function fieldInput(label, id, val, type, extraAttr, helper) {
+const ro = !canWrite();
+const typeAttr = type || "text";
+if (ro) return readonlyBlock(label, val);
+return '<div class="field"><label for="' + id + '">' + esc(label) + '</label><input class="input" id="' + id + '" type="' + typeAttr + '" value="' + esc(val || "") + '" ' + (extraAttr || "") + ' data-field="' + id + '" data-action="input-field">' + (helper ? '<small class="note">' + esc(helper) + "</small>" : "") + "</div>";
+}
+
+function selectField(label, id, options, val, dataField) {
+if (!canWrite()) {
+const found = options.find(function (o) { return o[0] === val; });
+return readonlyBlock(label, found ? found[1] : val);
+}
+return '<div class="field"><label for="' + id + '">' + esc(label) + '</label><select class="input" id="' + id + '" data-field="' + (dataField || id) + '" data-action="select-field">'
++ options.map(function (o) { return '<option value="' + esc(o[0]) + '"' + (o[0] === val ? " selected" : "") + ">" + esc(o[1]) + "</option>"; }).join("")
++ "</select></div>";
+}
+
+function renderEtapa1(c) {
+const passed = c.etapa > 1 || c.concluido;
+const ro = !canWrite() || passed;
+const a = c.acionamento;
+return '<div class="block" id="etapa1"><h3>Etapa 1 — Acionamento</h3><p class="block-sub">Registro do horário em que o caso foi acionado e número da necropsia.</p>'
++ '<div class="grid-2">'
++ (ro ? readonlyBlock("Horário de acionamento", a.horario) + readonlyBlock("Número da necropsia", a.numero)
+: '<div class="field"><label for="acHorario">Horário de acionamento</label><input class="input" id="acHorario" type="time" value="' + esc(a.horario) + '" data-field="acHorario" data-action="input-field"></div>'
++ '<div class="field"><label for="acNumero">Número da necropsia</label><input class="input" id="acNumero" type="text" value="' + esc(a.numero) + '" data-field="acNumero" data-action="input-field"><small class="note">Número gerado pela central de plantão.</small></div>')
++ "</div></div>";
+}
+
+function renderEtapa2(c) {
+const o = c.ocorrencia;
+const passed = c.etapa > 2 || c.concluido;
+const ro = !canWrite() || passed;
+const agentes = [["Homicídio", "Homicídio"], ["Suicídio", "Suicídio"], ["Acidente de trânsito", "Acidente de trânsito"], ["Afogamento", "Afogamento"], ["Queda de altura", "Queda de altura"], ["Indeterminada", "Indeterminada"]];
+const sexos = [["M", "M"], ["F", "F"], ["Indeterminado", "Indeterminado"]];
+const fotos = function (arr, tag) {
+return '<div class="photos">' + (arr && arr.length ? arr.map(function (u) {
+return '<img class="thumb" src="' + esc(u) + '" alt="Foto ' + esc(tag) + '" data-action="open-photo" data-src="' + esc(u) + '" tabindex="0">';
+}).join("") : '<span class="note">Nenhuma foto anexada.</span>') + "</div>";
+};
+const fields = [
+ro ? readonlyBlock("Data e hora da chegada ao local", fmtDate(o.chegada.slice(0, 10)) + " " + o.chegada.slice(11, 16)) : '<div class="field"><label for="ocChegada">Data e hora da chegada ao local</label><input class="input" id="ocChegada" type="datetime-local" value="' + esc(o.chegada) + '" data-field="ocChegada" data-action="input-field"></div>',
+selectField("Agente causal", "ocAgente", agentes, o.agente, "ocAgente"),
+fieldInput("Delegacia", "ocDelegacia", o.delegacia),
+fieldInput("Autoridade policial", "ocAutoridade", o.autoridade),
+fieldInput("Endereço", "ocEndereco", o.endereco),
+fieldInput("Município", "ocMunicipio", o.municipio),
+fieldInput("UF", "ocUf", o.uf),
+fieldInput("Possível nome", "ocPossivelNome", o.possivelNome),
+fieldInput("Filiação", "ocFiliacao", o.filiacao),
+fieldInput("Data de nascimento", "ocNascimento", o.nascimento, "date"),
+fieldInput("Idade", "ocIdade", o.idade),
+selectField("Sexo", "ocSexo", sexos, o.sexo, "ocSexo"),
+fieldInput("Fonte da informação", "ocFonte", o.fonte),
+fieldInput("Documento encontrado", "ocDocumento", o.documento),
+fieldInput("Telefone de familiar", "ocTelefone", o.telefone)
+];
+const obs = ro
+? '<div class="full"><label>Observações</label><div class="readonly-val">' + esc(o.observacoes) + "</div></div>"
+: '<div class="full field"><label for="ocObs">Observações</label><textarea class="input" id="ocObs" rows="4" data-field="ocObs" data-action="input-field">' + esc(o.observacoes) + "</textarea><small class='note'>Salvo automaticamente.</small></div>";
+return '<div class="block" id="etapa2"><h3>Etapa 2 — Ocorrência e possível vítima</h3><p class="block-sub">Dados da ocorrência no local e informações sobre a possível vítima.</p>'
++ '<div class="grid-2">' + fields.join("") + obs + "</div>"
++ '<h4 style="margin:14px 0 6px;font-size:14px;">Fotos do documento</h4>' + fotos(o.fotosDoc, "do documento")
++ '<h4 style="margin:14px 0 6px;font-size:14px;">Fotos do cenário</h4>' + fotos(o.fotosCena, "do cenário")
++ "</div>";
+}
+
+function renderEtapa3(c) {
+const passed = c.etapa > 3 || c.concluido;
+const ro = !canWrite() || passed;
+const estados = [["Conservado", "Conservado"], ["Putrefeito", "Putrefeito"], ["Esqueletizado", "Esqueletizado"], ["Carbonizado", "Carbonizado"]];
+const entradaOk = c.confirmadoEntrada === true;
+const body = ro
+? '<div class="grid-3">' + readonlyBlock("Câmara fria", c.camara) + readonlyBlock("Gaveta", c.gaveta) + readonlyBlock("Estado do corpo", c.estadoCorpo) + readonlyBlock("Lacre do corpo", c.lacreCorpo) + "</div>"
+: '<div class="grid-3">'
++ '<div class="field"><label for="camIn">Câmara fria</label><input class="input" id="camIn" data-field="camara" value="' + esc(c.camara || "") + '" data-action="input-field"></div>'
++ '<div class="field"><label for="gavIn">Gaveta</label><input class="input" id="gavIn" data-field="gaveta" value="' + esc(c.gaveta || "") + '" data-action="input-field"></div>'
++ selectField("Estado do corpo", "estCorpo", estados, c.estadoCorpo, "estadoCorpo")
++ '<div class="field full"><label for="lacCorpo">Lacre do corpo</label><input class="input" id="lacCorpo" data-field="lacreCorpo" value="' + esc(c.lacreCorpo || "") + '" data-action="input-field"></div>'
++ "</div>"
++ (entradaOk ? '<p class="note" style="margin-top:10px;">Entrada confirmada na base.</p>' : '<div class="action-row"><button class="btn" data-action="confirm-entrada" data-id="' + esc(c.id) + '">Confirmar entrada na base</button></div>');
+return '<div class="block" id="etapa3"><h3>Etapa 3 — Aguardando necropsia</h3><p class="block-sub">Alocação do corpo na câmara fria e registro do lacre do corpo.</p>' + body + "</div>";
+}
+
+function renderEtapa4(c) {
+const passed = c.etapa > 4 || c.concluido;
+const ro = !canWrite() || passed;
+const n = c.necropsia || { medico: "", tecnico: "", odonto: "", inicio: "", termino: "" };
+const mats = c.materiais || [];
+const total = mats.filter(function (m) { return m.coletado === "Sim" && m.lacre; }).length;
+const recebidos = mats.filter(function (m) { return m.coletado === "Sim" && m.lacre && m.recebidoAdm; }).length;
+const pct = total ? Math.round(recebidos / total * 100) : 0;
+const pendentes = total - recebidos;
+const matHtml = mats.map(function (m) { return renderMaterial(c, m, ro); }).join("");
+const gestorActions = (isGestor() && !passed)
+? '<div class="action-row"><button class="btn btn-outline" data-action="mark-all" data-id="' + esc(c.id) + '">Marcar todos como recebidos</button></div>'
+: "";
+const contador = '<div style="font-size:14px;font-weight:600;">' + recebidos + " de " + total + " lacres recebidos pela ADM</div>"
++ '<div class="progress-wrap"><div class="progress-fill" style="width:' + pct + '%"></div></div>';
+const alerta = pendentes > 0 ? '<div class="alert-amber">Há lacres aguardando confirmação de recebimento pela ADM.</div>' : "";
+const concluir = !ro ? '<div class="action-row"><button class="btn" data-action="concluir-necropsia" data-id="' + esc(c.id) + '">Concluir necropsia</button></div>' : "";
+return '<div class="block" id="etapa4"><h3>Etapa 4 — Necropsia em andamento</h3><p class="block-sub">Equipe responsável, horários e coleta de materiais com lacres.</p>'
++ '<div class="grid-3">'
++ (ro ? readonlyBlock("Médico legista", n.medico) + readonlyBlock("Técnico de necropsia", n.tecnico) + readonlyBlock("Odonto legista", n.odonto) + readonlyBlock("Início", n.inicio) + readonlyBlock("Término", n.termino)
+: '<div class="field"><label for="nMed">Médico legista</label><input class="input" id="nMed" data-field="nMed" value="' + esc(n.medico) + '" data-action="input-field"></div>'
++ '<div class="field"><label for="nTec">Técnico de necropsia</label><input class="input" id="nTec" data-field="nTec" value="' + esc(n.tecnico) + '" data-action="input-field"></div>'
++ '<div class="field"><label for="nOdo">Odonto legista</label><input class="input" id="nOdo" data-field="nOdo" value="' + esc(n.odonto) + '" data-action="input-field"></div>'
++ '<div class="field"><label for="nIni">Horário de início</label><input class="input" id="nIni" type="time" data-field="nIni" value="' + esc(n.inicio) + '" data-action="input-field"></div>'
++ '<div class="field"><label for="nTer">Horário de término</label><input class="input" id="nTer" type="time" data-field="nTer" value="' + esc(n.termino) + '" data-action="input-field"></div>')
++ "</div>"
++ '<h4 style="margin:16px 0 6px;font-size:15px;">Materiais coletados</h4>'
++ contador + gestorActions + alerta
++ matHtml
++ concluir
++ "</div>";
+}
+
+function renderMaterial(c, m, ro) {
+const canTick = isGestor() && !ro;
+const showRecebido = m.coletado === "Sim" && m.lacre;
+const recebidoBox = showRecebido
+? '<div class="check-row"><input type="checkbox" id="rec-' + m.id + '" data-field="recebidoAdm" data-mat="' + m.id + '" data-action="toggle-recebido" ' + (m.recebidoAdm ? "checked " : "") + (canTick ? "" : "disabled ") + "><label for='rec-" + m.id + "'>Recebido pela ADM</label></div>"
++ (!canTick ? '<div class="note">Somente o gestor da ADM pode confirmar o recebimento.</div>' : "")
++ (m.recebidoAdm ? '<div class="note">Recebido pela ADM em ' + esc(m.recebidoEm) + " — " + esc(m.recebidoPor) + "</div>" : "")
+: "";
+if (ro) {
+return '<div class="material"><div class="material-head"><b>' + esc(m.nome) + "</b>" + (m.coletado === "Sim" ? '<span class="badge badge-ok">Coletado</span>' : '<span class="badge">Não coletado</span>') + "</div>"
++ '<div class="row"><span>Lacre: <b>' + esc(m.lacre || "—") + "</b></span></div>" + recebidoBox + "</div>";
+}
+return '<div class="material"><div class="material-head"><b>' + esc(m.nome) + "</b></div>"
++ '<div class="row"><div class="check-row"><input type="checkbox" id="col-' + m.id + '" data-field="coletado" data-mat="' + m.id + '" data-action="toggle-coletado" ' + (m.coletado === "Sim" ? "checked" : "") + "><label for='col-" + m.id + "'>Coletado</label></div>"
++ '<div class="field" style="min-width:180px;flex:1;"><label for="lac-' + m.id + '">Número do lacre</label><input class="input" id="lac-' + m.id + '" data-field="lacre" data-mat="' + m.id + '" value="' + esc(m.lacre) + '" data-action="input-field"></div></div>'
++ recebidoBox + "</div>";
+}
+
+function renderEtapa5(c) {
+const passed = c.etapa > 5 || c.concluido;
+const ro = !canWrite() || passed;
+const i = c.identificacao || {};
+const resultado = i.resultado || "identificado";
+const metodos = [["Necropapiloscopia", "Necropapiloscopia"], ["Odontologia legal", "Odontologia legal"], ["DNA", "DNA"], ["Antropologia forense", "Antropologia forense"], ["Reconhecimento familiar", "Reconhecimento familiar"], ["Não identificado", "Não identificado"]];
+const resOptions = [["identificado", "Identificado"], ["naoIdentificado", "Não identificado — seguir para sepultamento pelo Estado"]];
+const metodoVal = resultado === "naoIdentificado" ? (i.metodo === "Não identificado" || !i.metodo ? "Não identificado" : i.metodo) : i.metodo;
+let inner = "";
+if (ro) {
+inner += readonlyBlock("Resultado da identificação", resultado === "identificado" ? "Identificado" : "Não identificado — seguir para sepultamento pelo Estado");
+}
+if (!ro) {
+inner += '<div class="field" style="margin-bottom:12px;"><label for="resIdent">Resultado da identificação *</label><select class="input" id="resIdent" data-field="resultadoIdentificacao" data-action="select-field">'
++ resOptions.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === resultado ? " selected" : "") + ">" + esc(o[1]) + "</option>"; }).join("")
++ "</select><small class='note'>Define o encaminhamento do corpo.</small></div>";
+}
+if (resultado === "identificado") {
+inner += '<div class="grid-2">'
++ selectField("Método de identificação", "metIdent", metodos.slice(0, 5), i.metodo || "Necropapiloscopia", "metodo")
++ fieldInput("Nome confirmado", "idNome", i.nomeConfirmado)
++ fieldInput("Responsável pela identificação", "idResp", i.responsavel)
++ fieldInput("Data da confirmação", "idData", i.dataConfirmacao, "date")
++ "</div>";
+if (!ro) inner += '<div class="action-row"><button class="btn" data-action="confirm-identificacao" data-id="' + esc(c.id) + '">Confirmar identificação</button></div>';
+} else {
+inner += '<div class="grid-2">' + selectField("Método de identificação", "metIdent", metodos.slice(5), "Não identificado", "metodo") + "</div>";
+inner += '<div class="alert-info">Corpo não identificado. O sepultamento será realizado pelo Estado, com registro para fins de rastreabilidade e eventual identificação posterior.</div>';
+const busca = i.busca || {};
+const aut = i.autorizacao || {};
+inner += '<h4 style="margin:14px 0 6px;font-size:14px;">Busca de familiares</h4><div class="grid-3">'
++ (ro ? readonlyBlock("Início da busca", fmtDate(busca.inicio)) + readonlyBlock("Prazo (dias)", String(busca.prazo || 30)) + readonlyBlock("Resultado", busca.resultado || "—")
+: '<div class="field"><label for="buIni">Data de início da busca</label><input class="input" id="buIni" type="date" data-field="buscaInicio" value="' + esc(busca.inicio) + '" data-action="input-field"></div>'
++ '<div class="field"><label for="buPrazo">Prazo em dias</label><input class="input" id="buPrazo" type="number" min="1" data-field="buscaPrazo" value="' + esc(busca.prazo || 30) + '" data-action="input-field"></div>'
++ selectField("Resultado da busca", "buRes", [["", "Selecione"], ["Familiar localizado", "Familiar localizado"], ["Sem êxito", "Sem êxito"]], busca.resultado || "", "buscaResultado"))
++ "</div>";
+if (busca.resultado === "Familiar localizado") inner += '<div class="alert-amber">Familiar localizado. Altere o resultado da identificação para \'Identificado\' ou prossiga com a liberação a familiar na etapa 6.</div>';
+if (busca.resultado === "Sem êxito") {
+inner += '<div class="grid-3">'
++ (ro ? readonlyBlock("Número da autorização", aut.numero) + readonlyBlock("Data da autorização", fmtDate(aut.data)) + readonlyBlock("Local de sepultamento", aut.local)
+: '<div class="field"><label for="auNum">Número da autorização de sepultamento</label><input class="input" id="auNum" data-field="autNumero" value="' + esc(aut.numero) + '" data-action="input-field"></div>'
++ '<div class="field"><label for="auData">Data da autorização</label><input class="input" id="auData" type="date" data-field="autData" value="' + esc(aut.data) + '" data-action="input-field"></div>'
++ '<div class="field"><label for="auLoc">Local de sepultamento</label><input class="input" id="auLoc" data-field="autLocal" value="' + esc(aut.local) + '" data-action="input-field"></div>')
++ "</div>";
+if (!ro) inner += '<div class="action-row"><button class="btn" data-action="confirm-sepult-id" data-id="' + esc(c.id) + '">Confirmar sepultamento pelo Estado</button></div>';
+}
+}
+let decisao = "";
+if (isGestor() && !c.decisaoAdm && !c.concluido && c.etapa <= 5) {
+decisao = '<div class="block" style="border-style:dashed;margin-top:12px;background:#fbfcfe;" id="decisaoAdm"><h4 style="margin:0 0 6px;font-size:15px;color:#1e3a5f;">Decisão administrativa</h4>'
++ '<p class="note" style="font-size:13px;">Se o corpo não puder ser identificado, a ADM pode autorizar o encaminhamento direto para sepultamento pelo Estado, sem preencher os campos de identificação.</p>'
++ '<button class="btn btn-outline" data-action="open-just" data-id="' + esc(c.id) + '">Encaminhar para sepultamento pelo Estado</button></div>';
+}
+if (c.decisaoAdm) {
+decisao = '<div class="alert-info" style="margin-top:12px;">Decisão administrativa registrada: corpo encaminhado para sepultamento pelo Estado sem identificação.</div>';
+}
+return '<div class="block" id="etapa5"><h3>Etapa 5 — Identificação</h3><p class="block-sub">Resultado da identificação e, se necessário, busca de familiares e sepultamento pelo Estado.</p>' + inner + decisao + "</div>";
+}
+
+function renderEtapa6(c) {
+if (!(c.etapa >= 6 || c.concluido || c.decisaoAdm)) return "";
+const f = c.familia || {};
+const tipo = f.tipo || "familiar";
+const ro = !canWrite() || c.concluido;
+const tipoOpts = [["familiar", "Liberação a familiar"], ["semFamiliar", "Liberação sem familiar — Sepultamento pelo Estado"]];
+const head = '<div class="field" style="margin-bottom:12px;"><label for="tipoLib">Tipo de liberação *</label>' + (ro ? '<div class="readonly-val">' + esc(tipo === "familiar" ? "Liberação a familiar" : "Liberação sem familiar — Sepultamento pelo Estado") + "</div>" : '<select class="input" id="tipoLib" data-field="tipoLiberacao" data-action="select-field">' + tipoOpts.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === tipo ? " selected" : "") + ">" + esc(o[1]) + "</option>"; }).join("") + "</select>") + "</div>";
+let body = "";
+if (tipo === "familiar") {
+body += '<div class="grid-2">'
++ fieldInput("Nome do familiar", "fNome", f.nome)
++ fieldInput("Parentesco", "fParent", f.parentesco)
++ fieldInput("Documento", "fDoc", f.documento)
++ fieldInput("Telefone", "fTel", f.telefone)
++ fieldInput("Data de liberação", "fData", f.dataLiberacao, "date")
++ "</div>";
+body += '<div style="margin-top:12px;"><label style="font-size:12px;font-weight:600;color:#3b4a5f;">Assinatura digital do familiar</label>'
++ (f.assinatura ? '<img class="sig-img" src="' + esc(f.assinatura) + '" alt="Assinatura do familiar">' : '<div class="note">Assinatura não registrada.</div>')
++ (ro ? "" : '<div class="action-row" style="justify-content:flex-start;"><button class="btn btn-outline btn-sm" data-action="open-sig" data-target="assinaturaFamilia" data-id="' + esc(c.id) + '">' + (f.assinatura ? "Refazer" : "Assinar") + "</button></div>")
++ "</div>";
+if (!ro) body += '<div class="action-row"><button class="btn" data-action="confirm-familia" data-id="' + esc(c.id) + '">Confirmar recebimento pelo familiar</button></div>';
+} else {
+const busca = f.busca || {};
+const aut = f.autorizacao || {};
+body += '<h4 style="margin:6px 0 6px;font-size:14px;">Busca de familiares</h4><div class="grid-3">'
++ (ro ? readonlyBlock("Início da busca", fmtDate(busca.inicio)) + readonlyBlock("Prazo (dias)", String(busca.prazo || 30)) + readonlyBlock("Resultado", busca.resultado || "—")
+: '<div class="field"><label for="fbIni">Data de início da busca</label><input class="input" id="fbIni" type="date" data-field="famBuscaInicio" value="' + esc(busca.inicio) + '" data-action="input-field"></div>'
++ '<div class="field"><label for="fbPrazo">Prazo em dias</label><input class="input" id="fbPrazo" type="number" min="1" data-field="famBuscaPrazo" value="' + esc(busca.prazo || 30) + '" data-action="input-field"></div>'
++ selectField("Resultado da busca", "fbRes", [["", "Selecione"], ["Familiar localizado", "Familiar localizado"], ["Sem êxito", "Sem êxito"]], busca.resultado || "", "famBuscaResultado"))
++ "</div>";
+if (busca.resultado === "Familiar localizado") {
+body += '<div class="alert-amber">Familiar localizado. Altere o tipo de liberação para \'Liberação a familiar\' para prosseguir.</div>';
+} else if (busca.resultado === "Sem êxito") {
+body += '<div class="grid-3">'
++ (ro ? readonlyBlock("Número da autorização", aut.numero) + readonlyBlock("Data da autorização", fmtDate(aut.data)) + readonlyBlock("Local", aut.local)
+: '<div class="field"><label for="faNum">Número da autorização</label><input class="input" id="faNum" data-field="famAutNumero" value="' + esc(aut.numero) + '" data-action="input-field"></div>'
++ '<div class="field"><label for="faData">Data da autorização</label><input class="input" id="faData" type="date" data-field="famAutData" value="' + esc(aut.data) + '" data-action="input-field"></div>'
++ '<div class="field"><label for="faLoc">Local de sepultamento</label><input class="input" id="faLoc" data-field="famAutLocal" value="' + esc(aut.local) + '" data-action="input-field"></div>')
++ "</div>";
+body += '<div class="alert-info">Corpo não reclamado. O sepultamento será realizado pelo Estado, com registro para fins de rastreabilidade e eventual identificação posterior.</div>';
+if (!ro) body += '<div class="action-row"><button class="btn" data-action="confirm-semfamilia" data-id="' + esc(c.id) + '">Confirmar sepultamento pelo Estado</button></div>';
+}
+}
+return '<div class="block" id="etapa6"><h3>Etapa 6 — Família e liberação</h3><p class="block-sub">Liberação do corpo a familiar ou, na ausência de familiares, sepultamento pelo Estado.</p>' + head + body + "</div>";
+}
+
+function renderFuneraria(c) {
+const show = c.etapa >= 6 || c.decisaoAdm || c.concluido || c.status === "Aguardando funerária" || c.status === "Sepultado pelo Estado";
+if (!show) return "";
+const fu = c.funeraria || {};
+const destino = fu.destino || "familia";
+const ro = !canWrite() || c.concluido;
+const destOpts = [["familia", "Funerária contratada pela família"], ["estado", "Sepultamento pelo Estado"]];
+const head = '<div class="field" style="margin-bottom:12px;"><label for="destCorpo">Destino do corpo *</label>' + (ro ? '<div class="readonly-val">' + esc(destino === "familia" ? "Funerária contratada pela família" : "Sepultamento pelo Estado") + "</div>" : '<select class="input" id="destCorpo" data-field="destinoCorpo" data-action="select-field">' + destOpts.map(function (o) { return '<option value="' + o[0] + '"' + (o[0] === destino ? " selected" : "") + ">" + esc(o[1]) + "</option>"; }).join("") + "</select>") + "</div>";
+let body = "";
+const scanBlock = ro
+? (fu.scanner ? '<div class="file-thumb"><img src="' + esc(fu.scanner.url) + '" alt=""><div><b>' + esc(fu.scanner.nome) + "</b><br>" + esc(fu.scanner.tamanho) + "</div></div>" : '<div class="note">Nenhum scanner anexado.</div>')
+: '<div style="margin-top:12px;"><label style="font-size:12px;font-weight:600;color:#3b4a5f;">Scanner do Auto de Entrega (opcional)</label><div class="action-row" style="justify-content:flex-start;"><button class="btn btn-outline btn-sm" data-action="scan-capture" data-id="' + esc(c.id) + '">Escanear</button><button class="btn btn-outline btn-sm" data-action="scan-file" data-id="' + esc(c.id) + '">Anexar arquivo</button></div><input type="file" id="scanCapture" accept="image/*" capture="environment" hidden data-action="scan-change" data-id="' + esc(c.id) + '"><input type="file" id="scanFile" accept=".jpg,.jpeg,.png,.webp,.pdf,image/jpeg,image/png,image/webp,application/pdf" hidden data-action="scan-change" data-id="' + esc(c.id) + '">' + (fu.scanner ? '<div class="file-thumb"><img src="' + esc(fu.scanner.url) + '" alt=""><div><b>' + esc(fu.scanner.nome) + "</b><br>" + esc(fu.scanner.tamanho) + '</div><button class="btn btn-ghost btn-sm" data-action="scan-remove" data-id="' + esc(c.id) + '">Remover</button></div>' : "") + "</div>";
+if (destino === "familia") {
+body += '<div class="grid-3">'
++ (ro ? readonlyBlock("Nome da funerária", fu.nome) + readonlyBlock("Auto de Entrega", fu.auto) + readonlyBlock("Data e hora da entrega", fmtDate(fu.dataEntrega) + " " + (fu.horaEntrega || ""))
+: '<div class="field"><label for="fuNome">Nome da funerária</label><input class="input" id="fuNome" data-field="fuNome" value="' + esc(fu.nome) + '" data-action="input-field"></div>'
++ '<div class="field"><label for="fuAuto">Número do Auto de Entrega</label><input class="input" id="fuAuto" data-field="fuAuto" value="' + esc(fu.auto) + '" data-action="input-field"></div>'
++ '<div class="field"><label for="fuData">Data da entrega</label><input class="input" id="fuData" type="date" data-field="fuData" value="' + esc(fu.dataEntrega) + '" data-action="input-field"></div>'
++ '<div class="field"><label for="fuHora">Hora da entrega</label><input class="input" id="fuHora" type="time" data-field="fuHora" value="' + esc(fu.horaEntrega) + '" data-action="input-field"></div>')
++ "</div>" + scanBlock;
+if (!ro) body += '<div class="action-row"><button class="btn" data-action="confirm-funeraria" data-id="' + esc(c.id) + '">Confirmar entrega à funerária</button></div>';
+} else {
+body += '<div class="grid-3">'
++ (ro ? readonlyBlock("Funerária responsável", fu.nome) + readonlyBlock("Auto de Entrega", fu.auto) + readonlyBlock("Data e hora da entrega", fmtDate(fu.dataEntrega) + " " + (fu.horaEntrega || "")) + readonlyBlock("Autorização", fu.autorizacao) + readonlyBlock("Data da autorização", fmtDate(fu.dataAutorizacao)) + readonlyBlock("Local", fu.local)
+: '<div class="field"><label for="fuNome">Funerária responsável pelo sepultamento</label><input class="input" id="fuNome" data-field="fuNome" value="' + esc(fu.nome) + '" data-action="input-field"></div>'
++ '<div class="field"><label for="fuAuto">Número do Auto de Entrega</label><input class="input" id="fuAuto" data-field="fuAuto" value="' + esc(fu.auto) + '" data-action="input-field"></div>'
++ '<div class="field"><label for="fuData">Data da entrega</label><input class="input" id="fuData" type="date" data-field="fuData" value="' + esc(fu.dataEntrega) + '" data-action="input-field"></div>'
++ '<div class="field"><label for="fuHora">Hora da entrega</label><input class="input" id="fuHora" type="time" data-field="fuHora" value="' + esc(fu.horaEntrega) + '" data-action="input-field"></div>'
++ '<div class="field"><label for="fuAut">Número da autorização de sepultamento</label><input class="input" id="fuAut" data-field="fuAut" value="' + esc(fu.autorizacao) + '" data-action="input-field"></div>'
++ '<div class="field"><label for="fuAutData">Data da autorização</label><input class="input" id="fuAutData" type="date" data-field="fuAutData" value="' + esc(fu.dataAutorizacao) + '" data-action="input-field"></div>'
++ '<div class="field full"><label for="fuLoc">Local de sepultamento</label><input class="input" id="fuLoc" data-field="fuLoc" value="' + esc(fu.local) + '" data-action="input-field"></div>')
++ "</div>" + scanBlock;
+if (!ro) body += '<div class="action-row"><button class="btn" data-action="confirm-sepult-estado" data-id="' + esc(c.id) + '">Confirmar sepultamento pelo Estado</button></div>';
+}
+return '<div class="block" id="funeraria"><h3>Funerária</h3><p class="block-sub">Entrega do corpo à funerária responsável e registro do Auto de Entrega.</p>' + head + body + "</div>";
+}
+
+function renderEtapa7(c) {
+if (!(c.etapa >= 7 || c.concluido || c.status === "Entrega de laudo para ADM" || c.status === "Sepultado pelo Estado" || c.status === "Custódia finalizada")) return "";
+const l = c.laudo || {};
+const ro = !canWrite() || c.concluido;
+const canGestor = isGestor() && !c.concluido;
+const sigBlock = (l.assinatura ? '<img class="sig-img" src="' + esc(l.assinatura) + '" alt="Assinatura de quem recebeu">' : '<div class="note">Assinatura não registrada.</div>')
++ (ro ? "" : '<div class="action-row" style="justify-content:flex-start;"><button class="btn btn-outline btn-sm" data-action="open-sig" data-target="assinaturaRecebimentoLaudo" data-id="' + esc(c.id) + '">' + (l.assinatura ? "Refazer" : "Assinar") + "</button></div>");
+const admCheck = ro
+? (l.confirmadoAdm ? '<div class="check-row"><span>✓ Recebimento confirmado pela ADM</span></div>' : "")
+: '<div class="check-row"><input type="checkbox" id="laudoAdm" data-field="laudoAdm" data-action="toggle-laudo-adm" ' + (l.confirmadoAdm ? "checked " : "") + (canGestor ? "" : "disabled ") + '><label for="laudoAdm">Recebimento confirmado pela ADM</label></div>' + (canGestor ? "" : '<div class="note">Somente o gestor da ADM pode confirmar o recebimento.</div>');
+const selo = l.confirmadoAdm ? '<span class="seal seal-green">RECEBIDO PELA ADM</span>' : "";
+const faltas = [];
+return '<div class="block" id="etapa7"><h3>Etapa 7 — Entrega de laudo para ADM</h3><p class="block-sub">Registro de quem entregou e de quem recebeu o laudo.</p>'
++ '<h4 style="margin:6px 0;font-size:14px;">Quem entrega</h4><div class="grid-2">'
++ (ro ? readonlyBlock("Responsável pela entrega", l.entregueResp) : '<div class="field full"><label for="lEnt">Nome do responsável pela entrega *</label><input class="input" id="lEnt" data-field="laudoEntregue" value="' + esc(l.entregueResp) + '" data-action="input-field"></div>')
++ "</div>"
++ '<h4 style="margin:14px 0 6px;font-size:14px;">Quem recebe</h4><div class="grid-2">'
++ (ro ? readonlyBlock("Quem recebeu", l.recebeuNome) + readonlyBlock("Data do recebimento", fmtDate(l.recebeuData))
+: '<div class="field"><label for="lRec">Nome de quem recebeu *</label><input class="input" id="lRec" data-field="laudoRecebeu" value="' + esc(l.recebeuNome) + '" data-action="input-field"></div><div class="field"><label for="lData">Data do recebimento *</label><input class="input" id="lData" type="date" data-field="laudoData" value="' + esc(l.recebeuData) + '" data-action="input-field"></div>')
++ "</div>"
++ '<div style="margin-top:12px;"><label style="font-size:12px;font-weight:600;color:#3b4a5f;">Assinatura de quem recebeu</label>' + sigBlock + "</div>"
++ '<div style="margin-top:12px;">' + admCheck + " " + selo + "</div>"
++ (ro ? "" : '<div class="alert-info" style="margin-top:12px;">Registre quem entregou e quem recebeu o laudo. Após confirmar, o caso será encerrado.</div><div id="laudoErr"></div><div class="action-row"><button class="btn" data-action="confirm-laudo" data-id="' + esc(c.id) + '">Confirmar entrega do laudo à ADM</button></div>')
++ "</div>";
+}
+
+function renderHistorico(c) {
+let list = c.historico.slice();
+if (isMedico()) {
+list = list.filter(function (h) { return !/funerária|sepultamento|laudo|Decisão administrativa|Sepultamento|liberação|familiar|entrega/i.test(h.text); });
+}
+const rows = list.map(function (h) {
+return '<li><div class="when">' + esc(h.when) + '</div><div class="who">' + esc(h.who) + '</div><div>' + esc(h.text) + "</div></li>";
+}).join("");
+return '<div class="block" id="historico"><h3>Histórico</h3><p class="block-sub">Mudanças de status, lacres recebidos e decisões registradas, da mais recente à mais antiga.</p><ul class="timeline">' + rows + "</ul></div>";
+}
+
+function notify(msg, kind) { toast(msg, kind || "ok"); }
+
+function addHistorico(c, text) {
+c.historico.unshift({ when: nowStamp(), who: PROFILE_NAMES[profile], text: text });
+}
+
+function updateSelectField(c, field, value) {
+if (field === "resultadoIdentificacao") {
+c.identificacao = c.identificacao || {};
+c.identificacao.resultado = value;
+if (value === "identificado") { c.identificacao.metodo = c.identificacao.metodo && c.identificacao.metodo !== "Não identificado" ? c.identificacao.metodo : "Necropapiloscopia"; }
+else { c.identificacao.metodo = "Não identificado"; }
+} else if (field === "metodo") {
+c.identificacao = c.identificacao || {};
+c.identificacao.metodo = value;
+} else if (field === "buscaResultado") {
+c.identificacao = c.identificacao || {};
+c.identificacao.busca = c.identificacao.busca || { inicio: "", prazo: 30, resultado: "" };
+c.identificacao.busca.resultado = value;
+} else if (field === "buscaInicio") {
+} else if (field === "tipoLiberacao") {
+c.familia = c.familia || {};
+c.familia.tipo = value;
+} else if (field === "famBuscaResultado") {
+c.familia = c.familia || {};
+c.familia.busca = c.familia.busca || { inicio: "", prazo: 30, resultado: "" };
+c.familia.busca.resultado = value;
+} else if (field === "destinoCorpo") {
+c.funeraria = c.funeraria || {};
+c.funeraria.destino = value;
+} else if (field === "ocAgente") {
+c.ocorrencia.agente = value;
+} else if (field === "ocSexo") {
+c.ocorrencia.sexo = value;
+} else if (field === "estadoCorpo") {
+c.estadoCorpo = value;
+}
+}
+
+function updateInputField(c, field, value, mat) {
+switch (field) {
+case "acHorario": c.acionamento.horario = value; break;
+case "acNumero": c.acionamento.numero = value; break;
+case "ocChegada": c.ocorrencia.chegada = value; break;
+case "ocDelegacia": c.ocorrencia.delegacia = value; break;
+case "ocAutoridade": c.ocorrencia.autoridade = value; break;
+case "ocEndereco": c.ocorrencia.endereco = value; break;
+case "ocMunicipio": c.ocorrencia.municipio = value; break;
+case "ocUf": c.ocorrencia.uf = value; break;
+case "ocPossivelNome": c.ocorrencia.possivelNome = value; break;
+case "ocFiliacao": c.ocorrencia.filiacao = value; break;
+case "ocNascimento": c.ocorrencia.nascimento = value; break;
+case "ocIdade": c.ocorrencia.idade = value; break;
+case "ocFonte": c.ocorrencia.fonte = value; break;
+case "ocDocumento": c.ocorrencia.documento = value; break;
+case "ocTelefone": c.ocorrencia.telefone = value; break;
+case "ocObs": c.ocorrencia.observacoes = value; break;
+case "camara": c.camara = value; break;
+case "gaveta": c.gaveta = value; break;
+case "lacreCorpo": c.lacreCorpo = value; break;
+case "nMed": c.necropsia = c.necropsia || {}; c.necropsia.medico = value; break;
+case "nTec": c.necropsia = c.necropsia || {}; c.necropsia.tecnico = value; break;
+case "nOdo": c.necropsia = c.necropsia || {}; c.necropsia.odonto = value; break;
+case "nIni": c.necropsia = c.necropsia || {}; c.necropsia.inicio = value; break;
+case "nTer": c.necropsia = c.necropsia || {}; c.necropsia.termino = value; break;
+case "lacre":
+const m = c.materiais.find(function (x) { return x.id === mat; });
+if (m) m.lacre = value;
+break;
+case "buscaInicio": c.identificacao = c.identificacao || {}; c.identificacao.busca = c.identificacao.busca || {}; c.identificacao.busca.inicio = value; break;
+case "buscaPrazo": c.identificacao = c.identificacao || {}; c.identificacao.busca = c.identificacao.busca || {}; c.identificacao.busca.prazo = value; break;
+case "autNumero": c.identificacao = c.identificacao || {}; c.identificacao.autorizacao = c.identificacao.autorizacao || {}; c.identificacao.autorizacao.numero = value; break;
+case "autData": c.identificacao = c.identificacao || {}; c.identificacao.autorizacao = c.identificacao.autorizacao || {}; c.identificacao.autorizacao.data = value; break;
+case "autLocal": c.identificacao = c.identificacao || {}; c.identificacao.autorizacao = c.identificacao.autorizacao || {}; c.identificacao.autorizacao.local = value; break;
+case "idNome": c.identificacao = c.identificacao || {}; c.identificacao.nomeConfirmado = value; break;
+case "idResp": c.identificacao = c.identificacao || {}; c.identificacao.responsavel = value; break;
+case "idData": c.identificacao = c.identificacao || {}; c.identificacao.dataConfirmacao = value; break;
+case "fNome": c.familia = c.familia || {}; c.familia.nome = value; break;
+case "fParent": c.familia = c.familia || {}; c.familia.parentesco = value; break;
+case "fDoc": c.familia = c.familia || {}; c.familia.documento = value; break;
+case "fTel": c.familia = c.familia || {}; c.familia.telefone = value; break;
+case "fData": c.familia = c.familia || {}; c.familia.dataLiberacao = value; break;
+case "famBuscaInicio": c.familia = c.familia || {}; c.familia.busca = c.familia.busca || {}; c.familia.busca.inicio = value; break;
+case "famBuscaPrazo": c.familia = c.familia || {}; c.familia.busca = c.familia.busca || {}; c.familia.busca.prazo = value; break;
+case "famAutNumero": c.familia = c.familia || {}; c.familia.autorizacao = c.familia.autorizacao || {}; c.familia.autorizacao.numero = value; break;
+case "famAutData": c.familia = c.familia || {}; c.familia.autorizacao = c.familia.autorizacao || {}; c.familia.autorizacao.data = value; break;
+case "famAutLocal": c.familia = c.familia || {}; c.familia.autorizacao = c.familia.autorizacao || {}; c.familia.autorizacao.local = value; break;
+case "fuNome": c.funeraria = c.funeraria || {}; c.funeraria.nome = value; break;
+case "fuAuto": c.funeraria = c.funeraria || {}; c.funeraria.auto = value; break;
+case "fuData": c.funeraria = c.funeraria || {}; c.funeraria.dataEntrega = value; break;
+case "fuHora": c.funeraria = c.funeraria || {}; c.funeraria.horaEntrega = value; break;
+case "fuAut": c.funeraria = c.funeraria || {}; c.funeraria.autorizacao = value; break;
+case "fuAutData": c.funeraria = c.funeraria || {}; c.funeraria.dataAutorizacao = value; break;
+case "fuLoc": c.funeraria = c.funeraria || {}; c.funeraria.local = value; break;
+case "laudoEntregue": c.laudo = c.laudo || {}; c.laudo.entregueResp = value; break;
+case "laudoRecebeu": c.laudo = c.laudo || {}; c.laudo.recebeuNome = value; break;
+case "laudoData": c.laudo = c.laudo || {}; c.laudo.recebeuData = value; break;
+}
+}
+
+function currentCaseFor(id) { return cases.find(function (x) { return x.id === id; }); }
+
+function captureOpenDialogs() { return null; }
+
+function rerenderKeepFocus() {
+const active = document.activeElement;
+const id = active && active.id;
+const sel = active && active.selectionStart;
+renderPanel();
+refreshAll();
+if (id) {
+const el = document.getElementById(id);
+if (el) {
+el.focus();
+try { if (typeof sel === "number") el.setSelectionRange(sel, sel); } catch (e) {}
+}
+}
+}
+
+function rerenderAfterStructural() {
+renderPanel();
+refreshAll();
+}
+
+function markStage(c, status, etapa, concluido) {
+c.status = status;
+if (etapa) c.etapa = etapa;
+if (typeof concluido === "boolean") c.concluido = concluido;
+}
+
+function confirmarEntrada(c) {
+c.confirmadoEntrada = true;
+if (c.etapa < 3) c.etapa = 3;
+c.status = "Aguardando necropsia";
+addHistorico(c, "Entrada do corpo confirmada na base.");
+notify("Entrada na base confirmada.", "ok");
+rerenderAfterStructural();
+}
+
+function concluirNecropsia(c) {
+c.status = "Necropsia concluída";
+if (c.etapa < 5) c.etapa = 5;
+addHistorico(c, "Necropsia concluída.");
+notify("Necropsia concluída.", "ok");
+rerenderAfterStructural();
+}
+
+function confirmarIdentificacao(c) {
+const i = c.identificacao || {};
+if (!i.nomeConfirmado || !i.responsavel || !i.dataConfirmacao) {
+notify("Preencha nome confirmado, responsável e data da confirmação.", "err");
+return;
+}
+c.status = "Identificado";
+c.etapa = Math.max(c.etapa, 6);
+addHistorico(c, "Identificação confirmada por " + i.metodo + ": " + i.nomeConfirmado + ".");
+notify("Identificação confirmada.", "ok");
+rerenderAfterStructural();
+}
+
+function confirmarSepultIdentificacao(c) {
+const a = (c.identificacao || {}).autorizacao || {};
+const b = (c.identificacao || {}).busca || {};
+if (!a.numero || !a.data || !a.local || b.resultado !== "Sem êxito") {
+notify("Preencha número, data e local da autorização e marque busca 'Sem êxito'.", "err");
+return;
+}
+c.status = "Sepultado pelo Estado";
+c.etapa = Math.max(c.etapa, 6);
+addHistorico(c, "Corpo não identificado — sepultamento pelo Estado autorizado — " + a.numero + ", em " + fmtDate(a.data) + ". Local: " + a.local + ".");
+notify("Sepultamento pelo Estado registrado.", "ok");
+rerenderAfterStructural();
+}
+
+function confirmarFamilia(c) {
+const f = c.familia || {};
+if (!f.nome || !f.dataLiberacao) {
+notify("Preencha nome do familiar e data de liberação.", "err");
+return;
+}
+c.status = "Aguardando funerária";
+c.etapa = Math.max(c.etapa, 6);
+addHistorico(c, "Liberação ao familiar " + f.nome + " (" + (f.parentesco || "") + ") confirmada em " + fmtDate(f.dataLiberacao) + ".");
+notify("Recebimento pelo familiar confirmado.", "ok");
+rerenderAfterStructural();
+}
+
+function confirmarSemFamilia(c) {
+const f = c.familia || {};
+const aut = f.autorizacao || {};
+const busca = f.busca || {};
+if (busca.resultado !== "Sem êxito" || !aut.numero || !aut.data || !aut.local) {
+notify("Preencha a autorização e marque a busca como 'Sem êxito'.", "err");
+return;
+}
+c.status = "Sepultado pelo Estado";
+c.etapa = Math.max(c.etapa, 6);
+addHistorico(c, "Sepultamento pelo Estado autorizado — " + aut.numero + ", em " + fmtDate(aut.data) + ". Local: " + aut.local + ".");
+notify("Sepultamento pelo Estado registrado.", "ok");
+rerenderAfterStructural();
+}
+
+function confirmarFuneraria(c) {
+const fu = c.funeraria || {};
+if (!fu.nome || !fu.auto || !fu.dataEntrega || !fu.horaEntrega) {
+notify("Preencha funerária, Auto de Entrega, data e hora da entrega.", "err");
+return;
+}
+c.status = "Entrega de laudo para ADM";
+c.etapa = 7;
+addHistorico(c, "Entrega à funerária " + fu.nome + " confirmada — Auto " + fu.auto + " em " + fmtDate(fu.dataEntrega) + ".");
+notify("Entrega à funerária confirmada.", "ok");
+rerenderAfterStructural();
+}
+
+function confirmarSepultEstado(c) {
+const fu = c.funeraria || {};
+if (!fu.nome || !fu.auto || !fu.dataEntrega || !fu.horaEntrega || !fu.autorizacao || !fu.dataAutorizacao || !fu.local) {
+notify("Preencha todos os campos do sepultamento pelo Estado.", "err");
+return;
+}
+c.status = "Sepultado pelo Estado";
+c.etapa = Math.max(c.etapa, 6);
+addHistorico(c, "Sepultamento pelo Estado registrado — funerária " + fu.nome + ", Auto de Entrega " + fu.auto + ", autorização " + fu.autorizacao + " de " + fmtDate(fu.dataAutorizacao) + ". Local: " + fu.local + ".");
+notify("Sepultamento pelo Estado registrado.", "ok");
+rerenderAfterStructural();
+}
+
+function confirmarLaudo(c) {
+const l = c.laudo || {};
+const missing = [];
+if (!l.entregueResp) missing.push("responsável pela entrega");
+if (!l.recebeuNome) missing.push("nome de quem recebeu");
+if (!l.recebeuData) missing.push("data do recebimento");
+if (isGestor() && !l.confirmadoAdm) missing.push("confirmação de recebimento pela ADM");
+const err = $("#laudoErr");
+if (missing.length) {
+if (err) err.innerHTML = '<div class="alert-red">Faltam preencher: ' + esc(missing.join(", ")) + ".</div>";
+notify("Faltam campos obrigatórios.", "err");
+if (err) err.scrollIntoView({ behavior: "smooth", block: "center" });
+return;
+}
+const proceed = function () {
+c.status = "Custódia finalizada";
+c.concluido = true;
+c.etapa = 7;
+c.laudo.recebidoEm = nowStamp();
+c.laudo.recebidoPor = PROFILE_NAMES[profile];
+addHistorico(c, "Laudo entregue à ADM — entregue por " + l.entregueResp + ", recebido por " + l.recebeuNome + ", em " + fmtDate(l.recebeuData) + ". " + (l.assinatura ? "Assinatura registrada." : "Sem assinatura registrada."));
+notify("Laudo entregue à ADM. Caso concluído.", "ok");
+rerenderAfterStructural();
+};
+if (!l.assinatura) {
+if (window.confirm("A assinatura de quem recebeu o laudo não foi registrada. Deseja confirmar mesmo assim?")) proceed();
+} else proceed();
+}
+
+function toggleRecebido(c, matId, checked) {
+const m = c.materiais.find(function (x) { return x.id === matId; });
+if (!m) return;
+if (!isGestor()) { notify("Somente o gestor da ADM pode confirmar o recebimento.", "err"); rerenderKeepFocus(); return; }
+m.recebidoAdm = checked;
+if (checked) {
+m.recebidoEm = nowStamp();
+m.recebidoPor = PROFILE_NAMES[profile];
+addHistorico(c, "Lacre " + m.lacre + " do material " + m.nome + " recebido pela ADM — " + PROFILE_NAMES[profile] + ", em " + m.recebidoEm + ".");
+} else {
+m.recebidoEm = ""; m.recebidoPor = "";
+}
+rerenderKeepFocus();
+}
+
+function markAll(c) {
+if (!window.confirm("Marcar todos os lacres pendentes como recebidos pela ADM?")) return;
+c.materiais.forEach(function (m) {
+if (m.coletado === "Sim" && m.lacre && !m.recebidoAdm) {
+m.recebidoAdm = true;
+m.recebidoEm = nowStamp();
+m.recebidoPor = PROFILE_NAMES[profile];
+addHistorico(c, "Lacre " + m.lacre + " do material " + m.nome + " recebido pela ADM — " + PROFILE_NAMES[profile] + ", em " + m.recebidoEm + ".");
+}
+});
+notify("Lacres marcados como recebidos.", "ok");
+rerenderAfterStructural();
+}
+
+function confirmJust(c) {
+const t = ($("#justText").value || "").trim();
+if (t.length < 20) { notify("A justificativa deve ter no mínimo 20 caracteres.", "err"); return; }
+c.decisaoAdm = true;
+c.identificacao = c.identificacao || {};
+c.identificacao.resultado = "naoIdentificado";
+c.identificacao.metodo = "Não identificado";
+c.status = "Aguardando funerária";
+c.etapa = Math.max(c.etapa, 5);
+addHistorico(c, "Decisão administrativa: corpo encaminhado para sepultamento pelo Estado sem identificação. Justificativa: " + t + ". Responsável: " + PROFILE_NAMES[profile] + ".");
+notify("Corpo encaminhado para sepultamento pelo Estado.", "ok");
+closeModal("#justModal");
+rerenderAfterStructural();
+}
+
+function openModal(sel) { $(sel).classList.add("open"); }
+function closeModal(sel) { $(sel).classList.remove("open"); }
+
+function openSig(c, target) {
+sigContext = { caseId: c.id, target: target };
+openModal("#sigModal");
+const wrap = $("#sigWrap");
+wrap.innerHTML = '<canvas id="sigCanvas"></canvas>';
+const canvas = document.getElementById("sigCanvas");
+const rect = canvas.getBoundingClientRect();
+canvas.width = Math.max(300, Math.round(rect.width));
+canvas.height = 300;
+const ctx = canvas.getContext("2d");
+ctx.lineWidth = 2.5;
+ctx.lineCap = "round";
+ctx.strokeStyle = "#1e3a5f";
+sigCanvasState = { canvas: canvas, ctx: ctx, drawing: false, last: null, dirty: false };
+canvas.style.touchAction = "none";
+canvas.addEventListener("pointerdown", sigDown);
+canvas.addEventListener("pointermove", sigMove);
+canvas.addEventListener("pointerup", sigUp);
+canvas.addEventListener("pointerleave", sigUp);
+canvas.addEventListener("pointercancel", sigUp);
+}
+
+function sigPos(ev) {
+const r = sigCanvasState.canvas.getBoundingClientRect();
+const sx = sigCanvasState.canvas.width / r.width;
+const sy = sigCanvasState.canvas.height / r.height;
+return { x: (ev.clientX - r.left) * sx, y: (ev.clientY - r.top) * sy };
+}
+function sigDown(ev) {
+if (!sigCanvasState) return;
+sigCanvasState.drawing = true;
+sigCanvasState.last = sigPos(ev);
+sigCanvasState.canvas.setPointerCapture && sigCanvasState.canvas.setPointerCapture(ev.pointerId);
+ev.preventDefault();
+}
+function sigMove(ev) {
+if (!sigCanvasState || !sigCanvasState.drawing) return;
+const p = sigPos(ev);
+const s = sigCanvasState;
+s.ctx.beginPath();
+s.ctx.moveTo(s.last.x, s.last.y);
+s.ctx.lineTo(p.x, p.y);
+s.ctx.stroke();
+s.last = p;
+s.dirty = true;
+ev.preventDefault();
+}
+function sigUp() { if (sigCanvasState) sigCanvasState.drawing = false; }
+
+function clearSig() {
+if (!sigCanvasState) return;
+sigCanvasState.ctx.clearRect(0, 0, sigCanvasState.canvas.width, sigCanvasState.canvas.height);
+sigCanvasState.dirty = false;
+}
+
+function confirmSig() {
+if (!sigContext || !sigCanvasState) return;
+const c = currentCaseFor(sigContext.caseId);
+if (!c) return;
+const url = sigCanvasState.canvas.toDataURL("image/png");
+if (sigContext.target === "assinaturaFamilia") { c.familia = c.familia || {}; c.familia.assinatura = url; }
+else if (sigContext.target === "assinaturaRecebimentoLaudo") { c.laudo = c.laudo || {}; c.laudo.assinatura = url; }
+closeModal("#sigModal");
+sigContext = null;
+sigCanvasState = null;
+notify("Assinatura registrada.", "ok");
+renderPanel();
+}
+
+function cancelSig() {
+closeModal("#sigModal");
+sigContext = null;
+sigCanvasState = null;
+}
+
+function readScanFile(c, file, kind) {
+if (!file) return;
+const ok = ["image/jpeg", "image/png", "image/webp", "application/pdf"];
+if (ok.indexOf(file.type) < 0) { notify("Formato não aceito. Use JPG, PNG, WebP ou PDF.", "err"); return; }
+if (file.size > 10 * 1024 * 1024) { notify("Arquivo acima de 10 MB.", "err"); return; }
+const size = file.size > 1048576 ? (file.size / 1048576).toFixed(1) + " MB" : Math.round(file.size / 1024) + " KB";
+const reader = new FileReader();
+reader.onload = function () {
+c.funeraria = c.funeraria || {};
+c.funeraria.scanner = { nome: file.name, tamanho: size, url: file.type === "application/pdf" ? "https://img.usecurling.com/p/200/200?q=pdf%20document&color=gray" : reader.result };
+notify("Auto de Entrega anexado.", "ok");
+renderPanel();
+};
+reader.readAsDataURL(file);
+}
+
+function setPanelField(c, field, val) {
+switch (field) {
+case "tipoLiberacao": updateSelectField(c, "tipoLiberacao", val); break;
+case "destinoCorpo": updateSelectField(c, "destinoCorpo", val); break;
+}
+}
+
+function handleInputFieldEvent(el) {
+const c = openCaseId ? currentCase() : null;
+if (!c) return;
+const field = el.dataset.field;
+const mat = el.dataset.mat;
+updateInputField(c, field, el.value, mat);
+if (field === "ocObs") { return; }
+if (field === "buscaPrazo" || field === "famBuscaPrazo" || field === "buscaInicio" || field === "famBuscaInicio") {
+renderKpis();
+}
+}
+
+function handleSelectEvent(el) {
+const c = openCaseId ? currentCase() : null;
+if (!c) return;
+const field = el.dataset.field;
+if (field === "ocAgente") {
+c.ocorrencia.agente = el.value;
+renderCasesTable();
+renderSummary();
+return;
+}
+if (field === "ocSexo") { c.ocorrencia.sexo = el.value; return; }
+if (field === "estadoCorpo") { c.estadoCorpo = el.value; return; }
+updateSelectField(c, field, el.value);
+if (field === "resultadoIdentificacao" || field === "tipoLiberacao" || field === "destinoCorpo" || field === "buscaResultado" || field === "famBuscaResultado" || field === "metodo") {
+rerenderKeepFocus();
+}
+}
+
+function handleToggleColetado(el) {
+const c = currentCase();
+if (!c) return;
+const m = c.materiais.find(function (x) { return x.id === el.dataset.mat; });
+if (!m) return;
+m.coletado = el.checked ? "Sim" : "Não";
+if (!el.checked) { m.lacre = m.lacre; m.recebidoAdm = false; m.recebidoEm = ""; m.recebidoPor = ""; }
+rerenderKeepFocus();
+}
+
+function handleClick(e) {
+const t = e.target.closest("[data-action]");
+if (!t) return;
+const act = t.dataset.action;
+const c = currentCase();
+
+if (act === "tab") { setTab(t.dataset.tab); return; }
+if (act === "kpi") {
+const key = t.dataset.kpi;
+if (key === "todos") applyKpi("todos");
+else if (key === "lacres") applyKpi("lacres");
+else applyKpi(key);
+return;
+}
+if (act === "remove-chip") { clearFilters(); return; }
+if (act === "show-all") { clearFilters(); return; }
+if (act === "clear-filters") { clearFilters(); return; }
+if (act === "open-case") { openPanel(t.dataset.id); return; }
+if (act === "close-panel") { closePanel(); return; }
+if (act === "open-photo") {
+$("#lightboxImg").src = t.dataset.src;
+$("#lightbox").classList.add("open");
+return;
+}
+if (act === "close-lightbox") { $("#lightbox").classList.remove("open"); return; }
+if (act === "toggle-obs") {
+const full = t.dataset.full;
+const p = $("#obsResumo");
+if (p.dataset.open === "1") { p.textContent = full.slice(0, 200) + "…"; p.dataset.open = "0"; t.textContent = "ver mais"; }
+else { p.textContent = full; p.dataset.open = "1"; t.textContent = "ver menos"; }
+return;
+}
+if (act === "scroll-etapa") {
+const target = document.getElementById(t.dataset.target === "etapa2" ? "etapa2" : t.dataset.target);
+if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+return;
+}
+if (act === "confirm-entrada" && c) { confirmarEntrada(c); return; }
+if (act === "concluir-necropsia" && c) { concluirNecropsia(c); return; }
+if (act === "mark-all" && c) { markAll(c); return; }
+if (act === "confirm-identificacao" && c) { confirmarIdentificacao(c); return; }
+if (act === "confirm-sepult-id" && c) { confirmarSepultIdentificacao(c); return; }
+if (act === "open-just" && c) {
+justCtx = c.id;
+$("#justText").value = "";
+openModal("#justModal");
+return;
+}
+if (act === "just-cancel") { closeModal("#justModal"); return; }
+if (act === "just-confirm" && justCtx) {
+const cc = currentCaseFor(justCtx);
+if (cc) confirmJust(cc);
+return;
+}
+if (act === "confirm-familia" && c) { confirmarFamilia(c); return; }
+if (act === "confirm-semfamilia" && c) { confirmarSemFamilia(c); return; }
+if (act === "confirm-funeraria" && c) { confirmarFuneraria(c); return; }
+if (act === "confirm-sepult-estado" && c) { confirmarSepultEstado(c); return; }
+if (act === "confirm-laudo" && c) { confirmarLaudo(c); return; }
+if (act === "open-sig" && c) { openSig(c, t.dataset.target); return; }
+if (act === "sig-clear") { clearSig(); return; }
+if (act === "sig-cancel") { cancelSig(); return; }
+if (act === "sig-confirm") { confirmSig(); return; }
+if (act === "scan-capture") { $("#scanCapture").click(); return; }
+if (act === "scan-file") { $("#scanFile").click(); return; }
+if (act === "scan-remove" && c) {
+c.funeraria.scanner = null;
+notify("Anexo removido.", "ok");
+renderPanel();
+return;
+}
+}
+
+function handleChange(e) {
+const t = e.target;
+const act = t.dataset && t.dataset.action;
+if (!act) return;
+if (act === "change-profile") {
+profile = t.value;
+toast("Perfil ativo: " + PROFILE_NAMES[profile], "ok");
+refreshAll();
+if (openCaseId) renderPanel();
+return;
+}
+if (act === "filter-change") {
+readFilterInputs();
+refreshAll();
+return;
+}
+if (act === "select-field") { handleSelectEvent(t); return; }
+if (act === "input-field" && t.tagName === "SELECT") { handleSelectEvent(t); return; }
+if (act === "toggle-coletado") { handleToggleColetado(t); return; }
+if (act === "toggle-recebido") {
+const c = currentCase();
+if (!c) return;
+toggleRecebido(c, t.dataset.mat, t.checked);
+return;
+}
+if (act === "toggle-laudo-adm") {
+const c = currentCase();
+if (!c) return;
+if (!isGestor()) { notify("Somente o gestor da ADM pode confirmar o recebimento.", "err"); renderPanel(); return; }
+c.laudo = c.laudo || {};
+c.laudo.confirmadoAdm = t.checked;
+renderPanel();
+return;
+}
+if (act === "scan-change") {
+const c = currentCase();
+if (!c) return;
+readScanFile(c, t.files && t.files[0]);
+t.value = "";
+return;
+}
+}
+
+function handleInput(e) {
+const t = e.target;
+const act = t.dataset && t.dataset.action;
+if (act === "input-field") {
+if (t.tagName === "SELECT") return;
+handleInputFieldEvent(t);
+return;
+}
+if (act === "filter-change") {
+readFilterInputs();
+refreshAll();
+return;
+}
+}
+
+function handleKeydown(e) {
+const t = e.target;
+if (t && t.dataset && t.dataset.action === "kpi" && (e.key === "Enter" || e.key === " ")) {
+e.preventDefault();
+t.click();
+return;
+}
+if (t && t.dataset && t.dataset.action === "open-photo" && (e.key === "Enter" || e.key === " ")) {
+e.preventDefault();
+t.click();
+return;
+}
+if (e.key === "Escape") {
+if ($("#lightbox").classList.contains("open")) $("#lightbox").classList.remove("open");
+else if ($("#sigModal").classList.contains("open")) cancelSig();
+else if ($("#justModal").classList.contains("open")) closeModal("#justModal");
+else if ($("#sidePanel").classList.contains("open")) closePanel();
+}
+}
+
+function init() {
+document.addEventListener("click", handleClick);
+document.addEventListener("change", handleChange);
+document.addEventListener("input", handleInput);
+document.addEventListener("keydown", handleKeydown);
+renderKpis();
+renderStatusSelect();
+renderCasesTable();
+renderSummary();
+renderChip();
+}
+
+document.addEventListener("DOMContentLoaded", init);
+})();
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"7004b19d732d43b298810595cc4050b1","r":1,"spa":2}' crossorigin="anonymous"></script>
+</body>
+</html>

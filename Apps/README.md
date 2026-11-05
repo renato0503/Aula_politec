@@ -10,7 +10,7 @@ recebe o código do app.
 
 | Pasta | Projeto | Grupo / contato | Unidade | Tipo | Fonte da entrega |
 |---|---|---|---|---|---|
-| [trilha-custodia-necropsia/](trilha-custodia-necropsia/) | TCIN · Trilha de Custódia e Identificação de Necropsia | Silmara Bueno · silmarabueno@politec.mt.gov.br | IML · Coordenadoria de Perícias em Mortos | Aplicativo para servidor | `Aula 8/Entregas/Silmara/` (envios parciais + protótipo), 29/10/2026 |
+| [trilha-custodia-necropsia/](trilha-custodia-necropsia/) | Sistema de Controle de Necropsia | Silmara Bueno · silmarabueno@politec.mt.gov.br | IML · Coordenadoria de Perícias em Mortos | Aplicativo para servidor | `Aula 8/Entregas/Silmara/` (envios parciais + protótipo), 29/10/2026 |
 | [teia-triagem-emails/](teia-triagem-emails/) | TEIA · Triagem de E-mails com Isolação Automatizada | Nelson e Helen Coelho Gonçalves · nelsonyoshitake@politec.mt.gov.br | Coordenação de Perícias em Biologia Molecular | Automação de script ou rotina | Firestore, 03/11/2026 |
 | [controle-aquisicoes/](controle-aquisicoes/) | Controle do processo de aquisição | Kasteline Gonçalves · kastelinesilva@politec.mt.gov.br | Aquisição | Painel de Business Intelligence (dashboard) | `Aula 8/Entregas/`, 29/10/2026 |
 | [gestao-documentos/](gestao-documentos/) | Gestão de Documentos (processos e prazos) | Vitória Araújo Dias · vitoriadias@politec.mt.gov.br | Gabinete de Direção | Aplicativo para servidor | `Aula 8/Entregas/`, 29/10/2026 |
@@ -185,7 +185,7 @@ Para acrescentar um login: `python Apps/_base/equipes.py <app> "<nome>" <login>`
 | rnc-nao-conformidade | Sabrina Ellen | `Sabrinaelllen1209` (Sabrina) |
 | tap-portfolio-projetos | Danielle Marques de Almeida Trevizan, Cristiane Souza Ferraz, Luciana | `daniellealmeida-sudo` (Danielle) |
 | teia-triagem-emails | Nelson, Helen Coelho Gonçalves | `nelsonyoshitake` (Nelson) |
-| trilha-custodia-necropsia | Silmara Bueno | a informar |
+| trilha-custodia-necropsia | Silmara Bueno | `silmarabueno-droid` (Silmara) |
 | (sem projeto) | Francis Souza | `francissouza-pixel` |
 
 ## Repositórios dos apps (03/11/2026)

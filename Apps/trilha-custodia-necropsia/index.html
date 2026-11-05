@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' data: blob:; connect-src 'none'; img-src 'self' data: blob:; media-src 'self' blob: mediastream:; worker-src blob:">
-<title>TCIN · Trilha de Custódia e Identificação</title>
+<title>Sistema de Controle de Necropsia</title>
 <meta name="description" content="Registro único de cada corpo, da remoção à liberação: acionamento, marcos, lacres, situação de identificação e busca. Dados fictícios.">
 <style>
 /* ===== BASE COMUM (Apps/_base/visual.css) ===== */
@@ -430,7 +430,7 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 /* ===== CSS DO APP ===== */
 /* Identidade da TCIN: quadro de plantão, cartões de corpo e painel por perfil. */
 
-.tc-quadro{display:grid;grid-template-columns:repeat(5,minmax(210px,1fr));gap:12px;align-items:start}
+.tc-quadro{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(138px,1fr);gap:12px;align-items:start;overflow-x:auto;padding-bottom:6px}
 .tc-col{background:var(--painel-2);border:1px solid var(--linha);border-radius:var(--raio);padding:10px}
 .tc-col h3{margin:0 0 10px;font-size:14px;text-transform:uppercase;letter-spacing:.05em}
 .tc-col h3 .conta{background:var(--painel);border:1px solid var(--linha);border-radius:999px;padding:1px 8px;font-size:12px;margin-left:4px}
@@ -442,14 +442,19 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 .tc-corpo-nome{font-weight:700;font-size:16px}
 .tc-corpo-dias{font-size:14px;font-weight:700}
 .tc-corpo .sub{font-size:12px}
-@media (max-width:1200px){ .tc-quadro{grid-template-columns:repeat(2,minmax(0,1fr))} }
-@media (max-width:640px){ .tc-quadro{grid-template-columns:1fr} .tc-corpo{min-height:0} }
+@media (max-width:640px){ .tc-quadro{grid-auto-flow:row;grid-template-columns:1fr;overflow-x:visible} .tc-corpo{min-height:0} }
 
 /* toque no tablet: 44 px e ações grandes */
 @media (pointer: coarse){
   .tc-col-lista .tc-corpo{min-height:120px;padding:16px}
   .tc-corpo-nome{font-size:17px}
 }
+
+/* Sprint 9: lista de condições do encerramento */
+.tc-checklist{list-style:none;padding:0;margin:8px 0;display:grid;gap:6px}
+.tc-checklist li{font-weight:600}
+.tc-quadro .tc-corpo .selo{white-space:normal;max-width:100%}
+.tc-quadro .tc-col h3{font-size:12px}
 
 </style>
 </head>
@@ -465,7 +470,7 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 <header class="topo">
   <div class="topo-in">
     <div class="emblema" id="emblema" aria-hidden="true"></div>
-    <div class="marca">TCIN · Trilha de Custódia e Identificação<small>POLITEC/MT · IML, perícias em mortos</small></div>
+    <div class="marca">Sistema de Controle de Necropsia<small>POLITEC/MT · IML, perícias em mortos</small></div>
     <div class="acoes">
       <a id="linkServidor" class="link-servidor" href="#" hidden>Área do servidor</a>
       <div class="suspenso-wrap" id="perfilMenu" hidden>
@@ -491,7 +496,7 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
     </div>
   </div>
 </header>
-<div class="impressao-cab"><b>TCIN · Trilha de Custódia e Identificação</b><span>POLITEC/MT · SESP/MT · Governo de Mato Grosso</span></div>
+<div class="impressao-cab"><b>Sistema de Controle de Necropsia</b><span>POLITEC/MT · SESP/MT · Governo de Mato Grosso</span></div>
 <div class="corpo">
   <nav class="menu" id="menu" aria-label="Telas do app"></nav>
   <div class="area">
@@ -509,7 +514,7 @@ body[data-layout="ferramenta"] nav.menu a[aria-current="page"]{background:transp
 
 <!-- Bibliotecas e dados embutidos (preenchidos por Apps/_base/embutir.py) -->
 <!-- DADOS:seed:exemplos/seed.json -->
-<script type="application/json" id="seed">{"corpos":[{"id_corpo":"C-0001","protocolo":"NEC-2026-001","origem":"Delegacia de Polícia de Cuiabá","natureza":"local de crime","municipio":"Cuiabá","local":"Endereço fictício 1","nome":"Maria Fictícia Souza","documento":"DOC-001","desconhecido":false,"identificado":true,"sexo":"Feminino","idade":20,"tecnico":"Técnico Fictício A","situacao":"em custódia","criado_em":"2026-10-18T08:00:00","entrega":null,"etapa":6,"etapa_em":"2026-10-18T08:00:00","agente_causal":"Causa natural","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"familia":null,"laudo":null,"sepultamento":null,"destino_final":"","custodia_finalizada":false},{"id_corpo":"C-0002","protocolo":"NEC-2026-002","origem":"Delegacia de Várzea Grande","natureza":"morte natural","municipio":"Várzea Grande","local":"Endereço fictício 2","nome":"João Fictício Lima","documento":"DOC-002","desconhecido":false,"identificado":true,"sexo":"Masculino","idade":23,"tecnico":"Técnico Fictício B","situacao":"em custódia","criado_em":"2026-10-19T08:00:00","entrega":null,"etapa":6,"etapa_em":"2026-10-19T08:00:00","agente_causal":"Acidente","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"familia":null,"laudo":null,"sepultamento":null,"destino_final":"","custodia_finalizada":false},{"id_corpo":"C-0003","protocolo":"NEC-2026-003","origem":"Delegacia de Rondonópolis","natureza":"acidente de trânsito","municipio":"Rondonópolis","local":"Endereço fictício 3","nome":"","documento":"","desconhecido":true,"identificado":false,"sexo":"Feminino","idade":26,"tecnico":"Técnico Fictício C","situacao":"aguardando identificação","criado_em":"2026-10-20T08:00:00","entrega":null,"etapa":5,"etapa_em":"2026-10-20T08:00:00","agente_causal":"Homicídio","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"familia":null,"laudo":null,"sepultamento":null,"destino_final":"","custodia_finalizada":false},{"id_corpo":"C-0004","protocolo":"NEC-2026-004","origem":"CIOP","natureza":"morte a esclarecer","municipio":"Cuiabá","local":"Endereço fictício 4","nome":"","documento":"","desconhecido":true,"identificado":false,"sexo":"Masculino","idade":29,"tecnico":"Técnico Fictício D","situacao":"não identificado","criado_em":"2026-10-21T08:00:00","entrega":null,"etapa":6,"etapa_em":"2026-10-21T08:00:00","agente_causal":"Suicídio","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":{"resultado":"nao_identificado","em":"2026-10-21T12:00:00"},"familia":{"encontrada":false,"busca_sem_sucesso":true,"busca_iniciada_em":"2026-10-21T09:00:00","busca_encerrada_em":"2026-10-26T09:00:00"},"laudo":null,"sepultamento":{"justificativa":"Busca de familiares encerrada sem êxito após o prazo legal.","autorizado_em":"2026-10-27T09:00:00","perfil":"gestor"},"destino_final":"sepultamento","custodia_finalizada":false},{"id_corpo":"C-0005","protocolo":"NEC-2026-005","origem":"Delegacia de Polícia de Cuiabá","natureza":"local de crime","municipio":"Várzea Grande","local":"Endereço fictício 5","nome":"Beatriz Fictícia Dias","documento":"DOC-005","desconhecido":false,"identificado":true,"sexo":"Feminino","idade":32,"tecnico":"Técnico Fictício A","situacao":"não reclamado","criado_em":"2026-10-22T08:00:00","entrega":null,"etapa":6,"etapa_em":"2026-10-22T08:00:00","agente_causal":"Indeterminada","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"familia":{"encontrada":false,"busca_sem_sucesso":true,"busca_iniciada_em":"2026-10-22T09:00:00","busca_encerrada_em":"2026-10-27T09:00:00"},"laudo":null,"sepultamento":null,"destino_final":"","custodia_finalizada":false},{"id_corpo":"C-0006","protocolo":"NEC-2026-006","origem":"Delegacia de Várzea Grande","natureza":"morte natural","municipio":"Rondonópolis","local":"Endereço fictício 6","nome":"Ana Fictícia Alves","documento":"DOC-006","desconhecido":false,"identificado":true,"sexo":"Masculino","idade":35,"tecnico":"Técnico Fictício B","situacao":"em custódia","criado_em":"2026-10-23T08:00:00","entrega":null,"etapa":6,"etapa_em":"2026-10-23T08:00:00","agente_causal":"Óbito administrativo","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"familia":null,"laudo":null,"sepultamento":null,"destino_final":"","custodia_finalizada":false},{"id_corpo":"C-0007","protocolo":"NEC-2026-007","origem":"Delegacia de Rondonópolis","natureza":"acidente de trânsito","municipio":"Cuiabá","local":"Endereço fictício 7","nome":"Carlos Fictício Rocha","documento":"DOC-007","desconhecido":false,"identificado":true,"sexo":"Feminino","idade":38,"tecnico":"Técnico Fictício C","situacao":"liberado","criado_em":"2026-10-24T08:00:00","entrega":{"responsavel":"Servidor Fictício","documento":"AUTO-007","data":"2026-10-26T15:00:00"},"etapa":7,"etapa_em":"2026-10-24T08:00:00","agente_causal":"Causa natural","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"familia":{"encontrada":true,"nome":"Familiar Fictício","parentesco":"irmão","documento":"DOC-FAM-007","busca_iniciada_em":"2026-10-24T10:00:00","busca_encerrada_em":"2026-10-24T11:00:00","liberado_em":"2026-10-26T15:00:00"},"laudo":{"entregue_por":"Técnico Fictício A","recebido_por":"Gestor ADM Fictício","entregue_em":"2026-10-26T15:00:00","recebido_em":"2026-10-26T15:00:00"},"sepultamento":null,"destino_final":"família","custodia_finalizada":true},{"id_corpo":"C-0008","protocolo":"NEC-2026-008","origem":"CIOP","natureza":"morte a esclarecer","municipio":"Várzea Grande","local":"Endereço fictício 8","nome":"Paulo Fictício Matos","documento":"DOC-008","desconhecido":false,"identificado":true,"sexo":"Masculino","idade":41,"tecnico":"Técnico Fictício D","situacao":"em custódia","criado_em":"2026-10-25T08:00:00","entrega":null,"etapa":6,"etapa_em":"2026-10-25T08:00:00","agente_causal":"Acidente","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"familia":null,"laudo":null,"sepultamento":null,"destino_final":"","custodia_finalizada":false},{"id_corpo":"C-0009","protocolo":"NEC-2026-009","origem":"Delegacia de Polícia de Cuiabá","natureza":"local de crime","municipio":"Rondonópolis","local":"Endereço fictício 9","nome":"","documento":"","desconhecido":true,"identificado":false,"sexo":"Feminino","idade":44,"tecnico":"Técnico Fictício A","situacao":"aguardando identificação","criado_em":"2026-10-26T08:00:00","entrega":null,"etapa":5,"etapa_em":"2026-10-26T08:00:00","agente_causal":"Homicídio","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"familia":null,"laudo":null,"sepultamento":null,"destino_final":"","custodia_finalizada":false},{"id_corpo":"C-0010","protocolo":"NEC-2026-010","origem":"Delegacia de Várzea Grande","natureza":"morte natural","municipio":"Cuiabá","local":"Endereço fictício 10","nome":"Rita Fictícia Prado","documento":"DOC-010","desconhecido":false,"identificado":true,"sexo":"Masculino","idade":47,"tecnico":"Técnico Fictício B","situacao":"não reclamado","criado_em":"2026-10-27T08:00:00","entrega":null,"etapa":6,"etapa_em":"2026-10-27T08:00:00","agente_causal":"Suicídio","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"familia":{"encontrada":false,"busca_sem_sucesso":true,"busca_iniciada_em":"2026-10-27T09:00:00","busca_encerrada_em":"2026-11-01T09:00:00"},"laudo":null,"sepultamento":null,"destino_final":"","custodia_finalizada":false},{"id_corpo":"C-0011","protocolo":"NEC-2026-011","origem":"Delegacia de Rondonópolis","natureza":"acidente de trânsito","municipio":"Várzea Grande","local":"Endereço fictício 11","nome":"Sérgio Fictício Lima","documento":"DOC-011","desconhecido":false,"identificado":true,"sexo":"Feminino","idade":50,"tecnico":"Técnico Fictício C","situacao":"liberado","criado_em":"2026-10-28T08:00:00","entrega":{"responsavel":"Servidor Fictício","documento":"AUTO-011","data":"2026-10-30T15:00:00"},"etapa":7,"etapa_em":"2026-10-28T08:00:00","agente_causal":"Indeterminada","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"familia":{"encontrada":true,"nome":"Familiar Fictício","parentesco":"irmão","documento":"DOC-FAM-011","busca_iniciada_em":"2026-10-28T10:00:00","busca_encerrada_em":"2026-10-28T11:00:00","liberado_em":"2026-10-30T15:00:00"},"laudo":{"entregue_por":"Técnico Fictício A","recebido_por":"Gestor ADM Fictício","entregue_em":"2026-10-30T15:00:00","recebido_em":"2026-10-30T15:00:00"},"sepultamento":null,"destino_final":"família","custodia_finalizada":true},{"id_corpo":"C-0012","protocolo":"NEC-2026-012","origem":"CIOP","natureza":"morte a esclarecer","municipio":"Rondonópolis","local":"Endereço fictício 12","nome":"Helena Fictícia Alves","documento":"DOC-012","desconhecido":false,"identificado":true,"sexo":"Masculino","idade":53,"tecnico":"Técnico Fictício D","situacao":"em custódia","criado_em":"2026-10-29T08:00:00","entrega":null,"etapa":6,"etapa_em":"2026-10-29T08:00:00","agente_causal":"Óbito administrativo","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"familia":null,"laudo":null,"sepultamento":null,"destino_final":"","custodia_finalizada":false}],"marcos":[{"id_marco":"C-0001-M1","corpo_id":"C-0001","tipo":"Saída da base","data_hora":"2026-10-18T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0001-M2","corpo_id":"C-0001","tipo":"Chegada ao local","data_hora":"2026-10-18T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0001-M3","corpo_id":"C-0001","tipo":"Saída do local","data_hora":"2026-10-18T12:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0001-M4","corpo_id":"C-0001","tipo":"Retorno ao IML","data_hora":"2026-10-18T14:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0002-M1","corpo_id":"C-0002","tipo":"Saída da base","data_hora":"2026-10-19T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0002-M2","corpo_id":"C-0002","tipo":"Chegada ao local","data_hora":"2026-10-19T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0002-M3","corpo_id":"C-0002","tipo":"Saída do local","data_hora":"2026-10-19T12:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0002-M4","corpo_id":"C-0002","tipo":"Retorno ao IML","data_hora":"2026-10-19T14:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0003-M1","corpo_id":"C-0003","tipo":"Saída da base","data_hora":"2026-10-20T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0003-M2","corpo_id":"C-0003","tipo":"Chegada ao local","data_hora":"2026-10-20T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0004-M1","corpo_id":"C-0004","tipo":"Saída da base","data_hora":"2026-10-21T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0004-M2","corpo_id":"C-0004","tipo":"Chegada ao local","data_hora":"2026-10-21T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0004-M3","corpo_id":"C-0004","tipo":"Saída do local","data_hora":"2026-10-21T12:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0005-M1","corpo_id":"C-0005","tipo":"Saída da base","data_hora":"2026-10-22T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0005-M2","corpo_id":"C-0005","tipo":"Chegada ao local","data_hora":"2026-10-22T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0005-M3","corpo_id":"C-0005","tipo":"Saída do local","data_hora":"2026-10-22T12:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0006-M1","corpo_id":"C-0006","tipo":"Saída da base","data_hora":"2026-10-23T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0006-M2","corpo_id":"C-0006","tipo":"Chegada ao local","data_hora":"2026-10-23T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0006-M3","corpo_id":"C-0006","tipo":"Saída do local","data_hora":"2026-10-23T12:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0006-M4","corpo_id":"C-0006","tipo":"Retorno ao IML","data_hora":"2026-10-23T14:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0007-M1","corpo_id":"C-0007","tipo":"Saída da base","data_hora":"2026-10-24T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0007-M2","corpo_id":"C-0007","tipo":"Chegada ao local","data_hora":"2026-10-24T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0007-M3","corpo_id":"C-0007","tipo":"Saída do local","data_hora":"2026-10-24T12:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0007-M4","corpo_id":"C-0007","tipo":"Retorno ao IML","data_hora":"2026-10-24T14:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0008-M1","corpo_id":"C-0008","tipo":"Saída da base","data_hora":"2026-10-25T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0008-M2","corpo_id":"C-0008","tipo":"Chegada ao local","data_hora":"2026-10-25T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0008-M3","corpo_id":"C-0008","tipo":"Saída do local","data_hora":"2026-10-25T12:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0008-M4","corpo_id":"C-0008","tipo":"Retorno ao IML","data_hora":"2026-10-25T14:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0009-M1","corpo_id":"C-0009","tipo":"Saída da base","data_hora":"2026-10-26T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0009-M2","corpo_id":"C-0009","tipo":"Chegada ao local","data_hora":"2026-10-26T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0010-M1","corpo_id":"C-0010","tipo":"Saída da base","data_hora":"2026-10-27T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0010-M2","corpo_id":"C-0010","tipo":"Chegada ao local","data_hora":"2026-10-27T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0010-M3","corpo_id":"C-0010","tipo":"Saída do local","data_hora":"2026-10-27T12:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0011-M1","corpo_id":"C-0011","tipo":"Saída da base","data_hora":"2026-10-28T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0011-M2","corpo_id":"C-0011","tipo":"Chegada ao local","data_hora":"2026-10-28T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0011-M3","corpo_id":"C-0011","tipo":"Saída do local","data_hora":"2026-10-28T12:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0011-M4","corpo_id":"C-0011","tipo":"Retorno ao IML","data_hora":"2026-10-28T14:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0012-M1","corpo_id":"C-0012","tipo":"Saída da base","data_hora":"2026-10-29T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0012-M2","corpo_id":"C-0012","tipo":"Chegada ao local","data_hora":"2026-10-29T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0012-M3","corpo_id":"C-0012","tipo":"Saída do local","data_hora":"2026-10-29T12:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0012-M4","corpo_id":"C-0012","tipo":"Retorno ao IML","data_hora":"2026-10-29T14:00:00","perfil":"tecnico","observacao":""}],"lacres":[{"id_lacre":"C-0001-L1","corpo_id":"C-0001","codigo":"LC-0011","destino":"Laboratório de DNA","data_hora":"2026-10-18T12:00:00","perfil":"tecnico","recebido_em":"2026-10-18T14:00:00","recebido_por":"gestor","recebido_perfil":"gestor"},{"id_lacre":"C-0001-L2","corpo_id":"C-0001","codigo":"LC-0012","destino":"Toxicologia","data_hora":"2026-10-18T12:00:00","perfil":"tecnico","recebido_em":"2026-10-18T14:00:00","recebido_por":"gestor","recebido_perfil":"gestor"},{"id_lacre":"C-0003-L1","corpo_id":"C-0003","codigo":"LC-0031","destino":"Laboratório de DNA","data_hora":"2026-10-20T12:00:00","perfil":"tecnico"},{"id_lacre":"C-0003-L2","corpo_id":"C-0003","codigo":"LC-0032","destino":"Toxicologia","data_hora":"2026-10-20T12:00:00","perfil":"tecnico"},{"id_lacre":"C-0005-L1","corpo_id":"C-0005","codigo":"LC-0051","destino":"Laboratório de DNA","data_hora":"2026-10-22T12:00:00","perfil":"tecnico","recebido_em":"2026-10-22T14:00:00","recebido_por":"gestor","recebido_perfil":"gestor"},{"id_lacre":"C-0005-L2","corpo_id":"C-0005","codigo":"LC-0052","destino":"Toxicologia","data_hora":"2026-10-22T12:00:00","perfil":"tecnico","recebido_em":"2026-10-22T14:00:00","recebido_por":"gestor","recebido_perfil":"gestor"},{"id_lacre":"C-0007-L1","corpo_id":"C-0007","codigo":"LC-0071","destino":"Laboratório de DNA","data_hora":"2026-10-24T12:00:00","perfil":"tecnico"},{"id_lacre":"C-0007-L2","corpo_id":"C-0007","codigo":"LC-0072","destino":"Toxicologia","data_hora":"2026-10-24T12:00:00","perfil":"tecnico"},{"id_lacre":"C-0009-L1","corpo_id":"C-0009","codigo":"LC-0091","destino":"Laboratório de DNA","data_hora":"2026-10-26T12:00:00","perfil":"tecnico","recebido_em":"2026-10-26T14:00:00","recebido_por":"gestor","recebido_perfil":"gestor"},{"id_lacre":"C-0009-L2","corpo_id":"C-0009","codigo":"LC-0092","destino":"Toxicologia","data_hora":"2026-10-26T12:00:00","perfil":"tecnico","recebido_em":"2026-10-26T14:00:00","recebido_por":"gestor","recebido_perfil":"gestor"},{"id_lacre":"C-0011-L1","corpo_id":"C-0011","codigo":"LC-0111","destino":"Laboratório de DNA","data_hora":"2026-10-28T12:00:00","perfil":"tecnico"},{"id_lacre":"C-0011-L2","corpo_id":"C-0011","codigo":"LC-0112","destino":"Toxicologia","data_hora":"2026-10-28T12:00:00","perfil":"tecnico"}],"log":[{"id":"L-C-0001","corpo_id":"C-0001","acao":"corpo registrado","perfil":"operador","data_hora":"2026-10-18T08:00:00"},{"id":"L-C-0002","corpo_id":"C-0002","acao":"corpo registrado","perfil":"operador","data_hora":"2026-10-19T08:00:00"},{"id":"L-C-0003","corpo_id":"C-0003","acao":"corpo registrado","perfil":"operador","data_hora":"2026-10-20T08:00:00"},{"id":"L-C-0004","corpo_id":"C-0004","acao":"corpo registrado","perfil":"operador","data_hora":"2026-10-21T08:00:00"},{"id":"L-C-0005","corpo_id":"C-0005","acao":"corpo registrado","perfil":"operador","data_hora":"2026-10-22T08:00:00"},{"id":"L-C-0006","corpo_id":"C-0006","acao":"corpo registrado","perfil":"operador","data_hora":"2026-10-23T08:00:00"},{"id":"L-C-0007","corpo_id":"C-0007","acao":"corpo registrado","perfil":"operador","data_hora":"2026-10-24T08:00:00"},{"id":"L-C-0007-lib","corpo_id":"C-0007","acao":"situação: liberado","perfil":"plantonista","data_hora":"2026-10-26T15:00:00"},{"id":"L-C-0008","corpo_id":"C-0008","acao":"corpo registrado","perfil":"operador","data_hora":"2026-10-25T08:00:00"},{"id":"L-C-0009","corpo_id":"C-0009","acao":"corpo registrado","perfil":"operador","data_hora":"2026-10-26T08:00:00"},{"id":"L-C-0010","corpo_id":"C-0010","acao":"corpo registrado","perfil":"operador","data_hora":"2026-10-27T08:00:00"},{"id":"L-C-0011","corpo_id":"C-0011","acao":"corpo registrado","perfil":"operador","data_hora":"2026-10-28T08:00:00"},{"id":"L-C-0011-lib","corpo_id":"C-0011","acao":"situação: liberado","perfil":"plantonista","data_hora":"2026-10-30T15:00:00"},{"id":"L-C-0012","corpo_id":"C-0012","acao":"corpo registrado","perfil":"operador","data_hora":"2026-10-29T08:00:00"}]}</script>
+<script type="application/json" id="seed">{"corpos":[{"id_corpo":"C-0001","protocolo":"NEC-2026-001","origem":"Delegacia de Polícia de Cuiabá","natureza":"local de crime","municipio":"Cuiabá","local":"Endereço fictício 1","nome":"Maria Fictícia Souza","documento":"DOC-001","desconhecido":false,"identificado":true,"sexo":"Feminino","idade":20,"tecnico":"Técnico Fictício A","situacao":"em custódia","criado_em":"2026-10-18T08:00:00","entrega":null,"etapa":6,"etapa_em":"2026-10-18T08:00:00","agente_causal":"Causa natural","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"funeraria":null,"familia":null,"laudo":null,"sepultamento":null,"destino_final":"","custodia_finalizada":false},{"id_corpo":"C-0002","protocolo":"NEC-2026-002","origem":"Delegacia de Várzea Grande","natureza":"morte natural","municipio":"Várzea Grande","local":"Endereço fictício 2","nome":"João Fictício Lima","documento":"DOC-002","desconhecido":false,"identificado":true,"sexo":"Masculino","idade":23,"tecnico":"Técnico Fictício B","situacao":"em custódia","criado_em":"2026-10-19T08:00:00","entrega":null,"etapa":6,"etapa_em":"2026-10-19T08:00:00","agente_causal":"Acidente","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"funeraria":null,"familia":null,"laudo":null,"sepultamento":null,"destino_final":"","custodia_finalizada":false},{"id_corpo":"C-0003","protocolo":"NEC-2026-003","origem":"Delegacia de Rondonópolis","natureza":"acidente de trânsito","municipio":"Rondonópolis","local":"Endereço fictício 3","nome":"","documento":"","desconhecido":true,"identificado":false,"sexo":"Feminino","idade":26,"tecnico":"Técnico Fictício C","situacao":"aguardando identificação","criado_em":"2026-10-20T08:00:00","entrega":null,"etapa":5,"etapa_em":"2026-10-20T08:00:00","agente_causal":"Homicídio","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"funeraria":null,"familia":null,"laudo":null,"sepultamento":null,"destino_final":"","custodia_finalizada":false},{"id_corpo":"C-0004","protocolo":"NEC-2026-004","origem":"CIOP","natureza":"morte a esclarecer","municipio":"Cuiabá","local":"Endereço fictício 4","nome":"","documento":"","desconhecido":true,"identificado":false,"sexo":"Masculino","idade":29,"tecnico":"Técnico Fictício D","situacao":"não identificado","criado_em":"2026-10-21T08:00:00","entrega":null,"etapa":7,"etapa_em":"2026-10-21T08:00:00","agente_causal":"Suicídio","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":{"resultado":"nao_identificado","em":"2026-10-21T12:00:00","tentativas":[{"metodo":"papiloscopia","resultado":"sem resultado","em":"2026-10-21T12:00:00"},{"metodo":"DNA","resultado":"sem resultado","em":"2026-10-25T12:00:00"}]},"funeraria":{"nome":"Funerária Fictícia do Estado","auto":"AE-004","data_hora":"2026-10-27T10:00:00"},"familia":{"encontrada":false,"busca_sem_sucesso":true,"busca_iniciada_em":"2026-10-21T09:00:00","busca_encerrada_em":"2026-10-26T09:00:00"},"laudo":null,"sepultamento":{"justificativa":"Métodos de identificação esgotados: necropapiloscopia e DNA sem resultado.","autorizacao":"AUT-SEP-004","autorizado_em":"2026-10-27T09:00:00","perfil":"gestor"},"destino_final":"sepultamento","custodia_finalizada":false},{"id_corpo":"C-0005","protocolo":"NEC-2026-005","origem":"Delegacia de Polícia de Cuiabá","natureza":"local de crime","municipio":"Várzea Grande","local":"Endereço fictício 5","nome":"Beatriz Fictícia Dias","documento":"DOC-005","desconhecido":false,"identificado":true,"sexo":"Feminino","idade":32,"tecnico":"Técnico Fictício A","situacao":"não reclamado","criado_em":"2026-10-22T08:00:00","entrega":null,"etapa":6,"etapa_em":"2026-10-22T08:00:00","agente_causal":"Indeterminada","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"funeraria":null,"familia":{"encontrada":false,"busca_sem_sucesso":true,"busca_iniciada_em":"2026-10-22T09:00:00","busca_encerrada_em":"2026-10-27T09:00:00"},"laudo":null,"sepultamento":null,"destino_final":"","custodia_finalizada":false},{"id_corpo":"C-0006","protocolo":"NEC-2026-006","origem":"Delegacia de Várzea Grande","natureza":"morte natural","municipio":"Rondonópolis","local":"Endereço fictício 6","nome":"Ana Fictícia Alves","documento":"DOC-006","desconhecido":false,"identificado":true,"sexo":"Masculino","idade":35,"tecnico":"Técnico Fictício B","situacao":"em custódia","criado_em":"2026-10-23T08:00:00","entrega":null,"etapa":6,"etapa_em":"2026-10-23T08:00:00","agente_causal":"Óbito administrativo","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"funeraria":null,"familia":null,"laudo":null,"sepultamento":null,"destino_final":"","custodia_finalizada":false},{"id_corpo":"C-0007","protocolo":"NEC-2026-007","origem":"Delegacia de Rondonópolis","natureza":"acidente de trânsito","municipio":"Cuiabá","local":"Endereço fictício 7","nome":"Carlos Fictício Rocha","documento":"DOC-007","desconhecido":false,"identificado":true,"sexo":"Feminino","idade":38,"tecnico":"Técnico Fictício C","situacao":"liberado","criado_em":"2026-10-24T08:00:00","entrega":{"responsavel":"Servidor Fictício","documento":"AUTO-007","data":"2026-10-26T15:00:00"},"etapa":7,"etapa_em":"2026-10-24T08:00:00","agente_causal":"Causa natural","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"funeraria":{"nome":"Funerária Fictícia Central","auto":"AE-007","data_hora":"2026-10-26T15:00:00"},"familia":{"encontrada":true,"nome":"Familiar Fictício","parentesco":"irmão","documento":"DOC-FAM-007","busca_iniciada_em":"2026-10-24T10:00:00","busca_encerrada_em":"2026-10-24T11:00:00","liberado_em":"2026-10-26T15:00:00"},"laudo":{"entregue_por":"Técnico Fictício A","recebido_por":"Gestor ADM Fictício","entregue_em":"2026-10-26T15:00:00","recebido_em":"2026-10-26T15:00:00"},"sepultamento":null,"destino_final":"família","custodia_finalizada":true},{"id_corpo":"C-0008","protocolo":"NEC-2026-008","origem":"CIOP","natureza":"morte a esclarecer","municipio":"Várzea Grande","local":"Endereço fictício 8","nome":"Paulo Fictício Matos","documento":"DOC-008","desconhecido":false,"identificado":true,"sexo":"Masculino","idade":41,"tecnico":"Técnico Fictício D","situacao":"em custódia","criado_em":"2026-10-25T08:00:00","entrega":null,"etapa":6,"etapa_em":"2026-10-25T08:00:00","agente_causal":"Acidente","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"funeraria":null,"familia":null,"laudo":null,"sepultamento":null,"destino_final":"","custodia_finalizada":false},{"id_corpo":"C-0009","protocolo":"NEC-2026-009","origem":"Delegacia de Polícia de Cuiabá","natureza":"local de crime","municipio":"Rondonópolis","local":"Endereço fictício 9","nome":"","documento":"","desconhecido":true,"identificado":false,"sexo":"Feminino","idade":44,"tecnico":"Técnico Fictício A","situacao":"aguardando identificação","criado_em":"2026-10-26T08:00:00","entrega":null,"etapa":5,"etapa_em":"2026-10-26T08:00:00","agente_causal":"Homicídio","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":{"resultado":"pendente","tentativas":[{"metodo":"papiloscopia","resultado":"sem resultado","em":"2026-10-26T12:00:00"}],"pendente":{"metodo":"DNA","enviado_em":"2026-10-26T13:00:00"}},"funeraria":null,"familia":null,"laudo":null,"sepultamento":null,"destino_final":"","custodia_finalizada":false},{"id_corpo":"C-0010","protocolo":"NEC-2026-010","origem":"Delegacia de Várzea Grande","natureza":"morte natural","municipio":"Cuiabá","local":"Endereço fictício 10","nome":"Rita Fictícia Prado","documento":"DOC-010","desconhecido":false,"identificado":true,"sexo":"Masculino","idade":47,"tecnico":"Técnico Fictício B","situacao":"não reclamado","criado_em":"2026-10-27T08:00:00","entrega":null,"etapa":6,"etapa_em":"2026-10-27T08:00:00","agente_causal":"Suicídio","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"funeraria":null,"familia":{"encontrada":false,"busca_sem_sucesso":true,"busca_iniciada_em":"2026-10-27T09:00:00","busca_encerrada_em":"2026-11-01T09:00:00"},"laudo":null,"sepultamento":null,"destino_final":"","custodia_finalizada":false},{"id_corpo":"C-0011","protocolo":"NEC-2026-011","origem":"Delegacia de Rondonópolis","natureza":"acidente de trânsito","municipio":"Várzea Grande","local":"Endereço fictício 11","nome":"Sérgio Fictício Lima","documento":"DOC-011","desconhecido":false,"identificado":true,"sexo":"Feminino","idade":50,"tecnico":"Técnico Fictício C","situacao":"liberado","criado_em":"2026-10-28T08:00:00","entrega":{"responsavel":"Servidor Fictício","documento":"AUTO-011","data":"2026-10-30T15:00:00"},"etapa":7,"etapa_em":"2026-10-28T08:00:00","agente_causal":"Indeterminada","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"funeraria":{"nome":"Funerária Fictícia Central","auto":"AE-011","data_hora":"2026-10-30T15:00:00"},"familia":{"encontrada":true,"nome":"Familiar Fictício","parentesco":"irmão","documento":"DOC-FAM-011","busca_iniciada_em":"2026-10-28T10:00:00","busca_encerrada_em":"2026-10-28T11:00:00","liberado_em":"2026-10-30T15:00:00"},"laudo":{"entregue_por":"Técnico Fictício A","recebido_por":"Gestor ADM Fictício","entregue_em":"2026-10-30T15:00:00"},"sepultamento":null,"destino_final":"família","custodia_finalizada":false},{"id_corpo":"C-0012","protocolo":"NEC-2026-012","origem":"CIOP","natureza":"morte a esclarecer","municipio":"Rondonópolis","local":"Endereço fictício 12","nome":"Helena Fictícia Alves","documento":"DOC-012","desconhecido":false,"identificado":true,"sexo":"Masculino","idade":53,"tecnico":"Técnico Fictício D","situacao":"em custódia","criado_em":"2026-10-29T08:00:00","entrega":null,"etapa":6,"etapa_em":"2026-10-29T08:00:00","agente_causal":"Óbito administrativo","ocorrencia":"Acionamento fictício registrado para o exemplo.","identificacao":null,"funeraria":null,"familia":null,"laudo":null,"sepultamento":null,"destino_final":"","custodia_finalizada":false}],"marcos":[{"id_marco":"C-0001-M1","corpo_id":"C-0001","tipo":"Saída da base","data_hora":"2026-10-18T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0001-M2","corpo_id":"C-0001","tipo":"Chegada ao local","data_hora":"2026-10-18T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0001-M3","corpo_id":"C-0001","tipo":"Saída do local","data_hora":"2026-10-18T12:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0001-M4","corpo_id":"C-0001","tipo":"Retorno ao IML","data_hora":"2026-10-18T14:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0002-M1","corpo_id":"C-0002","tipo":"Saída da base","data_hora":"2026-10-19T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0002-M2","corpo_id":"C-0002","tipo":"Chegada ao local","data_hora":"2026-10-19T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0002-M3","corpo_id":"C-0002","tipo":"Saída do local","data_hora":"2026-10-19T12:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0002-M4","corpo_id":"C-0002","tipo":"Retorno ao IML","data_hora":"2026-10-19T14:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0003-M1","corpo_id":"C-0003","tipo":"Saída da base","data_hora":"2026-10-20T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0003-M2","corpo_id":"C-0003","tipo":"Chegada ao local","data_hora":"2026-10-20T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0004-M1","corpo_id":"C-0004","tipo":"Saída da base","data_hora":"2026-10-21T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0004-M2","corpo_id":"C-0004","tipo":"Chegada ao local","data_hora":"2026-10-21T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0004-M3","corpo_id":"C-0004","tipo":"Saída do local","data_hora":"2026-10-21T12:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0005-M1","corpo_id":"C-0005","tipo":"Saída da base","data_hora":"2026-10-22T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0005-M2","corpo_id":"C-0005","tipo":"Chegada ao local","data_hora":"2026-10-22T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0005-M3","corpo_id":"C-0005","tipo":"Saída do local","data_hora":"2026-10-22T12:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0006-M1","corpo_id":"C-0006","tipo":"Saída da base","data_hora":"2026-10-23T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0006-M2","corpo_id":"C-0006","tipo":"Chegada ao local","data_hora":"2026-10-23T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0006-M3","corpo_id":"C-0006","tipo":"Saída do local","data_hora":"2026-10-23T12:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0006-M4","corpo_id":"C-0006","tipo":"Retorno ao IML","data_hora":"2026-10-23T14:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0007-M1","corpo_id":"C-0007","tipo":"Saída da base","data_hora":"2026-10-24T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0007-M2","corpo_id":"C-0007","tipo":"Chegada ao local","data_hora":"2026-10-24T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0007-M3","corpo_id":"C-0007","tipo":"Saída do local","data_hora":"2026-10-24T12:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0007-M4","corpo_id":"C-0007","tipo":"Retorno ao IML","data_hora":"2026-10-24T14:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0008-M1","corpo_id":"C-0008","tipo":"Saída da base","data_hora":"2026-10-25T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0008-M2","corpo_id":"C-0008","tipo":"Chegada ao local","data_hora":"2026-10-25T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0008-M3","corpo_id":"C-0008","tipo":"Saída do local","data_hora":"2026-10-25T12:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0008-M4","corpo_id":"C-0008","tipo":"Retorno ao IML","data_hora":"2026-10-25T14:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0009-M1","corpo_id":"C-0009","tipo":"Saída da base","data_hora":"2026-10-26T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0009-M2","corpo_id":"C-0009","tipo":"Chegada ao local","data_hora":"2026-10-26T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0010-M1","corpo_id":"C-0010","tipo":"Saída da base","data_hora":"2026-10-27T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0010-M2","corpo_id":"C-0010","tipo":"Chegada ao local","data_hora":"2026-10-27T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0010-M3","corpo_id":"C-0010","tipo":"Saída do local","data_hora":"2026-10-27T12:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0011-M1","corpo_id":"C-0011","tipo":"Saída da base","data_hora":"2026-10-28T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0011-M2","corpo_id":"C-0011","tipo":"Chegada ao local","data_hora":"2026-10-28T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0011-M3","corpo_id":"C-0011","tipo":"Saída do local","data_hora":"2026-10-28T12:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0011-M4","corpo_id":"C-0011","tipo":"Retorno ao IML","data_hora":"2026-10-28T14:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0012-M1","corpo_id":"C-0012","tipo":"Saída da base","data_hora":"2026-10-29T08:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0012-M2","corpo_id":"C-0012","tipo":"Chegada ao local","data_hora":"2026-10-29T10:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0012-M3","corpo_id":"C-0012","tipo":"Saída do local","data_hora":"2026-10-29T12:00:00","perfil":"tecnico","observacao":""},{"id_marco":"C-0012-M4","corpo_id":"C-0012","tipo":"Retorno ao IML","data_hora":"2026-10-29T14:00:00","perfil":"tecnico","observacao":""}],"lacres":[{"id_lacre":"C-0001-L1","corpo_id":"C-0001","codigo":"LC-0011","destino":"Laboratório de DNA","data_hora":"2026-10-18T12:00:00","perfil":"tecnico","recebido_em":"2026-10-18T14:00:00","recebido_por":"gestor","recebido_perfil":"gestor"},{"id_lacre":"C-0001-L2","corpo_id":"C-0001","codigo":"LC-0012","destino":"Toxicologia","data_hora":"2026-10-18T12:00:00","perfil":"tecnico","recebido_em":"2026-10-18T14:00:00","recebido_por":"gestor","recebido_perfil":"gestor"},{"id_lacre":"C-0003-L1","corpo_id":"C-0003","codigo":"LC-0031","destino":"Laboratório de DNA","data_hora":"2026-10-20T12:00:00","perfil":"tecnico"},{"id_lacre":"C-0003-L2","corpo_id":"C-0003","codigo":"LC-0032","destino":"Toxicologia","data_hora":"2026-10-20T12:00:00","perfil":"tecnico"},{"id_lacre":"C-0005-L1","corpo_id":"C-0005","codigo":"LC-0051","destino":"Laboratório de DNA","data_hora":"2026-10-22T12:00:00","perfil":"tecnico","recebido_em":"2026-10-22T14:00:00","recebido_por":"gestor","recebido_perfil":"gestor"},{"id_lacre":"C-0005-L2","corpo_id":"C-0005","codigo":"LC-0052","destino":"Toxicologia","data_hora":"2026-10-22T12:00:00","perfil":"tecnico","recebido_em":"2026-10-22T14:00:00","recebido_por":"gestor","recebido_perfil":"gestor"},{"id_lacre":"C-0007-L1","corpo_id":"C-0007","codigo":"LC-0071","destino":"Laboratório de DNA","data_hora":"2026-10-24T12:00:00","perfil":"tecnico","recebido_em":"2026-10-24T14:00:00","recebido_por":"gestor","recebido_perfil":"gestor"},{"id_lacre":"C-0007-L2","corpo_id":"C-0007","codigo":"LC-0072","destino":"Toxicologia","data_hora":"2026-10-24T12:00:00","perfil":"tecnico","recebido_em":"2026-10-24T14:00:00","recebido_por":"gestor","recebido_perfil":"gestor"},{"id_lacre":"C-0009-L1","corpo_id":"C-0009","codigo":"LC-0091","destino":"Laboratório de DNA","data_hora":"2026-10-26T12:00:00","perfil":"tecnico","recebido_em":"2026-10-26T14:00:00","recebido_por":"gestor","recebido_perfil":"gestor"},{"id_lacre":"C-0009-L2","corpo_id":"C-0009","codigo":"LC-0092","destino":"Toxicologia","data_hora":"2026-10-26T12:00:00","perfil":"tecnico","recebido_em":"2026-10-26T14:00:00","recebido_por":"gestor","recebido_perfil":"gestor"},{"id_lacre":"C-0011-L1","corpo_id":"C-0011","codigo":"LC-0111","destino":"Laboratório de DNA","data_hora":"2026-10-28T12:00:00","perfil":"tecnico"},{"id_lacre":"C-0011-L2","corpo_id":"C-0011","codigo":"LC-0112","destino":"Toxicologia","data_hora":"2026-10-28T12:00:00","perfil":"tecnico"}],"log":[{"id":"L-C-0001","corpo_id":"C-0001","acao":"corpo registrado","perfil":"tecnico","data_hora":"2026-10-18T08:00:00"},{"id":"L-C-0002","corpo_id":"C-0002","acao":"corpo registrado","perfil":"tecnico","data_hora":"2026-10-19T08:00:00"},{"id":"L-C-0003","corpo_id":"C-0003","acao":"corpo registrado","perfil":"tecnico","data_hora":"2026-10-20T08:00:00"},{"id":"L-C-0004","corpo_id":"C-0004","acao":"corpo registrado","perfil":"tecnico","data_hora":"2026-10-21T08:00:00"},{"id":"L-C-0005","corpo_id":"C-0005","acao":"corpo registrado","perfil":"tecnico","data_hora":"2026-10-22T08:00:00"},{"id":"L-C-0006","corpo_id":"C-0006","acao":"corpo registrado","perfil":"tecnico","data_hora":"2026-10-23T08:00:00"},{"id":"L-C-0007","corpo_id":"C-0007","acao":"corpo registrado","perfil":"tecnico","data_hora":"2026-10-24T08:00:00"},{"id":"L-C-0007-lib","corpo_id":"C-0007","acao":"situação: liberado","perfil":"tecnico","data_hora":"2026-10-26T15:00:00"},{"id":"L-C-0008","corpo_id":"C-0008","acao":"corpo registrado","perfil":"tecnico","data_hora":"2026-10-25T08:00:00"},{"id":"L-C-0009","corpo_id":"C-0009","acao":"corpo registrado","perfil":"tecnico","data_hora":"2026-10-26T08:00:00"},{"id":"L-C-0010","corpo_id":"C-0010","acao":"corpo registrado","perfil":"tecnico","data_hora":"2026-10-27T08:00:00"},{"id":"L-C-0011","corpo_id":"C-0011","acao":"corpo registrado","perfil":"tecnico","data_hora":"2026-10-28T08:00:00"},{"id":"L-C-0011-lib","corpo_id":"C-0011","acao":"situação: liberado","perfil":"tecnico","data_hora":"2026-10-30T15:00:00"},{"id":"L-C-0012","corpo_id":"C-0012","acao":"corpo registrado","perfil":"tecnico","data_hora":"2026-10-29T08:00:00"}]}</script>
 <!-- /DADOS:seed -->
 
 <script>
@@ -1193,14 +1198,14 @@ async function iniciar(){
 
 <script>
 /* ===================================================================
-   APP: TCIN · Trilha de Custódia e Identificação
+   APP: Sistema de Controle de Necropsia
    Configuração (rotas, banco, perfis) e telas. Os sprints editam daqui
    para baixo.
    =================================================================== */
 "use strict";
 const APP = {
   "id": "trilha-custodia-necropsia",
-  "titulo": "TCIN · Trilha de Custódia e Identificação",
+  "titulo": "Sistema de Controle de Necropsia",
   "db": {
     "nome": "trilha_custodia_v1",
     "versao": 2,
@@ -1261,7 +1266,7 @@ const APP = {
       "rota": "#/painel",
       "titulo": "Painel",
       "sprint": 3,
-      "descricao": "Situação dos corpos com iniciais, sem nome completo (RN05)."
+      "descricao": "Painel por perfil: quadro das sete etapas (Técnico), sala de necropsia (Médico Legista) e fila da ADM (Gestor ADM). Lista com iniciais (RN05)."
     },
     {
       "rota": "#/corpos",
@@ -1275,15 +1280,15 @@ const APP = {
       "sprint": 2,
       "descricao": "Registro com protocolo único (RN01).",
       "perfis": [
-        "operador",
-        "tecnico"
+        "tecnico",
+        "gestor"
       ]
     },
     {
       "rota": "#/corpo/:id",
       "titulo": "Corpo",
-      "sprint": 8,
-      "descricao": "Etapas 1 a 7, confirmação de lacres, liberação com assinatura, sepultamento pelo Estado e entrega do laudo (RN02, RN03, RN06 a RN09)."
+      "sprint": 9,
+      "descricao": "Etapas 1 a 7, exame complementar (DNA, odontologia legal, antropologia), decisão de sepultamento pelo Gestor ADM, funerária nos dois destinos, laudo em paralelo, encerramento com três condições e retificação (RN02, RN03, RN06 a RN12)."
     },
     {
       "rota": "#/busca",
@@ -1321,31 +1326,22 @@ const APP = {
   },
   "perfis": [
     {
-      "id": "operador",
-      "nome": "Operador do CIOP",
-      "descricao": "Recebe o acionamento e registra o corpo."
-    },
-    {
       "id": "tecnico",
-      "nome": "Técnico de necropsia",
-      "descricao": "Registra os marcos do deslocamento e os lacres."
-    },
-    {
-      "id": "plantonista",
-      "nome": "Plantonista",
-      "descricao": "Acompanha a identificação, a guarda e a liberação."
-    },
-    {
-      "id": "gestor",
-      "nome": "Gestor ADM",
-      "descricao": "Confirma o recebimento de lacres e do laudo e autoriza o sepultamento pelo Estado."
+      "nome": "Técnico",
+      "descricao": "Registra o acionamento, os marcos, os lacres e as sete etapas do caso."
     },
     {
       "id": "medico",
       "nome": "Médico Legista",
       "descricao": "Consulta o caso até a etapa 5, sem editar e sem ver família, funerária ou entrega do laudo."
+    },
+    {
+      "id": "gestor",
+      "nome": "Gestor ADM",
+      "descricao": "Confirma o recebimento de lacres e do laudo e autoriza o sepultamento pelo Estado."
     }
-  ]
+  ],
+  "perfilPadrao": "tecnico"
 };
 
 /* ---------- comum a todos os apps (Sprint 1) ---------- */
@@ -1916,47 +1912,97 @@ function tcLigarAssinatura(id){
   $(`[data-limpar="${id}"]`)?.addEventListener("click", ()=>{ ctx.clearRect(0, 0, cv.width, cv.height); $("#" + id + "Valor").value = ""; $("#" + id + "Estado").textContent = "Assine no campo com o dedo ou o mouse."; });
 }
 
+const TC_EXAMES_COMPL = ["DNA", "odontologia legal", "antropologia forense"];
+const tcTentativas = c => c?.identificacao?.tentativas || [];
+// RN11: os métodos só se esgotam depois de pelo menos um exame complementar sem resultado
+const tcPodeEsgotar = tent => (tent || []).some(t=>TC_EXAMES_COMPL.includes(t.metodo) && t.resultado !== "identificou");
+
 function tcAcoesEtapa5(c){
-  return `<div class="campos">
-    ${campo("tcResultadoIdent", "Resultado da identificação", {tipo: "select", opcoes: [["", "Escolha"], ["identificado", "Identificado"], ["nao_identificado", "Não identificado"], ["obito_adm", "Óbito administrativo, sem identificação"]]})}
-    ${campo("tcMetodoIdent8", "Método de identificação", {tipo: "select", opcoes: [["", "Escolha"], ...TC_METODOS]})}
+  const pend = c.identificacao?.pendente, tent = tcTentativas(c);
+  const hist = tent.length ? `<p class="sub" id="tcTentativas">Tentativas: ${tent.map(t=>`${esc(t.metodo)} (${esc(t.resultado)})`).join(" · ")}.</p>` : "";
+  if (pend) return `${hist}<div class="card pendente" id="tcExamePendente"><b>Exame complementar em andamento:</b> ${esc(pend.metodo)}, solicitado em ${dataBR(pend.enviado_em)}.</div>
+    <div class="campos">
+    ${campo("tcResultadoExame", "Resultado do exame", {tipo: "select", opcoes: [["", "Escolha"], ["identificou", "Identificou a pessoa"], ["sem_resultado", "Não identificou"]]})}
+    ${campo("tcNomeExame", "Nome (fictício)")}${campo("tcDocExame", "Documento (fictício)")}</div>
+    <div class="linha-botoes"><button class="prim" id="btnTcResultadoExame">Registrar o resultado do exame</button></div>`;
+  return `${hist}<p class="sub">A identificação começa pela necropapiloscopia. Sem resultado, o caso segue para exame complementar (DNA, odontologia legal ou antropologia forense). Os métodos só se esgotam depois de pelo menos um exame complementar.</p>
+    <div class="campos">
+    ${campo("tcResultadoIdent", "Resultado da identificação", {tipo: "select", opcoes: [["", "Escolha"], ["identificado", "Identificado"], ["exame", "Não identificado: encaminhar a exame complementar"], ["esgotado", "Métodos esgotados: não identificado"]]})}
+    ${campo("tcMetodoIdent8", "Método usado ou exame solicitado", {tipo: "select", opcoes: [["", "Escolha"], ...TC_METODOS, ...TC_EXAMES_COMPL.filter(x=>!TC_METODOS.includes(x))]})}
     ${campo("tcNomeIdent8", "Nome (fictício)", {valor: c.nome || ""})}
     ${campo("tcDocIdent8", "Documento (fictício)", {valor: c.documento || ""})}</div>
-    <div class="linha-botoes"><button class="prim" id="btnTcIdent8">Registrar o resultado (etapa 6)</button></div>`;
+    <div class="linha-botoes"><button class="prim" id="btnTcIdent8">Registrar o resultado</button></div>`;
+}
+
+function tcFunerariaCampos(pref){
+  return `<div class="campos">${campo(pref + "Funeraria", "Funerária (fictícia)")}${campo(pref + "Auto", "Nº do Auto de Entrega da funerária")}</div>`;
 }
 
 function tcAcoesFamilia(c){
-  const f = c.familia || {}, adm = c.identificacao?.resultado === "obito_adm";
-  const busca = !f.busca_encerrada_em && !f.busca_sem_sucesso;
+  const f = c.familia || {}, semIdent = !c.identificado;
   const partes = [];
-  if (busca) partes.push(`<p class="sub">${f.busca_iniciada_em ? "Busca de familiares em andamento desde " + dataBR(f.busca_iniciada_em) + "." : "A busca de familiares ainda não começou."}</p>
+  if (!semIdent && !f.encontrada && !f.busca_sem_sucesso) partes.push(`<p class="sub">${f.busca_iniciada_em ? "Busca de familiares em andamento desde " + dataBR(f.busca_iniciada_em) + "." : "A busca de familiares ainda não começou."}</p>
     <div class="linha-botoes">${f.busca_iniciada_em ? "" : '<button class="sec" id="btnTcFamBusca">Registrar o início da busca</button>'}</div>
     <div class="campos">${campo("tcFamNome", "Familiar localizado (fictício)")}${campo("tcFamParentesco", "Parentesco")}${campo("tcFamDoc", "Documento do familiar (fictício)")}</div>
-    <div class="linha-botoes"><button class="prim" id="btnTcFamEncontrado">Familiar localizado</button><button class="sec" id="btnTcFamSem">Sem familiar localizado</button></div>`);
-  if (c.identificado && f.encontrada && !f.liberado_em) partes.push(`<div id="tcBlocoFamilia"><h3>Liberação à família</h3>
-    <p class="sub">Confira o familiar e capture a assinatura de quem recebe o corpo.</p>
-    ${tcAssinaturaHtml("tcAssinaturaFamilia", "Assinatura do familiar")}
-    <div class="linha-botoes"><button class="prim" id="btnTcLiberarFamilia">Registrar a liberação à família</button></div></div>`);
-  if (!c.identificado || adm || f.busca_sem_sucesso) partes.push(`<div id="tcBlocoSepultamento"><h3>Sepultamento pelo Estado</h3>
-    <p class="sub">A justificativa é obrigatória, com no mínimo ${TC_JUSTIFICATIVA_MIN} caracteres, e fica no histórico do caso.</p>
-    ${campo("tcJustSepult", "Justificativa", {tipo: "textarea", linhas: 3, ajuda: `Mínimo de ${TC_JUSTIFICATIVA_MIN} caracteres.`})}
-    <div class="campos">${campo("tcFuneraria", "Funerária (fictícia)")}${campo("tcAutoFuneraria", "Auto de entrega da funerária")}</div>
-    <div class="linha-botoes"><button class="prim" id="btnTcSepultar">Encaminhar para sepultamento pelo Estado (etapa 7)</button></div></div>`);
+    <div class="linha-botoes"><button class="prim" id="btnTcFamEncontrado">Familiar localizado</button><button class="sec" id="btnTcFamSem">Busca sem êxito (prazo esgotado)</button></div>`);
+  if (!semIdent && f.encontrada && !f.liberado_em) partes.push(`<div id="tcBlocoFamilia"><h3>Liberação à família</h3>
+    <p class="sub">Confira o familiar, capture a assinatura do termo de liberação e registre a funerária que retira o corpo.</p>
+    ${tcAssinaturaHtml("tcAssinaturaFamilia", "Assinatura do familiar (termo de liberação)")}
+    ${tcFunerariaCampos("tcFam")}
+    <div class="linha-botoes"><button class="prim" id="btnTcLiberarFamilia">Registrar a liberação à família (etapa 7)</button></div></div>`);
+  if ((semIdent || f.busca_sem_sucesso) && !c.sepultamento){
+    const motivo = semIdent ? "Corpo não identificado depois dos exames complementares." : "Corpo identificado e não reclamado: busca de familiares sem êxito.";
+    partes.push(`<div id="tcBlocoSepultamento"><h3>Decisão do Gestor ADM: sepultamento pelo Estado</h3>
+    <p class="sub">${motivo} A decisão é do Gestor ADM, com justificativa de no mínimo ${TC_JUSTIFICATIVA_MIN} caracteres, número da autorização e Auto de Entrega da funerária.</p>
+    ${tcPodeReceber(estado.perfil) ? `${campo("tcJustSepult", "Justificativa", {tipo: "textarea", linhas: 3, ajuda: `Mínimo de ${TC_JUSTIFICATIVA_MIN} caracteres.`})}
+      <div class="campos">${campo("tcAutSepult", "Nº da autorização de sepultamento")}</div>
+      ${tcFunerariaCampos("tcSep")}
+      <div class="linha-botoes"><button class="prim" id="btnTcSepultar">Autorizar o sepultamento pelo Estado (etapa 7)</button></div>`
+      : '<p class="alerta-txt" id="tcAguardaGestor">Aguardando a decisão do Gestor ADM.</p>'}</div>`);
+  }
   return partes.join("") || '<p class="sub">Etapa concluída.</p>';
 }
 
 function tcAcoesLaudo(c){
   const l = c.laudo || {}, entregue = !!l.entregue_em, recebido = !!l.recebido_em;
-  const recebidoTxt = recebido ? `<p class="ok-txt"><b>Custódia finalizada.</b> Laudo recebido na ADM em ${dataBR(l.recebido_em)} por ${esc(l.recebido_por || "")}.</p>` : "";
-  const blocoEntrega = entregue
-    ? `<div id="tcBlocoLaudo"><h3>Recebimento pela ADM</h3>
-       <p class="sub">Entrega registrada por <b>${esc(l.entregue_por || "")}</b> em ${dataBR(l.entregue_em)}. O recebimento é confirmado apenas pelo Gestor ADM.</p>
-       ${estado.perfil === "gestor" ? `${tcAssinaturaHtml("tcAssinaturaLaudo", "Assinatura de quem recebe na ADM")}
-         <div class="linha-botoes"><button class="prim" id="btnTcReceberLaudo">Confirmar o recebimento (Gestor ADM)</button></div>`
-        : '<p class="sub">Troque para o perfil Gestor ADM para confirmar o recebimento.</p>'}</div>`
-    : `<div class="campos">${campo("tcLaudoEntreguePor", "Quem entrega o laudo", {valor: c.tecnico || ""})}${campo("tcLaudoRecebidoPor", "Quem recebe na ADM")}</div>
-       <div class="linha-botoes"><button class="prim" id="btnTcEntregaLaudo">Registrar a entrega do laudo</button></div>`;
-  return `${recebidoTxt}${recebido ? "" : blocoEntrega}`;
+  if (recebido) return `<p class="ok-txt"><b>Laudo recebido na ADM</b> em ${dataBR(l.recebido_em)}, por ${esc(l.recebido_por || "")}. A confirmação não pode ser desfeita.</p>`;
+  if (entregue) return `<p class="sub">Entrega registrada por <b>${esc(l.entregue_por || "")}</b> em ${dataBR(l.entregue_em)}. O recebimento é confirmado apenas pelo Gestor ADM.</p>
+     ${tcPodeReceber(estado.perfil) ? `${tcAssinaturaHtml("tcAssinaturaLaudo", "Assinatura de quem recebe na ADM")}
+       <div class="linha-botoes"><button class="prim" id="btnTcReceberLaudo">Confirmar o recebimento (Gestor ADM)</button></div>`
+      : '<p class="sub">Troque para o perfil Gestor ADM para confirmar o recebimento.</p>'}`;
+  return `<div class="campos">${campo("tcLaudoEntreguePor", "Quem entrega o laudo", {valor: c.tecnico || ""})}${campo("tcLaudoRecebidoPor", "Quem recebe na ADM")}</div>
+     <div class="linha-botoes"><button class="prim" id="btnTcEntregaLaudo">Registrar a entrega do laudo</button></div>`;
+}
+
+// RN10: a custódia só se encerra com destino do corpo, laudo recebido e todos os lacres recebidos
+function tcPendenciasEncerramento(c, ls){
+  const p = [];
+  if (!c.destino_final) p.push("destino do corpo (liberação à família ou sepultamento pelo Estado)");
+  if (!c.laudo?.recebido_em) p.push("laudo recebido pela ADM");
+  const sem = (ls || []).filter(l=>!l.recebido_em).length;
+  if (sem) p.push(`${sem} lacre(s) sem recebimento confirmado pela ADM`);
+  return p;
+}
+async function tcTentarFinalizar(id){
+  const c = await db.get("corpos", id);
+  if (!c || c.custodia_finalizada) return false;
+  if (tcPendenciasEncerramento(c, await tcLacres(id)).length) return false;
+  await db.put("corpos", {...c, custodia_finalizada: true, finalizada_em: agora(), etapa: 7});
+  await db.put("log", {id: uuid(), corpo_id: id, acao: "custódia finalizada", motivo: "destino, laudo e lacres confirmados", perfil: estado.perfil || "", data_hora: agora()});
+  return true;
+}
+
+function tcCardEncerramento(c, ls){
+  const sem = ls.filter(l=>!l.recebido_em).length;
+  const itens = [
+    [!!c.destino_final, c.destino_final ? `Destino do corpo: ${c.destino_final === "família" ? "liberado à família" : "sepultamento pelo Estado"}` : "Destino do corpo (etapa 6)"],
+    [!!c.laudo?.recebido_em, c.laudo?.recebido_em ? `Laudo recebido pela ADM em ${dataBR(c.laudo.recebido_em)}` : "Laudo recebido pela ADM"],
+    [!sem, ls.length ? `${ls.length - sem} de ${ls.length} lacre(s) recebidos pela ADM` : "Nenhum lacre registrado"],
+  ];
+  return `<div class="card" id="tcEncerramento"><h2 style="margin-top:0">Encerramento da custódia</h2>
+    <p class="sub">O caso só se encerra quando as três condições estão confirmadas. Depois disso, nada é editado: correções entram como retificação.</p>
+    <ul class="tc-checklist">${itens.map(([ok, t])=>`<li class="${ok ? "ok-txt" : "alerta-txt"}">${ok ? "✓" : "○"} ${esc(t)}</li>`).join("")}</ul>
+    ${c.custodia_finalizada ? `<p class="ok-txt" id="tcFinalizada"><b>Custódia finalizada</b>${c.finalizada_em ? " em " + dataBR(c.finalizada_em) : ""}.</p>` : ""}</div>`;
 }
 
 function tcCardEtapas(c, ls){
@@ -1967,20 +2013,24 @@ function tcCardEtapas(c, ls){
     ${ls.map(l=>`<tr><td class="mono">${esc(l.codigo)}</td><td>${esc(l.destino)}</td>
       <td>${l.recebido_em ? `${dataBR(l.recebido_em)} · ${esc(l.recebido_por || "")}` : '<span class="alerta-txt">pendente</span>'}</td>
       <td>${!l.recebido_em && estado.perfil === "gestor" ? `<button class="sec" data-tc-receber-lacre="${esc(l.id_lacre)}">Confirmar recebimento</button>` : ""}</td></tr>`).join("")}
-    </table><p class="sub">${recebidos} de ${ls.length} lacre(s) com recebimento confirmado. A confirmação é exclusiva do Gestor ADM.</p>` : "";
+    </table><p class="sub">${recebidos} de ${ls.length} lacre(s) com recebimento confirmado. A confirmação é exclusiva do Gestor ADM e não pode ser desfeita.</p>` : "";
+  const acoes7 = c.custodia_finalizada ? '<p class="ok-txt">Caso concluído.</p>'
+    : `<p class="sub">Destino registrado. Falta: ${esc(tcPendenciasEncerramento(c, ls).join("; ") || "nada")}.</p>`;
+  const laudo = e >= 5 ? `<div class="card" id="tcBlocoLaudo"><h2 style="margin-top:0">Laudo à ADM</h2>
+    <p class="sub">O laudo nasce na necropsia e corre em paralelo ao destino do corpo. Ele pode ser entregue à ADM a partir da etapa 5.</p>${tcAcoesLaudo(c)}</div>` : "";
   return `<div class="card" id="tcEtapasCard"><h2 style="margin-top:0">Etapas do caso</h2>
     <p class="sub">Etapa atual: <b>${e}. ${esc(atual.nome)}</b>. ${c.etapa_em ? "Desde " + dataBR(c.etapa_em) + "." : ""}</p>
-    <div class="etapas">${TC_ETAPAS.map(x=>`<span class="${x.n < e ? "feita" : x.n === e ? "atual" : ""}" title="${esc(x.nome)}">${x.n}. ${esc(x.nome)}</span>`).join("")}</div>
+    <div class="etapas">${TC_ETAPAS.map(x=>`<span class="${x.n < e || c.custodia_finalizada ? "feita" : x.n === e ? "atual" : ""}" title="${esc(x.nome)}">${x.n}. ${esc(x.nome)}</span>`).join("")}</div>
     <div id="tcEtapaAcoes">${e === 1 ? `<p class="sub">Registre a ocorrência e a possível vítima para seguir.</p>
         ${campo("tcOcorrencia8", "Ocorrência e possível vítima", {tipo: "textarea", linhas: 3})}
         <div class="linha-botoes"><button class="prim" id="btnTcE2">Registrar a ocorrência (etapa 2)</button></div>`
       : e === 2 ? `<p class="sub">O corpo aguarda a fila da necropsia.</p><div class="linha-botoes"><button class="prim" id="btnTcE3">Enviar para a fila da necropsia (etapa 3)</button></div>`
       : e === 3 ? `<p class="sub">Necropsia ainda não iniciada.</p><div class="linha-botoes"><button class="prim" id="btnTcE4">Iniciar a necropsia (etapa 4)</button></div>`
-      : e === 4 ? `<p class="sub">Necropsia em andamento.</p><div class="linha-botoes"><button class="prim" id="btnTcE5">Concluir a necropsia (etapa 5)</button></div>`
+      : e === 4 ? `<p class="sub">Necropsia em andamento. Os lacres coletados entram na aba Lacres.</p><div class="linha-botoes"><button class="prim" id="btnTcE5">Concluir a necropsia (etapa 5)</button></div>`
       : e === 5 ? tcAcoesEtapa5(c)
       : e === 6 ? tcAcoesFamilia(c)
-      : tcAcoesLaudo(c)}</div>
-    <div id="tcErrosEtapa8"></div>${lacres}</div>`;
+      : acoes7}</div>
+    <div id="tcErrosEtapa8"></div>${lacres}</div>${laudo}${e >= 5 ? tcCardEncerramento(c, ls) : ""}`;
 }
 
 const tcFichaEtapa7 = TELAS["#/corpo/:id"];
@@ -2008,19 +2058,45 @@ TELAS_DEPOIS["#/corpo/:id"] = async p=>{
   $("#btnTcE4")?.addEventListener("click", ()=>avancar(4, {}, "etapa 4: necropsia iniciada"));
   $("#btnTcE5")?.addEventListener("click", ()=>avancar(5, {}, "etapa 5: necropsia concluída"));
   $("#btnTcIdent8")?.addEventListener("click", async ()=>{
-    const r = valorDe("tcResultadoIdent");
+    const r = valorDe("tcResultadoIdent"), metodo = valorDe("tcMetodoIdent8");
+    const at = await db.get("corpos", p.id), tent = tcTentativas(at);
     if (!r) return erro("Escolha o resultado da identificação.");
     if (r === "identificado"){
-      const nome = valorDe("tcNomeIdent8"), metodo = valorDe("tcMetodoIdent8");
+      const nome = valorDe("tcNomeIdent8");
       if (!nome) return erro("Informe o nome da pessoa identificada.");
       if (!metodo) return erro("Informe o método de identificação.");
-      return avancar(6, {identificado: true, desconhecido: false, nome, documento: valorDe("tcDocIdent8"), metodo_identificacao: metodo,
-        identificacao: {resultado: r, metodo, em: agora()}, situacao: "em custódia"}, `identificação por ${metodo}`);
+      return avancar(6, {identificado: true, desconhecido: false, nome, documento: valorDe("tcDocIdent8"), metodo_identificacao: metodo, identificado_em: agora(),
+        identificacao: {resultado: r, metodo, em: agora(), tentativas: [...tent, {metodo, resultado: "identificou", em: agora()}]}, situacao: "em custódia"}, `identificação por ${metodo}`);
     }
-    if (r === "nao_identificado") return avancar(6, {identificado: false, desconhecido: true, nome: "", documento: "",
-      identificacao: {resultado: r, em: agora()}, situacao: "aguardando identificação"}, "identificação: não identificado");
+    if (r === "exame"){
+      if (!TC_EXAMES_COMPL.includes(metodo)) return erro("Escolha o exame complementar: DNA, odontologia legal ou antropologia forense.");
+      const anteriores = tent.length ? tent : [{metodo: "papiloscopia", resultado: "sem resultado", em: agora()}];
+      try {
+        await db.put("corpos", {...at, situacao: "aguardando identificação",
+          identificacao: {resultado: "pendente", tentativas: anteriores, pendente: {metodo, enviado_em: agora()}}});
+        await tcAuditar(p.id, `exame complementar solicitado: ${metodo}`); toast("Exame complementar registrado."); navegar();
+      } catch(e){ erro(e.message); }
+      return;
+    }
+    if (!tcPodeEsgotar(tent)) return erro("Encaminhe a pelo menos um exame complementar (DNA, odontologia legal ou antropologia forense) antes de declarar os métodos esgotados.");
     return avancar(6, {identificado: false, desconhecido: true, nome: "", documento: "",
-      identificacao: {resultado: "obito_adm", em: agora()}, situacao: "aguardando identificação"}, "identificação: óbito administrativo");
+      identificacao: {resultado: "nao_identificado", em: agora(), tentativas: tent}, situacao: "não identificado"}, "identificação: métodos esgotados, não identificado");
+  });
+  $("#btnTcResultadoExame")?.addEventListener("click", async ()=>{
+    const at = await db.get("corpos", p.id), pend = at?.identificacao?.pendente, r = valorDe("tcResultadoExame");
+    if (!pend) return;
+    if (!r) return erro("Escolha o resultado do exame.");
+    const tent = [...tcTentativas(at), {metodo: pend.metodo, resultado: r === "identificou" ? "identificou" : "sem resultado", em: agora()}];
+    if (r === "identificou"){
+      const nome = valorDe("tcNomeExame");
+      if (!nome) return erro("Informe o nome da pessoa identificada.");
+      return avancar(6, {identificado: true, desconhecido: false, nome, documento: valorDe("tcDocExame"), metodo_identificacao: pend.metodo, identificado_em: agora(),
+        identificacao: {resultado: "identificado", metodo: pend.metodo, em: agora(), tentativas: tent}, situacao: "em custódia"}, `identificação por ${pend.metodo}`);
+    }
+    try {
+      await db.put("corpos", {...at, identificacao: {resultado: "pendente", tentativas: tent}});
+      await tcAuditar(p.id, `exame complementar sem resultado: ${pend.metodo}`); toast("Resultado registrado."); navegar();
+    } catch(e){ erro(e.message); }
   });
   $("#btnTcFamBusca")?.addEventListener("click", async ()=>{
     try { const at = await db.get("corpos", p.id);
@@ -2038,31 +2114,39 @@ TELAS_DEPOIS["#/corpo/:id"] = async p=>{
   });
   $("#btnTcFamSem")?.addEventListener("click", async ()=>{
     try { const at = await db.get("corpos", p.id);
-      await db.put("corpos", {...at, familia: {...(at.familia || {}), encontrada: false, busca_sem_sucesso: true, busca_encerrada_em: agora()}});
-      await tcAuditar(p.id, "busca de familiares sem êxito"); toast("Busca encerrada sem familiar."); navegar();
+      await db.put("corpos", {...at, situacao: "não reclamado", familia: {...(at.familia || {}), encontrada: false, busca_sem_sucesso: true, busca_encerrada_em: agora()}});
+      await db.put("log", {id: uuid(), corpo_id: p.id, acao: "situação: não reclamado", motivo: "busca de familiares sem êxito", perfil: estado.perfil || "", data_hora: agora()});
+      toast("Busca encerrada sem familiar. O caso aguarda a decisão do Gestor ADM."); navegar();
     } catch(e){ erro(e.message); }
   });
   $("#btnTcLiberarFamilia")?.addEventListener("click", async ()=>{
     const at = await db.get("corpos", p.id), assinatura = valorDe("tcAssinaturaFamiliaValor");
+    const fun = {nome: valorDe("tcFamFuneraria"), auto: valorDe("tcFamAuto"), data_hora: agora()};
     if (!at?.familia?.encontrada) return erro("Registre o familiar localizado antes da liberação.");
     if (!assinatura) return erro("Capture a assinatura do familiar no campo.");
+    if (!fun.nome || !fun.auto) return erro("Informe a funerária e o número do Auto de Entrega.");
     try {
       const entrega = {responsavel: at.familia.nome, documento: at.familia.documento, data: agora()};
       await db.put("corpos", {...at, etapa: 7, etapa_em: agora(), situacao: "liberado", destino_final: "família",
-        familia: {...at.familia, liberado_em: agora(), assinatura}, entrega});
-      await db.put("log", {id: uuid(), corpo_id: p.id, acao: "liberação à família", motivo: `auto ${entrega.documento} · ${entrega.responsavel}`, perfil: estado.perfil || "", data_hora: agora()});
+        familia: {...at.familia, liberado_em: agora(), assinatura}, entrega, funeraria: fun});
+      await db.put("log", {id: uuid(), corpo_id: p.id, acao: "liberação à família", motivo: `${entrega.responsavel} · funerária ${fun.nome} · auto ${fun.auto}`, perfil: estado.perfil || "", data_hora: agora()});
+      await tcTentarFinalizar(p.id);
       toast("Liberação registrada."); navegar();
     } catch(e){ erro(e.message); }
   });
   $("#btnTcSepultar")?.addEventListener("click", async ()=>{
-    const at = await db.get("corpos", p.id), just = valorDe("tcJustSepult");
+    const at = await db.get("corpos", p.id), just = valorDe("tcJustSepult"), aut = valorDe("tcAutSepult");
+    const fun = {nome: valorDe("tcSepFuneraria"), auto: valorDe("tcSepAuto"), data_hora: agora()};
+    if (!tcPodeReceber(estado.perfil)) return erro("Somente o Gestor ADM autoriza o sepultamento pelo Estado.");
     if (!tcJustificativaOk(just)) return erro(`A justificativa precisa de ${TC_JUSTIFICATIVA_MIN} caracteres ou mais.`);
+    if (!aut) return erro("Informe o número da autorização de sepultamento.");
+    if (!fun.nome || !fun.auto) return erro("Informe a funerária e o número do Auto de Entrega.");
     try {
-      const sep = {justificativa: just, autorizado_em: agora(), perfil: estado.perfil || ""};
-      const fun = valorDe("tcFuneraria") || valorDe("tcAutoFuneraria") ? {nome: valorDe("tcFuneraria"), auto: valorDe("tcAutoFuneraria"), data_hora: agora()} : null;
+      const sep = {justificativa: just, autorizacao: aut, autorizado_em: agora(), perfil: estado.perfil || ""};
       await db.put("corpos", {...at, etapa: 7, etapa_em: agora(), situacao: "liberado", destino_final: "sepultamento", sepultamento: sep, funeraria: fun});
-      await db.put("log", {id: uuid(), corpo_id: p.id, acao: "sepultamento pelo Estado", motivo: just, perfil: estado.perfil || "", data_hora: agora()});
-      toast("Sepultamento registrado."); navegar();
+      await db.put("log", {id: uuid(), corpo_id: p.id, acao: "sepultamento pelo Estado autorizado", motivo: `${aut} · ${just}`, perfil: estado.perfil || "", data_hora: agora()});
+      await tcTentarFinalizar(p.id);
+      toast("Sepultamento autorizado."); navegar();
     } catch(e){ erro(e.message); }
   });
   $("#btnTcEntregaLaudo")?.addEventListener("click", async ()=>{
@@ -2077,26 +2161,29 @@ TELAS_DEPOIS["#/corpo/:id"] = async p=>{
     const at = await db.get("corpos", p.id), assinatura = valorDe("tcAssinaturaLaudoValor");
     if (!tcPodeReceber(estado.perfil)) return erro("Somente o Gestor ADM confirma o recebimento.");
     if (!assinatura) return erro("Capture a assinatura de quem recebe na ADM.");
+    if (at.laudo?.recebido_em) return erro("O recebimento do laudo já foi confirmado e não pode ser alterado.");
     try {
-      await db.put("corpos", {...at, custodia_finalizada: true, etapa: 7, situacao: "liberado",
-        laudo: {...at.laudo, recebido_em: agora(), assinatura_recebimento: assinatura}});
-      await db.put("log", {id: uuid(), corpo_id: p.id, acao: "custódia finalizada", motivo: "laudo recebido pela ADM", perfil: estado.perfil || "", data_hora: agora()});
-      toast("Recebimento confirmado."); navegar();
+      await db.put("corpos", {...at, laudo: {...at.laudo, recebido_em: agora(), confirmado_perfil: estado.perfil, assinatura_recebimento: assinatura}});
+      await db.put("log", {id: uuid(), corpo_id: p.id, acao: "laudo recebido pela ADM", motivo: at.laudo?.recebido_por || "", perfil: estado.perfil || "", data_hora: agora()});
+      const fim = await tcTentarFinalizar(p.id);
+      toast(fim ? "Recebimento confirmado. Custódia finalizada." : "Recebimento confirmado."); navegar();
     } catch(e){ erro(e.message); }
   });
   $$("[data-tc-receber-lacre]").forEach(b=>b.addEventListener("click", async ()=>{
     if (!tcPodeReceber(estado.perfil)) return erro("Somente o Gestor ADM confirma o recebimento.");
-    const l = await db.get("lacres", b.dataset.tcReceberLacre); if (!l) return;
+    const l = await db.get("lacres", b.dataset.tcReceberLacre); if (!l || l.recebido_em) return;
     await db.put("lacres", {...l, recebido_em: agora(), recebido_por: estado.perfil, recebido_perfil: estado.perfil});
-    await tcAuditar(p.id, `lacre recebido pela ADM: ${l.codigo}`); toast("Recebimento do lacre confirmado."); navegar();
+    await tcAuditar(p.id, `lacre recebido pela ADM: ${l.codigo}`);
+    const fim = await tcTentarFinalizar(p.id);
+    toast(fim ? "Lacre recebido. Custódia finalizada." : "Recebimento do lacre confirmado."); navegar();
   }));
 
   if (estado.perfil === "medico"){
     const aviso = document.createElement("div");
     aviso.className = "card pendente"; aviso.id = "tcModoMedico";
-    aviso.innerHTML = "<b>Perfil Médico Legista:</b> leitura até a etapa 5. As etapas 6 e 7 e as ações de escrita ficam bloqueadas.";
+    aviso.innerHTML = "<b>Perfil Médico Legista:</b> leitura até a etapa 5. As etapas 6 e 7, o laudo à ADM, o encerramento e as ações de escrita ficam bloqueados.";
     $("#conteudo").prepend(aviso);
-    $$("#tcBlocoFamilia, #tcBlocoSepultamento, #tcBlocoLaudo").forEach(x=>x.hidden = true);
+    $$("#tcBlocoFamilia, #tcBlocoSepultamento, #tcBlocoLaudo, #tcEncerramento").forEach(x=>x.hidden = true);
     $$("#conteudo button").forEach(b=>{ if (!b.closest(".abas")) b.disabled = true; });
     $$("#conteudo input, #conteudo select, #conteudo textarea").forEach(x=>x.disabled = true);
   }
@@ -2118,9 +2205,101 @@ TELAS["#/resumo"] = async ()=>{
         || '<tr><td colspan="7" class="vazio">Nenhum corpo registrado.</td></tr>'}</table></div>`;
 };
 
+/* ================= Sprint 9 · Fluxograma da Silmara (05/11/2026) =================
+   O fluxo segue o fluxograma revisado de `entregas/2026-11-05/`:
+   - três perfis só (Técnico, Médico Legista e Gestor ADM);
+   - identificação com laço de exame complementar (RN11), no sprint8.js;
+   - sepultamento pelo Estado só por decisão do Gestor ADM, com autorização e funerária (RN09);
+   - funerária com Auto de Entrega nos dois destinos;
+   - laudo em paralelo e encerramento com três condições (RN10), no sprint8.js;
+   - caso encerrado não se edita: correção entra como retificação (RN12), aqui;
+   - a liberação só acontece pela etapa 6: os atalhos antigos dos Sprints 3 e 4 ficam fechados. */
+
+const TC_RETIFICACOES = ["Familiar localizado após o sepultamento", "Correção de dado do corpo", "Correção da identificação",
+  "Correção de lacre ou laudo", "Outra correção"];
+const TC_RETIFICACAO_MIN = 20;
+
+// RN12: retificação exige tipo, o que muda e motivo com 20 caracteres ou mais
+function tcFaltaRetificacao(r){
+  const falta = [];
+  if (!TC_RETIFICACOES.includes(r?.tipo)) falta.push("o tipo da retificação");
+  if (!String(r?.texto || "").trim()) falta.push("o que muda");
+  if (String(r?.motivo || "").trim().length < TC_RETIFICACAO_MIN) falta.push(`o motivo, com ${TC_RETIFICACAO_MIN} caracteres ou mais`);
+  return falta;
+}
+const tcPodeRetificar = c => !!(c?.custodia_finalizada || c?.sepultamento);
+
+teste("Sprint 9: o app tem só os três perfis do projeto", ()=>
+  (APP.perfis || []).map(p=>p.id).sort().join() === "gestor,medico,tecnico");
+teste("Sprint 9 (RN10): a custódia só se encerra com destino, laudo e lacres", ()=>{
+  const ok = {destino_final: "família", laudo: {recebido_em: "x"}};
+  return tcPendenciasEncerramento(ok, [{recebido_em: "y"}]).length === 0
+    && tcPendenciasEncerramento(ok, [{recebido_em: "y"}, {}]).length === 1
+    && tcPendenciasEncerramento({laudo: {recebido_em: "x"}}, []).length === 1
+    && tcPendenciasEncerramento({destino_final: "sepultamento"}, []).length === 1;
+});
+teste("Sprint 9 (RN11): métodos só se esgotam depois de exame complementar", ()=>
+  !tcPodeEsgotar([]) && !tcPodeEsgotar([{metodo: "papiloscopia", resultado: "sem resultado"}])
+  && tcPodeEsgotar([{metodo: "papiloscopia", resultado: "sem resultado"}, {metodo: "DNA", resultado: "sem resultado"}]));
+teste("Sprint 9 (RN12): retificação exige tipo, texto e motivo", ()=>
+  tcFaltaRetificacao({tipo: "Outra correção", texto: "x", motivo: "curto"}).length === 1
+  && tcFaltaRetificacao({tipo: TC_RETIFICACOES[0], texto: "Familiar procurou o IML", motivo: "Familiar localizado depois do sepultamento."}).length === 0);
+
+function tcCardRetificacao(c){
+  const lista = c.retificacoes || [];
+  const pode = tcPodeRetificar(c) && ["tecnico", "gestor"].includes(estado.perfil);
+  return `<div class="card" id="tcRetificacao"><h2 style="margin-top:0">Retificações</h2>
+    <p class="sub">Depois do encerramento (ou do sepultamento), o caso não é editado. A correção entra como retificação: uma nova entrada no histórico, sem apagar a anterior.</p>
+    ${lista.length ? `<ol class="linha-do-tempo" id="tcListaRetificacoes">${lista.map(r=>`<li><div class="ldt-quando">${dataBR(r.data_hora)} · ${esc(r.perfil)}</div>
+      <b>${esc(r.tipo)}</b><div>${esc(r.texto)}</div><div class="sub" style="margin:0">Motivo: ${esc(r.motivo)}</div></li>`).join("")}</ol>` : '<p class="sub">Nenhuma retificação registrada.</p>'}
+    ${pode ? `<div class="campos">${campo("tcRetTipo", "Tipo", {tipo: "select", opcoes: [["", "Escolha"], ...TC_RETIFICACOES.map(t=>[t, t])]})}</div>
+      ${campo("tcRetTexto", "O que muda", {tipo: "textarea", linhas: 2})}
+      ${campo("tcRetMotivo", "Motivo", {tipo: "textarea", linhas: 2, ajuda: `Mínimo de ${TC_RETIFICACAO_MIN} caracteres.`})}
+      <div id="tcErrosRet"></div><div class="linha-botoes"><button class="prim" id="btnTcRetificar">Registrar a retificação</button></div>` : ""}</div>`;
+}
+
+const tcFichaS9 = TELAS["#/corpo/:id"], tcFichaS9Depois = TELAS_DEPOIS["#/corpo/:id"];
+TELAS["#/corpo/:id"] = async p=>{
+  const html = await tcFichaS9(p);
+  const c = await db.get("corpos", p.id); if (!c) return html;
+  return html + (tcPodeRetificar(c) || (c.retificacoes || []).length ? tcCardRetificacao(c) : "");
+};
+TELAS_DEPOIS["#/corpo/:id"] = async p=>{
+  await tcFichaS9Depois(p);
+  const c = await db.get("corpos", p.id); if (!c) return;
+
+  // a liberação só acontece pela etapa 6 (assinatura, funerária e, no sepultamento, decisão do Gestor ADM)
+  const form = $("#formTcAuto");
+  if (form) form.outerHTML = '<p class="sub" id="tcLiberacaoNaEtapa">A liberação é registrada na etapa 6 do caso: termo assinado pelo familiar e Auto de Entrega da funerária, ou decisão do Gestor ADM para o sepultamento pelo Estado.</p>';
+  $$('#tcNovaSit option[value="liberado"]').forEach(o=>{ if (c.situacao !== "liberado") o.remove(); });
+  const blocoEntrega = $("#tcBlocoEntrega"); if (blocoEntrega) blocoEntrega.hidden = true;
+
+  // RN12: caso encerrado não se edita
+  if (c.custodia_finalizada){
+    const aviso = document.createElement("div");
+    aviso.className = "card"; aviso.id = "tcCasoEncerrado";
+    aviso.innerHTML = "<b>Caso encerrado.</b> Os dados não podem ser editados. Correções entram como retificação.";
+    $("#conteudo").prepend(aviso);
+    $$("#conteudo button, #conteudo input, #conteudo select, #conteudo textarea").forEach(x=>{
+      if (!x.closest(".abas-nav, [role=tablist], #tcRetificacao") && !x.matches("[data-aba]")) x.disabled = true;
+    });
+  }
+
+  $("#btnTcRetificar")?.addEventListener("click", async ()=>{
+    const at = await db.get("corpos", p.id);
+    const r = {tipo: valorDe("tcRetTipo"), texto: valorDe("tcRetTexto"), motivo: valorDe("tcRetMotivo"), perfil: estado.perfil || "", data_hora: agora()};
+    const falta = tcFaltaRetificacao(r);
+    if (falta.length) return mostrarErros("#tcErrosRet", [`Informe ${falta.join(", ")}.`]);
+    await db.put("corpos", {...at, retificacoes: [...(at.retificacoes || []), r]});
+    await db.put("log", {id: uuid(), corpo_id: p.id, acao: `retificação: ${r.tipo}`, motivo: `${r.texto} · ${r.motivo}`, perfil: r.perfil, data_hora: r.data_hora});
+    toast("Retificação registrada."); navegar();
+  });
+};
+
 /* Identidade da Trilha de Custódia e Identificação (TCIN).
-   Entra por último no build. O painel passa a ser por perfil e o plantonista
-   ganha o quadro de plantão em colunas por situação; a ficha vira abas. */
+   Entra por último no build. O painel é por perfil (Técnico, Médico Legista e
+   Gestor ADM): o Técnico vê o quadro das sete etapas, o Médico Legista a sala de
+   necropsia e o Gestor ADM a fila da ADM; a ficha vira abas. */
 
 function tcinUltimoMarco(ms, id){
   return ms.filter(m=>m.corpo_id === id).sort((a, b)=>b.data_hora.localeCompare(a.data_hora))[0];
@@ -2131,29 +2310,28 @@ function tcinCorpoCard(c, ms){
     <span class="tc-corpo-topo"><b class="mono">${esc(c.protocolo)}</b><span class="selo ${tcSel(c.situacao)}">${esc(c.situacao)}</span></span>
     <span class="tc-corpo-nome">${esc(tcRotuloLista(c))}</span>
     <span class="tc-corpo-dias ${d > 30 ? "erro-txt" : d > 10 ? "alerta-txt" : ""}">${c.situacao === "liberado" ? "liberado" : `${plural(d, "dia", "dias")} no IML`}</span>
-    <span class="sub">${u ? esc(u.tipo) + " · " + dataBR(u.data_hora) : "sem movimentação"}</span></a>`;
+    <span class="sub">${c.identificacao?.pendente ? "exame complementar: " + esc(c.identificacao.pendente.metodo) : u ? esc(u.tipo) + " · " + dataBR(u.data_hora) : "sem movimentação"}</span></a>`;
 }
 function tcinCabecalho(perfil){
   const titulos = {
-    operador: ["Painel do CIOP", "Acionamentos em deslocamento e corpos que chegaram ao IML."],
-    tecnico: ["Sala de necropsia", "Corpos na sala, dias no IML e último marco de cada um."],
-    plantonista: ["Passagem de plantão", "Quadro por situação, com os dias no IML e o último marco."],
-    gestor: ["Painel do gestor", "Tempos do percurso, permanência e corpos sem movimentação."],
-    medico: ["Painel do médico legista", "Corpos na sala de necropsia, com leitura até a etapa 5."],
+    tecnico: ["Quadro das sete etapas", "Casos abertos por etapa, com os dias no IML e o último marco. Serve também para a passagem de plantão."],
+    gestor: ["Painel do Gestor ADM", "Fila da ADM (lacres, laudos e decisões de sepultamento), tempos do percurso e permanência."],
+    medico: ["Sala de necropsia", "Corpos da fila da necropsia à identificação, com leitura até a etapa 5."],
   };
   const [t, s] = titulos[perfil] || titulos.tecnico;
-  return `<h1>${t}</h1><p class="sub">${s} <a href="#/corpo/novo">Novo acionamento</a></p>`;
+  return `<h1>${t}</h1><p class="sub">${s}${perfil === "medico" ? "" : ' <a href="#/corpo/novo">Novo acionamento</a>'}</p>`;
 }
 function tcinKpi(valor, rotulo, attr){
   return `<div class="card kpi"><div class="v"${attr ? ` ${attr}` : ""}>${valor}</div><div class="r">${rotulo}</div></div>`;
 }
+const tcinLink = c => `<a href="#/corpo/${encodeURIComponent(c.id_corpo)}">${esc(c.protocolo)}</a>`;
 
 TELAS["#/painel"] = async ()=>{
-  const [cs, ms] = await Promise.all([db.list("corpos"), db.list("marcos")]);
+  const [cs, ms, ls] = await Promise.all([db.list("corpos"), db.list("marcos"), db.list("lacres")]);
   const por = s => cs.filter(c=>c.situacao === s).length;
   const perfil = estado.perfil || "tecnico";
-  const liberados = cs.filter(c=>c.situacao === "liberado").length;
-  const plantao = cs.filter(c=>{
+  const abertos = cs.filter(c=>!c.custodia_finalizada);
+  const plantao = abertos.filter(c=>{
     if (c.situacao === "liberado") return false;
     const ultimo = ms.filter(m=>m.corpo_id === c.id_corpo).map(m=>m.data_hora).sort().pop() || c.criado_em;
     return tcHoras(ultimo) > TC_PLANTao_HORAS;
@@ -2162,14 +2340,29 @@ TELAS["#/painel"] = async ()=>{
     const tempos = tcTempos(cs, ms);
     const permanencia = cs.filter(c=>c.situacao !== "liberado").map(c=>({c, dias: Math.max(0, Math.round((Date.now() - new Date(c.criado_em)) / 86400000))}))
       .sort((a, b)=>b.dias - a.dias);
+    const lacresPend = ls.filter(l=>!l.recebido_em);
+    const laudosPend = cs.filter(c=>c.laudo?.entregue_em && !c.laudo?.recebido_em);
+    const decisoes = cs.filter(c=>tcEtapa(c) === 6 && !c.sepultamento && (!c.identificado || c.familia?.busca_sem_sucesso));
+    const corpoDe = id => cs.find(c=>c.id_corpo === id);
     return `${tcinCabecalho(perfil)}
+      <div class="grade">${tcinKpi(lacresPend.length, "lacres pendentes de recebimento", 'data-tc-adm="lacres"')}
+        ${tcinKpi(laudosPend.length, "laudos aguardando recebimento", 'data-tc-adm="laudos"')}
+        ${tcinKpi(decisoes.length, "decisões de sepultamento pendentes", 'data-tc-adm="decisoes"')}
+        ${tcinKpi(cs.filter(c=>c.custodia_finalizada).length, "custódias finalizadas", 'data-tc-adm="finalizadas"')}</div>
+      <div class="card tabela-wrap" id="tcFilaAdm"><h2 style="margin-top:0">Fila da ADM</h2>
+        <table><tr><th>Protocolo</th><th>Pendência</th><th>Desde</th></tr>
+        ${[...decisoes.map(c=>[c, `decisão de sepultamento (${c.identificado ? "não reclamado" : "não identificado"})`, c.etapa_em]),
+           ...laudosPend.map(c=>[c, "recebimento do laudo", c.laudo.entregue_em]),
+           ...lacresPend.map(l=>[corpoDe(l.corpo_id), `recebimento do lacre ${l.codigo} (${l.destino})`, l.data_hora])]
+          .filter(([c])=>c).map(([c, t, d])=>`<tr><td>${tcinLink(c)}</td><td>${esc(t)}</td><td>${dataBR(d)}</td></tr>`).join("")
+          || '<tr><td colspan="3" class="vazio">Nada pendente na ADM.</td></tr>'}</table></div>
       <div class="grade">${tcinKpi(tempos.remocao === null ? "—" : tempos.remocao + " h", "tempo médio de remoção", 'data-tc-ind="remocao"')}
         ${tcinKpi(tempos.identificacao === null ? "—" : tempos.identificacao + " h", "tempo médio de identificação", 'data-tc-ind="identificacao"')}
         ${tcinKpi(tempos.liberacao === null ? "—" : tempos.liberacao + " h", "tempo médio de liberação", 'data-tc-ind="liberacao"')}
         ${tcinKpi(plantao.length, `sem movimentação há mais de ${TC_PLANTao_HORAS} h`, 'data-tc-ind="plantao"')}</div>
       <div class="card tabela-wrap"><h2 style="margin-top:0">Permanência por corpo</h2>
         <table id="tabelaPermanencia"><tr><th>Protocolo</th><th>Identificação</th><th>Situação</th><th class="num">Dias no IML</th><th>Último marco</th></tr>
-        ${permanencia.map(({c, dias})=>{ const u = tcinUltimoMarco(ms, c.id_corpo); return `<tr><td><a href="#/corpo/${encodeURIComponent(c.id_corpo)}">${esc(c.protocolo)}</a></td>
+        ${permanencia.map(({c, dias})=>{ const u = tcinUltimoMarco(ms, c.id_corpo); return `<tr><td>${tcinLink(c)}</td>
           <td>${esc(tcRotuloLista(c))}</td>
           <td><span class="selo ${tcSel(c.situacao)}">${esc(c.situacao)}</span></td>
           <td class="num">${dias > 30 ? `<span class="erro-txt">${dias}</span>` : dias}</td>
@@ -2179,32 +2372,31 @@ TELAS["#/painel"] = async ()=>{
       <div class="linha-botoes nao-imprimir"><button class="prim" id="btnTcCsv">${icone("download")} Exportar CSV</button>
         <button onclick="window.print()">${icone("imprimir")} Imprimir em A4</button></div>`;
   }
-  if (perfil === "plantonista"){
-    const colunas = TC_SIT.map(sit=>{
-      const lista = cs.filter(c=>c.situacao === sit);
-      return `<section class="tc-col"><h3>${esc(sit)} <span class="conta">${lista.length}</span></h3>
-        <div class="tc-col-lista">${lista.length ? lista.map(c=>tcinCorpoCard(c, ms)).join("") : '<p class="sub">Nenhum corpo.</p>'}</div></section>`;
-    }).join("");
+  if (perfil === "medico"){
+    const sala = cs.filter(c=>[3, 4, 5].includes(tcEtapa(c)) && !c.custodia_finalizada).sort((a, b)=>tcDias(b) - tcDias(a));
     return `${tcinCabecalho(perfil)}
-      <div class="grade">${tcinKpi(por("em custódia"), "em custódia", "data-em-custodia")}
-        ${tcinKpi(plantao.length, `sem movimentação há mais de ${TC_PLANTao_HORAS} h`)}
-        ${tcinKpi(liberados, "liberados")}</div>
-      ${plantao.length ? `<div class="card pendente" id="tcAlertaPlantao"><b>Passagem de plantão:</b> ${plantao.length} corpo(s) sem movimentação há mais de ${TC_PLANTao_HORAS} h.
-        ${plantao.map(c=>`<a class="botao" href="#/corpo/${encodeURIComponent(c.id_corpo)}">${esc(c.protocolo)}</a>`).join(" ")}</div>` : ""}
-      <div class="tc-quadro" id="tcTabelaPainel">${colunas}</div>`;
+      <div class="grade">${tcinKpi(sala.filter(c=>tcEtapa(c) === 3).length, "aguardando necropsia")}
+        ${tcinKpi(sala.filter(c=>tcEtapa(c) === 4).length, "necropsia em andamento")}
+        ${tcinKpi(sala.filter(c=>tcEtapa(c) === 5).length, "em identificação")}</div>
+      <div class="card tabela-wrap"><h2 style="margin-top:0">Corpos na sala</h2>
+        <table id="tcTabelaPainel"><tr><th>Protocolo</th><th>Identificação</th><th>Etapa</th><th>Agente causal</th><th class="num">Dias no IML</th></tr>
+        ${sala.map(c=>`<tr><td>${tcinLink(c)}</td><td>${esc(tcRotuloLista(c))}</td><td>${tcEtapa(c)}. ${esc(TC_ETAPAS[tcEtapa(c) - 1].nome)}${c.identificacao?.pendente ? " · " + esc(c.identificacao.pendente.metodo) : ""}</td>
+          <td>${esc(c.agente_causal || "—")}</td><td class="num">${tcDias(c)}</td></tr>`).join("") || '<tr><td colspan="5" class="vazio">Nenhum corpo na sala.</td></tr>'}</table></div>`;
   }
-  const lista = cs.filter(c=>c.situacao !== "liberado").sort((a, b)=>tcDias(b) - tcDias(a));
-  const deslocamento = cs.filter(c=>{ const u = tcinUltimoMarco(ms, c.id_corpo); return u && ["Saída da base", "Saída do local"].includes(u.tipo); }).length;
+  // Técnico: quadro das sete etapas (casos abertos)
+  const colunas = TC_ETAPAS.map(et=>{
+    const lista = abertos.filter(c=>tcEtapa(c) === et.n);
+    return `<section class="tc-col"><h3>${et.n}. ${esc(et.nome)} <span class="conta">${lista.length}</span></h3>
+      <div class="tc-col-lista">${lista.length ? lista.map(c=>tcinCorpoCard(c, ms)).join("") : '<p class="sub">Nenhum corpo.</p>'}</div></section>`;
+  }).join("");
   return `${tcinCabecalho(perfil)}
     <div class="grade">${tcinKpi(por("em custódia"), "em custódia", "data-em-custodia")}
-      ${tcinKpi(deslocamento, "em deslocamento")}
-      ${tcinKpi(por("aguardando identificação") + por("não identificado") + por("não reclamado"), "sem identificação ou não reclamados")}</div>
-    <div class="card tabela-wrap"><h2 style="margin-top:0">${perfil === "operador" ? "Acionamentos" : "Corpos na sala"}</h2>
-      <table id="tcTabelaPainel"><tr><th>Protocolo</th><th>Identificação</th><th>Origem</th><th>Situação</th><th class="num">Dias no IML</th><th>Último marco</th></tr>
-      ${lista.map(c=>{ const u = tcinUltimoMarco(ms, c.id_corpo), d = tcDias(c); return `<tr><td><a href="#/corpo/${encodeURIComponent(c.id_corpo)}">${esc(c.protocolo)}</a></td>
-        <td>${esc(tcRotuloLista(c))}</td><td>${esc(c.municipio || c.origem)}</td><td><span class="selo ${tcSel(c.situacao)}">${esc(c.situacao)}</span></td>
-        <td class="num"><span class="${d > 30 ? "erro-txt" : d > 10 ? "alerta-txt" : ""}">${d}</span></td>
-        <td>${u ? esc(u.tipo) + " · " + dataBR(u.data_hora) : "—"}</td></tr>`; }).join("") || '<tr><td colspan="6" class="vazio">Nenhum corpo na sala.</td></tr>'}</table></div>`;
+      ${tcinKpi(abertos.filter(c=>c.identificacao?.pendente).length, "em exame complementar")}
+      ${tcinKpi(plantao.length, `sem movimentação há mais de ${TC_PLANTao_HORAS} h`)}
+      ${tcinKpi(cs.filter(c=>c.custodia_finalizada).length, "custódias finalizadas")}</div>
+    ${plantao.length ? `<div class="card pendente" id="tcAlertaPlantao"><b>Passagem de plantão:</b> ${plantao.length} corpo(s) sem movimentação há mais de ${TC_PLANTao_HORAS} h.
+      ${plantao.map(c=>`<a class="botao" href="#/corpo/${encodeURIComponent(c.id_corpo)}">${esc(c.protocolo)}</a>`).join(" ")}</div>` : ""}
+    <div class="tc-quadro" id="tcTabelaPainel">${colunas}</div>`;
 };
 TELAS_DEPOIS["#/painel"] = ()=>{
   $("#btnTcCsv")?.addEventListener("click", async ()=>{
@@ -2236,17 +2428,18 @@ TELAS["#/corpo/:id"] = async (p)=>{
   };
   [...raiz.children].forEach(colher);
   if (!cards.length) return html;
-  const grupos = {resumo: [], marcos: [], lacres: [], situacao: [], liberacao: [], auditoria: []};
+  const grupos = {resumo: [], etapas: [], marcos: [], lacres: [], situacao: [], liberacao: [], auditoria: []};
   const destino = h=>{
     if (/marco/.test(h)) return "marcos";
     if (/lacre/.test(h)) return "lacres";
     if (/situa|histórico da situa/.test(h)) return "situacao";
     if (/auto|libera/.test(h)) return "liberacao";
-    if (/auditoria|privacidade|reten/.test(h)) return "auditoria";
+    if (/auditoria|privacidade|reten|retifica/.test(h)) return "auditoria";
+    if (/etapas do caso|laudo à adm|encerramento/.test(h)) return "etapas";
     return "resumo";
   };
   cards.forEach(c=>grupos[destino((c.querySelector("h2")?.textContent || "").toLowerCase())].push(c.outerHTML));
-  const nomes = [["resumo", "Resumo"], ["marcos", "Marcos"], ["lacres", "Lacres"], ["situacao", "Situação"], ["liberacao", "Liberação"], ["auditoria", "Auditoria"]];
+  const nomes = [["resumo", "Resumo"], ["etapas", "Etapas"], ["marcos", "Marcos"], ["lacres", "Lacres"], ["situacao", "Situação"], ["liberacao", "Liberação"], ["auditoria", "Auditoria"]];
   const lista = nomes.filter(([id])=>grupos[id].length).map(([id, titulo])=>({id, titulo, html: grupos[id].join("")}));
   return antes.map(n=>n.outerHTML).join("") + abas("ficha", lista);
 };

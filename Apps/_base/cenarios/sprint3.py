@@ -298,7 +298,7 @@ def s3_busca_csv_e_historico(pg, url, ok):
 
 @cenario("trilha-custodia-necropsia")
 def s3_situacao_identificacao_e_busca(pg, url, ok):
-    perfil(pg, url, "plantonista")
+    perfil(pg, url, "tecnico")
     ir(pg, url, "#/config"); pg.click("#btnSeed"); pg.wait_for_timeout(700)
     ir(pg, url, "#/painel", 500)
     nomes = pg.evaluate("async ()=> (await db.list('corpos')).filter(c=>c.nome).map(c=>c.nome)")

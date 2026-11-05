@@ -10,7 +10,11 @@ Lê `projeto.json` (tabelas `tAsIs` e `tToBe`), escreve:
 O SVG é renderizado com o Mermaid local (npm) e Playwright, para o hub
 `processo.html` continuar offline. O Mermaid não entra no app.
 
-Uso: python Apps/_base/gerar_diagramas.py
+Quando existe `docs/diagramas/to-be.manual.mmd` (ou `as-is.manual.mmd`), ele vale
+no lugar do fluxograma gerado pela tabela: é o caso de um fluxo com decisões que a
+tabela linear não representa (ex.: `trilha-custodia-necropsia`, Sprint 9).
+
+Uso: python Apps/_base/gerar_diagramas.py [app ...]
 Requer: npm install mermaid@11 em MERMAID_DIR e Playwright/Chromium.
 """
 import html
@@ -72,11 +76,16 @@ def gerar(app, pasta, tab):
     destino.mkdir(parents=True, exist_ok=True)
     m_asis = nos(asis, "asis")
     m_tobe = nos(tobe, "tobe")
+    manual = {n: destino / f"{n}.manual.mmd" for n in ("as-is", "to-be")}
+    if manual["as-is"].exists():
+        m_asis = manual["as-is"].read_text(encoding="utf-8").strip()
+    if manual["to-be"].exists():
+        m_tobe = manual["to-be"].read_text(encoding="utf-8").strip()
     (destino / "as-is.mmd").write_text(m_asis + "\n", encoding="utf-8")
     (destino / "to-be.mmd").write_text(m_tobe + "\n", encoding="utf-8")
     md = f"""# Fluxogramas do processo · {app}
 
-Gerados a partir de `projeto.json`. As setas seguem a ordem da tabela.
+Gerados a partir de `projeto.json` (as setas seguem a ordem da tabela) ou de `*.manual.mmd`, quando existe.
 
 ## AS-IS
 
@@ -97,9 +106,13 @@ Gerados a partir de `projeto.json`. As setas seguem a ordem da tabela.
 def main():
     if not LIB.exists():
         raise SystemExit(f"Mermaid não encontrado em {LIB}. Rode: cd {MERMAID_DIR} && npm install mermaid@11")
+    import sys
+    filtro = set(sys.argv[1:])
     dados = []
     for pasta in sorted(RAIZ.iterdir()):
         if not pasta.is_dir() or pasta.name.startswith("_"):
+            continue
+        if filtro and pasta.name not in filtro:
             continue
         if not (pasta / "projeto.json").exists():
             continue

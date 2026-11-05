@@ -89,18 +89,15 @@ def s2_acionamento_marcos_e_lacres(pg, url, ok):
     ok("o marco entra na linha do tempo (RN03)", "1/4" in pg.inner_text("#conteudo") and pg.evaluate("async ()=> (await db.porIndice('marcos','corpo_id','C-0013')).length") == 1)
     pg.fill("#tcLacre", "LC-TESTE-1"); pg.fill("#tcDestino", "Laboratório de DNA"); pg.click("#btnTcLacre"); pg.wait_for_timeout(500)
     ok("o lacre fica registrado com perfil e data", pg.evaluate("async ()=> (await db.porIndice('lacres','corpo_id','C-0013'))[0].perfil") == "tecnico")
-    pg.select_option("#tcNovaSit", "liberado"); pg.uncheck("#tcIdent"); pg.click("#btnTcSit"); pg.wait_for_timeout(400)
-    ok("sem identificação e auto, a liberação é recusada (RN02)", "RN02" in pg.inner_text("#tcErrosSit"))
-    pg.check("#tcIdent"); pg.fill("#tcResp", "Responsável Teste"); pg.fill("#tcDocEntrega", "AUTO-TESTE")
-    pg.click("#btnTcSit"); pg.wait_for_timeout(500)
-    ok("com identificação e auto, o corpo é liberado", pg.inner_text("#tcSitAtual") == "liberado")
+    ok("a situação manual não oferece liberar: a liberação é na etapa 6 (Sprint 9)", pg.locator('#tcNovaSit option[value="liberado"]').count() == 0)
+    ok("o corpo segue em custódia", pg.inner_text("#tcSitAtual") == "em custódia")
     ir(pg, url, "#/busca", 400); pg.fill("#tcBusca", "NEC-2026-013"); pg.click("#btnTcBuscar"); pg.wait_for_timeout(500)
     ok("a busca acha o corpo pelo protocolo (RN04)", "NEC-2026-013" in pg.inner_text("#tcResultado"))
 
 # origem: sprint3.py
 @cenario
 def s3_situacao_identificacao_e_busca(pg, url, ok):
-    perfil(pg, url, "plantonista")
+    perfil(pg, url, "tecnico")
     semear(pg, url)
     ir(pg, url, "#/painel", 500)
     nomes = pg.evaluate("async ()=> (await db.list('corpos')).filter(c=>c.nome).map(c=>c.nome)")
@@ -136,23 +133,18 @@ def s3_situacao_identificacao_e_busca(pg, url, ok):
 # origem: sprint4.py
 @cenario
 def s4_auto_de_entrega(pg, url, ok):
-    perfil(pg, url, "plantonista")
+    perfil(pg, url, "tecnico")
     semear(pg, url)
     # corpo identificado e em custódia
     cid = pg.evaluate("async ()=> (await db.list('corpos')).find(c=>c.identificado && c.situacao!=='liberado').id_corpo")
     ir(pg, url, "#/corpo/" + cid, 700)
     ok("a ficha mostra o bloco do auto de entrega", pg.locator("#tcLiberacao").count() == 1)
-    pg.fill("#tcAutoResp", ""); pg.fill("#tcAutoDoc", "")
-    pg.click("#formTcAuto button[type=submit]"); pg.wait_for_timeout(600)
-    ok("sem responsável e documento, a liberação é recusada (RN02)", "responsável" in pg.inner_text("#tcErrosAuto"))
-    pg.fill("#tcAutoResp", "Familiar Fictício"); pg.fill("#tcAutoDoc", "AUTO-TESTE-1")
-    pg.click("#formTcAuto button[type=submit]"); pg.wait_for_timeout(900)
-    ok("com o auto completo, o corpo é liberado", pg.evaluate("async id => (await db.get('corpos', id)).situacao === 'liberado'", cid))
-    ok("a liberação entra na trilha do caso", pg.evaluate("async id => (await db.list('log')).some(l=>l.corpo_id===id && l.acao==='liberação registrada')", cid))
-    # corpo não identificado: bloqueado
-    cid2 = pg.evaluate("async ()=> (await db.list('corpos')).find(c=>!c.identificado).id_corpo")
-    ir(pg, url, "#/corpo/" + cid2, 700)
-    ok("corpo sem identificação tem o botão de liberar bloqueado", pg.is_disabled("#formTcAuto button[type=submit]"))
+    ok("o formulário antigo de liberação foi fechado (Sprint 9)", pg.locator("#formTcAuto").count() == 0 and pg.locator("#tcLiberacaoNaEtapa").count() == 1)
+    ok("a regra RN02 continua valendo na função", pg.evaluate("() => tcFaltaAuto({identificado: false}, {responsavel: 'X', documento: 'Y', data: 'Z'}).length === 1"))
+    ok("o corpo não foi liberado por fora da etapa 6", pg.evaluate("async id => (await db.get('corpos', id)).situacao !== 'liberado'", cid))
+    lib = pg.evaluate("async ()=> (await db.list('corpos')).find(c=>c.situacao==='liberado' && c.custodia_finalizada).id_corpo")
+    ir(pg, url, "#/corpo/" + lib, 700)
+    ok("o caso liberado mostra o auto e a trilha", "Liberado" in pg.inner_text("#tcLiberacao"))
 
 # origem: sprint4.py
 @cenario
@@ -217,6 +209,9 @@ def s8_sete_etapas_assinatura_e_recebimento(pg, url, ok):
     pg.click("#btnTcFamEncontrado"); pg.wait_for_timeout(800)
     ok("o familiar localizado é registrado", pg.evaluate("async id => (await db.get('corpos', id)).familia?.encontrada", cid) is True)
     _assinar(pg, "#tcAssinaturaFamilia", "#tcAssinaturaFamiliaValor")
+    pg.click("#btnTcLiberarFamilia"); pg.wait_for_timeout(700)
+    ok("sem funerária e Auto de Entrega, a liberação é recusada", "funerária" in pg.inner_text("#tcErrosEtapa8"))
+    pg.fill("#tcFamFuneraria", "Funerária Fictícia"); pg.fill("#tcFamAuto", "AE-TESTE-1")
     pg.click("#btnTcLiberarFamilia"); pg.wait_for_timeout(900)
     ok("a liberação à família vai para a etapa 7 com a assinatura", pg.evaluate("async id => { const c = await db.get('corpos', id); return c.etapa === 7 && !!c.familia?.assinatura; }", cid))
     pg.fill("#tcLaudoEntreguePor", "Técnico Fictício"); pg.fill("#tcLaudoRecebidoPor", "ADM Fictícia")
@@ -251,9 +246,89 @@ def s8_sete_etapas_assinatura_e_recebimento(pg, url, ok):
     pg.fill("#tcJustSepult", "curta"); pg.click("#btnTcSepultar"); pg.wait_for_timeout(500)
     ok("a justificativa curta do sepultamento é recusada", "20 caracteres" in pg.inner_text("#tcErrosEtapa8"))
     pg.fill("#tcJustSepult", "Busca de familiares encerrada sem êxito após o prazo legal.")
-    pg.fill("#tcFuneraria", "Funerária Fictícia"); pg.fill("#tcAutoFuneraria", "AUTO-FUN-1")
+    pg.fill("#tcAutSepult", "AUT-SEP-TESTE")
+    pg.fill("#tcSepFuneraria", "Funerária Fictícia"); pg.fill("#tcSepAuto", "AUTO-FUN-1")
     pg.click("#btnTcSepultar"); pg.wait_for_timeout(900)
     ok("com justificativa, o sepultamento é registrado", pg.evaluate("async id => !!(await db.get('corpos', id)).sepultamento", cid2))
+
+@cenario
+def s9_fluxograma_da_silmara(pg, url, ok):
+    perfil(pg, url, "tecnico")
+    semear(pg, url)
+    ok("o app tem só os três perfis (Técnico, Médico Legista e Gestor ADM)",
+       pg.evaluate("() => APP.perfis.map(p=>p.id).sort().join()") == "gestor,medico,tecnico")
+    ir(pg, url, "#/painel", 700)
+    ok("o Técnico vê o quadro das sete etapas", pg.locator("#tcTabelaPainel .tc-col").count() == 7)
+    ok("o quadro mostra o exame complementar em andamento", "exame complementar: DNA" in pg.inner_text("#tcTabelaPainel"))
+    # identificação: laço de exame complementar (RN11)
+    cid = pg.evaluate("async ()=> (await db.list('corpos')).find(c=>c.situacao==='aguardando identificação' && !c.identificacao).id_corpo")
+    ir(pg, url, "#/corpo/" + cid, 900)
+    pg.select_option("#tcResultadoIdent", "esgotado"); pg.click("#btnTcIdent8"); pg.wait_for_timeout(500)
+    ok("métodos esgotados sem exame complementar são recusados (RN11)", "exame complementar" in pg.inner_text("#tcErrosEtapa8"))
+    pg.select_option("#tcResultadoIdent", "exame"); pg.select_option("#tcMetodoIdent8", "DNA"); pg.click("#btnTcIdent8"); pg.wait_for_timeout(800)
+    ok("o caso fica na etapa 5 com o DNA em andamento", pg.locator("#tcExamePendente").count() == 1
+       and pg.evaluate("async id => (await db.get('corpos', id)).etapa", cid) == 5)
+    pg.select_option("#tcResultadoExame", "sem_resultado"); pg.click("#btnTcResultadoExame"); pg.wait_for_timeout(800)
+    ok("o DNA sem resultado entra nas tentativas", "DNA (sem resultado)" in pg.inner_text("#tcTentativas"))
+    pg.select_option("#tcResultadoIdent", "esgotado"); pg.click("#btnTcIdent8"); pg.wait_for_timeout(800)
+    c = pg.evaluate("async id => await db.get('corpos', id)", cid)
+    ok("depois do exame, os métodos se esgotam e o caso vai à etapa 6", c["etapa"] == 6 and c["situacao"] == "não identificado")
+    ok("o Técnico não autoriza o sepultamento: aguarda o Gestor ADM", pg.locator("#tcAguardaGestor").count() == 1 and pg.locator("#btnTcSepultar").count() == 0)
+    # laudo em paralelo, entregue antes do destino
+    pg.fill("#tcLaudoEntreguePor", "Técnico Fictício"); pg.fill("#tcLaudoRecebidoPor", "ADM Fictícia")
+    pg.click("#btnTcEntregaLaudo"); pg.wait_for_timeout(800)
+    ok("o laudo é entregue antes do destino do corpo", pg.evaluate("async id => !!(await db.get('corpos', id)).laudo?.entregue_em", cid))
+    # Gestor ADM: fila, decisão e encerramento
+    perfil(pg, url, "gestor")
+    ir(pg, url, "#/painel", 800)
+    ok("a fila da ADM lista a decisão de sepultamento e o laudo", pg.inner_text("[data-tc-adm=decisoes]") != "0"
+       and "recebimento do laudo" in pg.inner_text("#tcFilaAdm"))
+    ir(pg, url, "#/corpo/" + cid, 900)
+    _assinar(pg, "#tcAssinaturaLaudo", "#tcAssinaturaLaudoValor")
+    pg.click("#btnTcReceberLaudo"); pg.wait_for_timeout(800)
+    ok("o laudo recebido sozinho não encerra a custódia (RN10)", pg.evaluate("async id => { const c = await db.get('corpos', id); return !!c.laudo.recebido_em && !c.custodia_finalizada; }", cid))
+    for _ in range(4):
+        if not pg.locator("[data-tc-receber-lacre]").count():
+            break
+        pg.locator("[data-tc-receber-lacre]").first.click(); pg.wait_for_timeout(700)
+    ok("os lacres recebidos também não encerram sem o destino (RN10)", pg.evaluate("async id => !(await db.get('corpos', id)).custodia_finalizada", cid))
+    pg.fill("#tcJustSepult", "Necropapiloscopia e DNA sem resultado; métodos esgotados.")
+    pg.click("#btnTcSepultar"); pg.wait_for_timeout(500)
+    ok("sem autorização, o sepultamento é recusado", "autorização" in pg.inner_text("#tcErrosEtapa8"))
+    pg.fill("#tcAutSepult", "AUT-SEP-S9"); pg.fill("#tcSepFuneraria", "Funerária Fictícia"); pg.fill("#tcSepAuto", "AE-S9")
+    pg.click("#btnTcSepultar"); pg.wait_for_timeout(900)
+    c = pg.evaluate("async id => await db.get('corpos', id)", cid)
+    ok("com destino, laudo e sem lacres pendentes, a custódia é finalizada", c["custodia_finalizada"] is True
+       and c["sepultamento"]["autorizacao"] == "AUT-SEP-S9" and c["funeraria"]["auto"] == "AE-S9")
+    # caso encerrado: nada se edita, correção vira retificação (RN12)
+    ir(pg, url, "#/corpo/" + cid, 900)
+    ok("o caso encerrado avisa e trava a edição", pg.locator("#tcCasoEncerrado").count() == 1 and pg.is_disabled("#btnTcMarco"))
+    pg.select_option("#tcRetTipo", "Familiar localizado após o sepultamento")
+    pg.fill("#tcRetTexto", "Familiar procurou o IML com documento da vítima.")
+    pg.fill("#tcRetMotivo", "curto"); pg.click("#btnTcRetificar"); pg.wait_for_timeout(500)
+    ok("retificação com motivo curto é recusada", "motivo" in pg.inner_text("#tcErrosRet"))
+    pg.fill("#tcRetMotivo", "Familiar localizado depois do sepultamento pelo Estado.")
+    pg.click("#btnTcRetificar"); pg.wait_for_timeout(800)
+    ok("a retificação entra na lista e no log sem apagar o registro", "Familiar localizado após o sepultamento" in pg.inner_text("#tcListaRetificacoes")
+       and pg.evaluate("async id => (await db.list('log')).some(l=>l.corpo_id===id && l.acao.startsWith('retificação'))", cid)
+       and pg.evaluate("async id => (await db.get('corpos', id)).sepultamento.autorizacao", cid) == "AUT-SEP-S9")
+    # caso liberado com laudo pendente fecha quando o Gestor recebe o laudo e os lacres
+    aberto = pg.evaluate("async ()=> (await db.list('corpos')).find(c=>c.destino_final==='família' && !c.custodia_finalizada).id_corpo")
+    ir(pg, url, "#/corpo/" + aberto, 900)
+    ok("o encerramento mostra o que falta", pg.locator("#tcEncerramento").count() == 1 and "○" in pg.inner_text("#tcEncerramento"))
+    for _ in range(4):
+        if not pg.locator("[data-tc-receber-lacre]").count():
+            break
+        pg.locator("[data-tc-receber-lacre]").first.click(); pg.wait_for_timeout(700)
+    _assinar(pg, "#tcAssinaturaLaudo", "#tcAssinaturaLaudoValor")
+    pg.click("#btnTcReceberLaudo"); pg.wait_for_timeout(900)
+    ok("com lacres e laudo recebidos, a custódia da liberação à família fecha", pg.evaluate("async id => (await db.get('corpos', id)).custodia_finalizada === true", aberto))
+    # Médico Legista: sala de necropsia, sem laudo nem encerramento
+    perfil(pg, url, "medico")
+    ir(pg, url, "#/painel", 700)
+    ok("o Médico Legista vê a sala de necropsia (etapas 3 a 5)", pg.locator("#tcTabelaPainel").count() == 1 and "Sala de necropsia" in pg.inner_text("h1"))
+    ir(pg, url, "#/corpo/" + aberto, 900)
+    ok("o Médico Legista não vê o laudo à ADM nem o encerramento", pg.locator("#tcBlocoLaudo").is_hidden() and pg.locator("#tcEncerramento").is_hidden())
 
 def main():
     erro = False

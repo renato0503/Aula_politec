@@ -1,6 +1,10 @@
 """Gera os 12 corpos fictícios da TCIN (Sprint 0), com semente fixa.
 
 Cobre as cinco situações, os quatro marcos, lacres e um caso sem identificação.
+Sprint 9: um caso em exame complementar (DNA), um não identificado depois do DNA
+e sepultado com autorização e funerária, funerária na liberação à família e um
+caso liberado com o laudo ainda sem recebimento (custódia aberta). Perfis do log:
+só Técnico, Médico Legista e Gestor ADM.
 
 Uso: python "Apps/trilha-custodia-necropsia/exemplos/gerar_exemplos.py"
 """
@@ -34,7 +38,7 @@ CASOS = [
 ORIGENS = ["Delegacia de Polícia de Cuiabá", "Delegacia de Várzea Grande", "Delegacia de Rondonópolis", "CIOP"]
 NATUREZAS = ["local de crime", "morte natural", "acidente de trânsito", "morte a esclarecer"]
 AGENTES = ["Causa natural", "Acidente", "Homicídio", "Suicídio", "Indeterminada", "Óbito administrativo"]
-ETAPA_DA_SITUACAO = {"em custódia": 6, "aguardando identificação": 5, "não identificado": 6,
+ETAPA_DA_SITUACAO = {"em custódia": 6, "aguardando identificação": 5, "não identificado": 7,
                      "não reclamado": 6, "liberado": 7}
 
 
@@ -53,22 +57,37 @@ def main():
         sepultamento = None
         destino = ""
         finalizada = False
+        funeraria = None
+        identificacao = None
         if situacao == "liberado":
             familia = {"encontrada": True, "nome": "Familiar Fictício", "parentesco": "irmão",
                        "documento": f"DOC-FAM-{n + 1:03d}", "busca_iniciada_em": data.isoformat() + "T10:00:00",
                        "busca_encerrada_em": data.isoformat() + "T11:00:00", "liberado_em": entrega["data"]}
-            laudo = {"entregue_por": "Técnico Fictício A", "recebido_por": "Gestor ADM Fictício",
-                     "entregue_em": entrega["data"], "recebido_em": entrega["data"]}
-            destino, finalizada = "família", True
+            funeraria = {"nome": "Funerária Fictícia Central", "auto": f"AE-{n + 1:03d}", "data_hora": entrega["data"]}
+            laudo = {"entregue_por": "Técnico Fictício A", "recebido_por": "Gestor ADM Fictício", "entregue_em": entrega["data"]}
+            if n == 10:   # laudo entregue, ainda sem recebimento: a custódia fica aberta (RN10)
+                destino = "família"
+            else:
+                laudo["recebido_em"] = entrega["data"]
+                destino, finalizada = "família", True
         elif situacao == "não reclamado":
             familia = {"encontrada": False, "busca_sem_sucesso": True, "busca_iniciada_em": data.isoformat() + "T09:00:00",
                        "busca_encerrada_em": (data + dt.timedelta(days=5)).isoformat() + "T09:00:00"}
         elif situacao == "não identificado":
             familia = {"encontrada": False, "busca_sem_sucesso": True, "busca_iniciada_em": data.isoformat() + "T09:00:00",
                        "busca_encerrada_em": (data + dt.timedelta(days=5)).isoformat() + "T09:00:00"}
-            sepultamento = {"justificativa": "Busca de familiares encerrada sem êxito após o prazo legal.",
+            sepultamento = {"justificativa": "Métodos de identificação esgotados: necropapiloscopia e DNA sem resultado.",
+                            "autorizacao": f"AUT-SEP-{n + 1:03d}",
                             "autorizado_em": (data + dt.timedelta(days=6)).isoformat() + "T09:00:00", "perfil": "gestor"}
+            funeraria = {"nome": "Funerária Fictícia do Estado", "auto": f"AE-{n + 1:03d}", "data_hora": (data + dt.timedelta(days=6)).isoformat() + "T10:00:00"}
+            identificacao = {"resultado": "nao_identificado", "em": data.isoformat() + "T12:00:00", "tentativas": [
+                {"metodo": "papiloscopia", "resultado": "sem resultado", "em": data.isoformat() + "T12:00:00"},
+                {"metodo": "DNA", "resultado": "sem resultado", "em": (data + dt.timedelta(days=4)).isoformat() + "T12:00:00"}]}
             destino = "sepultamento"
+        elif situacao == "aguardando identificação" and n == 8:   # exame complementar em andamento
+            identificacao = {"resultado": "pendente", "tentativas": [
+                {"metodo": "papiloscopia", "resultado": "sem resultado", "em": data.isoformat() + "T12:00:00"}],
+                "pendente": {"metodo": "DNA", "enviado_em": data.isoformat() + "T13:00:00"}}
         corpos.append({"id_corpo": cid, "protocolo": f"NEC-2026-{n + 1:03d}", "origem": ORIGENS[n % len(ORIGENS)],
                        "natureza": NATUREZAS[n % len(NATUREZAS)], "municipio": ["Cuiabá", "Várzea Grande", "Rondonópolis"][n % 3],
                        "local": f"Endereço fictício {n + 1}", "nome": nome, "documento": f"DOC-{n + 1:03d}" if nome else "",
@@ -78,7 +97,7 @@ def main():
                        "etapa": ETAPA_DA_SITUACAO[situacao], "etapa_em": data.isoformat() + "T08:00:00",
                        "agente_causal": AGENTES[n % len(AGENTES)],
                        "ocorrencia": "Acionamento fictício registrado para o exemplo.",
-                       "identificacao": ({"resultado": "nao_identificado", "em": data.isoformat() + "T12:00:00"} if desconhecido and situacao in ("não identificado",) else None),
+                       "identificacao": identificacao, "funeraria": funeraria,
                        "familia": familia, "laudo": laudo, "sepultamento": sepultamento,
                        "destino_final": destino, "custodia_finalizada": finalizada})
         # marcos: os dois primeiros para todos; os quatro para quem já voltou ao IML
@@ -89,13 +108,13 @@ def main():
         # lacres: dois em metade dos casos
         if n % 2 == 0:
             for k in range(2):
-                recebido = (n % 4 == 0)
+                recebido = (n % 4 == 0) or finalizada   # custódia finalizada exige os lacres recebidos
                 lacres.append({"id_lacre": f"{cid}-L{k + 1}", "corpo_id": cid, "codigo": f"LC-{n + 1:03d}{k + 1}",
                                "destino": ["Laboratório de DNA", "Toxicologia"][k], "data_hora": data.isoformat() + "T12:00:00", "perfil": "tecnico",
                                **({"recebido_em": data.isoformat() + "T14:00:00", "recebido_por": "gestor", "recebido_perfil": "gestor"} if recebido else {})})
-        log.append({"id": f"L-{cid}", "corpo_id": cid, "acao": "corpo registrado", "perfil": "operador", "data_hora": data.isoformat() + "T08:00:00"})
+        log.append({"id": f"L-{cid}", "corpo_id": cid, "acao": "corpo registrado", "perfil": "tecnico", "data_hora": data.isoformat() + "T08:00:00"})
         if situacao == "liberado":
-            log.append({"id": f"L-{cid}-lib", "corpo_id": cid, "acao": "situação: liberado", "perfil": "plantonista", "data_hora": entrega["data"]})
+            log.append({"id": f"L-{cid}-lib", "corpo_id": cid, "acao": "situação: liberado", "perfil": "tecnico", "data_hora": entrega["data"]})
     seed = {"corpos": corpos, "marcos": marcos, "lacres": lacres, "log": log}
     (AQUI / "seed.json").write_text(json.dumps(seed, ensure_ascii=False, indent=1), encoding="utf-8")
     print({k: len(v) for k, v in seed.items()})
