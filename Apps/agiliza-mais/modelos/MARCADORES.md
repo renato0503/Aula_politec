@@ -48,3 +48,17 @@ O layout institucional enviado em 03/11/2026 está em `../CASO TESTE 2/MODELO DE
 | `local_fato` | requisição em PDF |
 | `itens_requisicao` | lista dos itens a periciar: `{#itens_requisicao}{numero_item}. {descricao} · lacre {lacre}{/itens_requisicao}`; também `identificador`, `imei` e `codigo_apreensao` |
 | `qtd_itens` | quantidade de itens a periciar |
+
+## Modelo timbrado da POLITEC (08/11/2026)
+
+O modelo embutido no app é o `modelo-laudo-politec.docx`, gerado por `python modelos/gerar_modelo_politec.py` a partir do `.dotx` da equipe. O `modelo-laudo-celular.docx` fictício continua aqui só como exemplo. Marcadores acrescentados:
+
+| Marcador | Origem |
+|---|---|
+| `total_folhas_texto`, `ultima_folha` | total de folhas informado em `#/gerar` |
+| `numero_designacao` | perito, em `#/gerar` (entra no Histórico) |
+| `lacre_entrada`, `lacre_saida` | perito, em `#/gerar`; a entrada vem do primeiro lacre da requisição |
+| `texto_capa` | cor da capa informada em `#/gerar` |
+| `frase_itens`, `titulo_objetos`, `fim` | calculados pela quantidade de SIM |
+| `tem_quesitos` | verdadeiro quando há quesito; sem quesito, a seção sai do laudo |
+| `data_extenso` | data do laudo por extenso |

@@ -138,6 +138,10 @@
     [
       "seed",
       "exemplos/seed.json"
+    ],
+    [
+      "timbre",
+      "modelos/timbre-politec.json"
     ]
   ]
 }

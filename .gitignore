@@ -16,3 +16,11 @@ desktop.ini
 
 # Capturas geradas pela jornada do cliente
 Apps/_testes/
+
+# Notas da turma: material restrito, nunca publicar no GitHub Pages
+Turma POLITEC - NOTAS.xlsx
+Turma POLITEC - NOTAS*.xlsx
+analises/notas/
+
+# Caso de teste do Agiliza+: arquivos com dados de caso real, nunca publicar
+Apps/agiliza-mais/CASO TESTE 2/

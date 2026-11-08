@@ -121,3 +121,45 @@
 - [x] Premissa: "Diretoria de Interiorização", editável pelo perito no cabeçalho; confirmar o nome e a permissão.
 
 **Pronto quando**: o editor de mapas abre, os três mapas entram no laudo e as abas novas geram o .docx completo.
+
+## Sprint 9 · Feedback do Fábio de 05/11/2026
+
+> Nota 3, piloto "talvez". A resposta redefine o laudo: os mapas passam a vir do QGIS e a estrutura segue as seções abaixo. Inclui o pedido de 03/11 de subir mapas em PDF, que ficou de fora do Sprint 8.
+
+### Código
+- [ ] Cabeçalho com os campos obrigatórios: Protocolo nº, Órgão Solicitante, Autoridade Requisitante, Requisição nº, Data da Requisição, Data de Atribuição, Natureza dos Exames, Local dos Exames, Coordenada Geográfica de Referência, Data e Horário dos Exames e Destino do Laudo.
+- [ ] Trocar o editor por um importador de mapas: imagem ou PDF, um a um ou de uma pasta, mantendo os três obrigatórios (localização, anterior e posterior ao dano).
+- [ ] Ler PDF escaneado e imagens de uma pasta e preencher o cabeçalho, com OCR embutido e conferência pelo perito (mesma biblioteca do `agiliza-mais`).
+- [ ] Capa só com o número do laudo, centralizado no meio da página.
+- [ ] Laudo nas seções: 1. Informações; 2. Histórico; 3. Exames (3.1 Local, 3.2 Materiais e Métodos, 3.3 Consultas públicas, 3.4 Exames por Sensoriamento Remoto); 4. Valoração do Dano; 5. Quesitos Específicos; 6. Conclusão.
+- [ ] Mapas como figuras na seção 3.4 e tabela da memória de cálculo na seção 4.
+- [ ] Laudo em PDF e `.docx` com a formatação e o rodapé padrão da POLITEC.
+- [ ] Painel: mapa com as coordenadas, situação do laudo e valoração dos finalizados.
+- [ ] Painel: preço médio da valoração, total de requisições, tempo médio de resposta e soma das valorações por situação e total.
+- [ ] Requisições: ordenar em ordem crescente e decrescente e filtrar os finalizados.
+
+### Decisão do setor
+- [ ] Layout oficial do laudo ambiental (arquivo `.docx` ou `.dotx`). Enquanto ele não chega, vale o timbre provisório do Sprint 10.
+- [ ] Número do laudo: digitado pelo perito, enquanto não houver integração com o Atena.
+- [ ] Mapa do painel: o app funciona offline, então o fundo será um desenho de MT, sem imagem de satélite. Confirmar.
+- [ ] Regra oficial da valoração do dano e os campos que o perito informa.
+
+**Pronto quando**: uma requisição escaneada preenche o cabeçalho, os três mapas do QGIS entram por importação e o laudo sai com capa, seis seções e rodapé padrão.
+
+## Sprint 10 · Timbre provisório da POLITEC (08/11/2026)
+
+> Decisão do professor: usar no laudo do Fábio um cabeçalho como o do Agiliza+, até o layout oficial do laudo ambiental chegar.
+
+### Feito
+- [x] `.docx` com cabeçalho em todas as páginas: brasão, POLITEC, setor do laudo, endereço e número do laudo.
+- [x] `.docx` com rodapé: "Página X de Y" e faixa da missão.
+- [x] Versão impressa (`#/pdf/:id`) com o mesmo timbre e a mesma faixa, sem o menu do app.
+- [x] O setor do timbre vem do campo editável do laudo.
+- [x] `modelos/gerar_timbre.py` copia as imagens do modelo do Agiliza+, sem dado de caso, para `modelos/timbre-politec.json`.
+- [x] Cenário `s10_timbre_no_laudo` (3/3). Conferido no Microsoft Word.
+
+### Falta
+- [ ] O Fábio confirmar o timbre, o endereço da unidade e o nome do setor.
+
+**Pronto quando**: o Fábio aprovar o timbre ou enviar o layout oficial.
+

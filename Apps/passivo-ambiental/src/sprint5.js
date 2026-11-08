@@ -76,19 +76,25 @@ function paGerarDocx(r, l, mapas){
   linhas.push(paParagrafo("Mapas anexados", true));
   for (const m of mapas) linhas.push(paParagrafo(`${PA_TIPOS_MAPA.find(t=>t[0] === paTipoMapa(m))?.[1] || "Mapa"} · ${paModelo(m.modelo_id).rotulo} · ${m.valor_extra || ""}`));
   const document = `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>${linhas.join("")}<w:sectPr/></w:body></w:document>`;
+<w:document ${PA_NS_DOCX}><w:body>${linhas.join("")}${paSecaoDocx()}</w:body></w:document>`;
   const zip = new PizZip();
   zip.file("[Content_Types].xml", `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">
 <Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>
 <Default Extension="xml" ContentType="application/xml"/>
+<Default Extension="png" ContentType="image/png"/>
+<Default Extension="jpg" ContentType="image/jpeg"/>
 <Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>
+<Override PartName="/word/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"/>
+<Override PartName="/word/header1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.header+xml"/>
+<Override PartName="/word/footer1.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footer+xml"/>
 </Types>`);
   zip.file("_rels/.rels", `<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">
 <Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>
 </Relationships>`);
   zip.file("word/document.xml", document);
+  paAplicarTimbreDocx(zip, l);
   return zip.generate({type: "blob", mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"});
 }
 teste("PA: o .docx tem o conteúdo do laudo", ()=>{

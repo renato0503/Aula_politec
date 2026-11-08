@@ -110,3 +110,18 @@
 
 
 **Implementado em 03/11/2026**: texto do artigo visível e texto padrão de enquadramento; membros em lista suspensa e fundamento padrão com as datas e o artigo; exclusão e encerramento das oitivas; ata com admissão/enquadramento e relatório com curso; encerramento com texto das recomendações; envio dos documentos por `mailto:` (o canal institucional fica a confirmar).
+
+## Sprint 9 · Feedback da Letícia de 05/11/2026
+
+> Nota 3. Os demais pedidos de 03/11 já estão no Sprint 8; esta resposta trata da Admissibilidade.
+
+### Código
+- [ ] Membros presentes: selecionar mais de um membro da comissão (hoje a lista aceita um só).
+- [ ] Gravar os membros como lista e citar todos na ata de deliberação.
+- [ ] Prova pendente: anexar arquivos, com o limite de 10 MB por arquivo já usado na denúncia.
+- [ ] Mostrar e baixar os anexos da prova pendente na ficha do caso.
+
+### Decisão do setor
+- [ ] Número mínimo de membros para a deliberação. Premissa: a comissão tem 3 servidores efetivos e suplentes (art. 6º); o app avisa quando houver menos de 3 presentes, sem bloquear.
+
+**Pronto quando**: a admissibilidade registra vários membros, a ata cita todos e a prova pendente aceita anexo.

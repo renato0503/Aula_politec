@@ -151,3 +151,16 @@ do Hórus e no relatório "Aprovadas".
 - [x] `LEIA-ME` de uso e atualização de `PROJETO.md` e `README.md`.
 
 **Pronto quando**: os 7 passos passam, sem ajuda, com os dados fictícios.
+
+## Sprint 9 · Feedback do Iohan de 05/11/2026
+
+> Nota 4, piloto "talvez".
+
+### Código
+- [x] Cadastro de unidades e de unidades de medida, para a nova demanda salvar sem o seed (commit `7adeec6`; PR #1 do Iohan registrado em `d0fd196`).
+
+### Decisão do setor
+- [ ] Perguntar ao Iohan o que ajustar na Ficha da demanda: a tela foi marcada como "precisa de ajuste", sem comentário.
+- [ ] Perguntar ao Iohan o que ajustar em Ciclos: a tela foi marcada como "precisa de ajuste", sem comentário.
+
+**Pronto quando**: os ajustes da Ficha e de Ciclos estiverem descritos e feitos, ou o Iohan confirmar que não há mais o que mudar.

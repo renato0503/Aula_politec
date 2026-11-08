@@ -17,6 +17,8 @@ const semCaso = titulo=> `<h1>${titulo}</h1><div class="card vazio">Abra um caso
 async function textosDaBiblioteca(){
   let ts = await db.list("textos");
   if (!ts.length){ for (const t of dadosEmbutidos("seed")?.textos || []) await db.put("textos", t); ts = await db.list("textos"); }
+  const faltam = TEXTOS_POLITEC.filter(p=> !ts.some(t=> t.id_texto === p.id_texto));
+  if (faltam.length){ for (const t of faltam) await db.put("textos", t); ts = await db.list("textos"); }
   return ts.filter(t=> t.ativo !== false);
 }
 async function dadosDoCaso(caso){
@@ -632,6 +634,7 @@ async function dadosDoLaudo(caso, rascunho){
     marca: val(d.ap?.marca), modelo: val(d.ap?.modelo), cor: val(d.ap?.cor) || "não informada", imei_1: val(d.ap?.imei_1), imei_2: val(d.ap?.imei_2),
     qtd_sims: d.sims.length, sims: d.sims.map(s=> ({identificador_objeto: s.identificador_objeto, operadora: val(s.operadora), iccid: val(s.iccid)})),
     hash_arquivo: val(d.hs?.hash_arquivo), hash_algoritmo: d.hs?.algoritmo || "SHA-256", valor_hash: val(d.hs?.valor_hash)};
+  Object.assign(base, camposDaFolhaDeRosto(caso, base, d));
   const texto = c=> preencherMarcadores(((caso.textos_editados || {})[c] ?? ts.find(t=> t.id_texto === (caso.textos || {})[c])?.conteudo) || "", base);
   // só respostas aprovadas entram no laudo final (RN10)
   base.quesitos = d.qs.map(q=> ({numero_quesito: q.numero, enunciado: q.enunciado, resposta: q.aprovada || rascunho ? q.resposta || "" : ""}));
@@ -645,9 +648,11 @@ async function dadosDoLaudo(caso, rascunho){
 }
 async function modeloAtual(){
   const m = await db.get("modelos", "atual");
-  if (m?.b64) return m;
+  if (m?.b64 && marcadoresDoModelo(m.b64).length) return m;
+  // um modelo sem marcadores geraria o laudo com o texto fixo do arquivo: fica de fora e o embutido assume
+  if (m) await db.del("modelos", "atual");
   const e = dadosEmbutidos("modelo-docx");
-  return e ? {id_modelo: "embutido", nome: e.nome + " (fictício, embutido)", b64: e.b64} : null;
+  return e ? {id_modelo: "embutido", nome: e.nome + " (timbrado POLITEC, embutido)", b64: e.b64} : null;
 }
 // marcadores encontrados no modelo: o texto do document.xml sem as tags
 function marcadoresDoModelo(b64){
@@ -655,11 +660,14 @@ function marcadoresDoModelo(b64){
   const txt = xml.replace(/<[^>]+>/g, "");
   return [...new Set([...txt.matchAll(/\{[#^/]?(\w+)\}/g)].map(m=> m[1]))].sort();
 }
-function gerarDocx(dados, b64){
+function zipDoLaudo(dados, b64){
   if (!b64 || typeof PizZip === "undefined" || typeof docxtemplater === "undefined") throw new Error("modelo ou biblioteca do Word não embutidos");
   const doc = new docxtemplater(new PizZip(atob(b64)), {paragraphLoop: true, linebreaks: true, nullGetter: ()=> ""});
   doc.render(dados);
-  return doc.getZip().generate({type: "blob", mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"});
+  return doc.getZip();
+}
+function gerarDocx(dados, b64){
+  return zipDoLaudo(dados, b64).generate({type: "blob", mimeType: "application/vnd.openxmlformats-officedocument.wordprocessingml.document"});
 }
 teste("RN12: o modelo do Word preenche os marcadores", ()=>{
   const blob = gerarDocx({numero_laudo: "1/2026", sims: [], quesitos: [{numero_quesito: 1, enunciado: "a", resposta: "b"}]}, dadosEmbutidos("modelo-docx")?.b64);
@@ -685,13 +693,19 @@ TELAS["#/gerar"] = async ()=>{
   const laudos = await db.porIndice("laudos", "id_caso", caso.id_caso);
   const modelo = await modeloAtual(), dados = await dadosDoLaudo(caso, true);
   const marc = modelo ? marcadoresDoModelo(modelo.b64) : [];
-  const ITENS = new Set(["identificador_objeto", "operadora", "iccid", "numero_quesito", "enunciado", "resposta"]);
-  const semDado = marc.filter(m=> !ITENS.has(m) && (dados[m] === undefined || dados[m] === "" || (Array.isArray(dados[m]) && !dados[m].length && m !== "sims")));
-  return `<h1>Gerar o laudo</h1><p class="sub">O Word sai do modelo com os marcadores (RN12). Os originais da pasta não mudam: o arquivo vai para <span class="mono">LAUDO_GERADO</span>, quando o navegador permite, ou para Downloads (RN13).</p>
+  const ITENS = new Set(["identificador_objeto", "operadora", "iccid", "fim", "numero_quesito", "enunciado", "resposta"]);
+  const OPCIONAIS = new Set(["texto_capa", "imei_2", "procedimento", "boletim_ocorrencia", "tem_quesitos", "quesitos"]);
+  const semDado = marc.filter(m=> !ITENS.has(m) && !OPCIONAIS.has(m) && (dados[m] === undefined || dados[m] === "" || CAMPO_EM_BRANCO === dados[m] || (Array.isArray(dados[m]) && !dados[m].length && m !== "sims")));
+  return `<h1>Gerar o laudo</h1><p class="sub">O Word e o PDF saem do modelo timbrado, com os marcadores (RN12). Os originais da pasta não mudam: o Word vai para <span class="mono">LAUDO_GERADO</span>, quando o navegador permite, ou para Downloads (RN13).</p>
     <form class="card" id="formLaudo"><div class="campos">
       ${campo("lNumero", "Número do laudo", {valor: l.numero_laudo || "", obrigatorio: true})}
       ${campo("lPerito", "Nome do perito", {valor: l.nome_perito || "", obrigatorio: true})}
-      ${campo("lData", "Data do laudo", {valor: l.data_laudo || new Date().toLocaleDateString("pt-BR")})}</div>
+      ${campo("lData", "Data do laudo", {valor: l.data_laudo || new Date().toLocaleDateString("pt-BR")})}
+      ${campo("lDesignacao", "Designação nº", {valor: l.numero_designacao || "", ajuda: "Entra no Histórico padrão."})}
+      ${campo("lFolhas", "Total de folhas", {valor: l.total_folhas || "", ajuda: "Confira no arquivo gerado e informe para a folha de rosto."})}
+      ${campo("lLacreEntrada", "Envelope lacrado de entrada", {valor: l.lacre_entrada ?? dados.lacre_entrada ?? ""})}
+      ${campo("lLacreSaida", "Envelope de saída", {valor: l.lacre_saida || ""})}
+      ${campo("lCapa", "Cor da capa protetora", {valor: l.cor_capa || "", ajuda: "Deixe em branco se o aparelho veio sem capa."})}</div>
       <div class="linha-botoes"><button type="submit">Salvar</button></div></form>
     <div class="card"><h2 style="margin-top:0">Modelo</h2><p class="sub">${esc(modelo?.nome || "nenhum")} · ${marc.length} marcadores.
       ${semDado.length ? `<span class="selo alerta">${semDado.length} sem dado</span> <span class="mono">${semDado.map(esc).join(", ")}</span>` : '<span class="selo ok">todos os marcadores com dado</span>'}
@@ -701,19 +715,38 @@ TELAS["#/gerar"] = async ()=>{
       ${alertas.length ? `<p><b>Alerta (${alertas.length})</b></p><ul>${alertas.map(a=> `<li>${esc(a)}</li>`).join("")}</ul>` : ""}
       <p class="sub"><b>Informa:</b> ${dados.qtd_sims} SIM(s), ${dados.quesitos.length} quesito(s), ${laudos.length} versão(ões) já gerada(s).</p>
       <div class="linha-botoes"><button class="prim" id="btnGerarDocx" ${bloqueios.length ? "disabled" : ""}>Gerar o .docx</button>
-        <button id="btnRascunho">Gerar rascunho (com pendências)</button></div></div>
+        <button class="prim" id="btnGerarPdf" ${bloqueios.length ? "disabled" : ""}>Gerar o PDF</button>
+        <button id="btnRascunho">Rascunho em Word (com pendências)</button>
+        <button id="btnRascunhoPdf">Rascunho em PDF (com pendências)</button></div>
+      <p class="sub">O PDF abre a janela de impressão do navegador: em Destino, escolha <b>Salvar como PDF</b>.</p></div>
     ${laudos.length ? `<div class="card tabela-wrap"><h2 style="margin-top:0">Versões geradas</h2><table><tr><th>Versão</th><th>Quando</th><th>Arquivo</th><th>Tipo</th><th>Onde</th></tr>
       ${laudos.sort((a, b)=> (b.versao || 0) - (a.versao || 0)).map(x=> `<tr><td class="num">${x.versao || ""}</td><td>${dataBR(x.gerado_em)}</td><td class="mono">${esc(x.arquivo)}</td><td>${x.rascunho ? "rascunho" : "final"}</td><td>${x.na_pasta ? "LAUDO_GERADO" : "Downloads"}</td></tr>`).join("")}</table></div>` : ""}`;
 };
 TELAS_DEPOIS["#/gerar"] = async ()=>{
+  const salvarLaudo = async ()=>{
+    const caso = await casoAtual();
+    const novo = {...caso, laudo: {...(caso.laudo || {}), numero_laudo: valorDe("lNumero"), nome_perito: valorDe("lPerito"), data_laudo: valorDe("lData"),
+      numero_designacao: valorDe("lDesignacao"), total_folhas: valorDe("lFolhas"), lacre_entrada: valorDe("lLacreEntrada"), lacre_saida: valorDe("lLacreSaida"), cor_capa: valorDe("lCapa")}};
+    await db.put("casos", novo);
+    return novo;
+  };
   $("#formLaudo")?.addEventListener("submit", async ev=>{
     ev.preventDefault();
-    const caso = await casoAtual();
-    await db.put("casos", {...caso, laudo: {numero_laudo: valorDe("lNumero"), nome_perito: valorDe("lPerito"), data_laudo: valorDe("lData")}});
+    await salvarLaudo();
     toast("Dados do laudo salvos."); navegar();
   });
+  const gerarPdf = async rascunho=>{
+    const caso = await salvarLaudo();
+    try {
+      const nome = `laudo_${(caso.numero_protocolo || "caso").replace(/[^\w.-]+/g, "_")}${rascunho ? "_rascunho" : ""}`;
+      imprimirLaudo(htmlDoLaudo(zipDoLaudo(await dadosDoLaudo(caso, rascunho), (await modeloAtual())?.b64), nome), nome);
+      await registrar("laudo em PDF", {id_caso: caso.id_caso, resultado: nome + ".pdf"});
+    } catch(e){ toast("Não consegui gerar o PDF: " + e.message, 6000); }
+  };
+  $("#btnGerarPdf")?.addEventListener("click", ()=> gerarPdf(false));
+  $("#btnRascunhoPdf")?.addEventListener("click", ()=> gerarPdf(true));
   const gerar = async rascunho=>{
-    const caso = await casoAtual();
+    const caso = await salvarLaudo();
     try {
       const blob = gerarDocx(await dadosDoLaudo(caso, rascunho), (await modeloAtual())?.b64);
       const versao = (await db.porIndice("laudos", "id_caso", caso.id_caso)).length + 1;
@@ -733,9 +766,9 @@ TELAS_DEPOIS["#/gerar"] = async ()=>{
 async function configExtra(){
   const m = await modeloAtual();
   return `<div class="card"><h2 style="margin-top:0">Modelo do laudo</h2>
-      <p class="sub">Em uso: <b>${esc(m?.nome || "nenhum")}</b>. O modelo institucional precisa ter os marcadores de <span class="mono">modelos/MARCADORES.md</span>, escritos de uma vez no Word.</p>
+      <p class="sub">Em uso: <b>${esc(m?.nome || "nenhum")}</b>. O modelo timbrado da POLITEC já vem embutido. Um modelo próprio precisa ter os marcadores de <span class="mono">modelos/MARCADORES.md</span>, escritos de uma vez no Word.</p>
       <div class="linha-botoes"><label class="botao">Carregar modelo .docx ou .dotx<input type="file" id="arqModelo" accept=".docx,.dotx" hidden></label>
-        ${m?.id_modelo === "atual" ? '<button id="btnModeloPadrao">Voltar ao modelo fictício</button>' : ""}</div><div id="modeloInfo"></div></div>
+        ${m?.id_modelo === "atual" ? '<button id="btnModeloPadrao">Voltar ao modelo timbrado da POLITEC</button>' : ""}</div><div id="modeloInfo"></div></div>
     <div class="card"><h2 style="margin-top:0">Privacidade</h2>
       <p><b>Finalidade:</b> montar o laudo de exame em aparelho celular a partir dos arquivos da extração. <b>Dados tratados:</b> IMEI, ICCID, operadora, hash e os dados da requisição.
         <b>Onde ficam:</b> só neste navegador; o app não acessa a rede. <b>Retenção:</b> depois de concluído o laudo, use "Limpar os dados do caso" no Histórico; as métricas ficam.
@@ -755,14 +788,17 @@ async function ligarConfigExtra(){
         b64 = zip.generate({type: "base64"}); nome = f.name.replace(/\.dotx$/i, ".docx");
       }
       const marc = marcadoresDoModelo(b64);
+      if (!marc.length){
+        $("#modeloInfo").innerHTML = `<div class="card pendente">Este arquivo não tem marcadores: o laudo sairia com o texto fixo dele, sem os dados do caso. O modelo em uso continua o mesmo. Veja <span class="mono">modelos/MARCADORES.md</span>.</div>`;
+        return;
+      }
       await db.put("modelos", {id_modelo: "atual", nome, b64, carregado_em: agora(), marcadores: marc});
       await registrar("modelo carregado", {detalhe: nome, resultado: marc.length + " marcadores"});
-      if (!marc.length) toast("Modelo carregado, mas sem marcadores: o laudo sai com o texto fixo. Veja modelos/MARCADORES.md.", 7000);
-      else toast(`Modelo carregado: ${marc.length} marcadores.`);
+      toast(`Modelo carregado: ${marc.length} marcadores.`);
       navegar();
     } catch(err){ $("#modeloInfo").innerHTML = `<div class="card pendente">O arquivo não é um .docx/.dotx válido: ${esc(err.message)}</div>`; }
   });
-  $("#btnModeloPadrao")?.addEventListener("click", async ()=>{ await db.del("modelos", "atual"); toast("Voltou ao modelo fictício."); navegar(); });
+  $("#btnModeloPadrao")?.addEventListener("click", async ()=>{ await db.del("modelos", "atual"); toast("Voltou ao modelo timbrado da POLITEC."); navegar(); });
 }
 
 /* ---------- Sprint 9 · revisão final (RN14) ---------- */

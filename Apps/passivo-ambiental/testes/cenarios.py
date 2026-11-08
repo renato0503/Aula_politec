@@ -214,6 +214,31 @@ def s8_feedback_secoes_e_docx(pg, url, ok):
        dados[:2] == b"PK" and all(x in xml for x in ("LAUDO PERICIAL AMBIENTAL", "Metodologia", "Valoração", "Quesitos", "Autoridade requisitante")))
 
 
+@cenario
+def s10_timbre_no_laudo(pg, url, ok):
+    import io, zipfile
+    perfil(pg, url, "perito")
+    semear(pg, url)
+    rid = pg.evaluate("async ()=> (await db.list('requisicoes')).find(r=>r.status!=='concluida').id_requisicao")
+    ir(pg, url, "#/laudo/" + rid, 700)
+    with pg.expect_download() as dl:
+        pg.click("#btnPaDocx")
+    dados = pathlib.Path(dl.value.path()).read_bytes()
+    with zipfile.ZipFile(io.BytesIO(dados)) as z:
+        nomes = z.namelist(); cab = z.read("word/header1.xml").decode("utf-8"); rod = z.read("word/footer1.xml").decode("utf-8"); doc = z.read("word/document.xml").decode("utf-8")
+    ok("o .docx traz cabeçalho e rodapé timbrados", "PERÍCIA OFICIAL E IDENTIFICAÇÃO TÉCNICA" in cab and "Diretoria de Interiorização" in cab and "NUMPAGES" in rod and "headerReference" in doc and "footerReference" in doc)
+    ok("o brasão e a faixa da missão entram no .docx", "word/media/brasao.png" in nomes and "word/media/faixa.jpg" in nomes)
+    # laudo completo, para a versão impressa liberar
+    pg.evaluate("""async id=>{ const l = (await db.porIndice('laudos','requisicao_id',id))[0]; const m = {elementos:{escala:'1:1000',fonte:'INPE',norte:true,legenda:true,coordenadas:true,titulo:'t',responsavel:'r',data:'d'},valor_extra:'1',laudo_id:l.id_laudo,requisicao_id:id};
+      const base = (await db.list('mapas'))[0] || {}; for (const [t, mod] of [['localizacao','localizacao'],['antes','delimitacao'],['depois','app']]) await db.put('mapas', {...base, ...(base.id_mapa?{}:m), id_mapa:'M-'+t, laudo_id:l.id_laudo, tipo_mapa:t, modelo_id:mod}); }""", rid)
+    ir(pg, url, "#/pdf/" + rid, 700)
+    corpo = pg.content()
+    if pg.locator("#paDocumento").count():
+        ok("a versão impressa tem o timbre e a faixa", "PERÍCIA OFICIAL E IDENTIFICAÇÃO TÉCNICA" in pg.inner_text("#paDocumento") and pg.locator("#paDocumento .pa-timbre img").count() == 1 and "@bottom-center" in corpo and "print-color-adjust:exact" in corpo)
+    else:
+        ok("a versão impressa tem o timbre e a faixa", False)
+
+
 def main():
     erro = False
     with sync_playwright() as p:

@@ -159,8 +159,8 @@ def s4_a_s11_laudo_completo(pg, url, ok):
     ok("o nome segue laudo_<protocolo>_v<N>.docx", d.value.suggested_filename == f"laudo_{g['protocolo']}_v1.docx")
     arq = TMP / d.value.suggested_filename; d.value.save_as(arq)
     xml = zipfile.ZipFile(arq).read("word/document.xml").decode("utf-8")
-    ok("o .docx traz IMEI, ICCID, protocolo e a resposta sugerida, sem marcador sobrando (RN12)",
-       "358735742761447" in xml and "8955117633881124130" in xml and g["protocolo"] in xml and "Xiaomi" in xml
+    ok("o .docx traz IMEI, ICCID, ofício e a resposta sugerida, sem marcador sobrando (RN12)",
+       "358735742761447" in xml and "8955117633881124130" in xml and g["oficio"] in xml and "Xiaomi" in xml
        and "HISTÓRICO PERSONALIZADO DO TESTE." in xml and "{" not in xml.replace("{/", ""))
     ir(pg, url, "#/revisao", 800)
     ok("a revisão não pede mais os campos de correção do Word", pg.locator("#revNotas").count() == 0 and pg.locator("#revQtd").count() == 0)
@@ -173,6 +173,38 @@ def s4_a_s11_laudo_completo(pg, url, ok):
     ok("o histórico mostra a taxa de correção", "taxa de correção" in pg.inner_text("main"))
     pg.click("[data-limpar-caso]"); pg.wait_for_timeout(800)
     ok("limpar o caso apaga o aparelho e mantém a métrica", pg.evaluate("async ()=> (await db.porIndice('aparelhos','id_caso', await db.meta('caso_atual'))).length") == 0)
+
+@cenario
+def s16_laudo_timbrado_e_pdf(pg, url, ok):
+    import re, shutil, zipfile
+    ex = PASTA / "exemplos" / "caso-ficticio-001"
+    ir(pg, url, "#/inicio", 300); pg.click("#btnNovoCaso"); pg.wait_for_timeout(400)
+    pg.set_input_files("#inpPasta", str(ex)); pg.wait_for_timeout(700)
+    pg.click("#btnAvancar"); pg.wait_for_timeout(1200); pg.click("#btnLerPdf"); pg.wait_for_timeout(2500)
+    pg.click("#btnConfirmarTodos"); pg.wait_for_timeout(900)
+    ir(pg, url, "#/textos", 800); pg.click("#formTextos button[type=submit]"); pg.wait_for_timeout(800)
+    ir(pg, url, "#/gerar", 800)
+    ok("o modelo em uso é o timbrado da POLITEC", "timbrado POLITEC" in pg.inner_text("main"))
+    pg.fill("#lNumero", "214.2.16.9067.2026.000123-A01"); pg.fill("#lPerito", "Perito Fictício"); pg.fill("#lFolhas", "4"); pg.fill("#lLacreSaida", "99887766"); pg.fill("#lCapa", "preta")
+    with pg.expect_download() as d:
+        pg.click("#btnRascunho")
+    arq = TMP / "laudo_timbrado.docx"; d.value.save_as(arq)
+    z = zipfile.ZipFile(arq); doc = z.read("word/document.xml").decode("utf-8"); cab = z.read("word/header2.xml").decode("utf-8")
+    txt = "".join(re.findall(r"<w:t(?: [^>]*)?>([^<]*)</w:t>", doc))
+    ok("o cabeçalho do Word traz o timbre e o número do laudo", "PERÍCIA OFICIAL E IDENTIFICAÇÃO TÉCNICA" in cab and "214.2.16.9067.2026.000123-A01" in cab and "word/media/image1.png" in z.namelist())
+    ok("o rodapé mantém a faixa da missão", "word/media/image3.jpg" in z.namelist() and "word/footer2.xml" in z.namelist())
+    ok("a folha de rosto e os objetos saem preenchidos, sem marcador sobrando",
+       "quatro (04)" in txt and "99887766" in txt and "com capa protetora de cor preta" in txt and "Objeto 01-A" in txt and "{" not in txt)
+    pg.click("#btnRascunhoPdf"); pg.wait_for_timeout(1500)
+    html = pg.evaluate("document.getElementById('quadroLaudo').srcdoc")
+    ok("o PDF nasce do mesmo laudo, com brasão, timbre e rodapé", "data:image/png" in html and "PERÍCIA OFICIAL E IDENTIFICAÇÃO TÉCNICA" in html and "Avenida Gonçalo Antunes" in html and "214.2.16.9067.2026.000123-A01" in html and "@bottom-center" in html and "99887766" in html)
+    ok("a numeração do PDF não entra na folha de rosto", "@page:first" in html)
+    sem = TMP / "modelo_sem_marcadores.docx"
+    with zipfile.ZipFile(PASTA / "modelos" / "modelo-laudo-politec.docx") as o, zipfile.ZipFile(sem, "w") as w:
+        for n in o.namelist():
+            w.writestr(n, re.sub(r"\{[#/^]?\w+\}", "", o.read(n).decode("utf-8")).encode("utf-8") if n == "word/document.xml" else o.read(n))
+    ir(pg, url, "#/config", 800); pg.set_input_files("#arqModelo", str(sem)); pg.wait_for_timeout(900)
+    ok("modelo sem marcadores é recusado e o timbrado continua em uso", "não tem marcadores" in pg.inner_text("#modeloInfo") and pg.evaluate("async ()=> !(await db.get('modelos','atual'))"))
 
 @cenario
 def s5_caso_de_exemplo_e_modelo(pg, url, ok):

@@ -166,3 +166,20 @@ resumo por agente causal bate com o protótipo (10 corpos; 2 para a família, 1
 sepultado pelo Estado, 6 aguardando identificação, 1 não reclamado e 1 com
 custódia finalizada).
 
+## Sprint 11 · Feedback da Silmara de 03/11/2026
+
+> Nota 3, piloto "sim". Os Sprints 9 e 10 trataram do fluxograma e do protótipo; as notificações pedidas nesta resposta continuam abertas.
+
+### Código
+- [ ] Alerta no painel do corpo há 5 dias sem identificação ou sem família para liberação, para a ADM e para o Núcleo de Identificação.
+- [ ] Alerta no painel do caso há 30 dias sem liberação, para a ADM providenciar o sepultamento, com atalho para a decisão da RN09.
+- [ ] Alerta à autoridade policial requisitante quando a identificação for feita oficialmente, com o texto do aviso e o registro no histórico.
+- [ ] Fila local dos avisos, com o passo a passo de envio em `AJUDA_TECNICA`.
+- [ ] Indicador "Lacres pendentes de recebimento" visível só para o Gestor ADM. A confirmação do recebimento já é restrita a esse perfil.
+
+### Decisão do setor
+- [ ] Canal do aviso (e-mail institucional ou sistema) e quem compõe o Núcleo de Identificação.
+- [ ] Contagem dos 5 e dos 30 dias. Premissa: dias corridos desde a entrada no IML.
+- [ ] Se existe perfil próprio para o Núcleo de Identificação. Hoje o app tem três perfis.
+
+**Pronto quando**: um caso com 5 dias e outro com 30 dias aparecem nos alertas, a identificação gera o aviso à autoridade e o indicador de lacres só aparece para o Gestor ADM.

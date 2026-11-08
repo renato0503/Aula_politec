@@ -267,7 +267,7 @@ e a limpeza remove os dados pessoais do IndexedDB (conferir no DevTools).
 
 ### Código
 - [x] Aceitar o modelo institucional em `.docx` e `.dotx` (o `.dotx` é convertido no carregamento).
-- [ ] Inserir os marcadores no modelo timbrado da POLITEC e validar a formatação no Word.
+- [x] Inserir os marcadores no modelo timbrado da POLITEC e validar a formatação no Word. (Sprint 16; falta o teste com caso real)
 - [x] Revisão: retirar "Correções feitas no Word" e "Quantidade de correções"; manter "Revisei o laudo e ele está pronto para assinatura", "Concluir o caso" e "Histórico e Metas".
 - [x] Biblioteca: coluna e filtro de tipo de dispositivo; adaptação de texto por marcadores (local).
 - [ ] IA externa para criar/adaptar texto. Premissa: a adaptação local por marcadores cobre o MVP; a IA externa fica para a versão institucional, com revisão humana e LGPD.
@@ -302,3 +302,46 @@ O OCR do Sprint 10 era simulado: com a requisição escaneada (`CASO TESTE 2`, 1
 - [x] Resultado no `CASO TESTE 2`: 16/16 páginas pelo OCR (confiança de 85% a 95%), 12 campos da requisição, 7 itens, 1 quesito, aparelho, hash e SIM; zero erro de console e zero requisição de rede.
 - [ ] O IMEI 1 do `DeviceInfo - Projeto.txt` de teste (`868843076680001`) não passa no dígito verificador e bloqueia a confirmação: conferir com a equipe se o número foi editado à mão.
 - [ ] O OCR troca letras em modelos ("Galaxy A05" sai "AOS"): o perito confere na tabela de itens.
+
+## Sprint 16 · Laudo timbrado e saída em PDF (08/11/2026)
+
+> Pedido do professor sobre a resposta do Diego: o cabeçalho timbrado não vinha do modelo e o laudo precisa sair também em PDF.
+
+### Causa
+- O app gerava o Word com `modelos/modelo-laudo-celular.docx`, fictício e sem cabeçalho nem rodapé. O `.dotx` oficial tem o timbre, mas não tinha marcadores. Carregado em `#/config`, ele virava o modelo em uso e o laudo saía com o texto fixo do arquivo.
+
+### Feito
+- [x] `modelos/gerar_modelo_politec.py` cria `modelo-laudo-politec.docx` a partir do `.dotx` oficial: mantém cabeçalho, rodapé, brasão, faixa da missão e estilos, troca os dados do caso de origem por marcadores e interrompe a geração se algum dado de origem sobrar.
+- [x] O modelo timbrado passou a ser o embutido, com `{numero_laudo}` no cabeçalho de todas as páginas.
+- [x] Modelo sem marcadores é recusado em `#/config`, e um modelo assim já gravado no navegador deixa de ser usado.
+- [x] Botões **Gerar o PDF** e **Rascunho em PDF**: o PDF nasce do mesmo `.docx` e usa o timbre e a faixa do modelo, com "Página X de Y" a partir da folha 2. Abre a janela de impressão do navegador, em que o perito escolhe "Salvar como PDF".
+- [x] Folha de rosto: designação, total de folhas por extenso, envelope de entrada, envelope de saída, autoridade, solicitação, data, natureza, destino, IP e BO.
+- [x] Item Objetos no texto pedido pelo Diego (8.1 a 8.3): envelope lacrado, Objeto 01 com cor, marca, modelo, capa e IMEIs, e Objeto 01-A e 01-B só quando há SIM.
+- [x] Textos padrão da POLITEC na biblioteca (`P01` a `P04`), tirados do modelo oficial e editáveis por caso.
+- [x] Cenário `s16_laudo_timbrado_e_pdf` (7/7). Conferido no Microsoft Word: 4 páginas, com timbre e faixa da missão.
+
+### Falta
+- [ ] O Diego conferir o Word e o PDF com um caso real, inclusive o total de folhas.
+
+**Pronto quando**: o Diego gera o Word e o PDF de um caso real com o timbre, sem ajuste manual de formatação.
+
+## Sprint 17 · Feedback do Diego de 05/11/2026
+
+> Nota 3, piloto "talvez". A resposta chegou às 11h49 de Cuiabá e cita a mensagem antiga do OCR, removida no Sprint 15: pedir novo teste com a versão publicada. OCR, DeviceInfo (Vendor e Device Model) e Report (ICCID e SPN) já estão atendidos no Sprint 15.
+
+### Código
+- [ ] Biblioteca: mostrar o código único de cada texto ao lado do título, mantendo o mesmo código depois de editar título, conteúdo ou categoria (itens 6.1 e 6.3).
+- [ ] Textos padronizados: mostrar o código na lista de seleção, para diferenciar títulos iguais (item 6.2).
+- [ ] Textos padronizados: campos Objeto 01, Objeto 01-A e Objeto 01-B, conforme a quantidade de SIM identificada (item 7).
+- [ ] Compor os textos dos objetos em narrativa única e contínua, na ordem 01, 01-A e 01-B, com edição antes de gerar o laudo (itens 7.1 a 7.3).
+- [ ] Reconhecer o PDF do Sistema Atena pelo nome do arquivo, sem diferença de maiúsculas e minúsculas (itens 3.2 e 3.3).
+- [ ] Processar a requisição e o Atena separados, todas as páginas, e guardar a origem de cada campo (item 3.4).
+- [ ] Preencher pelo Atena: Autoridade (`Nome do Solicitante Principal:`), Destinação (`Unidade Requisitante Principal:`), Data (`Data do Documento:`), Ofício (`Número do Documento:`) e Natureza (`Natureza do Exame:`) (item 4.2).
+- [ ] IP somente pelo campo `Procedimento:` da requisição, em campo próprio na Conferência (item 4.1).
+- [ ] Levar a cor da capa protetora para a Conferência, junto da cor do aparelho (item 8.2).
+
+### Decisão do setor
+- [ ] Quando o Atena e a requisição divergirem, qual fonte prevalece. Premissa: a definida no item 4.2, com o perito corrigindo na Conferência.
+- [ ] Quem define o texto padrão de cada objeto na biblioteca.
+
+**Pronto quando**: a pasta com `Atena.pdf` e a requisição preenche cada campo pela fonte definida, e o laudo sai com os textos de 01, 01-A e 01-B em um só parágrafo.

@@ -1,14 +1,14 @@
 # Feedback dos alunos · Comissão de Ética
 
-Gerado por `python Apps/_base/baixar_feedback.py` em 03/11/2026, a partir da coleção `feedback_apps` do Firestore.
-1 resposta(s) · nota média 5,0 de 5
+Gerado por `python Apps/_base/baixar_feedback.py` em 08/11/2026, a partir da coleção `feedback_apps` do Firestore.
+2 resposta(s) · nota média 4,0 de 5
 
 Use este arquivo para abrir o próximo sprint: cada item vira uma linha do `sprint.md`. Os números com fonte são da própria resposta.
 
 ## Resumo
 
-- Usaria no trabalho: sim, com ajustes (1)
-- Piloto: sim (1)
+- Usaria no trabalho: sim, com ajustes (2)
+- Piloto: sim (1); sem resposta (1)
 
 ## Prioridades (na ordem de cada pessoa)
 
@@ -18,19 +18,22 @@ Use este arquivo para abrir o próximo sprint: cada item vira uma linha do `spri
 
 ## Tela por tela
 
+### Admissibilidade (`#/caso/:id/admissibilidade`)
+
+Situação: precisa de ajuste (2)
+
+- [ ] Campo decidir admissibilidade: colocar lista suspensa com os membros da comissão
+Fundamento da admissibilidade: texto padrão "de acordo com relato recebido em (data) e deliberação da comissão de ética em reunião (data) a tríade composta entende que a denúncia se enquadra no art. nº _(Leticia e Thiago)_
+- [ ] Decidir a admissibilidade:
+Membros presentes: possibilidade de selecionar mais membros
+Prova pendente: possibilidade de anexar arquivos _(Leticia Rodrigues Mesquita)_
+
 ### Classificação (`#/caso/:id/classificacao`)
 
 Situação: precisa de ajuste (1)
 
 - [ ] Campo de sugestões: aparecer o texto do artigo
 Campo confirmar: texto padrão informando o descumprimento do artigo _(Leticia e Thiago)_
-
-### Admissibilidade (`#/caso/:id/admissibilidade`)
-
-Situação: precisa de ajuste (1)
-
-- [ ] Campo decidir admissibilidade: colocar lista suspensa com os membros da comissão
-Fundamento da admissibilidade: texto padrão "de acordo com relato recebido em (data) e deliberação da comissão de ética em reunião (data) a tríade composta entende que a denúncia se enquadra no art. nº _(Leticia e Thiago)_
 
 ### Oitivas (`#/caso/:id/oitivas`)
 
@@ -54,12 +57,12 @@ Situação: precisa de ajuste (1)
 
 ### Painel (`#/painel`)
 
-Situação: funciona como esperado (1)
+Situação: funciona como esperado (2)
 
 
 ### Nova denúncia (`#/denuncia/nova`)
 
-Situação: funciona como esperado (1)
+Situação: funciona como esperado (2)
 
 
 ### Caso (`#/caso/:id`)
@@ -79,3 +82,4 @@ Situação: funciona como esperado (1)
 ## Quem respondeu
 
 - Leticia e Thiago · servidor do setor · Comissão de Ética · nota 5 · 2026-11-03
+- Leticia Rodrigues Mesquita · servidor do setor · Comissão de Ética · nota 3 · 2026-11-05

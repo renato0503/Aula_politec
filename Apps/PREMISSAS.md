@@ -311,3 +311,12 @@ Premissas assumidas para abrir os sprints de correção sem esperar a confirmaç
 | mapa-distribuicao-credor | O PDF do pregoeiro tem camada de texto e a tabela é reconstruída por coordenadas; o mapa SESP usa processo, órgão, tipo, dotação, credor, CNPJ, grupo/item, valores e ano seguinte | C | A amostra real do PDF, o modelo oficial da SESP e a máscara da dotação |
 | gestao_identificados | O cruzamento usa sexo, idade ±5, altura ±10 cm, município, janela de datas e características; a confirmação é humana e exige justificativa; a decisão fica em `correspondencias` e no `log` | B | A validação do NIHDE, os pesos do match e o fluxo de exames complementares |
 | equipamentos-google-earth | Nenhum ajuste de código; o `.kmz` e os gráficos continuam como estão | A | O teste manual no Google Earth Pro/Web e a base do mapa |
+
+## Feedback de 05/11/2026 e laudo timbrado (08/11/2026)
+
+| App | Premissa assumida | Nível | O que confirmar |
+|---|---|---|---|
+| agiliza-mais | O `MODELO DE LAUDO - Projeto.dotx` é o layout oficial; o PDF sai pela impressão do navegador; o total de folhas é informado pelo perito depois de conferir o arquivo; a natureza padrão é "Exame em Celular e cartão SIM"; a solicitação usa o número da requisição e, sem ele, o do ofício | B | O layout com o Diego, o total de folhas e os textos `P01` a `P04` |
+| comissao-etica-denuncias | A comissão delibera com 3 membros (art. 6º); o app só avisa quando houver menos | C | O número mínimo de membros |
+| passivo-ambiental | O timbre é provisório, igual ao do Agiliza+, com o setor do laudo e o endereço da sede; o número do laudo é digitado até haver integração com o Atena; o mapa do painel usa um desenho de MT, sem satélite, porque o app é offline | C | O layout oficial, a regra de valoração e o fundo do mapa |
+| trilha-custodia-necropsia | Os 5 e os 30 dias são corridos desde a entrada no IML; os avisos ficam em fila local | C | O canal do aviso, a contagem e o Núcleo de Identificação |

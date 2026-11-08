@@ -142,9 +142,9 @@ TELAS["#/pdf/:id"] = async ({id})=>{
   }
   return `<div class="linha-botoes nao-imprimir"><button class="prim" onclick="window.print()">${icone("imprimir")} Imprimir ou salvar em PDF</button>
     <a class="botao" href="#/laudo/${encodeURIComponent(id)}">Voltar ao laudo</a></div>
-    <div class="documento-a4" id="paDocumento">
-      <div class="doc-cab">Governo de Mato Grosso · SESP/MT · POLITEC/MT<br>Laudo pericial ambiental</div>
-      <h2 style="text-align:center">LAUDO Nº ${esc(l.id_laudo)}</h2>
+    ${paEstiloImpressao()}
+    <div class="documento-a4" id="paDocumento"><table class="pa-paginas"><thead><tr><td>${paTimbreHtml(l)}</td></tr></thead><tbody><tr><td>
+      <h2 style="text-align:center">LAUDO PERICIAL AMBIENTAL Nº ${esc(l.id_laudo)}</h2>
       <table style="font-family:var(--ui);font-size:13px">${cab.map(([k, v])=>`<tr><th style="width:38%">${esc(k)}</th><td>${esc(v)}</td></tr>`).join("")}</table>
       ${l.metodologia ? `<h3>Metodologia</h3><p>${esc(l.metodologia)}</p>` : ""}
       ${l.consideracoes ? `<h3>Considerações</h3><p>${esc(l.consideracoes)}</p>` : ""}
@@ -156,5 +156,5 @@ TELAS["#/pdf/:id"] = async ({id})=>{
       <ul>${mapas.map(m=>`<li>${esc(PA_TIPOS_MAPA.find(t=>t[0] === paTipoMapa(m))?.[1] || "Mapa")} · ${esc(paModelo(m.modelo_id).rotulo)} — ${esc(m.valor_extra)} ${esc(paModelo(m.modelo_id).rotulo_extra.toLowerCase())}
         · ${esc(m.elementos.escala || "")} · ${esc(m.elementos.fonte || "")}</li>`).join("")}</ul>
       <p style="margin-top:40px">Politec/MT — Perícia Oficial e Identificação Técnica · Responsável: ${esc(l.tecnico || "—")}</p>
-    </div>`;
+    </td></tr></tbody></table>${paFaixaTela()}</div>`;
 };
