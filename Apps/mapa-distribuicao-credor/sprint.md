@@ -208,3 +208,21 @@ aparece na auditoria com o valor anterior.
 
 **Pronto quando**: a planilha real do setor importa sem ajuste e o Excel exportado bate com o mapa manual.
 
+## Sprint 11 · Pedidos do Igor na versão 2 (08/11/2026)
+
+> A versão de planilha única deixou de fora três pedidos do feedback de 03/11, que estavam só em `legado/`. Eles voltaram somados à versão 2: importação, cálculo da dotação e Mapa completo não mudaram.
+
+### Feito
+- [x] Situação do processo na lista: em andamento, concluído ou cancelado, com registro no histórico.
+- [x] Tabela **Grupos e empresas** em Apuração por empresa, com a empresa ganhadora, o CNPJ, o total e o tipo (3 custeio ou 4 investimento).
+- [x] Botão **Mapa orçamentário (SESP)** em Exportar: uma linha por órgão, tipo, dotação, exercício, credor e grupo, mais o quadro de dotação. O total é o mesmo do quadro.
+- [x] Importar a planilha de novo mantém a situação e os tipos marcados na tela.
+- [x] Os dígitos da dotação continuam no campo "Número da dotação", por grupo e órgão, ou por item, e saem no mapa orçamentário.
+- [x] O alinhamento pedido no Mapa por item já estava na versão 2.
+- [x] `testes/testar.py` confere a gravação, o total do mapa SESP, as abas do Mapa completo e a nova importação.
+
+### Decisão do setor
+- [ ] Conferir o mapa orçamentário com o modelo enviado à SESP. O arquivo oficial não chegou; as colunas seguem as da versão anterior.
+- [ ] O tipo é marcado à mão por grupo, porque a planilha não traz essa informação. Confirmar se ele pode sair do número da dotação.
+
+**Pronto quando**: o Igor gera o mapa orçamentário de um processo real e confirma que ele serve para envio à SESP.

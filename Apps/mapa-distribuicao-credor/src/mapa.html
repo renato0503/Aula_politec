@@ -238,6 +238,10 @@ function situacaoDe(t) {
   if (n.includes("desert")) return "deserto";
   return "vencedor";
 }
+const SITUACOES_PROCESSO = [["andamento", "Em andamento"], ["concluido", "Concluído"], ["cancelado", "Cancelado"]];
+const TIPOS_GASTO = [["", "A definir"], ["custeio", "3 · Custeio"], ["investimento", "4 · Investimento"]];
+const tipoDoGrupo = (p, g) => (p.tiposGrupo && p.tiposGrupo[g]) || "";
+const opcoes = (lista, atual) => lista.map(([v, r]) => `<option value="${v}"${v === atual ? " selected" : ""}>${esc(r)}</option>`).join("");
 const ROTULO_SIT = { vencedor: "Com vencedor", fracassado: "Fracassado", deserto: "Deserto", sem: "Sem resultado" };
 
 /* ---------- Banco local ---------- */
@@ -368,10 +372,13 @@ function exercicioBase(p) {
 function dotacaoGerada(X) {
   const { p, orgaos, EMP, orgT } = X;
   const base = exercicioBase(p), lanc = p.dot.lanc || {};
-  const cols = new Map(), pend = [], aDefinir = [], excessos = [], restos = {};
+  const cols = new Map(), pend = [], aDefinir = [], excessos = [], restos = {}, detalhe = new Map();
   const linhas = EMP.map(e => {
     const por = {};
-    const lanca = (o, ex, cod, v) => {
+    const lanca = (o, ex, cod, v, grupo) => {
+      const kd = [e.chave, grupo, o, ex, cod].join("|");
+      if (!detalhe.has(kd)) detalhe.set(kd, { empresa: e.nome, cnpj: e.cnpj, grupo, orgao: o, exercicio: String(ex), codigo: cod, centavos: 0 });
+      detalhe.get(kd).centavos += v;
       const k = !cod ? `${o}|${ex}|A DEFINIR` : (String(ex) === base ? `${o}|${cod}` : `${o}|${ex}|${cod}`);
       if (!cols.has(k)) cols.set(k, { chave: k, orgao: o, exercicio: String(ex), codigo: cod, aDefinir: !cod, rotulo: "Dotação" });
       por[k] = (por[k] || 0) + v;
@@ -383,7 +390,7 @@ function dotacaoGerada(X) {
         if (v <= 0) return;
         usado += v;
         const ex = limpa(l.exercicio) || base;
-        lanca(o, ex, limpaCod(l.codigo), v);
+        lanca(o, ex, limpaCod(l.codigo), v, grupo);
         if (!limpaCod(l.codigo)) aDefinir.push({ grupo, item, orgao: o, exercicio: ex, valor: v / 100, empresa: e.nome });
       });
       if (usado > disponivel) excessos.push(`${nome}, ${o}: lançamentos de ${fM.format(usado / 100)} para ${fM.format(disponivel / 100)} disponíveis`);
@@ -400,14 +407,14 @@ function dotacaoGerada(X) {
         const resto = Math.max(0, v - usado);
         if (!resto) return;
         const proprio = p.dot.itens[chaveI(gid, i.item, o)];
-        if (proprio) lanca(o, base, proprio, resto);
+        if (proprio) lanca(o, base, proprio, resto, gid);
         else { livre += resto; livres.push({ item: i.item, resto }); }
       });
       const usadoG = aplica(chaveG(gid, o), `GP ${gid}`, livre, o, gid, null);
       const sobra = Math.max(0, livre - usadoG);
       if (!sobra) return;
       const cod = p.dot.grupos[chaveG(gid, o)];
-      if (cod) lanca(o, base, cod, sobra);
+      if (cod) lanca(o, base, cod, sobra, gid);
       else if (usadoG) pend.push({ grupo: gid, item: null, orgao: o, valor: sobra / 100, empresa: e.nome });
       else livres.forEach(x => pend.push({ grupo: gid, item: x.item, orgao: o, valor: x.resto / 100, empresa: e.nome }));
     }));
@@ -419,7 +426,7 @@ function dotacaoGerada(X) {
     l.valores = colunas.map(cl => (l.por[cl.chave] || 0) / 100);
     l.total = soma(l.valores, v => v);
   });
-  return { colunas, linhas, pend, aDefinir, excessos, restos, base, totalPendente: soma(pend, x => x.valor), totalADefinir: soma(aDefinir, x => x.valor) };
+  return { colunas, linhas, pend, aDefinir, excessos, restos, base, detalhe: [...detalhe.values()], totalPendente: soma(pend, x => x.valor), totalADefinir: soma(aDefinir, x => x.valor) };
 }
 function lerLancamentos(livro, visiveis, d) {
   const aba = visiveis.find(n => norm(n).startsWith("lancamentos"));
@@ -966,6 +973,29 @@ function exportarCompleto(X) {
   U().book_append_sheet(wb, abaConferencia(X), "CONFERÊNCIA");
   salvarLivro(wb, `mapa_${nomeArq(X.p.processo)}.xlsx`);
 }
+/* Mapa orçamentário no modelo enviado à SESP: uma linha por credor, grupo, órgão, exercício e dotação,
+   com o mesmo valor que sai no quadro de dotação. */
+function exportarSesp(X) {
+  const g = dotacaoGerada(X), { p, orgaos } = X;
+  const ordem = o => orgaos.indexOf(o);
+  const dados = [...g.detalhe].sort((a, b) => ordem(a.orgao) - ordem(b.orgao) || a.exercicio.localeCompare(b.exercicio) || a.empresa.localeCompare(b.empresa) || String(a.grupo).localeCompare(String(b.grupo), "pt-BR", { numeric: true }));
+  const linhas = [["MAPA DE DISTRIBUIÇÃO ORÇAMENTÁRIA"], ["Processo", p.processo || ""], ["Objeto", p.objeto || ""], [],
+    ["Órgão", "Tipo (3 custeio / 4 investimento)", "Dotação (dígitos)", "Exercício", "Credor", "CNPJ", "Grupo", "Valor"]];
+  const ini = linhas.length;
+  dados.forEach(d => {
+    const tipo = tipoDoGrupo(p, d.grupo);
+    linhas.push([d.orgao, tipo === "custeio" ? "3" : tipo === "investimento" ? "4" : "A definir", d.codigo || "A DEFINIR", d.exercicio, d.empresa, d.cnpj || "", d.grupo, celM(d.centavos / 100)]);
+  });
+  const ult = linhas.length - 1;
+  linhas.push(["TOTAL", "", "", "", "", "", "", celM(soma(dados, d => d.centavos / 100), ult >= ini ? `SUM(${addr(ini, 7)}:${addr(ult, 7)})` : undefined)]);
+  if (g.pend.length) linhas.push(["SALDO FINANCEIRO NÃO DISTRIBUÍDO (FORA DO TOTAL)", "", "", "", "", "", "", celM(g.totalPendente)]);
+  const ws = U().aoa_to_sheet(linhas);
+  ws["!cols"] = [{ wch: 14 }, { wch: 18 }, { wch: 60 }, { wch: 10 }, { wch: 44 }, { wch: 20 }, { wch: 8 }, { wch: 16 }];
+  const wb = U().book_new();
+  U().book_append_sheet(wb, ws, "MAPA ORÇAMENTÁRIO");
+  U().book_append_sheet(wb, abaDotacao(X), "DOTAÇÃO ORÇAMENTÁRIA");
+  salvarLivro(wb, `mapa_orcamentario_SESP_${nomeArq(p.processo)}.xlsx`);
+}
 function exportarEntrada(X) {
   const wb = U().book_new();
   U().book_append_sheet(wb, abaLeiame(), "LEIA-ME");
@@ -1225,7 +1255,7 @@ async function desenharPrevia() {
       novo.lanc = { ...(antigo.dot.lanc || {}), ...novo.lanc };
       if (!novo.exercicio) novo.exercicio = antigo.dot.exercicio || "";
     }
-    const reg = { ...PENDENTE, id, processo, pregao: limpa(document.getElementById("pPregao").value), objeto: limpa(document.getElementById("pObjeto").value), importadoEm: agora(),
+    const reg = { ...PENDENTE, ...(antigo ? { situacao: antigo.situacao, tiposGrupo: antigo.tiposGrupo } : {}), id, processo, pregao: limpa(document.getElementById("pPregao").value), objeto: limpa(document.getElementById("pObjeto").value), importadoEm: agora(),
       historico: [...((antigo && antigo.historico) || []), { quando: agora(), acao: antigo ? "Importação substituiu os dados" : "Importação", detalhe: PENDENTE.arquivo }] };
     if (antigo && (antigo.relatorios || []).length) {
       /* Mapa importado de novo: os relatórios já aplicados voltam a preencher o que veio em branco. */
@@ -1254,16 +1284,25 @@ async function telaProcessos() {
     <div style="height:14px"></div>
     ${blocoImportar()}
     ${lista.length ? `<div class="cartao"><div class="rolagem"><table>
-      <thead><tr><th>Processo</th><th>Objeto</th><th class="num">Itens</th><th class="num">Valor total</th><th>Importado em</th><th>Ações</th></tr></thead>
+      <thead><tr><th>Processo</th><th>Objeto</th><th class="num">Itens</th><th class="num">Valor total</th><th>Situação</th><th>Importado em</th><th>Ações</th></tr></thead>
       <tbody>${lista.map(p => {
         const u = encodeURIComponent(p.id);
-        return `<tr><td class="mono">${esc(p.processo)}</td><td>${esc(p.objeto)}</td><td class="num">${p.itens.length}</td><td class="num">${fM.format(soma(p.itens, i => i.total))}</td><td>${esc(p.importadoEm)}</td>
+        return `<tr><td class="mono">${esc(p.processo)}</td><td>${esc(p.objeto)}</td><td class="num">${p.itens.length}</td><td class="num">${fM.format(soma(p.itens, i => i.total))}</td>
+          <td><select data-situacao="${esc(p.id)}" aria-label="Situação do processo ${esc(p.processo)}">${opcoes(SITUACOES_PROCESSO, p.situacao || "andamento")}</select></td><td>${esc(p.importadoEm)}</td>
           <td><a href="#/p/${u}/mapa">Abrir</a> · <a href="#/p/${u}/exportar">Exportar</a> · <button class="btn perigo" style="padding:1px 8px;font-size:12px" data-apagar="${esc(p.id)}" type="button">Excluir</button></td></tr>`;
       }).join("")}</tbody></table></div></div>` : '<div class="vazio">Nenhum processo ainda. Importe uma planilha, baixe o modelo em branco ou restaure um backup.</div>'}
     <h2 style="margin:18px 0 8px">Backup</h2>
     ${blocoBackup(false)}`;
   ligarImportar();
   ligarBackup();
+  tela.querySelectorAll("[data-situacao]").forEach(s => s.addEventListener("change", async () => {
+    const reg = await banco.ler(s.dataset.situacao);
+    if (!reg) return;
+    reg.situacao = s.value;
+    reg.historico = [...(reg.historico || []), { quando: agora(), acao: "Situação do processo", detalhe: SITUACOES_PROCESSO.find(x => x[0] === s.value)[1] }];
+    await banco.gravar(reg);
+    toast("Situação do processo atualizada.");
+  }));
   tela.querySelectorAll("[data-apagar]").forEach(b => b.addEventListener("click", async () => {
     if (b.dataset.confirma !== "1") { b.dataset.confirma = "1"; b.textContent = "Confirmar exclusão"; return; }
     await banco.apagar(b.dataset.apagar);
@@ -1493,6 +1532,11 @@ function telaEmpresas() {
   const totalEmp = soma(EMP, e => e.total);
   tela.innerHTML = `<h1>Apuração por empresa</h1>
     <p class="sub">${p.pregao ? "Resultado do Pregão " + esc(p.pregao) + ": q" : "Q"}uanto cada empresa recebe de cada órgão, com o detalhe por item.</p>
+    <section class="cartao" style="margin-top:14px" aria-label="Grupos e empresas"><h2 style="margin:0 0 8px">Grupos e empresas</h2><div class="rolagem"><table id="tabGrupos">
+      <thead><tr><th class="centro">Grupo</th><th>Empresa ganhadora</th><th>CNPJ</th><th>Tipo</th><th class="num">Total</th></tr></thead>
+      <tbody>${ATUAL.G.filter(g => g.situacao === "vencedor").map(g => `<tr><td class="centro">${esc(g.grupo)}</td><td>${esc(g.empresa)}</td><td class="mono">${esc(g.cnpj)}</td>
+        <td><select data-tipo-grupo="${esc(g.grupo)}" aria-label="Tipo do grupo ${esc(g.grupo)}">${opcoes(TIPOS_GASTO, tipoDoGrupo(p, g.grupo))}</select></td><td class="num">${fM.format(soma(g.itens, i => i.total))}</td></tr>`).join("")}</tbody>
+    </table></div></section>
     <div class="cartao" style="margin-top:14px"><div class="rolagem"><table>
       <thead><tr><th>Empresa</th><th>CNPJ</th><th>Grupos</th>${orgaos.map(o => `<th class="num">${esc(o)}</th>`).join("")}<th class="num">Total</th><th class="num">% do total</th></tr></thead>
       <tbody>${EMP.map(e => `<tr><td>${esc(e.nome)}</td><td class="mono">${esc(e.cnpj)}</td><td>${e.grupos.map(esc).join(", ")}</td>${orgaos.map(o => `<td class="num">${dinheiro(e.org[o])}</td>`).join("")}<td class="num">${dinheiro(e.total)}</td><td class="num">${pct(e.total, TOT.geral)}</td></tr>`).join("")}
@@ -1506,6 +1550,11 @@ function telaEmpresas() {
         <tr class="subtotal"><td colspan="4">Total</td>${orgaos.map(o => `<td class="num">${dinheiro(e.org[o])}</td>`).join("")}<td class="num">${dinheiro(e.total)}</td></tr></tbody>
       </table></div>
     </details>`).join("")}`;
+  tela.querySelectorAll("[data-tipo-grupo]").forEach(s => s.addEventListener("change", async () => {
+    ATUAL.p.tiposGrupo = { ...(ATUAL.p.tiposGrupo || {}), [s.dataset.tipoGrupo]: s.value };
+    await banco.gravar(ATUAL.p);
+    toast("Tipo do grupo salvo.");
+  }));
 }
 
 /* Campos de dotação: gravam sozinhos e atualizam o quadro a cada digitação. */
@@ -1749,6 +1798,7 @@ function telaExportar() {
     <div style="height:14px"></div>
     <div class="saidas">
       <div class="cartao"><h2>Mapa completo</h2><p>Excel com as abas Processo, Mapa, Dotação Orçamentária, Dotação por item, Apuração por empresa e Conferência. Pode ser importado de novo, com as dotações.</p><button class="btn prim" id="xCompleto" type="button">Baixar mapa (.xlsx)</button></div>
+      <div class="cartao"><h2>Mapa orçamentário (SESP)</h2><p>Excel com cada credor por órgão, tipo, dotação e exercício, mais o quadro de dotação. Os valores são os mesmos do Mapa completo.</p><button class="btn" id="xSesp" type="button">Baixar mapa orçamentário (.xlsx)</button></div>
       <div class="cartao"><h2>Planilha de entrada</h2><p>Os dados deste processo no modelo de preenchimento, uma linha por item. É o jeito mais simples de corrigir e importar de novo.</p><button class="btn" id="xEntrada" type="button">Baixar entrada (.xlsx)</button></div>
       <div class="cartao"><h2>Modelo em branco</h2><p>Para começar outro processo: só cabeçalhos, com as instruções na aba Leia-me.</p><button class="btn" id="xModelo" type="button">Baixar modelo (.xlsx)</button></div>
     </div>`;
@@ -1760,6 +1810,7 @@ function telaExportar() {
     ATUAL.p.historico = p.historico;
   };
   document.getElementById("xCompleto").addEventListener("click", async () => { exportarCompleto(ATUAL); await reg("Exportação", "Mapa completo"); toast("Mapa completo gerado."); });
+  document.getElementById("xSesp").addEventListener("click", async () => { exportarSesp(ATUAL); await reg("Exportação", "Mapa orçamentário (SESP)"); toast("Mapa orçamentário gerado."); });
   document.getElementById("xEntrada").addEventListener("click", async () => { exportarEntrada(ATUAL); await reg("Exportação", "Planilha de entrada"); toast("Planilha de entrada gerada."); });
   document.getElementById("xModelo").addEventListener("click", () => { baixarModelo(); toast("Modelo em branco gerado."); });
 }

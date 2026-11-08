@@ -320,3 +320,9 @@ Premissas assumidas para abrir os sprints de correção sem esperar a confirmaç
 | comissao-etica-denuncias | A comissão delibera com 3 membros (art. 6º); o app só avisa quando houver menos | C | O número mínimo de membros |
 | passivo-ambiental | O timbre é provisório, igual ao do Agiliza+, com o setor do laudo e o endereço da sede; o número do laudo é digitado até haver integração com o Atena; o mapa do painel usa um desenho de MT, sem satélite, porque o app é offline | C | O layout oficial, a regra de valoração e o fundo do mapa |
 | trilha-custodia-necropsia | Os 5 e os 30 dias são corridos desde a entrada no IML; os avisos ficam em fila local | C | O canal do aviso, a contagem e o Núcleo de Identificação |
+
+## Mapa de Distribuição, versão 2 (08/11/2026)
+
+| App | Premissa assumida | Nível | O que confirmar |
+|---|---|---|---|
+| mapa-distribuicao-credor | O tipo de cada grupo é marcado à mão (3 custeio, 4 investimento); o mapa orçamentário usa as colunas da versão anterior, por grupo e dotação; o processo novo começa em andamento | C | O modelo oficial da SESP e se o tipo pode ser lido do número da dotação |
