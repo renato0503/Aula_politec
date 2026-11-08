@@ -326,3 +326,10 @@ Premissas assumidas para abrir os sprints de correção sem esperar a confirmaç
 | App | Premissa assumida | Nível | O que confirmar |
 |---|---|---|---|
 | mapa-distribuicao-credor | O tipo de cada grupo é marcado à mão (3 custeio, 4 investimento); o mapa orçamentário usa as colunas da versão anterior, por grupo e dotação; o processo novo começa em andamento | C | O modelo oficial da SESP e se o tipo pode ser lido do número da dotação |
+
+## TEIA, ficha do Nelson (07/11/2026)
+
+| App | Premissa assumida | Nível | O que confirmar |
+|---|---|---|---|
+| teia-triagem-emails | Réu preso "Não informado" conta como não preso na classificação; Nome do familiar e Prioridade Legal são opcionais; a origem de registros antigos sai do nome do órgão | B | As três regras com o Nelson |
+

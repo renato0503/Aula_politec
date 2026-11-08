@@ -73,12 +73,12 @@ def s2_fila_e_extracao(pg, url, ok):
     semear(pg, url)
     ir(pg, url, "#/painel", 500)
     ok("a bancada lista os 10 e-mails", contar(pg, "emails") == 10 and pg.locator("[data-te-email]").count() == 10)
-    ok("o detalhe abre com os 9 campos", pg.locator("#teDetalhe").count() == 1 and pg.locator(".te-form .campo").count() == 9)
+    ok("o detalhe abre com os campos essenciais", pg.locator("#teDetalhe").count() == 1 and pg.locator(".te-form .campo").count() == 13)
     pg.click("[data-te-email=EM-003]"); pg.wait_for_timeout(500)
     ok("o e-mail com campo faltando não valida", pg.locator("#btnTeValidar").is_disabled())
     pg.fill("#te_protocolo", "000999/2026"); pg.click("#btnTeSalvar"); pg.wait_for_timeout(600)
     pg.click("#btnTeValidar"); pg.wait_for_timeout(600)
-    ok("com os 9 campos, a requisição é validada", pg.evaluate("async () => (await db.get('emails','EM-003')).status") == "validado")
+    ok("com os campos obrigatórios, a requisição é validada", pg.evaluate("async () => (await db.get('emails','EM-003')).status") == "validado")
     ok("a validação entra na trilha", pg.evaluate("async () => (await db.list('log')).some(l=>l.acao==='requisição validada' && String(l.detalhe).startsWith('EM-003'))"))
 
 # origem: sprint3.py
@@ -108,7 +108,7 @@ def s4_lote_e_planilha(pg, url, ok):
     pg.click("[data-te-lote=LT-001]"); pg.wait_for_timeout(1000)
     ok("o lote grava a extração dos e-mails", contar(pg, "extracao") >= 5)
     ir(pg, url, "#/planilha", 500)
-    ok("a planilha traz os 10 e-mails e os 9 campos", pg.locator("#tabelaTeia tr").count() == 11 and pg.locator("#tabelaTeia th").count() == 12)
+    ok("a planilha traz os 10 e-mails e os campos essenciais", pg.locator("#tabelaTeia tr").count() == 11 and pg.locator("#tabelaTeia th").count() == 16)
     with pg.expect_download() as dl:
         pg.click("#btnTeCsv")
     csv = pathlib.Path(dl.value.path()).read_bytes()
@@ -137,6 +137,38 @@ def s5_feedback_campos_e_reiteracao(pg, url, ok):
     pg.click("#btnTeValidar"); pg.wait_for_timeout(600)
     ok("depois de tratar, a requisição é validada",
        pg.evaluate("async () => (await db.get('emails','EM-001')).status") == "validado")
+
+
+@cenario
+def s6_classificacao_automatica(pg, url, ok):
+    semear(pg, url)
+    ir(pg, url, "#/painel", 700)
+    rotulos = [x.strip() for x in pg.locator(".te-form .campo label[for], .te-form .campo .rotulo-grupo").all_inner_texts()]
+    ordem = ["Classificação", "Protocolo", "Data da cobrança", "Tipo de crime", "Origem da cobrança", "Nome da vítima", "Prioridade Legal", "Nome do Investigado", "Réu preso", "Nome do familiar", "Regional da Politec", "AR para confronto", "Objetivo"]
+    ok("os campos seguem a ordem da ficha", len(rotulos) == 13 and all(r.startswith(o) for r, o in zip(rotulos, ordem)))
+    ok("os nomes novos aparecem", any("Nome do Investigado/Suspeito/Acusado" in r for r in rotulos) and any("Regional da Politec" in r for r in rotulos) and any("Nome do familiar" in r for r in rotulos))
+    casos = [("Judicial/Ministério Público", "Não", [], "1 ·"), ("Delegacia", "Sim", [], "2 ·"), ("Delegacia", "Não", ["Idoso"], "2 ·"), ("Delegacia", "Não informado", [], "3 ·"), ("Outros", "Sim", ["Incapaz"], "4 ·")]
+    for origem, reu, prior, esperado in casos:
+        for c in pg.locator("[data-te-prior]").all():
+            c.set_checked(c.get_attribute("value") in prior)
+        pg.select_option("#te_origem_cobranca", origem); pg.select_option("#te_reu_preso", reu); pg.wait_for_timeout(80)
+        ok(f"{origem}, réu preso {reu}, {prior or 'sem prioridade'}: {esperado}", pg.inner_text("#te_classificacao").startswith(esperado))
+    ok("a classificação não pode ser editada", pg.locator("input#te_classificacao, select#te_classificacao").count() == 0)
+    classes = pg.evaluate("async () => { const l = (await db.list('emails')).map(e => teClasse(e) || 9); return l; }")
+    pg.wait_for_timeout(100)
+    chips = [x for x in pg.locator(".te-fila .te-item-topo .selo").all_inner_texts()]
+    numeros = [int(x.rsplit(" ", 1)[1]) for x in chips if x[-1].isdigit()]
+    ok("a fila sai da classificação 1 para a 4", numeros == sorted(numeros) and len(numeros) == len(classes))
+    primeiro = pg.get_attribute(".te-fila .te-item", "data-te-email")
+    pg.click(f'[data-te-email="{primeiro}"]'); pg.wait_for_timeout(500)
+    pg.select_option("#te_origem_cobranca", "Delegacia"); pg.select_option("#te_reu_preso", "Não")
+    for c in pg.locator("[data-te-prior]").all():
+        c.set_checked(False)
+    pg.check('[data-te-prior][value="Doença grave"]'); pg.fill("#te_nome_familiar", "Familiar Fictício"); pg.click("#btnTeSalvar"); pg.wait_for_timeout(700)
+    c = pg.evaluate("async id => (await db.get('emails', id)).campos", primeiro)
+    ok("os campos novos ficam gravados", c.get("prioridade_legal") == "Doença grave" and c.get("nome_familiar") == "Familiar Fictício" and c.get("classificacao") == 2)
+    ir(pg, url, "#/planilha", 500)
+    ok("a planilha mostra a classificação e os nomes novos", "Classificação" in pg.inner_text("#tabelaTeia thead") and "Prioridade Legal" in pg.inner_text("#tabelaTeia thead"))
 
 
 def main():

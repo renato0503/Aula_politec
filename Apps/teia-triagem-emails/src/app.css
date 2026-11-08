@@ -101,3 +101,13 @@
   .te-item,.te-kpi,.te-acoes{transition:none}
   .te-item:hover,.te-kpi:hover{transform:none}
 }
+
+/* Sprint 5: duas colunas, na disposição da ficha do Nelson */
+.te-form .campos.te-dois{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 14px}
+.te-form .te-largo{grid-column:1/-1}
+.te-classe{display:block;padding:8px 10px;border:1px solid var(--linha);border-radius:6px;font-weight:700;background:var(--fundo2,transparent)}
+.te-marcas{display:grid;gap:4px}
+.te-marcas label{display:flex;align-items:center;gap:6px;font-weight:400;margin:0}
+.te-marcas input{width:auto;margin:0}
+.rotulo-grupo{display:block;font-weight:600;margin-bottom:4px}
+@media (max-width:520px){.te-form .campos.te-dois{grid-template-columns:1fr}}

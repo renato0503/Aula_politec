@@ -37,3 +37,24 @@ e exporta a planilha, sem nenhuma requisição de rede.
 
 **Pronto quando**: a ficha mostra vítima, investigado e réu preso, e a cobrança reiterada gera alerta.
 
+## Sprint 5 · Ficha e classificação automática do Nelson (07/11/2026)
+
+> Pedido do Nelson pelo WhatsApp, com a foto da disposição dos campos. Asterisco: item novo. Dois asteriscos: nome alterado.
+
+### Feito
+- [x] Campos em duas colunas, na ordem da foto: Classificação e Protocolo; Data da cobrança e Tipo de crime; Origem da cobrança e Nome da vítima; Prioridade Legal e Nome do Investigado/Suspeito/Acusado; Réu preso e Nome do familiar; Regional da Politec e AR para confronto; Objetivo.
+- [x] Novo: Origem da cobrança (Judicial/Ministério Público, Delegacia, Outros).
+- [x] Novo: Prioridade Legal (Vítima menor de idade, Idoso, Incapaz, Doença grave), com mais de uma opção.
+- [x] Novo: Classificação automática e somente leitura: 1 Judicial ou Ministério Público; 2 Delegacia com qualquer prioridade legal ou réu preso; 3 Delegacia sem prioridade legal e sem réu preso; 4 Outros.
+- [x] A fila passa a sair da classificação 1 para a 4, e o selo Normal/Alta/Urgente, que não seguia essa regra, saiu da tela e do CSV.
+- [x] Nomes: "Nome do Investigado/Suspeito/Acusado", "Regional da Politec" e "Objetivo".
+- [x] Registros já gravados no navegador recebem a origem pelo nome do órgão, para o triador conferir.
+- [x] Cenário `s6_classificacao_automatica` e testes das quatro classes.
+
+### Confirmar com o Nelson
+- [ ] "Nome do familiar" está na foto sem asterisco, mas o campo não existia. Foi incluído como opcional.
+- [ ] Réu preso "Não informado" conta como não preso: Delegacia sem prioridade legal fica na classificação 3.
+- [ ] Prioridade Legal é opcional, porque a classificação 3 depende de não haver nenhum item.
+
+**Pronto quando**: o Nelson conferir a ficha e a ordem da fila com cobranças reais.
+
