@@ -1,0 +1,208 @@
+{
+  "titulo": "Evento de Substituição Temporária",
+  "subtitulo": "POLITEC/MT · afastamento temporário de gestor e substituto",
+  "descricao": "Abertura do ofício, autorização hierárquica, ficha de RH, assinatura, envio à SESP e publicação no Diário Oficial, com o prazo do dia 05 e a planilha de controle em Excel e CSV. Dados fictícios.",
+  "visual": {
+    "acento": "#0f766e",
+    "icone": "usuarios",
+    "layout": "trilho",
+    "padrao": "ondas",
+    "estilo": "institucional",
+    "setor": "Gerência de Suporte à Gestão de Pessoas · Gabinete de Direção",
+    "casca": "trilho",
+    "cabecalho": "degrade",
+    "fonte": "sistema",
+    "densidade": "ampla",
+    "cantos": "redondos",
+    "superficie": "cartoes",
+    "kpi": "anel"
+  },
+  "db": {
+    "nome": "evento_substituicao_v1",
+    "versao": 1,
+    "log": "log",
+    "stores": {
+      "eventos": {
+        "keyPath": "id_evento",
+        "indices": [
+          {
+            "nome": "status",
+            "campo": "status",
+            "unico": false
+          },
+          {
+            "nome": "unidade",
+            "campo": "unidade",
+            "unico": false
+          }
+        ]
+      },
+      "autorizacoes": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "evento_id",
+            "campo": "evento_id",
+            "unico": false
+          }
+        ]
+      },
+      "fichas": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "evento_id",
+            "campo": "evento_id",
+            "unico": false
+          }
+        ]
+      },
+      "publicacoes": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "evento_id",
+            "campo": "evento_id",
+            "unico": false
+          }
+        ]
+      },
+      "unidades": {
+        "keyPath": "id_unidade",
+        "indices": []
+      },
+      "log": {
+        "keyPath": "id",
+        "indices": [
+          {
+            "nome": "evento_id",
+            "campo": "evento_id",
+            "unico": false
+          }
+        ]
+      }
+    }
+  },
+  "perfis": [
+    {
+      "id": "unidade",
+      "nome": "Unidade solicitante",
+      "descricao": "Abre o ofício, indica o substituto e o motivo, e acompanha o evento.",
+      "inicio": "#/eventos"
+    },
+    {
+      "id": "hierarquia",
+      "nome": "Gestor hierárquico",
+      "descricao": "Autoriza ou devolve o evento na linha hierárquica.",
+      "inicio": "#/fila"
+    },
+    {
+      "id": "gabinete",
+      "nome": "Gabinete de Direção",
+      "descricao": "Recebe o evento autorizado e encaminha à Gerência de Suporte à Gestão de Pessoas.",
+      "inicio": "#/fila"
+    },
+    {
+      "id": "rh",
+      "nome": "Gerência de Suporte à Gestão de Pessoas",
+      "descricao": "Analisa, inclui a ficha, envia à SESP, publica no Diário Oficial e acompanha a planilha.",
+      "inicio": "#/fila"
+    },
+    {
+      "id": "diretor",
+      "nome": "Diretor Geral Adjunto",
+      "descricao": "Analisa e assina o evento depois da ficha de RH.",
+      "inicio": "#/fila"
+    }
+  ],
+  "perfilPadrao": "unidade",
+  "permissoes": {
+    "criar": [
+      "unidade"
+    ],
+    "autorizar": [
+      "hierarquia"
+    ],
+    "devolver": [
+      "hierarquia"
+    ],
+    "reenviar": [
+      "unidade"
+    ],
+    "enviar_gabinete": [
+      "gabinete"
+    ],
+    "incluir_ficha": [
+      "rh"
+    ],
+    "assinar": [
+      "diretor"
+    ],
+    "enviar_sesp": [
+      "rh"
+    ],
+    "publicar": [
+      "rh"
+    ],
+    "indeferir": [
+      "gabinete",
+      "rh"
+    ]
+  },
+  "rotas": [
+    {
+      "rota": "#/painel",
+      "titulo": "Painel",
+      "sprint": 1,
+      "descricao": "Eventos em tramitação, no prazo do dia 05 e publicados."
+    },
+    {
+      "rota": "#/eventos",
+      "titulo": "Eventos",
+      "sprint": 2,
+      "descricao": "Lista com filtros de situação, motivo, unidade e busca."
+    },
+    {
+      "rota": "#/evento/novo",
+      "titulo": "Novo evento",
+      "sprint": 2,
+      "descricao": "Ofício com o substituído, o substituto, o motivo e o período.",
+      "perfis": [
+        "unidade"
+      ]
+    },
+    {
+      "rota": "#/evento/:id",
+      "titulo": "Evento",
+      "sprint": 2,
+      "descricao": "Ficha, tramitação, ficha de RH, assinatura, envio à SESP e publicação."
+    },
+    {
+      "rota": "#/fila",
+      "titulo": "Minha fila",
+      "sprint": 3,
+      "descricao": "O que espera cada perfil, com o prazo do dia 05."
+    },
+    {
+      "rota": "#/planilha",
+      "titulo": "Planilha de controle",
+      "sprint": 5,
+      "descricao": "Substituído, substituto, motivo, período e publicação no Diário Oficial."
+    },
+    {
+      "rota": "#/config",
+      "titulo": "Configuração",
+      "sprint": 1,
+      "descricao": ""
+    }
+  ],
+  "libs": [
+    "xlsx.full.min.js"
+  ],
+  "dados": [
+    [
+      "seed",
+      "exemplos/seed.json"
+    ]
+  ]
+}

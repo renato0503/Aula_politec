@@ -34,6 +34,7 @@ ASSINATURA = {
     "equipamentos-google-earth": "Mapa de MT em SVG com os pinos das unidades",
     "agiliza-mais": "Bancada do caso: passos à esquerda e trabalho à direita",
     "gestao_identificados": "Painel da pergunta do MVP e ficha em etapas de identificação",
+    "evento-substituicao-temporaria": "Minha fila em trilho: o que espera cada perfil, com a etapa e o prazo do dia 05",
 }
 
 CRITICA = {
@@ -57,6 +58,7 @@ CRITICA = {
     "mapa-distribuicao-credor": "A importação agora tem a tabela de 3 linhas, mas a associação de colunas continua nos cartões.",
     "equipamentos-google-earth": "A lista agora pagina; o mapa é estático, sem zoom e sem arrastar.",
     "agiliza-mais": "Os passos sem tela aparecem como “em breve”; o caso de exemplo está no botão da tela de casos.",
+    "evento-substituicao-temporaria": "O app não integra com o SIGADOC; a assinatura, o envio à SESP e a publicação continuam humanos.",
 }
 
 FONTES = {"sistema": "system-ui, 'Segoe UI', sans-serif", "serifa": "Georgia, Cambria, serif",

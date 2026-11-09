@@ -333,3 +333,13 @@ Premissas assumidas para abrir os sprints de correção sem esperar a confirmaç
 |---|---|---|---|
 | teia-triagem-emails | Réu preso "Não informado" conta como não preso na classificação; Nome do familiar e Prioridade Legal são opcionais; a origem de registros antigos sai do nome do órgão | B | As três regras com o Nelson |
 
+
+## Evento de Substituição Temporária (09/11/2026)
+
+| App | Premissa assumida | Nível | O que confirmar |
+|---|---|---|---|
+| evento-substituicao-temporaria | A linha hierárquica tem 2 níveis por unidade: chefia imediata e direção da unidade; as 6 unidades do exemplo são fictícias | B | As unidades reais, as chefias e quantos níveis cada linha tem |
+| evento-substituicao-temporaria | A ficha de solicitação tem número, data, analista e observação, e é anexada ao evento pelo RH | C | O desenho oficial da ficha e os campos obrigatórios |
+| evento-substituicao-temporaria | O prazo do dia 05 é contado no mês do início da substituição; o envio depois da data é bloqueado e o RH registra o indeferimento | B | A regra interna e quem assina o indeferimento |
+| evento-substituicao-temporaria | A planilha de controle usa os cinco campos do documento (substituído, substituto, motivo, período e publicação no DO) mais situação e unidade | A | Nada; os cinco campos estão no documento da Simone |
+| evento-substituicao-temporaria | O perfil é uma lente de demonstração; a versão institucional precisa de login e de restrição do motivo de saúde | B | A política de acesso e o prazo de retenção com o RH |

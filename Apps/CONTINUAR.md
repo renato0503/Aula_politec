@@ -1,5 +1,12 @@
 ﻿# Continuar o desenvolvimento dos apps (passagem para outro agente)
 
+> **Atualização de 08/11/2026:** registro completo em [`ENTREGA-08-11-2026.md`](ENTREGA-08-11-2026.md).
+> O **Agiliza+** gera o laudo no modelo timbrado da POLITEC e em PDF (Sprint 16); o **Passivo** tem timbre
+> provisório (Sprint 10); o **Mapa** recuperou situação, custeio/investimento e mapa SESP (Sprint 11); o
+> **TEIA** tem a ficha do Nelson e a classificação de 1 a 4 (Sprint 5). Próximos sprints de código, nesta
+> ordem: Necropsia 11, Comissão 9, Agiliza 17 e Passivo 9. Rode `baixar_feedback.py` só app por app: sem
+> filtro, ele apaga a seção escrita à mão no `FEEDBACK.md` do RNC.
+>
 > **Plano de execução agêntica:** [`PLANO-IMPLEMENTACAO-AGENTICA.md`](PLANO-IMPLEMENTACAO-AGENTICA.md) — ondas, cartões por app, testes, prompts e o que depende de humano.
 >
 > **Atualização de 03/11/2026 (rodada de implementação):** foram fechados os
@@ -543,3 +550,13 @@ passa nos cenários de todos os sprints (ver o resultado no fim da seção 4).
 
 %RESULTADO%
 
+
+## Evento de Substituição Temporária (09/11/2026)
+
+- **App**: `Apps/evento-substituicao-temporaria/` (Simone Alem, Gerência de Suporte à Gestão de Pessoas).
+- **Fonte**: `evento-substituicao-temporaria/entregas/Evento de Substituição Temporária.docx`, com o texto em `envio-original.json`.
+- **O que faz**: ofício no SIGADOC, autorização por nível da linha hierárquica, Gabinete de Direção, análise de RH com a ficha, assinatura do Diretor Geral Adjunto, envio à SESP até o dia 05, publicação no Diário Oficial e planilha de controle em Excel (`.xlsx`) e CSV. Cinco perfis, trilha de sete etapas e fila por perfil.
+- **Sprints**: 0 a 8 feitos em 09/11/2026, mais a identidade (casca de trilho, "Minha fila", ficha em abas e trilho das etapas). O Sprint 8 trouxe o ajuste da unidade antes do reenvio e a planilha Excel com as abas Controle e Resumo.
+- **Testes**: `python testes/testar.py` OK; `python testes/cenarios.py` 8 cenários (47 verificações) OK; `python testes/jornada.py` 8/8; `_base/testar.py` e `_base/testar_sprints.py` OK; formulário de feedback com 6 telas OK.
+- **Repositório**: público em `github.com/renato0503/evento-substituicao-temporaria`.
+- **Falta**: login da Simone para o convite de push; confirmar unidades, chefias e níveis; receber o desenho oficial da ficha; medir o volume mensal e o tempo por etapa no piloto; integração futura com o SIGADOC. As premissas estão em `PREMISSAS.md`.

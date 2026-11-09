@@ -11,6 +11,7 @@ recebe o código do app.
 | Pasta | Projeto | Grupo / contato | Unidade | Tipo | Fonte da entrega |
 |---|---|---|---|---|---|
 | [trilha-custodia-necropsia/](trilha-custodia-necropsia/) | Sistema de Controle de Necropsia | Silmara Bueno · silmarabueno@politec.mt.gov.br | IML · Coordenadoria de Perícias em Mortos | Aplicativo para servidor | `Aula 8/Entregas/Silmara/` (envios parciais + protótipo), 29/10/2026 |
+| [evento-substituicao-temporaria/](evento-substituicao-temporaria/) | Evento de Substituição Temporária | Simone Alem · a informar | Gerência de Suporte à Gestão de Pessoas | Aplicativo para servidor | `evento-substituicao-temporaria/entregas/Evento de Substituição Temporária.docx` (09/11/2026) |
 | [teia-triagem-emails/](teia-triagem-emails/) | TEIA · Triagem de E-mails com Isolação Automatizada | Nelson e Helen Coelho Gonçalves · nelsonyoshitake@politec.mt.gov.br | Coordenação de Perícias em Biologia Molecular | Automação de script ou rotina | Firestore, 03/11/2026 |
 | [controle-aquisicoes/](controle-aquisicoes/) | Controle do processo de aquisição | Kasteline Gonçalves · kastelinesilva@politec.mt.gov.br | Aquisição | Painel de Business Intelligence (dashboard) | `Aula 8/Entregas/`, 29/10/2026 |
 | [gestao-documentos/](gestao-documentos/) | Gestão de Documentos (processos e prazos) | Vitória Araújo Dias · vitoriadias@politec.mt.gov.br | Gabinete de Direção | Aplicativo para servidor | `Aula 8/Entregas/`, 29/10/2026 |
@@ -41,7 +42,12 @@ recebe o código do app.
 > testes.
 
 
-Os 21 apps ativos andam juntos, sprint a sprint. **Desde 03/11/2026 os 20 estão com o MVP
+> **Atualização de 09/11/2026:** entrou o **22º app ativo**,
+> `evento-substituicao-temporaria` (Simone Alem), com os Sprints 0 a 7, testes,
+> diagramas e `processo.html`. Ele ainda não tem repositório no GitHub nem login
+> informado.
+
+Os 22 apps ativos andam juntos, sprint a sprint. **Desde 03/11/2026 os 20 estão com o MVP
 funcional de ponta a ponta** (o painel marca 157 de 157 telas prontas). O que falta
 depende de pessoas (Sprint 0, aceite e piloto) ou de serviço externo (Apps Script do
 agendamento). O próximo ciclo sai do **feedback dos alunos**: cada app tem um
@@ -174,6 +180,7 @@ Para acrescentar um login: `python Apps/_base/equipes.py <app> "<nome>" <login>`
 | custodia-definitiva | Edjane Ávila | `edjaneavila-cyber` (Edjane) |
 | documentapolitec | Aline Xavier dos Passos | `alinepassos-source` (Aline) |
 | equipamentos-google-earth | João Lucas Nogueira Ponce | `Jopolite` (João) |
+| evento-substituicao-temporaria | Simone Alem | a informar |
 | gestao-documentos | Vitória Araújo Dias | `Vitoriadias-droide` (Vitória) |
 | gestao_identificados | Kesia Melo | `krllmsoares-del` (Kesia) |
 | horus-banco-demandas | Iohan Camões de Albuquerque | a informar |
@@ -221,6 +228,10 @@ os dados fictícios.
 | [rnc-nao-conformidade](https://github.com/renato0503/rnc-nao-conformidade) | público | `main` | index.html, processo.html, nucleo/, testes/ |
 | [tap-portfolio-projetos](https://github.com/renato0503/tap-portfolio-projetos) | público | `main` | index.html, processo.html, nucleo/, testes/ |
 | [trilha-custodia-necropsia](https://github.com/renato0503/trilha-custodia-necropsia) | público | `main` | index.html, processo.html, nucleo/, testes/ |
+| [evento-substituicao-temporaria](https://github.com/renato0503/evento-substituicao-temporaria) | público | `main` | index.html, processo.html, nucleo/, testes/, vendor/ |
+
+O `evento-substituicao-temporaria` (Simone Alem) entrou em 09/11/2026 e já tem
+repositório público. Falta o login da Simone para o convite de push.
 
 ### Acessos
 

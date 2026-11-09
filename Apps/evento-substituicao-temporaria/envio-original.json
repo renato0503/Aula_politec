@@ -1,0 +1,46 @@
+{
+ "fonte": "entregas/Evento de Substituição Temporária.docx",
+ "recebido_em": "2026-11-09",
+ "aluna": "Simone Alem",
+ "formato": "docx",
+ "texto": "Demanda:\n\n📋 Definição do Evento\n\nO que é: Afastamento temporário de um gestor.\n\nMotivos válidos: Férias, Licença Prêmio, Licença para tratamento da própria saúde ou Licença para acompanhar pessoa da família.\n\n🔄 Fluxo do Processo (Passo a Passo)\n\nAbertura: A unidade do gestor afastado inicia o processo via sistema SIGADOC por meio de um ofício, indicando o substituto e o motivo.\n\nAutorização Hierárquica: O processo tramita pela linha hierárquica para a autorização de todos os gestores responsáveis.\n\nEnvio ao Gabinete: Após as autorizações, o processo segue para o Gabinete de Direção da POLITEC.\n\nAnálise de RH: O Gabinete encaminha o caso para a Gerência de Suporte à Gestão de Pessoas da POLITEC, que analisa a demanda e inclui a ficha de solicitação de substituição temporária no processo.\n\nAssinatura: O processo é enviado para análise e assinatura do Diretor Geral Adjunto da POLITEC.\n\nEnvio à SESP: Após a assinatura do Diretor Geral Adjunto, o processo retorna para a Gerência de Suporte à Gestão de Pessoas da POLITEC, que o encaminha para a Superintendência de Gestão de Pessoas da SESP.\n\nAcompanhamento: A Gerência registra os dados em uma planilha Excel e acompanha o andamento do processo até a sua conclusão.\n\n📊 Dados de Controle (Planilha Excel)\n\nCampos obrigatórios: Substituído, substituto, motivo, período e publicação em Diário Oficial.\n\nLegenda de cores para status:\n\n🟡 Aguardando assinatura\n\n🔵 Encaminhado para Superintendência de Gestão de Pessoas/SESP\n\n🟢 Publicado no Diário Oficial\n\n🛑 Regras Críticas e Prazos\n\nPrazo de envio: Os processos devem ser encaminhados para a Superintendência de Gestão de Pessoas da SESP até o dia 05 do mês em que a substituição ocorrerá.\n\nPenalidade: Processos enviados após essa data limite serão indeferidos.\n\nEncerramento: O processo é oficialmente finalizado apenas com a publicação no Diário Oficial.",
+ "blocos": [
+  {
+   "titulo": "📋 Definição do Evento",
+   "itens": [
+    "O que é: Afastamento temporário de um gestor.",
+    "Motivos válidos: Férias, Licença Prêmio, Licença para tratamento da própria saúde ou Licença para acompanhar pessoa da família."
+   ]
+  },
+  {
+   "titulo": "🔄 Fluxo do Processo (Passo a Passo)",
+   "itens": [
+    "Abertura: A unidade do gestor afastado inicia o processo via sistema SIGADOC por meio de um ofício, indicando o substituto e o motivo.",
+    "Autorização Hierárquica: O processo tramita pela linha hierárquica para a autorização de todos os gestores responsáveis.",
+    "Envio ao Gabinete: Após as autorizações, o processo segue para o Gabinete de Direção da POLITEC.",
+    "Análise de RH: O Gabinete encaminha o caso para a Gerência de Suporte à Gestão de Pessoas da POLITEC, que analisa a demanda e inclui a ficha de solicitação de substituição temporária no processo.",
+    "Assinatura: O processo é enviado para análise e assinatura do Diretor Geral Adjunto da POLITEC.",
+    "Envio à SESP: Após a assinatura do Diretor Geral Adjunto, o processo retorna para a Gerência de Suporte à Gestão de Pessoas da POLITEC, que o encaminha para a Superintendência de Gestão de Pessoas da SESP.",
+    "Acompanhamento: A Gerência registra os dados em uma planilha Excel e acompanha o andamento do processo até a sua conclusão."
+   ]
+  },
+  {
+   "titulo": "📊 Dados de Controle (Planilha Excel)",
+   "itens": [
+    "Campos obrigatórios: Substituído, substituto, motivo, período e publicação em Diário Oficial.",
+    "Legenda de cores para status:",
+    "🟡 Aguardando assinatura",
+    "🔵 Encaminhado para Superintendência de Gestão de Pessoas/SESP",
+    "🟢 Publicado no Diário Oficial"
+   ]
+  },
+  {
+   "titulo": "🛑 Regras Críticas e Prazos",
+   "itens": [
+    "Prazo de envio: Os processos devem ser encaminhados para a Superintendência de Gestão de Pessoas da SESP até o dia 05 do mês em que a substituição ocorrerá.",
+    "Penalidade: Processos enviados após essa data limite serão indeferidos.",
+    "Encerramento: O processo é oficialmente finalizado apenas com a publicação no Diário Oficial."
+   ]
+  }
+ ]
+}

@@ -1,0 +1,67 @@
+/* Identidade do Evento de Substituição Temporária:
+   trilho das sete etapas, fila por perfil e dados em cartões. */
+
+/* ---------- trilho das etapas ---------- */
+.est-trilho{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:0;list-style:none;margin:18px 0 20px;padding:0;counter-reset:est}
+.est-trilho li{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;padding:0 6px;color:var(--ink2)}
+.est-trilho li::before{content:"";position:absolute;top:15px;left:0;right:50%;height:2px;background:var(--linha)}
+.est-trilho li:first-child::before{display:none}
+.est-trilho li::after{content:"";position:absolute;top:15px;left:50%;right:0;height:2px;background:var(--linha)}
+.est-trilho li:last-child::after{display:none}
+.est-trilho li.feito::before,.est-trilho li.feito::after,
+.est-trilho li.atual::before{background:var(--accent)}
+.est-trilho li.erro::before{background:var(--vermelho)}
+.est-ponto{position:relative;z-index:1;display:grid;place-items:center;width:32px;height:32px;border-radius:999px;border:2px solid var(--linha);background:var(--painel);color:var(--ink2);font-size:13px;font-weight:700}
+.est-trilho li.feito .est-ponto{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.est-trilho li.atual .est-ponto{border-color:var(--accent);color:var(--accent);box-shadow:0 0 0 4px var(--accent-suave)}
+.est-trilho li.erro .est-ponto{background:var(--vermelho);border-color:var(--vermelho);color:#fff}
+.est-trilho li > div{display:flex;flex-direction:column;gap:2px}
+.est-trilho b{font-size:12.5px;line-height:1.25;color:var(--ink)}
+.est-trilho small{font-size:11px;line-height:1.25}
+.est-trilho li.feito b,.est-trilho li.atual b{color:var(--accent-forte)}
+.est-trilho li.erro b{color:var(--vermelho)}
+
+/* ---------- dados em cartões ---------- */
+.est-dados{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
+.est-dados > div{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border:1px solid var(--linha);border-radius:var(--raio-p);background:var(--painel-2)}
+.est-dados b{font-size:15px;line-height:1.3;color:var(--ink);overflow-wrap:anywhere}
+.est-dados small{font-size:12px;color:var(--ink2)}
+.est-kpi-data .v{font-size:20px;white-space:nowrap;letter-spacing:-.02em}
+.est-role{font-size:15px;font-weight:600;color:var(--ink2);margin-left:8px;letter-spacing:0}
+.est-divisor{border:0;border-top:1px solid var(--linha);margin:18px 0 4px}
+
+/* ---------- fila por perfil ---------- */
+.est-fila-resumo{border-left:5px solid var(--accent)}
+.est-fila-cabeca{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.est-fila-cabeca h2{margin:2px 0 4px}
+.est-fila-cabeca .conta{background:var(--accent-suave);border-radius:999px;padding:1px 9px;font-size:12px;color:var(--accent-forte)}
+.est-fila-grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:10px;margin-top:12px}
+.est-fila-card{display:flex;flex-direction:column;gap:5px;padding:12px 14px;border:1px solid var(--linha);border-radius:var(--raio);background:var(--painel);color:var(--ink);text-decoration:none;transition:border-color .15s,background .15s,transform .15s}
+.est-fila-card:hover{border-color:var(--accent);background:var(--accent-suave);transform:translateY(-1px)}
+.est-fila-card b{font-size:14.5px;line-height:1.3}
+.est-fila-card .sub{margin:0;font-size:12.5px}
+.est-fila-topo{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.est-fila-rodape{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-top:4px;padding-top:6px;border-top:1px dashed var(--linha)}
+.est-fila-rodape small{font-size:11.5px}
+
+/* ---------- caminho do evento ---------- */
+.est-caminho{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:8px;list-style:none;margin:8px 0 12px;padding:0;counter-reset:estc}
+.est-caminho li{display:flex;flex-direction:column;gap:2px;padding:10px 12px;border:1px solid var(--linha);border-left:4px solid var(--accent);border-radius:0 var(--raio-p) var(--raio-p) 0;background:var(--painel-2)}
+.est-caminho b{font-size:13px}
+.est-caminho .sub{font-size:12px;margin:0}
+
+@media (max-width:860px){
+  .est-trilho{grid-template-columns:1fr;gap:2px;margin:14px 0}
+  .est-trilho li{flex-direction:row;text-align:left;align-items:center;padding:4px 0}
+  .est-trilho li::before,.est-trilho li::after{display:none}
+  .est-ponto{width:28px;height:28px;flex:0 0 28px}
+  .est-fila-cabeca{flex-direction:column}
+}
+@media (max-width:520px){
+  .est-dados{grid-template-columns:1fr}
+}
+@media print{
+  .est-trilho li small,.est-fila-card .sub{color:#444}
+  .est-fila-card{border:1px solid #999;break-inside:avoid}
+  .est-trilho li{color:#000}
+}

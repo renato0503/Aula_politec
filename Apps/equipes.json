@@ -266,6 +266,16 @@
           "github": "krllmsoares-del"
         }
       ]
+    },
+    "evento-substituicao-temporaria": {
+      "projeto": "Evento de Substituição Temporária",
+      "alunos": [
+        {
+          "nome": "Simone Alem",
+          "email": null,
+          "github": null
+        }
+      ]
     }
   },
   "sem_projeto": [

@@ -1,0 +1,1436 @@
+{
+ "eventos": [
+  {
+   "id_evento": "EST-0001",
+   "numero_sigadoc": "2026.0001-SIGADOC",
+   "data_oficio": "2026-11-07",
+   "unidade": "U-GAB",
+   "unidade_nome": "Gabinete de Direção",
+   "motivo": "Férias",
+   "substituido": "Gestor Fictício A",
+   "cargo_substituido": "Diretor",
+   "substituto": "Substituto Fictício A",
+   "cargo_substituto": "Coordenador",
+   "periodo_inicio": "2026-12-10",
+   "periodo_fim": "2026-12-23",
+   "observacao": "",
+   "status": "autorizacao",
+   "criado_em": "2026-11-07T09:00:00"
+  },
+  {
+   "id_evento": "EST-0002",
+   "numero_sigadoc": "2026.0002-SIGADOC",
+   "data_oficio": "2026-11-07",
+   "unidade": "U-DLF",
+   "unidade_nome": "Diretoria de Laboratório Forense",
+   "motivo": "Licença Prêmio",
+   "substituido": "Gestor Fictício B",
+   "cargo_substituido": "Coordenador",
+   "substituto": "Substituto Fictício B",
+   "cargo_substituto": "Chefe de Divisão",
+   "periodo_inicio": "2026-12-03",
+   "periodo_fim": "2026-12-16",
+   "observacao": "",
+   "status": "autorizacao",
+   "criado_em": "2026-11-07T09:00:00"
+  },
+  {
+   "id_evento": "EST-0003",
+   "numero_sigadoc": "2026.0003-SIGADOC",
+   "data_oficio": "2026-11-07",
+   "unidade": "U-IC",
+   "unidade_nome": "Identificação Civil",
+   "motivo": "Licença para tratamento da própria saúde",
+   "substituido": "Gestor Fictício C",
+   "cargo_substituido": "Chefe de Divisão",
+   "substituto": "Substituto Fictício C",
+   "cargo_substituto": "Gerente",
+   "periodo_inicio": "2026-12-01",
+   "periodo_fim": "2026-12-09",
+   "observacao": "",
+   "status": "devolvido",
+   "criado_em": "2026-11-07T09:00:00"
+  },
+  {
+   "id_evento": "EST-0004",
+   "numero_sigadoc": "2026.0004-SIGADOC",
+   "data_oficio": "2026-11-07",
+   "unidade": "U-GAB",
+   "unidade_nome": "Gabinete de Direção",
+   "motivo": "Licença para acompanhar pessoa da família",
+   "substituido": "Gestor Fictício D",
+   "cargo_substituido": "Gerente",
+   "substituto": "Substituto Fictício D",
+   "cargo_substituto": "Chefe de Núcleo",
+   "periodo_inicio": "2026-12-08",
+   "periodo_fim": "2026-12-21",
+   "observacao": "",
+   "status": "gabinete",
+   "criado_em": "2026-11-07T09:00:00"
+  },
+  {
+   "id_evento": "EST-0005",
+   "numero_sigadoc": "2026.0005-SIGADOC",
+   "data_oficio": "2026-11-07",
+   "unidade": "U-CQUAL",
+   "unidade_nome": "Coordenadoria de Qualidade",
+   "motivo": "Férias",
+   "substituido": "Gestor Fictício E",
+   "cargo_substituido": "Chefe de Núcleo",
+   "substituto": "Substituto Fictício E",
+   "cargo_substituto": "Diretor",
+   "periodo_inicio": "2026-12-12",
+   "periodo_fim": "2026-12-23",
+   "observacao": "",
+   "status": "gabinete",
+   "criado_em": "2026-11-07T09:00:00"
+  },
+  {
+   "id_evento": "EST-0006",
+   "numero_sigadoc": "2026.0006-SIGADOC",
+   "data_oficio": "2026-11-07",
+   "unidade": "U-CORR",
+   "unidade_nome": "Corregedoria",
+   "motivo": "Licença Prêmio",
+   "substituido": "Gestor Fictício F",
+   "cargo_substituido": "Diretor",
+   "substituto": "Substituto Fictício F",
+   "cargo_substituto": "Coordenador",
+   "periodo_inicio": "2026-12-12",
+   "periodo_fim": "2026-12-25",
+   "observacao": "",
+   "status": "analise_rh",
+   "criado_em": "2026-11-07T09:00:00"
+  },
+  {
+   "id_evento": "EST-0007",
+   "numero_sigadoc": "2026.0007-SIGADOC",
+   "data_oficio": "2026-11-07",
+   "unidade": "U-DLF",
+   "unidade_nome": "Diretoria de Laboratório Forense",
+   "motivo": "Licença para tratamento da própria saúde",
+   "substituido": "Gestor Fictício G",
+   "cargo_substituido": "Coordenador",
+   "substituto": "Substituto Fictício G",
+   "cargo_substituto": "Chefe de Divisão",
+   "periodo_inicio": "2026-12-15",
+   "periodo_fim": "2026-12-28",
+   "observacao": "",
+   "status": "analise_rh",
+   "criado_em": "2026-11-07T09:00:00"
+  },
+  {
+   "id_evento": "EST-0008",
+   "numero_sigadoc": "2026.0008-SIGADOC",
+   "data_oficio": "2026-11-07",
+   "unidade": "U-DI",
+   "unidade_nome": "Diretoria de Interiorização",
+   "motivo": "Licença para acompanhar pessoa da família",
+   "substituido": "Gestor Fictício H",
+   "cargo_substituido": "Chefe de Divisão",
+   "substituto": "Substituto Fictício H",
+   "cargo_substituto": "Gerente",
+   "periodo_inicio": "2026-12-09",
+   "periodo_fim": "2026-12-22",
+   "observacao": "",
+   "status": "aguardando_assinatura",
+   "criado_em": "2026-11-07T09:00:00"
+  },
+  {
+   "id_evento": "EST-0009",
+   "numero_sigadoc": "2026.0009-SIGADOC",
+   "data_oficio": "2026-11-07",
+   "unidade": "U-IC",
+   "unidade_nome": "Identificação Civil",
+   "motivo": "Férias",
+   "substituido": "Gestor Fictício I",
+   "cargo_substituido": "Gerente",
+   "substituto": "Substituto Fictício I",
+   "cargo_substituto": "Chefe de Núcleo",
+   "periodo_inicio": "2026-12-05",
+   "periodo_fim": "2026-12-18",
+   "observacao": "",
+   "status": "aguardando_assinatura",
+   "criado_em": "2026-11-07T09:00:00"
+  },
+  {
+   "id_evento": "EST-0010",
+   "numero_sigadoc": "2026.0010-SIGADOC",
+   "data_oficio": "2026-11-07",
+   "unidade": "U-GAB",
+   "unidade_nome": "Gabinete de Direção",
+   "motivo": "Licença Prêmio",
+   "substituido": "Gestor Fictício J",
+   "cargo_substituido": "Chefe de Núcleo",
+   "substituto": "Substituto Fictício J",
+   "cargo_substituto": "Diretor",
+   "periodo_inicio": "2026-12-07",
+   "periodo_fim": "2026-12-20",
+   "observacao": "",
+   "status": "assinado",
+   "criado_em": "2026-11-07T09:00:00",
+   "assinado_por": "Diretor Geral Adjunto Fictício",
+   "assinado_cargo": "Diretor Geral Adjunto",
+   "assinado_em": "2026-11-12"
+  },
+  {
+   "id_evento": "EST-0011",
+   "numero_sigadoc": "2026.0011-SIGADOC",
+   "data_oficio": "2026-10-05",
+   "unidade": "U-CQUAL",
+   "unidade_nome": "Coordenadoria de Qualidade",
+   "motivo": "Licença para tratamento da própria saúde",
+   "substituido": "Gestor Fictício K",
+   "cargo_substituido": "Diretor",
+   "substituto": "Substituto Fictício K",
+   "cargo_substituto": "Coordenador",
+   "periodo_inicio": "2026-10-15",
+   "periodo_fim": "2026-10-28",
+   "observacao": "",
+   "status": "assinado",
+   "criado_em": "2026-10-05T09:00:00",
+   "assinado_por": "Diretor Geral Adjunto Fictício",
+   "assinado_cargo": "Diretor Geral Adjunto",
+   "assinado_em": "2026-10-10"
+  },
+  {
+   "id_evento": "EST-0012",
+   "numero_sigadoc": "2026.0012-SIGADOC",
+   "data_oficio": "2026-11-07",
+   "unidade": "U-CORR",
+   "unidade_nome": "Corregedoria",
+   "motivo": "Licença para acompanhar pessoa da família",
+   "substituido": "Gestor Fictício L",
+   "cargo_substituido": "Coordenador",
+   "substituto": "Substituto Fictício L",
+   "cargo_substituto": "Chefe de Divisão",
+   "periodo_inicio": "2026-12-03",
+   "periodo_fim": "2026-12-16",
+   "observacao": "",
+   "status": "encaminhado_sesp",
+   "criado_em": "2026-11-07T09:00:00",
+   "assinado_por": "Diretor Geral Adjunto Fictício",
+   "assinado_cargo": "Diretor Geral Adjunto",
+   "assinado_em": "2026-11-12",
+   "envio_sesp_em": "2026-11-07"
+  },
+  {
+   "id_evento": "EST-0013",
+   "numero_sigadoc": "2026.0013-SIGADOC",
+   "data_oficio": "2026-11-07",
+   "unidade": "U-DLF",
+   "unidade_nome": "Diretoria de Laboratório Forense",
+   "motivo": "Férias",
+   "substituido": "Gestor Fictício M",
+   "cargo_substituido": "Chefe de Divisão",
+   "substituto": "Substituto Fictício M",
+   "cargo_substituto": "Gerente",
+   "periodo_inicio": "2026-11-20",
+   "periodo_fim": "2026-11-29",
+   "observacao": "",
+   "status": "encaminhado_sesp",
+   "criado_em": "2026-11-07T09:00:00",
+   "assinado_por": "Diretor Geral Adjunto Fictício",
+   "assinado_cargo": "Diretor Geral Adjunto",
+   "assinado_em": "2026-11-12",
+   "envio_sesp_em": "2026-11-04"
+  },
+  {
+   "id_evento": "EST-0014",
+   "numero_sigadoc": "2026.0014-SIGADOC",
+   "data_oficio": "2026-10-22",
+   "unidade": "U-GAB",
+   "unidade_nome": "Gabinete de Direção",
+   "motivo": "Licença Prêmio",
+   "substituido": "Gestor Fictício N",
+   "cargo_substituido": "Gerente",
+   "substituto": "Substituto Fictício N",
+   "cargo_substituto": "Chefe de Núcleo",
+   "periodo_inicio": "2026-11-01",
+   "periodo_fim": "2026-11-14",
+   "observacao": "",
+   "status": "publicado",
+   "criado_em": "2026-10-22T09:00:00",
+   "assinado_por": "Diretor Geral Adjunto Fictício",
+   "assinado_cargo": "Diretor Geral Adjunto",
+   "assinado_em": "2026-10-27",
+   "envio_sesp_em": "2026-10-29",
+   "publicacao_numero": "DO-2026-0001",
+   "publicacao_do": "2026-11-08",
+   "encerrado_em": "2026-11-08"
+  },
+  {
+   "id_evento": "EST-0015",
+   "numero_sigadoc": "2026.0015-SIGADOC",
+   "data_oficio": "2026-10-31",
+   "unidade": "U-DI",
+   "unidade_nome": "Diretoria de Interiorização",
+   "motivo": "Licença para tratamento da própria saúde",
+   "substituido": "Gestor Fictício O",
+   "cargo_substituido": "Chefe de Núcleo",
+   "substituto": "Substituto Fictício O",
+   "cargo_substituto": "Diretor",
+   "periodo_inicio": "2026-11-10",
+   "periodo_fim": "2026-11-23",
+   "observacao": "",
+   "status": "indeferido",
+   "criado_em": "2026-10-31T09:00:00",
+   "assinado_por": "Diretor Geral Adjunto Fictício",
+   "assinado_cargo": "Diretor Geral Adjunto",
+   "assinado_em": "2026-11-05",
+   "indeferido_motivo": "Enviado depois do dia 05 (RN06)",
+   "indeferido_em": "2026-11-08"
+  }
+ ],
+ "autorizacoes": [
+  {
+   "id": "AUT-EST-0001-1",
+   "evento_id": "EST-0001",
+   "nivel": 1,
+   "gestor": "Chefe de Gabinete Fictício",
+   "cargo": "Chefia imediata",
+   "situacao": "autorizado",
+   "data": "2026-11-08",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0001-2",
+   "evento_id": "EST-0001",
+   "nivel": 2,
+   "gestor": "Diretor de Gabinete Fictício",
+   "cargo": "Direção da unidade",
+   "situacao": "pendente",
+   "data": null,
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0002-1",
+   "evento_id": "EST-0002",
+   "nivel": 1,
+   "gestor": "Chefia do Laboratório Fictícia",
+   "cargo": "Chefia imediata",
+   "situacao": "pendente",
+   "data": null,
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0002-2",
+   "evento_id": "EST-0002",
+   "nivel": 2,
+   "gestor": "Diretor do Laboratório Fictício",
+   "cargo": "Direção da unidade",
+   "situacao": "pendente",
+   "data": null,
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0003-1",
+   "evento_id": "EST-0003",
+   "nivel": 1,
+   "gestor": "Chefia de Identificação Fictícia",
+   "cargo": "Chefia imediata",
+   "situacao": "devolvido",
+   "data": "2026-11-08",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0003-2",
+   "evento_id": "EST-0003",
+   "nivel": 2,
+   "gestor": "Diretor de Identificação Fictício",
+   "cargo": "Direção da unidade",
+   "situacao": "pendente",
+   "data": null,
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0004-1",
+   "evento_id": "EST-0004",
+   "nivel": 1,
+   "gestor": "Chefe de Gabinete Fictício",
+   "cargo": "Chefia imediata",
+   "situacao": "autorizado",
+   "data": "2026-11-08",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0004-2",
+   "evento_id": "EST-0004",
+   "nivel": 2,
+   "gestor": "Diretor de Gabinete Fictício",
+   "cargo": "Direção da unidade",
+   "situacao": "autorizado",
+   "data": "2026-11-09",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0005-1",
+   "evento_id": "EST-0005",
+   "nivel": 1,
+   "gestor": "Coordenador de Qualidade Fictício",
+   "cargo": "Chefia imediata",
+   "situacao": "autorizado",
+   "data": "2026-11-08",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0005-2",
+   "evento_id": "EST-0005",
+   "nivel": 2,
+   "gestor": "Diretor de Qualidade Fictício",
+   "cargo": "Direção da unidade",
+   "situacao": "autorizado",
+   "data": "2026-11-09",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0006-1",
+   "evento_id": "EST-0006",
+   "nivel": 1,
+   "gestor": "Corregedor Fictício",
+   "cargo": "Chefia imediata",
+   "situacao": "autorizado",
+   "data": "2026-11-08",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0006-2",
+   "evento_id": "EST-0006",
+   "nivel": 2,
+   "gestor": "Corregedor Adjunto Fictício",
+   "cargo": "Direção da unidade",
+   "situacao": "autorizado",
+   "data": "2026-11-09",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0007-1",
+   "evento_id": "EST-0007",
+   "nivel": 1,
+   "gestor": "Chefia do Laboratório Fictícia",
+   "cargo": "Chefia imediata",
+   "situacao": "autorizado",
+   "data": "2026-11-08",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0007-2",
+   "evento_id": "EST-0007",
+   "nivel": 2,
+   "gestor": "Diretor do Laboratório Fictício",
+   "cargo": "Direção da unidade",
+   "situacao": "autorizado",
+   "data": "2026-11-09",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0008-1",
+   "evento_id": "EST-0008",
+   "nivel": 1,
+   "gestor": "Chefia de Interiorização Fictícia",
+   "cargo": "Chefia imediata",
+   "situacao": "autorizado",
+   "data": "2026-11-08",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0008-2",
+   "evento_id": "EST-0008",
+   "nivel": 2,
+   "gestor": "Diretor de Interiorização Fictício",
+   "cargo": "Direção da unidade",
+   "situacao": "autorizado",
+   "data": "2026-11-09",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0009-1",
+   "evento_id": "EST-0009",
+   "nivel": 1,
+   "gestor": "Chefia de Identificação Fictícia",
+   "cargo": "Chefia imediata",
+   "situacao": "autorizado",
+   "data": "2026-11-08",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0009-2",
+   "evento_id": "EST-0009",
+   "nivel": 2,
+   "gestor": "Diretor de Identificação Fictício",
+   "cargo": "Direção da unidade",
+   "situacao": "autorizado",
+   "data": "2026-11-09",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0010-1",
+   "evento_id": "EST-0010",
+   "nivel": 1,
+   "gestor": "Chefe de Gabinete Fictício",
+   "cargo": "Chefia imediata",
+   "situacao": "autorizado",
+   "data": "2026-11-08",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0010-2",
+   "evento_id": "EST-0010",
+   "nivel": 2,
+   "gestor": "Diretor de Gabinete Fictício",
+   "cargo": "Direção da unidade",
+   "situacao": "autorizado",
+   "data": "2026-11-09",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0011-1",
+   "evento_id": "EST-0011",
+   "nivel": 1,
+   "gestor": "Coordenador de Qualidade Fictício",
+   "cargo": "Chefia imediata",
+   "situacao": "autorizado",
+   "data": "2026-10-06",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0011-2",
+   "evento_id": "EST-0011",
+   "nivel": 2,
+   "gestor": "Diretor de Qualidade Fictício",
+   "cargo": "Direção da unidade",
+   "situacao": "autorizado",
+   "data": "2026-10-07",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0012-1",
+   "evento_id": "EST-0012",
+   "nivel": 1,
+   "gestor": "Corregedor Fictício",
+   "cargo": "Chefia imediata",
+   "situacao": "autorizado",
+   "data": "2026-11-08",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0012-2",
+   "evento_id": "EST-0012",
+   "nivel": 2,
+   "gestor": "Corregedor Adjunto Fictício",
+   "cargo": "Direção da unidade",
+   "situacao": "autorizado",
+   "data": "2026-11-09",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0013-1",
+   "evento_id": "EST-0013",
+   "nivel": 1,
+   "gestor": "Chefia do Laboratório Fictícia",
+   "cargo": "Chefia imediata",
+   "situacao": "autorizado",
+   "data": "2026-11-08",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0013-2",
+   "evento_id": "EST-0013",
+   "nivel": 2,
+   "gestor": "Diretor do Laboratório Fictício",
+   "cargo": "Direção da unidade",
+   "situacao": "autorizado",
+   "data": "2026-11-09",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0014-1",
+   "evento_id": "EST-0014",
+   "nivel": 1,
+   "gestor": "Chefe de Gabinete Fictício",
+   "cargo": "Chefia imediata",
+   "situacao": "autorizado",
+   "data": "2026-10-23",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0014-2",
+   "evento_id": "EST-0014",
+   "nivel": 2,
+   "gestor": "Diretor de Gabinete Fictício",
+   "cargo": "Direção da unidade",
+   "situacao": "autorizado",
+   "data": "2026-10-24",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0015-1",
+   "evento_id": "EST-0015",
+   "nivel": 1,
+   "gestor": "Chefia de Interiorização Fictícia",
+   "cargo": "Chefia imediata",
+   "situacao": "autorizado",
+   "data": "2026-11-01",
+   "perfil": "hierarquia"
+  },
+  {
+   "id": "AUT-EST-0015-2",
+   "evento_id": "EST-0015",
+   "nivel": 2,
+   "gestor": "Diretor de Interiorização Fictício",
+   "cargo": "Direção da unidade",
+   "situacao": "autorizado",
+   "data": "2026-11-02",
+   "perfil": "hierarquia"
+  }
+ ],
+ "fichas": [
+  {
+   "id": "FIC-0008",
+   "evento_id": "EST-0008",
+   "numero_ficha": "FS-0008",
+   "data": "2026-11-10",
+   "analista": "Analista de RH Fictício",
+   "observacao": "Ficha de solicitação de substituição temporária anexada ao processo.",
+   "criado_em": "2026-11-10T11:00:00"
+  },
+  {
+   "id": "FIC-0009",
+   "evento_id": "EST-0009",
+   "numero_ficha": "FS-0009",
+   "data": "2026-11-10",
+   "analista": "Analista de RH Fictício",
+   "observacao": "Ficha de solicitação de substituição temporária anexada ao processo.",
+   "criado_em": "2026-11-10T11:00:00"
+  },
+  {
+   "id": "FIC-0010",
+   "evento_id": "EST-0010",
+   "numero_ficha": "FS-0010",
+   "data": "2026-11-10",
+   "analista": "Analista de RH Fictício",
+   "observacao": "Ficha de solicitação de substituição temporária anexada ao processo.",
+   "criado_em": "2026-11-10T11:00:00"
+  },
+  {
+   "id": "FIC-0011",
+   "evento_id": "EST-0011",
+   "numero_ficha": "FS-0011",
+   "data": "2026-10-08",
+   "analista": "Analista de RH Fictício",
+   "observacao": "Ficha de solicitação de substituição temporária anexada ao processo.",
+   "criado_em": "2026-10-08T11:00:00"
+  },
+  {
+   "id": "FIC-0012",
+   "evento_id": "EST-0012",
+   "numero_ficha": "FS-0012",
+   "data": "2026-11-10",
+   "analista": "Analista de RH Fictício",
+   "observacao": "Ficha de solicitação de substituição temporária anexada ao processo.",
+   "criado_em": "2026-11-10T11:00:00"
+  },
+  {
+   "id": "FIC-0013",
+   "evento_id": "EST-0013",
+   "numero_ficha": "FS-0013",
+   "data": "2026-11-10",
+   "analista": "Analista de RH Fictício",
+   "observacao": "Ficha de solicitação de substituição temporária anexada ao processo.",
+   "criado_em": "2026-11-10T11:00:00"
+  },
+  {
+   "id": "FIC-0014",
+   "evento_id": "EST-0014",
+   "numero_ficha": "FS-0014",
+   "data": "2026-10-25",
+   "analista": "Analista de RH Fictício",
+   "observacao": "Ficha de solicitação de substituição temporária anexada ao processo.",
+   "criado_em": "2026-10-25T11:00:00"
+  },
+  {
+   "id": "FIC-0015",
+   "evento_id": "EST-0015",
+   "numero_ficha": "FS-0015",
+   "data": "2026-11-03",
+   "analista": "Analista de RH Fictício",
+   "observacao": "Ficha de solicitação de substituição temporária anexada ao processo.",
+   "criado_em": "2026-11-03T11:00:00"
+  }
+ ],
+ "publicacoes": [
+  {
+   "id": "PUB-0014",
+   "evento_id": "EST-0014",
+   "numero_do": "DO-2026-0001",
+   "data_publicacao": "2026-11-08",
+   "criado_em": "2026-11-08T10:00:00"
+  }
+ ],
+ "unidades": [
+  {
+   "id_unidade": "U-GAB",
+   "nome": "Gabinete de Direção",
+   "sigla": "GAB",
+   "chefia": "Chefe de Gabinete Fictício",
+   "diretor": "Diretor de Gabinete Fictício",
+   "niveis": [
+    {
+     "nivel": 1,
+     "gestor": "Chefe de Gabinete Fictício",
+     "cargo": "Chefia imediata"
+    },
+    {
+     "nivel": 2,
+     "gestor": "Diretor de Gabinete Fictício",
+     "cargo": "Direção da unidade"
+    }
+   ]
+  },
+  {
+   "id_unidade": "U-DLF",
+   "nome": "Diretoria de Laboratório Forense",
+   "sigla": "DLF",
+   "chefia": "Chefia do Laboratório Fictícia",
+   "diretor": "Diretor do Laboratório Fictício",
+   "niveis": [
+    {
+     "nivel": 1,
+     "gestor": "Chefia do Laboratório Fictícia",
+     "cargo": "Chefia imediata"
+    },
+    {
+     "nivel": 2,
+     "gestor": "Diretor do Laboratório Fictício",
+     "cargo": "Direção da unidade"
+    }
+   ]
+  },
+  {
+   "id_unidade": "U-DI",
+   "nome": "Diretoria de Interiorização",
+   "sigla": "DI",
+   "chefia": "Chefia de Interiorização Fictícia",
+   "diretor": "Diretor de Interiorização Fictício",
+   "niveis": [
+    {
+     "nivel": 1,
+     "gestor": "Chefia de Interiorização Fictícia",
+     "cargo": "Chefia imediata"
+    },
+    {
+     "nivel": 2,
+     "gestor": "Diretor de Interiorização Fictício",
+     "cargo": "Direção da unidade"
+    }
+   ]
+  },
+  {
+   "id_unidade": "U-IC",
+   "nome": "Identificação Civil",
+   "sigla": "IC",
+   "chefia": "Chefia de Identificação Fictícia",
+   "diretor": "Diretor de Identificação Fictício",
+   "niveis": [
+    {
+     "nivel": 1,
+     "gestor": "Chefia de Identificação Fictícia",
+     "cargo": "Chefia imediata"
+    },
+    {
+     "nivel": 2,
+     "gestor": "Diretor de Identificação Fictício",
+     "cargo": "Direção da unidade"
+    }
+   ]
+  },
+  {
+   "id_unidade": "U-CORR",
+   "nome": "Corregedoria",
+   "sigla": "CORR",
+   "chefia": "Corregedor Fictício",
+   "diretor": "Corregedor Adjunto Fictício",
+   "niveis": [
+    {
+     "nivel": 1,
+     "gestor": "Corregedor Fictício",
+     "cargo": "Chefia imediata"
+    },
+    {
+     "nivel": 2,
+     "gestor": "Corregedor Adjunto Fictício",
+     "cargo": "Direção da unidade"
+    }
+   ]
+  },
+  {
+   "id_unidade": "U-CQUAL",
+   "nome": "Coordenadoria de Qualidade",
+   "sigla": "CQUAL",
+   "chefia": "Coordenador de Qualidade Fictício",
+   "diretor": "Diretor de Qualidade Fictício",
+   "niveis": [
+    {
+     "nivel": 1,
+     "gestor": "Coordenador de Qualidade Fictício",
+     "cargo": "Chefia imediata"
+    },
+    {
+     "nivel": 2,
+     "gestor": "Diretor de Qualidade Fictício",
+     "cargo": "Direção da unidade"
+    }
+   ]
+  }
+ ],
+ "log": [
+  {
+   "id": "LOG-EST-0001-000",
+   "evento_id": "EST-0001",
+   "tipo_evento": "ofício registrado",
+   "descricao": "2026.0001-SIGADOC · Gestor Fictício A → Substituto Fictício A · Férias",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0001-001",
+   "evento_id": "EST-0001",
+   "tipo_evento": "enviado para autorização",
+   "descricao": "2 níveis na linha hierárquica",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0002-002",
+   "evento_id": "EST-0002",
+   "tipo_evento": "ofício registrado",
+   "descricao": "2026.0002-SIGADOC · Gestor Fictício B → Substituto Fictício B · Licença Prêmio",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0002-003",
+   "evento_id": "EST-0002",
+   "tipo_evento": "enviado para autorização",
+   "descricao": "2 níveis na linha hierárquica",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0003-004",
+   "evento_id": "EST-0003",
+   "tipo_evento": "ofício registrado",
+   "descricao": "2026.0003-SIGADOC · Gestor Fictício C → Substituto Fictício C · Licença para tratamento da própria saúde",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0003-005",
+   "evento_id": "EST-0003",
+   "tipo_evento": "enviado para autorização",
+   "descricao": "2 níveis na linha hierárquica",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0003-006",
+   "evento_id": "EST-0003",
+   "tipo_evento": "devolvido à unidade",
+   "descricao": "Chefia imediata devolveu o evento para ajuste",
+   "perfil": "sistema",
+   "data_hora": "2026-11-08T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0004-007",
+   "evento_id": "EST-0004",
+   "tipo_evento": "ofício registrado",
+   "descricao": "2026.0004-SIGADOC · Gestor Fictício D → Substituto Fictício D · Licença para acompanhar pessoa da família",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0004-008",
+   "evento_id": "EST-0004",
+   "tipo_evento": "enviado para autorização",
+   "descricao": "2 níveis na linha hierárquica",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0004-009",
+   "evento_id": "EST-0004",
+   "tipo_evento": "enviado ao Gabinete",
+   "descricao": "todas as autorizações da linha hierárquica foram concedidas",
+   "perfil": "sistema",
+   "data_hora": "2026-11-09T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0005-010",
+   "evento_id": "EST-0005",
+   "tipo_evento": "ofício registrado",
+   "descricao": "2026.0005-SIGADOC · Gestor Fictício E → Substituto Fictício E · Férias",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0005-011",
+   "evento_id": "EST-0005",
+   "tipo_evento": "enviado para autorização",
+   "descricao": "2 níveis na linha hierárquica",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0005-012",
+   "evento_id": "EST-0005",
+   "tipo_evento": "enviado ao Gabinete",
+   "descricao": "todas as autorizações da linha hierárquica foram concedidas",
+   "perfil": "sistema",
+   "data_hora": "2026-11-09T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0006-013",
+   "evento_id": "EST-0006",
+   "tipo_evento": "ofício registrado",
+   "descricao": "2026.0006-SIGADOC · Gestor Fictício F → Substituto Fictício F · Licença Prêmio",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0006-014",
+   "evento_id": "EST-0006",
+   "tipo_evento": "enviado para autorização",
+   "descricao": "2 níveis na linha hierárquica",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0006-015",
+   "evento_id": "EST-0006",
+   "tipo_evento": "enviado ao Gabinete",
+   "descricao": "todas as autorizações da linha hierárquica foram concedidas",
+   "perfil": "sistema",
+   "data_hora": "2026-11-09T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0006-016",
+   "evento_id": "EST-0006",
+   "tipo_evento": "encaminhado ao RH",
+   "descricao": "Gabinete de Direção → Gerência de Suporte à Gestão de Pessoas",
+   "perfil": "sistema",
+   "data_hora": "2026-11-10T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0007-017",
+   "evento_id": "EST-0007",
+   "tipo_evento": "ofício registrado",
+   "descricao": "2026.0007-SIGADOC · Gestor Fictício G → Substituto Fictício G · Licença para tratamento da própria saúde",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0007-018",
+   "evento_id": "EST-0007",
+   "tipo_evento": "enviado para autorização",
+   "descricao": "2 níveis na linha hierárquica",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0007-019",
+   "evento_id": "EST-0007",
+   "tipo_evento": "enviado ao Gabinete",
+   "descricao": "todas as autorizações da linha hierárquica foram concedidas",
+   "perfil": "sistema",
+   "data_hora": "2026-11-09T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0007-020",
+   "evento_id": "EST-0007",
+   "tipo_evento": "encaminhado ao RH",
+   "descricao": "Gabinete de Direção → Gerência de Suporte à Gestão de Pessoas",
+   "perfil": "sistema",
+   "data_hora": "2026-11-10T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0008-021",
+   "evento_id": "EST-0008",
+   "tipo_evento": "ofício registrado",
+   "descricao": "2026.0008-SIGADOC · Gestor Fictício H → Substituto Fictício H · Licença para acompanhar pessoa da família",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0008-022",
+   "evento_id": "EST-0008",
+   "tipo_evento": "enviado para autorização",
+   "descricao": "2 níveis na linha hierárquica",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0008-023",
+   "evento_id": "EST-0008",
+   "tipo_evento": "enviado ao Gabinete",
+   "descricao": "todas as autorizações da linha hierárquica foram concedidas",
+   "perfil": "sistema",
+   "data_hora": "2026-11-09T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0008-024",
+   "evento_id": "EST-0008",
+   "tipo_evento": "encaminhado ao RH",
+   "descricao": "Gabinete de Direção → Gerência de Suporte à Gestão de Pessoas",
+   "perfil": "sistema",
+   "data_hora": "2026-11-10T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0008-025",
+   "evento_id": "EST-0008",
+   "tipo_evento": "ficha de solicitação incluída",
+   "descricao": "FS-0008 · Analista de RH Fictício",
+   "perfil": "sistema",
+   "data_hora": "2026-11-10T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0008-026",
+   "evento_id": "EST-0008",
+   "tipo_evento": "enviado para assinatura",
+   "descricao": "Diretor Geral Adjunto",
+   "perfil": "sistema",
+   "data_hora": "2026-11-11T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0009-027",
+   "evento_id": "EST-0009",
+   "tipo_evento": "ofício registrado",
+   "descricao": "2026.0009-SIGADOC · Gestor Fictício I → Substituto Fictício I · Férias",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0009-028",
+   "evento_id": "EST-0009",
+   "tipo_evento": "enviado para autorização",
+   "descricao": "2 níveis na linha hierárquica",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0009-029",
+   "evento_id": "EST-0009",
+   "tipo_evento": "enviado ao Gabinete",
+   "descricao": "todas as autorizações da linha hierárquica foram concedidas",
+   "perfil": "sistema",
+   "data_hora": "2026-11-09T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0009-030",
+   "evento_id": "EST-0009",
+   "tipo_evento": "encaminhado ao RH",
+   "descricao": "Gabinete de Direção → Gerência de Suporte à Gestão de Pessoas",
+   "perfil": "sistema",
+   "data_hora": "2026-11-10T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0009-031",
+   "evento_id": "EST-0009",
+   "tipo_evento": "ficha de solicitação incluída",
+   "descricao": "FS-0009 · Analista de RH Fictício",
+   "perfil": "sistema",
+   "data_hora": "2026-11-10T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0009-032",
+   "evento_id": "EST-0009",
+   "tipo_evento": "enviado para assinatura",
+   "descricao": "Diretor Geral Adjunto",
+   "perfil": "sistema",
+   "data_hora": "2026-11-11T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0010-033",
+   "evento_id": "EST-0010",
+   "tipo_evento": "ofício registrado",
+   "descricao": "2026.0010-SIGADOC · Gestor Fictício J → Substituto Fictício J · Licença Prêmio",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0010-034",
+   "evento_id": "EST-0010",
+   "tipo_evento": "enviado para autorização",
+   "descricao": "2 níveis na linha hierárquica",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0010-035",
+   "evento_id": "EST-0010",
+   "tipo_evento": "enviado ao Gabinete",
+   "descricao": "todas as autorizações da linha hierárquica foram concedidas",
+   "perfil": "sistema",
+   "data_hora": "2026-11-09T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0010-036",
+   "evento_id": "EST-0010",
+   "tipo_evento": "encaminhado ao RH",
+   "descricao": "Gabinete de Direção → Gerência de Suporte à Gestão de Pessoas",
+   "perfil": "sistema",
+   "data_hora": "2026-11-10T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0010-037",
+   "evento_id": "EST-0010",
+   "tipo_evento": "ficha de solicitação incluída",
+   "descricao": "FS-0010 · Analista de RH Fictício",
+   "perfil": "sistema",
+   "data_hora": "2026-11-10T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0010-038",
+   "evento_id": "EST-0010",
+   "tipo_evento": "enviado para assinatura",
+   "descricao": "Diretor Geral Adjunto",
+   "perfil": "sistema",
+   "data_hora": "2026-11-11T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0010-039",
+   "evento_id": "EST-0010",
+   "tipo_evento": "assinatura registrada",
+   "descricao": "Diretor Geral Adjunto Fictício · Diretor Geral Adjunto",
+   "perfil": "sistema",
+   "data_hora": "2026-11-12T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0011-040",
+   "evento_id": "EST-0011",
+   "tipo_evento": "ofício registrado",
+   "descricao": "2026.0011-SIGADOC · Gestor Fictício K → Substituto Fictício K · Licença para tratamento da própria saúde",
+   "perfil": "sistema",
+   "data_hora": "2026-10-05T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0011-041",
+   "evento_id": "EST-0011",
+   "tipo_evento": "enviado para autorização",
+   "descricao": "2 níveis na linha hierárquica",
+   "perfil": "sistema",
+   "data_hora": "2026-10-05T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0011-042",
+   "evento_id": "EST-0011",
+   "tipo_evento": "enviado ao Gabinete",
+   "descricao": "todas as autorizações da linha hierárquica foram concedidas",
+   "perfil": "sistema",
+   "data_hora": "2026-10-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0011-043",
+   "evento_id": "EST-0011",
+   "tipo_evento": "encaminhado ao RH",
+   "descricao": "Gabinete de Direção → Gerência de Suporte à Gestão de Pessoas",
+   "perfil": "sistema",
+   "data_hora": "2026-10-08T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0011-044",
+   "evento_id": "EST-0011",
+   "tipo_evento": "ficha de solicitação incluída",
+   "descricao": "FS-0011 · Analista de RH Fictício",
+   "perfil": "sistema",
+   "data_hora": "2026-10-08T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0011-045",
+   "evento_id": "EST-0011",
+   "tipo_evento": "enviado para assinatura",
+   "descricao": "Diretor Geral Adjunto",
+   "perfil": "sistema",
+   "data_hora": "2026-10-09T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0011-046",
+   "evento_id": "EST-0011",
+   "tipo_evento": "assinatura registrada",
+   "descricao": "Diretor Geral Adjunto Fictício · Diretor Geral Adjunto",
+   "perfil": "sistema",
+   "data_hora": "2026-10-10T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0012-047",
+   "evento_id": "EST-0012",
+   "tipo_evento": "ofício registrado",
+   "descricao": "2026.0012-SIGADOC · Gestor Fictício L → Substituto Fictício L · Licença para acompanhar pessoa da família",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0012-048",
+   "evento_id": "EST-0012",
+   "tipo_evento": "enviado para autorização",
+   "descricao": "2 níveis na linha hierárquica",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0012-049",
+   "evento_id": "EST-0012",
+   "tipo_evento": "enviado ao Gabinete",
+   "descricao": "todas as autorizações da linha hierárquica foram concedidas",
+   "perfil": "sistema",
+   "data_hora": "2026-11-09T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0012-050",
+   "evento_id": "EST-0012",
+   "tipo_evento": "encaminhado ao RH",
+   "descricao": "Gabinete de Direção → Gerência de Suporte à Gestão de Pessoas",
+   "perfil": "sistema",
+   "data_hora": "2026-11-10T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0012-051",
+   "evento_id": "EST-0012",
+   "tipo_evento": "ficha de solicitação incluída",
+   "descricao": "FS-0012 · Analista de RH Fictício",
+   "perfil": "sistema",
+   "data_hora": "2026-11-10T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0012-052",
+   "evento_id": "EST-0012",
+   "tipo_evento": "enviado para assinatura",
+   "descricao": "Diretor Geral Adjunto",
+   "perfil": "sistema",
+   "data_hora": "2026-11-11T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0012-053",
+   "evento_id": "EST-0012",
+   "tipo_evento": "assinatura registrada",
+   "descricao": "Diretor Geral Adjunto Fictício · Diretor Geral Adjunto",
+   "perfil": "sistema",
+   "data_hora": "2026-11-12T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0012-054",
+   "evento_id": "EST-0012",
+   "tipo_evento": "encaminhado à SESP",
+   "descricao": "enviado dentro do prazo do dia 05",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0013-055",
+   "evento_id": "EST-0013",
+   "tipo_evento": "ofício registrado",
+   "descricao": "2026.0013-SIGADOC · Gestor Fictício M → Substituto Fictício M · Férias",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0013-056",
+   "evento_id": "EST-0013",
+   "tipo_evento": "enviado para autorização",
+   "descricao": "2 níveis na linha hierárquica",
+   "perfil": "sistema",
+   "data_hora": "2026-11-07T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0013-057",
+   "evento_id": "EST-0013",
+   "tipo_evento": "enviado ao Gabinete",
+   "descricao": "todas as autorizações da linha hierárquica foram concedidas",
+   "perfil": "sistema",
+   "data_hora": "2026-11-09T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0013-058",
+   "evento_id": "EST-0013",
+   "tipo_evento": "encaminhado ao RH",
+   "descricao": "Gabinete de Direção → Gerência de Suporte à Gestão de Pessoas",
+   "perfil": "sistema",
+   "data_hora": "2026-11-10T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0013-059",
+   "evento_id": "EST-0013",
+   "tipo_evento": "ficha de solicitação incluída",
+   "descricao": "FS-0013 · Analista de RH Fictício",
+   "perfil": "sistema",
+   "data_hora": "2026-11-10T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0013-060",
+   "evento_id": "EST-0013",
+   "tipo_evento": "enviado para assinatura",
+   "descricao": "Diretor Geral Adjunto",
+   "perfil": "sistema",
+   "data_hora": "2026-11-11T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0013-061",
+   "evento_id": "EST-0013",
+   "tipo_evento": "assinatura registrada",
+   "descricao": "Diretor Geral Adjunto Fictício · Diretor Geral Adjunto",
+   "perfil": "sistema",
+   "data_hora": "2026-11-12T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0013-062",
+   "evento_id": "EST-0013",
+   "tipo_evento": "encaminhado à SESP",
+   "descricao": "enviado dentro do prazo do dia 05",
+   "perfil": "sistema",
+   "data_hora": "2026-11-04T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0014-063",
+   "evento_id": "EST-0014",
+   "tipo_evento": "ofício registrado",
+   "descricao": "2026.0014-SIGADOC · Gestor Fictício N → Substituto Fictício N · Licença Prêmio",
+   "perfil": "sistema",
+   "data_hora": "2026-10-22T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0014-064",
+   "evento_id": "EST-0014",
+   "tipo_evento": "enviado para autorização",
+   "descricao": "2 níveis na linha hierárquica",
+   "perfil": "sistema",
+   "data_hora": "2026-10-22T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0014-065",
+   "evento_id": "EST-0014",
+   "tipo_evento": "enviado ao Gabinete",
+   "descricao": "todas as autorizações da linha hierárquica foram concedidas",
+   "perfil": "sistema",
+   "data_hora": "2026-10-24T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0014-066",
+   "evento_id": "EST-0014",
+   "tipo_evento": "encaminhado ao RH",
+   "descricao": "Gabinete de Direção → Gerência de Suporte à Gestão de Pessoas",
+   "perfil": "sistema",
+   "data_hora": "2026-10-25T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0014-067",
+   "evento_id": "EST-0014",
+   "tipo_evento": "ficha de solicitação incluída",
+   "descricao": "FS-0014 · Analista de RH Fictício",
+   "perfil": "sistema",
+   "data_hora": "2026-10-25T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0014-068",
+   "evento_id": "EST-0014",
+   "tipo_evento": "enviado para assinatura",
+   "descricao": "Diretor Geral Adjunto",
+   "perfil": "sistema",
+   "data_hora": "2026-10-26T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0014-069",
+   "evento_id": "EST-0014",
+   "tipo_evento": "assinatura registrada",
+   "descricao": "Diretor Geral Adjunto Fictício · Diretor Geral Adjunto",
+   "perfil": "sistema",
+   "data_hora": "2026-10-27T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0014-070",
+   "evento_id": "EST-0014",
+   "tipo_evento": "encaminhado à SESP",
+   "descricao": "enviado dentro do prazo do dia 05",
+   "perfil": "sistema",
+   "data_hora": "2026-10-29T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0014-071",
+   "evento_id": "EST-0014",
+   "tipo_evento": "publicação no Diário Oficial",
+   "descricao": "DO-2026-0001 · 2026-11-08",
+   "perfil": "sistema",
+   "data_hora": "2026-11-08T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0014-072",
+   "evento_id": "EST-0014",
+   "tipo_evento": "evento encerrado",
+   "descricao": "encerrado com a publicação no Diário Oficial (RN07)",
+   "perfil": "sistema",
+   "data_hora": "2026-11-08T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0015-073",
+   "evento_id": "EST-0015",
+   "tipo_evento": "ofício registrado",
+   "descricao": "2026.0015-SIGADOC · Gestor Fictício O → Substituto Fictício O · Licença para tratamento da própria saúde",
+   "perfil": "sistema",
+   "data_hora": "2026-10-31T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0015-074",
+   "evento_id": "EST-0015",
+   "tipo_evento": "enviado para autorização",
+   "descricao": "2 níveis na linha hierárquica",
+   "perfil": "sistema",
+   "data_hora": "2026-10-31T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0015-075",
+   "evento_id": "EST-0015",
+   "tipo_evento": "enviado ao Gabinete",
+   "descricao": "todas as autorizações da linha hierárquica foram concedidas",
+   "perfil": "sistema",
+   "data_hora": "2026-11-02T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0015-076",
+   "evento_id": "EST-0015",
+   "tipo_evento": "encaminhado ao RH",
+   "descricao": "Gabinete de Direção → Gerência de Suporte à Gestão de Pessoas",
+   "perfil": "sistema",
+   "data_hora": "2026-11-03T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0015-077",
+   "evento_id": "EST-0015",
+   "tipo_evento": "ficha de solicitação incluída",
+   "descricao": "FS-0015 · Analista de RH Fictício",
+   "perfil": "sistema",
+   "data_hora": "2026-11-03T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0015-078",
+   "evento_id": "EST-0015",
+   "tipo_evento": "enviado para assinatura",
+   "descricao": "Diretor Geral Adjunto",
+   "perfil": "sistema",
+   "data_hora": "2026-11-04T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0015-079",
+   "evento_id": "EST-0015",
+   "tipo_evento": "assinatura registrada",
+   "descricao": "Diretor Geral Adjunto Fictício · Diretor Geral Adjunto",
+   "perfil": "sistema",
+   "data_hora": "2026-11-05T09:00:00"
+  },
+  {
+   "id": "LOG-EST-0015-080",
+   "evento_id": "EST-0015",
+   "tipo_evento": "evento indeferido",
+   "descricao": "Enviado depois do dia 05 (RN06)",
+   "perfil": "sistema",
+   "data_hora": "2026-11-08T09:00:00"
+  }
+ ]
+}
